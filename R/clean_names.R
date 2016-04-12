@@ -5,6 +5,7 @@
 #'
 #' @param dat the input data.frame.
 #' @return Returns the data.frame with clean names.
+#' @export
 #' @examples
 #' clean_names(poorly_named_df)
 #'
