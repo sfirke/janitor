@@ -1,0 +1,14 @@
+Package: janitor
+Title: Utilities for Data Cleaning
+Version: 0.0.0.9000
+Authors@R: person("Sam", "Firke", email = "samuel.firke@gmail.com", role = c("aut", "cre"))
+Description: The janitor tools streamline the data cleaning workflow.
+URL: https://github.com/sfirke/janitor
+BugReports: https://github.com/sfirke/janitor/issues
+Depends:
+    R (>= 3.1.2)
+Imports:
+    dplyr
+License: MIT + file LICENSE
+LazyData: true
+RoxygenNote: 5.0.1.9000
