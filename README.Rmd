@@ -16,30 +16,43 @@ knitr::opts_chunk$set(
 
 # janitor
 
-janitor helps fix common dirty data issues.  Functions are human-readable - think `clean_names()` instead of re-using code like`gsub("[.]+", "_", .) ...`.
+janitor cleans up common dirty data problems.  Its functions are human-readable - think `clean_names()` replacing a half-dozen lines like`setNames(., gsub("[.]+", "_", names(.)))`.
 
-Use with the `%>%` pipe from [magrittr](https://github.com/smbache/magrittr) immediately after reading in data for most elegant results.
+For maximum elegance, use janitor with the `%>%` pipe from [magrittr](https://github.com/smbache/magrittr), available after loading the [dplyr](https://github.com/hadley/dplyr) package.
 
 
-```{r, message = FALSE, eval = FALSE}
+```{r, message = FALSE, warning = FALSE}
 # load demo packages using the pacman package
 if (!require("pacman")) install.packages("pacman"); library(pacman)
 p_load(janitor, dplyr, readr)
 
 # read sample dirty data file
-starting_df <- read_csv("http://www.github.com/sfirke/janitor/sample/dirty_data.csv")
+starting_df <- read_csv("https://raw.github.com/sfirke/janitor/master/sample/dirty.csv")
 
-# the initial names are malformed.  Duplicate names will cause dplyr calls to fail.
-names(starting_df)
+# take a look at the messy data
+dplyr::glimpse(starting_df)
+```
 
-# clean the data with janitor:
+This data.frame is dirty in several ways:
+
+* The 7th column is entirely `NA` values
+* There are several `NA` rows left by blank rows used in the layout of the .csv
+* Duplicate names will cause dplyr calls to fail:
+```{r, error = TRUE}
+starting_df %>% mutate(year = 2016)
+```
+
+
+## Clean the data with janitor:
+
+```{r}
 clean_df <- starting_df %>%
   clean_names %>%
   remove_empty_rows %>%
   remove_empty_cols
 
-# names are now clean:
-names(clean_df)
+# the data.frame is now clean, with proper names:
+glimpse(clean_df)
 
 ```
 
@@ -53,7 +66,7 @@ The janitor functions are:
 
 ## Installation
 
-janitor isn't on CRAN yet.  Install the development version from GitHub:
+janitor is not yet on CRAN.  Install the development version from GitHub:
 
 ```{r, eval = FALSE}
 # install.packages("devtools")
