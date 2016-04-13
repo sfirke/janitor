@@ -2,9 +2,24 @@
 janitor
 =======
 
-janitor cleans up common dirty data problems. Its functions are human-readable - think `clean_names()` replacing a half-dozen lines like`setNames(., gsub("[.]+", "_", names(.)))`.
+janitor cleans up common dirty data problems. Its functions are human-readable - think `clean_names()` replacing a half-dozen lines like `setNames(., gsub("[.]+", "_", names(.)))`.
 
 For maximum elegance, use janitor with the `%>%` pipe from [magrittr](https://github.com/smbache/magrittr), available after loading the [dplyr](https://github.com/hadley/dplyr) package.
+
+Installation
+------------
+
+janitor is not yet on CRAN. Install the development version from GitHub:
+
+``` r
+# install.packages("devtools")
+install_github("sfirke/janitor")
+```
+
+janitor in action
+-----------------
+
+Start with some dirty data:
 
 ``` r
 # load demo packages using the pacman package
@@ -41,8 +56,7 @@ starting_df %>% mutate(year = 2016)
 #> Error in eval(expr, envir, enclos): found duplicated column name: Referee
 ```
 
-Clean the data with janitor:
-----------------------------
+Now clean it with janitor:
 
 ``` r
 clean_df <- starting_df %>%
@@ -73,13 +87,3 @@ The janitor functions are:
 -   Clean data.frame names with `clean_names()`.
 
 -   Remove entirely empty rows with `remove_empty_rows()` and empty columns with `remove_empty_cols()`.
-
-Installation
-------------
-
-janitor is not yet on CRAN. Install the development version from GitHub:
-
-``` r
-# install.packages("devtools")
-install_github("sfirke/janitor")
-```
