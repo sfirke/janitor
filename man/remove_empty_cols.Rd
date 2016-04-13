@@ -16,7 +16,8 @@ Returns the data.frame with no empty columns.
 Removes all columns from a data.frame that are composed entirely of \code{NA} values.
 }
 \examples{
-remove_empty_cols(dat)
+# called with magrittr pipe \%>\% :
+dat \%>\% remove_empty_cols
 
 }
 
