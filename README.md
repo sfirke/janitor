@@ -2,7 +2,7 @@
 janitor
 =======
 
-janitor cleans up common dirty data problems. Its functions are human-readable - think `clean_names()` replacing a half-dozen lines like `setNames(., gsub("[.]+", "_", names(.)))`.
+janitor helps clean up common dirty data problems. Its functions are human-readable - think `clean_names()` replacing a half-dozen lines like `setNames(., gsub("[.]+", "_", names(.)))`.
 
 For maximum elegance, use janitor with the `%>%` pipe from [magrittr](https://github.com/smbache/magrittr), available after loading the [dplyr](https://github.com/hadley/dplyr) package.
 
@@ -49,6 +49,7 @@ This data.frame is dirty in several ways:
 
 -   The 7th column is entirely `NA` values
 -   There are several `NA` rows left by blank rows used in the layout of the .csv
+-   Variable names contain spaces and other illegal name characters
 -   Duplicate names will cause dplyr calls to fail:
 
 ``` r
