@@ -2,22 +2,28 @@
 janitor
 =======
 
-janitor helps clean data. It's designed for use with the `%>%` pipe from [magrittr](https://github.com/smbache/magrittr) to fix common dirty data issues as you load data. Functions are human-readable - think `clean_names()` instead of re-using code like`gsub("[.]+", "_", .)` ...
+janitor helps fix common dirty data issues. Functions are human-readable - think `clean_names()` instead of re-using code like`gsub("[.]+", "_", .) ...`.
+
+Use with the `%>%` pipe from [magrittr](https://github.com/smbache/magrittr) immediately after reading in data for most elegant results.
 
 ``` r
-if (!require("pacman")) install.packages("pacman"); library(pacman) # pacman rules
+# load demo packages using the pacman package
+if (!require("pacman")) install.packages("pacman"); library(pacman)
 p_load(janitor, dplyr, readr)
+
+# read sample dirty data file
 starting_df <- read_csv("http://www.github.com/sfirke/janitor/sample/dirty_data.csv")
 
-# names are malformed and duplicate names will cause dplyr calls to fail
+# the initial names are malformed.  Duplicate names will cause dplyr calls to fail.
 names(starting_df)
 
+# clean the data with janitor:
 clean_df <- starting_df %>%
   clean_names %>%
   remove_empty_rows %>%
   remove_empty_cols
 
-# names are now clean
+# names are now clean:
 names(clean_df)
 ```
 
