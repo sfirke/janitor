@@ -88,3 +88,5 @@ The janitor functions are:
 -   Clean data.frame names with `clean_names()`.
 
 -   Remove entirely empty rows with `remove_empty_rows()` and empty columns with `remove_empty_cols()`.
+
+-   Convert dates incorrectly stored as serial numbers to Date class with `excel_numeric_to_date()`, e.g., turning `42500` into `"2016-05-10"`.

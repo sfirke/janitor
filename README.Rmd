@@ -52,6 +52,7 @@ This data.frame is dirty in several ways:
 * The 7th column is entirely `NA` values
 * There are several `NA` rows left by blank rows used in the layout of the .csv
 * Variable names contain spaces and other illegal name characters
+* The match date is stored as a serial number.
 * Duplicate names will cause dplyr calls to fail:
 ```{r, error = TRUE}
 starting_df %>% mutate(year = 2016)
@@ -64,7 +65,8 @@ Now clean it with janitor:
 clean_df <- starting_df %>%
   clean_names %>%
   remove_empty_rows %>%
-  remove_empty_cols
+  remove_empty_cols %>%
+  mutate(match_date = excel_numeric_to_date(match_date))
 
 # the data.frame is now clean, with proper names:
 glimpse(clean_df)
@@ -79,3 +81,4 @@ The janitor functions are:
 
 * Remove entirely empty rows with `remove_empty_rows()` and empty columns with `remove_empty_cols()`.
 
+* Convert dates incorrectly stored as serial numbers to Date class with `excel_numeric_to_date()`, e.g., turning `42500` into `"2016-05-10"`.
