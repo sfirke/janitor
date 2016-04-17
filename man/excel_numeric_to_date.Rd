@@ -4,12 +4,12 @@
 \alias{excel_numeric_to_date}
 \title{Convert dates encoded as serial numbers to Date class.}
 \usage{
-excel_numeric_to_date(date_num, created = "modern")
+excel_numeric_to_date(date_num, date_system = "modern")
 }
 \arguments{
 \item{date_num}{numeric vector of serial numbers to convert.}
 
-\item{modern}{the date system, either \code{"modern"} or \code{"mac pre-2011"}.}
+\item{date_system}{the date system, either \code{"modern"} or \code{"mac pre-2011"}.}
 }
 \value{
 Returns a vector of class Date.
