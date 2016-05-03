@@ -20,6 +20,7 @@ Converts strings like "#N/A", and any user-specified strings, into \code{NA}.
 Default values to convert to NA are "NA", "#N/A", "N/A", "n/a", "#NAME?".  You can add your own additional values via a character vector; those values will also be converted to \code{NA}.
 }
 \examples{
-clean_NA_variants(mtcars, "4") # a silly example - mtcars has no string NA values, but this will convert 4s to NA
+clean_NA_variants(mtcars, "4") # a silly example;
+# mtcars has no string NA values, but this will convert 4s to NA
 }
 

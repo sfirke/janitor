@@ -20,7 +20,8 @@ Converts strings like "#N/A", and any user-specified strings, into \code{NA}.  O
 Supply a vector \code{na_vals} of strings to convert to \code{NA}.
 }
 \examples{
-clean_NA_vec(letters, c("b", "d"))
+# not run:
+# clean_NA_vec(letters, c("b", "d"))
 }
 \keyword{internal}
 
