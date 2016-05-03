@@ -8,6 +8,7 @@
 #' @export
 #' @examples
 #' # called with magrittr pipe %>% :
+#' library(dplyr)
 #' dat %>% remove_empty_rows
 
 remove_empty_rows <- function(dat){
