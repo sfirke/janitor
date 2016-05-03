@@ -1,3 +1,23 @@
+#' @title Turn common NA string values in a vector into true \code{NA} values.
+#'
+#' @description
+#' Converts strings like "#N/A", and any user-specified strings, into \code{NA}.  Operates at vector level.
+#'
+#' Supply a vector \code{na_vals} of strings to convert to \code{NA}.
+#'
+#' @param vec vector to operate on.
+#' @param na_vals a character vector of strings to convert.
+#' @return Returns a vector.
+#' @keywords internal
+#' @examples
+#' # not run:
+#' # clean_NA_vec(letters, c("b", "d"))
+clean_NA_vec <- function(vec, na_vals) {
+  vec[vec %in% na_vals] <- NA
+  vec
+}
+
+
 #' @title Convert common NA string values to true \code{NA} values, throughout a data.frame.
 #'
 #' @description
@@ -22,23 +42,4 @@ clean_NA_variants <- function(dat, addl_strings = NULL){
     dat[[i]] <- clean_NA_vec(dat[[i]], na_vals = custom_na_vals)
   }
   dat
-}
-
-#' @title Turn common NA string values in a vector into true \code{NA} values.
-#'
-#' @description
-#' Converts strings like "#N/A", and any user-specified strings, into \code{NA}.  Operates at vector level.
-#'
-#' Supply a vector \code{na_vals} of strings to convert to \code{NA}.
-#'
-#' @param vec vector to operate on.
-#' @param na_vals a character vector of strings to convert.
-#' @return Returns a vector.
-#' @keywords internal
-#' @examples
-#' # not run:
-#' # clean_NA_vec(letters, c("b", "d"))
-clean_NA_vec <- function(vec, na_vals) {
-  vec[vec %in% na_vals] <- NA
-  vec
 }
