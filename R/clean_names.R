@@ -7,10 +7,12 @@
 #' @return Returns the data.frame with clean names.
 #' @export
 #' @examples
-#' clean_names(poorly_named_df)
+#' # not run:
+#' # clean_names(poorly_named_df)
 #'
 #' # library(dplyr) ; library(readxl)
-#' readxl("messy_excel_file.xlsx") %>% clean_names()
+#' # not run:
+#' # readxl("messy_excel_file.xlsx") %>% clean_names()
 
 clean_names <- function(dat){
 

@@ -16,9 +16,11 @@ Returns the data.frame with clean names.
 Resulting names are unique and consist only of the \code{_} character, lowercase letters, and numbers.
 }
 \examples{
-clean_names(poorly_named_df)
+# not run:
+# clean_names(poorly_named_df)
 
 # library(dplyr) ; library(readxl)
-readxl("messy_excel_file.xlsx") \%>\% clean_names()
+# not run:
+# readxl("messy_excel_file.xlsx") \%>\% clean_names()
 }
 
