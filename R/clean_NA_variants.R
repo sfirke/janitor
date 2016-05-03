@@ -36,7 +36,8 @@ clean_NA_variants <- function(dat, addl_strings = NULL){
 #' @return Returns a vector.
 #' @keywords internal
 #' @examples
-#' clean_NA_vec(letters, c("b", "d"))
+#' # not run:
+#' # clean_NA_vec(letters, c("b", "d"))
 clean_NA_vec <- function(vec, na_vals) {
   vec[vec %in% na_vals] <- NA
   vec
