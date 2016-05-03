@@ -17,7 +17,8 @@ Removes all rows from a data.frame that are composed entirely of \code{NA} value
 }
 \examples{
 # called with magrittr pipe \%>\% :
-library(dplyr)
-dat \%>\% remove_empty_rows
+# library(dplyr)
+# not run:
+# dat \%>\% remove_empty_rows
 }
 

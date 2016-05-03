@@ -8,8 +8,9 @@
 #' @export
 #' @examples
 #' # called with magrittr pipe %>% :
-#' library(dplyr)
-#' dat %>% remove_empty_rows
+#' # library(dplyr)
+#' # not run:
+#' # dat %>% remove_empty_rows
 
 remove_empty_rows <- function(dat){
   dat[rowSums(is.na(dat)) != ncol(dat), ]
@@ -25,8 +26,9 @@ remove_empty_rows <- function(dat){
 #' @export
 #' @examples
 #' # called with magrittr pipe %>% :
-#' library(dplyr)
-#' dat %>% remove_empty_cols
+#' # library(dplyr)
+#' # not run:
+#' # dat %>% remove_empty_cols
 #'
 
 remove_empty_cols <- function(dat){
