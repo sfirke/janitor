@@ -13,9 +13,10 @@ knitr::opts_chunk$set(
   fig.path = "README-"  
 )
 ```
-[![Travis-CI Build Status](https://travis-ci.org/sfirke/janitor.svg?branch=master)](https://travis-ci.org/sfirke/janitor)
 
 # janitor
+***********************
+[![Travis-CI Build Status](https://travis-ci.org/sfirke/janitor.svg?branch=master)](https://travis-ci.org/sfirke/janitor)
 
 janitor helps clean up common dirty data problems.  Its functions are human-readable - think `clean_names()` replacing a half-dozen lines like `setNames(., gsub("[.]+", "_", names(.)))`.
 
