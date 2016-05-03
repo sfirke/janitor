@@ -2,6 +2,10 @@
 janitor
 =======
 
+------------------------------------------------------------------------
+
+[![Travis-CI Build Status](https://travis-ci.org/sfirke/janitor.svg?branch=master)](https://travis-ci.org/sfirke/janitor)
+
 janitor helps clean up common dirty data problems. Its functions are human-readable - think `clean_names()` replacing a half-dozen lines like `setNames(., gsub("[.]+", "_", names(.)))`.
 
 For maximum elegance, use janitor with the `%>%` pipe from [magrittr](https://github.com/smbache/magrittr), available after loading the [dplyr](https://github.com/hadley/dplyr) package.
