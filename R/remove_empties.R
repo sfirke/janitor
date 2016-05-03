@@ -25,6 +25,7 @@ remove_empty_rows <- function(dat){
 #' @export
 #' @examples
 #' # called with magrittr pipe %>% :
+#' library(dplyr)
 #' dat %>% remove_empty_cols
 #'
 
