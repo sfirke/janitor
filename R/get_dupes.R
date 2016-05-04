@@ -1,11 +1,13 @@
-#' @title Get the rows of a \code{data.frame} where records have identical values for the specified variables.
+#' @importFrom magrittr "%>%"
+#' @importFrom dplyr group_by filter mutate select arrange ungroup everything
+#' @title Get rows of a \code{data.frame} with identical values for the specified variables.
 #'
 #' @description
 #' For hunting duplicate records during data cleaning.  Specify the data.frame and the variable combination to search for duplicates and get back the duplicated rows.
 #'
 #' @param dat the input data.frame.
 #' @param ... unquoted variable names to search for duplicates.
-#' @return Returns a \code{data_frame} with the full records where the specified variables have duplicated values, as well as a variable \code{dupe_count} that stores the number of rows sharing that combination of duplicated values.
+#' @return Returns a data.frame (actually a \code{tbl_df}) with the full records where the specified variables have duplicated values, as well as a variable \code{dupe_count} showing the number of rows sharing that combination of duplicated values.
 #' @export
 #' @examples
 #' get_dupes(mtcars, mpg, hp)
