@@ -21,7 +21,7 @@ get_dupes <- function(dat, ...) {
     dplyr::group_by(...) %>%
     dplyr::filter(n() > 1)  %>%
     dplyr::mutate(dupe_count = n()) %>%
-    dplyr::select(..., dupe_count, dplyr::everything()) %>%
+    dplyr::select(..., dupe_count, dplyr:::everything()) %>%
     dplyr::ungroup() %>%
     dplyr::arrange(...)
 
