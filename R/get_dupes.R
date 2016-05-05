@@ -1,5 +1,4 @@
 #' @importFrom magrittr "%>%"
-#' @importFrom dplyr everything
 #' @title Get rows of a \code{data.frame} with identical values for the specified variables.
 #'
 #' @description
@@ -21,7 +20,7 @@ get_dupes <- function(dat, ...) {
     dplyr::group_by(...) %>%
     dplyr::filter(n() > 1)  %>%
     dplyr::mutate(dupe_count = n()) %>%
-    dplyr::select(..., dupe_count, everything()) %>%
+    dplyr::select(..., dupe_count) %>%
     dplyr::ungroup() %>%
     dplyr::arrange(...)
 
