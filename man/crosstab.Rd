@@ -16,7 +16,7 @@ crosstab(vec1, vec2, percent = "none", show_na = TRUE)
 \item{show_na}{should cases where both variables are NA be included?}
 }
 \value{
-Returns a data.frame (actually a \code{tbl_df}) with the frequencies of the crosstabulatd variables.
+Returns a data.frame (actually a \code{tbl_df}) with the frequencies of the crosstabulated variables.
 }
 \description{
 Create a crosstab, displaying either frequencies or percentages calculated by row, column, or overall.  Vectors don't have to be from the same data.frame, but typically are.

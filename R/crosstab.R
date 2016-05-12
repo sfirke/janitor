@@ -9,7 +9,7 @@
 #' @param vec2 the vector to place on the crosstab row.
 #' @param percent which grouping to use for percentages, if desired (defaults to counts).
 #' @param show_na should cases where both variables are NA be included?
-#' @return Returns a data.frame (actually a \code{tbl_df}) with the frequencies of the crosstabulatd variables.
+#' @return Returns a data.frame (actually a \code{tbl_df}) with the frequencies of the crosstabulated variables.
 #' @export
 #' @examples
 #' crosstab(mtcars$cyl, mtcars$gear)
@@ -21,7 +21,7 @@
 # Could also take a data.frame and two vector names, for pipeline, but this seems simpler
 crosstab <- function(vec1, vec2, percent = "none", show_na = TRUE){
 
-  if(length(vec1) != length(vec2)){ stop("Error: the two vectors are not the same length")}
+  if(length(vec1) != length(vec2)){ stop("the two vectors are not the same length")}
 
   dat <- cbind(vec1, vec2) %>% dplyr::as_data_frame()
   var_name <- deparse(substitute(vec1))
