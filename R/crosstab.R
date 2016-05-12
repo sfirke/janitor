@@ -30,8 +30,8 @@ crosstab <- function(vec1, vec2, percent = "none", show_na = TRUE){
     dat <- dat[!is.na(dat$vec1) & !is.na(dat$vec2), ]
   }
   tabl <- dat %>%
-    dplyr::count(vec1, vec2)
-  ##### add dplyr::ungroup() here to simplify conditional code later?
+    dplyr::count(vec1, vec2) %>%
+    dplyr::ungroup()
 
   if(percent == "none"){
     tabl %>%
@@ -54,7 +54,6 @@ crosstab <- function(vec1, vec2, percent = "none", show_na = TRUE){
       setNames(., c(var_name, names(.)[-1]))
   } else if (percent == "all"){
     tabl %>%
-      dplyr::ungroup() %>%
       dplyr::mutate(n = n / sum(n, na.rm = TRUE)) %>%
       tidyr::spread(vec2, n) %>%
       dplyr::ungroup() %>%
