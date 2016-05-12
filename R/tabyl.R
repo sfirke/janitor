@@ -25,11 +25,12 @@
 
 # get counts and % in a data.frame, w/ or w/o NAs.  Like table(), kinda.  Use in pipelines or with vectors.
 tabyl <- function(dat, ..., show_na = TRUE, sort = FALSE) {
+  var_name <- deparse(substitute(dat))
+  if(is.factor(dat)){dat <- as.character(dat)} # was choking with factors, though would be nice to retain sort order
 
   # calculate initial counts table
   # handle calls where it is fed a vector by converting to a 1 col data.frame and counting
   if(is.vector(dat)) {
-    var_name <- deparse(substitute(dat))
     dat <- data.frame(dat)
     result <- dat %>% dplyr::count(.[[1]], sort = sort)
     names(result)[1] <- var_name
