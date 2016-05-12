@@ -15,11 +15,12 @@
 #' tabyl(mtcars$cyl)
 #' tabyl(mtcars$cyl, sort = TRUE)
 #' # called with magrittr pipe:
+#' library(dplyr)
 #' mtcars %>% tabyl(cyl)
 #' # illustrating show_na functionality:
-#' mycars <- rbind(mtcars, rep(NA, 11))
-#' mycars %>% tabyl(cyl)
-#' mycars %>% tabyl(cyl, show_na = FALSE)
+#' my_cars <- rbind(mtcars, rep(NA, 11))
+#' my_cars %>% tabyl(cyl)
+#' my_cars %>% tabyl(cyl, show_na = FALSE)
 #'
 
 # get counts and % in a data.frame, w/ or w/o NAs.  Like table(), kinda.  Use in pipelines or with vectors.
