@@ -8,7 +8,7 @@
 #' @param vec1 the vector to place on the crosstab column.
 #' @param vec2 the vector to place on the crosstab row.
 #' @param percent which grouping to use for percentages, if desired (defaults to counts).
-#' @param show_na should cases where both variables are NA be omitted?
+#' @param show_na should cases where both variables are NA be included?
 #' @return Returns a data.frame (actually a \code{tbl_df}) with the frequencies of the crosstabulatd variables.
 #' @export
 #' @examples
