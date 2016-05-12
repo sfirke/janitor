@@ -23,7 +23,7 @@ crosstab <- function(vec1, vec2, percent = "none", show_na = TRUE){
 
   if(length(vec1) != length(vec2)){ stop("the two vectors are not the same length")}
 
-  dat <- cbind(vec1, vec2) %>% dplyr::as_data_frame()
+  dat <- cbind(vec1, vec2) %>% tibble::as_data_frame()
   var_name <- deparse(substitute(vec1))
 
   if(!show_na){
