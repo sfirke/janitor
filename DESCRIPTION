@@ -9,6 +9,7 @@ Depends:
     R (>= 3.1.2)
 Imports:
     dplyr,
+    tidyr,
     magrittr
 License: MIT + file LICENSE
 LazyData: true

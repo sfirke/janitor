@@ -2,8 +2,12 @@
 
 export(clean_NA_variants)
 export(clean_names)
+export(crosstab)
 export(excel_numeric_to_date)
 export(get_dupes)
+export(labelled_to_factors)
 export(remove_empty_cols)
 export(remove_empty_rows)
+export(tabyl)
+export(top_2)
 importFrom(magrittr,"%>%")
