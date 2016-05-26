@@ -27,6 +27,6 @@ get_dupes <- function(dat, ...) {
 
   var_names <- sapply(as.list(substitute(list(...)))[-1L], deparse)
 
-  if(nrow(dupes) == 0){return(paste0("No duplicate combinations found of: ", paste(var_names, collapse = ", ")))}
+  if(nrow(dupes) == 0){warning(paste0("No duplicate combinations found of: ", paste(var_names, collapse = ", ")))}
   dupes
 }
