@@ -31,7 +31,7 @@ tabyl <- function(dat, ..., show_na = TRUE, sort = FALSE) {
   # calculate initial counts table
   # handle calls where it is fed a vector by converting to a 1 col data.frame and counting
   if(is.vector(dat)) {
-    dat <- data.frame(dat)
+    dat <- data.frame(dat, stringsAsFactors = FALSE)
     result <- dat %>% dplyr::count(.[[1]], sort = sort)
     names(result)[1] <- var_name
   } else { # if given a data.frame
@@ -45,14 +45,11 @@ tabyl <- function(dat, ..., show_na = TRUE, sort = FALSE) {
 
   # if there are NA values and it is desired, calculate valid % as a new column
   if(show_na & sum(is.na(result[[1]])) > 0) {
-    result %>%
-      dplyr::group_by(is_na_var1 = is.na(.[1])) %>%
-      dplyr::mutate(valid_percent = n / sum(n)) %>%
-      dplyr::ungroup() %>%
-      dplyr::mutate(valid_percent = ifelse(
-        !is_na_var1, valid_percent, as.numeric(NA))) %>%
-      dplyr::select(-is_na_var1)
-  } else {
+    valid_total <- sum(result$n[!is.na(result[[1]])])
+    result$valid_percent = result$n / valid_total
+    result$valid_percent[is.na(result[[1]])] <- NA
+    result
+      } else {
     result %>%
       dplyr::filter(!is.na(.[1])) %>%
       dplyr::mutate(percent = n / sum(n)) # recalculate % without NAs
