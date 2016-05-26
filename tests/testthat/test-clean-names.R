@@ -1,7 +1,7 @@
 # Tests for data.frame renaming function
 
 library(janitor)
-context("data,frane name cleaning")
+context("data.frame name cleaning")
 
 test_df <- data.frame(matrix(ncol = 8) %>% as.data.frame())
 names(test_df) <- c("sp ace", "repeat", "a**#@", "%", "#", "!",
