@@ -6,9 +6,7 @@ janitor
 
 [![Travis-CI Build Status](https://travis-ci.org/sfirke/janitor.svg?branch=master)](https://travis-ci.org/sfirke/janitor) [![Coverage Status](https://img.shields.io/codecov/c/github/sfirke/janitor/master.svg)](https://codecov.io/github/sfirke/janitor?branch=master)
 
-janitor helps clean up common dirty data problems. Its functions are human-readable - think `clean_names()` replacing a half-dozen lines like `setNames(., gsub("[.]+", "_", names(.)))`.
-
-For maximum elegance, use janitor with the `%>%` pipe from [magrittr](https://github.com/smbache/magrittr), available after loading the [dplyr](https://github.com/hadley/dplyr) package.
+Some packages have complex or powerful functions. janitor has simple little functions to make data cleaning easier.
 
 Installation
 ------------
@@ -20,8 +18,35 @@ janitor is not yet on CRAN. Install the development version from GitHub:
 install_github("sfirke/janitor")
 ```
 
+Overview
+--------
+
+The janitor package has functions for examining and cleaning data.
+
+### Examining
+
+-   Get the frequency table for a variable with `tabyl()`. A fully-featured version of `table()`.
+
+\* Isolate records with duplicated combinations of variables with `get_dupes()`. E.g., *employee\_id* can occur more than once, and *year* can occur more than once, but there should be no records that share the same values for both variables.
+
+-   Coming soon: `crosstab()`, `top_2()`
+
+### Cleaning
+
+-   Clean data.frame names with `clean_names()`. Call this every time you read in data.
+
+-   Clean miscoded `NA` values with `clean_NA_variants()`. It converts the character values `"NA"`, `"#N/A"`, `"N/A"`, `"n/a"`, `"#NAME?"` to true `NA` missing values, and also accepts additional user-specified strings to convert.
+
+-   Remove entirely empty rows with `remove_empty_rows()` and empty columns with `remove_empty_cols()`.
+
+-   Convert dates incorrectly stored as serial numbers to Date class with `excel_numeric_to_date()`, e.g., turning `42500` into `"2016-05-10"`.
+
+-   If working with `labelled`-class variables created by using the [haven](http://www.github.com/hadley/haven) package to read SPSS `.sav` files, convert a mixed data.frame to 100% factors using `labelled_to_factors()`.
+
 janitor in action
 -----------------
+
+*Doesn't currently showcase most of the functions above. Will become a vignette...*
 
 Start with some dirty data:
 
@@ -87,14 +112,3 @@ glimpse(clean_df)
 #> $ referee_2                     (chr) "Newton", "Curie", NA, "Lamarr"
 #> $ match_date                    (date) 2016-04-01, 2016-04-04, 2016-03...
 ```
-
-Overview
---------
-
-The janitor functions are:
-
--   Clean data.frame names with `clean_names()`.
-
--   Remove entirely empty rows with `remove_empty_rows()` and empty columns with `remove_empty_cols()`.
-
--   Convert dates incorrectly stored as serial numbers to Date class with `excel_numeric_to_date()`, e.g., turning `42500` into `"2016-05-10"`.
