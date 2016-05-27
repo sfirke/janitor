@@ -25,7 +25,7 @@ The janitor package has functions for examining and cleaning data.
 
 ### Examining
 
--   Get the frequency table for a variable with `tabyl()`, a fully-featured version of `table()`. It handles `NA` values, supports sorting, and returns a `tbl_df` data.frame (so you can print with `knitr::kable()`).
+-   Get the frequency table for a variable with `tabyl()`, a fully-featured version of `table()`. It handles `NA` values, supports sorting, and returns a `tbl_df` data.frame (so you can print with `knitr::kable`).
 
 -   Explore records that share duplicated values for specific combinations of variables with `get_dupes()`.
 
