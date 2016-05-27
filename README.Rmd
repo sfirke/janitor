@@ -38,9 +38,9 @@ The janitor package has functions for examining and cleaning data.
 
 ### Examining
 
-* Get the frequency table for a variable with `tabyl()`.  A fully-featured version of `table()`.
+* Get the frequency table for a variable with `tabyl()`, a fully-featured version of `table()`.  It handles `NA` values, supports sorting, and returns a `tbl_df` data.frame (so you can print with `knitr::kable()`).
 
-\* Isolate records with duplicated combinations of variables with `get_dupes()`.  E.g., *employee_id* can occur more than once, and *year* can occur more than once, but there should be no records that share the same values for both variables.
+* Explore records that share duplicated values for specific combinations of variables with `get_dupes()`.
 
 * Coming soon: `crosstab()`, `top_2()`
 
@@ -49,13 +49,13 @@ The janitor package has functions for examining and cleaning data.
 
 * Clean data.frame names with `clean_names()`.  Call this every time you read in data.
 
-* Clean miscoded `NA` values with `clean_NA_variants()`.  It converts the character values `"NA"`, `"#N/A"`, `"N/A"`, `"n/a"`, `"#NAME?"` to true `NA` missing values, and also accepts additional user-specified strings to convert.
+* Clean miscoded `NA` values with `clean_NA_variants()`.  It converts the character values `"NA"`, `"#N/A"`, `"N/A"`, `"n/a"`, and `"#NAME?"` to true `NA` missing values, and also accepts additional user-specified strings to convert.
 
-* Remove entirely empty rows with `remove_empty_rows()` and empty columns with `remove_empty_cols()`.
+* Remove completely empty rows with `remove_empty_rows()` and empty columns with `remove_empty_cols()`.
 
 * Convert dates incorrectly stored as serial numbers to Date class with `excel_numeric_to_date()`, e.g., turning `42500` into `"2016-05-10"`.
 
-* If working with `labelled`-class variables created by using the [haven](http://www.github.com/hadley/haven) package to read SPSS `.sav` files, convert a mixed data.frame to 100% factors using `labelled_to_factors()`.
+* When working with `labelled`-class variables created by reading SPSS `.sav` files with [haven](http://www.github.com/hadley/haven), convert all `labelled` variables in a data.frame to factors with `labelled_to_factors()`.
 
 
 ## janitor in action
