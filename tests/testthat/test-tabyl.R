@@ -48,3 +48,10 @@ test_that("sort parameter works", {
   expect_equal(sorted_test_df_na[[1]], c("b", "a", "c", NA))
   expect_equal(sorted_test_df_na[[4]], c(0.5, 0.25, 0.25, NA))
 })
+
+# bad inputs
+
+test_that("failure occurs if 0 or multiple variables passed as dots when calling on a data.frame", {
+  expect_error(mtcars %>% tabyl(cyl, gear), "more than one variable name specified")
+  expect_error(mtcars %>% tabyl(), "no variable name specified")
+})

@@ -35,6 +35,9 @@ tabyl <- function(dat, ..., show_na = TRUE, sort = FALSE) {
     result <- dat %>% dplyr::count(.[[1]], sort = sort)
     names(result)[1] <- var_name
   } else { # if given a data.frame
+    dots  <- as.list(substitute(list(...)))[-1L]
+    if(length(dots) == 0){stop("no variable name specified")}
+    if(length(dots) > 1){stop("more than one variable name specified")}
     result <- dat %>%
       dplyr::count(..., sort = sort)
   }
