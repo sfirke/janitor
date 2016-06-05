@@ -18,6 +18,7 @@
 # todo: generate warning if n = 3, factor has only 4 levels - groups will sum to >100%
 
 top_levels <- function(input_vec, n = 2, show_na = FALSE, sort = FALSE){
+  var_name <- deparse(substitute(input_vec))
   
   # handle bad inputs
   if(!is.factor(input_vec)){stop("factor_vec is not of type 'factor'")}
@@ -30,7 +31,10 @@ top_levels <- function(input_vec, n = 2, show_na = FALSE, sort = FALSE){
   top_n_lvls <- paste(levels(input_vec)[1:n], collapse = ", ")
   bot_n_lvls <- paste(levels(input_vec)[(num_levels_in_var - n + 1):num_levels_in_var], collapse = ", ")
   # Identify middle combinations, if needed
-  if(num_levels_in_var > 2 * n){ mid_lvls <- paste(levels(input_vec)[(n+1):(num_levels_in_var - n)], collapse = ", ")}
+  if(num_levels_in_var > 2 * n){
+    mid_lvls <- paste(levels(input_vec)[(n+1):(num_levels_in_var - n)], collapse = ", ")
+    if(nchar(mid_lvls) > 20){ mid_lvls <- "...<all middle values>..."}
+  }
 
   # convert vector into grouped variable
   new_vec <- ifelse(as.numeric(input_vec) <= n, top_n_lvls,
@@ -42,9 +46,9 @@ top_levels <- function(input_vec, n = 2, show_na = FALSE, sort = FALSE){
     new_vec <- as.ordered(new_vec, levels = c(top_n_lvls, bot_n_lvls))
   }
 
-  cat(paste0("\nValues used for top-2: ", paste(levels(input_vec)[1:2], collapse = ", ")), "\n\n")
-  tabyl(new_vec, show_na = show_na, sort = sort) # %>%
-    # dplyr::arrange(desc(new_vec)) # to make the ordering of the result reverse alphabetical and get top-2, other, bot-2
+  result <- tabyl(new_vec, show_na = show_na, sort = sort)
+  names(result)[1] <- var_name # reset name to match input variable
+  result
 }
 
 
