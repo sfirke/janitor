@@ -6,7 +6,7 @@
 #' Get a frequency table of a factor variable, grouped into categories by level.
 #'
 #' @param input_vec the factor variable to tabulate.
-#' @param num_lvls number of levels to include in top and bottom groups
+#' @param n number of levels to include in top and bottom groups
 #' @param show_na should cases where the variable is NA be shown?
 #' @param sort should the resulting table be sorted in descending order?
 #' @return Returns a data.frame (actually a \code{tbl_df}) with the frequencies of the grouped, tabulated variable.  Includes counts and percentages, and valid percentages (calculated omitting \code{NA} values, if present in the vector and \code{show_na = TRUE}.)
@@ -15,27 +15,31 @@
 #' top_levels(as.factor(mtcars$hp), 2)
 
 # todo: test for when there are ~5 classes to factor but only 3 are present in vector - does it work?
-# todo: generate warning if num_lvls = 3, factor has only 4 levels - groups will sum to >100%
+# todo: generate warning if n = 3, factor has only 4 levels - groups will sum to >100%
 
-top_levels <- function(input_vec, num_lvls = 2, show_na = FALSE, sort = FALSE){
+top_levels <- function(input_vec, n = 2, show_na = FALSE, sort = FALSE){
+  
   # handle bad inputs
   if(!is.factor(input_vec)){stop("factor_vec is not of type 'factor'")}
   num_levels_in_var <- max(as.numeric(input_vec), na.rm = TRUE)
   if(!num_levels_in_var > 2){stop("input factor variable must have at least 3 levels")}
-  if(num_lvls > num_levels_in_var ){stop("num_lvls cannot exceed the count of levels in the input factor variable")}
+  if(n > num_levels_in_var ){stop("n cannot exceed the count of levels in the input factor variable")}
+  if(num_levels_in_var < 2 * n){warning(paste0("there are ", num_levels_in_var, " levels in the variable and ", n, " levels in each of the top and bottom groups.\nSince ", 2 * n, " is greater than ", num_levels_in_var, " there will be overlap in the top and bottom groups and some records will be double-counted."))}
   
-  top_n_lvls <- paste(levels(input_vec)[1:num_lvls], collapse = ", ")
-  bot_n_lvls <- paste(levels(input_vec)[max(3, num_lvls-1):num_lvls], collapse = ", ")
-  
-  if(num_levels > 4){ mid_lvls <- paste(levels(input_vec)[3:(num_levels-2)], collapse = ", ")}
+  # Identify top/bottom N levels for printing
+  top_n_lvls <- paste(levels(input_vec)[1:n], collapse = ", ")
+  bot_n_lvls <- paste(levels(input_vec)[(num_levels_in_var - n + 1):num_levels_in_var], collapse = ", ")
+  # Identify middle combinations, if needed
+  if(num_levels_in_var > 2 * n){ mid_lvls <- paste(levels(input_vec)[(n+1):(num_levels_in_var - n)], collapse = ", ")}
 
-  new_vec <- ifelse(is.na(input_vec), NA,
-                    ifelse(as.numeric(input_vec) %in% c(1,2), top_2_lvls,
-                           ifelse(as.numeric(input_vec) %in% max(3, num_levels-1):num_levels, bot_2_lvls,
-                                  mid_lvls)))
-  if(num_levels > 4){new_vec <- ordered(new_vec, levels = c(top_2_lvls, mid_lvls, bot_2_lvls))
+  # convert vector into grouped variable
+  new_vec <- ifelse(as.numeric(input_vec) <= n, top_n_lvls,
+                           ifelse(as.numeric(input_vec) > (num_levels_in_var - n), bot_n_lvls,
+                                  mid_lvls))
+  # sort the result so table prints correctly
+  if(!is.na(mid_lvls)){new_vec <- ordered(new_vec, levels = c(top_n_lvls, mid_lvls, bot_n_lvls))
   } else{
-    new_vec <- as.ordered(new_vec, levels = c(top_2_lvls, bot_2_lvls))
+    new_vec <- as.ordered(new_vec, levels = c(top_n_lvls, bot_n_lvls))
   }
 
   cat(paste0("\nValues used for top-2: ", paste(levels(input_vec)[1:2], collapse = ", ")), "\n\n")
