@@ -33,9 +33,9 @@ top_levels <- function(input_vec, n = 2, show_na = FALSE, sort = FALSE){
   # Identify middle combinations, if needed
   if(num_levels_in_var > 2 * n){
     mid_lvls <- paste(levels(input_vec)[(n+1):(num_levels_in_var - n)], collapse = ", ")
-    if(nchar(mid_lvls) > 20){ mid_lvls <- "...<all middle values>..."}
-  }
-
+    if(nchar(mid_lvls) > 30){ mid_lvls <- paste0("<<< Middle Group (", num_levels_in_var - 2 * n," categories) >>>")}
+  } else {mid_lvls <- NA}
+  
   # convert input vector into grouped variable
   new_vec <- ifelse(as.numeric(input_vec) <= n, top_n_lvls,
                            ifelse(as.numeric(input_vec) > (num_levels_in_var - n), bot_n_lvls,
