@@ -41,6 +41,9 @@ test_that("show_NA parameter works", {
   expect_equal(test_res, test_df_na %>% tabyl(grp, show_na = FALSE))
 })
 
+test_that("sorting is preserved for factors", {
+  expect_equal(tabyl(factor(c("x", "y", "z"), levels = c("y", "z", "x")))[[1]], factor(c("y", "z", "x"), levels = c("y", "z", "x")))
+})
 # check sort parameter
 sorted_test_df_na <- test_df_na %>% tabyl(grp, sort = TRUE)
 
