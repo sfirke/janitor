@@ -25,7 +25,7 @@ top_levels <- function(input_vec, n = 2, show_na = FALSE, sort = FALSE){
   num_levels_in_var <- max(as.numeric(input_vec), na.rm = TRUE)
   if(!num_levels_in_var > 2){stop("input factor variable must have at least 3 levels")}
   if(n > num_levels_in_var ){stop("n cannot exceed the count of levels in the input factor variable")}
-  if(num_levels_in_var < 2 * n){warning(paste0("there are ", num_levels_in_var, " levels in the variable and ", n, " levels in each of the top and bottom groups.\nSince ", 2 * n, " is greater than ", num_levels_in_var, " there will be overlap in the top and bottom groups and some records will be double-counted."))}
+  if(num_levels_in_var < 2 * n){stop(paste0("there are ", num_levels_in_var, " levels in the variable and ", n, " levels in each of the top and bottom groups.\nSince ", 2 * n, " is greater than ", num_levels_in_var, ", there would be overlap in the top and bottom groups and some records will be double-counted."))}
   
   # Identify top/bottom N levels for printing
   top_n_lvls <- paste(levels(input_vec)[1:n], collapse = ", ")
@@ -36,18 +36,20 @@ top_levels <- function(input_vec, n = 2, show_na = FALSE, sort = FALSE){
     if(nchar(mid_lvls) > 20){ mid_lvls <- "...<all middle values>..."}
   }
 
-  # convert vector into grouped variable
+  # convert input vector into grouped variable
   new_vec <- ifelse(as.numeric(input_vec) <= n, top_n_lvls,
                            ifelse(as.numeric(input_vec) > (num_levels_in_var - n), bot_n_lvls,
                                   mid_lvls))
-  # sort the result so table prints correctly
+  
+  # recode variable as hi-med-lo so table prints w/ correct sorting
   if(!is.na(mid_lvls)){new_vec <- ordered(new_vec, levels = c(top_n_lvls, mid_lvls, bot_n_lvls))
   } else{
-    new_vec <- as.ordered(new_vec, levels = c(top_n_lvls, bot_n_lvls))
+    new_vec <- ordered(new_vec, levels = c(top_n_lvls, bot_n_lvls))
   }
-
+  
+  # tabulate grouped variable, then reset name to match input variable
   result <- tabyl(new_vec, show_na = show_na, sort = sort)
-  names(result)[1] <- var_name # reset name to match input variable
+  names(result)[1] <- var_name 
   result
 }
 
