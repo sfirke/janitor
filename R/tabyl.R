@@ -30,8 +30,9 @@ tabyl <- function(dat, ..., show_na = TRUE, sort = FALSE) {
   # calculate initial counts table
   # handle calls where it is fed a vector by converting to a 1 col data.frame
   if(is.vector(dat) | is.factor(dat)) {
-    dat <- data.frame(dat, stringsAsFactors = TRUE)
-    result <- dat %>% dplyr::count(.[[1]], sort = sort)
+    d <- data.frame(dat, stringsAsFactors = TRUE)
+    result <- d %>% dplyr::count(dat, sort = sort)
+    if(is.factor(dat)){result <- tidyr::complete(result, dat)}
     names(result)[1] <- var_name
   } else { # if given a data.frame
     dots  <- as.list(substitute(list(...)))[-1L]
@@ -39,23 +40,24 @@ tabyl <- function(dat, ..., show_na = TRUE, sort = FALSE) {
     if(length(dots) > 1){stop("more than one variable name specified")}
     result <- dat %>%
       dplyr::count(..., sort = sort)
+    if(is.factor(result[[1]])) {result <- tidyr::complete(result, ...)} # add back any missing factor categories
   }
-
+  
   # calculate percent, move NA row to bottom
   result <- result %>%
-    dplyr::mutate(percent = n / sum(n)) %>%
+    dplyr::mutate(percent = n / sum(n, na.rm = TRUE)) %>%
     dplyr::arrange(is.na(.[1]))
   
   ## NA handling:
   # if there are NA values & show_na = T, calculate valid % as a new column
   if(show_na && sum(is.na(result[[1]])) > 0) {
-    valid_total <- sum(result$n[!is.na(result[[1]])])
+    valid_total <- sum(result$n[!is.na(result[[1]])], na.rm = TRUE)
     result$valid_percent = result$n / valid_total
     result$valid_percent[is.na(result[[1]])] <- NA
     result
       } else { # don't show NA values, which necessitates adjusting the %s
     result %>%
       dplyr::filter(!is.na(.[1])) %>%
-      dplyr::mutate(percent = n / sum(n)) # recalculate % without NAs
+      dplyr::mutate(percent = n / sum(n, na.rm = TRUE)) # recalculate % without NAs
   }
 }
