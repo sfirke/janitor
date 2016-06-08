@@ -1,3 +1,5 @@
+#' @importFrom stats setNames
+#' 
 #' @title Cleans names of a data.frame.
 #'
 #' @description
@@ -31,5 +33,5 @@ clean_names <- function(dat){
   new_names[dupe_count > 1] <- paste(new_names[dupe_count > 1],
                                      dupe_count[dupe_count > 1],
                                      sep = "_")
-  setNames(dat, new_names)
+  stats::setNames(dat, new_names)
 }
