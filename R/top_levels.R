@@ -19,10 +19,10 @@
 
 top_levels <- function(input_vec, n = 2, show_na = FALSE, sort = FALSE){
   var_name <- deparse(substitute(input_vec))
+  num_levels_in_var <- max(as.numeric(input_vec), na.rm = TRUE)
   
   # handle bad inputs
   if(!is.factor(input_vec)){stop("factor_vec is not of type 'factor'")}
-  num_levels_in_var <- max(as.numeric(input_vec), na.rm = TRUE)
   if(!num_levels_in_var > 2){stop("input factor variable must have at least 3 levels")}
   if(n > num_levels_in_var ){stop("n cannot exceed the count of levels in the input factor variable")}
   if(num_levels_in_var < 2 * n){stop(paste0("there are ", num_levels_in_var, " levels in the variable and ", n, " levels in each of the top and bottom groups.\nSince ", 2 * n, " is greater than ", num_levels_in_var, ", there would be overlap in the top and bottom groups and some records will be double-counted."))}
@@ -35,13 +35,13 @@ top_levels <- function(input_vec, n = 2, show_na = FALSE, sort = FALSE){
                            ifelse(as.numeric(input_vec) > (num_levels_in_var - n), groups$bot,
                                   groups$mid))
   
-  # recode variable as hi-med-lo so table prints w/ correct sorting
+  # recode variable as hi-med-lo factor so table prints w/ correct sorting
   if(!is.na(groups$mid)){new_vec <- ordered(new_vec, levels = c(groups$top, groups$mid, groups$bot))
   } else{
     new_vec <- ordered(new_vec, levels = c(groups$top, groups$bot))
   }
   
-  # tabulate grouped variable, then reset name to match input variable
+  # tabulate grouped variable, then reset name to match input variable name
   result <- tabyl(new_vec, show_na = show_na, sort = sort)
   names(result)[1] <- var_name 
   result
