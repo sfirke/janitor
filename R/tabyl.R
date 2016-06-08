@@ -32,7 +32,10 @@ tabyl <- function(dat, ..., show_na = TRUE, sort = FALSE) {
   if(is.vector(dat) | is.factor(dat)) {
     d <- data.frame(dat, stringsAsFactors = TRUE)
     result <- d %>% dplyr::count(dat, sort = sort)
-    if(is.factor(dat)){result <- tidyr::complete(result, dat)}
+    if(is.factor(dat)){
+      result <- tidyr::complete(result, dat)
+      if(sort){result <- arrange(result, desc(n))} # undo reorder caused by complete()
+      }
     names(result)[1] <- var_name
   } else { # if given a data.frame
     dots  <- as.list(substitute(list(...)))[-1L]
@@ -40,7 +43,10 @@ tabyl <- function(dat, ..., show_na = TRUE, sort = FALSE) {
     if(length(dots) > 1){stop("more than one variable name specified")}
     result <- dat %>%
       dplyr::count(..., sort = sort)
-    if(is.factor(result[[1]])) {result <- tidyr::complete(result, ...)} # add back any missing factor categories
+    if(is.factor(result[[1]])) {
+      result <- tidyr::complete(result, ...)
+      if(sort){result <- arrange(result, desc(n))} # undo reorder caused by complete()
+      } # add back any missing factor categories
   }
   
   # calculate percent, move NA row to bottom

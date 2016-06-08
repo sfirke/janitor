@@ -75,10 +75,18 @@ test_that("missing factor levels are displayed with NA values", {
   
 # check sort parameter
 sorted_test_df_na <- test_df_na %>% tabyl(grp, sort = TRUE)
+sorted_with_fac <- data.frame(grp = factor(c("a", "c", "c"), levels = letters[1:3])) %>%
+  tabyl(grp, sort = TRUE)
+sorted_with_na_and_fac <- data.frame(grp = factor(c("a", "c", "c", NA), levels = letters[1:3])) %>%
+  tabyl(grp, sort = TRUE)
 
 test_that("sort parameter works", {
   expect_equal(sorted_test_df_na[[1]], c("b", "a", "c", NA))
   expect_equal(sorted_test_df_na[[4]], c(0.5, 0.25, 0.25, NA))
+  expect_equal(sorted_with_fac[[1]], factor(c("c", "a", "b"), levels = letters[1:3]))
+  expect_equal(sorted_with_fac[[2]], c(2, 1, NA))
+  expect_equal(sorted_with_na_and_fac[[1]], factor(c("c", "a", "b", NA), levels = letters[1:3]))
+  expect_equal(sorted_with_na_and_fac[[2]], c(2, 1, NA, 1))
 })
 
 # bad inputs
