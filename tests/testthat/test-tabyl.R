@@ -22,6 +22,7 @@ test_that("percentages are accurate", {
   expect_equal(cyl_tbl_pipe$percent, c(11/32, 7/32, 14/32))
 })
 
+# Character input, with and without NA
 test_df <- data.frame(grp = c("a", "b", "b", "c"), stringsAsFactors = FALSE)
 test_df_na <- data.frame(grp = c("a", "b", "b", "c", NA), stringsAsFactors = FALSE)
 test_res <- test_df %>% tabyl(grp)
@@ -44,6 +45,34 @@ test_that("show_NA parameter works", {
 test_that("sorting is preserved for factors", {
   expect_equal(tabyl(factor(c("x", "y", "z"), levels = c("y", "z", "x")))[[1]], factor(c("y", "z", "x"), levels = c("y", "z", "x")))
 })
+
+# missing factor levels shown, with and without NA
+fac_df <- data.frame(x = factor(c("a"), levels = c("b", "a")))
+fac <- factor(c("a"), levels = c("b", "a"))
+fac_df_na <- data.frame(x = factor(c("a", NA), levels = c("b", "a")))
+fac_na <- factor(c("a", NA), levels = c("b", "a"))
+
+
+test_that("missing factor levels are displayed without NA values", {
+  expect_equal(tabyl(fac)[[1]], factor(c("b","a"), levels = c("b", "a")))
+  expect_equal(tabyl(fac)[[2]], c(NA, 1))
+  expect_equal(tabyl(fac)[[3]], c(NA, 1))
+  expect_equal((fac_df %>% tabyl(x))[[1]], factor(c("b","a"), levels = c("b", "a")))
+  expect_equal((fac_df %>% tabyl(x))[[2]], c(NA, 1))
+  expect_equal((fac_df %>% tabyl(x))[[3]], c(NA, 1))
+})
+
+test_that("missing factor levels are displayed with NA values", {
+  expect_equal(tabyl(fac_na)[[1]], factor(c("b","a", NA), levels = c("b", "a")))
+  expect_equal(tabyl(fac_na)[[2]], c(NA, 1, 1))
+  expect_equal(tabyl(fac_na)[[3]], c(NA, 0.5, 0.5))
+  expect_equal(tabyl(fac_na)[[4]], c(NA, 1, NA))
+  expect_equal((fac_df_na %>% tabyl(x))[[1]], factor(c("b","a", NA), levels = c("b", "a")))
+  expect_equal((fac_df_na %>% tabyl(x))[[2]], c(NA, 1, 1))
+  expect_equal((fac_df_na %>% tabyl(x))[[3]], c(NA, 0.5, 0.5))
+  expect_equal((fac_df_na %>% tabyl(x))[[4]], c(NA, 1, NA))
+})
+  
 # check sort parameter
 sorted_test_df_na <- test_df_na %>% tabyl(grp, sort = TRUE)
 
