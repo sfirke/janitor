@@ -29,7 +29,7 @@ tabyl <- function(dat, ..., show_na = TRUE, sort = FALSE) {
 
   # calculate initial counts table
   # handle calls where it is fed a vector by converting to a 1 col data.frame
-  if(is.vector(dat) | is.factor(dat)) {
+  if(mode(dat) %in% c("logical", "numeric", "character")) {
     d <- data.frame(dat, stringsAsFactors = TRUE)
     result <- d %>% dplyr::count(dat, sort = sort)
     if(is.factor(dat)){
