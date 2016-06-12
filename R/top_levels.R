@@ -22,7 +22,7 @@ top_levels <- function(input_vec, n = 2, show_na = FALSE, sort = FALSE){
   # Initial type error catching
   if(!is.factor(input_vec)){stop("factor_vec is not of type 'factor'")}
   
-  num_levels_in_var <- max(as.numeric(input_vec), na.rm = TRUE)
+  num_levels_in_var <- length(unique(levels(input_vec)))
 
   # handle bad inputs
   if(!num_levels_in_var > 2){stop("input factor variable must have at least 3 levels")}
