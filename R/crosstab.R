@@ -8,7 +8,7 @@
 #' @param vec1 the vector to place on the crosstab column.
 #' @param vec2 the vector to place on the crosstab row.
 #' @param percent which grouping to use for percentages, if desired (defaults to counts).
-#' @param show_na should cases where both variables are NA be included?
+#' @param show_na should cases where either variable is NA be included?
 #' @return Returns a data.frame (actually a \code{tbl_df}) with the frequencies of the crosstabulated variables.
 #' @export
 #' @examples
@@ -23,37 +23,42 @@ crosstab <- function(vec1, vec2, percent = "none", show_na = TRUE){
 
   if(length(vec1) != length(vec2)){ stop("the two vectors are not the same length")}
 
-  dat <- data.frame(vec1, vec2)
+  dat <- data.frame(vec1, vec2, stringsAsFactors = FALSE)
   var_name <- deparse(substitute(vec1))
 
   if(!show_na){
     dat <- dat[!is.na(dat$vec1) & !is.na(dat$vec2), ]
   }
+  
+  # create initial counts in a long data.frame
   tabl <- dat %>%
     dplyr::count(vec1, vec2) %>%
     dplyr::ungroup()
   
-  if(percent == "none"){
-    tabl <- tabl %>%
-      tidyr::spread(vec2, n) %>%
-      dplyr::ungroup()
-  } else if(percent == "row"){
+  # calculate percentages, if specified
+  if(percent == "row"){
     tabl <- tabl %>%
       dplyr::group_by(vec1) %>%
-      dplyr::mutate(n = n / sum(n, na.rm = TRUE)) %>%
-      tidyr::spread(vec2, n) %>%
-      dplyr::ungroup()
+      dplyr::mutate(n = n / sum(n, na.rm = TRUE))
   } else if (percent == "col"){
     tabl <- tabl %>%
       dplyr::group_by(vec2) %>%
-      dplyr::mutate(n = n / sum(n, na.rm = TRUE)) %>%
-      tidyr::spread(vec2, n) %>%
-      dplyr::ungroup()
+      dplyr::mutate(n = n / sum(n, na.rm = TRUE))
   } else if (percent == "all"){
     tabl <- tabl %>%
-      dplyr::mutate(n = n / sum(n, na.rm = TRUE)) %>%
-      tidyr::spread(vec2, n) %>%
-      dplyr::ungroup()
+      dplyr::mutate(n = n / sum(n, na.rm = TRUE))
   }
-  stats::setNames(tabl, c(var_name, names(tabl)[-1])) # put name back of 1st variable
+  
+  # replace NA with string NA in vec2 to avoid invalid col name after spreading
+    # if this col is a factor, need to add that level to the factor
+  if(is.factor(tabl$vec2)){
+    levels(tabl$vec2) <- c(levels(tabl$vec2), "NA")
+  }
+  tabl$vec2[is.na(tabl$vec2)] <- "NA"
+
+  # spread to wide, ungroup() for cleanliness of result, and rename 1st col
+  tabl %>%
+    tidyr::spread(vec2, n) %>%
+    dplyr::ungroup() %>%
+    stats::setNames(., c(var_name, names(.)[-1]))
 }
