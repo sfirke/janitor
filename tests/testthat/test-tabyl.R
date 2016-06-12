@@ -94,4 +94,5 @@ test_that("sort parameter works", {
 test_that("failure occurs if 0 or multiple variables passed as dots when calling on a data.frame", {
   expect_error(mtcars %>% tabyl(cyl, gear), "more than one variable name specified")
   expect_error(mtcars %>% tabyl(), "no variable name specified")
+  expect_error(tabyl(list(1, 2)), "input must be a logical, numeric, or character vector, or a data.frame with a column name specified in '...'")
 })

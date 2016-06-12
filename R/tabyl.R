@@ -37,7 +37,7 @@ tabyl <- function(dat, ..., show_na = TRUE, sort = FALSE) {
       if(sort){result <- arrange(result, desc(n))} # undo reorder caused by complete()
       }
     names(result)[1] <- var_name
-  } else { # if given a data.frame
+  } else if(class(dat) == "data.frame") { # if given a data.frame
     dots  <- as.list(substitute(list(...)))[-1L]
     if(length(dots) == 0){stop("no variable name specified")}
     if(length(dots) > 1){stop("more than one variable name specified")}
@@ -47,7 +47,7 @@ tabyl <- function(dat, ..., show_na = TRUE, sort = FALSE) {
       result <- tidyr::complete(result, ...)
       if(sort){result <- arrange(result, desc(n))} # undo reorder caused by complete()
       } # add back any missing factor categories
-  }
+  } else {stop("input must be a logical, numeric, or character vector, or a data.frame with a column name specified in '...'")}
   
   # calculate percent, move NA row to bottom
   result <- result %>%
