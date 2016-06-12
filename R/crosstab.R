@@ -20,7 +20,10 @@
 # Take two vectors and one of "none", "row", "col", and "full" to calculate %s
 # Could also take a data.frame and two vector names, for pipeline, but this seems simpler
 crosstab <- function(vec1, vec2, percent = "none", show_na = TRUE){
-
+  if(!mode(vec1) %in% c("logical", "numeric", "character")){
+    stop("vec1 must be a vector of type logical, numeric, character, or factor")}
+  if(!mode(vec2) %in% c("logical", "numeric", "character")){
+    stop("vec2 must be a vector of type logical, numeric, character, or factor")}
   if(length(vec1) != length(vec2)){ stop("the two vectors are not the same length")}
 
   dat <- data.frame(vec1, vec2, stringsAsFactors = FALSE)
@@ -30,7 +33,7 @@ crosstab <- function(vec1, vec2, percent = "none", show_na = TRUE){
     dat <- dat[!is.na(dat$vec1) & !is.na(dat$vec2), ]
   }
   
-  # create initial counts in a long data.frame
+  # create long data.frame with initial counts
   tabl <- dat %>%
     dplyr::count(vec1, vec2) %>%
     dplyr::ungroup()
