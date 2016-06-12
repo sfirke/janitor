@@ -26,6 +26,7 @@ top_levels <- function(input_vec, n = 2, show_na = FALSE, sort = FALSE){
   if(!num_levels_in_var > 2){stop("input factor variable must have at least 3 levels")}
   if(n > num_levels_in_var ){stop("n cannot exceed the count of levels in the input factor variable")}
   if(num_levels_in_var < 2 * n){stop(paste0("there are ", num_levels_in_var, " levels in the variable and ", n, " levels in each of the top and bottom groups.\nSince ", 2 * n, " is greater than ", num_levels_in_var, ", there would be overlap in the top and bottom groups and some records will be double-counted."))}
+  if(n < 1 | n %% 1 != 0){stop("n must be a whole number at least 1")}
   
   # Identify top/mid/bottom group labels for printing
   groups <- get_level_groups(input_vec, n, num_levels_in_var)
