@@ -13,7 +13,7 @@ crosstab(vec1, vec2, percent = "none", show_na = TRUE)
 
 \item{percent}{which grouping to use for percentages, if desired (defaults to counts).}
 
-\item{show_na}{should cases where both variables are NA be included?}
+\item{show_na}{should cases where either variable is NA be included?}
 }
 \value{
 Returns a data.frame (actually a \code{tbl_df}) with the frequencies of the crosstabulated variables.
