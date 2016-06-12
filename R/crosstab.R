@@ -23,7 +23,7 @@ crosstab <- function(vec1, vec2, percent = "none", show_na = TRUE){
 
   if(length(vec1) != length(vec2)){ stop("the two vectors are not the same length")}
 
-  dat <- cbind(vec1, vec2) %>% as.data.frame()
+  dat <- data.frame(vec1, vec2)
   var_name <- deparse(substitute(vec1))
 
   if(!show_na){
@@ -32,31 +32,28 @@ crosstab <- function(vec1, vec2, percent = "none", show_na = TRUE){
   tabl <- dat %>%
     dplyr::count(vec1, vec2) %>%
     dplyr::ungroup()
-
+  
   if(percent == "none"){
-    tabl %>%
+    tabl <- tabl %>%
       tidyr::spread(vec2, n) %>%
-      dplyr::ungroup() %>%
-      setNames(., c(var_name, names(.)[-1])) # put name back of 1st variable
+      dplyr::ungroup()
   } else if(percent == "row"){
-    tabl %>%
+    tabl <- tabl %>%
       dplyr::group_by(vec1) %>%
       dplyr::mutate(n = n / sum(n, na.rm = TRUE)) %>%
       tidyr::spread(vec2, n) %>%
-      dplyr::ungroup() %>%
-      setNames(., c(var_name, names(.)[-1]))
+      dplyr::ungroup()
   } else if (percent == "col"){
-    tabl %>%
+    tabl <- tabl %>%
       dplyr::group_by(vec2) %>%
       dplyr::mutate(n = n / sum(n, na.rm = TRUE)) %>%
       tidyr::spread(vec2, n) %>%
-      dplyr::ungroup() %>%
-      setNames(., c(var_name, names(.)[-1]))
+      dplyr::ungroup()
   } else if (percent == "all"){
-    tabl %>%
+    tabl <- tabl %>%
       dplyr::mutate(n = n / sum(n, na.rm = TRUE)) %>%
       tidyr::spread(vec2, n) %>%
-      dplyr::ungroup() %>%
-      setNames(., c(var_name, names(.)[-1]))
+      dplyr::ungroup()
   }
+  stats::setNames(tabl, c(var_name, names(tabl)[-1])) # put name back of 1st variable
 }
