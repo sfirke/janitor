@@ -40,9 +40,9 @@ top_levels <- function(input_vec, n = 2, show_na = FALSE, sort = FALSE){
                                   groups$mid))
   
   # recode variable as hi-med-lo factor so table prints w/ correct sorting
-  if(!is.na(groups$mid)){new_vec <- ordered(new_vec, levels = c(groups$top, groups$mid, groups$bot))
+  if(!is.na(groups$mid)){new_vec <- factor(new_vec, levels = c(groups$top, groups$mid, groups$bot))
   } else{
-    new_vec <- ordered(new_vec, levels = c(groups$top, groups$bot))
+    new_vec <- factor(new_vec, levels = c(groups$top, groups$bot))
   }
   
   # tabulate grouped variable, then reset name to match input variable name
