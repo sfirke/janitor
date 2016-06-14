@@ -26,6 +26,7 @@
 # get counts and % in a data.frame, w/ or w/o NAs.  Like table(), kinda.  Use in pipelines or with vectors.
 tabyl <- function(dat, ..., show_na = TRUE, sort = FALSE) {
   var_name <- deparse(substitute(dat))
+  if(var_name == "."){var_name <- "x"} # for variables piped in to tabyl() - the column name "." was causing problems anyway
 
   # calculate initial counts table
   # handle calls where it is fed a vector by converting to a 1 col data.frame
@@ -34,7 +35,7 @@ tabyl <- function(dat, ..., show_na = TRUE, sort = FALSE) {
     result <- d %>% dplyr::count(dat, sort = sort)
     if(is.factor(dat)){
       result <- tidyr::complete(result, dat)
-      if(sort){result <- arrange(result, desc(n))} # undo reorder caused by complete()
+      if(sort){result <- dplyr::arrange(result, dplyr::desc(n))} # undo reorder caused by complete()
       }
     names(result)[1] <- var_name
   } else if(class(dat) == "data.frame") { # if given a data.frame
@@ -45,7 +46,7 @@ tabyl <- function(dat, ..., show_na = TRUE, sort = FALSE) {
       dplyr::count(..., sort = sort)
     if(is.factor(result[[1]])) {
       result <- tidyr::complete(result, ...)
-      if(sort){result <- arrange(result, desc(n))} # undo reorder caused by complete()
+      if(sort){result <- dplyr::arrange(result, dplyr::desc(n))} # undo reorder caused by complete()
       } # add back any missing factor categories
   } else {stop("input must be a logical, numeric, or character vector, or a data.frame with a column name specified in '...'")}
   
