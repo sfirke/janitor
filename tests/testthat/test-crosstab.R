@@ -15,6 +15,7 @@ dat <- data.frame(
 test_that("bad inputs are handled properly", {
   expect_error(crosstab(list(1, 2), dat$v1), "vec1 must be a vector of type logical, numeric, character, or factor")
   expect_error(crosstab(dat$v1, list(1, 2)), "vec2 must be a vector of type logical, numeric, character, or factor")
+  expect_error(crosstab(c(1, 1), c(1)), "the two vectors are not the same length")
   })
 
 # simple crosstab w/o NAs
@@ -47,6 +48,24 @@ test_that("percentages are correct", {
   expect_equal(res_all[, 2:4],tbl_df(res[, 2:4]/9))
 })
 
+z <- crosstab(dat$v3, dat$v1)
 test_that("NAs display correctly", {
-  
+  expect_equal(z[[1]], c("a", "b", NA))
+  expect_equal(z[[2]], c(1, 1, NA))
+  expect_equal(z[[3]], c(1, 2, 1))
+  expect_equal(z[[4]], c(2, NA, NA))
+  expect_equal(z[[5]], c(NA, NA, 1))
+  expect_equal(names(z), c("dat$v3", "hi", "med", "lo", "NA"))
+})
+
+test_that("NAs are hidden", {
+  y <- crosstab(dat$v3, dat$v1, show_na = FALSE)
+  expect_equal(y, z[!is.na(z$`dat$v3`), names(z) != "NA"]) # should be the same as z above but without bottom and last columns
+})
+
+test_that("factor levels order correctly", {
+  vv <- crosstab(dat$v1, dat$v1)
+  expect_equal(names(vv), c("dat$v1", "hi", "med", "lo", "NA"))
+  expect_equal(as.character(vv[[1]]), c("hi", "med", "lo", NA))
+  expect_true(is.factor(vv[[1]]))
 })
