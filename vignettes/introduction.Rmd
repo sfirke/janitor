@@ -1,0 +1,99 @@
+---
+title: "janitor overview"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo = FALSE, message = FALSE}
+knitr::opts_chunk$set(collapse = T, comment = "#>")
+library(janitor)
+```
+
+>Data scientists, according to interviews and expert estimates, spend from 50 percent to 80 percent of their time mired in this more mundane labor of collecting and preparing unruly digital data, before it can be explored for useful nuggets.
+>
+> -- *"[For Big-Data Scientists, 'Janitor Work' Is Key Hurdle to Insight](http://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html)" - The New York Times, 2014*
+
+The janitor package has functions to expedite the initial data exploration and cleaning that comes with any new data set.
+
+### Examining functions
+* `tabyl()` - an enhanced replacement for `table()`
+* `crosstab()`
+* `get_dupes()`
+* `top_levels()`
+
+### Cleaning functions
+* `clean_names()`
+* `clean_NA_variants()` and `clean_NA_vec()`
+* `excel_numeric_to_date()`
+* `remove_empty_cols()` and `remove_empty_rows()`
+
+# Examining with janitor
+## `tabyl()` - a better version of `table()`
+`tabyl()` takes a vector and returns a frequency table, like `table()`. But its additional features are:
+
++ It returns a data.frame (actually, a `tbl_df`) - for sending to `ggplot()` or `kable()`, or manipulating further
++ It automatically calculates percentages
++ It can (optionally) display `NA` values
+    + When `NA` values are present, it will calculate an additional column `valid_percent` in the style of SPSS
++ It can (optionally) sort on counts
+
+```{r}
+x <- c("a", "b", "c", "c", NA)
+tabyl(x)
+# compare to:
+table(x)
+```
+
+## Crosstabulate two variables with `crosstab()`
+`crosstab()` is (yet another) R function that generates a crosstab table.  This one's features are:
++ It returns a data.frame (actually, a `tbl_df`)
++ It is simple.
+    + It calculates frequencies by default but can calculate row, column, and table-wise percentages.
+    + It can (optionally) display `NA` values
+
+It wraps the common pipeline of `group_by %>% summarise %>% mutate %>% spread` from the dplyr and tidyr packages, often used in exploratory analysis.
+
+```{r}
+y <- c(1, 1, 2, 1, 2)
+x <- c("a", "a", "b", "b", NA)
+
+crosstab(x, y)
+crosstab(x, y, percent = "row")
+```
+This gives the same result as the much longer pipeline:
+```{r, message=FALSE}
+library(dplyr) ; library(tidyr)
+data_frame(x, y) %>%
+  group_by(x, y) %>%
+  tally() %>%
+  mutate(percent = n / sum(n, na.rm = TRUE)) %>%
+  select(-n) %>%
+  spread(y, percent) %>%
+  ungroup()
+```
+And is more featured than the base R equivalents:
+```{r}
+table(x, y)
+prop.table(table(x, y), 1)
+```
+
+## Examine the records that share values for duplicate keys with `get_dupes()`
+
+## Look at factors grouped into high, medium, and low groups with `top_levels()`
+
+Designed for use with Likert survey data stored as factors.  Returns a `tbl_df` frequency table with appropriately-named rows, grouped into head/middle/tail groups.
++ Takes a user-specified size for the head/tail groups
++ Automatically calculates a percent column
++ Supports sorting
++ Can show or hide `NA` values.
+
+```{r}
+f <- factor(c("strongly agree", "agree", "neutral", "neutral", "disagree", "strongly agree"),
+            levels = c("strongly agree", "agree", "neutral", "disagree", "strongly disagree"))
+top_levels(f)
+top_levels(f, n = 1, sort = TRUE)
+```

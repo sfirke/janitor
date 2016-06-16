@@ -15,4 +15,7 @@ License: MIT + file LICENSE
 LazyData: true
 RoxygenNote: 5.0.1
 Suggests:
-    testthat
+    testthat,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
