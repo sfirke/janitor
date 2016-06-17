@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-<meta name="date" content="2016-06-16" />
+<meta name="date" content="2016-06-17" />
 
 <title>janitor overview</title>
 
@@ -68,7 +68,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 <h1 class="title toc-ignore">janitor overview</h1>
-<h4 class="date"><em>2016-06-16</em></h4>
+<h4 class="date"><em>2016-06-17</em></h4>
 
 
 
@@ -94,6 +94,31 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><code>excel_numeric_to_date()</code></li>
 <li><code>remove_empty_cols()</code> and <code>remove_empty_rows()</code></li>
 </ul>
+</div>
+<div id="cleaning-with-janitor" class="section level1">
+<h1>Cleaning with janitor</h1>
+<div id="clean-data.frame-names-with-clean_names" class="section level2">
+<h2>Clean data.frame names with <code>clean_names()</code></h2>
+<p>Call this function every time you read data.</p>
+<p>It works in a <code>%&gt;%</code> pipeline, and handles the problematic variable names that are so well preserved by <code>readxl::read_excel()</code> and <code>readr::read_csv()</code>.</p>
+<ul>
+<li>Returns names with only lowercase letters, with <code>_</code> as a separator</li>
+<li>Handles special characters and spaces</li>
+<li>Appends numbers to duplicated names</li>
+<li>Converts “%” to “percent” to retain meaning</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load dplyr for the %&gt;% pipe</span>
+<span class="kw">library</span>(dplyr)
+<span class="co"># Create a data.frame with dirty names</span>
+test_df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">matrix</span>(<span class="dt">ncol =</span> <span class="dv">6</span>) %&gt;%<span class="st"> </span><span class="kw">as.data.frame</span>())
+<span class="kw">names</span>(test_df) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;two words&quot;</span>, <span class="st">&quot;repeat value&quot;</span>, <span class="st">&quot;REPEAT VALUE&quot;</span>, <span class="st">&quot;% successful (2009)&quot;</span>,  <span class="st">&quot;abc@!*&quot;</span>, <span class="st">&quot;&quot;</span>)
+
+clean_df &lt;-<span class="st"> </span>test_df %&gt;%<span class="st"> </span><span class="kw">clean_names</span>()
+<span class="kw">names</span>(clean_df) <span class="co"># they are clean</span>
+<span class="co">#&gt; [1] &quot;two_words&quot;               &quot;repeat_value&quot;           </span>
+<span class="co">#&gt; [3] &quot;repeat_value_2&quot;          &quot;percent_successful_2009&quot;</span>
+<span class="co">#&gt; [5] &quot;abc&quot;                     &quot;x&quot;</span></code></pre></div>
+</div>
 </div>
 <div id="examining-with-janitor" class="section level1">
 <h1>Examining with janitor</h1>
@@ -127,7 +152,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="crosstabulate-two-variables-with-crosstab" class="section level2">
 <h2>Crosstabulate two variables with <code>crosstab()</code></h2>
-<p><code>crosstab()</code> is (yet another) R function that generates a crosstab table. This one’s features are: + It returns a data.frame (actually, a <code>tbl_df</code>) + It is simple. + It calculates frequencies by default but can calculate row, column, and table-wise percentages. + It can (optionally) display <code>NA</code> values</p>
+<p><code>crosstab()</code> generates a crosstab table. There many crosstab functions already; this one is distinguished by: + It returns a data.frame (actually, a <code>tbl_df</code>) + It is simple. + It calculates frequencies by default but can calculate row, column, and table-wise percentages. + It can (optionally) display <code>NA</code> values</p>
 <p>It wraps the common pipeline of <code>group_by %&gt;% summarise %&gt;% mutate %&gt;% spread</code> from the dplyr and tidyr packages, often used in exploratory analysis.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>)
 x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="ot">NA</span>)
@@ -156,32 +181,28 @@ x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">percent =</span> n /<span class="st"> </span><span class="kw">sum</span>(n, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) %&gt;%
 <span class="st">  </span><span class="kw">select</span>(-n) %&gt;%
 <span class="st">  </span><span class="kw">spread</span>(y, percent) %&gt;%
-<span class="st">  </span><span class="kw">ungroup</span>()
-<span class="co">#&gt; Source: local data frame [3 x 3]</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;       x     1     2</span>
-<span class="co">#&gt; * &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1     a   1.0    NA</span>
-<span class="co">#&gt; 2     b   0.5   0.5</span>
-<span class="co">#&gt; 3  &lt;NA&gt;    NA   1.0</span></code></pre></div>
+<span class="st">  </span><span class="kw">ungroup</span>()</code></pre></div>
 <p>And is more featured than the base R equivalents:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(x, y)
-<span class="co">#&gt;    y</span>
-<span class="co">#&gt; x   1 2</span>
-<span class="co">#&gt;   a 2 0</span>
-<span class="co">#&gt;   b 1 1</span>
-<span class="kw">prop.table</span>(<span class="kw">table</span>(x, y), <span class="dv">1</span>)
-<span class="co">#&gt;    y</span>
-<span class="co">#&gt; x     1   2</span>
-<span class="co">#&gt;   a 1.0 0.0</span>
-<span class="co">#&gt;   b 0.5 0.5</span></code></pre></div>
+<span class="kw">prop.table</span>(<span class="kw">table</span>(x, y), <span class="dv">1</span>)</code></pre></div>
 </div>
-<div id="examine-the-records-that-share-values-for-duplicate-keys-with-get_dupes" class="section level2">
-<h2>Examine the records that share values for duplicate keys with <code>get_dupes()</code></h2>
+<div id="explore-records-with-duplicated-values-for-specific-combinations-of-variables-with-get_dupes" class="section level2">
+<h2>Explore records with duplicated values for specific combinations of variables with <code>get_dupes()</code></h2>
+<p>This is a function for hunting down and examining duplicate records during data cleaning - usually when there shouldn’t be any.</p>
+<p>E.g., in a tidy data frame you might have a unique ID repeated for each year, and year repeated for each unique ID, but you might want to check for duplicated pairs of unique ID &amp; year - what do these duplicated records have in common?</p>
+<p><code>get_dupes()</code> returns the records (and inserts a count of duplicates) so you can sleuth out the problematic cases:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">get_dupes</span>(mtcars, mpg, hp)
+<span class="co">#&gt; Source: local data frame [2 x 12]</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     mpg    hp dupe_count   cyl  disp  drat    wt  qsec    vs    am  gear</span>
+<span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1    21   110          2     6   160   3.9 2.620 16.46     0     1     4</span>
+<span class="co">#&gt; 2    21   110          2     6   160   3.9 2.875 17.02     0     1     4</span>
+<span class="co">#&gt; Variables not shown: carb &lt;dbl&gt;.</span></code></pre></div>
 </div>
 <div id="look-at-factors-grouped-into-high-medium-and-low-groups-with-top_levels" class="section level2">
 <h2>Look at factors grouped into high, medium, and low groups with <code>top_levels()</code></h2>
-<p>Designed for use with Likert survey data stored as factors. Returns a <code>tbl_df</code> frequency table with appropriately-named rows, grouped into head/middle/tail groups. + Takes a user-specified size for the head/tail groups + Automatically calculates a percent column + Supports sorting + Can show or hide <code>NA</code> values.</p>
+<p>Originally designed for use with Likert survey data stored as factors. Returns a <code>tbl_df</code> frequency table with appropriately-named rows, grouped into head/middle/tail groups. + Takes a user-specified size for the head/tail groups + Automatically calculates a percent column + Supports sorting + Can show or hide <code>NA</code> values.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&quot;strongly agree&quot;</span>, <span class="st">&quot;agree&quot;</span>, <span class="st">&quot;neutral&quot;</span>, <span class="st">&quot;neutral&quot;</span>, <span class="st">&quot;disagree&quot;</span>, <span class="st">&quot;strongly agree&quot;</span>),
             <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;strongly agree&quot;</span>, <span class="st">&quot;agree&quot;</span>, <span class="st">&quot;neutral&quot;</span>, <span class="st">&quot;disagree&quot;</span>, <span class="st">&quot;strongly disagree&quot;</span>))
 <span class="kw">top_levels</span>(f)

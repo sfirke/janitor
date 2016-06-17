@@ -31,6 +31,29 @@ The janitor package has functions to expedite the initial data exploration and c
 * `excel_numeric_to_date()`
 * `remove_empty_cols()` and `remove_empty_rows()`
 
+# Cleaning with janitor
+## Clean data.frame names with `clean_names()`
+Call this function every time you read data.
+
+It works in a `%>%` pipeline, and handles the problematic variable names that are so well preserved by `readxl::read_excel()` and `readr::read_csv()`.
+
++ Returns names with only lowercase letters, with `_` as a separator
++ Handles special characters and spaces
++ Appends numbers to duplicated names
++ Converts "%" to "percent" to retain meaning
+
+```{r, message = FALSE}
+# Load dplyr for the %>% pipe
+library(dplyr)
+# Create a data.frame with dirty names
+test_df <- data.frame(matrix(ncol = 6) %>% as.data.frame())
+names(test_df) <- c("two words", "repeat value", "REPEAT VALUE", "% successful (2009)",  "abc@!*", "")
+
+clean_df <- test_df %>% clean_names()
+names(clean_df) # they are clean
+```
+
+
 # Examining with janitor
 ## `tabyl()` - a better version of `table()`
 `tabyl()` takes a vector and returns a frequency table, like `table()`. But its additional features are:
@@ -49,7 +72,7 @@ table(x)
 ```
 
 ## Crosstabulate two variables with `crosstab()`
-`crosstab()` is (yet another) R function that generates a crosstab table.  This one's features are:
+`crosstab()` generates a crosstab table.  There many crosstab functions already; this one is distinguished by:
 + It returns a data.frame (actually, a `tbl_df`)
 + It is simple.
     + It calculates frequencies by default but can calculate row, column, and table-wise percentages.
@@ -65,7 +88,7 @@ crosstab(x, y)
 crosstab(x, y, percent = "row")
 ```
 This gives the same result as the much longer pipeline:
-```{r, message=FALSE}
+```{r, message=FALSE, results = "hide"}
 library(dplyr) ; library(tidyr)
 data_frame(x, y) %>%
   group_by(x, y) %>%
@@ -76,16 +99,24 @@ data_frame(x, y) %>%
   ungroup()
 ```
 And is more featured than the base R equivalents:
-```{r}
+```{r, results="hide"}
 table(x, y)
 prop.table(table(x, y), 1)
 ```
 
-## Examine the records that share values for duplicate keys with `get_dupes()`
+## Explore records with duplicated values for specific combinations of variables with `get_dupes()`
+This is a function for hunting down and examining duplicate records during data cleaning - usually when there shouldn't be any.
+
+E.g., in a tidy data frame you might have a unique ID repeated for each year, and year repeated for each unique ID, but you might want to check for duplicated pairs of unique ID & year - what do these duplicated records have in common?
+
+`get_dupes()` returns the records (and inserts a count of duplicates) so you can sleuth out the problematic cases:
+```{r}
+get_dupes(mtcars, mpg, hp)
+```
 
 ## Look at factors grouped into high, medium, and low groups with `top_levels()`
 
-Designed for use with Likert survey data stored as factors.  Returns a `tbl_df` frequency table with appropriately-named rows, grouped into head/middle/tail groups.
+Originally designed for use with Likert survey data stored as factors.  Returns a `tbl_df` frequency table with appropriately-named rows, grouped into head/middle/tail groups.
 + Takes a user-specified size for the head/tail groups
 + Automatically calculates a percent column
 + Supports sorting
