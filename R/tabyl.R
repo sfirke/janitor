@@ -23,8 +23,10 @@
 
 # get counts and % in a data.frame, w/ or w/o NAs.  Like table(), kinda.
 tabyl <- function(vec, show_na = TRUE, sort = FALSE) {
+  # catch and adjust input variable name
   var_name <- deparse(substitute(vec))
   if(var_name == "."){var_name <- "x"} # for variables piped in to tabyl() - the column name "." was causing problems anyway
+  var_name <- gsub("\\$", "_", var_name)
 
   # calculate initial counts table
   # convert vector to a 1 col data.frame
