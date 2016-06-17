@@ -4,12 +4,10 @@
 \alias{tabyl}
 \title{Generate a table of a vector.}
 \usage{
-tabyl(dat, ..., show_na = TRUE, sort = FALSE)
+tabyl(vec, show_na = TRUE, sort = FALSE)
 }
 \arguments{
-\item{dat}{the data.frame name, if calling in a pipeline, otherwise the vector.}
-
-\item{...}{the unquoted name of the variable in the data.frame to tabulate.}
+\item{vec}{the vector to tabulate.}
 
 \item{show_na}{should cases where the variable is NA be shown?}
 
@@ -19,18 +17,17 @@ tabyl(dat, ..., show_na = TRUE, sort = FALSE)
 Returns a data.frame (actually a \code{tbl_df}) with the frequencies of the tabulated variable.  Includes counts, percentages, and valid percentages (calculated omitting \code{NA} values, if present in the vector and \code{show_na = TRUE}.)
 }
 \description{
-Get a frequency table of a variable as a data.frame, showing percentages and with or without including \code{NA} values.  A fully-featured alternative to \code{table()}.  Can be called on a vector, or used in dplyr pipelines, taking a data.frame and variable name.
+Get a frequency table of a variable as a data.frame, showing percentages and with or without including \code{NA} values.  A fully-featured alternative to \code{table()}.
 }
 \examples{
 tabyl(mtcars$cyl)
 tabyl(mtcars$cyl, sort = TRUE)
 # called with magrittr pipe:
 library(dplyr)
-mtcars \%>\% tabyl(cyl)
+mtcars \%>\% .$cyl \%>\% tabyl()
 # illustrating show_na functionality:
 my_cars <- rbind(mtcars, rep(NA, 11))
-my_cars \%>\% tabyl(cyl)
-my_cars \%>\% tabyl(cyl, show_na = FALSE)
-
+tabyl(my_cars$cyl)
+tabyl(my_cars$cyl, show_na = FALSE)
 }
 
