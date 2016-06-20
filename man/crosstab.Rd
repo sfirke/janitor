@@ -11,7 +11,7 @@ crosstab(vec1, vec2, percent = "none", show_na = TRUE)
 
 \item{vec2}{the vector to place on the crosstab row.}
 
-\item{percent}{which grouping to use for percentages, if desired (defaults to counts).}
+\item{percent}{which grouping to use for percentages, if desired (defaults to counts).  Must be one of "none", "row", "col", or "all".}
 
 \item{show_na}{should cases where either variable is NA be included?}
 }
