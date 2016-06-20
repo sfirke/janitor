@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-<meta name="date" content="2016-06-17" />
+<meta name="date" content="2016-06-20" />
 
 <title>janitor overview</title>
 
@@ -68,7 +68,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 <h1 class="title toc-ignore">janitor overview</h1>
-<h4 class="date"><em>2016-06-17</em></h4>
+<h4 class="date"><em>2016-06-20</em></h4>
 
 
 
@@ -90,35 +90,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h3>Cleaning functions</h3>
 <ul>
 <li><code>clean_names()</code></li>
-<li><code>clean_NA_variants()</code> and <code>clean_NA_vec()</code></li>
+<li><code>convert_to_NA()</code></li>
 <li><code>excel_numeric_to_date()</code></li>
 <li><code>remove_empty_cols()</code> and <code>remove_empty_rows()</code></li>
 </ul>
-</div>
-<div id="cleaning-with-janitor" class="section level1">
-<h1>Cleaning with janitor</h1>
-<div id="clean-data.frame-names-with-clean_names" class="section level2">
-<h2>Clean data.frame names with <code>clean_names()</code></h2>
-<p>Call this function every time you read data.</p>
-<p>It works in a <code>%&gt;%</code> pipeline, and handles the problematic variable names that are so well preserved by <code>readxl::read_excel()</code> and <code>readr::read_csv()</code>.</p>
-<ul>
-<li>Returns names with only lowercase letters, with <code>_</code> as a separator</li>
-<li>Handles special characters and spaces</li>
-<li>Appends numbers to duplicated names</li>
-<li>Converts “%” to “percent” to retain meaning</li>
-</ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load dplyr for the %&gt;% pipe</span>
-<span class="kw">library</span>(dplyr)
-<span class="co"># Create a data.frame with dirty names</span>
-test_df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">matrix</span>(<span class="dt">ncol =</span> <span class="dv">6</span>) %&gt;%<span class="st"> </span><span class="kw">as.data.frame</span>())
-<span class="kw">names</span>(test_df) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;two words&quot;</span>, <span class="st">&quot;repeat value&quot;</span>, <span class="st">&quot;REPEAT VALUE&quot;</span>, <span class="st">&quot;% successful (2009)&quot;</span>,  <span class="st">&quot;abc@!*&quot;</span>, <span class="st">&quot;&quot;</span>)
-
-clean_df &lt;-<span class="st"> </span>test_df %&gt;%<span class="st"> </span><span class="kw">clean_names</span>()
-<span class="kw">names</span>(clean_df) <span class="co"># they are clean</span>
-<span class="co">#&gt; [1] &quot;two_words&quot;               &quot;repeat_value&quot;           </span>
-<span class="co">#&gt; [3] &quot;repeat_value_2&quot;          &quot;percent_successful_2009&quot;</span>
-<span class="co">#&gt; [5] &quot;abc&quot;                     &quot;x&quot;</span></code></pre></div>
-</div>
 </div>
 <div id="examining-with-janitor" class="section level1">
 <h1>Examining with janitor</h1>
@@ -143,9 +118,9 @@ clean_df &lt;-<span class="st"> </span>test_df %&gt;%<span class="st"> </span><s
 <span class="co">#&gt; 1     a     1     0.2          0.25</span>
 <span class="co">#&gt; 2     b     1     0.2          0.25</span>
 <span class="co">#&gt; 3     c     2     0.4          0.50</span>
-<span class="co">#&gt; 4    NA     1     0.2            NA</span>
-<span class="co"># compare to:</span>
-<span class="kw">table</span>(x)
+<span class="co">#&gt; 4    NA     1     0.2            NA</span></code></pre></div>
+<p>Compare to:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(x)
 <span class="co">#&gt; x</span>
 <span class="co">#&gt; a b c </span>
 <span class="co">#&gt; 1 1 2</span></code></pre></div>
@@ -221,6 +196,52 @@ x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot
 <span class="co">#&gt; 1 agree, neutral, disagree     4 0.6666667</span>
 <span class="co">#&gt; 2           strongly agree     2 0.3333333</span>
 <span class="co">#&gt; 3        strongly disagree    NA        NA</span></code></pre></div>
+</div>
+</div>
+<div id="cleaning-with-janitor" class="section level1">
+<h1>Cleaning with janitor</h1>
+<div id="clean-data.frame-names-with-clean_names" class="section level2">
+<h2>Clean data.frame names with <code>clean_names()</code></h2>
+<p>Call this function every time you read data.</p>
+<p>It works in a <code>%&gt;%</code> pipeline, and handles the problematic variable names that are so well preserved by <code>readxl::read_excel()</code> and <code>readr::read_csv()</code>.</p>
+<ul>
+<li>Returns names with only lowercase letters, with <code>_</code> as a separator</li>
+<li>Handles special characters and spaces</li>
+<li>Appends numbers to duplicated names</li>
+<li>Converts “%” to “percent” to retain meaning</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load dplyr for the %&gt;% pipe</span>
+<span class="kw">library</span>(dplyr)
+<span class="co"># Create a data.frame with dirty names</span>
+test_df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">matrix</span>(<span class="dt">ncol =</span> <span class="dv">6</span>) %&gt;%<span class="st"> </span><span class="kw">as.data.frame</span>())
+<span class="kw">names</span>(test_df) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;two words&quot;</span>, <span class="st">&quot;repeat value&quot;</span>, <span class="st">&quot;REPEAT VALUE&quot;</span>, <span class="st">&quot;% successful (2009)&quot;</span>,  <span class="st">&quot;abc@!*&quot;</span>, <span class="st">&quot;&quot;</span>)
+
+clean_df &lt;-<span class="st"> </span>test_df %&gt;%<span class="st"> </span><span class="kw">clean_names</span>()
+<span class="kw">names</span>(clean_df) <span class="co"># they are clean</span>
+<span class="co">#&gt; [1] &quot;two_words&quot;               &quot;repeat_value&quot;           </span>
+<span class="co">#&gt; [3] &quot;repeat_value_2&quot;          &quot;percent_successful_2009&quot;</span>
+<span class="co">#&gt; [5] &quot;abc&quot;                     &quot;x&quot;</span></code></pre></div>
+</div>
+<div id="use-convert_to_na-to-clean-should-be-na-values" class="section level2">
+<h2>Use <code>convert_to_NA()</code> to clean should-be NA values</h2>
+<p><em>Writeup coming soon</em></p>
+</div>
+<div id="use-excel_numeric_to_date-to-fix-dates-stored-as-serial-numbers" class="section level2">
+<h2>Use <code>excel_numeric_to_date()</code> to fix dates stored as serial numbers</h2>
+<p><em>Writeup coming soon</em></p>
+</div>
+<div id="remove_empty_cols-and-remove_empty_rows" class="section level2">
+<h2><code>remove_empty_cols()</code> and <code>remove_empty_rows()</code> …</h2>
+<p>… are one-line wrapper functions that do what they say. For those Excel files with empty rows and columns.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">q &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">v1 =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="ot">NA</span>, <span class="dv">3</span>),
+                <span class="dt">v2 =</span> <span class="kw">c</span>(<span class="ot">NA</span>, <span class="ot">NA</span>, <span class="ot">NA</span>),
+                <span class="dt">v3 =</span> <span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="ot">NA</span>, <span class="st">&quot;b&quot;</span>))
+q %&gt;%
+<span class="st">  </span><span class="kw">remove_empty_cols</span>() %&gt;%
+<span class="st">  </span><span class="kw">remove_empty_rows</span>()
+<span class="co">#&gt;   v1 v3</span>
+<span class="co">#&gt; 1  1  a</span>
+<span class="co">#&gt; 3  3  b</span></code></pre></div>
 </div>
 </div>
 
