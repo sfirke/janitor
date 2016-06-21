@@ -1,5 +1,3 @@
-#' @importFrom magrittr "%>%"
-#'
 #' @title Generate a table of a vector.
 #'
 #' @description

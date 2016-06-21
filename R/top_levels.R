@@ -1,5 +1,3 @@
-#' @importFrom magrittr "%>%"
-#'
 #' @title Generate a frequency table of a factor grouped into top-n, bottom-n, and all other levels.
 #'
 #' @description

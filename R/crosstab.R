@@ -1,5 +1,3 @@
-#' @importFrom magrittr "%>%"
-#'
 #' @title Generate a crosstabulation of two vectors.
 #'
 #' @description
