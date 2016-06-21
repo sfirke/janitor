@@ -19,7 +19,7 @@ get_dupes <- function(dat, ...) {
   dupe_count <- NULL # to appease NOTE for CRAN; does nothing.
   
   # fake declare the everything() function, which is not yet exported by dplyr but will be in the next release
-  everything <- function() {stop("everything() is screwing up in the get_dupes function")}
+  everything <- NULL
   # when select is called, it will look in its own namespace and find everything() there
 
   # calculate counts to join back to main df
