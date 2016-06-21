@@ -15,14 +15,27 @@
 #'
 
 get_dupes <- function(dat, ...) {
-  dupes <- dat %>%
-    dplyr::group_by(...) %>%
-    dplyr::mutate(dupe_count = n()) %>%
-    dplyr::filter(dupe_count > 1)  %>%
-    dplyr::select(..., dupe_count, everything()) %>%
+  
+  dupe_count <- NULL # to appease NOTE for CRAN; does nothing.
+  
+  # fake declare the everything() function, which is not yet exported by dplyr but will be in the next release
+  everything <- function() {stop("everything() is screwing up in the get_dupes function")}
+  # when select is called, it will look in its own namespace and find everything() there
+
+  # calculate counts to join back to main df
+  # would be nicer to use dplyr::n() but it's not exported
+  counts <- dat %>%
+    dplyr::count(...)
+  
+  # join new count vector to main data.frame
+  dupes <- suppressMessages(dplyr::inner_join(counts, dat))
+  
+  dupes <- dupes %>%
+    dplyr::filter(n > 1)  %>%
+    dplyr::select(..., dupe_count = n, everything()) %>%
     dplyr::ungroup() %>%
     dplyr::arrange(...)
-
+  
   var_names <- sapply(as.list(substitute(list(...)))[-1L], deparse)
 
   if(nrow(dupes) == 0){warning(paste0("No duplicate combinations found of: ", paste(var_names, collapse = ", ")))}
