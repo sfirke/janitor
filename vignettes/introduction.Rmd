@@ -90,12 +90,13 @@ E.g., in a tidy data frame you might have a unique ID repeated for each year, an
 
 `get_dupes()` returns the records (and inserts a count of duplicates) so you can sleuth out the problematic cases:
 ```{r}
-get_dupes(mtcars, mpg, hp)
+get_dupes(mtcars, wt, cyl)
 ```
 
 ## Look at factors grouped into high, medium, and low groups with `top_levels()`
 
 Originally designed for use with Likert survey data stored as factors.  Returns a `tbl_df` frequency table with appropriately-named rows, grouped into head/middle/tail groups.
+
 + Takes a user-specified size for the head/tail groups
 + Automatically calculates a percent column
 + Supports sorting
