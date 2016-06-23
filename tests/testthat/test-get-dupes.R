@@ -12,12 +12,13 @@ test_that("Correct combinations of duplicates are found", {
   })
 
 test_that("calling with no specified variable names uses all variable names", {
-  # function does not yet do this
+  expect_equal(get_dupes(test_df), get_dupes(test_df, a, b))
+  expect_message(get_dupes(mtcars), "No variable names specified - using all columns.")
 })
 
 no_dupes <- data.frame(a = 1, stringsAsFactors = FALSE)
 
 test_that("instance of no dupes throws correct message, returns empty df", {
-  expect_warning(no_dupes %>% get_dupes(a), "No duplicate combinations found of: a")
+  expect_message(no_dupes %>% get_dupes(a), "No duplicate combinations found of: a")
   expect_equal(suppressWarnings(no_dupes %>% get_dupes(a)), data_frame(a = double(0), dupe_count = integer(0)))
   })
