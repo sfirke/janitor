@@ -16,18 +16,21 @@
 
 get_dupes <- function(dat, ...) {
   names <- as.list(substitute(list(...)))[-1L]
+  df_name <- deparse(substitute(dat))
   
   if(length(names)==0){
     names <- names(dat)
     message("No variable names specified - using all columns.\n")
   }
- # use lapply to check that each value of names is present in names(dat); if not, throw a rejection error
-  ###########################
+  
+ # check that each variable name provided is present in names(dat); if not, throw error
+  var_names <- names
+  if(is.list(var_names)){ var_names <- lapply(names, deparse) } # 'names' is not a list if defaulting to whole df, need this for consistency
+  check_vars_in_df(dat, df_name, unlist(var_names))
   
   dupe_count <- NULL # to appease NOTE for CRAN; does nothing.
   
   # calculate counts to join back to main df
-  # would be nicer to use dplyr::n() but it's not exported
   counts <- dat %>%
     dplyr::count_(vars = names)
 
@@ -40,8 +43,19 @@ get_dupes <- function(dat, ...) {
     dplyr::arrange_(.dots = names) %>%
     dplyr::rename(dupe_count = n)
   
-  var_names <- sapply(names, deparse)
-  
   if(nrow(dupes) == 0){message(paste0("No duplicate combinations found of: ", paste(var_names, collapse = ", ")))}
   dupes
+}
+
+# takes a data.frame and vector of variable names, confirms that all var names match data.frame names 
+check_vars_in_df <- function(dat, dat_name, names_vec){
+  if(is.list(names_vec)){ names_vec <- lapply(names_vec, deparse)}
+  in_df <- unlist(lapply(names_vec, function(x) x %in% names(dat)))
+  if(sum(in_df) != length(in_df)){
+    stop(paste0(
+      paste0("These variables do not match column names in ", dat_name, ": "),
+      paste(names_vec[!in_df], collapse =", ")
+    )
+    )
+  }
 }

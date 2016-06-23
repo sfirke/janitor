@@ -21,4 +21,8 @@ no_dupes <- data.frame(a = 1, stringsAsFactors = FALSE)
 test_that("instance of no dupes throws correct message, returns empty df", {
   expect_message(no_dupes %>% get_dupes(a), "No duplicate combinations found of: a")
   expect_equal(suppressWarnings(no_dupes %>% get_dupes(a)), data_frame(a = double(0), dupe_count = integer(0)))
-  })
+})
+
+test_that("incorrect variable names are handled", {
+  expect_error(get_dupes(mtcars, x), "These variables do not match column names in mtcars: x")
+})
