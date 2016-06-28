@@ -31,17 +31,20 @@ tabyl <- function(vec, show_na = TRUE, sort = FALSE) {
   if(mode(vec) %in% c("logical", "numeric", "character")) {
     d <- data.frame(vec, stringsAsFactors = is.factor(vec))
     result <- d %>% dplyr::count(vec, sort = sort)
+    
     if(is.factor(vec)){
       result <- tidyr::complete(result, vec)
       if(sort){result <- dplyr::arrange(result, dplyr::desc(n))} # undo reorder caused by complete()
       }
-    names(result)[1] <- var_name
+    
   } else {stop("input must be a logical, numeric, or character vector")}
   
   # calculate percent, move NA row to bottom
   result <- result %>%
     dplyr::mutate(percent = n / sum(n, na.rm = TRUE)) %>%
-    dplyr::arrange(is.na(.[1]))
+    dplyr::arrange(is.na(vec))
+  
+  names(result)[1] <- var_name
   
   ## NA handling:
   # if there are NA values & show_na = T, calculate valid % as a new column
