@@ -49,7 +49,6 @@ get_dupes <- function(dat, ...) {
 
 # takes a data.frame and vector of variable names, confirms that all var names match data.frame names 
 check_vars_in_df <- function(dat, dat_name, names_vec){
-  if(is.list(names_vec)){ names_vec <- lapply(names_vec, deparse)}
   in_df <- unlist(lapply(names_vec, function(x) x %in% names(dat)))
   if(sum(in_df) != length(in_df)){
     stop(paste0(
