@@ -3,9 +3,9 @@
 library(janitor)
 context("data.frame name cleaning")
 
-test_df <- data.frame(matrix(ncol = 8) %>% as.data.frame())
+test_df <- data.frame(matrix(ncol = 9) %>% as.data.frame())
 names(test_df) <- c("sp ace", "repeat", "a**#@", "%", "#", "!",
-                    "d(!)9", "REPEAT")
+                    "d(!)9", "REPEAT", "can\"'t")
 
 clean <- clean_names(test_df)
 
@@ -18,6 +18,7 @@ test_that("Names are cleaned appropriately", {
   expect_equal(names(clean)[6], "x_2") # repeat of invalid name
   expect_equal(names(clean)[7], "d_9") # multiple special characters
   expect_equal(names(clean)[8], "repeat_2") # uppercase, 2nd instance of repeat
+  expect_equal(names(clean)[9], "cant") # uppercase, 2nd instance of repeat
 })
 
 test_that("Returns a data.frame", {
