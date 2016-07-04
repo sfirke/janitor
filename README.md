@@ -36,4 +36,4 @@ You are welcome to:
 
 -   submit suggestions and bug-reports at: <https://github.com/sfirke/janitor/issues>
 -   send a pull request on: <https://github.com/sfirke/janitor/>
--   compose a friendly e-mail to: <img src = "http://samfirke.com/wp-content/uploads/2016/07/email_address_as_png.png" alt = "samuel.firke AT gmail" width = "210"/>
+-   compose a friendly e-mail to: <img src = "http://samfirke.com/wp-content/uploads/2016/07/email_address_whitespace_top.png" alt = "samuel.firke AT gmail" width = "210"/>
