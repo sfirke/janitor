@@ -15,12 +15,6 @@ Intro to janitor functions
 
 The janitor functions expedite the initial data exploration and cleaning that comes with any new data set.
 
-<hr/>
-> Data scientists, according to interviews and expert estimates, spend from 50 percent to 80 percent of their time mired in this more mundane labor of collecting and preparing unruly digital data, before it can be explored for useful nuggets.
->
-> -- *"[For Big-Data Scientists, 'Janitor Work' Is Key Hurdle to Insight](http://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html)" - The New York Times, 2014*
-
-<hr/>
 Major functions
 ===============
 
