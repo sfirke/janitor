@@ -1,5 +1,5 @@
 ---
-title: "Intro to janitor Functions"
+title: "Intro to janitor functions"
 date: "`r Sys.Date()`"
 output:
   github_document:
@@ -15,30 +15,45 @@ vignette: >
 knitr::opts_chunk$set(collapse = T, comment = "#>")
 library(janitor)
 ```
+The janitor functions expedite the initial data exploration and cleaning that comes with any new data set.
 
+<hr/>
 >Data scientists, according to interviews and expert estimates, spend from 50 percent to 80 percent of their time mired in this more mundane labor of collecting and preparing unruly digital data, before it can be explored for useful nuggets.
 >
 > -- *"[For Big-Data Scientists, 'Janitor Work' Is Key Hurdle to Insight](http://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html)" - The New York Times, 2014*
 
-The janitor package has functions to expedite the initial data exploration and cleaning that comes with any new data set.
+<hr/>
 
-### List of examining functions
-* `tabyl()` - an enhanced replacement for `table()`
-* `crosstab()`
-* `get_dupes()`
-* `top_levels()`
+# Major functions
+Functions for frequent use in everyday data cleaning.
 
-### List of cleaning functions
-* `clean_names()`
-* `convert_to_NA()`
-* `excel_numeric_to_date()`
-* `remove_empty_cols()` and `remove_empty_rows()`
+## Clean data.frame names with `clean_names()`
+Call this function every time you read data.
 
-# Examining data with janitor
+It works in a `%>%` pipeline, and handles problematic variable names, especially those that are so well preserved by `readxl::read_excel()` and `readr::read_csv()`.
+
++ Returns names with only lowercase letters, with `_` as a separator
++ Handles special characters and spaces
++ Appends numbers to duplicated names
++ Converts "%" to "percent" to retain meaning
+
+```{r, message = FALSE}
+# Load dplyr for the %>% pipe
+library(dplyr)
+# Create a data.frame with dirty names
+test_df <- data.frame(matrix(ncol = 6) %>% as.data.frame())
+names(test_df) <- c("two words", "repeat value", "REPEAT VALUE",
+                    "% successful (2009)",  "abc@!*", "")
+
+clean_df <- test_df %>% clean_names()
+names(clean_df) # they are clean
+```
+
+
 ## `tabyl()` - a better version of `table()`
 `tabyl()` takes a vector and returns a frequency table, like `table()`. But its additional features are:
 
-+ It returns a data.frame (actually, a `tbl_df`) - for sending to `ggplot()` or `kable()`, or manipulating further
++ It returns a data.frame (actually, a `tbl_df`) - for manipulating further, or printing with `knitr::kable()`.
 + It automatically calculates percentages
 + It can (optionally) display `NA` values
     + When `NA` values are present, it will calculate an additional column `valid_percent` in the style of SPSS
@@ -46,7 +61,7 @@ The janitor package has functions to expedite the initial data exploration and c
 
 ```{r}
 x <- c("a", "b", "c", "c", NA)
-tabyl(x)
+tabyl(x, sort = TRUE)
 ```
 Compare to:
 ```{r}
@@ -54,7 +69,8 @@ table(x)
 ```
 
 ## Crosstabulate two variables with `crosstab()`
-`crosstab()` generates a crosstab table.  There many crosstab functions already; this one is distinguished by:
+`crosstab()` generates a crosstab table.  There many R crosstab functions already; this one is distinguished by:
+
 + It returns a data.frame (actually, a `tbl_df`)
 + It is simple.
     + It calculates frequencies by default but can calculate row, column, and table-wise percentages.
@@ -87,14 +103,20 @@ prop.table(table(x, y), 1)
 ```
 
 ## Explore records with duplicated values for specific combinations of variables with `get_dupes()`
-This is a function for hunting down and examining duplicate records during data cleaning - usually when there shouldn't be any.
+This is for hunting down and examining duplicate records during data cleaning - usually when there shouldn't be any.
 
-E.g., in a tidy data frame you might have a unique ID repeated for each year, and year repeated for each unique ID, but you might want to check for duplicated pairs of unique ID & year - what do these duplicated records have in common?
+For example, in a tidy data frame you might expect to have a unique ID repeated for each year, and year repeated for each unique ID, but no duplicated pairs of unique ID & year.  Say you want to check for their presence, and study any such duplicated records.
 
 `get_dupes()` returns the records (and inserts a count of duplicates) so you can sleuth out the problematic cases:
 ```{r}
 get_dupes(mtcars, wt, cyl)
 ```
+
+
+
+# Minor functions
+Smaller functions for use in particular situations.  More human-readable than the equivalent code they replace.
+
 
 ## Look at factors grouped into high, medium, and low groups with `top_levels()`
 
@@ -113,46 +135,27 @@ top_levels(f, n = 1, sort = TRUE)
 ```
 
 
-# Cleaning data with janitor
-## Clean data.frame names with `clean_names()`
-Call this function every time you read data.
-
-It works in a `%>%` pipeline, and handles the problematic variable names that are so well preserved by `readxl::read_excel()` and `readr::read_csv()`.
-
-+ Returns names with only lowercase letters, with `_` as a separator
-+ Handles special characters and spaces
-+ Appends numbers to duplicated names
-+ Converts "%" to "percent" to retain meaning
-
-```{r, message = FALSE}
-# Load dplyr for the %>% pipe
-library(dplyr)
-# Create a data.frame with dirty names
-test_df <- data.frame(matrix(ncol = 6) %>% as.data.frame())
-names(test_df) <- c("two words", "repeat value", "REPEAT VALUE", "% successful (2009)",  "abc@!*", "")
-
-clean_df <- test_df %>% clean_names()
-names(clean_df) # they are clean
-```
-
-
-## Use `excel_numeric_to_date()` to fix dates stored as serial numbers
-Sometimes you'll load data from Excel and see `42223` where a date should be.  This function converts those serial numbers to class `Date`, and contains an option for specifying the alternate date system for files created with Excel for Mac 2008 and earlier versions (which count from a different starting point).
-```{r}
-excel_numeric_to_date(41103)
-excel_numeric_to_date(41103, date_system = "mac pre-2011")
-```
 
 ## Use `convert_to_NA()` to clean should-be NA values
 Converts instances of user-specified strings into `NA` values.  It takes an argument `dat`, which can be either a vector, a data.frame, or a `tibble::tbl_df`, and will return that same type with the substitutions made.
+
+Use if, say, you import an Excel file with values like `#N/A"` present in many columns.
 
 ```{r}
 convert_to_NA(letters[1:5], c("b", "d"))
 ```
 
 
+## Fix dates stored as serial numbers with `excel_numeric_to_date()`
+Ever load data from Excel and see `42223` where a date should be?  This function converts those serial numbers to class `Date`, and contains an option for specifying the alternate date system for files created with Excel for Mac 2008 and earlier versions (which count from a different starting point).
+```{r}
+excel_numeric_to_date(41103)
+excel_numeric_to_date(41103, date_system = "mac pre-2011")
+```
+
+
 ## `remove_empty_cols()` and `remove_empty_rows()`
-One-line wrapper functions that do what they say.  For cases like cleaning Excel files with empty rows and columns.
+One-line wrapper functions that do what they say.  For cases like cleaning Excel files containing empty rows and columns.
 ```{r}
 q <- data.frame(v1 = c(1, NA, 3),
                 v2 = c(NA, NA, NA),

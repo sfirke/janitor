@@ -1,49 +1,65 @@
-Intro to janitor Functions
+Intro to janitor functions
 ================
 2016-07-04
 
--   [List of examining functions](#list-of-examining-functions)
--   [List of cleaning functions](#list-of-cleaning-functions)
--   [Examining data with janitor](#examining-data-with-janitor)
+-   [Major functions](#major-functions)
+    -   [Clean data.frame names with `clean_names()`](#clean-data.frame-names-with-clean_names)
     -   [`tabyl()` - a better version of `table()`](#tabyl---a-better-version-of-table)
     -   [Crosstabulate two variables with `crosstab()`](#crosstabulate-two-variables-with-crosstab)
     -   [Explore records with duplicated values for specific combinations of variables with `get_dupes()`](#explore-records-with-duplicated-values-for-specific-combinations-of-variables-with-get_dupes)
+-   [Minor functions](#minor-functions)
     -   [Look at factors grouped into high, medium, and low groups with `top_levels()`](#look-at-factors-grouped-into-high-medium-and-low-groups-with-top_levels)
--   [Cleaning data with janitor](#cleaning-data-with-janitor)
-    -   [Clean data.frame names with `clean_names()`](#clean-data.frame-names-with-clean_names)
-    -   [Use `excel_numeric_to_date()` to fix dates stored as serial numbers](#use-excel_numeric_to_date-to-fix-dates-stored-as-serial-numbers)
     -   [Use `convert_to_NA()` to clean should-be NA values](#use-convert_to_na-to-clean-should-be-na-values)
+    -   [Fix dates stored as serial numbers with `excel_numeric_to_date()`](#fix-dates-stored-as-serial-numbers-with-excel_numeric_to_date)
     -   [`remove_empty_cols()` and `remove_empty_rows()`](#remove_empty_cols-and-remove_empty_rows)
 
+The janitor functions expedite the initial data exploration and cleaning that comes with any new data set.
+
+<hr/>
 > Data scientists, according to interviews and expert estimates, spend from 50 percent to 80 percent of their time mired in this more mundane labor of collecting and preparing unruly digital data, before it can be explored for useful nuggets.
 >
 > -- *"[For Big-Data Scientists, 'Janitor Work' Is Key Hurdle to Insight](http://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html)" - The New York Times, 2014*
 
-The janitor package has functions to expedite the initial data exploration and cleaning that comes with any new data set.
+<hr/>
+Major functions
+===============
 
-### List of examining functions
+Functions for frequent use in everyday data cleaning.
 
--   `tabyl()` - an enhanced replacement for `table()`
--   `crosstab()`
--   `get_dupes()`
--   `top_levels()`
+Clean data.frame names with `clean_names()`
+-------------------------------------------
 
-### List of cleaning functions
+Call this function every time you read data.
 
--   `clean_names()`
--   `convert_to_NA()`
--   `excel_numeric_to_date()`
--   `remove_empty_cols()` and `remove_empty_rows()`
+It works in a `%>%` pipeline, and handles problematic variable names, especially those that are so well preserved by `readxl::read_excel()` and `readr::read_csv()`.
 
-Examining data with janitor
-===========================
+-   Returns names with only lowercase letters, with `_` as a separator
+-   Handles special characters and spaces
+-   Appends numbers to duplicated names
+-   Converts "%" to "percent" to retain meaning
+
+``` r
+# Load dplyr for the %>% pipe
+library(dplyr)
+#> Warning: package 'dplyr' was built under R version 3.3.1
+# Create a data.frame with dirty names
+test_df <- data.frame(matrix(ncol = 6) %>% as.data.frame())
+names(test_df) <- c("two words", "repeat value", "REPEAT VALUE",
+                    "% successful (2009)",  "abc@!*", "")
+
+clean_df <- test_df %>% clean_names()
+names(clean_df) # they are clean
+#> [1] "two_words"               "repeat_value"           
+#> [3] "repeat_value_2"          "percent_successful_2009"
+#> [5] "abc"                     "x"
+```
 
 `tabyl()` - a better version of `table()`
 -----------------------------------------
 
 `tabyl()` takes a vector and returns a frequency table, like `table()`. But its additional features are:
 
--   It returns a data.frame (actually, a `tbl_df`) - for sending to `ggplot()` or `kable()`, or manipulating further
+-   It returns a data.frame (actually, a `tbl_df`) - for manipulating further, or printing with `knitr::kable()`.
 -   It automatically calculates percentages
 -   It can (optionally) display `NA` values
     -   When `NA` values are present, it will calculate an additional column `valid_percent` in the style of SPSS
@@ -51,14 +67,14 @@ Examining data with janitor
 
 ``` r
 x <- c("a", "b", "c", "c", NA)
-tabyl(x)
+tabyl(x, sort = TRUE)
 #> Source: local data frame [4 x 4]
 #> 
 #>       x     n percent valid_percent
 #>   <chr> <int>   <dbl>         <dbl>
-#> 1     a     1     0.2          0.25
-#> 2     b     1     0.2          0.25
-#> 3     c     2     0.4          0.50
+#> 1     c     2     0.4          0.50
+#> 2     a     1     0.2          0.25
+#> 3     b     1     0.2          0.25
 #> 4  <NA>     1     0.2            NA
 ```
 
@@ -74,7 +90,12 @@ table(x)
 Crosstabulate two variables with `crosstab()`
 ---------------------------------------------
 
-`crosstab()` generates a crosstab table. There many crosstab functions already; this one is distinguished by: + It returns a data.frame (actually, a `tbl_df`) + It is simple. + It calculates frequencies by default but can calculate row, column, and table-wise percentages. + It can (optionally) display `NA` values
+`crosstab()` generates a crosstab table. There many R crosstab functions already; this one is distinguished by:
+
+-   It returns a data.frame (actually, a `tbl_df`)
+-   It is simple.
+    -   It calculates frequencies by default but can calculate row, column, and table-wise percentages.
+    -   It can (optionally) display `NA` values
 
 It wraps the common pipeline of `group_by %>% summarise %>% mutate %>% spread` from the dplyr and tidyr packages, often used in exploratory analysis.
 
@@ -104,7 +125,6 @@ This gives the same result as the much longer pipeline:
 
 ``` r
 library(dplyr) ; library(tidyr)
-#> Warning: package 'dplyr' was built under R version 3.3.1
 data_frame(x, y) %>%
   group_by(x, y) %>%
   tally() %>%
@@ -124,9 +144,9 @@ prop.table(table(x, y), 1)
 Explore records with duplicated values for specific combinations of variables with `get_dupes()`
 ------------------------------------------------------------------------------------------------
 
-This is a function for hunting down and examining duplicate records during data cleaning - usually when there shouldn't be any.
+This is for hunting down and examining duplicate records during data cleaning - usually when there shouldn't be any.
 
-E.g., in a tidy data frame you might have a unique ID repeated for each year, and year repeated for each unique ID, but you might want to check for duplicated pairs of unique ID & year - what do these duplicated records have in common?
+For example, in a tidy data frame you might expect to have a unique ID repeated for each year, and year repeated for each unique ID, but no duplicated pairs of unique ID & year. Say you want to check for their presence, and study any such duplicated records.
 
 `get_dupes()` returns the records (and inserts a count of duplicates) so you can sleuth out the problematic cases:
 
@@ -142,6 +162,11 @@ get_dupes(mtcars, wt, cyl)
 #> 4  3.57     8          2  15.0 301.0   335  3.54 14.60     0     1     5
 #> Variables not shown: carb <dbl>.
 ```
+
+Minor functions
+===============
+
+Smaller functions for use in particular situations. More human-readable than the equivalent code they replace.
 
 Look at factors grouped into high, medium, and low groups with `top_levels()`
 -----------------------------------------------------------------------------
@@ -174,39 +199,22 @@ top_levels(f, n = 1, sort = TRUE)
 #> 3        strongly disagree    NA        NA
 ```
 
-Cleaning data with janitor
-==========================
+Use `convert_to_NA()` to clean should-be NA values
+--------------------------------------------------
 
-Clean data.frame names with `clean_names()`
--------------------------------------------
+Converts instances of user-specified strings into `NA` values. It takes an argument `dat`, which can be either a vector, a data.frame, or a `tibble::tbl_df`, and will return that same type with the substitutions made.
 
-Call this function every time you read data.
-
-It works in a `%>%` pipeline, and handles the problematic variable names that are so well preserved by `readxl::read_excel()` and `readr::read_csv()`.
-
--   Returns names with only lowercase letters, with `_` as a separator
--   Handles special characters and spaces
--   Appends numbers to duplicated names
--   Converts "%" to "percent" to retain meaning
+Use if, say, you import an Excel file with values like `#N/A"` present in many columns.
 
 ``` r
-# Load dplyr for the %>% pipe
-library(dplyr)
-# Create a data.frame with dirty names
-test_df <- data.frame(matrix(ncol = 6) %>% as.data.frame())
-names(test_df) <- c("two words", "repeat value", "REPEAT VALUE", "% successful (2009)",  "abc@!*", "")
-
-clean_df <- test_df %>% clean_names()
-names(clean_df) # they are clean
-#> [1] "two_words"               "repeat_value"           
-#> [3] "repeat_value_2"          "percent_successful_2009"
-#> [5] "abc"                     "x"
+convert_to_NA(letters[1:5], c("b", "d"))
+#> [1] "a" NA  "c" NA  "e"
 ```
 
-Use `excel_numeric_to_date()` to fix dates stored as serial numbers
--------------------------------------------------------------------
+Fix dates stored as serial numbers with `excel_numeric_to_date()`
+-----------------------------------------------------------------
 
-Sometimes you'll load data from Excel and see `42223` where a date should be. This function converts those serial numbers to class `Date`, and contains an option for specifying the alternate date system for files created with Excel for Mac 2008 and earlier versions (which count from a different starting point).
+Ever load data from Excel and see `42223` where a date should be? This function converts those serial numbers to class `Date`, and contains an option for specifying the alternate date system for files created with Excel for Mac 2008 and earlier versions (which count from a different starting point).
 
 ``` r
 excel_numeric_to_date(41103)
@@ -215,20 +223,10 @@ excel_numeric_to_date(41103, date_system = "mac pre-2011")
 #> [1] "2016-07-14"
 ```
 
-Use `convert_to_NA()` to clean should-be NA values
---------------------------------------------------
-
-Converts instances of user-specified strings into `NA` values. It takes an argument `dat`, which can be either a vector, a data.frame, or a `tibble::tbl_df`, and will return that same type with the substitutions made.
-
-``` r
-convert_to_NA(letters[1:5], c("b", "d"))
-#> [1] "a" NA  "c" NA  "e"
-```
-
 `remove_empty_cols()` and `remove_empty_rows()`
 -----------------------------------------------
 
-One-line wrapper functions that do what they say. For cases like cleaning Excel files with empty rows and columns.
+One-line wrapper functions that do what they say. For cases like cleaning Excel files containing empty rows and columns.
 
 ``` r
 q <- data.frame(v1 = c(1, NA, 3),
