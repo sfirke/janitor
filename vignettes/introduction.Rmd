@@ -1,7 +1,10 @@
 ---
-title: "janitor overview"
+title: "Intro to janitor Functions"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output:
+  github_document:
+    toc: true
+    toc_depth: 2
 vignette: >
   %\VignetteIndexEntry{Introduction}
   %\VignetteEngine{knitr::rmarkdown}
@@ -19,19 +22,19 @@ library(janitor)
 
 The janitor package has functions to expedite the initial data exploration and cleaning that comes with any new data set.
 
-### Examining functions
+### List of examining functions
 * `tabyl()` - an enhanced replacement for `table()`
 * `crosstab()`
 * `get_dupes()`
 * `top_levels()`
 
-### Cleaning functions
+### List of cleaning functions
 * `clean_names()`
 * `convert_to_NA()`
 * `excel_numeric_to_date()`
 * `remove_empty_cols()` and `remove_empty_rows()`
 
-# Examining with janitor
+# Examining data with janitor
 ## `tabyl()` - a better version of `table()`
 `tabyl()` takes a vector and returns a frequency table, like `table()`. But its additional features are:
 
@@ -110,7 +113,7 @@ top_levels(f, n = 1, sort = TRUE)
 ```
 
 
-# Cleaning with janitor
+# Cleaning data with janitor
 ## Clean data.frame names with `clean_names()`
 Call this function every time you read data.
 
@@ -132,14 +135,24 @@ clean_df <- test_df %>% clean_names()
 names(clean_df) # they are clean
 ```
 
-## Use `convert_to_NA()` to clean should-be NA values
-*Writeup coming soon*
 
 ## Use `excel_numeric_to_date()` to fix dates stored as serial numbers
-*Writeup coming soon*
+Sometimes you'll load data from Excel and see `42223` where a date should be.  This function converts those serial numbers to class `Date`, and contains an option for specifying the alternate date system for files created with Excel for Mac 2008 and earlier versions (which count from a different starting point).
+```{r}
+excel_numeric_to_date(41103)
+excel_numeric_to_date(41103, date_system = "mac pre-2011")
+```
 
-## `remove_empty_cols()` and `remove_empty_rows()` ...
-... are one-line wrapper functions that do what they say.  For those Excel files with empty rows and columns.
+## Use `convert_to_NA()` to clean should-be NA values
+Converts instances of user-specified strings into `NA` values.  It takes an argument `dat`, which can be either a vector, a data.frame, or a `tibble::tbl_df`, and will return that same type with the substitutions made.
+
+```{r}
+convert_to_NA(letters[1:5], c("b", "d"))
+```
+
+
+## `remove_empty_cols()` and `remove_empty_rows()`
+One-line wrapper functions that do what they say.  For cases like cleaning Excel files with empty rows and columns.
 ```{r}
 q <- data.frame(v1 = c(1, NA, 3),
                 v2 = c(NA, NA, NA),
