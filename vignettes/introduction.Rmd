@@ -2,7 +2,7 @@
 title: "Intro to janitor functions"
 date: "`r Sys.Date()`"
 output:
-  github_document:
+  rmarkdown::github_document:
     toc: true
     toc_depth: 2
 vignette: >

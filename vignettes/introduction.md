@@ -1,6 +1,6 @@
 Intro to janitor functions
 ================
-2016-07-04
+2016-07-05
 
 -   [Major functions](#major-functions)
     -   [Clean data.frame names with `clean_names()`](#clean-data.frame-names-with-clean_names)
