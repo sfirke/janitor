@@ -4,8 +4,8 @@
 #' Get a frequency table of a variable as a data.frame, showing percentages and with or without including \code{NA} values.  A fully-featured alternative to \code{table()}.
 #'
 #' @param vec the vector to tabulate.
-#' @param show_na should cases where the variable is NA be shown?
 #' @param sort should the resulting table be sorted in descending order?
+#' @param show_na should cases where the variable is NA be shown?
 #' @return Returns a data.frame (actually a \code{tbl_df}) with the frequencies of the tabulated variable.  Includes counts, percentages, and valid percentages (calculated omitting \code{NA} values, if present in the vector and \code{show_na = TRUE}.)
 #' @export
 #' @examples
@@ -20,7 +20,7 @@
 #' tabyl(my_cars$cyl, show_na = FALSE)
 
 # get counts and % in a data.frame, w/ or w/o NAs.  Like table(), kinda.
-tabyl <- function(vec, show_na = TRUE, sort = FALSE) {
+tabyl <- function(vec, sort = FALSE, show_na = TRUE) {
   # catch and adjust input variable name
   var_name <- deparse(substitute(vec))
   if(var_name == "."){var_name <- "x"} # for variables piped in to tabyl() - the column name "." was causing problems anyway

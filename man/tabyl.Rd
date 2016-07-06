@@ -4,14 +4,14 @@
 \alias{tabyl}
 \title{Generate a table of a vector.}
 \usage{
-tabyl(vec, show_na = TRUE, sort = FALSE)
+tabyl(vec, sort = FALSE, show_na = TRUE)
 }
 \arguments{
 \item{vec}{the vector to tabulate.}
 
-\item{show_na}{should cases where the variable is NA be shown?}
-
 \item{sort}{should the resulting table be sorted in descending order?}
+
+\item{show_na}{should cases where the variable is NA be shown?}
 }
 \value{
 Returns a data.frame (actually a \code{tbl_df}) with the frequencies of the tabulated variable.  Includes counts, percentages, and valid percentages (calculated omitting \code{NA} values, if present in the vector and \code{show_na = TRUE}.)
