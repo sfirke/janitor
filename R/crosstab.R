@@ -88,20 +88,19 @@ crosstab.data.frame <- function(.data, ...){
   # select columns from .data
   columns <- dots[1:2]
 
+  x <- list()
+  x[[deparse(columns[[1]])]] <- .data[,deparse(columns[[1]])]
+  x[[deparse(columns[[2]])]] <- .data[,deparse(columns[[2]])]
+  x <- as.data.frame(x)
+
+  # create args list to use with do.call
   arguments <- list()
 
   if(n > 2) arguments <- dots[3:n]
 
-  x <- list()
-  x[[deparse(columns[[1]])]] <- as.numeric(.data[,deparse(columns[[1]])])
-  x[[deparse(columns[[2]])]] <- .data[,deparse(columns[[2]])]
-  x <- as.data.frame(x)
-
   arguments$vec1 <- x[1]
   arguments$vec2 <- x[2]
 
-
-  # create parameters vector to sue with do.call
   do.call(crosstab.default,
           args = arguments)
 
