@@ -4,7 +4,7 @@
 \alias{crosstab}
 \title{Generate a crosstabulation of two vectors.}
 \usage{
-crosstab(vec1, vec2, percent = "none", show_na = TRUE)
+crosstab(x, ...)
 }
 \arguments{
 \item{vec1}{the vector to place on the crosstab column.}

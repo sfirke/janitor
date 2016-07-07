@@ -69,3 +69,42 @@ test_that("factor levels order correctly", {
   expect_equal(as.character(vv[[1]]), c("hi", "med", "lo", NA))
   expect_true(is.factor(vv[[1]]))
 })
+
+test_that("crosstab.data.frame dispatches", {
+
+  z <- crosstab(dat, v3, v1)
+
+  expect_equal(z[[1]], as.factor(c("a", "b", NA)))
+  expect_equal(z[[2]], c(1, 1, NA))
+  expect_equal(z[[3]], c(1, 2, 1))
+  expect_equal(z[[4]], c(2, NA, NA))
+  expect_equal(z[[5]], c(NA, NA, 1))
+  expect_equal(names(z), c("v3", "hi", "med", "lo", "NA"))
+})
+
+test_that("crosstab.data.frame is pipeable", {
+  z <- dat %>%
+    crosstab(v3, v1)
+
+    expect_equal(z[[1]], as.factor(c("a", "b", NA)))
+    expect_equal(z[[2]], c(1, 1, NA))
+    expect_equal(z[[3]], c(1, 2, 1))
+    expect_equal(z[[4]], c(2, NA, NA))
+    expect_equal(z[[5]], c(NA, NA, 1))
+    expect_equal(names(z), c("v3", "hi", "med", "lo", "NA"))
+})
+
+test_that("crosstab.data.frame renders percentages are correct", {
+  res_row <- crosstab(dat, v2, v4, "row")
+  expect_equal(res_row[[2]], c(0.5, 1/3, NA))
+  expect_equal(res_row[[3]], c(NA, 0.5, NA))
+  expect_equal(res_row[[4]], c(0.5, 1/6, 1))
+
+  res_col <- crosstab(dat, v2, v4, "col")
+  expect_equal(res_col[[2]], c(1/3, 2/3, NA))
+  expect_equal(res_col[[3]], c(NA, 1, NA))
+  expect_equal(res_col[[4]], c(1/3, 1/3, 1/3))
+
+  res_all <- crosstab(dat, v2, v4, "all")
+  expect_equal(as.data.frame(res_all[, 2:4]),as.data.frame(res[, 2:4]/9))
+})

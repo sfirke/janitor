@@ -68,7 +68,7 @@ crosstab.default <- function(vec1, vec2, percent = "none", show_na = TRUE){
   # replace NA with string NA in vec2 to avoid invalid col name after spreading
   # if this col is a factor, need to add that level to the factor
   if(is.factor(tabl[[2]])){
-    levels(tabl[[2]]) <- c(levels(tabl$vec2), "NA")
+    levels(tabl[[2]]) <- c(levels(tabl[[2]]), "NA")
   }
   tabl[2][is.na(tabl[2])] <- "NA"
 
