@@ -17,6 +17,7 @@
 # Crosstab table of two variables
 # Take two vectors and one of "none", "row", "col", and "all" to calculate %s
 # Could also take a data.frame and two vector names, for pipeline, but this seems simpler
+#' @export
 crosstab <- function(x, ...
 ) UseMethod("crosstab")
 
