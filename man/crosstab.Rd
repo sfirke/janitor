@@ -6,16 +6,17 @@
 \alias{crosstab.default}
 \title{Generate a crosstabulation of two vectors.}
 \usage{
-crosstab(vec1, ...)
+crosstab(...)
 
-\method{crosstab}{default}(vec1, vec2, percent = "none", show_na = TRUE)
+\method{crosstab}{default}(vec1, vec2, percent = "none", show_na = TRUE,
+  ...)
 
 \method{crosstab}{data.frame}(.data, ...)
 }
 \arguments{
-\item{vec1}{the vector to place on the crosstab column.}
-
 \item{...}{arguments passed to crosstab.default.}
+
+\item{vec1}{the vector to place on the crosstab column.}
 
 \item{vec2}{the vector to place on the crosstab row.}
 
