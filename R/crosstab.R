@@ -18,9 +18,13 @@
 # Take two vectors and one of "none", "row", "col", and "all" to calculate %s
 # Could also take a data.frame and two vector names, for pipeline, but this seems simpler
 #' @export
-crosstab <- function(x, ...
+crosstab <- function(vec1, ...
 ) UseMethod("crosstab")
 
+#' @inheritParams crosstab
+#' @describeIn crosstab Create a crosstab from two vectors,
+#' displaying either frequencies or percentages calculated by row, column, or overall.
+#' Vectors don't have to be from the same data.frame, but typically are.
 #' @export
 crosstab.default <- function(vec1, vec2, percent = "none", show_na = TRUE){
 
@@ -80,6 +84,12 @@ crosstab.default <- function(vec1, vec2, percent = "none", show_na = TRUE){
     stats::setNames(., c(var_name, names(.)[-1]))
 }
 
+#' @inheritParams crosstab.default
+#' @param .data a data.frame.
+#' @param ... arguments passed to crosstab.default.
+#' @describeIn crosstab Create a crosstab from a data.frame,
+#' displaying either frequencies or percentages calculated by row, column, or overall.
+#' Vectors don't have to be from the same data.frame, but typically are.
 #' @export
 crosstab.data.frame <- function(.data, ...){
   # collect dots
