@@ -2,11 +2,20 @@
 % Please edit documentation in R/crosstab.R
 \name{crosstab}
 \alias{crosstab}
+\alias{crosstab.data.frame}
+\alias{crosstab.default}
 \title{Generate a crosstabulation of two vectors.}
 \usage{
-crosstab(vec1, vec2, percent = "none", show_na = TRUE)
+crosstab(...)
+
+\method{crosstab}{default}(vec1, vec2, percent = "none", show_na = TRUE,
+  ...)
+
+\method{crosstab}{data.frame}(.data, ...)
 }
 \arguments{
+\item{...}{arguments passed to crosstab.default.}
+
 \item{vec1}{the vector to place on the crosstab column.}
 
 \item{vec2}{the vector to place on the crosstab row.}
@@ -14,6 +23,8 @@ crosstab(vec1, vec2, percent = "none", show_na = TRUE)
 \item{percent}{which grouping to use for percentages, if desired (defaults to counts).  Must be one of "none", "row", "col", or "all".}
 
 \item{show_na}{should cases where either variable is NA be included?}
+
+\item{.data}{a data.frame.}
 }
 \value{
 Returns a data.frame (actually a \code{tbl_df}) with the frequencies of the crosstabulated variables.
@@ -21,6 +32,16 @@ Returns a data.frame (actually a \code{tbl_df}) with the frequencies of the cros
 \description{
 Create a crosstab, displaying either frequencies or percentages calculated by row, column, or overall.  Vectors don't have to be from the same data.frame, but typically are.
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{default}: Create a crosstab from two vectors,
+displaying either frequencies or percentages calculated by row, column, or overall.
+Vectors don't have to be from the same data.frame, but typically are.
+
+\item \code{data.frame}: Create a crosstab from a data.frame,
+displaying either frequencies or percentages calculated by row, column, or overall.
+Vectors don't have to be from the same data.frame, but typically are.
+}}
 \examples{
 crosstab(mtcars$cyl, mtcars$gear)
 crosstab(mtcars$cyl, mtcars$gear, "row")
