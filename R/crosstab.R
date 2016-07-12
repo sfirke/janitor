@@ -14,6 +14,7 @@
 #' crosstab(mtcars$cyl, mtcars$gear, "row")
 #'
 #' # pipelined example
+#' library(dplyr)
 #' mtcars %>% crosstab(cyl, gear)
 
 # Crosstab table of two variables
@@ -26,6 +27,7 @@ crosstab <- function(...) UseMethod("crosstab")
 #' @describeIn crosstab Create a crosstab from two vectors,
 #' displaying either frequencies or percentages calculated by row, column, or overall.
 #' Vectors don't have to be from the same data.frame, but typically are.
+#' @export
 crosstab.default <- function(vec1, vec2, percent = "none", show_na = TRUE, ...){
 
 
@@ -90,6 +92,7 @@ crosstab.default <- function(vec1, vec2, percent = "none", show_na = TRUE, ...){
 #' @describeIn crosstab Create a crosstab from a data.frame,
 #' displaying either frequencies or percentages calculated by row, column, or overall.
 #' Vectors don't have to be from the same data.frame, but typically are.
+#' @export
 crosstab.data.frame <- function(.data, ...){
   # collect dots
   dots <- as.list(substitute(list(...)))[-1L] #
