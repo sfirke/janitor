@@ -13,6 +13,9 @@
 #' crosstab(mtcars$cyl, mtcars$gear)
 #' crosstab(mtcars$cyl, mtcars$gear, "row")
 #'
+#' # pipelined example
+#' library(dplyr)
+#' mtcars %>% crosstab(cyl, gear)
 
 # Crosstab table of two variables
 # Take two vectors and one of "none", "row", "col", and "all" to calculate %s

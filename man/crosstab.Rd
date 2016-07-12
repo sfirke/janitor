@@ -46,5 +46,8 @@ Vectors don't have to be from the same data.frame, but typically are.
 crosstab(mtcars$cyl, mtcars$gear)
 crosstab(mtcars$cyl, mtcars$gear, "row")
 
+# pipelined example
+library(dplyr)
+mtcars \%>\% crosstab(cyl, gear)
 }
 
