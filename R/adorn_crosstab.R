@@ -11,8 +11,7 @@ adorn_crosstab <- function(crosstab, denom = "row", show_n = TRUE, digits = 1, r
   percs <- crosstab
   if(denom == "row"){
     row_sum <- rowSums(crosstab[, 2:n_col], na.rm = TRUE)
-    percs <- crosstab %>%
-      mutate_at(vars(2:n_col), funs(. / row_sum))
+    percs[, 2:n_col] <- percs[, 2:n_col] / row_sum 
   } else if(denom == "col"){
     col_sum <- colSums(crosstab[, 2:n_col], na.rm = TRUE)
     percs <- crosstab
