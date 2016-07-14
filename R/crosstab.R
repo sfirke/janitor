@@ -104,7 +104,7 @@ crosstab.data.frame <- function(.data, ...){
   x <- list()
   x[[deparse(columns[[1]])]] <- .data[,deparse(columns[[1]])]
   x[[deparse(columns[[2]])]] <- .data[,deparse(columns[[2]])]
-  x <- as.data.frame(x)
+  x <- as.data.frame(x, stringsAsFactors = FALSE)
 
   # create args list to use with do.call
   arguments <- list()
