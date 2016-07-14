@@ -11,6 +11,7 @@ NEWS
 
 ### Minor
 
+* `crosstab()` returns 0 instead of NA when there are no instances of a variable combination.
 * Single and double quotation marks are handled by `clean_names()`
 
 ## Bug fixes
