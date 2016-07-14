@@ -30,7 +30,8 @@ crosstab <- function(...) UseMethod("crosstab")
 #' @export
 crosstab.default <- function(vec1, vec2, percent = "none", show_na = TRUE, ...){
 
-
+  if(! percent %in% c("none", "row", "col", "all")){stop("'percent' must be one of 'none', 'row', 'col', or 'all'")}
+  
   if(!mode(vec1) %in% c("logical", "numeric", "character", "list")){
     stop("vec1 must be a vector of type logical, numeric, character, list, or factor")}
   if(!mode(vec2) %in% c("logical", "numeric", "character","list")){
