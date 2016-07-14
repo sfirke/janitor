@@ -1,7 +1,7 @@
 # take a crosstab() call and print a nice result
 
 adorn_crosstab <- function(crosstab, denom = "row", show_n = TRUE, digits = 1, rounding = "half to even"){
-  # some input checks go here
+  # some input checks
   if(! denom %in% c("row", "col", "all")){stop("'denom' must be one of 'row', 'col', or 'all'")}
   if(! rounding %in% c("half to even", "half up")){stop("'rounding' must be one of 'half to even' or 'half up'")}
   
@@ -21,12 +21,12 @@ adorn_crosstab <- function(crosstab, denom = "row", show_n = TRUE, digits = 1, r
     percs[, 2:n_col] <- percs[, 2:n_col] / all_sum 
   }
 
-    # round %s, with specified method, add % sign
+  # round %s using specified method, add % sign
   percs <- mutate_at(percs, vars(2:n_col), funs(. * 100)) # since we'll be adding % sign - do this before rounding
   
   if(rounding == "half to even"){ percs <- mutate_at(percs, vars(2:n_col), funs(round(., digits))) }
   else if(rounding == "half up"){ percs <- mutate_at(percs, vars(2:n_col), funs(round_half_up(., digits)))}
-  percs <- mutate_at(percs, vars(2:n_col), funs(format(., digits)))
+  percs <- mutate_at(percs, vars(2:n_col), funs(format(., nsmall = digits))) # so that 0% prints as 0.0% or 0.00% etc.
 
   percs <- mutate_at(percs, vars(2:n_col), funs(paste0(., "%")))
 
@@ -40,13 +40,15 @@ adorn_crosstab <- function(crosstab, denom = "row", show_n = TRUE, digits = 1, r
   
 }
 
-# Example
+# Examples
 mtcars %>%
   crosstab(gear, cyl) %>%
   adorn_crosstab(denom = "all")
 
-adorn_crosstab(., denom = "col", rounding = "half up", show_n = FALSE, digits = 2)
+mtcars %>% crosstab(gear, cyl) %>% adorn_crosstab(., denom = "col", rounding = "half up", show_n = FALSE, digits = 2)
 
+
+##### Helper functions
 
 # From http://stackoverflow.com/questions/12688717/round-up-from-5-in-r
 round_half_up <- function(x, n){
