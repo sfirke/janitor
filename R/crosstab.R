@@ -81,7 +81,7 @@ crosstab.default <- function(vec1, vec2, percent = "none", show_na = TRUE, ...){
 
   # spread to wide, ungroup() for cleanliness of result, and rename 1st col
   tabl %>%
-    tidyr::spread_(dat_col_names[[2]], "n") %>%
+    tidyr::spread_(dat_col_names[[2]], "n", fill = 0) %>%
     dplyr::ungroup() %>%
     stats::setNames(., c(var_name, names(.)[-1]))
 }
