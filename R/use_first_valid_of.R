@@ -9,11 +9,10 @@ use_first_valid_of <- function(..., if_all_NA = NA, force_class = NA){
   
   # initialize results vector of appropriate length
   # okay to make it logical by default, and then it can switch via coercion as values are assigned?
-  ## This won't work with dates...
-  if(is.na(force_class)){
-    result <- rep(NA, length = vec_length)
-  } else if(force_class == "date"){
-    result <- rep(as.Date(NA), length = vec_length)
+  result <- rep(NA, length = vec_length)
+
+  if(!is.na(force_class) & force_class == "date"){
+    class(result) <- "Date"
   }
   # fill it using 2 for loops
   
