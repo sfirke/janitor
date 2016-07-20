@@ -1,15 +1,20 @@
-use_first_valid_of <- function(..., if_all_NA = NA){
+use_first_valid_of <- function(..., if_all_NA = NA, force_class = NA){
   vars <- list(...)
   
   vec_length <- length(vars[[1]])
   num_vars <- length(vars)
   # check var lengths - must all be equal
-  # check var types?  Initial requirement is that they should be same class, maybe eventually coerce to character 
+  # check var types?  Initial requirement is that they should be same class, maybe eventually coerce to character
+  # check input types
   
   # initialize results vector of appropriate length
   # okay to make it logical by default, and then it can switch via coercion as values are assigned?
   ## This won't work with dates...
-  result <- rep(NA, length = vec_length)
+  if(is.na(force_class)){
+    result <- rep(NA, length = vec_length)
+  } else if(force_class == "date"){
+    result <- rep(as.Date(NA), length = vec_length)
+  }
   # fill it using 2 for loops
   
   for(i in 1:vec_length){ # loop down the length of the vector
@@ -40,7 +45,7 @@ dat <- data_frame(
 
 #calls
 use_first_valid_of(dat$a, dat$b, dat$c)
-use_first_valid_of(dat$d1, dat$d2) # need to coerce to type = Date
+use_first_valid_of(dat$d1, dat$d2, force_class = "date")
 
 # replicating:
 ifelse(!is.na(dat$a), dat$a,
