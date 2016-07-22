@@ -1,3 +1,18 @@
+#' @title Returns first non-NA value from a set of vectors.
+#'
+#' @description
+#' At each position of the input vectors, iterates through in order and returns the first non-NA value.  This is a robust replacement of the common \code{ifelse(!is.na(x), x, ifelse(!is.na(y), y, z))}.  It's more readable and handles problems like \code{ifelse}'s inability to work with dates in this way.
+#'
+#' @param ... the input vectors.  Order matters: these are searched and prioritized in the order they are supplied.
+#' @param if_all_NA what value should be used when all of the vectors return \code{NA} for a certain index?  Default is NA.
+#' @return Returns a single vector with the selected values.
+#' @export
+#' @examples
+#' x <- c(1, NA, NA); y <- c(2, 2, NA); z <- c(3, 3, 3)
+#' use_first_valid_of(x, y, z)
+#' use_first_valid_of(y, z, if_all_NA = 0)
+
+
 use_first_valid_of <- function(..., if_all_NA = NA){
   vars <- list(...)
   vec_length <- length(vars[[1]])
@@ -42,41 +57,3 @@ use_first_valid_of <- function(..., if_all_NA = NA){
   
   result
 }
-
-# testing
-
-library(tibble)
-dat <- data_frame(
-  a = c(1, NA, NA),
-  b = c(2, 2, NA),
-  c = c(3, 3, 3),
-  x = c("hi", "med", "lo"),
-  d1 = c(as.Date("1999-01-01"), as.Date("1999-02-02"), NA),
-  d2 = c(as.Date("2016-01-01"), as.Date("2016-02-02"), as.Date("2016-03-03"))
-)
-
-#calls
-use_first_valid_of(dat$a, dat$b, dat$c)
-use_first_valid_of(dat$d1, dat$d2, force_class = "date")
-
-dat %>%
-  mutate(new_var = use_first_valid_of(a, b, c))
-
-dat %>%
-  mutate(new_var = use_first_valid_of(d1, d2, force_class = "date"))
-
-use_first_valid_of(dat$a, dat$b, if_all_NA = 0)
-
-# Test error cases
-use_first_valid_of(dat$a, dat$d1, if_all_NA = "Missing")
-use_first_valid_of(dat$a, if_all_NA = "Missing")
-
-# replicating:
-ifelse(!is.na(dat$a), dat$a,
-       ifelse(!is.na(dat$b), dat$b, 
-              dat$c))
-
-# check type conversion from numeric to character
-ifelse(!is.na(dat$a), dat$a,
-       ifelse(!is.na(dat$b), dat$b, 
-              dat$x))
