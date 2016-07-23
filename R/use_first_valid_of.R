@@ -10,7 +10,7 @@
 #' @examples
 #' x <- c(1, NA, NA); y <- c(2, 2, NA); z <- c(3, 3, 3)
 #' use_first_valid_of(x, y, z)
-#' use_first_valid_of(y, z, if_all_NA = 0)
+#' use_first_valid_of(y, x, if_all_NA = 0)
 
 
 use_first_valid_of <- function(..., if_all_NA = NA){
