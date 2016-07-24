@@ -111,23 +111,22 @@ get_dupes(mtcars, wt, cyl)
 Smaller functions for use in particular situations.  More human-readable than the equivalent code they replace.
 
 
-## Look at factors grouped into high, medium, and low groups with `top_levels()`
+## `use_first_valid_of()` replaces nested `ifelse` statements for combining variables
+Say that you have three different temperature sensors whose readings you want to collapse into one variable.  Not all records have readings from each sensor.  Sensor A is the most accurate, so you want to use that where available, but if it's missing you want Sensor B, and if that's missing, Sensor C. 
 
-Originally designed for use with Likert survey data stored as factors.  Returns a `tbl_df` frequency table with appropriately-named rows, grouped into head/middle/tail groups.
-
-+ Takes a user-specified size for the head/tail groups
-+ Automatically calculates a percent column
-+ Supports sorting
-+ Can show or hide `NA` values.
-
-```{r}
-f <- factor(c("strongly agree", "agree", "neutral", "neutral", "disagree", "strongly agree"),
-            levels = c("strongly agree", "agree", "neutral", "disagree", "strongly disagree"))
-top_levels(f)
-top_levels(f, n = 1, sort = TRUE)
+The common R way to do this would be:
+```{r, eval = FALSE}
+ifelse(!is.na(sensorA), sensorA,
+       ifelse(!is.na(sensorB), sensorB,
+              sensorC))
 ```
 
+The function `use_first_valid_of()` replaces this with:
+```{r, eval = FALSE}
+use_first_valid_of(sensorA, sensorB, sensorC)
+```
 
+One major improvement over the nested-`ifelse` statements: this function can combine factor and date variables, which [ifelse fails to handle](http://stackoverflow.com/questions/6668963/how-to-prevent-ifelse-from-turning-date-objects-into-numeric-objects).
 
 ## Use `convert_to_NA()` to clean should-be NA values
 Converts instances of user-specified strings into `NA` values.  It takes an argument `dat`, which can be either a vector, a data.frame, or a `tibble::tbl_df`, and will return that same type with the substitutions made.
@@ -144,6 +143,23 @@ Ever load data from Excel and see `42223` where a date should be?  This function
 ```{r}
 excel_numeric_to_date(41103)
 excel_numeric_to_date(41103, date_system = "mac pre-2011")
+```
+
+
+## Look at factors grouped into high, medium, and low groups with `top_levels()`
+
+Originally designed for use with Likert survey data stored as factors.  Returns a `tbl_df` frequency table with appropriately-named rows, grouped into head/middle/tail groups.
+
++ Takes a user-specified size for the head/tail groups
++ Automatically calculates a percent column
++ Supports sorting
++ Can show or hide `NA` values.
+
+```{r}
+f <- factor(c("strongly agree", "agree", "neutral", "neutral", "disagree", "strongly agree"),
+            levels = c("strongly agree", "agree", "neutral", "disagree", "strongly disagree"))
+top_levels(f)
+top_levels(f, n = 1, sort = TRUE)
 ```
 
 

@@ -1,6 +1,6 @@
 Intro to janitor functions
 ================
-2016-07-05
+2016-07-23
 
 -   [Major functions](#major-functions)
     -   [Clean data.frame names with `clean_names()`](#clean-data.frame-names-with-clean_names)
@@ -8,9 +8,10 @@ Intro to janitor functions
     -   [Crosstabulate two variables with `crosstab()`](#crosstabulate-two-variables-with-crosstab)
     -   [Explore records with duplicated values for specific combinations of variables with `get_dupes()`](#explore-records-with-duplicated-values-for-specific-combinations-of-variables-with-get_dupes)
 -   [Minor functions](#minor-functions)
-    -   [Look at factors grouped into high, medium, and low groups with `top_levels()`](#look-at-factors-grouped-into-high-medium-and-low-groups-with-top_levels)
+    -   [`use_first_valid_of()` replaces nested `ifelse` statements for combining variables](#use_first_valid_of-replaces-nested-ifelse-statements-for-combining-variables)
     -   [Use `convert_to_NA()` to clean should-be NA values](#use-convert_to_na-to-clean-should-be-na-values)
     -   [Fix dates stored as serial numbers with `excel_numeric_to_date()`](#fix-dates-stored-as-serial-numbers-with-excel_numeric_to_date)
+    -   [Look at factors grouped into high, medium, and low groups with `top_levels()`](#look-at-factors-grouped-into-high-medium-and-low-groups-with-top_levels)
     -   [`remove_empty_cols()` and `remove_empty_rows()`](#remove_empty_cols-and-remove_empty_rows)
 
 The janitor functions expedite the initial data exploration and cleaning that comes with any new data set.
@@ -62,8 +63,7 @@ names(clean_df) # they are clean
 ``` r
 x <- c("a", "b", "c", "c", NA)
 tabyl(x, sort = TRUE)
-#> Source: local data frame [4 x 4]
-#> 
+#> # A tibble: 4 x 4
 #>       x     n percent valid_percent
 #>   <chr> <int>   <dbl>         <dbl>
 #> 1     c     2     0.4          0.50
@@ -98,21 +98,19 @@ y <- c(1, 1, 2, 1, 2)
 x <- c("a", "a", "b", "b", NA)
 
 crosstab(x, y)
-#> Source: local data frame [3 x 3]
-#> 
-#>       x     1     2
-#> * <chr> <int> <int>
-#> 1     a     2    NA
-#> 2     b     1     1
-#> 3  <NA>    NA     1
-crosstab(x, y, percent = "row")
-#> Source: local data frame [3 x 3]
-#> 
+#> # A tibble: 3 x 3
 #>       x     1     2
 #> * <chr> <dbl> <dbl>
-#> 1     a   1.0    NA
+#> 1     a     2     0
+#> 2     b     1     1
+#> 3  <NA>     0     1
+crosstab(x, y, percent = "row")
+#> # A tibble: 3 x 3
+#>       x     1     2
+#> * <chr> <dbl> <dbl>
+#> 1     a   1.0   0.0
 #> 2     b   0.5   0.5
-#> 3  <NA>    NA   1.0
+#> 3  <NA>   0.0   1.0
 ```
 
 This gives the same result as the much longer pipeline:
@@ -146,15 +144,14 @@ For example, in a tidy data frame you might expect to have a unique ID repeated 
 
 ``` r
 get_dupes(mtcars, wt, cyl)
-#> Source: local data frame [4 x 12]
-#> 
+#> # A tibble: 4 x 12
 #>      wt   cyl dupe_count   mpg  disp    hp  drat  qsec    vs    am  gear
 #>   <dbl> <dbl>      <int> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
 #> 1  3.44     6          2  19.2 167.6   123  3.92 18.30     1     0     4
 #> 2  3.44     6          2  17.8 167.6   123  3.92 18.90     1     0     4
 #> 3  3.57     8          2  14.3 360.0   245  3.21 15.84     0     0     3
 #> 4  3.57     8          2  15.0 301.0   335  3.54 14.60     0     1     5
-#> Variables not shown: carb <dbl>.
+#> # ... with 1 more variables: carb <dbl>
 ```
 
 Minor functions
@@ -162,36 +159,26 @@ Minor functions
 
 Smaller functions for use in particular situations. More human-readable than the equivalent code they replace.
 
-Look at factors grouped into high, medium, and low groups with `top_levels()`
------------------------------------------------------------------------------
+`use_first_valid_of()` replaces nested `ifelse` statements for combining variables
+----------------------------------------------------------------------------------
 
-Originally designed for use with Likert survey data stored as factors. Returns a `tbl_df` frequency table with appropriately-named rows, grouped into head/middle/tail groups.
+Say that you have three different temperature sensors whose readings you want to collapse into one variable. Not all records have readings from each sensor. Sensor A is the most accurate, so you want to use that where available, but if it's missing you want Sensor B, and if that's missing, Sensor C.
 
--   Takes a user-specified size for the head/tail groups
--   Automatically calculates a percent column
--   Supports sorting
--   Can show or hide `NA` values.
+The common R way to do this would be:
 
 ``` r
-f <- factor(c("strongly agree", "agree", "neutral", "neutral", "disagree", "strongly agree"),
-            levels = c("strongly agree", "agree", "neutral", "disagree", "strongly disagree"))
-top_levels(f)
-#> Source: local data frame [3 x 3]
-#> 
-#>                             f     n   percent
-#>                        <fctr> <int>     <dbl>
-#> 1       strongly agree, agree     3 0.5000000
-#> 2                     neutral     2 0.3333333
-#> 3 disagree, strongly disagree     1 0.1666667
-top_levels(f, n = 1, sort = TRUE)
-#> Source: local data frame [3 x 3]
-#> 
-#>                          f     n   percent
-#>                     <fctr> <int>     <dbl>
-#> 1 agree, neutral, disagree     4 0.6666667
-#> 2           strongly agree     2 0.3333333
-#> 3        strongly disagree    NA        NA
+ifelse(!is.na(sensorA), sensorA,
+       ifelse(!is.na(sensorB), sensorB,
+              sensorC))
 ```
+
+The function `use_first_valid_of()` replaces this with:
+
+``` r
+use_first_valid_of(sensorA, sensorB, sensorC)
+```
+
+One major improvement over the nested-`ifelse` statements: this function can combine factor and date variables, which [ifelse fails to handle](http://stackoverflow.com/questions/6668963/how-to-prevent-ifelse-from-turning-date-objects-into-numeric-objects).
 
 Use `convert_to_NA()` to clean should-be NA values
 --------------------------------------------------
@@ -215,6 +202,35 @@ excel_numeric_to_date(41103)
 #> [1] "2012-07-13"
 excel_numeric_to_date(41103, date_system = "mac pre-2011")
 #> [1] "2016-07-14"
+```
+
+Look at factors grouped into high, medium, and low groups with `top_levels()`
+-----------------------------------------------------------------------------
+
+Originally designed for use with Likert survey data stored as factors. Returns a `tbl_df` frequency table with appropriately-named rows, grouped into head/middle/tail groups.
+
+-   Takes a user-specified size for the head/tail groups
+-   Automatically calculates a percent column
+-   Supports sorting
+-   Can show or hide `NA` values.
+
+``` r
+f <- factor(c("strongly agree", "agree", "neutral", "neutral", "disagree", "strongly agree"),
+            levels = c("strongly agree", "agree", "neutral", "disagree", "strongly disagree"))
+top_levels(f)
+#> # A tibble: 3 x 3
+#>                             f     n   percent
+#>                        <fctr> <int>     <dbl>
+#> 1       strongly agree, agree     3 0.5000000
+#> 2                     neutral     2 0.3333333
+#> 3 disagree, strongly disagree     1 0.1666667
+top_levels(f, n = 1, sort = TRUE)
+#> # A tibble: 3 x 3
+#>                          f     n   percent
+#>                     <fctr> <int>     <dbl>
+#> 1 agree, neutral, disagree     4 0.6666667
+#> 2           strongly agree     2 0.3333333
+#> 3        strongly disagree    NA        NA
 ```
 
 `remove_empty_cols()` and `remove_empty_rows()`
