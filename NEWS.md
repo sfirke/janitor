@@ -8,6 +8,7 @@ NEWS
 
 ### Major
 * `crosstab()` can be called in a `%>%` pipeline, e.g., `mtcars %>% crosstab(cyl, gear)`.  Thanks to [@chrishaid](https://github.com/chrishaid) [(#34)](https://github.com/sfirke/janitor/pull/34)
+* added `use_first_valid_of()` function [(#32)](https://github.com/sfirke/janitor/issues/32)
 
 ### Minor
 
