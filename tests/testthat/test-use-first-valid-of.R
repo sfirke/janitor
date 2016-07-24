@@ -31,6 +31,12 @@ test_that("outputs are correct", {
                c("1", "1999-02-02", NA)) # mismatched types, supposed to throw warning
 })
 
+test_that("factors are handled correctly", {
+  x <- factor(c("a", "b", NA))
+  y <- factor(c("c", "d", "e"))
+  expect_equal(suppressWarnings(use_first_valid_of(x, y)), c("a", "b", "e")) # factors should throw warnings
+})
+
 test_that("if_all_NA works", {
   expect_equal(use_first_valid_of(dat$a, dat$b, if_all_NA = 0), c(1, 2, 0))
   expect_error(use_first_valid_of(dat$a, dat$b, if_all_NA = "missing"), "class(if_all_NA) does not match class of resulting vector", fixed = TRUE)

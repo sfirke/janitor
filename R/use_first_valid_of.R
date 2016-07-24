@@ -27,6 +27,13 @@ use_first_valid_of <- function(..., if_all_NA = NA){
     vars <- lapply(vars, as.character)
   }
   
+  # coerce factors to character - returns numeric levels otherwise, and it's too complex to guess at what the result factor levels should be
+  if(class(vars[[1]]) == "factor"){
+    warning("Input vectors are of class 'factor' and will be coerced to class 'character' before combining")
+    vars <- lapply(vars, as.character)
+  }
+  
+  
   # initialize results vector of appropriate length
   # it is logical class by default, and then it can switch via coercion as values are assigned, except for Date handled separately
   result <- rep(NA, length = vec_length)
