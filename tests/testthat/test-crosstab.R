@@ -23,7 +23,8 @@ res <- crosstab(dat$v2, dat$v4)
 
 
 test_that("result column names are correct", {
-  expect_equal(names(res), c("dat$v2", "x", "y", "z"))
+  expect_equal(names(res), c("dat_v2", "x", "y", "z"))
+  expect_equal(names(dat %>% crosstab(v2, v4)), c("v2", "x", "y", "z"))
 })
 
 test_that("counts are correct", {
@@ -55,17 +56,17 @@ test_that("NAs display correctly", {
   expect_equal(z[[3]], c(1, 2, 1))
   expect_equal(z[[4]], c(2, 0, 0))
   expect_equal(z[[5]], c(0, 0, 1))
-  expect_equal(names(z), c("dat$v3", "hi", "med", "lo", "NA"))
+  expect_equal(names(z), c("dat_v3", "hi", "med", "lo", "NA_"))
 })
 
 test_that("NAs are hidden", {
   y <- crosstab(dat$v3, dat$v1, show_na = FALSE)
-  expect_equal(y, z[!is.na(z$`dat$v3`), names(z) != "NA"]) # should be the same as z above but without bottom and last columns
+  expect_equal(y, z[!is.na(z$dat_v3), names(z) != "NA_"]) # should be the same as z above but without bottom and last columns
 })
 
 test_that("factor levels order correctly", {
   vv <- crosstab(dat$v1, dat$v1)
-  expect_equal(names(vv), c("dat$v1", "hi", "med", "lo", "NA"))
+  expect_equal(names(vv), c("dat_v1", "hi", "med", "lo", "NA_"))
   expect_equal(as.character(vv[[1]]), c("hi", "med", "lo", NA))
   expect_true(is.factor(vv[[1]]))
 })

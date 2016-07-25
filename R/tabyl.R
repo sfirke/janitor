@@ -52,10 +52,10 @@ tabyl <- function(vec, sort = FALSE, show_na = TRUE) {
     valid_total <- sum(result$n[!is.na(result[[1]])], na.rm = TRUE)
     result$valid_percent = result$n / valid_total
     result$valid_percent[is.na(result[[1]])] <- NA
-    result
       } else { # don't show NA values, which necessitates adjusting the %s
-    result %>%
+    result <- result %>%
       dplyr::filter(!is.na(.[1])) %>%
       dplyr::mutate(percent = n / sum(n, na.rm = TRUE)) # recalculate % without NAs
-  }
+      }
+  data.frame(result)
 }
