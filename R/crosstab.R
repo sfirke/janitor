@@ -85,7 +85,7 @@ crosstab.default <- function(vec1, vec2, percent = "none", show_na = TRUE, ...){
     tidyr::spread_(dat_col_names[[2]], "n", fill = 0) %>%
     dplyr::ungroup() %>%
     stats::setNames(., c(var_name, names(.)[-1])) %>%
-    data.frame()
+    data.frame(., check.names = FALSE)
 }
 
 #' @inheritParams crosstab.default

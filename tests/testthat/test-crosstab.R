@@ -25,6 +25,7 @@ res <- crosstab(dat$v2, dat$v4)
 test_that("result column names are correct", {
   expect_equal(names(res), c("dat_v2", "x", "y", "z"))
   expect_equal(names(dat %>% crosstab(v2, v4)), c("v2", "x", "y", "z"))
+  expect_equal(names(dat %>% crosstab(v3, v2)), c("v3", "2", "3", "4")) # better to have clear column names that can be cleaned than to have legal column names
 })
 
 test_that("counts are correct", {
