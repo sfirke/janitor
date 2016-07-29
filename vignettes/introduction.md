@@ -1,6 +1,6 @@
 Intro to janitor functions
 ================
-2016-07-23
+2016-07-28
 
 -   [Major functions](#major-functions)
     -   [Clean data.frame names with `clean_names()`](#clean-data.frame-names-with-clean_names)
@@ -54,7 +54,7 @@ names(clean_df) # they are clean
 
 `tabyl()` takes a vector and returns a frequency table, like `table()`. But its additional features are:
 
--   It returns a data.frame (actually, a `tbl_df`) - for manipulating further, or printing with `knitr::kable()`.
+-   It returns a data.frame - for manipulating further, or printing with `knitr::kable()`.
 -   It automatically calculates percentages
 -   It can (optionally) display `NA` values
     -   When `NA` values are present, it will calculate an additional column `valid_percent` in the style of SPSS
@@ -63,13 +63,11 @@ names(clean_df) # they are clean
 ``` r
 x <- c("a", "b", "c", "c", NA)
 tabyl(x, sort = TRUE)
-#> # A tibble: 4 x 4
-#>       x     n percent valid_percent
-#>   <chr> <int>   <dbl>         <dbl>
-#> 1     c     2     0.4          0.50
-#> 2     a     1     0.2          0.25
-#> 3     b     1     0.2          0.25
-#> 4  <NA>     1     0.2            NA
+#>      x n percent valid_percent
+#> 1    c 2     0.4          0.50
+#> 2    a 1     0.2          0.25
+#> 3    b 1     0.2          0.25
+#> 4 <NA> 1     0.2            NA
 ```
 
 Compare to:
@@ -86,34 +84,43 @@ Crosstabulate two variables with `crosstab()`
 
 `crosstab()` generates a crosstab table. There many R crosstab functions already; this one is distinguished by:
 
--   It returns a data.frame (actually, a `tbl_df`)
+-   It returns a data.frame
 -   It is simple.
     -   It calculates frequencies by default but can calculate row, column, and table-wise percentages.
     -   It can (optionally) display `NA` values
+-   It can be called with `%>%` in a pipeline.
 
-It wraps the common pipeline of `group_by %>% summarise %>% mutate %>% spread` from the dplyr and tidyr packages, often used in exploratory analysis.
+Usage:
 
 ``` r
 y <- c(1, 1, 2, 1, 2)
 x <- c("a", "a", "b", "b", NA)
 
 crosstab(x, y)
-#> # A tibble: 3 x 3
-#>       x     1     2
-#> * <chr> <dbl> <dbl>
-#> 1     a     2     0
-#> 2     b     1     1
-#> 3  <NA>     0     1
+#>      x 1 2
+#> 1    a 2 0
+#> 2    b 1 1
+#> 3 <NA> 0 1
 crosstab(x, y, percent = "row")
-#> # A tibble: 3 x 3
-#>       x     1     2
-#> * <chr> <dbl> <dbl>
-#> 1     a   1.0   0.0
-#> 2     b   0.5   0.5
-#> 3  <NA>   0.0   1.0
+#>      x   1   2
+#> 1    a 1.0 0.0
+#> 2    b 0.5 0.5
+#> 3 <NA> 0.0 1.0
 ```
 
-This gives the same result as the much longer pipeline:
+If the variables are in the same data frame, call `crosstab` with the `%>%`pipe:
+
+``` r
+dat <- data.frame(x, y, stringsAsFactors = FALSE)
+dat %>%
+  crosstab(x, y, percent = "row")
+#>      x   1   2
+#> 1    a 1.0 0.0
+#> 2    b 0.5 0.5
+#> 3 <NA> 0.0 1.0
+```
+
+This function wraps the common pipeline of `group_by %>% summarise %>% mutate %>% spread` from the dplyr and tidyr packages, often used in exploratory analysis. The simple `crosstab` call above produces the same result\* as this much longer pipeline:
 
 ``` r
 library(dplyr) ; library(tidyr)
@@ -122,16 +129,13 @@ data_frame(x, y) %>%
   tally() %>%
   mutate(percent = n / sum(n, na.rm = TRUE)) %>%
   select(-n) %>%
-  spread(y, percent) %>%
+  spread(y, percent, fill = 0) %>%
   ungroup()
 ```
 
-And is more featured than the base R equivalents:
+And is more featured than the base R equivalents `table(dat$x, dat$y)` and `prop.table(table(dat$x, dat$y), 1)`.
 
-``` r
-table(x, y)
-prop.table(table(x, y), 1)
-```
+\**not exactly: the long pipeline returns a `tibble`, while crosstab() returns a `data.frame` that prints fully in the console.*
 
 Explore records with duplicated values for specific combinations of variables with `get_dupes()`
 ------------------------------------------------------------------------------------------------
@@ -218,19 +222,15 @@ Originally designed for use with Likert survey data stored as factors. Returns a
 f <- factor(c("strongly agree", "agree", "neutral", "neutral", "disagree", "strongly agree"),
             levels = c("strongly agree", "agree", "neutral", "disagree", "strongly disagree"))
 top_levels(f)
-#> # A tibble: 3 x 3
-#>                             f     n   percent
-#>                        <fctr> <int>     <dbl>
-#> 1       strongly agree, agree     3 0.5000000
-#> 2                     neutral     2 0.3333333
-#> 3 disagree, strongly disagree     1 0.1666667
+#>                             f n   percent
+#> 1       strongly agree, agree 3 0.5000000
+#> 2                     neutral 2 0.3333333
+#> 3 disagree, strongly disagree 1 0.1666667
 top_levels(f, n = 1, sort = TRUE)
-#> # A tibble: 3 x 3
-#>                          f     n   percent
-#>                     <fctr> <int>     <dbl>
-#> 1 agree, neutral, disagree     4 0.6666667
-#> 2           strongly agree     2 0.3333333
-#> 3        strongly disagree    NA        NA
+#>                          f  n   percent
+#> 1 agree, neutral, disagree  4 0.6666667
+#> 2           strongly agree  2 0.3333333
+#> 3        strongly disagree NA        NA
 ```
 
 `remove_empty_cols()` and `remove_empty_rows()`

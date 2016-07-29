@@ -46,7 +46,7 @@ names(clean_df) # they are clean
 ## `tabyl()` - a better version of `table()`
 `tabyl()` takes a vector and returns a frequency table, like `table()`. But its additional features are:
 
-+ It returns a data.frame (actually, a `tbl_df`) - for manipulating further, or printing with `knitr::kable()`.
++ It returns a data.frame - for manipulating further, or printing with `knitr::kable()`.
 + It automatically calculates percentages
 + It can (optionally) display `NA` values
     + When `NA` values are present, it will calculate an additional column `valid_percent` in the style of SPSS
@@ -64,13 +64,13 @@ table(x)
 ## Crosstabulate two variables with `crosstab()`
 `crosstab()` generates a crosstab table.  There many R crosstab functions already; this one is distinguished by:
 
-+ It returns a data.frame (actually, a `tbl_df`)
++ It returns a data.frame
 + It is simple.
     + It calculates frequencies by default but can calculate row, column, and table-wise percentages.
     + It can (optionally) display `NA` values
++ It can be called with `%>%` in a pipeline.
 
-It wraps the common pipeline of `group_by %>% summarise %>% mutate %>% spread` from the dplyr and tidyr packages, often used in exploratory analysis.
-
+Usage:
 ```{r}
 y <- c(1, 1, 2, 1, 2)
 x <- c("a", "a", "b", "b", NA)
@@ -78,7 +78,15 @@ x <- c("a", "a", "b", "b", NA)
 crosstab(x, y)
 crosstab(x, y, percent = "row")
 ```
-This gives the same result as the much longer pipeline:
+
+If the variables are in the same data frame, call `crosstab` with the `%>%`pipe:
+```{r}
+dat <- data.frame(x, y, stringsAsFactors = FALSE)
+dat %>%
+  crosstab(x, y, percent = "row")
+```
+
+This function wraps the common pipeline of `group_by %>% summarise %>% mutate %>% spread` from the dplyr and tidyr packages, often used in exploratory analysis.  The simple `crosstab` call above produces the same result* as this much longer pipeline:
 ```{r, message=FALSE, results = "hide"}
 library(dplyr) ; library(tidyr)
 data_frame(x, y) %>%
@@ -86,14 +94,12 @@ data_frame(x, y) %>%
   tally() %>%
   mutate(percent = n / sum(n, na.rm = TRUE)) %>%
   select(-n) %>%
-  spread(y, percent) %>%
+  spread(y, percent, fill = 0) %>%
   ungroup()
 ```
-And is more featured than the base R equivalents:
-```{r, results="hide"}
-table(x, y)
-prop.table(table(x, y), 1)
-```
+And is more featured than the base R equivalents `table(dat$x, dat$y)` and `prop.table(table(dat$x, dat$y), 1)`.
+
+\**not exactly: the long pipeline returns a `tibble`, while crosstab() returns a `data.frame` that prints fully in the console.*
 
 ## Explore records with duplicated values for specific combinations of variables with `get_dupes()`
 This is for hunting down and examining duplicate records during data cleaning - usually when there shouldn't be any.
