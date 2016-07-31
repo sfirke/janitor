@@ -1,13 +1,12 @@
-#' @title Generate a table of a vector.
+#' @title Generate a frequency table from a vector.
 #'
 #' @description
-#' Get a frequency table of a variable as a data.frame, showing percentages and with or without including \code{NA} values.  A fully-featured alternative to \code{table()}.
+#' Create a frequency table of a variable, returned as a data.frame, showing percentages and with or without including \code{NA} values.  A fully-featured alternative to \code{table()}.
 #'
 #' @param vec the vector to tabulate.
 #' @param sort should the resulting table be sorted in descending order?
 #' @param show_na should cases where the variable is NA be shown?
 #' @return Returns a data.frame (actually a \code{tbl_df}) with the frequencies of the tabulated variable.  Includes counts, percentages, and valid percentages (calculated omitting \code{NA} values, if present in the vector and \code{show_na = TRUE}.)
-#' @export
 #' @examples
 #' tabyl(mtcars$cyl)
 #' tabyl(mtcars$cyl, sort = TRUE)
@@ -19,31 +18,49 @@
 #' tabyl(my_cars$cyl)
 #' tabyl(my_cars$cyl, show_na = FALSE)
 
-# get counts and % in a data.frame, w/ or w/o NAs.  Like table(), kinda.
-tabyl <- function(vec, sort = FALSE, show_na = TRUE) {
-  # catch and adjust input variable name
-  var_name <- deparse(substitute(vec))
-  if(var_name == "."){var_name <- "x"} # for variables piped in to tabyl() - the column name "." was causing problems anyway
-  var_name <- gsub("\\$", "_", var_name)
+#' @export
+tabyl <- function(...) UseMethod("tabyl")
 
+#' @inheritParams tabyl
+#' @describeIn Create a frequency table from a vector, returned as a data.frame, showing percentages and with or without including \code{NA} values.  A fully-featured alternative to \code{table()}.
+#' @export
+tabyl.default <- function(vec, sort = FALSE, show_na = TRUE){
+  
+  # catch and adjust input variable name.
+  if(is.null(names(vec))) {
+    var_name <- deparse(substitute(vec))
+  } else {
+    var_name <- names(vec)
+  }
+  
   # calculate initial counts table
   # convert vector to a 1 col data.frame
-  if(mode(vec) %in% c("logical", "numeric", "character")) {
-    d <- data.frame(vec, stringsAsFactors = is.factor(vec))
-    result <- d %>% dplyr::count(vec, sort = sort)
+  if(mode(vec) %in% c("logical", "numeric", "character", "list") & !is.matrix(vec)) {
+    if(is.list(vec)){ vec <- vec[[1]] } # to preserve factor properties when vec is passed in as a list from data.frame method
+    dat <- data.frame(vec, stringsAsFactors = is.factor(vec))
+    names(dat)[1] <- "vec"
+
     
+    result <- dat %>% dplyr::count(vec, sort = sort)
+  
     if(is.factor(vec)){
       result <- tidyr::complete(result, vec)
       if(sort){result <- dplyr::arrange(result, dplyr::desc(n))} # undo reorder caused by complete()
       }
     
-  } else {stop("input must be a logical, numeric, or character vector")}
+  } else {stop("input must be a vector of type logical, numeric, character, list, or factor")}
   
   # calculate percent, move NA row to bottom
   result <- result %>%
-    dplyr::mutate(percent = n / sum(n, na.rm = TRUE)) %>%
-    dplyr::arrange(is.na(vec))
+    dplyr::mutate(percent = n / sum(n, na.rm = TRUE))
   
+  # these 4 lines sort the NA row to the bottom, necessary to retain factor sorting  
+  result$is_na <- is.na(result$vec)
+  result <- result %>%
+    dplyr::arrange(is_na) %>%
+    dplyr::select(-is_na)
+  
+  # reassign correct variable name
   names(result)[1] <- var_name
   
   ## NA handling:
@@ -57,5 +74,32 @@ tabyl <- function(vec, sort = FALSE, show_na = TRUE) {
       dplyr::filter(!is.na(.[1])) %>%
       dplyr::mutate(percent = n / sum(n, na.rm = TRUE)) # recalculate % without NAs
       }
-  data.frame(result)
+  data.frame(result, check.names = FALSE)
+}
+
+#' @inheritParams tabyl.default
+#' @param .data a data.frame.
+#' @param ... arguments passed to tabyl.default.
+#' @describeIn tabyl Create a frequency table from a variable in a data.frame, returned as a data.frame, showing percentages and with or without including \code{NA} values.  A fully-featured alternative to \code{table()}.
+#' @export
+tabyl.data.frame <- function(.data, ...){
+  # collect dots
+  dots <- as.list(substitute(list(...)))[-1L]
+  n <- length(dots)
+  
+  # select columns from .data
+  columns <- dots[1]
+  x <- list()
+  x[[deparse(columns[[1]])]] <- .data[, deparse(columns[[1]])]
+  x <- as.data.frame(x, stringsAsFactors = is.factor(x[[1]]))
+  
+  # create args list to use with do.call
+  arguments <- list()
+  
+  if(n > 1) arguments <- dots[2:n]
+  arguments$vec <- x[1]
+  
+  do.call(tabyl.default,
+          args = arguments)
+  
 }
