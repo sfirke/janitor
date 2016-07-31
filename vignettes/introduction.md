@@ -62,6 +62,8 @@ names(clean_df) # they are clean
 -   It can be called with `%>%` in a pipeline
 -   When called on a factor, it will include missing levels in the result (levels not present in the vector)
 
+Usage:
+
 ``` r
 x <- c("a", "b", "c", "c", NA)
 tabyl(x, sort = TRUE)
@@ -81,14 +83,16 @@ table(x)
 #> 1 1 2
 ```
 
-Called with a pipe:
+`tabyl()` can be called on a piped-in data.frame, which allows for fast, flexible exploration of data:
 
 ``` r
-mtcars %>% tabyl(cyl)
-#>   cyl  n percent
-#> 1   4 11 0.34375
-#> 2   6  7 0.21875
-#> 3   8 14 0.43750
+mtcars %>%
+  filter(gear > 3) %>%
+  tabyl(cyl)
+#>   cyl  n   percent
+#> 1   4 10 0.5882353
+#> 2   6  5 0.2941176
+#> 3   8  2 0.1176471
 ```
 
 Crosstabulate two variables with `crosstab()`
@@ -120,10 +124,10 @@ crosstab(x, y, percent = "row")
 #> 3 <NA> 0.0 1.0
 ```
 
-If the variables are in the same data frame, call `crosstab` with the `%>%`pipe:
+If the variables are in the same data frame, call `crosstab` with the `%>%` pipe:
 
 ``` r
-dat <- data.frame(x, y, stringsAsFactors = FALSE)
+dat <- data.frame(x, y)
 dat %>%
   crosstab(x, y, percent = "row")
 #>      x   1   2
