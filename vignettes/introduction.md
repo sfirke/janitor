@@ -1,6 +1,6 @@
 Intro to janitor functions
 ================
-2016-07-28
+2016-07-31
 
 -   [Major functions](#major-functions)
     -   [Clean data.frame names with `clean_names()`](#clean-data.frame-names-with-clean_names)
@@ -59,6 +59,8 @@ names(clean_df) # they are clean
 -   It can (optionally) display `NA` values
     -   When `NA` values are present, it will calculate an additional column `valid_percent` in the style of SPSS
 -   It can (optionally) sort on counts
+-   It can be called with `%>%` in a pipeline
+-   When called on a factor, it will include missing levels in the result (levels not present in the vector)
 
 ``` r
 x <- c("a", "b", "c", "c", NA)
@@ -79,6 +81,16 @@ table(x)
 #> 1 1 2
 ```
 
+Called with a pipe:
+
+``` r
+mtcars %>% tabyl(cyl)
+#>   cyl  n percent
+#> 1   4 11 0.34375
+#> 2   6  7 0.21875
+#> 3   8 14 0.43750
+```
+
 Crosstabulate two variables with `crosstab()`
 ---------------------------------------------
 
@@ -88,7 +100,7 @@ Crosstabulate two variables with `crosstab()`
 -   It is simple.
     -   It calculates frequencies by default but can calculate row, column, and table-wise percentages.
     -   It can (optionally) display `NA` values
--   It can be called with `%>%` in a pipeline.
+-   It can be called with `%>%` in a pipeline
 
 Usage:
 

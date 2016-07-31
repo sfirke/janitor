@@ -12,7 +12,7 @@
 #' tabyl(mtcars$cyl, sort = TRUE)
 #' # called with magrittr pipe:
 #' library(dplyr)
-#' mtcars %>% .$cyl %>% tabyl()
+#' mtcars %>% tabyl(cyl)
 #' # illustrating show_na functionality:
 #' my_cars <- rbind(mtcars, rep(NA, 11))
 #' tabyl(my_cars$cyl)
@@ -22,9 +22,9 @@
 tabyl <- function(...) UseMethod("tabyl")
 
 #' @inheritParams tabyl
-#' @describeIn Create a frequency table from a vector, returned as a data.frame, showing percentages and with or without including \code{NA} values.  A fully-featured alternative to \code{table()}.
+#' @describeIn tabyl Create a frequency table from a vector, returned as a data.frame, showing percentages and with or without including \code{NA} values.  A fully-featured alternative to \code{table()}.
 #' @export
-tabyl.default <- function(vec, sort = FALSE, show_na = TRUE){
+tabyl.default <- function(vec, sort = FALSE, show_na = TRUE, ...) {
   
   # catch and adjust input variable name.
   if(is.null(names(vec))) {
@@ -54,12 +54,10 @@ tabyl.default <- function(vec, sort = FALSE, show_na = TRUE){
   result <- result %>%
     dplyr::mutate(percent = n / sum(n, na.rm = TRUE))
   
-  # these 4 lines sort the NA row to the bottom, necessary to retain factor sorting  
-  result$is_na <- is.na(result$vec)
-  result <- result %>%
-    dplyr::arrange(is_na) %>%
-    dplyr::select(-is_na)
-  
+  # sort the NA row to the bottom, necessary to retain factor sorting  
+  result <- result[order(is.na(result$vec)), ]
+  result$is_na <- NULL
+
   # reassign correct variable name
   names(result)[1] <- var_name
   

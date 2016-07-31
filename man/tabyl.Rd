@@ -2,29 +2,45 @@
 % Please edit documentation in R/tabyl.R
 \name{tabyl}
 \alias{tabyl}
-\title{Generate a table of a vector.}
+\alias{tabyl.data.frame}
+\alias{tabyl.default}
+\title{Generate a frequency table from a vector.}
 \usage{
-tabyl(vec, sort = FALSE, show_na = TRUE)
+tabyl(...)
+
+\method{tabyl}{default}(vec, sort = FALSE, show_na = TRUE, ...)
+
+\method{tabyl}{data.frame}(.data, ...)
 }
 \arguments{
+\item{...}{arguments passed to tabyl.default.}
+
 \item{vec}{the vector to tabulate.}
 
 \item{sort}{should the resulting table be sorted in descending order?}
 
 \item{show_na}{should cases where the variable is NA be shown?}
+
+\item{.data}{a data.frame.}
 }
 \value{
 Returns a data.frame (actually a \code{tbl_df}) with the frequencies of the tabulated variable.  Includes counts, percentages, and valid percentages (calculated omitting \code{NA} values, if present in the vector and \code{show_na = TRUE}.)
 }
 \description{
-Get a frequency table of a variable as a data.frame, showing percentages and with or without including \code{NA} values.  A fully-featured alternative to \code{table()}.
+Create a frequency table of a variable, returned as a data.frame, showing percentages and with or without including \code{NA} values.  A fully-featured alternative to \code{table()}.
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{default}: Create a frequency table from a vector, returned as a data.frame, showing percentages and with or without including \code{NA} values.  A fully-featured alternative to \code{table()}.
+
+\item \code{data.frame}: Create a frequency table from a variable in a data.frame, returned as a data.frame, showing percentages and with or without including \code{NA} values.  A fully-featured alternative to \code{table()}.
+}}
 \examples{
 tabyl(mtcars$cyl)
 tabyl(mtcars$cyl, sort = TRUE)
 # called with magrittr pipe:
 library(dplyr)
-mtcars \%>\% .$cyl \%>\% tabyl()
+mtcars \%>\% tabyl(cyl)
 # illustrating show_na functionality:
 my_cars <- rbind(mtcars, rep(NA, 11))
 tabyl(my_cars$cyl)

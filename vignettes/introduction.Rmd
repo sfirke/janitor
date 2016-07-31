@@ -51,6 +51,8 @@ names(clean_df) # they are clean
 + It can (optionally) display `NA` values
     + When `NA` values are present, it will calculate an additional column `valid_percent` in the style of SPSS
 + It can (optionally) sort on counts
++ It can be called with `%>%` in a pipeline
++ When called on a factor, it will include missing levels in the result (levels not present in the vector)
 
 ```{r}
 x <- c("a", "b", "c", "c", NA)
@@ -61,6 +63,12 @@ Compare to:
 table(x)
 ```
 
+Called with a pipe:
+```{r}
+mtcars %>% tabyl(cyl)
+```
+
+
 ## Crosstabulate two variables with `crosstab()`
 `crosstab()` generates a crosstab table.  There many R crosstab functions already; this one is distinguished by:
 
@@ -68,7 +76,7 @@ table(x)
 + It is simple.
     + It calculates frequencies by default but can calculate row, column, and table-wise percentages.
     + It can (optionally) display `NA` values
-+ It can be called with `%>%` in a pipeline.
++ It can be called with `%>%` in a pipeline
 
 Usage:
 ```{r}
