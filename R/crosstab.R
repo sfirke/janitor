@@ -30,18 +30,16 @@ crosstab <- function(...) UseMethod("crosstab")
 #' @export
 crosstab.default <- function(vec1, vec2, percent = "none", show_na = TRUE, ...){
 
-
-  if(!mode(vec1) %in% c("logical", "numeric", "character", "list")){
+  if(!mode(vec1) %in% c("logical", "numeric", "character", "list") | is.matrix(vec1)){
     stop("vec1 must be a vector of type logical, numeric, character, list, or factor")}
-  if(!mode(vec2) %in% c("logical", "numeric", "character","list")){
+  if(!mode(vec2) %in% c("logical", "numeric", "character","list") | is.matrix(vec2)){
     stop("vec2 must be a vector of type logical, numeric, character, list, or factor")}
   if(length(vec1) != length(vec2)){ stop("the two vectors are not the same length")}
 
   dat <- data.frame(vec1 = vec1, vec2 = vec2, stringsAsFactors = FALSE)
-
   dat_col_names <- names(dat)
 
-  if (is.null(names(vec1))) {
+  if(is.null(names(vec1))) {
     var_name <- deparse(substitute(vec1))
   } else {
     var_name <- dat_col_names[[1]]
