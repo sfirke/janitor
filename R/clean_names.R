@@ -21,13 +21,14 @@ clean_names <- function(dat){
   # Takes a data.frame, returns the same data frame with cleaned names
   old_names <- names(dat)
   new_names <- old_names %>%
-    gsub("'", "", .) %>%
-    gsub("\"", "", .) %>%
+    gsub("'", "", .) %>% # remove quotation marks
+    gsub("\"", "", .) %>% # remove quotation marks
     gsub("%", "percent", .) %>%
     make.names(.) %>%
-    gsub("[.]+", "_", .) %>%
+    gsub("[.]+", "_", .) %>% # convert 1+ periods to single _
+    gsub("[_]+", "_", .) %>% # fix rare cases of multiple consecutive underscores
     tolower(.) %>%
-    gsub("_$", "", .)
+    gsub("_$", "", .) # remove string-final underscores
 
   # Handle duplicated names - they mess up dplyr pipelines
   # This appends the column number to repeated instances of duplicate variable names

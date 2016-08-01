@@ -7,7 +7,7 @@ context("tabyl")
 cyl_tbl <- tabyl(mtcars$cyl)
 
 test_that("counts are accurate", {
-  expect_equal(cyl_tbl$mtcars_cyl, c(4, 6, 8))
+  expect_equal(cyl_tbl$`mtcars$cyl`, c(4, 6, 8))
   expect_equal(cyl_tbl$n, c(11, 7, 14))
 })
 
@@ -22,8 +22,8 @@ test_res <- tabyl(test_df$grp)
 test_res_na <- tabyl(test_df_na$grp)
 
 test_that("names are right", {
-  expect_equal(names(cyl_tbl), c("mtcars_cyl", "n", "percent"))
-  expect_equal(names(test_res_na), c("test_df_na_grp", "n", "percent", "valid_percent"))
+  expect_equal(names(cyl_tbl), c("mtcars$cyl", "n", "percent"))
+  expect_equal(names(test_res_na), c("test_df_na$grp", "n", "percent", "valid_percent"))
 })
 
 test_that("NAs handled correctly", {
@@ -33,7 +33,7 @@ test_that("NAs handled correctly", {
 
 test_that("show_NA = FALSE parameter works", {
   expect_equal(test_res %>%
-                 stats::setNames(c("test_df_na_grp", names(test_res)[-1])),
+                 stats::setNames(c("test_df_na$grp", names(test_res)[-1])),
                tabyl(test_df_na$grp, show_na = FALSE))
 })
 
@@ -65,23 +65,29 @@ sorted_with_fac <- data.frame(grp = factor(c("a", "c", "c"), levels = letters[1:
 sorted_with_fac <- tabyl(sorted_with_fac$grp, sort = TRUE)
 
 sorted_with_na_and_fac <- data.frame(grp = factor(c("a", "c", "c", NA), levels = letters[1:3]))
-sorted_with_na_and_fac <- tabyl(sorted_with_na_and_fac$grp, sort = TRUE)
+sorted_with_na_and_fac_res <- tabyl(sorted_with_na_and_fac$grp, sort = TRUE)
 
 test_that("sort parameter works", {
   expect_equal(sorted_test_df_na[[1]], c("b", "a", "c", NA))
   expect_equal(sorted_test_df_na[[4]], c(0.5, 0.25, 0.25, NA))
   expect_equal(sorted_with_fac[[1]], factor(c("c", "a", "b"), levels = letters[1:3]))
   expect_equal(sorted_with_fac[[2]], c(2, 1, NA))
-  expect_equal(sorted_with_na_and_fac[[1]], factor(c("c", "a", "b", NA), levels = letters[1:3]))
-  expect_equal(sorted_with_na_and_fac[[2]], c(2, 1, NA, 1))
+  expect_equal(sorted_with_na_and_fac_res[[1]], factor(c("c", "a", "b", NA), levels = letters[1:3]))
+  expect_equal(sorted_with_na_and_fac_res[[2]], c(2, 1, NA, 1))
+})
+
+# piping
+test_that("piping in a data.frame works", {
+  expect_equal(tabyl(mtcars$cyl) %>%
+                 setNames(., c("cyl", names(.)[2:3])),
+               mtcars %>% tabyl(cyl))
+  expect_equal(tabyl(sorted_with_na_and_fac$grp, sort = TRUE) %>% # complete levels + correct sorting work for factors with empty categories
+                 setNames(., c("grp", names(.)[-1])), sorted_with_na_and_fac %>% tabyl(grp, sort = TRUE))
 })
 
 # bad inputs
 
-test_that("failure occurs when passed a list", {
-  expect_error(tabyl(list(1, 2)), "input must be a logical, numeric, or character vector")
-})
-
-test_that("a piped name of dot turns into x", {
-  expect_equal(mtcars %>% .$gear %>% tabyl %>% names(.) %>% .[1], "x")
+test_that("failure occurs when passed unsupported types", {
+  expect_error(tabyl(matrix(1:10, nrow = 5)), "input must be a vector of type logical, numeric, character, list, or factor")
+  expect_error(tabyl(complex(10)), "input must be a vector of type logical, numeric, character, list, or factor")
 })

@@ -46,12 +46,15 @@ names(clean_df) # they are clean
 ## `tabyl()` - a better version of `table()`
 `tabyl()` takes a vector and returns a frequency table, like `table()`. But its additional features are:
 
-+ It returns a data.frame (actually, a `tbl_df`) - for manipulating further, or printing with `knitr::kable()`.
++ It returns a data.frame - for manipulating further, or printing with `knitr::kable()`.
 + It automatically calculates percentages
 + It can (optionally) display `NA` values
     + When `NA` values are present, it will calculate an additional column `valid_percent` in the style of SPSS
 + It can (optionally) sort on counts
++ It can be called with `%>%` in a pipeline
++ When called on a factor, it will include missing levels in the result (levels not present in the vector)
 
+Usage:
 ```{r}
 x <- c("a", "b", "c", "c", NA)
 tabyl(x, sort = TRUE)
@@ -61,16 +64,24 @@ Compare to:
 table(x)
 ```
 
+`tabyl()` can be called on a piped-in data.frame, which allows for fast, flexible exploration of data:
+```{r}
+mtcars %>%
+  filter(gear > 3) %>%
+  tabyl(cyl)
+```
+
+
 ## Crosstabulate two variables with `crosstab()`
 `crosstab()` generates a crosstab table.  There many R crosstab functions already; this one is distinguished by:
 
-+ It returns a data.frame (actually, a `tbl_df`)
++ It returns a data.frame
 + It is simple.
     + It calculates frequencies by default but can calculate row, column, and table-wise percentages.
     + It can (optionally) display `NA` values
++ It can be called with `%>%` in a pipeline
 
-It wraps the common pipeline of `group_by %>% summarise %>% mutate %>% spread` from the dplyr and tidyr packages, often used in exploratory analysis.
-
+Usage:
 ```{r}
 y <- c(1, 1, 2, 1, 2)
 x <- c("a", "a", "b", "b", NA)
@@ -78,7 +89,15 @@ x <- c("a", "a", "b", "b", NA)
 crosstab(x, y)
 crosstab(x, y, percent = "row")
 ```
-This gives the same result as the much longer pipeline:
+
+If the variables are in the same data frame, call `crosstab` with the `%>%` pipe:
+```{r}
+dat <- data.frame(x, y)
+dat %>%
+  crosstab(x, y, percent = "row")
+```
+
+This function wraps the common pipeline of `group_by %>% summarise %>% mutate %>% spread` from the dplyr and tidyr packages, often used in exploratory analysis.  The simple `crosstab` call above produces the same result* as this much longer pipeline:
 ```{r, message=FALSE, results = "hide"}
 library(dplyr) ; library(tidyr)
 data_frame(x, y) %>%
@@ -86,14 +105,12 @@ data_frame(x, y) %>%
   tally() %>%
   mutate(percent = n / sum(n, na.rm = TRUE)) %>%
   select(-n) %>%
-  spread(y, percent) %>%
+  spread(y, percent, fill = 0) %>%
   ungroup()
 ```
-And is more featured than the base R equivalents:
-```{r, results="hide"}
-table(x, y)
-prop.table(table(x, y), 1)
-```
+And is more featured than the base R equivalents `table(dat$x, dat$y)` and `prop.table(table(dat$x, dat$y), 1)`.
+
+\**not exactly: the long pipeline returns a `tibble`, while crosstab() returns a `data.frame` that prints fully in the console.*
 
 ## Explore records with duplicated values for specific combinations of variables with `get_dupes()`
 This is for hunting down and examining duplicate records during data cleaning - usually when there shouldn't be any.
@@ -111,23 +128,22 @@ get_dupes(mtcars, wt, cyl)
 Smaller functions for use in particular situations.  More human-readable than the equivalent code they replace.
 
 
-## Look at factors grouped into high, medium, and low groups with `top_levels()`
+## `use_first_valid_of()` replaces nested `ifelse` statements for combining variables
+Say that you have three different temperature sensors whose readings you want to collapse into one variable.  Not all records have readings from each sensor.  Sensor A is the most accurate, so you want to use that where available, but if it's missing you want Sensor B, and if that's missing, Sensor C. 
 
-Originally designed for use with Likert survey data stored as factors.  Returns a `tbl_df` frequency table with appropriately-named rows, grouped into head/middle/tail groups.
-
-+ Takes a user-specified size for the head/tail groups
-+ Automatically calculates a percent column
-+ Supports sorting
-+ Can show or hide `NA` values.
-
-```{r}
-f <- factor(c("strongly agree", "agree", "neutral", "neutral", "disagree", "strongly agree"),
-            levels = c("strongly agree", "agree", "neutral", "disagree", "strongly disagree"))
-top_levels(f)
-top_levels(f, n = 1, sort = TRUE)
+The common R way to do this would be:
+```{r, eval = FALSE}
+ifelse(!is.na(sensorA), sensorA,
+       ifelse(!is.na(sensorB), sensorB,
+              sensorC))
 ```
 
+The function `use_first_valid_of()` replaces this with:
+```{r, eval = FALSE}
+use_first_valid_of(sensorA, sensorB, sensorC)
+```
 
+One major improvement over the nested-`ifelse` statements: this function can combine factor and date variables, which [ifelse fails to handle](http://stackoverflow.com/questions/6668963/how-to-prevent-ifelse-from-turning-date-objects-into-numeric-objects).
 
 ## Use `convert_to_NA()` to clean should-be NA values
 Converts instances of user-specified strings into `NA` values.  It takes an argument `dat`, which can be either a vector, a data.frame, or a `tibble::tbl_df`, and will return that same type with the substitutions made.
@@ -144,6 +160,23 @@ Ever load data from Excel and see `42223` where a date should be?  This function
 ```{r}
 excel_numeric_to_date(41103)
 excel_numeric_to_date(41103, date_system = "mac pre-2011")
+```
+
+
+## Look at factors grouped into high, medium, and low groups with `top_levels()`
+
+Originally designed for use with Likert survey data stored as factors.  Returns a `tbl_df` frequency table with appropriately-named rows, grouped into head/middle/tail groups.
+
++ Takes a user-specified size for the head/tail groups
++ Automatically calculates a percent column
++ Supports sorting
++ Can show or hide `NA` values.
+
+```{r}
+f <- factor(c("strongly agree", "agree", "neutral", "neutral", "disagree", "strongly agree"),
+            levels = c("strongly agree", "agree", "neutral", "disagree", "strongly disagree"))
+top_levels(f)
+top_levels(f, n = 1, sort = TRUE)
 ```
 
 
