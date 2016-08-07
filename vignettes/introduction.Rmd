@@ -112,6 +112,26 @@ And is more featured than the base R equivalents `table(dat$x, dat$y)` and `prop
 
 \**not exactly: the long pipeline returns a `tibble`, while crosstab() returns a `data.frame` that prints fully in the console.*
 
+## Format a crosstab table with `adorn_crosstab()`
+Builds off of `crosstab()` to  approximate the functionality of a quick Microsoft Excel PivotTable.  It prints an elegant result, either for interactive analysis or for sharing in a report, e.g., with `knitr::kable()`.  The simple default call yields:
+
+```{r}
+mtcars %>%
+  crosstab(cyl, gear) %>%
+  adorn_crosstab()
+```
+
+The user can specify additional formatting options:
+
++ Percentages can be calculated by row, column, or overall
++ Display only percentages, or show Ns in parentheses
++ Control how many digits of the percentages to display
++ Round percentages either with the default `round()` function, or round-half-to-up using a [custom rounding function](http://stackoverflow.com/a/12688836/4470365)
+    + e.g., round 10.5 up to 11, consistent with Excel's tie-breaking behavior
+    + This contrasts with rounding 10.5 down to 10 as in base R's `round(10.5)`.
+
+*When calling `crosstab()` to feed this function, leave the default argument `percent = "none"` so that the integer values are passed through.*
+
 ## Explore records with duplicated values for specific combinations of variables with `get_dupes()`
 This is for hunting down and examining duplicate records during data cleaning - usually when there shouldn't be any.
 
