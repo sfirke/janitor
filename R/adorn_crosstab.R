@@ -16,10 +16,15 @@
 #'  adorn_crosstab(denom = "all")
 #'  
 #' # showing with all parameters
-#'mtcars %>% crosstab(gear, cyl) %>% adorn_crosstab(., denom = "col", rounding = "half up", show_n = FALSE, digits = 2)
-#'
-#' # to illustrate rounding half up - 12.5 becomes 13
-#'mtcars %>% crosstab(cyl, am) %>% adorn_crosstab(., denom = "all", digits = 0, rounding = "half up") 
+#'mtcars %>%
+#'  crosstab(gear, cyl) %>%
+#'  adorn_crosstab(., denom = "col", rounding = "half up", show_n = FALSE, digits = 2)
+
+# to illustrate rounding half up - 12.5 becomes 13
+
+#'mtcars %>%
+#'  crosstab(cyl, am) %>%
+#'  adorn_crosstab(., denom = "all", digits = 0, rounding = "half up") 
 
 # take result of a crosstab() call and print a nice result
 #' @export
@@ -82,7 +87,7 @@ paste_ns <- function(perc_df, n_df){
                    nrow = nrow(n_matrix),
                    dimnames = dimnames(perc_matrix))
   
-  pasted <- as_data_frame(pasted)
+  pasted <- dplyr::as_data_frame(pasted)
   pasted[[1]] <- n_df[[1]] # undo the pasting in this 1st column
   pasted
 }
