@@ -21,7 +21,6 @@
 #'  adorn_crosstab(., denom = "col", rounding = "half up", show_n = FALSE, digits = 2)
 
 # to illustrate rounding half up - 12.5 becomes 13
-
 #'mtcars %>%
 #'  crosstab(cyl, am) %>%
 #'  adorn_crosstab(., denom = "all", digits = 0, rounding = "half up") 
