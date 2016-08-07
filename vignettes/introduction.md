@@ -1,11 +1,12 @@
 Intro to janitor functions
 ================
-2016-07-31
+2016-08-07
 
 -   [Major functions](#major-functions)
     -   [Clean data.frame names with `clean_names()`](#clean-data.frame-names-with-clean_names)
     -   [`tabyl()` - a better version of `table()`](#tabyl---a-better-version-of-table)
     -   [Crosstabulate two variables with `crosstab()`](#crosstabulate-two-variables-with-crosstab)
+    -   [Format a crosstab table with `adorn_crosstab()`](#format-a-crosstab-table-with-adorn_crosstab)
     -   [Explore records with duplicated values for specific combinations of variables with `get_dupes()`](#explore-records-with-duplicated-values-for-specific-combinations-of-variables-with-get_dupes)
 -   [Minor functions](#minor-functions)
     -   [`use_first_valid_of()` replaces nested `ifelse` statements for combining variables](#use_first_valid_of-replaces-nested-ifelse-statements-for-combining-variables)
@@ -152,6 +153,32 @@ data_frame(x, y) %>%
 And is more featured than the base R equivalents `table(dat$x, dat$y)` and `prop.table(table(dat$x, dat$y), 1)`.
 
 \**not exactly: the long pipeline returns a `tibble`, while crosstab() returns a `data.frame` that prints fully in the console.*
+
+Format a crosstab table with `adorn_crosstab()`
+-----------------------------------------------
+
+Builds off of `crosstab()` to approximate the functionality of a quick Microsoft Excel PivotTable. It prints an elegant result, either for interactive analysis or for sharing in a report, e.g., with `knitr::kable()`. The simple default call yields:
+
+``` r
+mtcars %>%
+  crosstab(cyl, gear) %>%
+  adorn_crosstab()
+#>   cyl          3         4         5
+#> 1   4   9.1% (1) 72.7% (8) 18.2% (2)
+#> 2   6  28.6% (2) 57.1% (4) 14.3% (1)
+#> 3   8 85.7% (12)  0.0% (0) 14.3% (2)
+```
+
+The user can specify additional formatting options:
+
+-   Percentages can be calculated by row, column, or overall
+-   Display only percentages, or show Ns in parentheses
+-   Control how many digits of the percentages to display
+-   Round percentages either with the default `round()` function, or round-half-to-up using a [custom rounding function](http://stackoverflow.com/a/12688836/4470365)
+    -   e.g., round 10.5 up to 11, consistent with Excel's tie-breaking behavior
+    -   This contrasts with rounding 10.5 down to 10 as in base R's `round(10.5)`.
+
+*When calling `crosstab()` to feed this function, leave the default argument `percent = "none"` so that the integer values are passed through.*
 
 Explore records with duplicated values for specific combinations of variables with `get_dupes()`
 ------------------------------------------------------------------------------------------------

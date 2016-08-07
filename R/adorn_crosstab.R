@@ -67,7 +67,7 @@ adorn_crosstab <- function(crosstab, denom = "row", show_n = TRUE, digits = 1, r
 
 ##### Helper functions
 
-# From http://stackoverflow.com/questions/12688717/round-up-from-5-in-r
+# From http://stackoverflow.com/a/12688836/4470365
 round_half_up <- function(x, n){
   posneg = sign(x)
   z = abs(x)*10^n

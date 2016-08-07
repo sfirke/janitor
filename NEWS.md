@@ -2,11 +2,12 @@ NEWS
 ====
 
 
-# janitor 0.1.0.9000
+# janitor 0.1.1.9001
 
 ## Features
 
 ### Major
+* Added a function `adorn_crosstab()` that formats the results of a `crosstab()` for pretty printing.  Shows % and N in the same cell, with the % symbol, user-specified rounding (method and number of digits). E.g., `mtcars %>% crosstab(cyl, gear) %>% adorn_crosstab()`.
 * `crosstab()` can be called in a `%>%` pipeline, e.g., `mtcars %>% crosstab(cyl, gear)`.  Thanks to [@chrishaid](https://github.com/chrishaid) [(#34)](https://github.com/sfirke/janitor/pull/34)
 * `tabyl()` can also be called in a `%>%` pipeline, e.g., `mtcars %>% tabyl(cyl)` [(#35)](https://github.com/sfirke/janitor/issues/35)
 * added `use_first_valid_of()` function [(#32)](https://github.com/sfirke/janitor/issues/32)
