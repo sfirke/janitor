@@ -29,13 +29,14 @@ crosstab <- function(...) UseMethod("crosstab")
 #' Vectors don't have to be from the same data.frame, but typically are.
 #' @export
 crosstab.default <- function(vec1, vec2, percent = "none", show_na = TRUE, ...){
-
-  if(! percent %in% c("none", "row", "col", "all")){stop("'percent' must be one of 'none', 'row', 'col', or 'all'")}
-  if(!mode(vec1) %in% c("logical", "numeric", "character", "list") | is.matrix(vec1)){
   
+  if(!mode(vec1) %in% c("logical", "numeric", "character", "list") | is.matrix(vec1)){
     stop("vec1 must be a vector of type logical, numeric, character, list, or factor")}
   if(!mode(vec2) %in% c("logical", "numeric", "character","list") | is.matrix(vec2)){
     stop("vec2 must be a vector of type logical, numeric, character, list, or factor")}
+  
+  if(! percent %in% c("none", "row", "col", "all")){stop("'percent' must be one of 'none', 'row', 'col', or 'all'")}
+  
   if(length(vec1) != length(vec2)){ stop("the two vectors are not the same length")}
 
   dat <- data.frame(vec1 = vec1, vec2 = vec2, stringsAsFactors = FALSE)

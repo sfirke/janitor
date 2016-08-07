@@ -17,6 +17,7 @@ test_that("bad inputs are handled properly", {
   expect_error(crosstab(complex(1:2), complex(1:2)), "vec1 must be a vector of type logical, numeric, character, list, or factor")
   expect_error(crosstab(c(1, 2), matrix(1:10, nrow = 2)), "vec2 must be a vector of type logical, numeric, character, list, or factor")
   expect_error(crosstab(c(1,2), complex(1:2), complex(1:2)), "vec2 must be a vector of type logical, numeric, character, list, or factor")
+  expect_error(crosstab(c(1,2), c(1:2), "blargh"), "'percent' must be one of 'none', 'row', 'col', or 'all'")
   expect_error(crosstab(c(1, 1), c(1)), "the two vectors are not the same length")
 })
 
