@@ -38,9 +38,11 @@ Create a frequency table of a variable, returned as a data.frame, showing percen
 \examples{
 tabyl(mtcars$cyl)
 tabyl(mtcars$cyl, sort = TRUE)
+
 # called with magrittr pipe:
 library(dplyr)
 mtcars \%>\% tabyl(cyl)
+
 # illustrating show_na functionality:
 my_cars <- rbind(mtcars, rep(NA, 11))
 tabyl(my_cars$cyl)

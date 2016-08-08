@@ -30,16 +30,22 @@ It works in a `%>%` pipeline, and handles problematic variable names, especially
 + Appends numbers to duplicated names
 + Converts "%" to "percent" to retain meaning
 
-```{r, message = FALSE}
+```{r, message = FALSE, warning = FALSE}
 # Load dplyr for the %>% pipe
 library(dplyr)
 # Create a data.frame with dirty names
-test_df <- data.frame(matrix(ncol = 6) %>% as.data.frame())
-names(test_df) <- c("two words", "repeat value", "REPEAT VALUE",
+test_df <- as.data.frame(matrix(ncol = 6))
+names(test_df) <- c("hIgHlo", "REPEAT VALUE", "REPEAT VALUE",
                     "% successful (2009)",  "abc@!*", "")
-
-clean_df <- test_df %>% clean_names()
-names(clean_df) # they are clean
+```
+Clean the variable names, returning a data.frame:
+```{r}
+test_df %>%
+  clean_names()
+```
+Compare to what base R produces:
+```{r}
+make.names(names(test_df))
 ```
 
 
@@ -100,7 +106,7 @@ dat %>%
 This function wraps the common pipeline of `group_by %>% summarise %>% mutate %>% spread` from the dplyr and tidyr packages, often used in exploratory analysis.  The simple `crosstab` call above produces the same result* as this much longer pipeline:
 ```{r, message=FALSE, results = "hide"}
 library(dplyr) ; library(tidyr)
-data_frame(x, y) %>%
+dat %>%
   group_by(x, y) %>%
   tally() %>%
   mutate(percent = n / sum(n, na.rm = TRUE)) %>%

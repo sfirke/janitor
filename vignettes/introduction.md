@@ -1,6 +1,6 @@
 Intro to janitor functions
 ================
-2016-08-07
+2016-08-08
 
 -   [Major functions](#major-functions)
     -   [Clean data.frame names with `clean_names()`](#clean-data.frame-names-with-clean_names)
@@ -37,17 +37,27 @@ It works in a `%>%` pipeline, and handles problematic variable names, especially
 ``` r
 # Load dplyr for the %>% pipe
 library(dplyr)
-#> Warning: package 'dplyr' was built under R version 3.3.1
 # Create a data.frame with dirty names
-test_df <- data.frame(matrix(ncol = 6) %>% as.data.frame())
-names(test_df) <- c("two words", "repeat value", "REPEAT VALUE",
+test_df <- as.data.frame(matrix(ncol = 6))
+names(test_df) <- c("hIgHlo", "REPEAT VALUE", "REPEAT VALUE",
                     "% successful (2009)",  "abc@!*", "")
+```
 
-clean_df <- test_df %>% clean_names()
-names(clean_df) # they are clean
-#> [1] "two_words"               "repeat_value"           
-#> [3] "repeat_value_2"          "percent_successful_2009"
-#> [5] "abc"                     "x"
+Clean the variable names, returning a data.frame:
+
+``` r
+test_df %>%
+  clean_names()
+#>   highlo repeat_value repeat_value_2 percent_successful_2009 abc  x
+#> 1     NA           NA             NA                      NA  NA NA
+```
+
+Compare to what base R produces:
+
+``` r
+make.names(names(test_df))
+#> [1] "hIgHlo"               "REPEAT.VALUE"         "REPEAT.VALUE"        
+#> [4] "X..successful..2009." "abc..."               "X"
 ```
 
 `tabyl()` - a better version of `table()`
@@ -141,7 +151,7 @@ This function wraps the common pipeline of `group_by %>% summarise %>% mutate %>
 
 ``` r
 library(dplyr) ; library(tidyr)
-data_frame(x, y) %>%
+dat %>%
   group_by(x, y) %>%
   tally() %>%
   mutate(percent = n / sum(n, na.rm = TRUE)) %>%
