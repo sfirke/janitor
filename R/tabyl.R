@@ -64,7 +64,7 @@ tabyl.default <- function(vec, sort = FALSE, show_na = TRUE, ...) {
   names(result)[1] <- var_name
   
   # replace all NA values with 0 - only applies to missing factor levels
-  result <- replace_na(result, replace = list(n = 0, percent = 0))
+  result <- tidyr::replace_na(result, replace = list(n = 0, percent = 0))
  
   
   ## NA handling:
