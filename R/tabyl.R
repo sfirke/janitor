@@ -63,6 +63,10 @@ tabyl.default <- function(vec, sort = FALSE, show_na = TRUE, ...) {
   # reassign correct variable name
   names(result)[1] <- var_name
   
+  # replace all NA values with 0 - only applies to missing factor levels
+  result <- replace_na(result, replace = list(n = 0, percent = 0))
+ 
+  
   ## NA handling:
   # if there are NA values & show_na = T, calculate valid % as a new column
   if(show_na && sum(is.na(result[[1]])) > 0) {
@@ -74,6 +78,7 @@ tabyl.default <- function(vec, sort = FALSE, show_na = TRUE, ...) {
       dplyr::filter(!is.na(.[1])) %>%
       dplyr::mutate(percent = n / sum(n, na.rm = TRUE)) # recalculate % without NAs
       }
+  
   data.frame(result, check.names = FALSE)
 }
 

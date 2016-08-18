@@ -42,21 +42,22 @@ test_that("sorting is preserved for factors", {
 })
 
 # missing factor levels shown, with and without NA
-fac <- factor(c("a"), levels = c("b", "a"))
-fac_na <- factor(c("a", NA), levels = c("b", "a"))
+fac <- iris[["Species"]][70:80] # to get versicolor, not the first alphabetically
+fac_na <- fac
+fac_na[1:2] <- NA
 
 
 test_that("missing factor levels are displayed without NA values", {
-  expect_equal(tabyl(fac)[[1]], factor(c("b","a"), levels = c("b", "a")))
-  expect_equal(tabyl(fac)[[2]], c(NA, 1))
-  expect_equal(tabyl(fac)[[3]], c(NA, 1))
+  expect_equal(tabyl(fac)[[1]], factor(c("setosa","versicolor", "virginica"), levels = c("setosa", "versicolor", "virginica")))
+  expect_equal(tabyl(fac)[[2]], c(0, 11, 0))
+  expect_equal(tabyl(fac)[[3]], c(0, 1, 0))
 })
 
 test_that("missing factor levels are displayed with NA values", {
-  expect_equal(tabyl(fac_na)[[1]], factor(c("b","a", NA), levels = c("b", "a")))
-  expect_equal(tabyl(fac_na)[[2]], c(NA, 1, 1))
-  expect_equal(tabyl(fac_na)[[3]], c(NA, 0.5, 0.5))
-  expect_equal(tabyl(fac_na)[[4]], c(NA, 1, NA))
+  expect_equal(tabyl(fac_na)[[1]], factor(c("setosa","versicolor", "virginica", NA), levels = c("setosa", "versicolor", "virginica")))
+  expect_equal(tabyl(fac_na)[[2]], c(0, 9, 0, 2))
+  expect_equal(tabyl(fac_na)[[3]], c(0, 9/11, 0, 2/11))
+  expect_equal(tabyl(fac_na)[[4]], c(0, 1, 0, NA))
 })
   
 # check sort parameter
@@ -71,9 +72,11 @@ test_that("sort parameter works", {
   expect_equal(sorted_test_df_na[[1]], c("b", "a", "c", NA))
   expect_equal(sorted_test_df_na[[4]], c(0.5, 0.25, 0.25, NA))
   expect_equal(sorted_with_fac[[1]], factor(c("c", "a", "b"), levels = letters[1:3]))
-  expect_equal(sorted_with_fac[[2]], c(2, 1, NA))
+  expect_equal(sorted_with_fac[[2]], c(2, 1, 0))
   expect_equal(sorted_with_na_and_fac_res[[1]], factor(c("c", "a", "b", NA), levels = letters[1:3]))
-  expect_equal(sorted_with_na_and_fac_res[[2]], c(2, 1, NA, 1))
+  expect_equal(sorted_with_na_and_fac_res[[2]], c(2, 1, 0, 1))
+  expect_equal(sorted_with_na_and_fac_res[[3]], c(2/4, 1/4, 0, 1/4))
+  expect_equal(sorted_with_na_and_fac_res[[4]], c(2/3, 1/3, 0, NA))
 })
 
 # piping
