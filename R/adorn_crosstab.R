@@ -7,6 +7,7 @@
 #' @param denom the denominator to use for calculating percentages.  One of "row", "col", or "all".
 #' @param show_n should counts be displayed alongside the percentages?
 #' @param digits how many digits should be displayed after the decimal point?
+#' @param show_totals display a totals summary? Will be a row, column, or both depending on the value of \code{denom}.
 #' @param rounding method to use for truncating percentages - either "half to even", the base R default method, or "half up", where 14.5 rounds up to 15.
 #' @return Returns a data.frame.
 #' @examples
@@ -48,7 +49,7 @@ adorn_crosstab <- function(crosstab, denom = "row", show_n = TRUE, digits = 1, s
   }
   if(showing_row_totals){
     row_totals <- data.frame(Total = rowSums(percs[,-1]))
-    percs <- bind_cols(percs, row_totals)
+    percs <- dplyr::bind_cols(percs, row_totals)
   }
 
   if(denom == "row"){
@@ -65,8 +66,8 @@ adorn_crosstab <- function(crosstab, denom = "row", show_n = TRUE, digits = 1, s
     if(showing_row_totals){ percs[[ncol(percs)]] <- percs[[ncol(percs)]] / all_sum} # adjust totals column to %s
   }
 
-  crosstab <- bind_rows(crosstab, col_totals)
-  crosstab <- bind_cols(crosstab, row_totals)
+  crosstab <- dplyr::bind_rows(crosstab, col_totals)
+  crosstab <- dplyr::bind_cols(crosstab, row_totals)
 
   if(showing_row_totals){n_col <- n_col + 1}
 
