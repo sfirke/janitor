@@ -27,26 +27,48 @@
 
 # take result of a crosstab() call and print a nice result
 #' @export
-adorn_crosstab <- function(crosstab, denom = "row", show_n = TRUE, digits = 1, rounding = "half to even"){
+adorn_crosstab <- function(crosstab, denom = "row", show_n = TRUE, digits = 1, show_totals = FALSE, rounding = "half to even"){
   # some input checks
   if(! denom %in% c("row", "col", "all")){stop("'denom' must be one of 'row', 'col', or 'all'")}
   if(! rounding %in% c("half to even", "half up")){stop("'rounding' must be one of 'half to even' or 'half up'")}
   
   n_col <- ncol(crosstab)
   
-  # calculate %s
+  if(show_totals){ crosstab[[1]] <- as.character(crosstab[[1]]) } # for type matching when we bind "totals" on
   percs <- crosstab
+  
+  col_totals <- NULL; row_totals <- NULL # initialize so that these can be bound on later with no result if NULL
+  
+  showing_col_totals <- (show_totals & denom %in% c("col", "all"))
+  showing_row_totals <- (show_totals & denom %in% c("row", "all"))
+  
+  if(showing_col_totals){
+    col_totals <- data.frame(x1 = "Total", t(colSums(percs[,-1])), stringsAsFactors = FALSE) %>% stats::setNames(names(percs))
+    percs <- dplyr::bind_rows(percs, col_totals) 
+  }
+  if(showing_row_totals){
+    row_totals <- data.frame(Total = rowSums(percs[,-1]))
+    percs <- bind_cols(percs, row_totals)
+  }
+
   if(denom == "row"){
     row_sum <- rowSums(crosstab[, 2:n_col], na.rm = TRUE)
     percs[, 2:n_col] <- percs[, 2:n_col] / row_sum 
+    if(showing_row_totals){ percs[[ncol(percs)]] <- percs[[ncol(percs)]] / sum(row_sum)} # adjust totals column to %s
   } else if(denom == "col"){
     col_sum <- colSums(crosstab[, 2:n_col], na.rm = TRUE)
-    percs <- crosstab
-    percs[, 2:n_col] <- sweep(percs[, 2:4], 2, col_sum,`/`) # from http://stackoverflow.com/questions/9447801/dividing-columns-by-colsums-in-r
+    percs[, 2:n_col] <- sweep(percs[, 2:n_col], 2, col_sum,`/`) # from http://stackoverflow.com/questions/9447801/dividing-columns-by-colsums-in-r
+    if(showing_col_totals){ percs[nrow(percs), -1] <- col_sum / sum(col_sum)}
   } else if(denom == "all"){
     all_sum <- sum(crosstab[, 2:n_col], na.rm = TRUE)
     percs[, 2:n_col] <- percs[, 2:n_col] / all_sum 
+    if(showing_row_totals){ percs[[ncol(percs)]] <- percs[[ncol(percs)]] / all_sum} # adjust totals column to %s
   }
+
+  crosstab <- bind_rows(crosstab, col_totals)
+  crosstab <- bind_cols(crosstab, row_totals)
+
+  if(showing_row_totals){n_col <- n_col + 1}
 
   # round %s using specified method, add % sign
   percs <- dplyr::mutate_at(percs, dplyr::vars(2:n_col), dplyr::funs(. * 100)) # since we'll be adding % sign - do this before rounding
