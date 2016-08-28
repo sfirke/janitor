@@ -7,6 +7,7 @@
 #' @param denom the denominator to use for calculating percentages.  One of "row", "col", or "all".
 #' @param show_n should counts be displayed alongside the percentages?
 #' @param digits how many digits should be displayed after the decimal point?
+#' @param show_totals display a totals summary? Will be a row, column, or both depending on the value of \code{denom}.
 #' @param rounding method to use for truncating percentages - either "half to even", the base R default method, or "half up", where 14.5 rounds up to 15.
 #' @return Returns a data.frame.
 #' @examples
@@ -27,27 +28,21 @@
 
 # take result of a crosstab() call and print a nice result
 #' @export
-adorn_crosstab <- function(crosstab, denom = "row", show_n = TRUE, digits = 1, rounding = "half to even"){
+adorn_crosstab <- function(crosstab, denom = "row", show_n = TRUE, digits = 1, show_totals = FALSE, rounding = "half to even"){
   # some input checks
-  if(! denom %in% c("row", "col", "all")){stop("'denom' must be one of 'row', 'col', or 'all'")}
   if(! rounding %in% c("half to even", "half up")){stop("'rounding' must be one of 'half to even' or 'half up'")}
   
+  if(show_totals){ crosstab[[1]] <- as.character(crosstab[[1]]) } # for type matching when we bind "totals" on
+  
+  showing_col_totals <- (show_totals & denom %in% c("col", "all"))
+  showing_row_totals <- (show_totals & denom %in% c("row", "all"))
+  
+  if(showing_col_totals){ crosstab <- add_totals_col(crosstab) }
+  if(showing_row_totals){ crosstab <- add_totals_row(crosstab) }
   n_col <- ncol(crosstab)
   
-  # calculate %s
-  percs <- crosstab
-  if(denom == "row"){
-    row_sum <- rowSums(crosstab[, 2:n_col], na.rm = TRUE)
-    percs[, 2:n_col] <- percs[, 2:n_col] / row_sum 
-  } else if(denom == "col"){
-    col_sum <- colSums(crosstab[, 2:n_col], na.rm = TRUE)
-    percs <- crosstab
-    percs[, 2:n_col] <- sweep(percs[, 2:4], 2, col_sum,`/`) # from http://stackoverflow.com/questions/9447801/dividing-columns-by-colsums-in-r
-  } else if(denom == "all"){
-    all_sum <- sum(crosstab[, 2:n_col], na.rm = TRUE)
-    percs[, 2:n_col] <- percs[, 2:n_col] / all_sum 
-  }
-
+  percs <- ns_to_percents(crosstab, denom)
+  
   # round %s using specified method, add % sign
   percs <- dplyr::mutate_at(percs, dplyr::vars(2:n_col), dplyr::funs(. * 100)) # since we'll be adding % sign - do this before rounding
   if(rounding == "half to even"){ percs <- dplyr::mutate_at(percs, dplyr::vars(2:n_col), dplyr::funs(round(., digits))) }
@@ -55,6 +50,7 @@ adorn_crosstab <- function(crosstab, denom = "row", show_n = TRUE, digits = 1, r
   percs <- dplyr::mutate_at(percs, dplyr::vars(2:n_col), dplyr::funs(format(., nsmall = digits, trim = TRUE))) # so that 0% prints as 0.0% or 0.00% etc.
   percs <- dplyr::mutate_at(percs, dplyr::vars(2:n_col), dplyr::funs(paste0(., "%")))
 
+  
     # paste Ns if needed
   if(show_n){
     result <- paste_ns(percs, crosstab)
@@ -82,11 +78,32 @@ paste_ns <- function(perc_df, n_df){
   n_matrix <- as.matrix(n_df)
   perc_matrix <- as.matrix(perc_df)
   
-  pasted <- matrix(paste(perc_matrix, " (", n_matrix, ")", sep = ""), 
-                   nrow = nrow(n_matrix),
-                   dimnames = dimnames(perc_matrix))
+  # paste the results together
+  pasted <- paste(perc_matrix, " (", n_matrix, ")", sep = "") %>% # paste the matrices
+    sapply(., fix_parens_whitespace) %>% # apply the whitespace cleaning function to the resulting vector
+    matrix(., nrow = nrow(n_matrix), dimnames = dimnames(perc_matrix)) %>% # cast as matrix, then data.frame
+    dplyr::as_data_frame(pasted)
   
-  pasted <- dplyr::as_data_frame(pasted)
   pasted[[1]] <- n_df[[1]] # undo the pasting in this 1st column
   pasted
+}
+
+# converts "50.0% ( 1)" to "50.0%  (1)" for nice printing 
+fix_parens_whitespace <- function(x){
+  culprit <- regmatches(x, regexpr("[(][ ]+", x)) # isolate the problematic string
+  
+  # if no problem, return unmodified
+  if(length(culprit) == 0){ x }
+  
+  else{
+    num_spaces <- length(gregexpr(" ", culprit)[[1]])
+    gsub(culprit[[1]],
+         paste0( # create replacement string
+           paste0(rep(" ", num_spaces), collapse = ""), # generate the spaces
+           "(",
+           collapse = ""),
+         x,
+         fixed = TRUE)
+  }
+  
 }

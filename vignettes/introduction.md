@@ -1,6 +1,6 @@
 Intro to janitor functions
 ================
-2016-08-08
+2016-08-27
 
 -   [Major functions](#major-functions)
     -   [Clean data.frame names with `clean_names()`](#clean-data.frame-names-with-clean_names)
@@ -12,8 +12,10 @@ Intro to janitor functions
     -   [`use_first_valid_of()` replaces nested `ifelse` statements for combining variables](#use_first_valid_of-replaces-nested-ifelse-statements-for-combining-variables)
     -   [Use `convert_to_NA()` to clean should-be NA values](#use-convert_to_na-to-clean-should-be-na-values)
     -   [Fix dates stored as serial numbers with `excel_numeric_to_date()`](#fix-dates-stored-as-serial-numbers-with-excel_numeric_to_date)
-    -   [Look at factors grouped into high, medium, and low groups with `top_levels()`](#look-at-factors-grouped-into-high-medium-and-low-groups-with-top_levels)
     -   [`remove_empty_cols()` and `remove_empty_rows()`](#remove_empty_cols-and-remove_empty_rows)
+    -   [`add_totals_col()` and `add_totals_row()`](#add_totals_col-and-add_totals_row)
+    -   [Convert a data.frame of numbers to percentages with `ns_to_percents()`](#convert-a-data.frame-of-numbers-to-percentages-with-ns_to_percents)
+    -   [Count factor levels in groups of high, medium, and low with `top_levels()`](#count-factor-levels-in-groups-of-high-medium-and-low-with-top_levels)
 
 The janitor functions expedite the initial data exploration and cleaning that comes with any new data set.
 
@@ -151,6 +153,7 @@ This function wraps the common pipeline of `group_by %>% summarise %>% mutate %>
 
 ``` r
 library(dplyr) ; library(tidyr)
+#> Warning: package 'tidyr' was built under R version 3.3.1
 dat %>%
   group_by(x, y) %>%
   tally() %>%
@@ -184,6 +187,7 @@ The user can specify additional formatting options:
 -   Percentages can be calculated by row, column, or overall
 -   Display only percentages, or show Ns in parentheses
 -   Control how many digits of the percentages to display
+-   Display a totals row, column, or both
 -   Round percentages either with the default `round()` function, or round-half-to-up using a [custom rounding function](http://stackoverflow.com/a/12688836/4470365)
     -   e.g., round 10.5 up to 11, consistent with Excel's tie-breaking behavior
     -   This contrasts with rounding 10.5 down to 10 as in base R's `round(10.5)`.
@@ -201,7 +205,7 @@ For example, in a tidy data frame you might expect to have a unique ID repeated 
 
 ``` r
 get_dupes(mtcars, wt, cyl)
-#> # A tibble: 4 x 12
+#> # A tibble: 4 × 12
 #>      wt   cyl dupe_count   mpg  disp    hp  drat  qsec    vs    am  gear
 #>   <dbl> <dbl>      <int> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
 #> 1  3.44     6          2  19.2 167.6   123  3.92 18.30     1     0     4
@@ -252,38 +256,13 @@ convert_to_NA(letters[1:5], c("b", "d"))
 Fix dates stored as serial numbers with `excel_numeric_to_date()`
 -----------------------------------------------------------------
 
-Ever load data from Excel and see `42223` where a date should be? This function converts those serial numbers to class `Date`, and contains an option for specifying the alternate date system for files created with Excel for Mac 2008 and earlier versions (which count from a different starting point).
+Ever load data from Excel and see a value like `42223` where a date should be? This function converts those serial numbers to class `Date`, and contains an option for specifying the alternate date system for files created with Excel for Mac 2008 and earlier versions (which count from a different starting point).
 
 ``` r
 excel_numeric_to_date(41103)
 #> [1] "2012-07-13"
 excel_numeric_to_date(41103, date_system = "mac pre-2011")
 #> [1] "2016-07-14"
-```
-
-Look at factors grouped into high, medium, and low groups with `top_levels()`
------------------------------------------------------------------------------
-
-Originally designed for use with Likert survey data stored as factors. Returns a `tbl_df` frequency table with appropriately-named rows, grouped into head/middle/tail groups.
-
--   Takes a user-specified size for the head/tail groups
--   Automatically calculates a percent column
--   Supports sorting
--   Can show or hide `NA` values.
-
-``` r
-f <- factor(c("strongly agree", "agree", "neutral", "neutral", "disagree", "strongly agree"),
-            levels = c("strongly agree", "agree", "neutral", "disagree", "strongly disagree"))
-top_levels(f)
-#>                             f n   percent
-#> 1       strongly agree, agree 3 0.5000000
-#> 2                     neutral 2 0.3333333
-#> 3 disagree, strongly disagree 1 0.1666667
-top_levels(f, n = 1, sort = TRUE)
-#>                          f  n   percent
-#> 1 agree, neutral, disagree  4 0.6666667
-#> 2           strongly agree  2 0.3333333
-#> 3        strongly disagree NA        NA
 ```
 
 `remove_empty_cols()` and `remove_empty_rows()`
@@ -301,4 +280,60 @@ q %>%
 #>   v1 v3
 #> 1  1  a
 #> 3  3  b
+```
+
+`add_totals_col()` and `add_totals_row()`
+-----------------------------------------
+
+These functions add a totals row or column to a data.frame. These functions exclude the first column of the input data.frame, assuming that it contains a descriptive variable not to be summed.
+
+``` r
+mtcars %>%
+  crosstab(am, cyl) %>%
+  add_totals_row %>%
+  add_totals_col
+#>      am  4 6  8 Total
+#> 1     0  3 4 12    19
+#> 2     1  8 3  2    13
+#> 3 Total 11 7 14    32
+```
+
+Convert a data.frame of numbers to percentages with `ns_to_percents()`
+----------------------------------------------------------------------
+
+A helper function for `adorn_crosstab`, but can be called directly. Takes a data.frame of numerics and returns corresponding percentages of rows, columns, or the total sum of the data.frame. Like `prop.table`, except for data.frames, and skips the first column (which is assumed to contain a non-numeric descriptive variable).
+
+``` r
+mtcars %>%
+  crosstab(cyl, am) %>%
+  ns_to_percents("col")
+#>   cyl         0         1
+#> 1   4 0.1578947 0.6153846
+#> 2   6 0.2105263 0.2307692
+#> 3   8 0.6315789 0.1538462
+```
+
+Count factor levels in groups of high, medium, and low with `top_levels()`
+--------------------------------------------------------------------------
+
+Originally designed for use with Likert survey data stored as factors. Returns a `tbl_df` frequency table with appropriately-named rows, grouped into head/middle/tail groups.
+
+-   Takes a user-specified size for the head/tail groups
+-   Automatically calculates a percent column
+-   Supports sorting
+-   Can show or hide `NA` values.
+
+``` r
+f <- factor(c("strongly agree", "agree", "neutral", "neutral", "disagree", "strongly agree"),
+            levels = c("strongly agree", "agree", "neutral", "disagree", "strongly disagree"))
+top_levels(f)
+#>                             f n   percent
+#> 1       strongly agree, agree 3 0.5000000
+#> 2                     neutral 2 0.3333333
+#> 3 disagree, strongly disagree 1 0.1666667
+top_levels(f, n = 1, sort = TRUE)
+#>                          f n   percent
+#> 1 agree, neutral, disagree 4 0.6666667
+#> 2           strongly agree 2 0.3333333
+#> 3        strongly disagree 0 0.0000000
 ```

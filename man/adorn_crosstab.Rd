@@ -5,7 +5,7 @@
 \title{Add formatting to a crosstabulation table.}
 \usage{
 adorn_crosstab(crosstab, denom = "row", show_n = TRUE, digits = 1,
-  rounding = "half to even")
+  show_totals = FALSE, rounding = "half to even")
 }
 \arguments{
 \item{crosstab}{a data.frame with row names in the first column and numeric values in all other columns.  Usually the piped-in result of a call to  \code{crosstab} that included the argument \code{percent = "none"}.}
@@ -15,6 +15,8 @@ adorn_crosstab(crosstab, denom = "row", show_n = TRUE, digits = 1,
 \item{show_n}{should counts be displayed alongside the percentages?}
 
 \item{digits}{how many digits should be displayed after the decimal point?}
+
+\item{show_totals}{display a totals summary? Will be a row, column, or both depending on the value of \code{denom}.}
 
 \item{rounding}{method to use for truncating percentages - either "half to even", the base R default method, or "half up", where 14.5 rounds up to 15.}
 }

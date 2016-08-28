@@ -39,24 +39,24 @@ test_that("rounding is correct", {
     rounded_up <- mtcars %>%
     crosstab(cyl, am) %>%
     adorn_crosstab(., denom = "all", digits = 0, rounding = "half up") 
-  
-  expect_equal(rounded_up, data.frame(
-    cyl = c(4, 6, 8),
-    `0` = c("9% (3)", "13% (4)", "38% (12)"),
-    `1` = c("25% (8)", "9% (3)", "6% (2)"),
-    check.names = FALSE, stringsAsFactors = FALSE
-  ))
-  # default base R rounding
-  rounded_to_even <- mtcars %>%
-    crosstab(cyl, am) %>%
-    adorn_crosstab(., denom = "all", digits = 0) 
-  
-  expect_equal(rounded_to_even, data.frame(
-    cyl = c(4, 6, 8),
-    `0` = c("9% (3)", "12% (4)", "38% (12)"),
-    `1` = c("25% (8)", "9% (3)", "6% (2)"),
-    check.names = FALSE, stringsAsFactors = FALSE
-  ))
+    
+    expect_equal(rounded_up, data.frame(
+      cyl = c(4, 6, 8),
+      `0` = c("9% (3)", "13% (4)", "38% (12)"),
+      `1` = c("25% (8)", "9% (3)", "6% (2)"),
+      check.names = FALSE, stringsAsFactors = FALSE
+    ))
+    # default base R rounding
+    rounded_to_even <- mtcars %>%
+      crosstab(cyl, am) %>%
+      adorn_crosstab(., denom = "all", digits = 0) 
+    
+    expect_equal(rounded_to_even, data.frame(
+      cyl = c(4, 6, 8),
+      `0` = c("9% (3)", "12% (4)", "38% (12)"),
+      `1` = c("25% (8)", "9% (3)", "6% (2)"),
+      check.names = FALSE, stringsAsFactors = FALSE
+    ))
 })
 
 
@@ -82,7 +82,22 @@ test_that("show_n can suppress Ns, digits parameter is correct", {
   ))
 })
 
-
+test_that("spacing is correct", {
+  spacings <- data_frame(
+    x = c(rep("a", 500), "b", "b", "c", "d"),
+    y = rep(c(0,0,0,0,0,1), 84)
+  ) %>%
+    crosstab(x, y) %>%
+    adorn_crosstab(denom = "all")
+  
+  expect_equal(spacings, data.frame(
+    x = letters[1:4],
+    `0` = c("82.7% (417)", "0.4%   (2)", "0.2%   (1)", "0.0%   (0)"),
+    `1` = c("16.5% (83)", "0.0%  (0)", "0.0%  (0)", "0.2%  (1)"),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  ))
+})
 test_that("bad inputs are caught", {
   expect_error(adorn_crosstab(source1, rounding = "up"), "'rounding' must be one of 'half to even' or 'half up'")
   expect_error(adorn_crosstab(source1, denom = "roww"), "'denom' must be one of 'row', 'col', or 'all'")
