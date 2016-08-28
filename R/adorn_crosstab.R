@@ -31,6 +31,7 @@
 adorn_crosstab <- function(crosstab, denom = "row", show_n = TRUE, digits = 1, show_totals = FALSE, rounding = "half to even"){
   # some input checks
   if(! rounding %in% c("half to even", "half up")){stop("'rounding' must be one of 'half to even' or 'half up'")}
+  check_all_cols_after_first_are_numeric(crosstab)
   
   if(show_totals){ crosstab[[1]] <- as.character(crosstab[[1]]) } # for type matching when we bind "totals" on
   
@@ -106,4 +107,16 @@ fix_parens_whitespace <- function(x){
          fixed = TRUE)
   }
   
+}
+
+# check that all columns in a data.frame beyond the first one are numeric
+check_all_cols_after_first_are_numeric <- function(x){
+  non_numeric_count <- x %>%
+    dplyr::select(-1) %>%
+    lapply(function(x) !is.numeric(x)) %>%
+    unlist %>%
+    sum
+  if(non_numeric_count > 0){
+  stop("all columns after the first one must be numeric")
+  }
 }
