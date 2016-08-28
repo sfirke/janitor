@@ -6,6 +6,7 @@
 #' @param dat an input data.frame with numeric values in all columns beyond the first.
 #' @param na.rm should missing values (including NaN) be omitted from the calculations?
 #' @return Returns a data.frame with a totals row, consisting of "Total" in the first column and column sums in the others.
+#' @export
 #' @examples
 #' library(dplyr) # for the %>% pipe
 #' mtcars %>%
@@ -28,6 +29,7 @@ add_totals_row <- function(dat, na.rm = TRUE){
 #' @param dat an input data.frame with numeric values in all columns beyond the first.
 #' @param na.rm should missing values (including NaN) be omitted from the calculations?
 #' @return Returns a data.frame with a totals column, consisting of "Total" in the first row and row sums in the others.
+#' @export
 #' @examples
 #' library(dplyr) # for the %>% pipe
 #' mtcars %>%
