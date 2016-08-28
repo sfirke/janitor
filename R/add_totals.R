@@ -15,6 +15,7 @@
 
 
 add_totals_row <- function(dat, na.rm = TRUE){
+  check_all_cols_after_first_are_numeric(dat)
   dat[[1]] <- as.character(dat[[1]]) # for binding to the "Total" character value of add-on row
   col_totals <- data.frame(x1 = "Total", t(colSums(dat[,-1], na.rm = na.rm)), stringsAsFactors = FALSE) %>%
     stats::setNames(names(dat))
@@ -37,6 +38,7 @@ add_totals_row <- function(dat, na.rm = TRUE){
 #'   add_totals_col
 
 add_totals_col <- function(dat, na.rm = TRUE){
+  check_all_cols_after_first_are_numeric(dat)
   row_totals <- data.frame(Total = rowSums(dat[,-1], na.rm = na.rm))
   dplyr::bind_cols(dat, row_totals)
 }
