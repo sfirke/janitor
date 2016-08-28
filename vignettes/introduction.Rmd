@@ -132,6 +132,7 @@ The user can specify additional formatting options:
 + Percentages can be calculated by row, column, or overall
 + Display only percentages, or show Ns in parentheses
 + Control how many digits of the percentages to display
++ Display a totals row, column, or both
 + Round percentages either with the default `round()` function, or round-half-to-up using a [custom rounding function](http://stackoverflow.com/a/12688836/4470365)
     + e.g., round 10.5 up to 11, consistent with Excel's tie-breaking behavior
     + This contrasts with rounding 10.5 down to 10 as in base R's `round(10.5)`.
@@ -182,14 +183,44 @@ convert_to_NA(letters[1:5], c("b", "d"))
 
 
 ## Fix dates stored as serial numbers with `excel_numeric_to_date()`
-Ever load data from Excel and see `42223` where a date should be?  This function converts those serial numbers to class `Date`, and contains an option for specifying the alternate date system for files created with Excel for Mac 2008 and earlier versions (which count from a different starting point).
+Ever load data from Excel and see a value like `42223` where a date should be?  This function converts those serial numbers to class `Date`, and contains an option for specifying the alternate date system for files created with Excel for Mac 2008 and earlier versions (which count from a different starting point).
 ```{r}
 excel_numeric_to_date(41103)
 excel_numeric_to_date(41103, date_system = "mac pre-2011")
 ```
 
 
-## Look at factors grouped into high, medium, and low groups with `top_levels()`
+## `remove_empty_cols()` and `remove_empty_rows()`
+One-line wrapper functions that do what they say.  For cases like cleaning Excel files containing empty rows and columns.
+```{r}
+q <- data.frame(v1 = c(1, NA, 3),
+                v2 = c(NA, NA, NA),
+                v3 = c("a", NA, "b"))
+q %>%
+  remove_empty_cols() %>%
+  remove_empty_rows()
+```
+
+## `add_totals_col()` and `add_totals_row()`
+These functions add a totals row or column to a data.frame.  These functions exclude the first column of the input data.frame, assuming that it contains a descriptive variable not to be summed.
+```{r}
+mtcars %>%
+  crosstab(am, cyl) %>%
+  add_totals_row %>%
+  add_totals_col
+```
+
+## Convert a data.frame of numbers to percentages with `ns_to_percents()`
+A helper function for `adorn_crosstab`, but can be called directly.  Takes a data.frame of numerics and returns corresponding percentages of rows, columns, or the total sum of the data.frame.  Like `prop.table`, except for data.frames, and skips the first column (which is assumed to contain a non-numeric descriptive variable).
+
+```{r}
+mtcars %>%
+  crosstab(cyl, am) %>%
+  ns_to_percents("col")
+```
+
+
+## Count factor levels in groups of high, medium, and low with `top_levels()`
 
 Originally designed for use with Likert survey data stored as factors.  Returns a `tbl_df` frequency table with appropriately-named rows, grouped into head/middle/tail groups.
 
@@ -205,14 +236,3 @@ top_levels(f)
 top_levels(f, n = 1, sort = TRUE)
 ```
 
-
-## `remove_empty_cols()` and `remove_empty_rows()`
-One-line wrapper functions that do what they say.  For cases like cleaning Excel files containing empty rows and columns.
-```{r}
-q <- data.frame(v1 = c(1, NA, 3),
-                v2 = c(NA, NA, NA),
-                v3 = c("a", NA, "b"))
-q %>%
-  remove_empty_cols() %>%
-  remove_empty_rows()
-```
