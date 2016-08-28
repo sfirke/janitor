@@ -39,24 +39,24 @@ test_that("rounding is correct", {
     rounded_up <- mtcars %>%
     crosstab(cyl, am) %>%
     adorn_crosstab(., denom = "all", digits = 0, rounding = "half up") 
-  
-  expect_equal(rounded_up, data.frame(
-    cyl = c(4, 6, 8),
-    `0` = c("9% (3)", "13% (4)", "38% (12)"),
-    `1` = c("25% (8)", "9% (3)", "6% (2)"),
-    check.names = FALSE, stringsAsFactors = FALSE
-  ))
-  # default base R rounding
-  rounded_to_even <- mtcars %>%
-    crosstab(cyl, am) %>%
-    adorn_crosstab(., denom = "all", digits = 0) 
-  
-  expect_equal(rounded_to_even, data.frame(
-    cyl = c(4, 6, 8),
-    `0` = c("9% (3)", "12% (4)", "38% (12)"),
-    `1` = c("25% (8)", "9% (3)", "6% (2)"),
-    check.names = FALSE, stringsAsFactors = FALSE
-  ))
+    
+    expect_equal(rounded_up, data.frame(
+      cyl = c(4, 6, 8),
+      `0` = c("9% (3)", "13% (4)", "38% (12)"),
+      `1` = c("25% (8)", "9% (3)", "6% (2)"),
+      check.names = FALSE, stringsAsFactors = FALSE
+    ))
+    # default base R rounding
+    rounded_to_even <- mtcars %>%
+      crosstab(cyl, am) %>%
+      adorn_crosstab(., denom = "all", digits = 0) 
+    
+    expect_equal(rounded_to_even, data.frame(
+      cyl = c(4, 6, 8),
+      `0` = c("9% (3)", "12% (4)", "38% (12)"),
+      `1` = c("25% (8)", "9% (3)", "6% (2)"),
+      check.names = FALSE, stringsAsFactors = FALSE
+    ))
 })
 
 

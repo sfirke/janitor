@@ -30,7 +30,6 @@
 #' @export
 adorn_crosstab <- function(crosstab, denom = "row", show_n = TRUE, digits = 1, show_totals = FALSE, rounding = "half to even"){
   # some input checks
-  if(! denom %in% c("row", "col", "all")){stop("'denom' must be one of 'row', 'col', or 'all'")}
   if(! rounding %in% c("half to even", "half up")){stop("'rounding' must be one of 'half to even' or 'half up'")}
   
   if(show_totals){ crosstab[[1]] <- as.character(crosstab[[1]]) } # for type matching when we bind "totals" on
@@ -38,25 +37,11 @@ adorn_crosstab <- function(crosstab, denom = "row", show_n = TRUE, digits = 1, s
   showing_col_totals <- (show_totals & denom %in% c("col", "all"))
   showing_row_totals <- (show_totals & denom %in% c("row", "all"))
   
-  n_col <- ifelse(showing_col_totals, ncol(crosstab) + 1, ncol(crosstab))
-  complete_n <- sum(crosstab[, -1])
-  
-  
   if(showing_col_totals){ crosstab <- add_totals_col(crosstab) }
   if(showing_row_totals){ crosstab <- add_totals_row(crosstab) }
+  n_col <- ncol(crosstab)
   
-  percs <- crosstab # make copy to modify
-
-  if(denom == "row"){
-    row_sum <- rowSums(percs[, 2:n_col], na.rm = TRUE)
-    percs[, 2:n_col] <- percs[, 2:n_col] / row_sum 
-  } else if(denom == "col"){
-    col_sum <- colSums(percs[, 2:n_col], na.rm = TRUE)
-    percs[, 2:n_col] <- sweep(percs[, 2:n_col], 2, col_sum,`/`) # from http://stackoverflow.com/questions/9447801/dividing-columns-by-colsums-in-r
-  } else if(denom == "all"){
-    percs[, 2:n_col] <- percs[, 2:n_col] / complete_n 
-  }
-  
+  percs <- ns_to_percents(crosstab, denom)
   
   # round %s using specified method, add % sign
   percs <- dplyr::mutate_at(percs, dplyr::vars(2:n_col), dplyr::funs(. * 100)) # since we'll be adding % sign - do this before rounding
