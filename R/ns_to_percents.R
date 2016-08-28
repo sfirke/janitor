@@ -15,8 +15,9 @@
 #'   ns_to_percents(denom = "all")
   
 ns_to_percents <- function(dat, denom = "row", na.rm = TRUE){
-
-    if(! denom %in% c("row", "col", "all")){stop("'denom' must be one of 'row', 'col', or 'all'")}
+  # catch bad inputs
+  if(! denom %in% c("row", "col", "all")){stop("'denom' must be one of 'row', 'col', or 'all'")}
+  check_all_cols_after_first_are_numeric(dat)
   
   complete_n <- sum(dat[, -1], na.rm = TRUE)
   n_col <- ncol(dat)
