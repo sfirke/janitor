@@ -12,6 +12,8 @@ ns_to_percents(dat, denom = "row", na.rm = TRUE, total_n = NULL)
 \item{denom}{the denominator to use for calculating percentages.  One of "row", "col", or "all".}
 
 \item{na.rm}{should missing values (including NaN) be omitted from the calculations?}
+
+\item{total_n}{an optional number to use as the denominator when calculating table-level percentages (when denom = "all").  Supply this if your input data.frame \code{dat} has values that would throw off the denominator if they were included, e.g., if there's a totals row appended to the bottom of the table.}
 }
 \value{
 Returns a data.frame of percentages, expressed as numeric values between 0 and 1.
@@ -24,5 +26,11 @@ library(dplyr) # for the \%>\% pipe
 mtcars \%>\%
   crosstab(am, cyl) \%>\%
   ns_to_percents(denom = "all")
+  
+  # when total_n is needed
+  mtcars \%>\%
+  crosstab(am, cyl) \%>\%
+  add_totals_row() \%>\% # add a totals row that should not be included in the denominator
+  ns_to_percents(denom = "all", total_n = nrow(mtcars)) # specify correct denominator
 }
 

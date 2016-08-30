@@ -84,7 +84,7 @@ test_that("override value total_n functions correctly", {
                ns_to_percents(source1))
   
   expect_equal(ns_to_percents(source1, denom = "all", total_n = 320),
-               cbind(data.frame(gear = c(3, 4, 5)),
+               cbind(data.frame(cyl = c(4, 6, 8)),
                      ns_to_percents(source1, denom = "all")[, -1] / 10) # divide by 10 because the mtcars n = 32
   )
 })
