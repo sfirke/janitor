@@ -14,12 +14,19 @@
 #'   crosstab(am, cyl) %>%
 #'   ns_to_percents(denom = "all")
   
-ns_to_percents <- function(dat, denom = "row", na.rm = TRUE){
+ns_to_percents <- function(dat, denom = "row", na.rm = TRUE, total_n = NULL){
   # catch bad inputs
   if(! denom %in% c("row", "col", "all")){stop("'denom' must be one of 'row', 'col', or 'all'")}
   check_all_cols_after_first_are_numeric(dat)
   
-  complete_n <- sum(dat[, -1], na.rm = TRUE)
+  if(!is.null(total_n)){
+    if(!is.numeric(total_n)){stop("override_n must be numeric")}
+    complete_n <- total_n
+  } else{
+    complete_n <- sum(dat[, -1], na.rm = TRUE)
+  }
+  
+  
   n_col <- ncol(dat)
   
   if(denom == "row"){

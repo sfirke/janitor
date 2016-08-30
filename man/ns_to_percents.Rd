@@ -4,7 +4,7 @@
 \alias{ns_to_percents}
 \title{Convert a numeric data.frame to row-, column-, or totals-wise percentages.}
 \usage{
-ns_to_percents(dat, denom = "row", na.rm = TRUE)
+ns_to_percents(dat, denom = "row", na.rm = TRUE, total_n = NULL)
 }
 \arguments{
 \item{dat}{a data.frame with row names in the first column and numeric values in all other columns.}

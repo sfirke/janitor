@@ -73,3 +73,18 @@ test_that("data.frames with non-numeric columns cause failure", {
   expect_error(ns_to_percents(data.frame(a = 1:2, b = c("hi", "lo"))),
                "all columns after the first one must be numeric")
 })
+
+test_that("non-numeric argument to total_n fails", {
+  expect_error(ns_to_percents(source1, "all", total_n = "a bear"),
+               "override_n must be numeric")
+})
+
+test_that("override value total_n functions correctly", {
+  expect_equal(ns_to_percents(source1, total_n = 100), # nothing should happen with default denom of "row"
+               ns_to_percents(source1))
+  
+  expect_equal(ns_to_percents(source1, denom = "all", total_n = 320),
+               cbind(data.frame(gear = c(3, 4, 5)),
+                     ns_to_percents(source1, denom = "all")[, -1] / 10) # divide by 10 because the mtcars n = 32
+  )
+})

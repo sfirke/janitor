@@ -33,16 +33,18 @@ adorn_crosstab <- function(crosstab, denom = "row", show_n = TRUE, digits = 1, s
   if(! rounding %in% c("half to even", "half up")){stop("'rounding' must be one of 'half to even' or 'half up'")}
   check_all_cols_after_first_are_numeric(crosstab)
   
-  if(show_totals){ crosstab[[1]] <- as.character(crosstab[[1]]) } # for type matching when we bind "totals" on
+  crosstab[[1]] <- as.character(crosstab[[1]]) # for type matching when binding the word "Total" on a factor
   
   showing_col_totals <- (show_totals & denom %in% c("col", "all"))
   showing_row_totals <- (show_totals & denom %in% c("row", "all"))
+  
+  complete_n <- complete_n <- sum(crosstab[, -1], na.rm = TRUE) # capture for percent calcs before any totals col/row is added
   
   if(showing_col_totals){ crosstab <- add_totals_col(crosstab) }
   if(showing_row_totals){ crosstab <- add_totals_row(crosstab) }
   n_col <- ncol(crosstab)
   
-  percs <- ns_to_percents(crosstab, denom)
+  percs <- ns_to_percents(crosstab, denom, total_n = complete_n) # last argument only gets used in the "all" case = no harm in passing otherwise
   
   # round %s using specified method, add % sign
   percs <- dplyr::mutate_at(percs, dplyr::vars(2:n_col), dplyr::funs(. * 100)) # since we'll be adding % sign - do this before rounding
