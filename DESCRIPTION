@@ -1,8 +1,11 @@
 Package: janitor
 Title: Utilities for Data Cleaning
-Version: 0.1.1.9001
-Authors@R: person("Sam", "Firke", email = "samuel.firke@gmail.com", role = c("aut", "cre"))
-Description: Tools to streamline data cleaning.
+Version: 0.1.2.9001
+Authors@R: as.person(c(
+    "Sam Firke <samuel.firke@gmail.com> [aut, cre]",
+    "Chris Haid <chrishaid@gmail.com> [ctb]"
+  ))
+Description: Tools to streamline data cleaning and exploration.
 URL: https://github.com/sfirke/janitor
 BugReports: https://github.com/sfirke/janitor/issues
 Depends:

@@ -2,15 +2,16 @@ NEWS
 ====
 
 
-# janitor 0.1.1.9001
+# janitor 0.1.2.9001
 
 ## Features
 
 ### Major
-* Added a function `adorn_crosstab()` that formats the results of a `crosstab()` for pretty printing.  Shows % and N in the same cell, with the % symbol, user-specified rounding (method and number of digits). E.g., `mtcars %>% crosstab(cyl, gear) %>% adorn_crosstab()`.
+* Added a function `adorn_crosstab()` that formats the results of a `crosstab()` for pretty printing.  Shows % and N in the same cell, with the % symbol, user-specified rounding (method and number of digits), and the option to include a totals row and/or column. E.g., `mtcars %>% crosstab(cyl, gear) %>% adorn_crosstab()`.
 * `crosstab()` can be called in a `%>%` pipeline, e.g., `mtcars %>% crosstab(cyl, gear)`.  Thanks to [@chrishaid](https://github.com/chrishaid) [(#34)](https://github.com/sfirke/janitor/pull/34)
 * `tabyl()` can also be called in a `%>%` pipeline, e.g., `mtcars %>% tabyl(cyl)` [(#35)](https://github.com/sfirke/janitor/issues/35)
-* added `use_first_valid_of()` function [(#32)](https://github.com/sfirke/janitor/issues/32)
+* Added `use_first_valid_of()` function [(#32)](https://github.com/sfirke/janitor/issues/32)
+* Added minor functions for manipulating numeric data.frames for presentation: `ns_to_percents()`, `add_totals_row()`, `add_totals_col()`,
 
 ### Minor
 
@@ -25,6 +26,7 @@ NEWS
 ## Package management
 
 * Added codecov to measure test coverage
+* Added unit test coverage
 * Added Travis-CI for continuous integration
 
 # janitor 0.1 (Release date: 2016-04-17)
