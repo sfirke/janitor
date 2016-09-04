@@ -14,40 +14,47 @@ crosstab(...)
 \method{crosstab}{data.frame}(.data, ...)
 }
 \arguments{
-\item{...}{arguments passed to crosstab.default.}
+\item{...}{additional arguments, if calling \code{crosstab} on a data.frame.}
 
-\item{vec1}{the vector to place on the crosstab column.}
+\item{vec1}{the vector to place on the crosstab column.  If supplying a data.frame, this should be an unquoted column name.}
 
-\item{vec2}{the vector to place on the crosstab row.}
+\item{vec2}{the vector to place on the crosstab row.  If supplying a data.frame, this should be an unquoted column name.}
 
 \item{percent}{which grouping to use for percentages, if desired (defaults to "none", which returns simple counts).  Must be one of "none", "row", "col", or "all".}
 
 \item{show_na}{should cases where either variable is NA be included?}
 
-\item{.data}{a data.frame.}
+\item{.data}{(optional) a data.frame, in which case \code{vec1} and \code{vec2} should be unquoted column names.}
 }
 \value{
 Returns a data.frame with the frequencies of the crosstabulated variables.
 }
 \description{
-Create a crosstab, displaying either frequencies or percentages calculated by row, column, or overall.  Vectors don't have to be from the same data.frame, but typically are.  For fancy formatting of the resulting data.frame, see \code{\link{adorn_crosstab}}.
+Create a crosstab, displaying either frequencies or percentages calculated by row, column, or overall.
+
+\code{crosstab} can be called two ways.  It can be simply called on two vectors.  Or, when both vectors are columns in a single data.frame, the data.frame can be provided as the first argument, followed by two unquoted column names to crosstabulate.  This enables passing in a data.frame from a \code{\%>\%} pipeline, in addition to making for a shorter function call.    
+
+For fancy formatting of the resulting data.frame, see \code{\link{adorn_crosstab}}.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{default}: Create a crosstab from two vectors,
-displaying either frequencies or percentages calculated by row, column, or overall.
-Vectors don't have to be from the same data.frame, but typically are.
+\item \code{default}: Create a crosstab from two vectors.
 
 \item \code{data.frame}: Create a crosstab from a data.frame,
-displaying either frequencies or percentages calculated by row, column, or overall.
-Supply unquoted names of the two vectors to crosstab, present in the specified data.frame.
+supplying unquoted names of the two columns  to crosstab.
 }}
 \examples{
+a <- c("hi", "hi", "lo", "lo")
+b <- c(1, 2, 2, 2)
+crosstab(a, b)
+
 crosstab(mtcars$cyl, mtcars$gear)
 crosstab(mtcars$cyl, mtcars$gear, "row")
 
-# pipelined example
+# passing in the data.frame using a pipeline
 library(dplyr)
 mtcars \%>\% crosstab(cyl, gear)
+mtcars \%>\% crosstab(cyl, gear, "row")
+mtcars \%>\% filter(am == 0) \%>\% crosstab(cyl, gear)
 }
 

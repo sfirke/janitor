@@ -24,7 +24,7 @@ adorn_crosstab(crosstab, denom = "row", show_n = TRUE, digits = 1,
 Returns a data.frame.
 }
 \description{
-Designed to run on the output of a call to \code{crosstab}, this adds formatting, percentage sign, Ns, and custom rounding to a table of numeric values.  The result is no longer clean data, but it saves time in reporting Ns and percentages at the same time.
+Designed to run on the output of a call to \code{crosstab}, this adds formatting, percentage sign, Ns, totals row/column, and custom rounding to a table of numeric values.  The result is no longer clean data, but it saves time in reporting table results.
 }
 \examples{
 library(dplyr) # for the \%>\% pipe
