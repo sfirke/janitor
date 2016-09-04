@@ -1,7 +1,7 @@
 #' @title Add formatting to a crosstabulation table.
 #'
 #' @description
-#' Designed to run on the output of a call to \code{crosstab}, this adds formatting, percentage sign, Ns, and custom rounding to a table of numeric values.  The result is no longer clean data, but it saves time in reporting Ns and percentages at the same time.
+#' Designed to run on the output of a call to \code{crosstab}, this adds formatting, percentage sign, Ns, totals row/column, and custom rounding to a table of numeric values.  The result is no longer clean data, but it saves time in reporting table results.
 #'
 #' @param crosstab a data.frame with row names in the first column and numeric values in all other columns.  Usually the piped-in result of a call to  \code{crosstab} that included the argument \code{percent = "none"}.
 #' @param denom the denominator to use for calculating percentages.  One of "row", "col", or "all".

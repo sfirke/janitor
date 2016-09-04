@@ -20,17 +20,17 @@ crosstab(...)
 
 \item{vec2}{the vector to place on the crosstab row.}
 
-\item{percent}{which grouping to use for percentages, if desired (defaults to counts).  Must be one of "none", "row", "col", or "all".}
+\item{percent}{which grouping to use for percentages, if desired (defaults to "none", which returns simple counts).  Must be one of "none", "row", "col", or "all".}
 
 \item{show_na}{should cases where either variable is NA be included?}
 
 \item{.data}{a data.frame.}
 }
 \value{
-Returns a data.frame (actually a \code{tbl_df}) with the frequencies of the crosstabulated variables.
+Returns a data.frame with the frequencies of the crosstabulated variables.
 }
 \description{
-Create a crosstab, displaying either frequencies or percentages calculated by row, column, or overall.  Vectors don't have to be from the same data.frame, but typically are.
+Create a crosstab, displaying either frequencies or percentages calculated by row, column, or overall.  Vectors don't have to be from the same data.frame, but typically are.  For fancy formatting of the resulting data.frame, see \code{\link{adorn_crosstab}}.
 }
 \section{Methods (by class)}{
 \itemize{
@@ -40,7 +40,7 @@ Vectors don't have to be from the same data.frame, but typically are.
 
 \item \code{data.frame}: Create a crosstab from a data.frame,
 displaying either frequencies or percentages calculated by row, column, or overall.
-Vectors don't have to be from the same data.frame, but typically are.
+Supply unquoted names of the two vectors to crosstab, present in the specified data.frame.
 }}
 \examples{
 crosstab(mtcars$cyl, mtcars$gear)

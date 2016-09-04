@@ -1,13 +1,13 @@
 #' @title Generate a crosstabulation of two vectors.
 #'
 #' @description
-#' Create a crosstab, displaying either frequencies or percentages calculated by row, column, or overall.  Vectors don't have to be from the same data.frame, but typically are.
+#' Create a crosstab, displaying either frequencies or percentages calculated by row, column, or overall.  Vectors don't have to be from the same data.frame, but typically are.  For fancy formatting of the resulting data.frame, see \code{\link{adorn_crosstab}}.
 #'
 #' @param vec1 the vector to place on the crosstab column.
 #' @param vec2 the vector to place on the crosstab row.
-#' @param percent which grouping to use for percentages, if desired (defaults to counts).  Must be one of "none", "row", "col", or "all".
+#' @param percent which grouping to use for percentages, if desired (defaults to "none", which returns simple counts).  Must be one of "none", "row", "col", or "all".
 #' @param show_na should cases where either variable is NA be included?
-#' @return Returns a data.frame (actually a \code{tbl_df}) with the frequencies of the crosstabulated variables.
+#' @return Returns a data.frame with the frequencies of the crosstabulated variables.
 
 #' @examples
 #' crosstab(mtcars$cyl, mtcars$gear)
@@ -94,7 +94,7 @@ crosstab.default <- function(vec1, vec2, percent = "none", show_na = TRUE, ...){
 #' @param ... arguments passed to crosstab.default.
 #' @describeIn crosstab Create a crosstab from a data.frame,
 #' displaying either frequencies or percentages calculated by row, column, or overall.
-#' Vectors don't have to be from the same data.frame, but typically are.
+#' Supply unquoted names of the two vectors to crosstab, present in the specified data.frame.
 #' @export
 crosstab.data.frame <- function(.data, ...){
   # collect dots
