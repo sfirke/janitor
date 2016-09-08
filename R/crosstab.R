@@ -44,7 +44,7 @@ crosstab <- function(...) UseMethod("crosstab")
 #' @describeIn crosstab Create a crosstab from two vectors.
 #' @export
 crosstab.default <- function(vec1, vec2, percent = "none", show_na = TRUE, ...){
-  
+
   if(!mode(vec1) %in% c("logical", "numeric", "character", "list") | is.matrix(vec1)){
     stop("vec1 must be a vector of type logical, numeric, character, list, or factor")}
   if(!mode(vec2) %in% c("logical", "numeric", "character","list") | is.matrix(vec2)){
@@ -110,7 +110,8 @@ crosstab.data.frame <- function(.data, ...){
 
   # select columns from .data
   columns <- dots[1:2]
-
+  if(dots[[1]] == dots[[2]]){stop("the same column name is specified for both input variables.  Use tabyl() for tabulating a single variable")}
+  
   x <- list()
   x[[deparse(columns[[1]])]] <- .data[,deparse(columns[[1]])]
   x[[deparse(columns[[2]])]] <- .data[,deparse(columns[[2]])]
