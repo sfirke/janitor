@@ -63,10 +63,8 @@ crosstab.default <- function(vec1, vec2, percent = "none", show_na = TRUE, ...){
   if(is.null(names(vec1))) {
     var_name <- deparse(substitute(vec1))
   } else {
-    var_name <- dat_col_names[[1]]
+    var_name <- names(vec1)
   }
-
-  var_name <- gsub("[$]", "_", var_name) # for result to have underscore in name instead of $
 
 
   if(!show_na){
@@ -127,7 +125,7 @@ crosstab.data.frame <- function(.data, ...){
 
   arguments$vec1 <- x[1]
   arguments$vec2 <- x[2]
-
+  
   do.call(crosstab.default,
           args = arguments)
 

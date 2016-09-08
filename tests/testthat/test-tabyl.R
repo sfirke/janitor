@@ -94,3 +94,11 @@ test_that("failure occurs when passed unsupported types", {
   expect_error(tabyl(matrix(1:10, nrow = 5)), "input must be a vector of type logical, numeric, character, list, or factor")
   expect_error(tabyl(complex(10)), "input must be a vector of type logical, numeric, character, list, or factor")
 })
+
+test_that("bad input variable name is preserved", {
+  expect_equal(mtcars %>% mutate(`bad name` = cyl) %>% tabyl(`bad name`) %>% names %>% .[[1]],
+               "bad name")
+  k <- mtcars %>% mutate(`bad name` = cyl)
+  expect_equal(tabyl(k$`bad name`) %>% names %>% .[[1]],
+               "k$`bad name`")
+})
