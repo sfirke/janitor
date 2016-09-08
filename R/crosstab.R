@@ -3,17 +3,22 @@
 #' @description
 #' Create a crosstab, displaying either frequencies or percentages calculated by row, column, or overall.
 #' 
-#' \code{crosstab} can be called two ways.  It can be simply called on two vectors.  Or, when both vectors are columns in a single data.frame, the data.frame can be provided as the first argument, followed by two unquoted column names to crosstabulate.  This enables passing in a data.frame from a \code{\%>\%} pipeline, in addition to making for a shorter function call.    
+#' \code{crosstab} can be called in two ways:
+#' 
+#' 1) It can simply be called on two vectors, like \code{crosstab(mtcars$gear, mtcars$cyl)}.
+#' 
+#' 2) Or, when both vectors are columns in a single data.frame, the data.frame can be provided as the first argument, followed by two unquoted column names to crosstabulate.  This enables passing in a data.frame from a \code{\%>\%} pipeline, in addition to making for a shorter function call.  Like \code{mtcars \%>\% crosstab(gear, cyl)}. 
 #' 
 #' For fancy formatting of the resulting data.frame, see \code{\link{adorn_crosstab}}.
 #'
 #' @param vec1 the vector to place on the crosstab column.  If supplying a data.frame, this should be an unquoted column name.
 #' @param vec2 the vector to place on the crosstab row.  If supplying a data.frame, this should be an unquoted column name.
 #' @param percent which grouping to use for percentages, if desired (defaults to "none", which returns simple counts).  Must be one of "none", "row", "col", or "all".
-#' @param show_na should cases where either variable is NA be included?
+#' @param show_na a logical value indicating whether counts should be displayed where either variable is \code{NA}.
 #' @return Returns a data.frame with the frequencies of the crosstabulated variables.
 
 #' @examples
+#' # Calling on two vectors:
 #' a <- c("hi", "hi", "lo", "lo")
 #' b <- c(1, 2, 2, 2)
 #' crosstab(a, b)
@@ -21,15 +26,17 @@
 #' crosstab(mtcars$cyl, mtcars$gear)
 #' crosstab(mtcars$cyl, mtcars$gear, "row")
 #'
-#' # passing in the data.frame using a pipeline
-#' library(dplyr)
+#' # Passing in a data.frame using a pipeline:
+#' library(dplyr) # to access the pipe operator
 #' mtcars %>% crosstab(cyl, gear)
 #' mtcars %>% crosstab(cyl, gear, "row")
-#' mtcars %>% filter(am == 0) %>% crosstab(cyl, gear)
+#' 
+#' # This allows for upstream operations
+#' # prior to the crosstab() call:
+#' mtcars %>%
+#'   filter(am == 0) %>%
+#'   crosstab(cyl, gear)
 
-# Crosstab table of two variables
-# Take two vectors and one of "none", "row", "col", and "all" to calculate %s
-# Could also take a data.frame and two vector names, for pipeline, but this seems simpler
 #' @export
 crosstab <- function(...) UseMethod("crosstab")
 
@@ -101,7 +108,7 @@ crosstab.default <- function(vec1, vec2, percent = "none", show_na = TRUE, ...){
 #' @param .data (optional) a data.frame, in which case \code{vec1} and \code{vec2} should be unquoted column names.
 #' @param ... additional arguments, if calling \code{crosstab} on a data.frame.
 #' @describeIn crosstab Create a crosstab from a data.frame,
-#' supplying unquoted names of the two columns  to crosstab.
+#' supplying unquoted names of the two columns to crosstab.
 #' @export
 crosstab.data.frame <- function(.data, ...){
   # collect dots

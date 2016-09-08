@@ -1,18 +1,26 @@
 #' @title Generate a frequency table from a vector.
 #'
 #' @description
-#' Create a frequency table of a variable, returned as a data.frame, showing percentages and with or without including \code{NA} values.  A fully-featured alternative to \code{table()}.
-#'
-#' @param vec the vector to tabulate.
-#' @param sort should the resulting table be sorted in descending order?
-#' @param show_na should cases where the variable is NA be shown?
-#' @return Returns a data.frame (actually a \code{tbl_df}) with the frequencies of the tabulated variable.  Includes counts, percentages, and valid percentages (calculated omitting \code{NA} values, if present in the vector and \code{show_na = TRUE}.)
+#' Create a frequency table of a variable, returned as a data.frame.  It shows counts, percentages and, if \code{NA} values are present, valid percentages (calculated excluding \code{NA} values).  A fully-featured alternative to \code{table()}.
+#' 
+#' \code{tabyl} can be called in two ways:
+#' 
+#' 1) It can simply be called on a vector, like \code{tabyl(mtcars$gear)}.
+#' 
+#' 2) A data.frame can be provided as the first argument, followed by an unquoted column name to tabulate.  This enables passing in a data.frame from a \code{\%>\%} pipeline, like \code{mtcars \%>\% tabyl(gear)}. 
+#' 
+#' @param vec the vector to tabulate.  If supplying a data.frame, this should be an unquoted column name.
+#' @param sort a logical value indicating whether the resulting table should be sorted in descending order of \code{n}.
+#' @param show_na a logical value indicating whether the count of \code{NA} values should be displayed, along with an additional column showing valid percentages.
+#' @return Returns a data.frame with the frequencies and percentages of the tabulated variable.
 #' @examples
-#' tabyl(mtcars$cyl)
+#' # Calling on a vector:
+#' val <- c("hi", "med", "med", "lo")
+#' tabyl(val)
 #' tabyl(mtcars$cyl, sort = TRUE)
 #' 
-#' # called with magrittr pipe:
-#' library(dplyr)
+#' # Passing in a data.frame using a pipeline:
+#' library(dplyr) # to access the pipe operator
 #' mtcars %>% tabyl(cyl)
 #' 
 #' # illustrating show_na functionality:
@@ -24,7 +32,7 @@
 tabyl <- function(...) UseMethod("tabyl")
 
 #' @inheritParams tabyl
-#' @describeIn tabyl Create a frequency table from a vector, returned as a data.frame, showing percentages and with or without including \code{NA} values.  A fully-featured alternative to \code{table()}.
+#' @describeIn tabyl Create a frequency table from a vector.
 #' @export
 tabyl.default <- function(vec, sort = FALSE, show_na = TRUE, ...) {
   
@@ -83,9 +91,10 @@ tabyl.default <- function(vec, sort = FALSE, show_na = TRUE, ...) {
 }
 
 #' @inheritParams tabyl.default
-#' @param .data a data.frame.
-#' @param ... arguments passed to tabyl.default.
-#' @describeIn tabyl Create a frequency table from a variable in a data.frame, returned as a data.frame, showing percentages and with or without including \code{NA} values.  A fully-featured alternative to \code{table()}.
+#' @param .data (optional) a data.frame, in which case \code{vec} should be an unquoted column name.
+#' @param ... additional arguments, if calling \code{tabyl} on a data.frame.
+#' @describeIn tabyl Create a frequency table from a data.frame,
+#' supplying the unquoted name of the column to tabulate.
 #' @export
 tabyl.data.frame <- function(.data, ...){
   # collect dots
