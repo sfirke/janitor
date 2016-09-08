@@ -54,7 +54,10 @@ crosstab.default <- function(vec1, vec2, percent = "none", show_na = TRUE, ...){
   
   if(length(vec1) != length(vec2)){ stop("the two vectors are not the same length")}
 
-  dat <- data.frame(vec1 = vec1, vec2 = vec2, stringsAsFactors = FALSE)
+  dat <- data.frame(vec1 = vec1,
+                    vec2 = vec2,
+                    stringsAsFactors = FALSE)
+  
   dat_col_names <- names(dat)
 
   if(is.null(names(vec1))) {
@@ -62,32 +65,19 @@ crosstab.default <- function(vec1, vec2, percent = "none", show_na = TRUE, ...){
   } else {
     var_name <- dat_col_names[[1]]
   }
-  
-  var_name <- gsub("[$]", "_", var_name) # for result to have underscore in name instead of .
+
+  var_name <- gsub("[$]", "_", var_name) # for result to have underscore in name instead of $
 
 
   if(!show_na){
     dat <- dat[!is.na(dat[[1]]) & !is.na(dat[[2]]), ]
   }
-
+  
   # create long data.frame with initial counts
   tabl <- dat %>%
     dplyr::count_(dat_col_names) %>%
     dplyr::ungroup()
 
-  # calculate percentages, if specified
-  if(percent == "row"){
-    tabl <- tabl %>%
-      dplyr::group_by_(dat_col_names[[1]]) %>%
-      dplyr::mutate(n = n / sum(n, na.rm = TRUE))
-  } else if (percent == "col"){
-    tabl <- tabl %>%
-      dplyr::group_by_(dat_col_names[[2]]) %>%
-      dplyr::mutate(n = n / sum(n, na.rm = TRUE))
-  } else if (percent == "all"){
-    tabl <- tabl %>%
-      dplyr::mutate(n = n / sum(n, na.rm = TRUE))
-  }
 
   # replace NA with string NA_ in vec2 to avoid invalid col name after spreading
   # if this col is a factor, need to add that level to the factor
@@ -97,9 +87,14 @@ crosstab.default <- function(vec1, vec2, percent = "none", show_na = TRUE, ...){
   tabl[2][is.na(tabl[2])] <- "NA_"
 
   # spread to wide, ungroup() for cleanliness of result, and rename 1st col
-  tabl %>%
+  result <- tabl %>%
     tidyr::spread_(dat_col_names[[2]], "n", fill = 0) %>%
-    dplyr::ungroup() %>%
+    dplyr::ungroup()
+  
+  # calculate percentages, if specified
+  if(percent != "none"){result <- ns_to_percents(result, denom = percent)}
+  
+  result %>%
     stats::setNames(., c(var_name, names(.)[-1])) %>%
     data.frame(., check.names = FALSE)
 }
@@ -121,8 +116,10 @@ crosstab.data.frame <- function(.data, ...){
   x <- list()
   x[[deparse(columns[[1]])]] <- .data[,deparse(columns[[1]])]
   x[[deparse(columns[[2]])]] <- .data[,deparse(columns[[2]])]
-  x <- as.data.frame(x, stringsAsFactors = FALSE)
-
+  x <- as.data.frame(x,
+                     stringsAsFactors = FALSE,
+                     check.names = FALSE) # preserve bad input names
+  
   # create args list to use with do.call
   arguments <- list()
 
