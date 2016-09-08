@@ -59,21 +59,17 @@ tabyl.default <- function(vec, sort = FALSE, show_na = TRUE, ...) {
       }
     
   } else {stop("input must be a vector of type logical, numeric, character, list, or factor")}
-  
+
   # calculate percent, move NA row to bottom
   result <- result %>%
     dplyr::mutate(percent = n / sum(n, na.rm = TRUE))
-  
+
   # sort the NA row to the bottom, necessary to retain factor sorting  
   result <- result[order(is.na(result$vec)), ]
   result$is_na <- NULL
 
-  # reassign correct variable name
-  names(result)[1] <- var_name
-  
   # replace all NA values with 0 - only applies to missing factor levels
   result <- tidyr::replace_na(result, replace = list(n = 0, percent = 0))
- 
   
   ## NA handling:
   # if there are NA values & show_na = T, calculate valid % as a new column
@@ -81,13 +77,19 @@ tabyl.default <- function(vec, sort = FALSE, show_na = TRUE, ...) {
     valid_total <- sum(result$n[!is.na(result[[1]])], na.rm = TRUE)
     result$valid_percent = result$n / valid_total
     result$valid_percent[is.na(result[[1]])] <- NA
-      } else { # don't show NA values, which necessitates adjusting the %s
+  } else { # don't show NA values, which necessitates adjusting the %s
     result <- result %>%
       dplyr::filter(!is.na(.[1])) %>%
       dplyr::mutate(percent = n / sum(n, na.rm = TRUE)) # recalculate % without NAs
-      }
+  }
+
+  # reassign correct variable name
+  names(result)[1] <- var_name
   
-  data.frame(result, check.names = FALSE)
+  # in case input var name was "n" or "percent", call helper function to set unique names
+  result <- handle_if_special_names_used(result)
+  
+    data.frame(result, check.names = FALSE)
 }
 
 #' @inheritParams tabyl.default
@@ -118,4 +120,15 @@ tabyl.data.frame <- function(.data, ...){
   do.call(tabyl.default,
           args = arguments)
   
+}
+
+# function that checks if col 1 name is "n" or "percent",
+## if so modifies the appropriate other column name to avoid duplicates
+handle_if_special_names_used <- function(dat){
+  if(names(dat)[1] == "n"){
+    names(dat)[2] <- "n_n"
+  } else if(names(dat)[1] == "percent"){
+    names(dat)[3] <- "percent_percent"
+  }
+  dat
 }

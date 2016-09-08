@@ -88,6 +88,7 @@ test_that("piping in a data.frame works", {
                  setNames(., c("grp", names(.)[-1])), sorted_with_na_and_fac %>% tabyl(grp, sort = TRUE))
 })
 
+
 # bad inputs
 
 test_that("failure occurs when passed unsupported types", {
@@ -101,4 +102,19 @@ test_that("bad input variable name is preserved", {
   k <- mtcars %>% mutate(`bad name` = cyl)
   expect_equal(tabyl(k$`bad name`) %>% names %>% .[[1]],
                "k$`bad name`")
+})
+
+
+test_that("input variable names 'percent' and 'n' are handled", {
+  a <- mtcars %>% tabyl(mpg)
+  expect_equal(a %>% tabyl(percent),
+               data.frame(percent = c(1/32, 2/32),
+                          n = c(18, 7),
+                          percent_percent = c(18/25, 7/25))
+  )
+  expect_equal(a %>% tabyl(n),
+               data.frame(n = 1:2,
+                          n_n = c(18, 7),
+                          percent = c(18/25, 7/25))
+  )
 })
