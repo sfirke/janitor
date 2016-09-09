@@ -18,11 +18,20 @@ test_that("calling with no specified variable names uses all variable names", {
 
 no_dupes <- data.frame(a = 1, stringsAsFactors = FALSE)
 
-test_that("instance of no dupes throws correct message, returns empty df", {
+test_that("instances of no dupes throw correct messages, return empty df", {
   expect_message(no_dupes %>% get_dupes(a), "No duplicate combinations found of: a")
   expect_equal(suppressWarnings(no_dupes %>% get_dupes(a)), data_frame(a = double(0), dupe_count = integer(0)))
+  expect_message(mtcars %>% select(-1) %>% get_dupes(), "No duplicate combinations found of: cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb")
+  expect_message(mtcars %>% get_dupes(), "No duplicate combinations found of: mpg, cyl, disp, hp, drat, wt, qsec, vs, am, ... and 2 other variables")
 })
 
 test_that("incorrect variable names are handled", {
   expect_error(get_dupes(mtcars, x), "These variables do not match column names in mtcars: x")
+})
+
+test_that("works on variables with irregular names", {
+  badname_df <- mtcars %>% mutate(`bad name!` = mpg * 1000)
+  expect_equal(badname_df %>% get_dupes(`bad name!`, cyl) %>% dim,
+               c(10, 13)) # does it return the right-sized result?
+  expect_is(badname_df %>% get_dupes(), "data.frame") # test for success, i.e., produces a data.frame (with 0 rows)
 })
