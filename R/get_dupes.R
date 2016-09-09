@@ -18,22 +18,23 @@ get_dupes <- function(dat, ...) {
   names <- as.list(substitute(list(...)))[-1L]
   df_name <- deparse(substitute(dat))
   
-  if(length(names)==0){
-    names <- names(dat)
-    message("No variable names specified - using all columns.\n")
-  }
-  
- # check that each variable name provided is present in names(dat); if not, throw error
+  # check that each variable name provided is present in names(dat); if not, throw error
   var_names <- names
   if(is.list(var_names)){ var_names <- lapply(names, deparse) } # 'names' is not a list if defaulting to whole df, need this for consistency
   check_vars_in_df(dat, df_name, unlist(var_names))
-  
   dupe_count <- NULL # to appease NOTE for CRAN; does nothing.
+  
+  if(length(names)==0){ # if called on an entire data.frame with no specified variable names
+    var_names <- names(dat)
+    names <- paste0("`", as.list(names(dat)), "`") # to handle illegal variable names 
+    message("No variable names specified - using all columns.\n")
+  }
   
   # calculate counts to join back to main df
   counts <- dat %>%
     dplyr::count_(vars = names)
-
+  
+  
   # join new count vector to main data.frame
   dupes <- suppressMessages(dplyr::inner_join(counts, dat))
   
@@ -43,6 +44,8 @@ get_dupes <- function(dat, ...) {
     dplyr::arrange_(.dots = names) %>%
     dplyr::rename(dupe_count = n)
   
+  # shorten error message for large data.frames
+  if(length(var_names) > 10){ var_names <- c(var_names[1:9], paste("... and", length(var_names) - 9, "other variables")) }
   if(nrow(dupes) == 0){message(paste0("No duplicate combinations found of: ", paste(var_names, collapse = ", ")))}
   dupes
 }
