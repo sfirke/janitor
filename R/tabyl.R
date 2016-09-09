@@ -34,6 +34,8 @@ tabyl <- function(...) UseMethod("tabyl")
 #' @inheritParams tabyl
 #' @describeIn tabyl Create a frequency table from a vector.
 #' @export
+#' @keywords internal
+
 tabyl.default <- function(vec, sort = FALSE, show_na = TRUE, ...) {
   
   # catch and adjust input variable name.
@@ -98,6 +100,7 @@ tabyl.default <- function(vec, sort = FALSE, show_na = TRUE, ...) {
 #' @describeIn tabyl Create a frequency table from a data.frame,
 #' supplying the unquoted name of the column to tabulate.
 #' @export
+#' @keywords internal
 tabyl.data.frame <- function(.data, ...){
   # collect dots
   dots <- as.list(substitute(list(...)))[-1L]

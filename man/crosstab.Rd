@@ -67,4 +67,5 @@ mtcars \%>\%
   filter(am == 0) \%>\%
   crosstab(cyl, gear)
 }
+\keyword{internal}
 

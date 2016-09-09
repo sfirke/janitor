@@ -43,6 +43,7 @@ crosstab <- function(...) UseMethod("crosstab")
 #' @inheritParams crosstab
 #' @describeIn crosstab Create a crosstab from two vectors.
 #' @export
+#' @keywords internal
 crosstab.default <- function(vec1, vec2, percent = "none", show_na = TRUE, ...){
 
   if(!mode(vec1) %in% c("logical", "numeric", "character", "list") | is.matrix(vec1)){
@@ -103,6 +104,7 @@ crosstab.default <- function(vec1, vec2, percent = "none", show_na = TRUE, ...){
 #' @describeIn crosstab Create a crosstab from a data.frame,
 #' supplying unquoted names of the two columns to crosstab.
 #' @export
+#' @keywords internal
 crosstab.data.frame <- function(.data, ...){
   # collect dots
   dots <- as.list(substitute(list(...)))[-1L] #

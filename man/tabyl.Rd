@@ -57,4 +57,5 @@ my_cars <- rbind(mtcars, rep(NA, 11))
 tabyl(my_cars$cyl)
 tabyl(my_cars$cyl, show_na = FALSE)
 }
+\keyword{internal}
 
