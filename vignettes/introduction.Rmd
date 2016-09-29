@@ -146,7 +146,7 @@ For example, in a tidy data frame you might expect to have a unique ID repeated 
 
 `get_dupes()` returns the records (and inserts a count of duplicates) so you can sleuth out the problematic cases:
 ```{r}
-get_dupes(mtcars, wt, cyl)
+get_dupes(mtcars, wt, cyl) # or mtcars %>% get_dupes(wt, cyl) if you prefer to pipe
 ```
 
 

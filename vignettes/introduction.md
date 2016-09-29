@@ -1,6 +1,6 @@
 Intro to janitor functions
 ================
-2016-08-27
+2016-09-29
 
 -   [Major functions](#major-functions)
     -   [Clean data.frame names with `clean_names()`](#clean-data.frame-names-with-clean_names)
@@ -153,7 +153,6 @@ This function wraps the common pipeline of `group_by %>% summarise %>% mutate %>
 
 ``` r
 library(dplyr) ; library(tidyr)
-#> Warning: package 'tidyr' was built under R version 3.3.1
 dat %>%
   group_by(x, y) %>%
   tally() %>%
@@ -177,8 +176,8 @@ mtcars %>%
   crosstab(cyl, gear) %>%
   adorn_crosstab()
 #>   cyl          3         4         5
-#> 1   4   9.1% (1) 72.7% (8) 18.2% (2)
-#> 2   6  28.6% (2) 57.1% (4) 14.3% (1)
+#> 1   4  9.1%  (1) 72.7% (8) 18.2% (2)
+#> 2   6 28.6%  (2) 57.1% (4) 14.3% (1)
 #> 3   8 85.7% (12)  0.0% (0) 14.3% (2)
 ```
 
@@ -204,7 +203,7 @@ For example, in a tidy data frame you might expect to have a unique ID repeated 
 `get_dupes()` returns the records (and inserts a count of duplicates) so you can sleuth out the problematic cases:
 
 ``` r
-get_dupes(mtcars, wt, cyl)
+get_dupes(mtcars, wt, cyl) # or mtcars %>% get_dupes(wt, cyl) if you prefer to pipe
 #> # A tibble: 4 × 12
 #>      wt   cyl dupe_count   mpg  disp    hp  drat  qsec    vs    am  gear
 #>   <dbl> <dbl>      <int> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>

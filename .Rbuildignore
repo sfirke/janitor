@@ -8,3 +8,4 @@ cran-comments.md # Comments for CRAN submission
 ^\.gitignore
 README.Rmd
 ^cran\-comments\.md$
+dirty_data.xlsx
