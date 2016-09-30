@@ -12,7 +12,7 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.path = "README-"  
 )
-options(width = 100)
+options(width = 110)
 ```
 
 # janitor
@@ -83,7 +83,8 @@ roster <- roster_raw %>%
   remove_empty_cols() %>%
   convert_to_NA(c("TBD", "PENDING")) %>%
   mutate(hire_date = excel_numeric_to_date(hire_date),
-         main_cert = use_first_valid_of(certification, certification_2))
+         main_cert = use_first_valid_of(certification, certification_2)) %>%
+  select(-certification, -certification_2)
 
 roster
 ```
