@@ -12,6 +12,8 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.path = "README-"  
 )
+
+options(width = 200)
 ```
 
 # janitor
@@ -50,26 +52,27 @@ Janitor is a [#tidyverse](https://github.com/hadley/tidyverse/blob/master/vignet
 Take this roster of teachers at a fictional American high school, stored in the Microsoft Excel file [dirty_data.xlsx](https://github.com/sfirke/janitor/blob/master/dirty_data.xlsx):
 ![All kinds of dirty.](dirty_data.PNG)
 
+It suffers from:
+
+* Illegal, clunky, and duplicated names
+* Empty columns and rows used as dividers, and rows/columns that are empty but contain Excel formatting
+* Dates stored as numbers
+* Values spread inconsistently over the rightmost two columns
+* Missing values stored as text, i.e., "TBD" and "PENDING" should be treated as NA in this case
+
+
 Here's that data after being read in to R:
 ```{r, warning = FALSE, message = FALSE}
 library(pacman) # for loading packages
 p_load(readxl, janitor, dplyr)
 
-roster_raw <- read_excel("dirty_data.xlsx")
+roster_raw <- read_excel("dirty_data.xlsx") # available at https://github.com/sfirke/janitor/blob/master/dirty_data.xlsx
 roster_raw
 ```
 
-It suffers from:
-
-* Illegal, clunky, and duplicated names
-* Empty columns and rows used as dividers
-* Empty columns and rows at the right and bottom, where Excel's formatting caused empty cells to be read in
-* Dates stored as numbers
-* Values spread inconsistently over the rightmost two columns
-* Missing values stored as text, i.e., "TBD" and "PENDING" should be treated as NA in this case
-
-The duplicated names cause `dplyr` functions to choke:
+The presence of Excel formatting led to an empty column on the right and empty rows below.  The (dreadful) column names are preserved, and the duplicate column names cause `dplyr` functions to choke:
 ```{r, error=TRUE}
+names(roster_raw)
 roster_raw %>%
   select(Subject, `% Allocated`)
 ```

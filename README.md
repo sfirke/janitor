@@ -34,51 +34,50 @@ Janitor is a [\#tidyverse](https://github.com/hadley/tidyverse/blob/master/vigne
 
 Take this roster of teachers at a fictional American high school, stored in the Microsoft Excel file [dirty\_data.xlsx](https://github.com/sfirke/janitor/blob/master/dirty_data.xlsx): ![All kinds of dirty.](dirty_data.PNG)
 
+It suffers from:
+
+-   Illegal, clunky, and duplicated names
+-   Empty columns and rows used as dividers, and rows/columns that are empty but contain Excel formatting
+-   Dates stored as numbers
+-   Values spread inconsistently over the rightmost two columns
+-   Missing values stored as text, i.e., "TBD" and "PENDING" should be treated as NA in this case
+
 Here's that data after being read in to R:
 
 ``` r
 library(pacman) # for loading packages
 p_load(readxl, janitor, dplyr)
 
-roster_raw <- read_excel("dirty_data.xlsx")
+roster_raw <- read_excel("dirty_data.xlsx") # available at https://github.com/sfirke/janitor/blob/master/dirty_data.xlsx
 roster_raw
 #> # A tibble: 17 × 12
-#>    `First Name` `Last Name` `Employee Status`    Subject `Hire Date`
-#>           <chr>       <chr>             <chr>      <chr>       <dbl>
-#> 1         Jason      Bourne           Teacher         PE       39690
-#> 2         Jason      Bourne           Teacher   Drafting       39690
-#> 3        Alicia        Keys           Teacher      Music       37118
-#> 4           Ada    Lovelace           Teacher       <NA>       27515
-#> 5         Desus        Nice    Administration       Dean       41431
-#> 6  Chien-Shiung          Wu           Teacher    Physics       11037
-#> 7  Chien-Shiung          Wu           Teacher  Chemistry       11037
-#> 8          <NA>        <NA>              <NA>       <NA>          NA
-#> 9         James       Joyce           Teacher    English       32994
-#> 10         Hedy      Lamarr           Teacher    Science       27919
-#> 11       Carlos      Boozer             Coach Basketball       42221
-#> 12        Young      Boozer             Coach        TBD       34700
-#> 13      Micheal      Larsen           Teacher    English       40071
-#> 14         <NA>        <NA>              <NA>       <NA>          NA
-#> 15         <NA>        <NA>              <NA>       <NA>          NA
-#> 16         <NA>        <NA>              <NA>       <NA>          NA
-#> 17         <NA>        <NA>              <NA>       <NA>          NA
-#> # ... with 7 more variables: `% Allocated` <dbl>, `Full time?` <chr>, `do
-#> #   not edit! --->` <dbl>, Certification <chr>, Certification <chr>,
-#> #   Certification <dbl>, `` <dttm>
+#>    `First Name` `Last Name` `Employee Status`    Subject `Hire Date` `% Allocated` `Full time?` `do not edit! --->` Certification  Certification Certification     ``
+#>           <chr>       <chr>             <chr>      <chr>       <dbl>         <dbl>        <chr>               <dbl>         <chr>          <chr>         <dbl> <dttm>
+#> 1         Jason      Bourne           Teacher         PE       39690          0.75          Yes                  NA   Physical ed        Theater            NA   <NA>
+#> 2         Jason      Bourne           Teacher   Drafting       39690          0.25          Yes                  NA   Physical ed        Theater            NA   <NA>
+#> 3        Alicia        Keys           Teacher      Music       37118          1.00          Yes                  NA  Instr. music    Vocal music            NA   <NA>
+#> 4           Ada    Lovelace           Teacher       <NA>       27515          1.00          Yes                  NA       PENDING      Computers            NA   <NA>
+#> 5         Desus        Nice    Administration       Dean       41431          1.00          Yes                  NA       PENDING           <NA>            NA   <NA>
+#> 6  Chien-Shiung          Wu           Teacher    Physics       11037          0.50          Yes                  NA  Science 6-12        Physics            NA   <NA>
+#> 7  Chien-Shiung          Wu           Teacher  Chemistry       11037          0.50          Yes                  NA  Science 6-12        Physics            NA   <NA>
+#> 8          <NA>        <NA>              <NA>       <NA>          NA            NA         <NA>                  NA          <NA>           <NA>            NA   <NA>
+#> 9         James       Joyce           Teacher    English       32994          0.50           No                  NA          <NA>   English 6-12            NA   <NA>
+#> 10         Hedy      Lamarr           Teacher    Science       27919          0.50           No                  NA       PENDING           <NA>            NA   <NA>
+#> 11       Carlos      Boozer             Coach Basketball       42221            NA           No                  NA   Physical ed           <NA>            NA   <NA>
+#> 12        Young      Boozer             Coach        TBD       34700            NA           No                  NA          <NA> Political sci.            NA   <NA>
+#> 13      Micheal      Larsen           Teacher    English       40071          0.80           No                  NA   Vocal music        English            NA   <NA>
+#> 14         <NA>        <NA>              <NA>       <NA>          NA            NA         <NA>                  NA          <NA>           <NA>            NA   <NA>
+#> 15         <NA>        <NA>              <NA>       <NA>          NA            NA         <NA>                  NA          <NA>           <NA>            NA   <NA>
+#> 16         <NA>        <NA>              <NA>       <NA>          NA            NA         <NA>                  NA          <NA>           <NA>            NA   <NA>
+#> 17         <NA>        <NA>              <NA>       <NA>          NA            NA         <NA>                  NA          <NA>           <NA>            NA   <NA>
 ```
 
-It suffers from:
-
--   Illegal, clunky, and duplicated names
--   Empty columns and rows used as dividers
--   Empty columns and rows at the right and bottom, where Excel's formatting caused empty cells to be read in
--   Dates stored as numbers
--   Values spread inconsistently over the rightmost two columns
--   Missing values stored as text, i.e., "TBD" and "PENDING" should be treated as NA in this case
-
-The duplicated names cause `dplyr` functions to choke:
+The presence of Excel formatting led to an empty column on the right and empty rows below. The (dreadful) column names are preserved, and the duplicate column names cause `dplyr` functions to choke:
 
 ``` r
+names(roster_raw)
+#>  [1] "First Name"        "Last Name"         "Employee Status"   "Subject"           "Hire Date"         "% Allocated"       "Full time?"        "do not edit! --->" "Certification"    
+#> [10] "Certification"     "Certification"     ""
 roster_raw %>%
   select(Subject, `% Allocated`)
 #> Error in eval(substitute(expr), envir, enclos): found duplicated column name: Certification, Certification
@@ -97,22 +96,20 @@ roster <- roster_raw %>%
 
 roster
 #> # A tibble: 12 × 10
-#>      first_name last_name employee_status    subject  hire_date
-#>           <chr>     <chr>           <chr>      <chr>     <date>
-#> 1         Jason    Bourne         Teacher         PE 2008-08-30
-#> 2         Jason    Bourne         Teacher   Drafting 2008-08-30
-#> 3        Alicia      Keys         Teacher      Music 2001-08-15
-#> 4           Ada  Lovelace         Teacher       <NA> 1975-05-01
-#> 5         Desus      Nice  Administration       Dean 2013-06-06
-#> 6  Chien-Shiung        Wu         Teacher    Physics 1930-03-20
-#> 7  Chien-Shiung        Wu         Teacher  Chemistry 1930-03-20
-#> 8         James     Joyce         Teacher    English 1990-05-01
-#> 9          Hedy    Lamarr         Teacher    Science 1976-06-08
-#> 10       Carlos    Boozer           Coach Basketball 2015-08-05
-#> 11        Young    Boozer           Coach       <NA> 1995-01-01
-#> 12      Micheal    Larsen         Teacher    English 2009-09-15
-#> # ... with 5 more variables: percent_allocated <dbl>, full_time <chr>,
-#> #   certification <chr>, certification_2 <chr>, main_cert <chr>
+#>      first_name last_name employee_status    subject  hire_date percent_allocated full_time certification certification_2      main_cert
+#>           <chr>     <chr>           <chr>      <chr>     <date>             <dbl>     <chr>         <chr>           <chr>          <chr>
+#> 1         Jason    Bourne         Teacher         PE 2008-08-30              0.75       Yes   Physical ed         Theater    Physical ed
+#> 2         Jason    Bourne         Teacher   Drafting 2008-08-30              0.25       Yes   Physical ed         Theater    Physical ed
+#> 3        Alicia      Keys         Teacher      Music 2001-08-15              1.00       Yes  Instr. music     Vocal music   Instr. music
+#> 4           Ada  Lovelace         Teacher       <NA> 1975-05-01              1.00       Yes          <NA>       Computers      Computers
+#> 5         Desus      Nice  Administration       Dean 2013-06-06              1.00       Yes          <NA>            <NA>           <NA>
+#> 6  Chien-Shiung        Wu         Teacher    Physics 1930-03-20              0.50       Yes  Science 6-12         Physics   Science 6-12
+#> 7  Chien-Shiung        Wu         Teacher  Chemistry 1930-03-20              0.50       Yes  Science 6-12         Physics   Science 6-12
+#> 8         James     Joyce         Teacher    English 1990-05-01              0.50        No          <NA>    English 6-12   English 6-12
+#> 9          Hedy    Lamarr         Teacher    Science 1976-06-08              0.50        No          <NA>            <NA>           <NA>
+#> 10       Carlos    Boozer           Coach Basketball 2015-08-05                NA        No   Physical ed            <NA>    Physical ed
+#> 11        Young    Boozer           Coach       <NA> 1995-01-01                NA        No          <NA>  Political sci. Political sci.
+#> 12      Micheal    Larsen         Teacher    English 2009-09-15              0.80        No   Vocal music         English    Vocal music
 ```
 
 Use `%>% clean_names()` anytime you read data into R.
@@ -126,14 +123,12 @@ Use `%>% clean_names()` anytime you read data into R.
 ``` r
 roster %>% get_dupes(first_name, last_name)
 #> # A tibble: 4 × 11
-#>     first_name last_name dupe_count employee_status   subject  hire_date
-#>          <chr>     <chr>      <int>           <chr>     <chr>     <date>
-#> 1 Chien-Shiung        Wu          2         Teacher   Physics 1930-03-20
-#> 2 Chien-Shiung        Wu          2         Teacher Chemistry 1930-03-20
-#> 3        Jason    Bourne          2         Teacher        PE 2008-08-30
-#> 4        Jason    Bourne          2         Teacher  Drafting 2008-08-30
-#> # ... with 5 more variables: percent_allocated <dbl>, full_time <chr>,
-#> #   certification <chr>, certification_2 <chr>, main_cert <chr>
+#>     first_name last_name dupe_count employee_status   subject  hire_date percent_allocated full_time certification certification_2    main_cert
+#>          <chr>     <chr>      <int>           <chr>     <chr>     <date>             <dbl>     <chr>         <chr>           <chr>        <chr>
+#> 1 Chien-Shiung        Wu          2         Teacher   Physics 1930-03-20              0.50       Yes  Science 6-12         Physics Science 6-12
+#> 2 Chien-Shiung        Wu          2         Teacher Chemistry 1930-03-20              0.50       Yes  Science 6-12         Physics Science 6-12
+#> 3        Jason    Bourne          2         Teacher        PE 2008-08-30              0.75       Yes   Physical ed         Theater  Physical ed
+#> 4        Jason    Bourne          2         Teacher  Drafting 2008-08-30              0.25       Yes   Physical ed         Theater  Physical ed
 ```
 
 Yes, some teachers appear twice. We ought to address this before counting employees.
