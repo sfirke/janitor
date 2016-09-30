@@ -1,8 +1,26 @@
 NEWS
 ====
 
+# janitor 0.2 (Release date: 2016-09-30)
 
-# janitor 0.1.2.9001
+
+## Features
+
+### Major
+**Submitted to CRAN!**
+
+### Minor
+* The count in `tabyl()` for factor levels that aren't present is now `0` instead of `NA` [(#48)](https://github.com/sfirke/janitor/issues/48)
+
+## Bug fixes
+* Can call tabyl() on the result of a tabyl(), e.g., `mtcars %>% tabyl(mpg) %>% tabyl(n)`  [(#54)](https://github.com/sfirke/janitor/issues/54)
+* `get_dupes()` now works on variables with spaces in column names [(#62)](https://github.com/sfirke/janitor/issues/62)
+
+## Package management
+
+* Reached 100% unit test code coverage
+
+# janitor 0.1.2
 
 ## Features
 
@@ -19,9 +37,6 @@ NEWS
 * A call like `tabyl(df$vecname)` retains the more-descriptive `$` symbol in the column name of the result - if you want a legal R name in the result, call it as `df %>% tabyl(vecname)`
 * Single and double quotation marks are handled by `clean_names()`
 
-## Bug fixes
-
-*
 
 ## Package management
 
