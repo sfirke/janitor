@@ -51,14 +51,12 @@ Janitor is a [#tidyverse](https://github.com/hadley/tidyverse/blob/master/vignet
 Take this roster of teachers at a fictional American high school, stored in the Microsoft Excel file [dirty_data.xlsx](https://github.com/sfirke/janitor/blob/master/dirty_data.xlsx):
 ![All kinds of dirty.](dirty_data.PNG)
 
-It suffers from:
+It features:
 
-* Illegal, clunky, and duplicated names
-* Empty columns and rows used as dividers, and rows/columns that are empty but contain Excel formatting
+* Dreadful column names
+* Rows and columns containing Excel formatting but no data
 * Dates stored as numbers
 * Values spread inconsistently over the "Certification" columns
-* Missing values stored inconsistently, i.e., "TBD" and "PENDING" should be treated as NA in this case
-
 
 Here's that data after being read in to R:
 ```{r, warning = FALSE, message = FALSE}
@@ -69,13 +67,9 @@ roster_raw <- read_excel("dirty_data.xlsx") # available at http://github.com/sfi
 glimpse(roster_raw)
 ```
 
-The presence of Excel formatting led to an untitled empty column and 5 empty rows at the bottom of the table (there are only 12 records with any actual data).  The bad column names are preserved, and  duplicate column names cause `dplyr` functions to choke:
-```{r, error=TRUE}
-roster_raw %>%
-  select(Subject, `% Allocated`)
-```
+Excel formatting led to an untitled empty column and 5 empty rows at the bottom of the table (only 12 records have any actual data).  Bad column names are preserved.
 
-Let's clean it:
+Clean it with janitor functions:
 ```{r}
 roster <- roster_raw %>%
   clean_names() %>%
@@ -89,20 +83,20 @@ roster <- roster_raw %>%
 roster
 ```
 
-The core cleaning function is `clean_names()` - call it anytime you read data into R.
+The core janitor cleaning function is `clean_names()` - call it whenever you load data into R.
 
 ### Examining dirty data
 
 #### Finding duplicates
-Use `get_dupes()` to identify and examine duplicate records during data cleaning.  Here, let's see if any teachers are listed more than once:
+Use `get_dupes()` to identify and examine duplicate records during data cleaning.  Let's see if any teachers are listed more than once:
 ```{r}
 roster %>% get_dupes(first_name, last_name)
 ```
 
 Yes, some teachers appear twice.  We ought to address this before counting employees.
 
-#### Tabulating variables
-janitor has several functions for quick counts.  The two major ones are `tabyl()` and `crosstab()`.
+#### Tabulating tools
+janitor has several functions for quick counts.  The big ones are `tabyl()` and `crosstab()`.
 
 Notably, they can be called two ways:
 
@@ -110,16 +104,24 @@ Notably, they can be called two ways:
 * On a piped-in data.frame: `roster %>% tabyl(subject)`.
     * This allows for dplyr commands earlier in the pipeline
 
+##### tabyl()
+
+Like `table()`, but pipe-able and more functional.
+
 ```{r}
 roster %>%
   tabyl(subject)
+```
+##### crosstab()
 
+```{r}
 roster %>%
   filter(hire_date > as.Date("1950-01-01")) %>%
   crosstab(employee_status, full_time)
 ```
 
-Other janitor functions "prettify" the results of these tabulation calls for fast, basic reporting.  Here are some of the functions that augment tabyls and crosstabs:
+##### Prettifying
+Other janitor functions dress up the results of these tabulation calls for fast, basic reporting.  Here are some of the functions that augment `tabyls` and `crosstabs`:
 ```{r}
 roster %>%
   tabyl(employee_status, sort = TRUE) %>%
@@ -140,4 +142,5 @@ You are welcome to:
 
 * submit suggestions and bug-reports: https://github.com/sfirke/janitor/issues
 * send a pull request: https://github.com/sfirke/janitor/
+* let me know what you think on twitter @samfirke
 * compose a friendly e-mail to: <img src = "http://samfirke.com/wp-content/uploads/2016/07/email_address_whitespace_top.png" alt = "samuel.firke AT gmail" width = "210"/>

@@ -34,13 +34,12 @@ Janitor is a [\#tidyverse](https://github.com/hadley/tidyverse/blob/master/vigne
 
 Take this roster of teachers at a fictional American high school, stored in the Microsoft Excel file [dirty\_data.xlsx](https://github.com/sfirke/janitor/blob/master/dirty_data.xlsx): ![All kinds of dirty.](dirty_data.PNG)
 
-It suffers from:
+It features:
 
--   Illegal, clunky, and duplicated names
--   Empty columns and rows used as dividers, and rows/columns that are empty but contain Excel formatting
+-   Dreadful column names
+-   Rows and columns containing Excel formatting but no data
 -   Dates stored as numbers
 -   Values spread inconsistently over the "Certification" columns
--   Missing values stored inconsistently, i.e., "TBD" and "PENDING" should be treated as NA in this case
 
 Here's that data after being read in to R:
 
@@ -66,15 +65,9 @@ glimpse(roster_raw)
 #> $                   <dttm> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA
 ```
 
-The presence of Excel formatting led to an untitled empty column and 5 empty rows at the bottom of the table (there are only 12 records with any actual data). The bad column names are preserved, and duplicate column names cause `dplyr` functions to choke:
+Excel formatting led to an untitled empty column and 5 empty rows at the bottom of the table (only 12 records have any actual data). Bad column names are preserved.
 
-``` r
-roster_raw %>%
-  select(Subject, `% Allocated`)
-#> Error in eval(substitute(expr), envir, enclos): found duplicated column name: Certification, Certification
-```
-
-Let's clean it:
+Clean it with janitor functions:
 
 ``` r
 roster <- roster_raw %>%
@@ -104,13 +97,13 @@ roster
 #> 12      Micheal    Larsen         Teacher    English 2009-09-15              0.80        No    Vocal music
 ```
 
-The core cleaning function is `clean_names()` - call it anytime you read data into R.
+The core janitor cleaning function is `clean_names()` - call it whenever you load data into R.
 
 ### Examining dirty data
 
 #### Finding duplicates
 
-Use `get_dupes()` to identify and examine duplicate records during data cleaning. Here, let's see if any teachers are listed more than once:
+Use `get_dupes()` to identify and examine duplicate records during data cleaning. Let's see if any teachers are listed more than once:
 
 ``` r
 roster %>% get_dupes(first_name, last_name)
@@ -126,15 +119,19 @@ roster %>% get_dupes(first_name, last_name)
 
 Yes, some teachers appear twice. We ought to address this before counting employees.
 
-#### Tabulating variables
+#### Tabulating tools
 
-janitor has several functions for quick counts. The two major ones are `tabyl()` and `crosstab()`.
+janitor has several functions for quick counts. The big ones are `tabyl()` and `crosstab()`.
 
 Notably, they can be called two ways:
 
 -   On vectors - e.g., `tabyl(roster$subject)`
 -   On a piped-in data.frame: `roster %>% tabyl(subject)`.
     -   This allows for dplyr commands earlier in the pipeline
+
+##### tabyl()
+
+Like `table()`, but pipe-able and more functional.
 
 ``` r
 roster %>%
@@ -150,7 +147,11 @@ roster %>%
 #> 8     Physics 1 0.08333333           0.1
 #> 9     Science 1 0.08333333           0.1
 #> 10       <NA> 2 0.16666667            NA
+```
 
+##### crosstab()
+
+``` r
 roster %>%
   filter(hire_date > as.Date("1950-01-01")) %>%
   crosstab(employee_status, full_time)
@@ -160,7 +161,9 @@ roster %>%
 #> 3         Teacher  3   4
 ```
 
-Other janitor functions "prettify" the results of these tabulation calls for fast, basic reporting. Here are some of the functions that augment tabyls and crosstabs:
+##### Prettifying
+
+Other janitor functions dress up the results of these tabulation calls for fast, basic reporting. Here are some of the functions that augment `tabyls` and `crosstabs`:
 
 ``` r
 roster %>%
@@ -189,4 +192,5 @@ You are welcome to:
 
 -   submit suggestions and bug-reports: <https://github.com/sfirke/janitor/issues>
 -   send a pull request: <https://github.com/sfirke/janitor/>
+-   let me know what you think on twitter @samfirke
 -   compose a friendly e-mail to: <img src = "http://samfirke.com/wp-content/uploads/2016/07/email_address_whitespace_top.png" alt = "samuel.firke AT gmail" width = "210"/>
