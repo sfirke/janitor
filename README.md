@@ -6,7 +6,7 @@ janitor
 
 [![Travis-CI Build Status](https://travis-ci.org/sfirke/janitor.svg?branch=master)](https://travis-ci.org/sfirke/janitor) [![Coverage Status](https://img.shields.io/codecov/c/github/sfirke/janitor/master.svg)](https://codecov.io/github/sfirke/janitor?branch=master)
 
-**janitor** has simple little functions for examining and cleaning dirty data. Save your brain for the fun stuff.
+**janitor** has simple little functions for examining and cleaning dirty data. An intermediate R user can already do all of this, but with janitor you can save your brainpower for the fun stuff.
 
 <hr/>
 > Data scientists, according to interviews and expert estimates, spend from 50 percent to 80 percent of their time mired in this more mundane labor of collecting and preparing unruly digital data, before it can be explored for useful nuggets.
@@ -34,7 +34,7 @@ Janitor is a [\#tidyverse](https://github.com/hadley/tidyverse/blob/master/vigne
 
 Take this roster of teachers at a fictional American high school, stored in the Microsoft Excel file [dirty\_data.xlsx](https://github.com/sfirke/janitor/blob/master/dirty_data.xlsx): ![All kinds of dirty.](dirty_data.PNG)
 
-It features:
+Dirtiness includes:
 
 -   Dreadful column names
 -   Rows and columns containing Excel formatting but no data
@@ -77,7 +77,7 @@ roster <- roster_raw %>%
   convert_to_NA(c("TBD", "PENDING")) %>%
   mutate(hire_date = excel_numeric_to_date(hire_date),
          main_cert = use_first_valid_of(certification, certification_2)) %>%
-  select(-certification, -certification_2)
+  select(-certification, -certification_2) # drop unwanted columns
 
 roster
 #> # A tibble: 12 × 8
@@ -163,7 +163,7 @@ roster %>%
 
 ##### Prettifying
 
-Other janitor functions dress up the results of these tabulation calls for fast, basic reporting. Here are some of the functions that augment `tabyls` and `crosstabs`:
+Other janitor functions dress up the results of these tabulation calls for fast, basic reporting. Here are some of the functions that augment a summary table for reporting:
 
 ``` r
 roster %>%
@@ -183,7 +183,7 @@ roster %>%
 #> 2       Yes     100.0% (1)   0.0% (0) 66.7% (6) 58.3% (7)
 ```
 
-Together, these tabulation functions fill R's deficit against Excel and SPSS when it comes to quick, informative counts.
+Together, these tabulation functions reduce R's deficit against Excel and SPSS when it comes to quick, informative counts.
 
 Contact me
 ----------
