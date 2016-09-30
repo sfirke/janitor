@@ -1,10 +1,8 @@
 Package: janitor
 Title: Tools for Data Cleaning
 Version: 0.2.0
-Authors@R: as.person(c(
-    "Sam Firke <samuel.firke@gmail.com> [aut, cre]",
-    "Chris Haid <chrishaid@gmail.com> [ctb]"
-  ))
+Authors@R: c(person("Sam", "Firke", email = "samuel.firke@gmail.com", role = c("aut", "cre")),
+    person("Chris", "Haid", email = "chrishaid@gmail.com", role = "ctb"))
 Description: Tools to streamline tedious aspects of examining and cleaning dirty data.
 URL: https://github.com/sfirke/janitor
 BugReports: https://github.com/sfirke/janitor/issues
