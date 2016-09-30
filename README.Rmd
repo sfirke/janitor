@@ -66,7 +66,7 @@ library(pacman) # for loading packages
 p_load(readxl, janitor, dplyr)
 
 roster_raw <- read_excel("dirty_data.xlsx") # available at http://github.com/sfirke/janitor
-str(roster_raw)
+glimpse(roster_raw)
 ```
 
 The presence of Excel formatting led to an untitled empty column and 5 empty rows at the bottom of the table (there are only 12 records with any actual data).  The bad column names are preserved, and  duplicate column names cause `dplyr` functions to choke:
