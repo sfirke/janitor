@@ -3,7 +3,13 @@
 * ubuntu 12.04.5 (on travis-ci), R 3.3.1
 
 ## R CMD check results
-There were no ERRORs, WARNINGs, or NOTEs.
+There were no ERRORs or WARNINGs.  There was 1 NOTE:
+
+License components with restrictions and base license permitting such:
+  MIT + file LICENSE
+File 'LICENSE':
+  YEAR: 2016
+
 
 ## Downstream dependencies
 There are currently no downstream dependencies for this package.
