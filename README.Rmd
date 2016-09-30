@@ -12,8 +12,7 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.path = "README-"  
 )
-
-options(width = 200)
+options(width = 100)
 ```
 
 # janitor
@@ -57,8 +56,8 @@ It suffers from:
 * Illegal, clunky, and duplicated names
 * Empty columns and rows used as dividers, and rows/columns that are empty but contain Excel formatting
 * Dates stored as numbers
-* Values spread inconsistently over the rightmost two columns
-* Missing values stored as text, i.e., "TBD" and "PENDING" should be treated as NA in this case
+* Values spread inconsistently over the "Certification" columns
+* Missing values stored inconsistently, i.e., "TBD" and "PENDING" should be treated as NA in this case
 
 
 Here's that data after being read in to R:
@@ -66,13 +65,12 @@ Here's that data after being read in to R:
 library(pacman) # for loading packages
 p_load(readxl, janitor, dplyr)
 
-roster_raw <- read_excel("dirty_data.xlsx") # available at https://github.com/sfirke/janitor/blob/master/dirty_data.xlsx
-roster_raw
+roster_raw <- read_excel("dirty_data.xlsx") # available at http://github.com/sfirke/janitor
+str(roster_raw)
 ```
 
-The presence of Excel formatting led to an empty column on the right and empty rows below.  The (dreadful) column names are preserved, and the duplicate column names cause `dplyr` functions to choke:
+The presence of Excel formatting led to an untitled empty column and 5 empty rows at the bottom of the table (there are only 12 records with any actual data).  The bad column names are preserved, and  duplicate column names cause `dplyr` functions to choke:
 ```{r, error=TRUE}
-names(roster_raw)
 roster_raw %>%
   select(Subject, `% Allocated`)
 ```
@@ -90,12 +88,12 @@ roster <- roster_raw %>%
 roster
 ```
 
-Use `%>% clean_names()` anytime you read data into R.
+The core cleaning function is `clean_names()` - call it anytime you read data into R.
 
 ### Examining dirty data
 
 #### Finding duplicates
-`get_dupes()` is for hunting down and examining duplicate records during data cleaning.  Here, let's see if any teachers are listed more than once:
+Use `get_dupes()` to identify and examine duplicate records during data cleaning.  Here, let's see if any teachers are listed more than once:
 ```{r}
 roster %>% get_dupes(first_name, last_name)
 ```
