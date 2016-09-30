@@ -2,14 +2,12 @@
 ^\.Rproj\.user$
 ^\.travis\.yml$
 ^README\.Rmd$       # An Rmarkdown file used to generate README.md
-cran-comments.md # Comments for CRAN submission
+cran-comments.md    # Comments for CRAN submission
 ^NEWS\.md$
 ^LICENSE\.md$
 ^\.gitignore
 README.Rmd
 ^cran\-comments\.md$
-dirty_data.PNG # for GitHub README
-dirty_data.xlsx # for GitHub README
 
-dirty_data.PNG
 dirty_data.xlsx
+dirty_data.PNG
