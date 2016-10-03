@@ -1,5 +1,10 @@
+# Resubmission
+2016-10-02
 
-# Round 1
+### Resubmission comments
+This is a resubmission. In this version I have addressed the reviewer's comment by expanding the package's Description.
+
+# Original submission
 2016-10-01
 
 ### Test environments
@@ -30,9 +35,3 @@ This is my first submission to CRAN.
 Could you please expand the Description -- explain what
 tools are included -- and resubmit.
 ```
-# Round 2
-2016-10-02
-
-### Submission comments
-
-Addressed the comment by expanding the package's Description.

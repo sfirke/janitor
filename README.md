@@ -1,34 +1,52 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-janitor
-=======
-
-------------------------------------------------------------------------
-
-[![Travis-CI Build Status](https://travis-ci.org/sfirke/janitor.svg?branch=master)](https://travis-ci.org/sfirke/janitor) [![Coverage Status](https://img.shields.io/codecov/c/github/sfirke/janitor/master.svg)](https://codecov.io/github/sfirke/janitor?branch=master)
-
-**janitor** has simple little functions for examining and cleaning dirty data. An intermediate R user can already do all of this, but with janitor you can save your brainpower for the fun stuff.
-
 <hr/>
 > Data scientists, according to interviews and expert estimates, spend from 50 percent to 80 percent of their time mired in this more mundane labor of collecting and preparing unruly digital data, before it can be explored for useful nuggets.
 >
 > -- *"[For Big-Data Scientists, 'Janitor Work' Is Key Hurdle to Insight](http://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html)" - The New York Times, 2014*
 
 <hr/>
+janitor
+=======
+
+------------------------------------------------------------------------
+
+[![Travis-CI Build Status](https://travis-ci.org/sfirke/janitor.svg?branch=master)](https://travis-ci.org/sfirke/janitor) [![Coverage Status](https://img.shields.io/codecov/c/github/sfirke/janitor/master.svg)](https://codecov.io/github/sfirke/janitor?branch=master) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/janitor)](http://cran.r-project.org/package=janitor)
+
+**janitor** has simple functions for examining and cleaning dirty data. It was built with beginning and intermediate R users in mind and is optimized for user-friendliness. Advanced R users can already do everything covered here, but with janitor they can do it faster and save their thinking for the fun stuff.
+
+The main janitor functions:
+
+-   perfectly format data.frame column names;
+-   isolate partially-duplicate records; and
+-   provide quick one- and two-variable tabulations (i.e., frequency tables and crosstabs).
+
+Other janitor functions nicely format the results of these tabulations. Together, these tabulate-and-report functions approximate popular features of SPSS and Microsoft Excel.
+
+janitor is a [\#tidyverse](https://github.com/hadley/tidyverse/blob/master/vignettes/manifesto.Rmd)-oriented package. Specifically, it plays nicely with the `%>%` pipe and is optimized for cleaning data brought in with the [readr](https://github.com/hadley/readr) and [readxl](https://github.com/hadley/readxl) packages.
+
 ### Installation
 
-janitor is not yet on CRAN. Install the development version from GitHub:
+You can install:
 
-``` r
-# install.packages("devtools")
-devtools::install_github("sfirke/janitor")
-```
+-   the latest released version from CRAN with
+
+    ``` r
+    install.packages("janitor")
+    ```
+
+-   the latest development version from GitHub with
+
+    ``` r
+    if (packageVersion("devtools") < 1.6) {
+      install.packages("devtools")
+    }
+    devtools::install_github("sfirke/janitor")
+    ```
 
 Using janitor
 -------------
 
-Below are quick examples of how janitor functions are commonly used. A full description of each function can be found in janitor's [catalog of functions](https://github.com/sfirke/janitor/blob/master/vignettes/introduction.md).
-
-Janitor is a [\#tidyverse](https://github.com/hadley/tidyverse/blob/master/vignettes/manifesto.Rmd)-oriented package. Specifically, it plays nicely with the `%>%` pipe and is optimized for cleaning data brought in with the [readr](https://github.com/hadley/readr) and [readxl](https://github.com/hadley/readxl) packages.
+Below are quick examples of how janitor tools are commonly used. A full description of each function can be found in janitor's [catalog of functions](https://github.com/sfirke/janitor/blob/master/vignettes/introduction.md).
 
 ### Cleaning dirty data
 
@@ -131,7 +149,7 @@ Notably, they can be called two ways:
 
 ##### tabyl()
 
-Like `table()`, but pipe-able and more functional.
+Like `table()`, but pipe-able and fully featured.
 
 ``` r
 roster %>%
@@ -190,7 +208,7 @@ Contact me
 
 You are welcome to:
 
--   submit suggestions and bug-reports: <https://github.com/sfirke/janitor/issues>
+-   submit suggestions and report bugs: <https://github.com/sfirke/janitor/issues>
 -   send a pull request: <https://github.com/sfirke/janitor/>
 -   let me know what you think on twitter @samfirke
 -   compose a friendly e-mail to: <img src = "http://samfirke.com/wp-content/uploads/2016/07/email_address_whitespace_top.png" alt = "samuel.firke AT gmail" width = "210"/>
