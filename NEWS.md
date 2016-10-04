@@ -1,8 +1,13 @@
 NEWS
 ====
 
-# janitor 0.2 (Release date: 2016-09-30)
+# janitor 0.2.0.9000 (*in progress*)
 
+...
+
+
+
+# janitor 0.2.0 (Release date: 2016-10-03)
 
 ## Features
 
