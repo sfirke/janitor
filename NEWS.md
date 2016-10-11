@@ -6,7 +6,7 @@ NEWS
 
 
 ## Bug fixes
-* `add_totals_row()` works on two-column data.frame (#69)
+* `add_totals_row()` works on two-column data.frame [(#69)](https://github.com/sfirke/janitor/issues/69)
 
 # janitor 0.2.0 (Release date: 2016-10-03)
 
