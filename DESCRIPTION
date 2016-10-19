@@ -20,7 +20,8 @@ Depends:
 Imports:
     dplyr,
     tidyr,
-    magrittr
+    magrittr,
+    fuzzyjoin
 License: MIT + file LICENSE
 LazyData: true
 RoxygenNote: 5.0.1
