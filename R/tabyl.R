@@ -12,7 +12,11 @@
 #' @param vec the vector to tabulate.  If supplying a data.frame, this should be an unquoted column name.
 #' @param sort a logical value indicating whether the resulting table should be sorted in descending order of \code{n}.
 #' @param show_na a logical value indicating whether the count of \code{NA} values should be displayed, along with an additional column showing valid percentages.
+#' @param .data (optional) a data.frame, in which case \code{vec} should be an unquoted column name.
+#' @param ... additional arguments, if calling \code{tabyl} on a data.frame.
 #' @return Returns a data.frame with the frequencies and percentages of the tabulated variable.
+#' @export
+#' @rdname tabyl
 #' @examples
 #' # Calling on a vector:
 #' val <- c("hi", "med", "med", "lo")
@@ -28,13 +32,11 @@
 #' tabyl(my_cars$cyl)
 #' tabyl(my_cars$cyl, show_na = FALSE)
 
-#' @export
 tabyl <- function(...) UseMethod("tabyl")
 
 #' @inheritParams tabyl
-#' @describeIn tabyl Create a frequency table from a vector.
 #' @export
-#' @keywords internal
+#' @describeIn tabyl Create a frequency table from a vector. 
 
 tabyl.default <- function(vec, sort = FALSE, show_na = TRUE, ...) {
   
@@ -51,25 +53,25 @@ tabyl.default <- function(vec, sort = FALSE, show_na = TRUE, ...) {
     if(is.list(vec)){ vec <- vec[[1]] } # to preserve factor properties when vec is passed in as a list from data.frame method
     dat <- data.frame(vec, stringsAsFactors = is.factor(vec))
     names(dat)[1] <- "vec"
-
+    
     
     result <- dat %>% dplyr::count(vec, sort = sort)
-  
+    
     if(is.factor(vec)){
       result <- tidyr::complete(result, vec)
       if(sort){result <- dplyr::arrange(result, dplyr::desc(n))} # undo reorder caused by complete()
-      }
+    }
     
   } else {stop("input must be a vector of type logical, numeric, character, list, or factor")}
-
+  
   # calculate percent, move NA row to bottom
   result <- result %>%
     dplyr::mutate(percent = n / sum(n, na.rm = TRUE))
-
+  
   # sort the NA row to the bottom, necessary to retain factor sorting  
   result <- result[order(is.na(result$vec)), ]
   result$is_na <- NULL
-
+  
   # replace all NA values with 0 - only applies to missing factor levels
   result <- tidyr::replace_na(result, replace = list(n = 0, percent = 0))
   
@@ -84,23 +86,22 @@ tabyl.default <- function(vec, sort = FALSE, show_na = TRUE, ...) {
       dplyr::filter(!is.na(.[1])) %>%
       dplyr::mutate(percent = n / sum(n, na.rm = TRUE)) # recalculate % without NAs
   }
-
+  
   # reassign correct variable name
   names(result)[1] <- var_name
   
   # in case input var name was "n" or "percent", call helper function to set unique names
   result <- handle_if_special_names_used(result)
   
-    data.frame(result, check.names = FALSE)
+  data.frame(result, check.names = FALSE)
 }
 
-#' @inheritParams tabyl.default
-#' @param .data (optional) a data.frame, in which case \code{vec} should be an unquoted column name.
-#' @param ... additional arguments, if calling \code{tabyl} on a data.frame.
-#' @describeIn tabyl Create a frequency table from a data.frame,
-#' supplying the unquoted name of the column to tabulate.
+#' @inheritParams tabyl
 #' @export
-#' @keywords internal
+#' @describeIn tabyl Create a frequency table from a data.frame, 
+#' supplying the unquoted name of the column to tabulate. 
+
+
 tabyl.data.frame <- function(.data, ...){
   # collect dots
   dots <- as.list(substitute(list(...)))[-1L]
@@ -113,7 +114,7 @@ tabyl.data.frame <- function(.data, ...){
   x <- as.data.frame(x,
                      stringsAsFactors = is.factor(x[[1]]),
                      check.names = FALSE) # preserve bad input names
-
+  
   # create args list to use with do.call
   arguments <- list()
   

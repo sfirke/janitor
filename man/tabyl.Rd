@@ -39,7 +39,7 @@ Create a frequency table of a variable, returned as a data.frame.  It shows coun
 \itemize{
 \item \code{default}: Create a frequency table from a vector.
 
-\item \code{data.frame}: Create a frequency table from a data.frame,
+\item \code{data.frame}: Create a frequency table from a data.frame, 
 supplying the unquoted name of the column to tabulate.
 }}
 \examples{
@@ -57,5 +57,4 @@ my_cars <- rbind(mtcars, rep(NA, 11))
 tabyl(my_cars$cyl)
 tabyl(my_cars$cyl, show_na = FALSE)
 }
-\keyword{internal}
 
