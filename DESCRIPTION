@@ -19,8 +19,7 @@ Depends:
     R (>= 3.1.2)
 Imports:
     dplyr,
-    tidyr,
-    magrittr
+    tidyr
 License: MIT + file LICENSE
 LazyData: true
 RoxygenNote: 5.0.1
