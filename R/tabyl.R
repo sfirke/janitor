@@ -108,9 +108,10 @@ tabyl.data.frame <- function(.data, ...){
   columns <- dots[1]
   x <- list()
   x[[deparse(columns[[1]])]] <- .data[, deparse(columns[[1]])]
-  x <- as.data.frame(x,
-                     stringsAsFactors = is.factor(x[[1]]),
-                     check.names = FALSE) # preserve bad input names
+  
+  x <- data.frame(x,
+                  stringsAsFactors = is.factor(x[[1]]),
+                  check.names = FALSE) # preserve bad input names
   
   # create args list to use with do.call
   arguments <- list()
