@@ -16,7 +16,6 @@
 #' @param ... additional arguments, if calling \code{tabyl} on a data.frame.
 #' @return Returns a data.frame with the frequencies and percentages of the tabulated variable.
 #' @export
-#' @rdname tabyl
 #' @examples
 #' # Calling on a vector:
 #' val <- c("hi", "med", "med", "lo")
@@ -25,7 +24,7 @@
 #' 
 #' # Passing in a data.frame using a pipeline:
 #' library(dplyr) # to access the pipe operator
-#' mtcars %>% tabyl(cyl)
+#' mtcars %>% tabyl(cyl, sort = TRUE)
 #' 
 #' # illustrating show_na functionality:
 #' my_cars <- rbind(mtcars, rep(NA, 11))
