@@ -36,7 +36,7 @@ tabyl <- function(...) UseMethod("tabyl")
 
 #' @inheritParams tabyl
 #' @export
-#' @describeIn tabyl Create a frequency table from a vector. 
+#' @rdname tabyl
 
 tabyl.default <- function(vec, sort = FALSE, show_na = TRUE, ...) {
   
@@ -98,9 +98,7 @@ tabyl.default <- function(vec, sort = FALSE, show_na = TRUE, ...) {
 
 #' @inheritParams tabyl
 #' @export
-#' @describeIn tabyl Create a frequency table from a data.frame, 
-#' supplying the unquoted name of the column to tabulate. 
-
+#' @rdname tabyl 
 
 tabyl.data.frame <- function(.data, ...){
   # collect dots

@@ -35,13 +35,6 @@ Create a frequency table of a variable, returned as a data.frame.  It shows coun
 
 2) A data.frame can be provided as the first argument, followed by an unquoted column name to tabulate.  This enables passing in a data.frame from a \code{\%>\%} pipeline, like \code{mtcars \%>\% tabyl(gear)}.
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{default}: Create a frequency table from a vector.
-
-\item \code{data.frame}: Create a frequency table from a data.frame, 
-supplying the unquoted name of the column to tabulate.
-}}
 \examples{
 # Calling on a vector:
 val <- c("hi", "med", "med", "lo")
