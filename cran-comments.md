@@ -17,7 +17,15 @@ I have also fixed three other small bugs, described in NEWS.md.  No other packag
 * Windows Server 2008 R2 SP1, R-oldrel (3.2.5), 32/64 bit (windows-x86_64-oldrel)
 
 ### R CMD check results
-There were no ERRORs, WARNINGs, or NOTEs.
+There were no ERRORs or WARNINGs.  There was 1 NOTE:
+
+Maintainer: 'Sam Firke <samuel.firke@gmail.com>'
+
+License components with restrictions and base license permitting such:
+  MIT + file LICENSE
+File 'LICENSE':
+  YEAR: 2016
+  COPYRIGHT HOLDER: Sam Firke
 
 ### Downstream dependencies
 There are currently no downstream dependencies for this package.
