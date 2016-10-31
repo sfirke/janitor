@@ -1,3 +1,12 @@
+# Resubmission
+2016-10-30
+
+Per feedback from Duncan, I updated a url in README.md to begin https:// to fit the canonical format.  The rest of the package resubmission is the same as submitted earlier today, described as follows.
+
+---
+# Submission
+2016-10-30
+
 This is a patch release, fixing a test that was failing on R 3.2.5 for Windows.  Uwe Ligges notified me of this on October 23rd:
 
 > *"find that your package faild under R-oldrelease (R-3.2.5) with the packages available there. Please fix or declare proper version dependencies and resubmit."*

@@ -27,7 +27,7 @@ options(width = 110)
 ***********************
 [![Travis-CI Build Status](https://travis-ci.org/sfirke/janitor.svg?branch=master)](https://travis-ci.org/sfirke/janitor)
 [![Coverage Status](https://img.shields.io/codecov/c/github/sfirke/janitor/master.svg)](https://codecov.io/github/sfirke/janitor?branch=master)
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/janitor)](http://cran.r-project.org/package=janitor)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/janitor)](https://cran.r-project.org/package=janitor)
 ![!Monthly Downloads](https://cranlogs.r-pkg.org/badges/janitor)
 ![!Downloads](https://cranlogs.r-pkg.org/badges/grand-total/janitor)
 
