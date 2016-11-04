@@ -30,4 +30,5 @@ and is optimized for user-friendliness.  Advanced users can already do everythin
 covered here, but they can do it faster with janitor and save their thinking for
 more fun tasks.
 }
+\keyword{internal}
 
