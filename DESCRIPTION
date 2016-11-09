@@ -1,6 +1,6 @@
 Package: janitor
 Title: Simple Tools for Examining and Cleaning Dirty Data
-Version: 0.2.0.9000
+Version: 0.2.1.9000
 Authors@R: c(person("Sam", "Firke", email = "samuel.firke@gmail.com", role = c("aut", "cre")),
     person("Chris", "Haid", email = "chrishaid@gmail.com", role = "ctb"))
 Description: The main janitor functions can: perfectly format data.frame column
@@ -8,19 +8,18 @@ Description: The main janitor functions can: perfectly format data.frame column
     tabulations (i.e., frequency tables and crosstabs). Other janitor functions
     nicely format the results of these tabulations. These tabulate-and-report
     functions approximate popular features of SPSS and Microsoft Excel. This package
-    follows the principles of the "tidyverse" and works well with the pipe
-    function %>%. janitor was built with beginning-to-intermediate R users in mind
-    and is optimized for user-friendliness. Advanced R users can already do
-    everything covered here, but with janitor they can do it faster and save their
-    thinking for the fun stuff.
+    follows the principles of the "tidyverse" and works well with the pipe function
+    %>%. janitor was built with beginning-to-intermediate R users in mind and is
+    optimized for user-friendliness. Advanced R users can already do everything
+    covered here, but with janitor they can do it faster and save their thinking for
+    the fun stuff.
 URL: https://github.com/sfirke/janitor
 BugReports: https://github.com/sfirke/janitor/issues
 Depends:
     R (>= 3.1.2)
 Imports:
-    dplyr,
-    tidyr,
-    magrittr
+    dplyr (>= 0.5.0),
+    tidyr
 License: MIT + file LICENSE
 LazyData: true
 RoxygenNote: 5.0.1

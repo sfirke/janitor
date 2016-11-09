@@ -14,6 +14,11 @@ dat <- data.frame(
   stringsAsFactors = FALSE
 )
 
+dat$p1 <- as.POSIXct(dat$d1)
+dat$p2 <- as.POSIXct(dat$d2)
+p3 <- as.POSIXlt(dat$d1)
+p4 <- as.POSIXlt(dat$d2)
+
 test_that("mismatched classes of input vectors give warning", {
   expect_warning(use_first_valid_of(dat$c, dat$x), "Input vectors do not share a single class - all input vectors will be coerced to class `character`")
 })
@@ -49,3 +54,15 @@ test_that("works with piping", {
                  .$new_var)
 })
 
+test_that("POSIXct outputs are correct and retain proper class", {
+  expect_equal(use_first_valid_of(dat$p1, dat$p2),
+               c(dat$p1[1:2], dat$p2[3]))
+  expect_equal(use_first_valid_of(dat$p1, dat$p2) %>% class,
+               c("POSIXct", "POSIXt"))
+})
+
+test_that("POSIXlt throws correct error message, other lists are rejected", {
+  expect_error(use_first_valid_of(p3, p4), "At least one input vector is of class POSIXlt, which is a list; convert to POSIXct")
+  k <- list("a", c(1, 2))
+  expect_error(use_first_valid_of(k), "At least one of the given inputs is a list; supply only vectors to this function")
+})
