@@ -40,13 +40,6 @@ Create a crosstab, displaying either frequencies or percentages calculated by ro
 
 For fancy formatting of the resulting data.frame, see \code{\link{adorn_crosstab}}.
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{default}: Create a crosstab from two vectors.
-
-\item \code{data.frame}: Create a crosstab from a data.frame,
-supplying unquoted names of the two columns to crosstab.
-}}
 \examples{
 # Calling on two vectors:
 a <- c("hi", "hi", "lo", "lo")
@@ -67,5 +60,4 @@ mtcars \%>\%
   filter(am == 0) \%>\%
   crosstab(cyl, gear)
 }
-\keyword{internal}
 

@@ -10,3 +10,5 @@ README.Rmd
 
 dirty_data.xlsx
 dirty_data.PNG
+^.*\.docx
+logo_small.png
