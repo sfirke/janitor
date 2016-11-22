@@ -2,26 +2,11 @@
 % Please edit documentation in R/top_levels.R
 \name{top_levels}
 \alias{top_levels}
-\title{Generate a frequency table of a factor grouped into top-n, bottom-n, and all other levels.}
+\title{Will be deprecated; use count_top_levels instead}
 \usage{
-top_levels(input_vec, n = 2, show_na = FALSE, sort = FALSE)
-}
-\arguments{
-\item{input_vec}{the factor variable to tabulate.}
-
-\item{n}{number of levels to include in top and bottom groups}
-
-\item{show_na}{should cases where the variable is NA be shown?}
-
-\item{sort}{should the resulting table be sorted in descending order?}
-}
-\value{
-Returns a data.frame (actually a \code{tbl_df}) with the frequencies of the grouped, tabulated variable.  Includes counts and percentages, and valid percentages (calculated omitting \code{NA} values, if present in the vector and \code{show_na = TRUE}.)
+top_levels(...)
 }
 \description{
-Get a frequency table of a factor variable, grouped into categories by level.
-}
-\examples{
-top_levels(as.factor(mtcars$hp), 2)
+Will be deprecated; use count_top_levels instead
 }
 

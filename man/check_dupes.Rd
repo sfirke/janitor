@@ -11,7 +11,7 @@ check_dupes(df, ..., level = "stop")
 
 \item{...}{unquoted variable names to search for duplicates}
 
-\item{level}{What should happen if there are duplicates. Can be "stop", "warn", "message" or "logical". Logical returns TRUE or FALSE.}
+\item{level}{What should happen if there are duplicates. Can be "stop", "warning", "message" or "logical". Logical returns TRUE or FALSE.}
 }
 \value{
 If level == "logical", TRUE/FALSE, otherwise the data frame is returned silently for further piping

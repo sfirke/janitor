@@ -15,7 +15,7 @@
 # todo: test for when there are ~5 classes to factor but only 3 are present in vector - does it work?
 # todo: generate warning if n = 3, factor has only 4 levels - groups will sum to >100%
 
-top_levels <- function(input_vec, n = 2, show_na = FALSE, sort = FALSE){
+count_top_levels <- function(input_vec, n = 2, show_na = FALSE, sort = FALSE){
   
   # Initial type error catching
   if(!is.factor(input_vec)){stop("factor_vec is not of type 'factor'")}
@@ -49,4 +49,8 @@ top_levels <- function(input_vec, n = 2, show_na = FALSE, sort = FALSE){
   result
 }
 
-
+#' Will be deprecated; use count_top_levels instead
+#' @export
+top_levels <- function(...){
+  message("Will be deprecated; use count_top_levels instead")
+}

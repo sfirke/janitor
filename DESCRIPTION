@@ -1,6 +1,6 @@
 Package: janitor
 Title: Simple Tools for Examining and Cleaning Dirty Data
-Version: 0.2.1.9000
+Version: 0.3
 Authors@R: c(person("Sam", "Firke", email = "samuel.firke@gmail.com", role = c("aut", "cre")),
     person("Chris", "Haid", email = "chrishaid@gmail.com", role = "ctb"))
 Description: The main janitor functions can: perfectly format data.frame column
@@ -19,7 +19,8 @@ Depends:
     R (>= 3.1.2)
 Imports:
     dplyr (>= 0.5.0),
-    tidyr
+    tidyr,
+    readr
 License: MIT + file LICENSE
 LazyData: true
 RoxygenNote: 5.0.1.9000

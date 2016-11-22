@@ -6,9 +6,10 @@
 #'
 #' @param df the input data frame
 #' @param ...  unquoted variable names to search for duplicates
-#' @param level What should happen if there are duplicates. Can be "stop", "warn", "message" or "logical". Logical returns TRUE or FALSE. 
+#' @param level What should happen if there are duplicates. Can be "stop", "warning", "message" or "logical". Logical returns TRUE or FALSE. 
 #' @return If level == "logical", TRUE/FALSE, otherwise the data frame is returned silently for further piping
 #' @export
+#' @import dplyr
 #' @examples
 #' # Make sure no duplicate cars were added since the last time we loaded the data
 #' mtcars %>%
@@ -25,15 +26,19 @@
 check_dupes <- function(df, ..., level="stop"){
   
   # Note: Would be nice to be able to set the default level once...
-  levels <- c("stop", "warn", "message", "logical")
+  levels <- c("stop", "warning", "message", "logical")
   
   if (!(level %in% levels)){
     stop(sprintf("level must be one of %s", paste0(levels, collapse = ", ")))
   }
   
   vars <- lazyeval::lazy_dots(...)
-  target <- df %>% select_(.dots=vars)
-  
+  if (length(vars)>0){
+    target <- dplyr::select_(df, .dots=vars)
+  }
+  else{
+    target <- df
+  }
   num_dups <- sum(duplicated(target))
   
   dup_message <- sprintf("There are %d duplicates", num_dups) # Would be nice to parse the df name instead of gettting "." when piped
@@ -47,7 +52,7 @@ check_dupes <- function(df, ..., level="stop"){
   else if (level == "message"){
     message(dup_message)
   }
-  else if (level == "warn"){
+  else if (level == "warning"){
     warning(dup_message)
   }
   else if (level == "stop"){

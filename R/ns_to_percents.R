@@ -13,15 +13,15 @@
 #' library(dplyr) # for the %>% pipe
 #' mtcars %>%
 #'   crosstab(am, cyl) %>%
-#'   ns_to_percents(denom = "all")
+#'   adorn_percent(denom = "all")
 #'   
 #'   # when total_n is needed
 #'   mtcars %>%
 #'   crosstab(am, cyl) %>%
 #'   add_totals_row() %>% # add a totals row that should not be included in the denominator
-#'   ns_to_percents(denom = "all", total_n = nrow(mtcars)) # specify correct denominator
+#'   adorn_percent(denom = "all", total_n = nrow(mtcars)) # specify correct denominator
   
-ns_to_percents <- function(dat, denom = "row", na.rm = TRUE, total_n = NULL){
+adorn_percent <- function(dat, denom = "row", na.rm = TRUE, total_n = NULL){
   # catch bad inputs
   if(! denom %in% c("row", "col", "all")){stop("'denom' must be one of 'row', 'col', or 'all'")}
   check_all_cols_after_first_are_numeric(dat)
@@ -47,5 +47,10 @@ ns_to_percents <- function(dat, denom = "row", na.rm = TRUE, total_n = NULL){
   }
  
   dat 
+}
+
+ns_to_percents <- function(...){
+  message('ns_to_percents will be deprecated; use adorn_percent')
+  adorn_percent(...)
 }
 

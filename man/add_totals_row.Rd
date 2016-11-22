@@ -2,25 +2,11 @@
 % Please edit documentation in R/add_totals.R
 \name{add_totals_row}
 \alias{add_totals_row}
-\title{Append a totals row to a data.frame.}
+\title{Deprecated; use adorn_total_row}
 \usage{
-add_totals_row(dat, na.rm = TRUE)
-}
-\arguments{
-\item{dat}{an input data.frame with numeric values in all columns beyond the first.}
-
-\item{na.rm}{should missing values (including NaN) be omitted from the calculations?}
-}
-\value{
-Returns a data.frame with a totals row, consisting of "Total" in the first column and column sums in the others.
+add_totals_row(...)
 }
 \description{
-This function excludes the first column of the input data.frame, assuming that it contains a descriptive variable not to be summed.
-}
-\examples{
-library(dplyr) # for the \%>\% pipe
-mtcars \%>\%
-  crosstab(am, cyl) \%>\%
-  add_totals_row
+Deprecated; use adorn_total_row
 }
 
