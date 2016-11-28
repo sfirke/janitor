@@ -30,7 +30,7 @@ mtcars \%>\%
 iris \%>\%
  group_by(Species) \%>\%
  summarise(ave_sepal_width = mean(Sepal.Width)) \%>\%
- dups_check(ave_sepal_width, level="warn") \%>\%
+ dups_check(ave_sepal_width, level="warning") \%>\%
  select(Species) # Silly example of pipe-ability
 }
 
