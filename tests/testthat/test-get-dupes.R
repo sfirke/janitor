@@ -24,3 +24,14 @@ test_that("works on variables with irregular names", {
                c(10, 12)) # does it return the right-sized result?
   expect_is(badname_df %>% get_dupes(), "data.frame") # test for success, i.e., produces a data.frame (with 0 rows)
 })
+
+test_that("count_dupes example works", {
+  df <- data.frame(id = c(1,2,3,3,3), stuff = c("a", "b", "c", "d", "d"))
+  t <- df %>%
+    get_dupes(., id) %>%
+    left_join(count_dupes(., id))
+  
+  expect_false(check_dupes(df, id, level="logical"))
+  expect_is(t, "data.frame")
+  expect_equal(nrow(t), 3)
+})
