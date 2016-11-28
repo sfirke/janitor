@@ -20,7 +20,7 @@
 #' iris %>%
 #'  group_by(Species) %>%
 #'  summarise(ave_sepal_width = mean(Sepal.Width)) %>%
-#'  dups_check(ave_sepal_width, level="warn") %>%
+#'  dups_check(ave_sepal_width, level="warning") %>%
 #'  select(Species) # Silly example of pipe-ability
 
 check_dupes <- function(df, ..., level="stop"){
@@ -44,7 +44,7 @@ check_dupes <- function(df, ..., level="stop"){
   dup_message <- sprintf("There are %d duplicates", num_dups) # Would be nice to parse the df name instead of gettting "." when piped
   
   if (level == "logical"){
-    return(num_dups != 0) # Logical returns true/false only
+    return(num_dups == 0) # Logical returns true/false only
   }
   else if (num_dups == 0){
     return(invisible(df))
@@ -60,5 +60,3 @@ check_dupes <- function(df, ..., level="stop"){
   }
   invisible(df)
 }
-
-
