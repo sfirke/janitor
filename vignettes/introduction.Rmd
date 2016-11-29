@@ -147,8 +147,9 @@ This is for hunting down and examining duplicate records during data cleaning - 
 
 For example, in a tidy data frame you might expect to have a unique ID repeated for each year, and year repeated for each unique ID, but no duplicated pairs of unique ID & year.  Say you want to check for their presence, and study any such duplicated records.
 
-`get_dupes()` returns the records (and inserts a count of duplicates) so you can sleuth out the problematic cases:
+First `check_dupes()` to see if there are duplicates. If there are, `get_dupes()` to sleuth out the problematic cases:
 ```{r}
+check_dupes(mtcars, wt, cyl, level="logical")
 get_dupes(mtcars, wt, cyl) # or mtcars %>% get_dupes(wt, cyl) if you prefer to pipe
 ```
 
@@ -159,41 +160,12 @@ Smaller functions for use in particular situations.  More human-readable than th
 
 ## Cleaning
 
-### `use_first_valid_of()` replaces nested `ifelse` statements for combining variables
-Say that you have three different temperature sensors whose readings you want to collapse into one variable.  Not all records have readings from each sensor.  Sensor A is the most accurate, so you want to use that where available, but if it's missing you want Sensor B, and if that's missing, Sensor C. 
-
-The common R way to do this would be:
-```{r, eval = FALSE}
-ifelse(!is.na(sensorA), sensorA,
-       ifelse(!is.na(sensorB), sensorB,
-              sensorC))
-```
-
-The function `use_first_valid_of()` replaces this with:
-```{r, eval = FALSE}
-use_first_valid_of(sensorA, sensorB, sensorC)
-```
-
-One major improvement over the nested-`ifelse` statements: this function can combine factor and date variables, which [ifelse fails to handle](http://stackoverflow.com/questions/6668963/how-to-prevent-ifelse-from-turning-date-objects-into-numeric-objects).
-
-
-### Fix dates stored as serial numbers with `excel_numeric_to_date()`
+### Convert dates stored as serial numbers with `convert_excel_date()`
 Ever load data from Excel and see a value like `42223` where a date should be?  This function converts those serial numbers to class `Date`, and contains an option for specifying the alternate date system for files created with Excel for Mac 2008 and earlier versions (which count from a different starting point).
 ```{r}
-excel_numeric_to_date(41103)
-excel_numeric_to_date(41103, date_system = "mac pre-2011")
+convert_excel_date(41103)
+convert_excel_date(41103, date_system = "mac pre-2011")
 ```
-
-
-### Use `convert_to_NA()` to clean should-be NA values
-Converts instances of user-specified strings into `NA` values.  It takes an argument `dat`, which can be either a vector, a data.frame, or a `tibble::tbl_df`, and will return that same type with the substitutions made.
-
-Use if, say, you import an Excel file with values like `#N/A"` present in many columns.
-
-```{r}
-convert_to_NA(letters[1:5], c("b", "d"))
-```
-
 
 ### `remove_empty_cols()` and `remove_empty_rows()`
 One-line wrapper functions that do what they say.  For cases like cleaning Excel files containing empty rows and columns.
@@ -206,28 +178,28 @@ q %>%
   remove_empty_rows()
 ```
 
-## Exploring
+## Adorn tabyls and crosstabs
 
-### `add_totals_col()` and `add_totals_row()`
-These functions add a totals row or column to a data.frame.  These functions exclude the first column of the input data.frame, assuming that it contains a descriptive variable not to be summed.
+### `adorn_totals_col()` and `adorn_totals_row()`
+These functions add a totals row or column to a data.frame, usually the result of a crosstab or tabyl call.  These functions exclude the first column of the input data.frame, assuming that it contains a descriptive variable not to be summed.
 ```{r}
 mtcars %>%
   crosstab(am, cyl) %>%
-  add_totals_row %>%
-  add_totals_col
+  adorn_total_row %>%
+  adorn_total_col
 ```
 
-### Convert a data.frame of numbers to percentages with `ns_to_percents()`
+### Display percent of total instead of counts with `adorn_percent()`
 A helper function for `adorn_crosstab`, but can be called directly.  Takes a data.frame of numerics and returns corresponding percentages of rows, columns, or the total sum of the data.frame.  Like `prop.table`, except for data.frames, and skips the first column (which is assumed to contain a non-numeric descriptive variable).
 
 ```{r}
 mtcars %>%
   crosstab(cyl, am) %>%
-  ns_to_percents("col")
+  adorn_percent("col")
 ```
 
 
-### Count factor levels in groups of high, medium, and low with `top_levels()`
+### Count factor levels in groups of high, medium, and low with `count_top_levels()`
 
 Originally designed for use with Likert survey data stored as factors.  Returns a `tbl_df` frequency table with appropriately-named rows, grouped into head/middle/tail groups.
 
@@ -239,7 +211,7 @@ Originally designed for use with Likert survey data stored as factors.  Returns 
 ```{r}
 f <- factor(c("strongly agree", "agree", "neutral", "neutral", "disagree", "strongly agree"),
             levels = c("strongly agree", "agree", "neutral", "disagree", "strongly disagree"))
-top_levels(f)
-top_levels(f, n = 1, sort = TRUE)
+count_top_levels(f)
+count_top_levels(f, n = 1, sort = TRUE)
 ```
 
