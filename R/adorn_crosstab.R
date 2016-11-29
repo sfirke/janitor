@@ -44,7 +44,7 @@ adorn_crosstab <- function(crosstab, denom = "row", show_n = TRUE, digits = 1, s
   if(showing_row_totals){ crosstab <- add_totals_row(crosstab) }
   n_col <- ncol(crosstab)
   
-  percs <- ns_to_percents(crosstab, denom, total_n = complete_n) # last argument only gets used in the "all" case = no harm in passing otherwise
+  percs <- adorn_percent(crosstab, denom, total_n = complete_n) # last argument only gets used in the "all" case = no harm in passing otherwise
   
   # round %s using specified method, add % sign
   percs <- dplyr::mutate_at(percs, dplyr::vars(2:n_col), dplyr::funs(. * 100)) # since we'll be adding % sign - do this before rounding
