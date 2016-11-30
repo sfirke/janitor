@@ -2,26 +2,30 @@
 % Please edit documentation in R/get_dupes.R
 \name{get_dupes}
 \alias{get_dupes}
-\title{Get rows of a \code{data.frame} with identical values for the specified variables.}
+\title{Filter a df to all duplicated observations on the supplied columns}
 \usage{
-get_dupes(dat, ...)
+get_dupes(df, ...)
 }
 \arguments{
-\item{dat}{the input data.frame.}
+\item{df}{the input data frame}
 
-\item{...}{unquoted variable names to search for duplicates.}
+\item{...}{unquoted variable names to search for duplicates}
 }
 \value{
-Returns a data.frame (actually a \code{tbl_df}) with the full records where the specified variables have duplicated values, as well as a variable \code{dupe_count} showing the number of rows sharing that combination of duplicated values.
+A data frame filter to only duplicate observations
 }
 \description{
-For hunting duplicate records during data cleaning.  Specify the data.frame and the variable combination to search for duplicates and get back the duplicated rows.
+Filter a dataframe to all instances of on duplicates on
+the supplied columns, such that you can \code{View()} the result
+or take any other steps necessary to resolve the duplicates. 
+
+This differs from \code{duplicated()} in that \code{duplicated()} 
+returns one row per duplicate, while \code{get_dupes()} returns all
+duplicates, and also all columns.
 }
 \examples{
-get_dupes(mtcars, mpg, hp)
-# or called with magrittr pipe \%>\% :
-library(dplyr)
-mtcars \%>\% get_dupes(wt)
-
+dupe_df <- data.frame(a = c(1,3,3,3,5), b = c("a", "c","c", "e", "c"))
+get_dupes(dupe_df)
+get_dupes(dupe_df, a)
 }
 

@@ -1,63 +1,33 @@
-#' @title Get rows of a \code{data.frame} with identical values for the specified variables.
+#' @title Filter a df to all duplicated observations on the supplied columns
 #'
 #' @description
-#' For hunting duplicate records during data cleaning.  Specify the data.frame and the variable combination to search for duplicates and get back the duplicated rows.
+#' Filter a dataframe to all instances of on duplicates on
+#' the supplied columns, such that you can \code{View()} the result
+#' or take any other steps necessary to resolve the duplicates. 
+#' 
+#' This differs from \code{duplicated()} in that \code{duplicated()} 
+#' returns one row per duplicate, while \code{get_dupes()} returns all
+#' duplicates, and also all columns.
 #'
-#' @param dat the input data.frame.
-#' @param ... unquoted variable names to search for duplicates.
-#' @return Returns a data.frame (actually a \code{tbl_df}) with the full records where the specified variables have duplicated values, as well as a variable \code{dupe_count} showing the number of rows sharing that combination of duplicated values.
+#' @param df the input data frame
+#' @param ...  unquoted variable names to search for duplicates
+#' @return A data frame filter to only duplicate observations
 #' @export
 #' @examples
-#' get_dupes(mtcars, mpg, hp)
-#' # or called with magrittr pipe %>% :
-#' library(dplyr)
-#' mtcars %>% get_dupes(wt)
-#'
+#' dupe_df <- data.frame(a = c(1,3,3,3,5), b = c("a", "c","c", "e", "c"))
+#' get_dupes(dupe_df)
+#' get_dupes(dupe_df, a)
 
-get_dupes <- function(dat, ...) {
-  names <- as.list(substitute(list(...)))[-1L]
-  df_name <- deparse(substitute(dat))
-  
-  # check that each variable name provided is present in names(dat); if not, throw error
-  var_names <- names
-  if(is.list(var_names)){ var_names <- lapply(names, deparse) } # 'names' is not a list if defaulting to whole df, need this for consistency
-  check_vars_in_df(dat, df_name, unlist(var_names))
-  dupe_count <- NULL # to appease NOTE for CRAN; does nothing.
-  
-  if(length(names)==0){ # if called on an entire data.frame with no specified variable names
-    var_names <- names(dat)
-    names <- paste0("`", as.list(names(dat)), "`") # to handle illegal variable names 
-    message("No variable names specified - using all columns.\n")
+get_dupes <- function(df, ...){
+  vars <- lazyeval::lazy_dots(...)
+  if (length(vars)>0){
+    target <- dplyr::select_(df, .dots=vars)
   }
-  
-  # calculate counts to join back to main df
-  counts <- dat %>%
-    dplyr::count_(vars = names)
-  
-  
-  # join new count vector to main data.frame
-  dupes <- suppressMessages(dplyr::inner_join(counts, dat))
-  
-  dupes <- dupes %>%
-    dplyr::filter(n > 1) %>%
-    dplyr::ungroup() %>%
-    dplyr::arrange_(.dots = names) %>%
-    dplyr::rename(dupe_count = n)
-  
-  # shorten error message for large data.frames
-  if(length(var_names) > 10){ var_names <- c(var_names[1:9], paste("... and", length(var_names) - 9, "other variables")) }
-  if(nrow(dupes) == 0){message(paste0("No duplicate combinations found of: ", paste(var_names, collapse = ", ")))}
-  dupes
-}
+  else{
+    target <- df
+  }
 
-# takes a data.frame and vector of variable names, confirms that all var names match data.frame names 
-check_vars_in_df <- function(dat, dat_name, names_vec){
-  in_df <- unlist(lapply(names_vec, function(x) x %in% names(dat)))
-  if(sum(in_df) != length(in_df)){
-    stop(paste0(
-      paste0("These variables do not match column names in ", dat_name, ": "),
-      paste(names_vec[!in_df], collapse =", ")
-    )
-    )
-  }
+  dup_index <- duplicated(target) | duplicated(target, fromLast = TRUE)
+  
+  df[dup_index, ]
 }

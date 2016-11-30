@@ -1,4 +1,4 @@
-#' @title Convert dates encoded as serial numbers to Date class.
+#' @title Convert dates encoded as numbers to Date class using Excel's date s.
 #'
 #' @description
 #' Converts numbers like \code{42370} into date values like \code{2016-01-01}.
@@ -15,7 +15,7 @@
 
 # Converts a numeric value like 42414 into a date "2016-02-14"
 
-excel_numeric_to_date <- function(date_num, date_system = "modern") {
+convert_excel_date <- function(date_num, date_system = "modern") {
   if(!is.numeric(date_num)){ stop("argument `date_num` must be of class numeric") }
 
   if(date_system == "mac pre-2011"){
@@ -27,3 +27,9 @@ excel_numeric_to_date <- function(date_num, date_system = "modern") {
   }
 }
 
+#' Deprecated; use convert_excel_date
+#' @export
+excel_numeric_to_date <- function(...){
+  message('excel_numeric_to_date will be deprecated; use convert_excel_date')
+  convert_excel_date(...)
+}

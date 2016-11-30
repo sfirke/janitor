@@ -11,15 +11,22 @@
 #' library(dplyr) # for the %>% pipe
 #' mtcars %>%
 #'   crosstab(am, cyl) %>%
-#'   add_totals_row
+#'   adorn_totals_row
 
 
-add_totals_row <- function(dat, na.rm = TRUE){
+adorn_total_row <- function(dat, na.rm = TRUE){
   check_all_cols_after_first_are_numeric(dat)
   dat[[1]] <- as.character(dat[[1]]) # for binding to the "Total" character value of add-on row
   col_totals <- data.frame(x1 = "Total", t(colSums(dat[-1], na.rm = na.rm)), stringsAsFactors = FALSE) %>%
     stats::setNames(names(dat))
   dplyr::bind_rows(dat, col_totals)
+}
+
+#' Deprecated; use adorn_total_row
+#' @export
+add_totals_row <- function(...){
+  message("add_totals_row will be deprecated; use adorn_total_row")
+  adorn_total_row(...)
 }
 
 #' @title Append a totals column to a data.frame.
@@ -35,11 +42,18 @@ add_totals_row <- function(dat, na.rm = TRUE){
 #' library(dplyr) # for the %>% pipe
 #' mtcars %>%
 #'   crosstab(am, cyl) %>%
-#'   add_totals_col
+#'   adorn_total_row
 
-add_totals_col <- function(dat, na.rm = TRUE){
+adorn_total_col <- function(dat, na.rm = TRUE){
   check_all_cols_after_first_are_numeric(dat)
   row_totals <- data.frame(Total = rowSums(dat[-1], na.rm = na.rm))
   dplyr::bind_cols(dat, row_totals)
+}
+
+#' Deprecated; use adorn_total_col
+#' @export
+add_totals_col <- function(...){
+  message("add_totals_col will be deprecated; use adorn_total_col")
+  adorn_total_col(...)
 }
 
