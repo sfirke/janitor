@@ -10,7 +10,7 @@ These functions are provided for compatibility with older versions of
 \details{
 \itemize{
   \item \code{\link{use_first_valid_of}}
-  \item \code{\link{conver_to_NA}}
+  \item \code{\link{convert_to_NA}}
 }
 }
 
