@@ -17,9 +17,10 @@ Returns a single vector with the selected values.
 \description{
 At each position of the input vectors, iterates through in order and returns the first non-NA value.  This is a robust replacement of the common \code{ifelse(!is.na(x), x, ifelse(!is.na(y), y, z))}.  It's more readable and handles problems like \code{ifelse}'s inability to work with dates in this way.
 }
-\examples{
-x <- c(1, NA, NA); y <- c(2, 2, NA); z <- c(3, 3, 3)
-use_first_valid_of(x, y, z)
-use_first_valid_of(y, x, if_all_NA = 0)
+\section{Warning}{
+Deprecated, do not use in new code. Use \code{dplyr::coalesce} instead.
+}
+\seealso{
+janitor-deprecated
 }
 
