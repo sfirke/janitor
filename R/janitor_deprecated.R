@@ -8,7 +8,7 @@
 #'   \item \code{\link{convert_to_NA}}
 #' }
 #'
-#' @name janitor-deprecated
+#' @name janitor_deprecated
 # EXCLUDE COVERAGE START
 NULL
 # EXCLUDE COVERAGE END

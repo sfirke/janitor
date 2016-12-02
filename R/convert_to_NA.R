@@ -3,15 +3,15 @@
 #' @description
 #' Converts instances of user-specified strings into \code{NA}.  Can operate on either a single vector or an entire data.frame.
 #'
-#' @section Warning:Deprecated, do not use in new code. Use \code{dplyr::na_if} instead.
+#' @section Warning: Deprecated, do not use in new code. Use \code{dplyr::na_if()} instead.
 #' @param dat vector or data.frame to operate on.
 #' @param strings character vector of strings to convert.
 #' @return Returns a cleaned object.  Can be a vector, data.frame, or \code{tibble::tbl_df} depending on the provided input.
-#' @seealso janitor-deprecated
+#' @seealso janitor_deprecated
 #' @export
 # EXCLUDE COVERAGE START
 convert_to_NA <- function(dat, strings){
-  .Deprecated("dplyr::na_if")
+  .Deprecated("dplyr::na_if()")
   
   if(!class(strings) %in% c("character", "numeric", "factor", "integer")){ stop("'strings' parameter should be a vector of class character, numeric, factor, or integer") }
 
