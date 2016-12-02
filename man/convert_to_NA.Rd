@@ -18,9 +18,9 @@ Returns a cleaned object.  Can be a vector, data.frame, or \code{tibble::tbl_df}
 Converts instances of user-specified strings into \code{NA}.  Can operate on either a single vector or an entire data.frame.
 }
 \section{Warning}{
-Deprecated, do not use in new code. Use \code{dplyr::na_if} instead.
+ Deprecated, do not use in new code. Use \code{dplyr::na_if()} instead.
 }
 \seealso{
-janitor-deprecated
+janitor_deprecated
 }
 

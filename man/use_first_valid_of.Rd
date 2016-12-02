@@ -18,9 +18,9 @@ Returns a single vector with the selected values.
 At each position of the input vectors, iterates through in order and returns the first non-NA value.  This is a robust replacement of the common \code{ifelse(!is.na(x), x, ifelse(!is.na(y), y, z))}.  It's more readable and handles problems like \code{ifelse}'s inability to work with dates in this way.
 }
 \section{Warning}{
-Deprecated, do not use in new code. Use \code{dplyr::coalesce} instead.
+ Deprecated, do not use in new code. Use \code{dplyr::coalesce()} instead.
 }
 \seealso{
-janitor-deprecated
+janitor_deprecated
 }
 
