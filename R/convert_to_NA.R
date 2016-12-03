@@ -3,22 +3,15 @@
 #' @description
 #' Converts instances of user-specified strings into \code{NA}.  Can operate on either a single vector or an entire data.frame.
 #'
+#' @section Warning: Deprecated, do not use in new code. Use \code{dplyr::na_if()} instead.
 #' @param dat vector or data.frame to operate on.
 #' @param strings character vector of strings to convert.
 #' @return Returns a cleaned object.  Can be a vector, data.frame, or \code{tibble::tbl_df} depending on the provided input.
+#' @seealso janitor_deprecated
 #' @export
-#' @examples
-#' convert_to_NA(mtcars, "4") # a silly example;
-#' # mtcars has no string NA values, but this will convert 4s to NA
-#'
-#' # a more typical call would be (not run):
-#' # convert_to_NA(my_df, c("NA", "#N/A", "N/A", "n/a", "#NAME?"))
-#' # catches common strings that should be NA
-#' 
-#' convert_to_NA(letters, c("b", "d"))
-
-
+# EXCLUDE COVERAGE START
 convert_to_NA <- function(dat, strings){
+  .Deprecated("dplyr::na_if()")
   
   if(!class(strings) %in% c("character", "numeric", "factor", "integer")){ stop("'strings' parameter should be a vector of class character, numeric, factor, or integer") }
 
@@ -42,3 +35,4 @@ convert_to_NA <- function(dat, strings){
     result
   } else{ stop("argument 'dat' must be a vector or data.frame") }
 }
+# EXCLUDE COVERAGE END

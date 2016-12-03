@@ -17,14 +17,10 @@ Returns a cleaned object.  Can be a vector, data.frame, or \code{tibble::tbl_df}
 \description{
 Converts instances of user-specified strings into \code{NA}.  Can operate on either a single vector or an entire data.frame.
 }
-\examples{
-convert_to_NA(mtcars, "4") # a silly example;
-# mtcars has no string NA values, but this will convert 4s to NA
-
-# a more typical call would be (not run):
-# convert_to_NA(my_df, c("NA", "#N/A", "N/A", "n/a", "#NAME?"))
-# catches common strings that should be NA
-
-convert_to_NA(letters, c("b", "d"))
+\section{Warning}{
+ Deprecated, do not use in new code. Use \code{dplyr::na_if()} instead.
+}
+\seealso{
+janitor_deprecated
 }
 

@@ -3,17 +3,16 @@
 #' @description
 #' At each position of the input vectors, iterates through in order and returns the first non-NA value.  This is a robust replacement of the common \code{ifelse(!is.na(x), x, ifelse(!is.na(y), y, z))}.  It's more readable and handles problems like \code{ifelse}'s inability to work with dates in this way.
 #'
+##' @section Warning: Deprecated, do not use in new code. Use \code{dplyr::coalesce()} instead.
 #' @param ... the input vectors.  Order matters: these are searched and prioritized in the order they are supplied.
 #' @param if_all_NA what value should be used when all of the vectors return \code{NA} for a certain index?  Default is NA.
 #' @return Returns a single vector with the selected values.
+#' @seealso janitor_deprecated
 #' @export
-#' @examples
-#' x <- c(1, NA, NA); y <- c(2, 2, NA); z <- c(3, 3, 3)
-#' use_first_valid_of(x, y, z)
-#' use_first_valid_of(y, x, if_all_NA = 0)
-
-
+# EXCLUDE COVERAGE START
 use_first_valid_of <- function(..., if_all_NA = NA){
+  .Deprecated("dplyr::coalesce()")
+  
   vars <- list(...)
   vec_length <- length(vars[[1]])
   num_vars <- length(vars)
@@ -72,3 +71,4 @@ use_first_valid_of <- function(..., if_all_NA = NA){
  
   result
 }
+# EXCLUDE COVERAGE END
