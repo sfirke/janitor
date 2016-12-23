@@ -1,0 +1,33 @@
+---
+title: "High-level package planning"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::github_document:
+    toc: true
+    toc_depth: 3
+---
+
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE, 
+  comment = "#>",
+  fig.path = "README-"  
+)
+options(width = 110)
+```
+
+This page is for planning the janitor package, at a high level.  More-finite questions and ideas can be handled via GitHub issues.  This is for say, articulating what the package does or doesn't do, and how it should be organized.  If it turns out we need a more discussion- and comment-friendly format, we can move to Google Docs, but let's try commenting and editing here.
+
+## Package vision
+
+### Purpose
+
+### In scope:
+
+### Out of scope:
+
+## Questions to resolve
+
