@@ -25,7 +25,7 @@ This page is for planning the janitor package, at a high level.  More-finite que
 
 ### Purpose
 
-Provide a framework and associated functions for checking and cleaning dirty data. 
+Provide a framework and associated functions for checking and cleaning dirty data.  There are two kinds of checks: interactive checks, like `tabyl`, and programmatic checks that say, confirm in production that some variables contain no duplicate records, or contain no missing values.
 
 #### In scope:
 
@@ -39,10 +39,14 @@ Provide a framework and associated functions for checking and cleaning dirty dat
   
 ### Priorities
 
+#### Big items
   1.  Establish organizing framework for the package
     1. Write up documentation/vignette showing check/clean iterative cycle
-    2. Rename functions to fit schema
+    2. Figure out new names for functions to fit schema, and rename them
     3. Redo vignette
     4. Redo homepage
   2. New function: fuzzy dupes
   3. New function family: bindability issues
+
+#### Smaller items
+  1. `get_dupes` should have an option for returning with or without Ns as a column (it's so much faster without)
