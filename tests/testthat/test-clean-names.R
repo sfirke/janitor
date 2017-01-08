@@ -20,7 +20,7 @@ test_that("Names are cleaned appropriately", {
   expect_equal(names(clean)[8], "repeated_2") # uppercase, 2nd instance of repeat
   expect_equal(names(clean)[9], "cant") # uppercase, 2nd instance of repeat
   expect_equal(names(clean)[10], "hi_there") # double-underscores to single
-  expect_equal(names(clean)[11], "leading_space") # leading spaces
+  expect_equal(names(clean)[11], "leading_spaces") # leading spaces
 })
 
 test_that("Returns a data.frame", {
