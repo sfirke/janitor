@@ -118,3 +118,17 @@ test_that("input variable names 'percent' and 'n' are handled", {
                           percent = c(18/25, 7/25))
   )
 })
+
+test_that("bizarre combination of %>%, quotes, and spaces in names is handled", {
+  dat <- data.frame(
+    `The candidate(s) applied directly to my school` = c("a", "b", "a", "b"),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+  
+  expect_equal(
+    tabyl(dat$`The candidate(s) applied directly to my school` %>% gsub("hi", "there", .)) %>%
+      names() %>% .[1],
+    "dat$`The candidate(s) applied directly to my school` %>% gsub(\"hi\",     \"there\", .)"
+  )
+})
