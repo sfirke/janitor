@@ -42,6 +42,7 @@ Provide a framework and associated functions for checking and cleaning dirty dat
 #### Big items
   1.  Establish organizing framework for the package
     1. Write up documentation/vignette showing check/clean iterative cycle
+      1. Create cannonical dirty data frame
     2. Figure out new names for functions to fit schema, and rename them
     3. Redo vignette
     4. Redo homepage
