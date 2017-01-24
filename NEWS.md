@@ -3,6 +3,16 @@ NEWS
 
 # janitor 0.2.1.9000 (in progress)
 
+## Features
+
+### Major
+
+
+### Minor
+
+## Bug fixes
+* Long variable names with spaces no longer break `tabyl()` and `crosstab()` [(#87)](https://github.com/sfirke/janitor/issues/87)
+* `clean_names()` now handles leading spaces [(#85)](https://github.com/sfirke/janitor/issues/85)
 
 # janitor 0.2.1 (Release date: 2016-10-30)
 
@@ -10,7 +20,7 @@ NEWS
 * `tabyl()` and `crosstab()` now appear in the package manual [(#65)](https://github.com/sfirke/janitor/issues/65)
 * Fixed minor bug per CRAN request - `tabyl()` and `crosstab()` failed to retain ill-formatted variable names only when using R 3.2.5 for Windows [(#76)](https://github.com/sfirke/janitor/issues/76)
 * `add_totals_row()` works on two-column data.frame [(#69)](https://github.com/sfirke/janitor/issues/69)
-* `use_first_valid_of()` returns POSIXct-class result when given POSIXct inputs, and handles bad list inputs (specifically POSIXlt) [(#71)](https://github.com/sfirke/janitor/issues/71)
+* `use_first_valid_of()` returns POSIXct-class result when given POSIXct inputs, and handles ba
 
 # janitor 0.2.0 (Release date: 2016-10-03)
 
