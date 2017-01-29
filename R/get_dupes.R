@@ -5,7 +5,8 @@
 #'
 #' @param dat the input data.frame.
 #' @param ... unquoted variable names to search for duplicates.
-#' @return Returns a data.frame (actually a \code{tbl_df}) with the full records where the specified variables have duplicated values, as well as a variable \code{dupe_count} showing the number of rows sharing that combination of duplicated values.
+#' @param show_n show how many duplicate records share the specified variables.  Defaults to true when there are <100k rows in the data.frame, false when there are more, but can be manually specified.  It's more computationally-intensive. 
+#' #' @return Returns a data.frame (actually a \code{tbl_df}) with the full records where the specified variables have duplicated values, as well as a variable \code{dupe_count} showing the number of rows sharing that combination of duplicated values.
 #' @export
 #' @examples
 #' get_dupes(mtcars, mpg, hp)
@@ -31,8 +32,8 @@ get_dupes <- function(dat, ..., show_n = TRUE) {
   }
   
   # Short version if input is big and show_n is unspecified, or if show_n = FALSE
-  if((nrow(dat) > 50000 & missing(show_n)) | !show_n){
-    if(nrow(dat) > 50000 & missing(show_n)){message("Defaulting to not showing Ns because input data.frame is >50,000 rows; use show_n = TRUE to force showing Ns and accept slower performance")}
+  if((nrow(dat) > 100000 & missing(show_n)) | !show_n){
+    if(nrow(dat) > 100000 & missing(show_n)){message("Defaulting to not showing Ns because input data.frame is >100,000 rows; use show_n = TRUE to force showing Ns and accept slower performance")}
     target <- dat %>% select_(.dots = unlist(var_names))
     dup_index <- duplicated(target) | duplicated(target, fromLast = TRUE)
     dupes <- dat[dup_index, , drop = FALSE] %>%
