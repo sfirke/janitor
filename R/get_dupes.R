@@ -14,7 +14,7 @@
 #' mtcars %>% get_dupes(wt)
 #'
 
-get_dupes <- function(dat, ...) {
+get_dupes <- function(dat, ..., show_n = TRUE) {
   names <- as.list(substitute(list(...)))[-1L]
   df_name <- deparse(substitute(dat))
   
@@ -30,20 +30,30 @@ get_dupes <- function(dat, ...) {
     message("No variable names specified - using all columns.\n")
   }
   
-  # calculate counts to join back to main df
-  counts <- dat %>%
-    dplyr::count_(vars = names)
-  
-  
-  # join new count vector to main data.frame
-  dupes <- suppressMessages(dplyr::inner_join(counts, dat))
-  
-  dupes <- dupes %>%
-    dplyr::filter(n > 1) %>%
-    dplyr::ungroup() %>%
-    dplyr::arrange_(.dots = names) %>%
-    dplyr::rename(dupe_count = n)
-  
+  # Short version if input is big and show_n is unspecified, or if show_n = FALSE
+  if((nrow(dat) > 50000 & missing(show_n)) | !show_n){
+    if(nrow(dat) > 50000 & missing(show_n)){message("Defaulting to not showing Ns because input data.frame is >50,000 rows; use show_n = TRUE to force showing Ns and accept slower performance")}
+    target <- dat %>% select_(.dots = unlist(var_names))
+    dup_index <- duplicated(target) | duplicated(target, fromLast = TRUE)
+    dupes <- dat[dup_index, , drop = FALSE] %>%
+      select(one_of(unlist(var_names)), everything()) %>%
+      arrange_(.dots = names)
+  } else{
+    
+    # calculate counts to join back to main df
+    counts <- dat %>%
+      dplyr::count_(vars = names)
+    
+    
+    # join new count vector to main data.frame
+    dupes <- suppressMessages(dplyr::inner_join(counts, dat))
+    
+    dupes <- dupes %>%
+      dplyr::filter(n > 1) %>%
+      dplyr::ungroup() %>%
+      dplyr::arrange_(.dots = names) %>%
+      dplyr::rename(dupe_count = n)
+  }  
   # shorten error message for large data.frames
   if(length(var_names) > 10){ var_names <- c(var_names[1:9], paste("... and", length(var_names) - 9, "other variables")) }
   if(nrow(dupes) == 0){message(paste0("No duplicate combinations found of: ", paste(var_names, collapse = ", ")))}
