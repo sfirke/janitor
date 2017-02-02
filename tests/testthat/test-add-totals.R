@@ -10,13 +10,6 @@ dat <- data.frame(a = c(rep(c("big", "small", "big"), 3)),
 ct <- dat %>%
   crosstab(a, b)
 
-
-test_that("error thrown if column beyond the first is not numeric", {
-  expect_error(add_totals_row(dat %>% select(b, a)),
-               "all columns after the first one must be numeric")
-  expect_error(add_totals_col(dat %>% select(b, a)),
-               "all columns after the first one must be numeric")
-})
                           
 
 test_that("totals row is correct", {
@@ -73,4 +66,33 @@ test_that("both functions work with a single column", {
                          b = c(1, 2))
   expect_error(single_col %>% add_totals_row(), NA) # from http://stackoverflow.com/a/30068233
   expect_error(single_col %>% add_totals_row(), NA)
+})
+
+
+
+
+dat <- data.frame(
+  a = c("hi", "lo"),
+  b = c(1, 2),
+  c = c(5, 10),
+  d = c("big", "small"),
+  e = c(20, NA),
+  stringsAsFactors = FALSE
+)
+
+test_that("na.rm value gets passed through", {
+  
+})
+
+
+test_that("error thrown if no columns are numeric", {
+  
+})
+
+test_that("works with non-numeric columns mixed in", {
+  
+})
+
+test_that("column names are passed through", {
+  
 })
