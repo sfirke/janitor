@@ -7,7 +7,6 @@
 #' @param denom the denominator to use for calculating percentages.  One of "row", "col", or "all".
 #' @param na.rm should missing values (including NaN) be omitted from the calculations?
 #' @param total_n an optional number to use as the denominator when calculating table-level percentages (when denom = "all").  Supply this if your input data.frame \code{dat} has values that would throw off the denominator if they were included, e.g., if there's a totals row appended to the bottom of the table.
-#' @param fill if there are more than one non-numeric columns, what string should fill the bottom row of those columns?\
 #' 
 #' @return Returns a data.frame of percentages, expressed as numeric values between 0 and 1.
 #' @export
@@ -23,7 +22,7 @@
 #'   add_totals_row() %>% # add a totals row that should not be included in the denominator
 #'   ns_to_percents(denom = "all", total_n = nrow(mtcars)) # specify correct denominator
   
-ns_to_percents <- function(dat, denom = "row", na.rm = TRUE, total_n = NULL, fill = "-"){
+ns_to_percents <- function(dat, denom = "row", na.rm = TRUE, total_n = NULL){
   # catch bad inputs
   if(! denom %in% c("row", "col", "all")){stop("'denom' must be one of 'row', 'col', or 'all'")}
   if(ncol(dplyr::select_if(clean_dat, is.numeric)) == 0){stop("data.frame must contain at least one column of class numeric")}
