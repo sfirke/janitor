@@ -4,6 +4,7 @@
 #' This function excludes the first column of the input data.frame, assuming that it contains a descriptive variable not to be summed.
 #'
 #' @param dat an input data.frame with numeric values in all columns beyond the first.
+#' @param fill if there are more than one non-numeric columns, what string should fill the bottom row of those columns?
 #' @param na.rm should missing values (including NaN) be omitted from the calculations?
 #' @return Returns a data.frame with a totals row, consisting of "Total" in the first column and column sums in the others.
 #' @export
@@ -17,7 +18,7 @@
 add_totals_row <- function(dat, fill = "-", na.rm = TRUE){
   clean_dat <- clean_names(dat) # bad names will make select_if choke
   
-  if(dim(select_if(clean_dat, is.numeric))[2] == 0){stop("data.frame must contain at least one column of class numeric")} # chokes on illegal names
+  if(ncol(dplyr::select_if(clean_dat, is.numeric)) == 0){stop("data.frame must contain at least one column of class numeric")}
   
   # creates the totals row to be appended
   col_vec <- function(a_col, na_rm = na.rm){
@@ -54,7 +55,7 @@ add_totals_row <- function(dat, fill = "-", na.rm = TRUE){
 add_totals_col <- function(dat, na.rm = TRUE){
   
   clean_dat <- clean_names(dat) # bad names will make select_if choke
-  if(dim(dplyr::select_if(clean_dat, is.numeric))[2] == 0){stop("data.frame must contain at least one column of class numeric")}
+  if(ncol(dplyr::select_if(clean_dat, is.numeric)) == 0){stop("data.frame must contain at least one column of class numeric")}
   row_totals <- clean_dat %>%
     dplyr::select_if(is.numeric) %>%
     dplyr::transmute(Total = rowSums(., na.rm = na.rm))
