@@ -29,6 +29,7 @@ ns_to_percents <- function(dat, denom = "row", na.rm = TRUE, total_n = NULL, fil
   if(ncol(dplyr::select_if(clean_dat, is.numeric)) == 0){stop("data.frame must contain at least one column of class numeric")}
   
   numeric_cols <- which(unlist(lapply(dat, is.numeric)))
+  numeric_cols <- setdiff(numeric_cols, 1) # assume 1st column should not be included so remove it from numeric_cols
 
   if(!is.null(total_n)){
     if(!is.numeric(total_n)){stop("override_n must be numeric")}
@@ -37,7 +38,7 @@ ns_to_percents <- function(dat, denom = "row", na.rm = TRUE, total_n = NULL, fil
     complete_n <- sum(dat[, numeric_cols], na.rm = TRUE)
   }
   
-  
+
   if(denom == "row"){
     row_sum <- rowSums(dat[, numeric_cols], na.rm = na.rm)
     dat[, numeric_cols] <- dat[, numeric_cols] / row_sum 

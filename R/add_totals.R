@@ -1,9 +1,9 @@
 #' @title Append a totals row to a data.frame.
 #'
 #' @description
-#' This function excludes the first column of the input data.frame, assuming that it contains a descriptive variable not to be summed.
+#' This function excludes the first column of the input data.frame, assuming it's a descriptive variable not to be summed.  It also excludes other non-numeric columns. 
 #'
-#' @param dat an input data.frame with numeric values in all columns beyond the first.
+#' @param dat an input data.frame with at least one numeric column.
 #' @param fill if there are more than one non-numeric columns, what string should fill the bottom row of those columns?
 #' @param na.rm should missing values (including NaN) be omitted from the calculations?
 #' @return Returns a data.frame with a totals row, consisting of "Total" in the first column and column sums in the others.
@@ -31,16 +31,17 @@ add_totals_row <- function(dat, fill = "-", na.rm = TRUE){
     as.data.frame(stringsAsFactors = FALSE) %>%
     stats::setNames(names(dat))
     
-  col_totals[nrow(col_totals), min(which(!unlist(lapply(col_totals, is.numeric))))] <- "Total" # replace final row, first non-numeric column with "Total"
+  col_totals[nrow(col_totals), 1] <- "Total" # replace final row, first column with "Total"
   dplyr::bind_rows(clean_dat %>%
-                     stats::setNames(names(dat)), col_totals)
+                     stats::setNames(names(dat)) %>%
+                     dplyr::mutate_at(1, as.character), col_totals)
   
 }
 
 #' @title Append a totals column to a data.frame.
 #'
 #' @description
-#' This function excludes non-numeric columns of the input data.frame, e.g., a first column with a descriptive variable not to be summed.
+#' This function excludes the first column of the input data.frame, assuming it's a descriptive variable not to be summed.  It also excludes other non-numeric columns. 
 #'
 #' @param dat an input data.frame with at least one numeric column.
 #' @param na.rm should missing values (including NaN) be omitted from the calculations?
