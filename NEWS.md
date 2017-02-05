@@ -9,6 +9,7 @@ NEWS
 
 
 ### Minor
+* `add_totals_row()`, `add_totals_col()`, and `ns_to_percents()` can now be called on data.frames that have non-numeric columns beyond the first one (they will be ignored) [(#57)](https://github.com/sfirke/janitor/issues/57)
 
 ## Bug fixes
 * Long variable names with spaces no longer break `tabyl()` and `crosstab()` [(#87)](https://github.com/sfirke/janitor/issues/87)
