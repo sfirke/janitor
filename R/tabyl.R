@@ -45,6 +45,9 @@ tabyl.default <- function(vec, sort = FALSE, show_na = TRUE, ...) {
   } else {
     var_name <- names(vec)
   }
+
+  # an odd variable name can be deparsed into a vector of length >1, rare but throws warning, see issue #87
+  if(length(var_name) > 1){ var_name <- paste(var_name, collapse = "") }
   
   # calculate initial counts table
   # convert vector to a 1 col data.frame

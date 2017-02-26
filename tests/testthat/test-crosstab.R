@@ -111,3 +111,18 @@ test_that("bad input variable name is preserved", {
   expect_equal(crosstab(k$`bad name`, k$gear) %>% names %>% .[[1]],
                "k$`bad name`")
 })
+
+test_that("bizarre combination of %>%, quotes, and spaces in names is handled", {
+  dat <- data.frame(
+    `The candidate(s) applied directly to my school` = c("a", "b", "a", "b"),
+    x = 1:4,
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+
+expect_equal(
+  crosstab(dat$`The candidate(s) applied directly to my school` %>% gsub("hi", "there", .), dat$x) %>%
+    names() %>% .[1],
+  "dat$`The candidate(s) applied directly to my school` %>% gsub(\"hi\",     \"there\", .)"
+)
+})

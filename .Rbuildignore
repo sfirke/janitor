@@ -12,3 +12,5 @@ dirty_data.PNG
 ^.*\.docx
 logo_small.png
 codecov.yml
+planning.md
+planning.Rmd

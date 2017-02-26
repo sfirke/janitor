@@ -66,6 +66,8 @@ crosstab.default <- function(vec1, vec2, percent = "none", show_na = TRUE, ...){
     var_name <- names(vec1)
   }
   
+  # an odd variable name can be deparsed into a vector of length >1, rare but breaks function, see issue #87
+  if(length(var_name) > 1){ var_name <- paste(var_name, collapse = "") }
   
   if(!show_na){
     dat <- dat[!is.na(dat[[1]]) & !is.na(dat[[2]]), ]
@@ -91,7 +93,7 @@ crosstab.default <- function(vec1, vec2, percent = "none", show_na = TRUE, ...){
   
   # calculate percentages, if specified
   if(percent != "none"){result <- ns_to_percents(result, denom = percent)}
-  
+
   result %>%
     stats::setNames(., c(var_name, names(.)[-1])) %>%
     data.frame(., check.names = FALSE)

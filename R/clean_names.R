@@ -24,6 +24,7 @@ clean_names <- function(dat){
     gsub("'", "", .) %>% # remove quotation marks
     gsub("\"", "", .) %>% # remove quotation marks
     gsub("%", "percent", .) %>%
+    gsub("^[ ]+", "", .) %>%
     make.names(.) %>%
     gsub("[.]+", "_", .) %>% # convert 1+ periods to single _
     gsub("[_]+", "_", .) %>% # fix rare cases of multiple consecutive underscores
