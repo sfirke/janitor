@@ -40,4 +40,3 @@ mtcars \%>\%
  crosstab(cyl, am) \%>\%
  adorn_crosstab(., denom = "all", digits = 0, rounding = "half up") 
 }
-

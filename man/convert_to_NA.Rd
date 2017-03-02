@@ -20,7 +20,7 @@ Converts instances of user-specified strings into \code{NA}.  Can operate on eit
 \section{Warning}{
  Deprecated, do not use in new code. Use \code{dplyr::na_if()} instead.
 }
+
 \seealso{
 janitor_deprecated
 }
-

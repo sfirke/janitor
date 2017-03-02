@@ -23,4 +23,3 @@ mtcars \%>\%
   crosstab(am, cyl) \%>\%
   add_totals_row
 }
-

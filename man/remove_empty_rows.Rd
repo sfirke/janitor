@@ -21,4 +21,3 @@ Removes all rows from a data.frame that are composed entirely of \code{NA} value
 # not run:
 # dat \%>\% remove_empty_rows
 }
-
