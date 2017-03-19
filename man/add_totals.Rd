@@ -25,5 +25,5 @@ This function excludes other non-numeric columns.
 library(dplyr) # for the \%>\% pipe
 mtcars \%>\%
   crosstab(am, cyl) \%>\%
-  add_totals_row
+  add_totals()
 }

@@ -5,6 +5,7 @@ NEWS
 
 ## Breaking changes
 * The first argument of `adorn_crosstab()` is now "dat" instead of "crosstab" (since the function can be called on any data.frame, not just a result of `crosstab()`)
+* The functions `add_totals_row` and `add_totals_col` were combined into a single function, `add_totals()`. [(#57)](https://github.com/sfirke/janitor/issues/57)
 
 ## Features
 
