@@ -92,6 +92,13 @@ test_that("numeric first column is ignored", {
                  stringsAsFactors = FALSE))
 })
 
+test_that("grouped_df gets ungrouped and succeeds", {
+  ct <- mtcars %>% group_by(cyl, gear) %>% tally() %>% tidyr::spread(gear, n)
+  expect_equal(ct %>% add_totals(),
+               ct %>% ungroup() %>% add_totals
+  )
+})
+
 test_that("na.rm value gets passed through", {
   
 })

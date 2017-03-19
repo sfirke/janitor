@@ -17,7 +17,8 @@
 
 
 add_totals <- function(dat, which = c("row", "col"), fill = "-", na.rm = TRUE){
- # clean_dat <- clean_names(dat) # bad names will make select_if choke
+  if("grouped_df" %in% class(dat)){ dat <- dplyr::ungroup(dat) } # grouped_df causes problems, #97
+  
   dat[[1]] <- as.character(dat[[1]]) # for type matching when binding the word "Total" on a factor.  Moved up to this line so that if only 1st col is numeric, the function errors
   if(sum(unlist(lapply(dat, is.numeric))) == 0){stop("data.frame must contain at least one column of class numeric")}
   
