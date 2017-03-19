@@ -2,8 +2,8 @@
 % Please edit documentation in R/tabyl.R
 \name{tabyl}
 \alias{tabyl}
-\alias{tabyl.data.frame}
 \alias{tabyl.default}
+\alias{tabyl.data.frame}
 \title{Generate a frequency table from a vector.}
 \usage{
 tabyl(...)
@@ -50,4 +50,3 @@ my_cars <- rbind(mtcars, rep(NA, 11))
 tabyl(my_cars$cyl)
 tabyl(my_cars$cyl, show_na = FALSE)
 }
-

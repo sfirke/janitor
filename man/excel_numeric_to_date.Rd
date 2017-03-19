@@ -23,4 +23,3 @@ More on date encoding systems at http://support.office.com/en-us/article/Date-ca
 \examples{
 excel_numeric_to_date(40000)
 }
-

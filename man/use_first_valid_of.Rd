@@ -20,7 +20,7 @@ At each position of the input vectors, iterates through in order and returns the
 \section{Warning}{
  Deprecated, do not use in new code. Use \code{dplyr::coalesce()} instead.
 }
+
 \seealso{
 janitor_deprecated
 }
-

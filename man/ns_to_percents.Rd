@@ -33,4 +33,3 @@ mtcars \%>\%
   add_totals_row() \%>\% # add a totals row that should not be included in the denominator
   ns_to_percents(denom = "all", total_n = nrow(mtcars)) # specify correct denominator
 }
-
