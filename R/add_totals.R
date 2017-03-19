@@ -56,12 +56,12 @@ add_totals_row <- function(dat, fill = "-", na.rm = TRUE){
 add_totals_col <- function(dat, na.rm = TRUE){
   
   clean_dat <- clean_names(dat) # bad names will make select_if choke
-  if(ncol(dplyr::select_if(clean_dat, is.numeric)) == 0){stop("data.frame must contain at least one column of class numeric")}
+  if(sum(unlist(lapply(dat, is.numeric))) == 0){stop("input data.frame must contain at least one column of class numeric")}
   row_totals <- clean_dat %>%
     dplyr::select_if(is.numeric) %>%
     dplyr::transmute(Total = rowSums(., na.rm = na.rm))
   
-  dplyr::bind_cols(dat, row_totals) %>%
-    stats::setNames(c(names(dat), "Total")) # put back original names
+  dat$Total <- row_totals$Total
+  dat
 }
 

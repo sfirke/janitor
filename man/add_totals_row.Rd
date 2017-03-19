@@ -4,10 +4,12 @@
 \alias{add_totals_row}
 \title{Append a totals row to a data.frame.}
 \usage{
-add_totals_row(dat, na.rm = TRUE)
+add_totals_row(dat, fill = "-", na.rm = TRUE)
 }
 \arguments{
-\item{dat}{an input data.frame with numeric values in all columns beyond the first.}
+\item{dat}{an input data.frame with at least one numeric column.}
+
+\item{fill}{if there are more than one non-numeric columns, what string should fill the bottom row of those columns?}
 
 \item{na.rm}{should missing values (including NaN) be omitted from the calculations?}
 }
@@ -15,7 +17,7 @@ add_totals_row(dat, na.rm = TRUE)
 Returns a data.frame with a totals row, consisting of "Total" in the first column and column sums in the others.
 }
 \description{
-This function excludes the first column of the input data.frame, assuming that it contains a descriptive variable not to be summed.
+This function excludes the first column of the input data.frame, assuming it's a descriptive variable not to be summed.  It also excludes other non-numeric columns.
 }
 \examples{
 library(dplyr) # for the \%>\% pipe

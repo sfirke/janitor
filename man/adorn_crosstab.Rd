@@ -4,11 +4,11 @@
 \alias{adorn_crosstab}
 \title{Add formatting to a crosstabulation table.}
 \usage{
-adorn_crosstab(crosstab, denom = "row", show_n = TRUE, digits = 1,
+adorn_crosstab(dat, denom = "row", show_n = TRUE, digits = 1,
   show_totals = FALSE, rounding = "half to even")
 }
 \arguments{
-\item{crosstab}{a data.frame with row names in the first column and numeric values in all other columns.  Usually the piped-in result of a call to  \code{crosstab} that included the argument \code{percent = "none"}.}
+\item{dat}{a data.frame with row names in the first column and numeric values in all other columns.  Usually the piped-in result of a call to  \code{crosstab} that included the argument \code{percent = "none"}.}
 
 \item{denom}{the denominator to use for calculating percentages.  One of "row", "col", or "all".}
 
