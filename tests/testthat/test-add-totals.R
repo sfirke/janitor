@@ -1,7 +1,7 @@
 # Tests add_totals_row and add_totals_col
 
 library(janitor)
-context("add_totals functions")
+context("add_totals function")
 
 library(dplyr)
 dat <- data.frame(a = c(rep(c("big", "small", "big"), 3)),
@@ -13,7 +13,7 @@ ct <- dat %>%
                           
 
 test_that("totals row is correct", {
-  expect_equal(add_totals_row(ct),
+  expect_equal(add_totals(ct, "row"),
                data.frame(a = c("big", "small", "Total"),
                           `1` = c(4, 1, 5),
                           `2` = c(0, 2, 2),
@@ -25,22 +25,21 @@ test_that("totals row is correct", {
 
 
 test_that("totals col is correct", {
-  expect_equal(add_totals_col(ct),
+  expect_equal(add_totals(ct, "col"),
                data.frame(a = c("big", "small"),
                           `1` = c(4, 1),
                           `2` = c(0, 2),
                           `3` = c(2, 0),
                           Total = c(6, 3),
                           check.names = FALSE,
-                          stringsAsFactors = TRUE)
+                          stringsAsFactors = FALSE)
   )
 })
 
                
 test_that("totals row and col produce correct results when called together", {
   expect_equal(ct %>%
-                 add_totals_col %>%
-                 add_totals_row(),
+                 add_totals(c("row", "col")),
                data.frame(a = c("big", "small", "Total"),
                           `1` = c(4, 1, 5),
                           `2` = c(0, 2, 2),
@@ -51,21 +50,20 @@ test_that("totals row and col produce correct results when called together", {
   )
 })
 
-test_that("order doesn't matter when totals row and col are called together", {
+test_that("order doesn't matter when row and col are called together", {
   expect_equal(ct %>%
-                 add_totals_col %>%
-                 add_totals_row,
+                 add_totals(c("row", "col")),
                ct %>%
-                 add_totals_row %>%
-                 add_totals_col
+                 add_totals(c("col", "row"))
   )
 })
 
 test_that("both functions work with a single column", {
   single_col <- data_frame(a = c(as.Date("2016-01-01"), as.Date("2016-02-03")),
                          b = c(1, 2))
-  expect_error(single_col %>% add_totals_row(), NA) # from http://stackoverflow.com/a/30068233
-  expect_error(single_col %>% add_totals_row(), NA)
+  expect_error(single_col %>% add_totals("row"), NA) # from http://stackoverflow.com/a/30068233
+  expect_error(single_col %>% add_totals("col"), NA)
+  expect_error(single_col %>% add_totals(c("col", "row")), NA)
 })
 
 
@@ -79,6 +77,20 @@ dat <- data.frame(
   e = c(20, NA),
   stringsAsFactors = FALSE
 )
+
+test_that("numeric first column is ignored", {
+  expect_equal(mtcars %>%
+                 crosstab(cyl, gear) %>%
+                 add_totals("col"),
+               data.frame(
+                 cyl = c("4", "6", "8"),
+                 `3` = c(1, 2, 12),
+                 `4` = c(8, 4, 0),
+                 `5` = c(2, 1, 2),
+                 Total = c(11, 7, 14),
+                 check.names = FALSE,
+                 stringsAsFactors = FALSE))
+})
 
 test_that("na.rm value gets passed through", {
   

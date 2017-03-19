@@ -30,6 +30,6 @@ mtcars \%>\%
   # when total_n is needed
   mtcars \%>\%
   crosstab(am, cyl) \%>\%
-  add_totals_row() \%>\% # add a totals row that should not be included in the denominator
+  add_totals("row") \%>\% # add a totals row that should not be included in the denominator
   ns_to_percents(denom = "all", total_n = nrow(mtcars)) # specify correct denominator
 }

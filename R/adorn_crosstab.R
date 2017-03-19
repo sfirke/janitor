@@ -40,8 +40,8 @@ adorn_crosstab <- function(dat, denom = "row", show_n = TRUE, digits = 1, show_t
   
   complete_n <- complete_n <- sum(dat[, -1], na.rm = TRUE) # capture for percent calcs before any totals col/row is added
   
-  if(showing_col_totals){ dat <- add_totals_col(dat) }
-  if(showing_row_totals){ dat <- add_totals_row(dat) }
+  if(showing_col_totals){ dat <- add_totals(dat, "col") }
+  if(showing_row_totals){ dat <- add_totals(dat, "row") }
   n_col <- ncol(dat)
   
   percs <- ns_to_percents(dat, denom, total_n = complete_n) # last argument only gets used in the "all" case = no harm in passing otherwise
