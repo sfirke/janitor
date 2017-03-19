@@ -71,7 +71,7 @@ test_that("NAs handled correctly with na.rm = FALSE", {
 
 test_that("data.frames with no numeric columns beyond the first cause failure", {
   expect_error(ns_to_percents(data.frame(a = 1:2, b = c("hi", "lo"))),
-               "input data.frame must contain at least one column of class numeric")
+               "at least one one of columns 2:n must be of class numeric")
 })
 
 test_that("non-numeric argument to total_n fails", {

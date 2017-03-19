@@ -92,6 +92,10 @@ test_that("numeric first column is ignored", {
                  stringsAsFactors = FALSE))
 })
 
+# create input tables for subsequent testing
+ct <- mtcars %>% group_by(cyl, gear) %>% tally() %>% tidyr::spread(gear, n)
+df1 <- data.frame(x = c(1, 2), y = c(NA, 4))
+
 test_that("grouped_df gets ungrouped and succeeds", {
   ct <- mtcars %>% group_by(cyl, gear) %>% tally() %>% tidyr::spread(gear, n)
   expect_equal(ct %>% add_totals(),
@@ -99,19 +103,54 @@ test_that("grouped_df gets ungrouped and succeeds", {
   )
 })
 
-test_that("na.rm value gets passed through", {
+test_that("na.rm value works correctly", {
+  expect_equal(df1 %>% add_totals(na.rm = FALSE),
+               data.frame(
+                 x = c("1", "2", "Total"),
+                 y = c(NA, 4, NA),
+                 Total = c(NA, 4, NA),
+                 stringsAsFactors = FALSE
+               )
+  )
+})
+
+test_that("add_totals respects whether input was data.frame or data_frame", {
+  expect_equal(class(df1),
+               class(df1 %>% add_totals()))
+  
+  expect_equal(class(df1 %>% as_tibble()),
+               class(df1 %>% as_tibble() %>% add_totals()))
+})
+
+test_that("error thrown if no columns past first are numeric", {
+  df2 <- data.frame(x = c("big", "small"),
+                    y = c("hi", "lo"))
+  expect_error(add_totals(df2, "col"),
+               "at least one one of columns 2:n must be of class numeric")
+  
+  # Add a test where only the first column is numeric 
+  df3 <- data.frame(x = 1:2,
+                    y = c("hi", "lo"))
+  expect_error(add_totals(df3),
+               "at least one one of columns 2:n must be of class numeric")
   
 })
 
-
-test_that("error thrown if no columns are numeric", {
+test_that("works with non-numeric columns mixed in; fill character specification", {
+  mixed <- data.frame(
+    a = 1:3,
+    b = c("x", "y", "z"),
+    c = 5:7,
+    d = c("big", "med", "small"),
+    stringsAsFactors = FALSE
+  )
   
-})
-
-test_that("works with non-numeric columns mixed in", {
-  
-})
-
-test_that("column names are passed through", {
-  
+  expect_equal(mixed %>% add_totals(fill = "*"),
+               data.frame(a = c("1", "2", "3", "Total"),
+                          b = c("x", "y", "z", "*"),
+                          c = c(5, 6, 7, 18),
+                          d = c("big", "med", "small", "*"),
+                          Total = c(5, 6, 7, 18),
+                          stringsAsFactors = FALSE)
+               )
 })

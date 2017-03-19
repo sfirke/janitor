@@ -27,7 +27,7 @@ ns_to_percents <- function(dat, denom = "row", na.rm = TRUE, total_n = NULL){
   if(! denom %in% c("row", "col", "all")){stop("'denom' must be one of 'row', 'col', or 'all'")}
   numeric_cols <- which(unlist(lapply(dat, is.numeric)))
   numeric_cols <- setdiff(numeric_cols, 1) # assume 1st column should not be included so remove it from numeric_cols. Moved up to this line so that if only 1st col is numeric, the function errors
-  if(length(numeric_cols) == 0){stop("input data.frame must contain at least one column of class numeric")}  
+  if(length(numeric_cols) == 0){stop("at least one one of columns 2:n must be of class numeric")}  
 
   if(!is.null(total_n)){
     if(!is.numeric(total_n)){stop("override_n must be numeric")}

@@ -19,7 +19,7 @@ add_totals(dat, which = c("row", "col"), fill = "-", na.rm = TRUE)
 Returns a data.frame augmented with a totals row, column, or both.
 }
 \description{
-This function excludes other non-numeric columns.
+This function excludes the first column of the input data.frame, assuming it's a descriptive variable not to be summed.  It also excludes other non-numeric columns.
 }
 \examples{
 library(dplyr) # for the \%>\% pipe

@@ -1,7 +1,7 @@
 #' @title Append a totals row and/or column to a data.frame.
 #'
 #' @description
-#' This function excludes other non-numeric columns. 
+#' This function excludes the first column of the input data.frame, assuming it's a descriptive variable not to be summed.  It also excludes other non-numeric columns.
 #'
 #' @param dat an input data.frame with at least one numeric column.
 #' @param which one of "row", "col", or \code{c("row", "col")} 
@@ -20,7 +20,7 @@ add_totals <- function(dat, which = c("row", "col"), fill = "-", na.rm = TRUE){
   if("grouped_df" %in% class(dat)){ dat <- dplyr::ungroup(dat) } # grouped_df causes problems, #97
   
   dat[[1]] <- as.character(dat[[1]]) # for type matching when binding the word "Total" on a factor.  Moved up to this line so that if only 1st col is numeric, the function errors
-  if(sum(unlist(lapply(dat, is.numeric))) == 0){stop("data.frame must contain at least one column of class numeric")}
+  if(sum(unlist(lapply(dat, is.numeric))) == 0){stop("at least one one of columns 2:n must be of class numeric")}
   
   if("row" %in% which){
     # creates the totals row to be appended
