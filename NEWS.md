@@ -3,6 +3,9 @@ NEWS
 
 # janitor 0.2.1.9000 (in progress)
 
+## Breaking changes
+* The first argument of `adorn_crosstab()` is now "dat" instead of "crosstab" (since the function can be called on any data.frame, not just a result of `crosstab()`)
+
 ## Features
 
 ### Major
