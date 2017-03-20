@@ -114,10 +114,12 @@ test_that("na.rm value works correctly", {
   )
 })
 
-test_that("add_totals respects whether input was data.frame or data_frame", {
+test_that("add_totals respects if input was data.frame", {
   expect_equal(class(df1),
                class(df1 %>% add_totals()))
-  
+})
+
+test_that("add_totals respects if input was data_frame", {
   expect_equal(class(df1 %>% as_tibble()),
                class(df1 %>% as_tibble() %>% add_totals()))
 })
