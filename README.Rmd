@@ -15,16 +15,15 @@ knitr::opts_chunk$set(
 options(width = 110)
 ```
 
-<hr/>
 > Data scientists, according to interviews and expert estimates, spend from 50 percent to 80 percent of their time mired in this more mundane labor of collecting and preparing unruly digital data, before it can be explored for useful nuggets.
 > 
 > -- *"[For Big-Data Scientists, 'Janitor Work' Is Key Hurdle to Insight](http://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html)" - The New York Times, 2014*
 
-<hr/>
-
 
 # janitor <img src="logo_small.png" align="right" />
+
 ***********************
+
 [![Travis-CI Build Status](https://travis-ci.org/sfirke/janitor.svg?branch=master)](https://travis-ci.org/sfirke/janitor)
 [![Coverage Status](https://img.shields.io/codecov/c/github/sfirke/janitor/master.svg)](https://codecov.io/github/sfirke/janitor?branch=master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/janitor)](https://cran.r-project.org/package=janitor)
