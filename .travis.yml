@@ -6,10 +6,13 @@ r:
   - release
   - devel
 
+warnings_are_errors: false
+
+
 os:
   - linux
   - osx
-    
+
 cache: packages
 
 r_github_packages:
