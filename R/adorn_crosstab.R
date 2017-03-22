@@ -1,7 +1,9 @@
-#' @title Add formatting to a crosstabulation table.
+#' @title Add presentation formatting to a crosstabulation table.
 #'
 #' @description
-#' Designed to run on the output of a call to \code{crosstab}, this adds formatting, percentage sign, Ns, totals row/column, and custom rounding to a table of numeric values.  The result is no longer clean data, but it saves time in reporting table results.
+#' Formats a data.frame containing counts of co-occurences of two variables (i.e., a contingency table or crosstab).  Adds a mix of percentages, Ns, totals row/column, and custom rounding to a table of integer counts, in the style of a Microsoft Excel PivotTable.  The result is no longer clean data, but is an audience-friendly way to report results.
+#' 
+#' Designed to run on the output of a call to \code{janitor::crosstab}, but can be called on any data.frame containing a contingency table, e.g., the result of \code{dplyr::count()} followed by \code{tidyr::spread()}.
 #'
 #' @param dat a data.frame with row names in the first column and numeric values in all other columns.  Usually the piped-in result of a call to  \code{crosstab} that included the argument \code{percent = "none"}.
 #' @param denom the denominator to use for calculating percentages.  One of "row", "col", or "all".
@@ -32,8 +34,7 @@ adorn_crosstab <- function(dat, denom = "row", show_n = TRUE, digits = 1, show_t
   # some input checks
   if(! rounding %in% c("half to even", "half up")){stop("'rounding' must be one of 'half to even' or 'half up'")}
   dat[[1]] <- as.character(dat[[1]]) # for type matching when binding the word "Total" on a factor.  Moved up to this line so that if only 1st col is numeric, the function errors
-  if(sum(unlist(lapply(dat, is.numeric))) == 0){stop("input data.frame must contain at least one column of class numeric")} # changed from select_if as it can't handle numbers as col names
-  
+  if(sum(!unlist(lapply(dat, is.numeric))[-1]) > 0){stop("all columns 2:n in input data.frame must be of class numeric")} 
   
   showing_col_totals <- (show_totals & denom %in% c("col", "all"))
   showing_row_totals <- (show_totals & denom %in% c("row", "all"))

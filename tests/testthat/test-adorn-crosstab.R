@@ -143,3 +143,12 @@ test_that("bad inputs are caught", {
   expect_error(adorn_crosstab(source1, rounding = "up"), "'rounding' must be one of 'half to even' or 'half up'")
   expect_error(adorn_crosstab(source1, denom = "roww"), "'denom' must be one of 'row', 'col', or 'all'")
 })
+
+test_that("error thrown if any of columns 2:n in input are not numeric", {
+  df2 <- data.frame(x = c("big", "small"),
+                    y = c(1:2),
+                    z = c("hi", "lo"),
+                    stringsAsFactors = FALSE)
+  expect_error(adorn_crosstab(df2),
+               "all columns 2:n in input data.frame must be of class numeric")
+})
