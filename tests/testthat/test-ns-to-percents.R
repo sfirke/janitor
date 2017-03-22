@@ -88,3 +88,12 @@ test_that("override value total_n functions correctly", {
                      ns_to_percents(source1, denom = "all")[, -1] / 10) # divide by 10 because the mtcars n = 32
   )
 })
+
+test_that("works with a single numeric column per #89", {
+  dat <- data.frame(Operation = c("Login", "Posted", "Deleted"), `Total Count` = c(5, 25, 40), check.names = FALSE)
+  expect_equal(dat %>% ns_to_percents("col"),
+               data.frame(Operation = c("Login", "Posted", "Deleted"),
+                          `Total Count` = c(5/70, 25/70, 40/70),
+                          check.names = FALSE)
+  )
+})

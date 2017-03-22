@@ -38,13 +38,13 @@ ns_to_percents <- function(dat, denom = "row", na.rm = TRUE, total_n = NULL){
   
 
   if(denom == "row"){
-    row_sum <- rowSums(dat[, numeric_cols], na.rm = na.rm)
-    dat[, numeric_cols] <- dat[, numeric_cols] / row_sum 
+    row_sum <- rowSums(dat[numeric_cols], na.rm = na.rm)
+    dat[, numeric_cols] <- dat[numeric_cols] / row_sum 
   } else if(denom == "col"){
-    col_sum <- colSums(dat[, numeric_cols], na.rm = na.rm)
-    dat[, numeric_cols] <- sweep(dat[, numeric_cols], 2, col_sum,`/`) # from http://stackoverflow.com/questions/9447801/dividing-columns-by-colsums-in-r
+    col_sum <- colSums(dat[numeric_cols], na.rm = na.rm)
+    dat[, numeric_cols] <- sweep(dat[numeric_cols], 2, col_sum,`/`) # from http://stackoverflow.com/questions/9447801/dividing-columns-by-colsums-in-r
   } else if(denom == "all"){
-    dat[, numeric_cols] <- dat[, numeric_cols] / complete_n 
+    dat[numeric_cols] <- dat[numeric_cols] / complete_n 
   }
  
   dat 
