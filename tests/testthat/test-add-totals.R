@@ -4,6 +4,7 @@ library(janitor)
 context("add_totals function")
 
 library(dplyr)
+
 dat <- data.frame(a = c(rep(c("big", "small", "big"), 3)),
                   b = c(1:3, 1:3, 1, 1, 1)
 )
@@ -120,8 +121,8 @@ test_that("add_totals respects if input was data.frame", {
 })
 
 test_that("add_totals respects if input was data_frame", {
-  expect_equal(class(df1 %>% as_tibble()),
-               class(df1 %>% as_tibble() %>% add_totals()))
+  expect_equal(class(df1 %>% as_data_frame()),
+               class(df1 %>% as_data_frame() %>% add_totals()))
 })
 
 test_that("error thrown if no columns past first are numeric", {
