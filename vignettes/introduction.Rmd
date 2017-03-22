@@ -180,7 +180,7 @@ q %>%
 ## Exploring
 
 ### `add_totals()`
-This adds a totals row and/or column to a data.frame.  These functions exclude the first column of the input data.frame, assuming that it contains a descriptive variable not to be summed.
+This adds a totals row and/or column to a data.frame.  This function excludes the first column of the input data.frame, assuming that it contains a descriptive variable not to be summed.
 ```{r}
 mtcars %>%
   crosstab(am, cyl) %>%
