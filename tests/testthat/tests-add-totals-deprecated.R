@@ -67,3 +67,14 @@ test_that("both functions work with a single column", {
   expect_error(single_col %>% add_totals_row(), NA) # from http://stackoverflow.com/a/30068233
   expect_error(single_col %>% add_totals_row(), NA)
 })
+
+test_that("error thrown for no non-numeric cols after 1st position", {
+  df2 <- data.frame(x = c("big", "small"),
+                    y = c("hi", "lo"))
+  expect_error(add_totals_row(df2),
+               "at least one one of columns 2:n must be of class numeric")
+  expect_error(add_totals_col(df2),
+               "at least one one of columns 2:n must be of class numeric")
+  
+                           
+})

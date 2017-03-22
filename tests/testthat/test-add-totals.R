@@ -33,7 +33,7 @@ test_that("totals col is correct", {
                           `3` = c(2, 0),
                           Total = c(6, 3),
                           check.names = FALSE,
-                          stringsAsFactors = FALSE)
+                          stringsAsFactors = TRUE)
   )
 })
 
@@ -84,7 +84,7 @@ test_that("numeric first column is ignored", {
                  crosstab(cyl, gear) %>%
                  add_totals("col"),
                data.frame(
-                 cyl = c("4", "6", "8"),
+                 cyl = c(4, 6, 8),
                  `3` = c(1, 2, 12),
                  `4` = c(8, 4, 0),
                  `5` = c(2, 1, 2),
