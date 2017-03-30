@@ -20,6 +20,7 @@ NEWS
 ## Bug fixes
 * Long variable names with spaces no longer break `tabyl()` and `crosstab()` [(#87)](https://github.com/sfirke/janitor/issues/87)
 * `clean_names()` now handles leading spaces [(#85)](https://github.com/sfirke/janitor/issues/85)
+* `adorn_crosstab()` and `ns_to_percents()` work on a 2-column data.frame [(#89)](https://github.com/sfirke/janitor/issues/89)
 * `adorn_totals()` now works on a grouped tibble [(#97)](https://github.com/sfirke/janitor/issues/97)
 
 # janitor 0.2.1 (Release date: 2016-10-30)
