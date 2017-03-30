@@ -2,13 +2,13 @@
 % Please edit documentation in R/adorn_crosstab.R
 \name{adorn_crosstab}
 \alias{adorn_crosstab}
-\title{Add formatting to a crosstabulation table.}
+\title{Add presentation formatting to a crosstabulation table.}
 \usage{
-adorn_crosstab(crosstab, denom = "row", show_n = TRUE, digits = 1,
+adorn_crosstab(dat, denom = "row", show_n = TRUE, digits = 1,
   show_totals = FALSE, rounding = "half to even")
 }
 \arguments{
-\item{crosstab}{a data.frame with row names in the first column and numeric values in all other columns.  Usually the piped-in result of a call to  \code{crosstab} that included the argument \code{percent = "none"}.}
+\item{dat}{a data.frame with row names in the first column and numeric values in all other columns.  Usually the piped-in result of a call to  \code{crosstab} that included the argument \code{percent = "none"}.}
 
 \item{denom}{the denominator to use for calculating percentages.  One of "row", "col", or "all".}
 
@@ -24,7 +24,9 @@ adorn_crosstab(crosstab, denom = "row", show_n = TRUE, digits = 1,
 Returns a data.frame.
 }
 \description{
-Designed to run on the output of a call to \code{crosstab}, this adds formatting, percentage sign, Ns, totals row/column, and custom rounding to a table of numeric values.  The result is no longer clean data, but it saves time in reporting table results.
+Formats a data.frame containing counts of co-occurences of two variables (i.e., a contingency table or crosstab).  Adds a mix of percentages, Ns, totals row/column, and custom rounding to a table of integer counts, in the style of a Microsoft Excel PivotTable.  The result is no longer clean data, but is an audience-friendly way to report results.
+
+Designed to run on the output of a call to \code{janitor::crosstab}, but can be called on any data.frame containing a contingency table, e.g., the result of \code{dplyr::count()} followed by \code{tidyr::spread()}.
 }
 \examples{
 library(dplyr) # for the \%>\% pipe

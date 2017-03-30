@@ -7,15 +7,15 @@
 add_totals_col(dat, na.rm = TRUE)
 }
 \arguments{
-\item{dat}{an input data.frame with numeric values in all columns beyond the first.}
+\item{dat}{an input data.frame with at least one numeric column.}
 
 \item{na.rm}{should missing values (including NaN) be omitted from the calculations?}
 }
 \value{
-Returns a data.frame with a totals column, consisting of "Total" in the first row and row sums in the others.
+Returns a data.frame with a totals column containing row-wise sums.
 }
 \description{
-This function excludes the first column of the input data.frame, assuming that it contains a descriptive variable not to be summed.
+This function is deprecated, use \code{adorn_totals} instead.
 }
 \examples{
 library(dplyr) # for the \%>\% pipe

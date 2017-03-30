@@ -126,11 +126,29 @@ test_that("totals row and columns are correct", {
 })
 
 test_that("Totals works with factor column", {
-  
+  df1 <- data.frame(x = c("big", "small"),
+                    y = 1:2,
+                    z = 10:11)
+  expect_equal(
+    adorn_crosstab(df1, denom = "row", show_totals = TRUE),
+    data.frame(x = c("big", "small", "Total"),
+               y = c("9.1% (1)", "15.4% (2)", "12.5% (3)"),
+               z = c("90.9% (10)", "84.6% (11)", "87.5% (21)"),
+               stringsAsFactors = FALSE
+  ))
 })
 
 
 test_that("bad inputs are caught", {
   expect_error(adorn_crosstab(source1, rounding = "up"), "'rounding' must be one of 'half to even' or 'half up'")
   expect_error(adorn_crosstab(source1, denom = "roww"), "'denom' must be one of 'row', 'col', or 'all'")
+})
+
+test_that("error thrown if any of columns 2:n in input are not numeric", {
+  df2 <- data.frame(x = c("big", "small"),
+                    y = c(1:2),
+                    z = c("hi", "lo"),
+                    stringsAsFactors = FALSE)
+  expect_error(adorn_crosstab(df2),
+               "all columns 2:n in input data.frame must be of class numeric")
 })

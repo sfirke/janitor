@@ -69,9 +69,9 @@ test_that("NAs handled correctly with na.rm = FALSE", {
   )
 })
 
-test_that("data.frames with non-numeric columns cause failure", {
+test_that("data.frames with no numeric columns beyond the first cause failure", {
   expect_error(ns_to_percents(data.frame(a = 1:2, b = c("hi", "lo"))),
-               "all columns after the first one must be numeric")
+               "at least one one of columns 2:n must be of class numeric")
 })
 
 test_that("non-numeric argument to total_n fails", {
@@ -86,5 +86,14 @@ test_that("override value total_n functions correctly", {
   expect_equal(ns_to_percents(source1, denom = "all", total_n = 320),
                cbind(data.frame(cyl = c(4, 6, 8)),
                      ns_to_percents(source1, denom = "all")[, -1] / 10) # divide by 10 because the mtcars n = 32
+  )
+})
+
+test_that("works with a single numeric column per #89", {
+  dat <- data.frame(Operation = c("Login", "Posted", "Deleted"), `Total Count` = c(5, 25, 40), check.names = FALSE)
+  expect_equal(dat %>% ns_to_percents("col"),
+               data.frame(Operation = c("Login", "Posted", "Deleted"),
+                          `Total Count` = c(5/70, 25/70, 40/70),
+                          check.names = FALSE)
   )
 })
