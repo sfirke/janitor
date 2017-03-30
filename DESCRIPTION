@@ -20,10 +20,13 @@ Depends:
     R (>= 3.1.2)
 Imports:
     dplyr (>= 0.5.0),
+    lazyeval,
     tidyr
+Suggests:
+    readr
 License: MIT + file LICENSE
 LazyData: true
-RoxygenNote: 5.0.1
+RoxygenNote: 5.0.1.9000
 Suggests:
     testthat,
     knitr,
