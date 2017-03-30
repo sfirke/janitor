@@ -45,15 +45,3 @@ fix_parens_whitespace <- function(x){
   }
   
 }
-
-# check that all columns in a data.frame beyond the first one are numeric
-check_all_cols_after_first_are_numeric <- function(x){
-  non_numeric_count <- x %>%
-    dplyr::select(-1) %>%
-    lapply(function(x) !is.numeric(x)) %>%
-    unlist %>%
-    sum
-  if(non_numeric_count > 0){
-    stop("all columns after the first one must be numeric")
-  }
-}

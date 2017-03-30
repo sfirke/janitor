@@ -22,13 +22,12 @@ Imports:
     dplyr (>= 0.5.0),
     lazyeval,
     tidyr
-Suggests:
-    readr
 License: MIT + file LICENSE
 LazyData: true
-RoxygenNote: 5.0.1.9000
+RoxygenNote: 6.0.1
 Suggests:
     testthat,
     knitr,
-    rmarkdown
+    rmarkdown,
+    readr
 VignetteBuilder: knitr

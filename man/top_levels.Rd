@@ -24,4 +24,3 @@ Get a frequency table of a factor variable, grouped into categories by level.
 \examples{
 top_levels(as.factor(mtcars$hp), 2)
 }
-

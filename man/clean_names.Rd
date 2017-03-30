@@ -23,4 +23,3 @@ Resulting names are unique and consist only of the \code{_} character, lowercase
 # not run:
 # readxl("messy_excel_file.xlsx") \%>\% clean_names()
 }
-

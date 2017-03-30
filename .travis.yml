@@ -1,6 +1,18 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
-language: R
+language: r
+r:
+  - oldrel
+  - release
+  - devel
+
+warnings_are_errors: false
+
+
+os:
+  - linux
+#  - osx
+
 cache: packages
 
 r_github_packages:

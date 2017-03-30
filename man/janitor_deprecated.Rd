@@ -13,4 +13,3 @@ These functions are provided for compatibility with older versions of
   \item \code{\link{convert_to_NA}}
 }
 }
-

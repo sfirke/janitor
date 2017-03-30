@@ -179,13 +179,12 @@ q %>%
 
 ## Exploring
 
-### `add_totals_col()` and `add_totals_row()`
-These functions add a totals row or column to a data.frame.  These functions exclude the first column of the input data.frame, assuming that it contains a descriptive variable not to be summed.
+### `adorn_totals()`
+This adds a totals row and/or column to a data.frame.  This function excludes the first column of the input data.frame, assuming that it contains a descriptive variable not to be summed.
 ```{r}
 mtcars %>%
   crosstab(am, cyl) %>%
-  add_totals_row %>%
-  add_totals_col
+  adorn_totals()
 ```
 
 ### Convert a data.frame of numbers to percentages with `ns_to_percents()`
