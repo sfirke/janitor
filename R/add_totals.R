@@ -42,7 +42,7 @@ adorn_totals <- function(dat, which = c("row", "col"), fill = "-", na.rm = TRUE)
   
   if("col" %in% which){
     # Add totals col
-    clean_dat <- clean_names(dat) # bad names will make select_if choke
+    clean_dat <- clean_names(dat) # bad names will make select_if choke; this may get fixed, see https://github.com/hadley/dplyr/issues/2243 but work around it for now w/ this line
     row_totals <- clean_dat %>%
       dplyr::select(-1) %>% # don't include the first column, even if numeric
       dplyr::select_if(is.numeric) %>%
