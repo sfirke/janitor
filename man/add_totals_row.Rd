@@ -17,7 +17,7 @@ add_totals_row(dat, fill = "-", na.rm = TRUE)
 Returns a data.frame with a totals row, consisting of "Total" in the first column and column sums in the others.
 }
 \description{
-This function excludes the first column of the input data.frame, assuming it's a descriptive variable not to be summed.  It also excludes other non-numeric columns.
+This function is deprecated, use \code{adorn_totals} instead.
 }
 \examples{
 library(dplyr) # for the \%>\% pipe

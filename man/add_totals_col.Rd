@@ -15,7 +15,7 @@ add_totals_col(dat, na.rm = TRUE)
 Returns a data.frame with a totals column containing row-wise sums.
 }
 \description{
-This function excludes the first column of the input data.frame, assuming it's a descriptive variable not to be summed.  It also excludes other non-numeric columns.
+This function is deprecated, use \code{adorn_totals} instead.
 }
 \examples{
 library(dplyr) # for the \%>\% pipe

@@ -13,10 +13,10 @@
 #' library(dplyr) # for the %>% pipe
 #' mtcars %>%
 #'   crosstab(am, cyl) %>%
-#'   add_totals()
+#'   adorn_totals()
 
 
-add_totals <- function(dat, which = c("row", "col"), fill = "-", na.rm = TRUE){
+adorn_totals <- function(dat, which = c("row", "col"), fill = "-", na.rm = TRUE){
   if("grouped_df" %in% class(dat)){ dat <- dplyr::ungroup(dat) } # grouped_df causes problems, #97
   
   if(sum(unlist(lapply(dat, is.numeric))[-1]) == 0){stop("at least one one of columns 2:n must be of class numeric")}
@@ -58,7 +58,7 @@ add_totals <- function(dat, which = c("row", "col"), fill = "-", na.rm = TRUE){
 #' @title Append a totals row to a data.frame.
 #'
 #' @description
-#' This function excludes the first column of the input data.frame, assuming it's a descriptive variable not to be summed.  It also excludes other non-numeric columns. 
+#' This function is deprecated, use \code{adorn_totals} instead. 
 #'
 #' @param dat an input data.frame with at least one numeric column.
 #' @param fill if there are more than one non-numeric columns, what string should fill the bottom row of those columns?
@@ -73,15 +73,15 @@ add_totals <- function(dat, which = c("row", "col"), fill = "-", na.rm = TRUE){
 
 
 add_totals_row <- function(dat, fill = "-", na.rm = TRUE){
-  .Deprecated("add_totals(\"row\")")
-  add_totals(dat, which = "row", fill = fill, na.rm = na.rm)
+  .Deprecated("adorn_totals(\"row\")")
+  adorn_totals(dat, which = "row", fill = fill, na.rm = na.rm)
   
 }
 
 #' @title Append a totals column to a data.frame.
 #'
 #' @description
-#' This function excludes the first column of the input data.frame, assuming it's a descriptive variable not to be summed.  It also excludes other non-numeric columns. 
+#' This function is deprecated, use \code{adorn_totals} instead.
 #'
 #' @param dat an input data.frame with at least one numeric column.
 #' @param na.rm should missing values (including NaN) be omitted from the calculations?
@@ -94,7 +94,7 @@ add_totals_row <- function(dat, fill = "-", na.rm = TRUE){
 #'   add_totals_col
 
 add_totals_col <- function(dat, na.rm = TRUE){
-  .Deprecated("add_totals(\"col\")")
-  add_totals(dat, which = "col", fill = "-", na.rm = na.rm)
+  .Deprecated("adorn_totals(\"col\")")
+  adorn_totals(dat, which = "col", fill = "-", na.rm = na.rm)
 }
 
