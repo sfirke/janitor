@@ -12,6 +12,10 @@ NEWS
 
 ### Major
 
+#### Deprecated the following functions:
+* `use_first_valid_of()` - use `dplyr::coalesce()` instead
+* `convert_to_NA()` - use `dplyr::na_if()` instead
+* `add_totals_row()` and `add_totals_col()` - replaced by the single function `adorn_totals()`
 
 ### Minor
 * `adorn_totals()` and `ns_to_percents()` can now be called on data.frames that have non-numeric columns beyond the first one (they will be ignored) [(#57)](https://github.com/sfirke/janitor/issues/57)
