@@ -180,11 +180,11 @@ q %>%
 ## Exploring
 
 ### `adorn_totals()`
-This adds a totals row and/or column to a data.frame.  This function excludes the first column of the input data.frame, assuming that it contains a descriptive variable not to be summed.
+This adds a totals row and/or column to a data.frame (you specify which).  This function excludes the first column of the input data.frame, assuming that it contains a descriptive variable not to be summed.
 ```{r}
 mtcars %>%
   crosstab(am, cyl) %>%
-  adorn_totals()
+  adorn_totals("row")
 ```
 
 ### Convert a data.frame of numbers to percentages with `ns_to_percents()`

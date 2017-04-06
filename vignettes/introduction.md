@@ -1,6 +1,6 @@
 Catalog of janitor functions
 ================
-2016-09-30
+2017-04-06
 
 -   [Major functions](#major-functions)
     -   [Cleaning](#cleaning)
@@ -12,12 +12,10 @@ Catalog of janitor functions
         -   [Explore records with duplicated values for specific combinations of variables with `get_dupes()`](#explore-records-with-duplicated-values-for-specific-combinations-of-variables-with-get_dupes)
 -   [Minor functions](#minor-functions)
     -   [Cleaning](#cleaning-1)
-        -   [`use_first_valid_of()` replaces nested `ifelse` statements for combining variables](#use_first_valid_of-replaces-nested-ifelse-statements-for-combining-variables)
         -   [Fix dates stored as serial numbers with `excel_numeric_to_date()`](#fix-dates-stored-as-serial-numbers-with-excel_numeric_to_date)
-        -   [Use `convert_to_NA()` to clean should-be NA values](#use-convert_to_na-to-clean-should-be-na-values)
         -   [`remove_empty_cols()` and `remove_empty_rows()`](#remove_empty_cols-and-remove_empty_rows)
     -   [Exploring](#exploring-1)
-        -   [`add_totals_col()` and `add_totals_row()`](#add_totals_col-and-add_totals_row)
+        -   [`adorn_totals()`](#adorn_totals)
         -   [Convert a data.frame of numbers to percentages with `ns_to_percents()`](#convert-a-data.frame-of-numbers-to-percentages-with-ns_to_percents)
         -   [Count factor levels in groups of high, medium, and low with `top_levels()`](#count-factor-levels-in-groups-of-high-medium-and-low-with-top_levels)
 
@@ -227,26 +225,6 @@ Smaller functions for use in particular situations. More human-readable than the
 Cleaning
 --------
 
-### `use_first_valid_of()` replaces nested `ifelse` statements for combining variables
-
-Say that you have three different temperature sensors whose readings you want to collapse into one variable. Not all records have readings from each sensor. Sensor A is the most accurate, so you want to use that where available, but if it's missing you want Sensor B, and if that's missing, Sensor C.
-
-The common R way to do this would be:
-
-``` r
-ifelse(!is.na(sensorA), sensorA,
-       ifelse(!is.na(sensorB), sensorB,
-              sensorC))
-```
-
-The function `use_first_valid_of()` replaces this with:
-
-``` r
-use_first_valid_of(sensorA, sensorB, sensorC)
-```
-
-One major improvement over the nested-`ifelse` statements: this function can combine factor and date variables, which [ifelse fails to handle](http://stackoverflow.com/questions/6668963/how-to-prevent-ifelse-from-turning-date-objects-into-numeric-objects).
-
 ### Fix dates stored as serial numbers with `excel_numeric_to_date()`
 
 Ever load data from Excel and see a value like `42223` where a date should be? This function converts those serial numbers to class `Date`, and contains an option for specifying the alternate date system for files created with Excel for Mac 2008 and earlier versions (which count from a different starting point).
@@ -256,17 +234,6 @@ excel_numeric_to_date(41103)
 #> [1] "2012-07-13"
 excel_numeric_to_date(41103, date_system = "mac pre-2011")
 #> [1] "2016-07-14"
-```
-
-### Use `convert_to_NA()` to clean should-be NA values
-
-Converts instances of user-specified strings into `NA` values. It takes an argument `dat`, which can be either a vector, a data.frame, or a `tibble::tbl_df`, and will return that same type with the substitutions made.
-
-Use if, say, you import an Excel file with values like `#N/A"` present in many columns.
-
-``` r
-convert_to_NA(letters[1:5], c("b", "d"))
-#> [1] "a" NA  "c" NA  "e"
 ```
 
 ### `remove_empty_cols()` and `remove_empty_rows()`
@@ -288,19 +255,18 @@ q %>%
 Exploring
 ---------
 
-### `add_totals_col()` and `add_totals_row()`
+### `adorn_totals()`
 
-These functions add a totals row or column to a data.frame. These functions exclude the first column of the input data.frame, assuming that it contains a descriptive variable not to be summed.
+This adds a totals row and/or column to a data.frame (you specify which). This function excludes the first column of the input data.frame, assuming that it contains a descriptive variable not to be summed.
 
 ``` r
 mtcars %>%
   crosstab(am, cyl) %>%
-  add_totals_row %>%
-  add_totals_col
-#>      am  4 6  8 Total
-#> 1     0  3 4 12    19
-#> 2     1  8 3  2    13
-#> 3 Total 11 7 14    32
+  adorn_totals("row")
+#>      am  4 6  8
+#> 1     0  3 4 12
+#> 2     1  8 3  2
+#> 3 Total 11 7 14
 ```
 
 ### Convert a data.frame of numbers to percentages with `ns_to_percents()`
