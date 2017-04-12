@@ -98,9 +98,7 @@ roster <- roster_raw %>%
   clean_names() %>%
   remove_empty_rows() %>%
   remove_empty_cols() %>%
-  convert_to_NA(c("TBD", "PENDING")) %>%
-  mutate(hire_date = excel_numeric_to_date(hire_date),
-         main_cert = use_first_valid_of(certification, certification_2)) %>%
+  mutate(hire_date = excel_numeric_to_date(hire_date)) %>%
   select(-certification, -certification_2) # drop unwanted columns
 
 roster
@@ -148,7 +146,7 @@ Other janitor functions dress up the results of these tabulation calls for fast,
 ```{r}
 roster %>%
   tabyl(employee_status, sort = TRUE) %>%
-  add_totals_row()
+  adorn_totals("row")
 
 roster %>%
   crosstab(full_time, employee_status) %>%
