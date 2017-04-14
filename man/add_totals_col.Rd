@@ -18,7 +18,6 @@ Returns a data.frame with a totals column containing row-wise sums.
 This function is deprecated, use \code{adorn_totals} instead.
 }
 \examples{
-library(dplyr) # for the \%>\% pipe
 mtcars \%>\%
   crosstab(am, cyl) \%>\%
   add_totals_col

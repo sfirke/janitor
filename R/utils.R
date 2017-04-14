@@ -2,7 +2,7 @@
 
 #' Pipe operator
 #'
-#' See \code{\link[magrittr]{\%>\%}} for more details.
+#' @description Exported from the magrittr package.  To learn more, run \code{?magrittr::`\%>\%`}.
 #'
 #' @name %>%
 #' @rdname pipe
@@ -10,4 +10,8 @@
 #' @export
 #' @importFrom magrittr %>%
 #' @usage lhs \%>\% rhs
+#' @examples
+#' mtcars %>%
+#'   crosstab(carb, cyl) %>%
+#'   adorn_totals()
 NULL

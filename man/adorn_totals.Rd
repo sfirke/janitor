@@ -22,7 +22,6 @@ Returns a data.frame augmented with a totals row, column, or both.
 This function excludes the first column of the input data.frame, assuming it's a descriptive variable not to be summed.  It also excludes other non-numeric columns.
 }
 \examples{
-library(dplyr) # for the \%>\% pipe
 mtcars \%>\%
   crosstab(am, cyl) \%>\%
   adorn_totals()
