@@ -16,6 +16,7 @@
 #'
 #' @param dat a data.frame with variable values in the first column and numeric values in all other columns.
 #' @return Returns the same data.frame, but with the additional class of "tabyl" and the attribute "core".
+#' @export
 #' @examples
 #' as_tabyl(mtcars)
 #' 
@@ -41,6 +42,7 @@ as_tabyl <- function(dat){
 #'
 #' @param dat a data.frame of class \code{tabyl}.
 #' @return Returns the same data.frame, but without the \code{tabyl} class and attributes.
+#' @export
 #' @examples
 #' mtcars %>%
 #'   as_tabyl() %>%

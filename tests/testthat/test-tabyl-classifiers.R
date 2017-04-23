@@ -7,12 +7,13 @@ context("as_tabyl() and un_tabyl()")
 a <- mtcars %>%
   crosstab(cyl, carb) # will need to rewrite this when this verb goes away
 
+b <- mtcars %>%
+  dplyr::count(cyl, carb) %>%
+  tidyr::spread(carb, n, fill = 0) %>%
+  as.data.frame() # for comparison purposes, remove the tbl_df aspect
+
+
 test_that("as_tabyl works on result of a non-janitor count/spread", {
- b <- mtcars %>%
-   dplyr::count(cyl, carb) %>%
-   tidyr::spread(carb, n, fill = 0) %>%
-   as.data.frame() # for comparison purposes, remove the tbl_df aspect
- 
  expect_equal(as_tabyl(a),
               as_tabyl(b))
 })
