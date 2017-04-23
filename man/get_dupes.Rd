@@ -19,8 +19,7 @@ For hunting duplicate records during data cleaning.  Specify the data.frame and 
 }
 \examples{
 get_dupes(mtcars, mpg, hp)
-# or called with magrittr pipe \%>\% :
-library(dplyr)
+# or called with the magrittr pipe \%>\% :
 mtcars \%>\% get_dupes(wt)
 
 }

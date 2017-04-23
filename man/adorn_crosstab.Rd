@@ -29,7 +29,6 @@ Formats a data.frame containing counts of co-occurences of two variables (i.e., 
 Designed to run on the output of a call to \code{janitor::crosstab}, but can be called on any data.frame containing a contingency table, e.g., the result of \code{dplyr::count()} followed by \code{tidyr::spread()}.
 }
 \examples{
-library(dplyr) # for the \%>\% pipe
 mtcars \%>\%
  crosstab(gear, cyl) \%>\%
  adorn_crosstab(denom = "all")

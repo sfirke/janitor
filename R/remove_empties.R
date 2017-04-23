@@ -7,8 +7,6 @@
 #' @return Returns the data.frame with no empty rows.
 #' @export
 #' @examples
-#' # called with magrittr pipe %>% :
-#' # library(dplyr)
 #' # not run:
 #' # dat %>% remove_empty_rows
 
@@ -25,8 +23,6 @@ remove_empty_rows <- function(dat){
 #' @return Returns the data.frame with no empty columns.
 #' @export
 #' @examples
-#' # called with magrittr pipe %>% :
-#' # library(dplyr)
 #' # not run:
 #' # dat %>% remove_empty_cols
 #'

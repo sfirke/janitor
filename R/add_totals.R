@@ -10,7 +10,6 @@
 #' @return Returns a data.frame augmented with a totals row, column, or both.
 #' @export
 #' @examples
-#' library(dplyr) # for the %>% pipe
 #' mtcars %>%
 #'   crosstab(am, cyl) %>%
 #'   adorn_totals()
@@ -66,7 +65,6 @@ adorn_totals <- function(dat, which = c("row", "col"), fill = "-", na.rm = TRUE)
 #' @return Returns a data.frame with a totals row, consisting of "Total" in the first column and column sums in the others.
 #' @export
 #' @examples
-#' library(dplyr) # for the %>% pipe
 #' mtcars %>%
 #'   crosstab(am, cyl) %>%
 #'   add_totals_row
@@ -88,7 +86,6 @@ add_totals_row <- function(dat, fill = "-", na.rm = TRUE){
 #' @return Returns a data.frame with a totals column containing row-wise sums.
 #' @export
 #' @examples
-#' library(dplyr) # for the %>% pipe
 #' mtcars %>%
 #'   crosstab(am, cyl) %>%
 #'   add_totals_col

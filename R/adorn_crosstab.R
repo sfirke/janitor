@@ -13,7 +13,6 @@
 #' @param rounding method to use for truncating percentages - either "half to even", the base R default method, or "half up", where 14.5 rounds up to 15.
 #' @return Returns a data.frame.
 #' @examples
-#' library(dplyr) # for the %>% pipe
 #'mtcars %>%
 #'  crosstab(gear, cyl) %>%
 #'  adorn_crosstab(denom = "all")

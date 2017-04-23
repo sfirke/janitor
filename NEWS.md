@@ -12,7 +12,9 @@ NEWS
 
 ### Major
 
-#### Deprecated the following functions:
+* Exported the `%>%` pipe from magrittr [(#107)](https://github.com/sfirke/janitor/issues/107).
+
+**Deprecated the following functions:**
 * `use_first_valid_of()` - use `dplyr::coalesce()` instead
 * `convert_to_NA()` - use `dplyr::na_if()` instead
 * `add_totals_row()` and `add_totals_col()` - replaced by the single function `adorn_totals()`

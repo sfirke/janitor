@@ -12,7 +12,7 @@
 #' # not run:
 #' # clean_names(poorly_named_df)
 #'
-#' # library(dplyr) ; library(readxl)
+#' # library(readxl)
 #' # not run:
 #' # readxl("messy_excel_file.xlsx") %>% clean_names()
 

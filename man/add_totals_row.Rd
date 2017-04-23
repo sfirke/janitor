@@ -20,7 +20,6 @@ Returns a data.frame with a totals row, consisting of "Total" in the first colum
 This function is deprecated, use \code{adorn_totals} instead.
 }
 \examples{
-library(dplyr) # for the \%>\% pipe
 mtcars \%>\%
   crosstab(am, cyl) \%>\%
   add_totals_row

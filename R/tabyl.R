@@ -23,7 +23,6 @@
 #' tabyl(mtcars$cyl, sort = TRUE)
 #' 
 #' # Passing in a data.frame using a pipeline:
-#' library(dplyr) # to access the pipe operator
 #' mtcars %>% tabyl(cyl, sort = TRUE)
 #' 
 #' # illustrating show_na functionality:
@@ -60,7 +59,12 @@ tabyl.default <- function(vec, sort = FALSE, show_na = TRUE, ...) {
     result <- dat %>% dplyr::count(vec, sort = sort)
     
     if(is.factor(vec)){
-      result <- tidyr::complete(result, vec)
+      expanded <- tidyr::expand(result, vec)
+      result <- merge(x = expanded, # can't use dplyr::left_join because as of 0.6.0, NAs don't match, and na_matches argument not present < 0.6.0
+                      y = result,
+                      by = "vec",
+                      all.x = TRUE)
+      result <- dplyr::arrange(result, vec) # restore sorting by factor level
       if(sort){result <- dplyr::arrange(result, dplyr::desc(n))} # undo reorder caused by complete()
     }
     

@@ -11,7 +11,6 @@
 #' @return Returns a data.frame of percentages, expressed as numeric values between 0 and 1.
 #' @export
 #' @examples
-#' library(dplyr) # for the %>% pipe
 #' mtcars %>%
 #'   crosstab(am, cyl) %>%
 #'   ns_to_percents(denom = "all")

@@ -42,7 +42,6 @@ tabyl(val)
 tabyl(mtcars$cyl, sort = TRUE)
 
 # Passing in a data.frame using a pipeline:
-library(dplyr) # to access the pipe operator
 mtcars \%>\% tabyl(cyl, sort = TRUE)
 
 # illustrating show_na functionality:

@@ -37,7 +37,7 @@ test_that("show_NA = FALSE parameter works", {
                tabyl(test_df_na$grp, show_na = FALSE))
 })
 
-test_that("sorting is preserved for factors", {
+test_that("ordering of result by factor levels is preserved for factors", {
   expect_equal(tabyl(factor(c("x", "y", "z"), levels = c("y", "z", "x")))[[1]], factor(c("y", "z", "x"), levels = c("y", "z", "x")))
 })
 
