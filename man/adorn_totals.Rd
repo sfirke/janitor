@@ -4,12 +4,12 @@
 \alias{adorn_totals}
 \title{Append a totals row and/or column to a data.frame.}
 \usage{
-adorn_totals(dat, which = c("row", "col"), fill = "-", na.rm = TRUE)
+adorn_totals(dat, where = c("row", "col"), fill = "-", na.rm = TRUE)
 }
 \arguments{
 \item{dat}{an input data.frame with at least one numeric column.}
 
-\item{which}{one of "row", "col", or \code{c("row", "col")}}
+\item{where}{one of "row", "col", or \code{c("row", "col")}}
 
 \item{fill}{if there are multiple non-numeric columns, what string should fill the bottom row of those columns?}
 

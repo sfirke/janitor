@@ -13,7 +13,7 @@ ct <- dat %>%
 
 
 test_that("totals row is correct", {
-  expect_equal(add_totals_row(ct),
+  expect_equal(un_tabyl(add_totals_row(ct)),
                data.frame(a = c("big", "small", "Total"),
                           `1` = c(4, 1, 5),
                           `2` = c(0, 2, 2),
@@ -25,7 +25,7 @@ test_that("totals row is correct", {
 
 
 test_that("totals col is correct", {
-  expect_equal(add_totals_col(ct),
+  expect_equal(add_totals_col(ct) %>% un_tabyl(),
                data.frame(a = c("big", "small"),
                           `1` = c(4, 1),
                           `2` = c(0, 2),
@@ -40,7 +40,8 @@ test_that("totals col is correct", {
 test_that("totals row and col produce correct results when called together", {
   expect_equal(ct %>%
                  add_totals_col %>%
-                 add_totals_row(),
+                 add_totals_row() %>%
+                 un_tabyl(),
                data.frame(a = c("big", "small", "Total"),
                           `1` = c(4, 1, 5),
                           `2` = c(0, 2, 2),
@@ -54,10 +55,10 @@ test_that("totals row and col produce correct results when called together", {
 test_that("order doesn't matter when totals row and col are called together", {
   expect_equal(ct %>%
                  add_totals_col %>%
-                 add_totals_row,
+                 add_totals_row %>% un_tabyl(),
                ct %>%
                  add_totals_row %>%
-                 add_totals_col
+                 add_totals_col %>% un_tabyl()
   )
 })
 
