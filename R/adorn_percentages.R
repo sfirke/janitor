@@ -1,7 +1,7 @@
 #' @title Convert a data.frame of counts to percentages.
 #'
 #' @description
-#' This function excludes the first column of the input data.frame, assuming that it contains a descriptive variable.  If the input data.frame is not a \code{tabyl}, it will ocnvert to one in order to preserve the underlying values in the \code{core} attribute.
+#' This function excludes the first column of the input data.frame, assuming that it contains a descriptive variable.  If the input data.frame is not a \code{tabyl}, it will convert to one in order to preserve the underlying values in the \code{core} attribute.
 #'
 #' @param dat a \code{tabyl} or other data.frame with a tabyl-like layout.
 #' @param denominator the direction to use for calculating percentages.  One of "row", "col", or "all".

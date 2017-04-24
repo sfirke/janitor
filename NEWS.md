@@ -1,7 +1,18 @@
 NEWS
 ====
+# janitor 0.2.2.9000 (in progress)
 
-# janitor 0.2.1.9000 (in progress)
+## Breaking changes
+
+## Features
+
+### Major
+
+### Minor
+* The utility function `round_half_up()` is now exported for public use.  An exact implementation of http://stackoverflow.com/questions/12688717/round-up-from-5-in-r/12688836#12688836.
+
+
+# janitor 0.2.2
 
 ## Breaking changes
 * The first argument of `adorn_crosstab()` is now "dat" instead of "crosstab" (since the function can be called on any data.frame, not just a result of `crosstab()`)
