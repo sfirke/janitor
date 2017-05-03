@@ -3,8 +3,8 @@
 >
 > -- *"[For Big-Data Scientists, 'Janitor Work' Is Key Hurdle to Insight](http://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html)" - The New York Times, 2014*
 
-janitor <img src="logo_small.png" align="right" />
-==================================================
+janitor <img src="tools/readme/logo_small.png" align="right" />
+===============================================================
 
 ------------------------------------------------------------------------
 
@@ -48,7 +48,7 @@ Below are quick examples of how janitor tools are commonly used. A full descript
 
 ### Cleaning dirty data
 
-Take this roster of teachers at a fictional American high school, stored in the Microsoft Excel file [dirty\_data.xlsx](https://github.com/sfirke/janitor/blob/master/dirty_data.xlsx): ![All kinds of dirty.](dirty_data.PNG)
+Take this roster of teachers at a fictional American high school, stored in the Microsoft Excel file [dirty\_data.xlsx](https://github.com/sfirke/janitor/blob/master/dirty_data.xlsx): ![All kinds of dirty.](tools/readme/dirty_data.PNG)
 
 Dirtiness includes:
 
@@ -97,15 +97,15 @@ roster
 #> # A tibble: 12 × 7
 #>      first_name last_name employee_status    subject  hire_date percent_allocated full_time
 #>           <chr>     <chr>           <chr>      <chr>     <date>             <dbl>     <chr>
-#> 1         Jason    Bourne         Teacher         PE 2008-08-30              0.75       Yes
-#> 2         Jason    Bourne         Teacher   Drafting 2008-08-30              0.25       Yes
-#> 3        Alicia      Keys         Teacher      Music 2001-08-15              1.00       Yes
-#> 4           Ada  Lovelace         Teacher       <NA> 1975-05-01              1.00       Yes
-#> 5         Desus      Nice  Administration       Dean 2013-06-06              1.00       Yes
-#> 6  Chien-Shiung        Wu         Teacher    Physics 1930-03-20              0.50       Yes
-#> 7  Chien-Shiung        Wu         Teacher  Chemistry 1930-03-20              0.50       Yes
-#> 8         James     Joyce         Teacher    English 1990-05-01              0.50        No
-#> 9          Hedy    Lamarr         Teacher    Science 1976-06-08              0.50        No
+#>  1        Jason    Bourne         Teacher         PE 2008-08-30              0.75       Yes
+#>  2        Jason    Bourne         Teacher   Drafting 2008-08-30              0.25       Yes
+#>  3       Alicia      Keys         Teacher      Music 2001-08-15              1.00       Yes
+#>  4          Ada  Lovelace         Teacher       <NA> 1975-05-01              1.00       Yes
+#>  5        Desus      Nice  Administration       Dean 2013-06-06              1.00       Yes
+#>  6 Chien-Shiung        Wu         Teacher    Physics 1930-03-20              0.50       Yes
+#>  7 Chien-Shiung        Wu         Teacher  Chemistry 1930-03-20              0.50       Yes
+#>  8        James     Joyce         Teacher    English 1990-05-01              0.50        No
+#>  9         Hedy    Lamarr         Teacher    Science 1976-06-08              0.50        No
 #> 10       Carlos    Boozer           Coach Basketball 2015-08-05                NA        No
 #> 11        Young    Boozer           Coach       <NA> 1995-01-01                NA        No
 #> 12      Micheal    Larsen         Teacher    English 2009-09-15              0.80        No
