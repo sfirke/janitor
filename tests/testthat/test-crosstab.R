@@ -126,3 +126,15 @@ expect_equal(
   "dat$`The candidate(s) applied directly to my school` %>% gsub(\"hi\",     \"there\", .)"
 )
 })
+
+
+test_that("NA character column is displayed in right-most position", {
+  dat <- data.frame(
+    a = c(1, 1),
+    b = c("x", NA),
+    stringsAsFactors = FALSE
+  )
+expect_equal(dat %>% crosstab(a, b),
+             data.frame(a = 1, x = 1, NA_ = 1)
+)
+})
