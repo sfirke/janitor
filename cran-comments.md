@@ -5,6 +5,7 @@
 
 ### Test environments
 * local Windows 10 install, R 3.3.3
+* win-builder with R-devel 2017-05-06
 
 On Travis CI:
 * ubuntu 12.04.5, R-oldrel 3.3.3
