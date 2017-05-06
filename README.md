@@ -15,8 +15,8 @@ janitor <img src="tools/readme/logo_small.png" align="right" />
 The main janitor functions:
 
 -   perfectly format data.frame column names;
--   isolate partially-duplicate records; and
--   provide quick one- and two-variable tabulations (i.e., frequency tables and crosstabs).
+-   provide quick one- and two-variable tabulations (i.e., frequency tables and crosstabs); and
+-   isolate partially-duplicate records.
 
 Other janitor functions nicely format the results of these tabulations. Together, these tabulate-and-report functions approximate popular features of SPSS and Microsoft Excel.
 
