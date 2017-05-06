@@ -1,14 +1,22 @@
 NEWS
 ====
 
-# janitor 0.2.1.9000 (in progress)
+# janitor 0.3.0  (Release date: 2017-05-06)
+
+## Release summary
+
+The primary purpose of this release is to maintain accuracy given the changes to the dplyr package, upon which janitor is built, in dplyr version 0.6.0.  This update also contains a number of minor improvements.
+
+**Critical: if you update the package `dplyr` to version 0.6.0, you *must* update janitor to version 0.3.0 to ensure accurate results from janitor's `tabyl()` function.**  This is due to a change in the behavior of dplyr's `_join` functions (*discussed in [#111)](https://github.com/sfirke/janitor/issues/111)*.
+
+janitor 0.3.0 is compatible with this new version of dplyr as well as old versions of dplyr back to 0.5.0.  That is, updating janitor to 0.3.0 does not necessitate an update to dplyr 0.6.0.
+
 
 ## Breaking changes
-* The first argument of `adorn_crosstab()` is now "dat" instead of "crosstab" (since the function can be called on any data.frame, not just a result of `crosstab()`)
 * The functions `add_totals_row` and `add_totals_col` were combined into a single function, `adorn_totals()`. [(#57)](https://github.com/sfirke/janitor/issues/57).  The `add_totals_` functions are now deprecated and should not be used.
+* The first argument of `adorn_crosstab()` is now "dat" instead of "crosstab" (indicating that the function can be called on any data.frame, not just a result of `crosstab()`)
 
 ## Features
-
 
 ### Major
 
@@ -20,15 +28,16 @@ NEWS
 * `add_totals_row()` and `add_totals_col()` - replaced by the single function `adorn_totals()`
 
 ### Minor
-* `adorn_totals()` and `ns_to_percents()` can now be called on data.frames that have non-numeric columns beyond the first one (they will be ignored) [(#57)](https://github.com/sfirke/janitor/issues/57)
-* `adorn_totals("col")` retains factor class in 1st column if that was the input
+* `adorn_totals()` and `ns_to_percents()` can now be called on data.frames that have non-numeric columns beyond the first one (those columns will be ignored) [(#57)](https://github.com/sfirke/janitor/issues/57)
+* `adorn_totals("col")` retains factor class in 1st column if 1st column in the input data.frame was a factor
 
 ## Bug fixes
-* Long variable names with spaces no longer break `tabyl()` and `crosstab()` [(#87)](https://github.com/sfirke/janitor/issues/87)
 * `clean_names()` now handles leading spaces [(#85)](https://github.com/sfirke/janitor/issues/85)
 * `adorn_crosstab()` and `ns_to_percents()` work on a 2-column data.frame [(#89)](https://github.com/sfirke/janitor/issues/89)
 * `adorn_totals()` now works on a grouped tibble [(#97)](https://github.com/sfirke/janitor/issues/97)
+* Long variable names with spaces no longer break `tabyl()` and `crosstab()` [(#87)](https://github.com/sfirke/janitor/issues/87)
 * An `NA_` column in the result of a `crosstab()` will appear at the last column position [(#109)](https://github.com/sfirke/janitor/issues/109)
+
 
 # janitor 0.2.1 (Release date: 2016-10-30)
 
