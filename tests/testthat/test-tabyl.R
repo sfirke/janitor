@@ -132,3 +132,8 @@ test_that("bizarre combination of %>%, quotes, and spaces in names is handled", 
     "dat$`The candidate(s) applied directly to my school` %>% gsub(\"hi\",     \"there\", .)"
   )
 })
+
+test_that("if called on non-existent vector, returns useful error message", {
+  expect_error(tabyl(mtcars$moose), "object mtcars\\$moose not found")
+  expect_error(tabyl(moose), "object 'moose' not found")
+})

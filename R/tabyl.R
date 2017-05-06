@@ -45,6 +45,8 @@ tabyl.default <- function(vec, sort = FALSE, show_na = TRUE, ...) {
     var_name <- names(vec)
   }
 
+  # useful error message if input vector doesn't exist
+  if(is.null(vec)){stop(paste0("object ", var_name, " not found"))}
   # an odd variable name can be deparsed into a vector of length >1, rare but throws warning, see issue #87
   if(length(var_name) > 1){ var_name <- paste(var_name, collapse = "") }
   
