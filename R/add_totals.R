@@ -64,10 +64,6 @@ adorn_totals <- function(dat, which = c("row", "col"), fill = "-", na.rm = TRUE)
 #' @param na.rm should missing values (including NaN) be omitted from the calculations?
 #' @return Returns a data.frame with a totals row, consisting of "Total" in the first column and column sums in the others.
 #' @export
-#' @examples
-#' mtcars %>%
-#'   crosstab(am, cyl) %>%
-#'   add_totals_row
 
 
 add_totals_row <- function(dat, fill = "-", na.rm = TRUE){
@@ -85,10 +81,6 @@ add_totals_row <- function(dat, fill = "-", na.rm = TRUE){
 #' @param na.rm should missing values (including NaN) be omitted from the calculations?
 #' @return Returns a data.frame with a totals column containing row-wise sums.
 #' @export
-#' @examples
-#' mtcars %>%
-#'   crosstab(am, cyl) %>%
-#'   add_totals_col
 
 add_totals_col <- function(dat, na.rm = TRUE){
   .Deprecated("adorn_totals(\"col\")")
