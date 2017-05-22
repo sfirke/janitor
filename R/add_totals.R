@@ -35,8 +35,8 @@ adorn_totals <- function(dat, which = c("row", "col"), fill = "-", na.rm = TRUE)
     
     col_totals[nrow(col_totals), 1] <- "Total" # replace final row, first column with "Total"
     dat <- dplyr::bind_rows(dat %>%
-                              stats::setNames(names(dat)) %>%
-                              dplyr::mutate_at(1, as.character), col_totals)
+                              stats::setNames(names(dat)),
+                            col_totals)
   }
   
   if("col" %in% which){
