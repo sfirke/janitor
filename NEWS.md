@@ -1,5 +1,9 @@
 NEWS
 ====
+# janitor 0.3.0.9000 (development version, in progress)
+
+## Bug fixes
+* `adorn_totals("row")` now handles quirky variable names in 1st column [(#118)](https://github.com/sfirke/janitor/issues/118)
 
 # janitor 0.3.0  (Release date: 2017-05-06)
 
