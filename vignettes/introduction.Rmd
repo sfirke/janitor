@@ -86,24 +86,24 @@ mtcars %>%
 
 + It returns a data.frame
 + It is simple.
-    + It calculates frequencies by default but can calculate row, column, and table-wise percentages.
     + It can (optionally) display `NA` values
 + It can be called with `%>%` in a pipeline
 
+And it has a host of functions to format the result *(more on that later).*
+
 Usage:
 ```{r}
-y <- c(1, 1, 2, 1, 2)
-x <- c("a", "a", "b", "b", NA)
+dat <- data.frame(
+  x = c("a", "a", "b", "b", NA),
+  y = c(1, 1, 2, 1, 2)
+)
 
-crosstab(x, y)
-crosstab(x, y, percent = "row")
-```
+dat %>% crosstab(x, y)
 
-If the variables are in the same data frame, call `crosstab` with the `%>%` pipe:
-```{r}
-dat <- data.frame(x, y)
+# With the most basic of its adornment functions:
 dat %>%
-  crosstab(x, y, percent = "row")
+  crosstab(x, y) %>%
+  adorn_percentages("row")
 ```
 
 This function wraps the common pipeline of `group_by %>% summarise %>% mutate %>% spread` from the dplyr and tidyr packages, often used in exploratory analysis.  The simple `crosstab` call above produces the same result* as this much longer pipeline:
@@ -121,26 +121,32 @@ And is more featured than the base R equivalents `table(dat$x, dat$y)` and `prop
 
 \**not exactly: the long pipeline returns a `tibble`, while crosstab() returns a `data.frame` that prints fully in the console.*
 
-### Format a crosstab table with `adorn_crosstab()`
-Builds off of `crosstab()` to  approximate the functionality of a quick Microsoft Excel PivotTable.  It prints an elegant result, either for interactive analysis or for sharing in a report, e.g., with `knitr::kable()`.  The simple default call yields:
+### Format a crosstab table with `adorn_*` functions
+
+These small, modular functions build on a `crosstab()` to  approximate the functionality of a quick Microsoft Excel PivotTable.  They print an elegant result, either for interactive analysis or for sharing in a report, e.g., with `knitr::kable()`.  For example:
 
 ```{r}
 mtcars %>%
   crosstab(cyl, gear) %>%
-  adorn_crosstab()
+  adorn_totals("row") %>%
+  adorn_percentages("row") %>% 
+  adorn_pct_formatting() %>%
+  adorn_ns()
+
 ```
 
-The user can specify additional formatting options:
+The display options can be fine-tuned:
 
-+ Percentages can be calculated by row, column, or overall
-+ Display only percentages, or show Ns in parentheses
-+ Control how many digits of the percentages to display
-+ Display a totals row, column, or both
++ Add totals row, column, or both
++ Calculate percentages along either axis
++ Control how many digits to display and whether to append a % sign
 + Round percentages either with the default `round()` function, or round-half-to-up using a [custom rounding function](http://stackoverflow.com/a/12688836/4470365)
     + e.g., round 10.5 up to 11, consistent with Excel's tie-breaking behavior
     + This contrasts with rounding 10.5 down to 10 as in base R's `round(10.5)`.
+    
+You can also call these functions on other data.frames, not just the result of calls to `crosstab()`.  E.g., `mtcars %>% adorn_totals(col) %>% adorn_percentages("col")`.
 
-*When calling `crosstab()` to feed this function, leave the default argument `percent = "none"` so that the integer values are passed through.*
+For more on these functions, including how they play together, see **THIS VIGNETTE - LINK TO COME.**
 
 ### Explore records with duplicated values for specific combinations of variables with `get_dupes()`
 This is for hunting down and examining duplicate records during data cleaning - usually when there shouldn't be any.
@@ -185,15 +191,6 @@ This adds a totals row and/or column to a data.frame (you specify which).  This 
 mtcars %>%
   crosstab(am, cyl) %>%
   adorn_totals("row")
-```
-
-### Convert a data.frame of numbers to percentages with `ns_to_percents()`
-A helper function for `adorn_crosstab`, but can be called directly.  Takes a data.frame with at least one numeric column and returns corresponding percentages of rows, columns, or the total sum of the data.frame.  Similar to `prop.table`, but for data.frames, and skips the first column (which is assumed to contain a non-numeric descriptive variable).
-
-```{r}
-mtcars %>%
-  crosstab(cyl, am) %>%
-  ns_to_percents("col")
 ```
 
 

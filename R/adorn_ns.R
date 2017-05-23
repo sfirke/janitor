@@ -1,12 +1,10 @@
 #' @title Add underlying Ns to a tabyl displaying percentages.
 #'
 #' @description
-#' If percentages were calculated using \code{adorn_percentages()}, the result is a \code(tabyl) that retains its underlying values.  This function adds those Ns back, for displaying both Ns and percentages together.  
+#' If percentages were calculated using \code{adorn_percentages()}, the result is a \code{tabyl} that retains its underlying values.  This function adds those Ns back, for displaying both Ns and percentages together.  
 #'
-#' @param dat a data.frame with decimal values, typically the result of a call to \code{adorn_percentages} on a \code{tabyl}.
-#' @param digits how many digits should be displayed after the decimal point?
-#' @param rounding method to use for truncating percentages - either "half to even", the base R default method, or "half up", where 14.5 rounds up to 15. 
-#' @param affix_sign should the % sign be affixed to the end?
+#' @param dat a data.frame of class \code{tabyl}, typically the result of a call to \code{adorn_percentages} on a \code{tabyl}.
+#' @param position should the N go in the front, or in the rear, of the percentage? 
 #' 
 #' @return a data.frame with Ns appended
 #' @export
@@ -20,6 +18,7 @@
 
 adorn_ns <- function(dat, position = "rear"){
   #TODO: validate inputs
+  if(! "tabyl" %in% class(dat)){stop("adorn_ns() can only be called on a data.frame of class \"tabyl\"")}
   ns <- attr(dat, "core")
   if(!is.null(attr(dat, "totals"))){ # add totals row/col to core for pasting, if applicable
     ns <- adorn_totals(ns, attr(dat, "totals"))

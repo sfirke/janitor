@@ -7,19 +7,15 @@
 adorn_ns(dat, position = "rear")
 }
 \arguments{
-\item{dat}{a data.frame with decimal values, typically the result of a call to \code{adorn_percentages} on a \code{tabyl}.}
+\item{dat}{a data.frame of class \code{tabyl}, typically the result of a call to \code{adorn_percentages} on a \code{tabyl}.}
 
-\item{digits}{how many digits should be displayed after the decimal point?}
-
-\item{rounding}{method to use for truncating percentages - either "half to even", the base R default method, or "half up", where 14.5 rounds up to 15.}
-
-\item{affix_sign}{should the % sign be affixed to the end?}
+\item{position}{should the N go in the front, or in the rear, of the percentage?}
 }
 \value{
 a data.frame with Ns appended
 }
 \description{
-If percentages were calculated using \code{adorn_percentages()}, the result is a \code(tabyl) that retains its underlying values.  This function adds those Ns back, for displaying both Ns and percentages together.
+If percentages were calculated using \code{adorn_percentages()}, the result is a \code{tabyl} that retains its underlying values.  This function adds those Ns back, for displaying both Ns and percentages together.
 }
 \examples{
 

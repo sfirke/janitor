@@ -14,10 +14,10 @@ adorn_pct_formatting(dat, digits = 1, rounding = "half to even",
 
 \item{rounding}{method to use for rounding - either "half to even", the base R default method, or "half up", where 14.5 rounds up to 15.}
 
-\item{affix_sign}{should the % sign be affixed to the end?}
+\item{affix_sign}{should the \% sign be affixed to the end?}
 }
 \value{
-a data.frame with formatted %s
+a data.frame with formatted percentages
 }
 \description{
 Numeric columns get multiplied by 100 and formatted as percentages according to user specifications.  This function excludes the first column of the input data.frame, assuming that it contains a descriptive variable.  Other non-numeric columns are also excluded.
