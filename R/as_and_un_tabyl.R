@@ -22,7 +22,7 @@
 #' 
 
 as_tabyl <- function(dat){
-  if("tabyl" %in% class(mtcars)){ return(dat) }
+  if("tabyl" %in% class(dat)){ return(dat) }
   
   # check whether input meets requirements
   if(!is.data.frame(dat)){stop("input must be a data.frame")}

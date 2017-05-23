@@ -15,7 +15,7 @@
 #'   adorn_totals()
 
 
-adorn_totals <- function(dat, where = c("row", "col"), fill = "-", na.rm = TRUE){
+adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE){
   if("grouped_df" %in% class(dat)){ dat <- dplyr::ungroup(dat) } # grouped_df causes problems, #97
   dat <- as_tabyl(dat)
   attr(dat, "totals") <- where

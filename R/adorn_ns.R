@@ -8,7 +8,7 @@
 #' @param rounding method to use for truncating percentages - either "half to even", the base R default method, or "half up", where 14.5 rounds up to 15. 
 #' @param affix_sign should the % sign be affixed to the end?
 #' 
-#' @return 
+#' @return a data.frame with Ns appended
 #' @export
 #' @examples
 #' 
@@ -25,12 +25,15 @@ adorn_ns <- function(dat, position = "rear"){
     ns <- adorn_totals(ns, attr(dat, "totals"))
   }
   
-  if(position == "rear"){
-    paste_ns(dat, ns)
-  } else if(position == "front"){
-    paste_ns(ns, dat)
-  }
+  attrs <- attributes(dat) # save these to re-append later
   
+  if(position == "rear"){
+    result <- paste_ns(dat, ns)
+  } else if(position == "front"){
+    result <- paste_ns(ns, dat)
+  }
+  attributes(result) <- attrs
+  result
 }
 
 

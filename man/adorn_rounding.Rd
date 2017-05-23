@@ -4,15 +4,15 @@
 \alias{adorn_rounding}
 \title{Round the numeric columns in a data.frame.}
 \usage{
-adorn_rounding(dat, digits = 1, method = "half to even",
+adorn_rounding(dat, digits = 1, rounding = "half to even",
   skip_first_col = TRUE)
 }
 \arguments{
-\item{dat}{a \code{tabyl} or other data.frame with a tabyl-like layout.}
+\item{dat}{a data.frame wth at least one numeric column}
 
 \item{digits}{how many digits should be displayed after the decimal point?}
 
-\item{method}{method to use for truncating percentages - either "half to even", the base R default method, or "half up", where 14.5 rounds up to 15.}
+\item{rounding}{method to use for rounding - either "half to even", the base R default method, or "half up", where 14.5 rounds up to 15.}
 
 \item{skip_first_col}{should the first column be left un-rounded, assuming it contains values of a descriptive variable as in a \code{tabyl}?  Defaults to \code{TRUE}.}
 }
@@ -20,5 +20,22 @@ adorn_rounding(dat, digits = 1, method = "half to even",
 Returns the data.frame with rounded numeric columns.
 }
 \description{
-This function defaults to excluding the first column of the input data.frame, assuming that it contains a descriptive variable.  Designed to run on a \code{tabyl} data.frame, but can run on any data.frame with at least one numeric column.
+Can run on any data.frame with at least one numeric column.  This function defaults to excluding the first column of the input data.frame, assuming that it contains a descriptive variable, but this can be overridden with the argument \code{skip_first_col = FALSE}.
+
+If you're formatting percentages, e.g., the result of \code{adorn_percentages()}, use \code{adorn_pct_formatting()} instead, which calls this function.  This is a more flexible variant for ad-hoc usage.  Compared to \code{adorn_pct_formatting()}, it can run on the first column and does not multiply by 100 or pad the numbers with spaces for alignment in the results data.frame.   This function retains the class of numeric input columns.
+}
+\examples{
+
+mtcars \%>\%
+  crosstab(am, cyl) \%>\%
+  adorn_percentages() \%>\%
+  adorn_rounding(digits = 2, rounding = "half up")
+  
+# tolerates non-numeric columns:
+library(dplyr)
+mtcars \%>\%
+  crosstab(am, cyl) \%>\%
+  adorn_percentages("all") \%>\%
+  mutate(dummy = "a") \%>\%
+  adorn_rounding()
 }

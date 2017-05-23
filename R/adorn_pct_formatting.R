@@ -5,10 +5,10 @@
 #'
 #' @param dat a data.frame with decimal values, typically the result of a call to \code{adorn_percentages} on a \code{tabyl}.
 #' @param digits how many digits should be displayed after the decimal point?
-#' @param rounding method to use for truncating percentages - either "half to even", the base R default method, or "half up", where 14.5 rounds up to 15. 
+#' @param rounding method to use for rounding - either "half to even", the base R default method, or "half up", where 14.5 rounds up to 15.
 #' @param affix_sign should the % sign be affixed to the end?
 #' 
-#' @return 
+#' @return a data.frame with formatted %s
 #' @export
 #' @examples
 #' 

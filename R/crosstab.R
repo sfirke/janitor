@@ -97,7 +97,8 @@ crosstab.default <- function(vec1, vec2, percent = "none", show_na = TRUE, ...){
 
   result %>%
     stats::setNames(., c(var_name, names(.)[-1])) %>%
-    data.frame(., check.names = FALSE)
+    data.frame(., check.names = FALSE) %>%
+    as_tabyl()
 }
 
 #' @inheritParams crosstab.default
