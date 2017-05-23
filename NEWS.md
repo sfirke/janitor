@@ -1,25 +1,27 @@
 NEWS
 ====
-# janitor 0.2.2.9000 (in progress)
+# janitor 0.3.0.9000 (development version, in progress)
 
-## Breaking changes
+## Bug fixes
+* `adorn_totals("row")` now handles quirky variable names in 1st column [(#118)](https://github.com/sfirke/janitor/issues/118)
 
-## Features
-
-### Major
-
-### Minor
 * The utility function `round_half_up()` is now exported for public use.  An exact implementation of http://stackoverflow.com/questions/12688717/round-up-from-5-in-r/12688836#12688836.
+# janitor 0.3.0  (Release date: 2017-05-06)
 
+## Release summary
 
-# janitor 0.2.2
+The primary purpose of this release is to maintain accuracy given the changes to the dplyr package, upon which janitor is built, in dplyr version 0.6.0.  This update also contains a number of minor improvements.
+
+**Critical: if you update the package `dplyr` to version 0.6.0, you *must* update janitor to version 0.3.0 to ensure accurate results from janitor's `tabyl()` function.**  This is due to a change in the behavior of dplyr's `_join` functions (*discussed in [#111)](https://github.com/sfirke/janitor/issues/111)*.
+
+janitor 0.3.0 is compatible with this new version of dplyr as well as old versions of dplyr back to 0.5.0.  That is, updating janitor to 0.3.0 does not necessitate an update to dplyr 0.6.0.
+
 
 ## Breaking changes
-* The first argument of `adorn_crosstab()` is now "dat" instead of "crosstab" (since the function can be called on any data.frame, not just a result of `crosstab()`)
 * The functions `add_totals_row` and `add_totals_col` were combined into a single function, `adorn_totals()`. [(#57)](https://github.com/sfirke/janitor/issues/57).  The `add_totals_` functions are now deprecated and should not be used.
+* The first argument of `adorn_crosstab()` is now "dat" instead of "crosstab" (indicating that the function can be called on any data.frame, not just a result of `crosstab()`)
 
 ## Features
-
 
 ### Major
 
@@ -31,14 +33,16 @@ NEWS
 * `add_totals_row()` and `add_totals_col()` - replaced by the single function `adorn_totals()`
 
 ### Minor
-* `adorn_totals()` and `ns_to_percents()` can now be called on data.frames that have non-numeric columns beyond the first one (they will be ignored) [(#57)](https://github.com/sfirke/janitor/issues/57)
-* `adorn_totals("col")` retains factor class in 1st column if that was the input
+* `adorn_totals()` and `ns_to_percents()` can now be called on data.frames that have non-numeric columns beyond the first one (those columns will be ignored) [(#57)](https://github.com/sfirke/janitor/issues/57)
+* `adorn_totals("col")` retains factor class in 1st column if 1st column in the input data.frame was a factor
 
 ## Bug fixes
-* Long variable names with spaces no longer break `tabyl()` and `crosstab()` [(#87)](https://github.com/sfirke/janitor/issues/87)
 * `clean_names()` now handles leading spaces [(#85)](https://github.com/sfirke/janitor/issues/85)
 * `adorn_crosstab()` and `ns_to_percents()` work on a 2-column data.frame [(#89)](https://github.com/sfirke/janitor/issues/89)
 * `adorn_totals()` now works on a grouped tibble [(#97)](https://github.com/sfirke/janitor/issues/97)
+* Long variable names with spaces no longer break `tabyl()` and `crosstab()` [(#87)](https://github.com/sfirke/janitor/issues/87)
+* An `NA_` column in the result of a `crosstab()` will appear at the last column position [(#109)](https://github.com/sfirke/janitor/issues/109)
+
 
 # janitor 0.2.1 (Release date: 2016-10-30)
 
@@ -46,7 +50,7 @@ NEWS
 * `tabyl()` and `crosstab()` now appear in the package manual [(#65)](https://github.com/sfirke/janitor/issues/65)
 * Fixed minor bug per CRAN request - `tabyl()` and `crosstab()` failed to retain ill-formatted variable names only when using R 3.2.5 for Windows [(#76)](https://github.com/sfirke/janitor/issues/76)
 * `add_totals_row()` works on two-column data.frame [(#69)](https://github.com/sfirke/janitor/issues/69)
-* `use_first_valid_of()` returns POSIXct-class result when given POSIXct inputs, and handles ba
+* `use_first_valid_of()` returns POSIXct-class result when given POSIXct inputs
 
 # janitor 0.2.0 (Release date: 2016-10-03)
 

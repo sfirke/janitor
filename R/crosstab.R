@@ -91,6 +91,7 @@ crosstab.default <- function(vec1, vec2, percent = "none", show_na = TRUE, ...){
     tidyr::spread_(dat_col_names[[2]], "n", fill = 0) %>%
     dplyr::ungroup()
   
+  if("NA_" %in% names(result)){ result <- result[c(setdiff(names(result), "NA_"), "NA_")] } # move NA_ column to end, from http://stackoverflow.com/a/18339562
   # calculate percentages, if specified
   if(percent != "none"){result <- ns_to_percents(result, denom = percent)}
 

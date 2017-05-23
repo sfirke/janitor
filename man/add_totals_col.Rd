@@ -17,8 +17,3 @@ Returns a data.frame with a totals column containing row-wise sums.
 \description{
 This function is deprecated, use \code{adorn_totals} instead.
 }
-\examples{
-mtcars \%>\%
-  crosstab(am, cyl) \%>\%
-  add_totals_col
-}

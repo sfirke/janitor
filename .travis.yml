@@ -6,12 +6,12 @@ r:
   - release
   - devel
 
-warnings_are_errors: false
+# warnings_are_errors: false
 
 
 os:
   - linux
-#  - osx
+  - osx
 
 cache: packages
 

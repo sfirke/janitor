@@ -8,9 +8,7 @@ cran-comments.md    # Comments for CRAN submission
 README.Rmd
 ^cran\-comments\.md$
 dirty_data.xlsx
-dirty_data.PNG
 ^.*\.docx
-logo_small.png
 codecov.yml
 planning.md
 planning.Rmd

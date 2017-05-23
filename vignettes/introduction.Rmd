@@ -188,7 +188,7 @@ mtcars %>%
 ```
 
 ### Convert a data.frame of numbers to percentages with `ns_to_percents()`
-A helper function for `adorn_crosstab`, but can be called directly.  Takes a data.frame of numerics and returns corresponding percentages of rows, columns, or the total sum of the data.frame.  Like `prop.table`, except for data.frames, and skips the first column (which is assumed to contain a non-numeric descriptive variable).
+A helper function for `adorn_crosstab`, but can be called directly.  Takes a data.frame with at least one numeric column and returns corresponding percentages of rows, columns, or the total sum of the data.frame.  Similar to `prop.table`, but for data.frames, and skips the first column (which is assumed to contain a non-numeric descriptive variable).
 
 ```{r}
 mtcars %>%
