@@ -32,9 +32,31 @@
 
 tabyl <- function(...) UseMethod("tabyl")
 
+
+
+# Replaces crosstab() and tabyl()
+# Main dispatching function to underlying functions depending on whether "..." contains 1, 2, or 3 variables
+
 #' @inheritParams tabyl
 #' @export
 #' @rdname tabyl
+
+tabyl.data.frame <- function(dat, ..., show_na = TRUE){
+  cols <- quos(...)
+  if(length(cols) == 1){
+    tabyl_1way(dat, ...)
+  } else if(length(cols) == 2){
+    tabyl_2way(dat, ...)
+  } else if(length(cols) == 3){
+    tabyl_3way(dat, ...)
+  }
+  
+}
+
+#' @inheritParams tabyl
+#' @export
+#' @rdname tabyl
+# retain this method for calling tabyl() on plain vectors
 
 tabyl.default <- function(vec, sort = FALSE, show_na = TRUE, ...) {
   
@@ -108,7 +130,7 @@ tabyl.default <- function(vec, sort = FALSE, show_na = TRUE, ...) {
 #' @export
 #' @rdname tabyl 
 
-tabyl.data.frame <- function(.data, ...){
+tabyl_1way <- function(.data, ...){
   # collect dots
   dots <- as.list(substitute(list(...)))[-1L]
   n <- length(dots)
@@ -132,6 +154,58 @@ tabyl.data.frame <- function(.data, ...){
           args = arguments)
   
 }
+
+
+#' @inheritParams tabyl
+#' @export
+#' @rdname tabyl
+
+tabyl_2way <- function(dat, ..., show_na = TRUE){
+  cols <- quos(...)
+  
+  if(!show_na){
+    dat <- dat[!is.na(dat[[1]]) & !is.na(dat[[2]]), ]
+  }
+  
+  tabl <- dat %>%
+    dplyr::count(!!!cols)
+  
+  # TODO: add code here to optionally expand missing factor levels.  Borrow from the part of tabyl() where it says if(is.factor(vec)) ...
+  
+  # replace NA with string NA_ in vec2 to avoid invalid col name after spreading
+  # if this col is a factor, need to add that level to the factor
+  if(is.factor(tabl[[2]])){
+    levels(tabl[[2]]) <- c(levels(tabl[[2]]), "NA_")
+  }
+  tabl[2][is.na(tabl[2])] <- "NA_"
+  
+  result <- tabl %>%
+    tidyr::spread_(quo_name(cols[[2]]), "n", fill = 0)
+  
+  if("NA_" %in% names(result)){ result <- result[c(setdiff(names(result), "NA_"), "NA_")] } # move NA_ column to end, from http://stackoverflow.com/a/18339562
+  
+  result %>%
+    data.frame(., check.names = FALSE) %>%
+    as_tabyl()
+}
+
+
+#' @inheritParams tabyl
+#' @export
+#' @rdname tabyl
+
+tabyl_3way <- function(dat, ..., show_na = TRUE){
+  cols <- quos(...)
+  last_two_cols <- cols[-3]
+  
+  dat <- dat %>%
+    select(!!!cols)
+  
+  split(dat, dat[[3]]) %>%
+    purrr::map(tabyl_2way, !!!last_two_cols)
+}
+
+
 
 # function that checks if col 1 name is "n" or "percent",
 ## if so modifies the appropriate other column name to avoid duplicates

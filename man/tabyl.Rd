@@ -2,24 +2,33 @@
 % Please edit documentation in R/tabyl.R
 \name{tabyl}
 \alias{tabyl}
-\alias{tabyl.default}
 \alias{tabyl.data.frame}
+\alias{tabyl.default}
+\alias{tabyl_1way}
+\alias{tabyl_2way}
+\alias{tabyl_3way}
 \title{Generate a frequency table from a vector.}
 \usage{
 tabyl(...)
 
+\method{tabyl}{data.frame}(dat, ..., show_na = TRUE)
+
 \method{tabyl}{default}(vec, sort = FALSE, show_na = TRUE, ...)
 
-\method{tabyl}{data.frame}(.data, ...)
+tabyl_1way(.data, ...)
+
+tabyl_2way(dat, ..., show_na = TRUE)
+
+tabyl_3way(dat, ..., show_na = TRUE)
 }
 \arguments{
 \item{...}{additional arguments, if calling \code{tabyl} on a data.frame.}
 
+\item{show_na}{a logical value indicating whether the count of \code{NA} values should be displayed, along with an additional column showing valid percentages.}
+
 \item{vec}{the vector to tabulate.  If supplying a data.frame, this should be an unquoted column name.}
 
 \item{sort}{a logical value indicating whether the resulting table should be sorted in descending order of \code{n}.}
-
-\item{show_na}{a logical value indicating whether the count of \code{NA} values should be displayed, along with an additional column showing valid percentages.}
 
 \item{.data}{(optional) a data.frame, in which case \code{vec} should be an unquoted column name.}
 }
