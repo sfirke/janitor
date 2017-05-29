@@ -2,59 +2,53 @@
 % Please edit documentation in R/tabyl.R
 \name{tabyl}
 \alias{tabyl}
-\alias{tabyl.data.frame}
 \alias{tabyl.default}
-\alias{tabyl_1way}
-\alias{tabyl_2way}
-\alias{tabyl_3way}
-\title{Generate a frequency table from a vector.}
+\alias{tabyl.data.frame}
+\title{Generate a frequency table (1-, 2-, or 3-way).}
 \usage{
 tabyl(...)
 
-\method{tabyl}{data.frame}(dat, ..., show_na = TRUE)
+\method{tabyl}{default}(vec, show_na = TRUE)
 
-\method{tabyl}{default}(vec, sort = FALSE, show_na = TRUE, ...)
-
-tabyl_1way(.data, ...)
-
-tabyl_2way(dat, ..., show_na = TRUE)
-
-tabyl_3way(dat, ..., show_na = TRUE)
+\method{tabyl}{data.frame}(dat, var1, var2, var3, show_na = TRUE)
 }
 \arguments{
-\item{...}{additional arguments, if calling \code{tabyl} on a data.frame.}
+\item{show_na}{should counts of \code{NA} values be displayed?  In a one-way tabyl, the presence of \code{NA} values triggers an additional column showing valid percentages(calculated excluding \code{NA} values).}
 
-\item{show_na}{a logical value indicating whether the count of \code{NA} values should be displayed, along with an additional column showing valid percentages.}
+\item{dat}{a data.frame containing the variables you wish to count.}
 
-\item{vec}{the vector to tabulate.  If supplying a data.frame, this should be an unquoted column name.}
+\item{var1}{the first variable.}
 
-\item{sort}{a logical value indicating whether the resulting table should be sorted in descending order of \code{n}.}
+\item{var2}{(optional) the second variable (the rows in a 2-way tabulation).}
 
-\item{.data}{(optional) a data.frame, in which case \code{vec} should be an unquoted column name.}
+\item{var3}{(optional) the third variable (the list in a 3-way tabulation).}
 }
 \value{
-Returns a data.frame with the frequencies and percentages of the tabulated variable.
+Returns a data.frame with frequencies and percentages of the tabulated variable(s).  A 3-way tabulation returns a list of data.frames.
 }
 \description{
-Create a frequency table of a variable, returned as a data.frame.  It shows counts, percentages and, if \code{NA} values are present, valid percentages (calculated excluding \code{NA} values).  A fully-featured alternative to \code{table()}.
+A fully-featured alternative to \code{table()}.  Results are data.frames and can be formatted and enhanced with janitor's family of \code{adorn_} functions.
 
-\code{tabyl} can be called in two ways:
+Specify a data.frame and the one, two, or three unquoted column names you want to tabulate.  Three variables generates a list of 2-way tabyls, split by the third variable.
 
-1) It can simply be called on a vector, like \code{tabyl(mtcars$gear)}.
-
-2) A data.frame can be provided as the first argument, followed by an unquoted column name to tabulate.  This enables passing in a data.frame from a \code{\%>\%} pipeline, like \code{mtcars \%>\% tabyl(gear)}.
+Alternatively, you can also tabulate a single variable that isn't in a data.frame by calling \code{tabyl} on a vector, e.g., \code{tabyl(mtcars$gear)}.
 }
 \examples{
-# Calling on a vector:
-val <- c("hi", "med", "med", "lo")
-tabyl(val)
-tabyl(mtcars$cyl, sort = TRUE)
 
-# Passing in a data.frame using a pipeline:
-mtcars \%>\% tabyl(cyl, sort = TRUE)
+tabyl(mtcars, cyl)
+tabyl(mtcars, cyl, gear)
+tabyl(mtcars, cyl, gear, am)
+
+# or using the \%>\% pipe
+mtcars \%>\%
+  tabyl(cyl, gear)
 
 # illustrating show_na functionality:
 my_cars <- rbind(mtcars, rep(NA, 11))
-tabyl(my_cars$cyl)
-tabyl(my_cars$cyl, show_na = FALSE)
+mycars \%>\% tabyl(cyl)
+mycars \%>\% tabyl(cyl, show_na = FALSE)
+
+# Calling on a single vector not in a data.frame:
+val <- c("hi", "med", "med", "lo")
+tabyl(val)
 }

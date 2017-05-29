@@ -1,64 +1,48 @@
-#' @title Generate a frequency table from a vector.
+#' @title Generate a frequency table (1-, 2-, or 3-way).
 #'
 #' @description
-#' Create a frequency table of a variable, returned as a data.frame.  It shows counts, percentages and, if \code{NA} values are present, valid percentages (calculated excluding \code{NA} values).  A fully-featured alternative to \code{table()}.
+#' A fully-featured alternative to \code{table()}.  Results are data.frames and can be formatted and enhanced with janitor's family of \code{adorn_} functions.
 #' 
-#' \code{tabyl} can be called in two ways:
+#' Specify a data.frame and the one, two, or three unquoted column names you want to tabulate.  Three variables generates a list of 2-way tabyls, split by the third variable.
 #' 
-#' 1) It can simply be called on a vector, like \code{tabyl(mtcars$gear)}.
+#' Alternatively, you can also tabulate a single variable that isn't in a data.frame by calling \code{tabyl} on a vector, e.g., \code{tabyl(mtcars$gear)}.
 #' 
-#' 2) A data.frame can be provided as the first argument, followed by an unquoted column name to tabulate.  This enables passing in a data.frame from a \code{\%>\%} pipeline, like \code{mtcars \%>\% tabyl(gear)}. 
-#' 
-#' @param vec the vector to tabulate.  If supplying a data.frame, this should be an unquoted column name.
-#' @param sort a logical value indicating whether the resulting table should be sorted in descending order of \code{n}.
-#' @param show_na a logical value indicating whether the count of \code{NA} values should be displayed, along with an additional column showing valid percentages.
-#' @param .data (optional) a data.frame, in which case \code{vec} should be an unquoted column name.
-#' @param ... additional arguments, if calling \code{tabyl} on a data.frame.
-#' @return Returns a data.frame with the frequencies and percentages of the tabulated variable.
+#' @param dat a data.frame containing the variables you wish to count.
+#' @param var1 the first variable.
+#' @param var2 (optional) the second variable (the rows in a 2-way tabulation).
+#' @param var3 (optional) the third variable (the list in a 3-way tabulation).
+#' @param show_na should counts of \code{NA} values be displayed?  In a one-way tabyl, the presence of \code{NA} values triggers an additional column showing valid percentages(calculated excluding \code{NA} values).
+#' @return Returns a data.frame with frequencies and percentages of the tabulated variable(s).  A 3-way tabulation returns a list of data.frames.
 #' @export
 #' @examples
-#' # Calling on a vector:
-#' val <- c("hi", "med", "med", "lo")
-#' tabyl(val)
-#' tabyl(mtcars$cyl, sort = TRUE)
 #' 
-#' # Passing in a data.frame using a pipeline:
-#' mtcars %>% tabyl(cyl, sort = TRUE)
+#' tabyl(mtcars, cyl)
+#' tabyl(mtcars, cyl, gear)
+#' tabyl(mtcars, cyl, gear, am)
+#' 
+#' # or using the %>% pipe
+#' mtcars %>%
+#'   tabyl(cyl, gear)
 #' 
 #' # illustrating show_na functionality:
 #' my_cars <- rbind(mtcars, rep(NA, 11))
-#' tabyl(my_cars$cyl)
-#' tabyl(my_cars$cyl, show_na = FALSE)
+#' mycars %>% tabyl(cyl)
+#' mycars %>% tabyl(cyl, show_na = FALSE)
+#' 
+#' # Calling on a single vector not in a data.frame:
+#' val <- c("hi", "med", "med", "lo")
+#' tabyl(val)
+
 
 tabyl <- function(...) UseMethod("tabyl")
 
-
-
-# Replaces crosstab() and tabyl()
-# Main dispatching function to underlying functions depending on whether "..." contains 1, 2, or 3 variables
-
-#' @inheritParams tabyl
-#' @export
-#' @rdname tabyl
-
-tabyl.data.frame <- function(dat, ..., show_na = TRUE){
-  cols <- quos(...)
-  if(length(cols) == 1){
-    tabyl_1way(dat, ...)
-  } else if(length(cols) == 2){
-    tabyl_2way(dat, ...)
-  } else if(length(cols) == 3){
-    tabyl_3way(dat, ...)
-  }
-  
-}
 
 #' @inheritParams tabyl
 #' @export
 #' @rdname tabyl
 # retain this method for calling tabyl() on plain vectors
 
-tabyl.default <- function(vec, sort = FALSE, show_na = TRUE, ...) {
+tabyl.default <- function(vec, show_na = TRUE) {
   
   # catch and adjust input variable name.
   if(is.null(names(vec))) {
@@ -66,7 +50,7 @@ tabyl.default <- function(vec, sort = FALSE, show_na = TRUE, ...) {
   } else {
     var_name <- names(vec)
   }
-
+  
   # useful error message if input vector doesn't exist
   if(is.null(vec)){stop(paste0("object ", var_name, " not found"))}
   # an odd variable name can be deparsed into a vector of length >1, rare but throws warning, see issue #87
@@ -80,7 +64,7 @@ tabyl.default <- function(vec, sort = FALSE, show_na = TRUE, ...) {
     names(dat)[1] <- "vec"
     
     
-    result <- dat %>% dplyr::count(vec, sort = sort)
+    result <- dat %>% dplyr::count(vec)
     
     if(is.factor(vec)){
       expanded <- tidyr::expand(result, vec)
@@ -89,7 +73,6 @@ tabyl.default <- function(vec, sort = FALSE, show_na = TRUE, ...) {
                       by = "vec",
                       all.x = TRUE)
       result <- dplyr::arrange(result, vec) # restore sorting by factor level
-      if(sort){result <- dplyr::arrange(result, dplyr::desc(n))} # undo reorder caused by complete()
     }
     
   } else {stop("input must be a vector of type logical, numeric, character, list, or factor")}
@@ -126,29 +109,35 @@ tabyl.default <- function(vec, sort = FALSE, show_na = TRUE, ...) {
   data.frame(result, check.names = FALSE)
 }
 
+
 #' @inheritParams tabyl
 #' @export
-#' @rdname tabyl 
+#' @rdname tabyl
+# Main dispatching function to underlying functions depending on whether "..." contains 1, 2, or 3 variables
+tabyl.data.frame <- function(dat, var1, var2, var3, show_na = TRUE){
+      # TODO: check that variable names are present in data.frame
+  if(missing(var2) & missing(var3)){
+    tabyl_1way(dat, enquo(var1))
+  } else if(missing(var3)){
+    tabyl_2way(dat, enquo(var1), enquo(var2))
+  } else if(!missing(var1) &
+            !missing(var2) &
+            !missing(var3)){
+    tabyl_3way(dat, enquo(var1), enquo(var2), enquo(var3))
+  } else {
+    stop("please specify var1 OR var1 & var2 OR var1 & var2 & var3")
+  }
+  
+}
 
-tabyl_1way <- function(.data, ...){
-  # collect dots
-  dots <- as.list(substitute(list(...)))[-1L]
-  n <- length(dots)
+# a one-way frequency table; this was called "tabyl" in janitor <= 0.3.0
+tabyl_1way <- function(dat, var1, show_na = TRUE){
+  x <- select(dat, !! var1)
   
-  # select columns from .data
-  columns <- dots[1]
-  x <- list()
-  x[[deparse(columns[[1]])]] <- .data[, deparse(columns[[1]])]
-  
-  x <- data.frame(x,
-                  stringsAsFactors = is.factor(x[[1]]),
-                  check.names = FALSE) # preserve bad input names
-  
-  # create args list to use with do.call
+  # gather up arguments, pass them to tabyl.default
   arguments <- list()
-  
-  if(n > 1) arguments <- dots[2:n]
   arguments$vec <- x[1]
+  arguments$show_na <- show_na
   
   do.call(tabyl.default,
           args = arguments)
@@ -156,19 +145,17 @@ tabyl_1way <- function(.data, ...){
 }
 
 
-#' @inheritParams tabyl
-#' @export
-#' @rdname tabyl
-
-tabyl_2way <- function(dat, ..., show_na = TRUE){
-  cols <- quos(...)
+# a two-way frequency table; this was called "crosstab" in janitor <= 0.3.0
+tabyl_2way <- function(dat, var1, var2, show_na = TRUE){
+  
+  dat <- select(dat, !! var1, !! var2)
   
   if(!show_na){
     dat <- dat[!is.na(dat[[1]]) & !is.na(dat[[2]]), ]
   }
   
   tabl <- dat %>%
-    dplyr::count(!!!cols)
+    dplyr::count(!! var1, !! var2)
   
   # TODO: add code here to optionally expand missing factor levels.  Borrow from the part of tabyl() where it says if(is.factor(vec)) ...
   
@@ -180,7 +167,7 @@ tabyl_2way <- function(dat, ..., show_na = TRUE){
   tabl[2][is.na(tabl[2])] <- "NA_"
   
   result <- tabl %>%
-    tidyr::spread_(quo_name(cols[[2]]), "n", fill = 0)
+    tidyr::spread_(quo_name(var2), "n", fill = 0)
   
   if("NA_" %in% names(result)){ result <- result[c(setdiff(names(result), "NA_"), "NA_")] } # move NA_ column to end, from http://stackoverflow.com/a/18339562
   
@@ -190,19 +177,14 @@ tabyl_2way <- function(dat, ..., show_na = TRUE){
 }
 
 
-#' @inheritParams tabyl
-#' @export
-#' @rdname tabyl
-
-tabyl_3way <- function(dat, ..., show_na = TRUE){
-  cols <- quos(...)
-  last_two_cols <- cols[-3]
+# a list of two-way frequency tables, split into a list on a third variable
+tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE){
   
   dat <- dat %>%
-    select(!!!cols)
+    select(!! var1, !! var2, !! var3)
   
   split(dat, dat[[3]]) %>%
-    purrr::map(tabyl_2way, !!!last_two_cols)
+    purrr::map(tabyl_2way, var1, var2)
 }
 
 
