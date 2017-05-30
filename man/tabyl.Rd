@@ -6,22 +6,22 @@
 \alias{tabyl.data.frame}
 \title{Generate a frequency table (1-, 2-, or 3-way).}
 \usage{
-tabyl(...)
+tabyl(dat, ...)
 
-\method{tabyl}{default}(vec, show_na = TRUE)
+\method{tabyl}{default}(dat, show_na = TRUE)
 
 \method{tabyl}{data.frame}(dat, var1, var2, var3, show_na = TRUE)
 }
 \arguments{
+\item{dat}{a data.frame containing the variables you wish to count.  Or, a vector you want to tabulate.}
+
 \item{show_na}{should counts of \code{NA} values be displayed?  In a one-way tabyl, the presence of \code{NA} values triggers an additional column showing valid percentages(calculated excluding \code{NA} values).}
 
-\item{dat}{a data.frame containing the variables you wish to count.}
+\item{var1}{the column name of the first variable.}
 
-\item{var1}{the first variable.}
+\item{var2}{(optional) the column name of the second variable (the rows in a 2-way tabulation).}
 
-\item{var2}{(optional) the second variable (the rows in a 2-way tabulation).}
-
-\item{var3}{(optional) the third variable (the list in a 3-way tabulation).}
+\item{var3}{(optional) the column name of the third variable (the list in a 3-way tabulation).}
 }
 \value{
 Returns a data.frame with frequencies and percentages of the tabulated variable(s).  A 3-way tabulation returns a list of data.frames.
@@ -45,8 +45,8 @@ mtcars \%>\%
 
 # illustrating show_na functionality:
 my_cars <- rbind(mtcars, rep(NA, 11))
-mycars \%>\% tabyl(cyl)
-mycars \%>\% tabyl(cyl, show_na = FALSE)
+my_cars \%>\% tabyl(cyl)
+my_cars \%>\% tabyl(cyl, show_na = FALSE)
 
 # Calling on a single vector not in a data.frame:
 val <- c("hi", "med", "med", "lo")

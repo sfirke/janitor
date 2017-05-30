@@ -7,10 +7,10 @@
 #' 
 #' Alternatively, you can tabulate a single variable that isn't in a data.frame by calling \code{tabyl} on a vector, e.g., \code{tabyl(mtcars$gear)}.
 #' 
-#' @param dat a data.frame containing the variables you wish to count.
-#' @param var1 the first variable.
-#' @param var2 (optional) the second variable (the rows in a 2-way tabulation).
-#' @param var3 (optional) the third variable (the list in a 3-way tabulation).
+#' @param dat a data.frame containing the variables you wish to count.  Or, a vector you want to tabulate.
+#' @param var1 the column name of the first variable.
+#' @param var2 (optional) the column name of the second variable (the rows in a 2-way tabulation).
+#' @param var3 (optional) the column name of the third variable (the list in a 3-way tabulation).
 #' @param show_na should counts of \code{NA} values be displayed?  In a one-way tabyl, the presence of \code{NA} values triggers an additional column showing valid percentages(calculated excluding \code{NA} values).
 #' @return Returns a data.frame with frequencies and percentages of the tabulated variable(s).  A 3-way tabulation returns a list of data.frames.
 #' @export
@@ -26,15 +26,15 @@
 #' 
 #' # illustrating show_na functionality:
 #' my_cars <- rbind(mtcars, rep(NA, 11))
-#' mycars %>% tabyl(cyl)
-#' mycars %>% tabyl(cyl, show_na = FALSE)
+#' my_cars %>% tabyl(cyl)
+#' my_cars %>% tabyl(cyl, show_na = FALSE)
 #' 
 #' # Calling on a single vector not in a data.frame:
 #' val <- c("hi", "med", "med", "lo")
 #' tabyl(val)
 
 
-tabyl <- function(...) UseMethod("tabyl")
+tabyl <- function(dat, ...) UseMethod("tabyl")
 
 
 #' @inheritParams tabyl
@@ -42,37 +42,37 @@ tabyl <- function(...) UseMethod("tabyl")
 #' @rdname tabyl
 # retain this method for calling tabyl() on plain vectors
 
-tabyl.default <- function(vec, show_na = TRUE) {
+tabyl.default <- function(dat, show_na = TRUE) {
   
   # catch and adjust input variable name.
-  if(is.null(names(vec))) {
-    var_name <- deparse(substitute(vec))
+  if(is.null(names(dat))) {
+    var_name <- deparse(substitute(dat))
   } else {
-    var_name <- names(vec)
+    var_name <- names(dat)
   }
   
   # useful error message if input vector doesn't exist
-  if(is.null(vec)){stop(paste0("object ", var_name, " not found"))}
+  if(is.null(dat)){stop(paste0("object ", var_name, " not found"))}
   # an odd variable name can be deparsed into a vector of length >1, rare but throws warning, see issue #87
   if(length(var_name) > 1){ var_name <- paste(var_name, collapse = "") }
   
   # calculate initial counts table
   # convert vector to a 1 col data.frame
-  if(mode(vec) %in% c("logical", "numeric", "character", "list") & !is.matrix(vec)) {
-    if(is.list(vec)){ vec <- vec[[1]] } # to preserve factor properties when vec is passed in as a list from data.frame method
-    dat <- data.frame(vec, stringsAsFactors = is.factor(vec))
-    names(dat)[1] <- "vec"
+  if(mode(dat) %in% c("logical", "numeric", "character", "list") & !is.matrix(dat)) {
+    if(is.list(dat)){ dat <- dat[[1]] } # to preserve factor properties when vec is passed in as a list from data.frame method
+    dat_df <- data.frame(dat, stringsAsFactors = is.factor(dat))
+    names(dat_df)[1] <- "dat"
     
     
-    result <- dat %>% dplyr::count(vec)
+    result <- dat_df %>% dplyr::count(dat)
     
-    if(is.factor(vec)){
-      expanded <- tidyr::expand(result, vec)
+    if(is.factor(dat)){
+      expanded <- tidyr::expand(result, dat)
       result <- merge(x = expanded, # can't use dplyr::left_join because as of 0.6.0, NAs don't match, and na_matches argument not present < 0.6.0
                       y = result,
-                      by = "vec",
+                      by = "dat",
                       all.x = TRUE)
-      result <- dplyr::arrange(result, vec) # restore sorting by factor level
+      result <- dplyr::arrange(result, dat) # restore sorting by factor level
     }
     
   } else {stop("input must be a vector of type logical, numeric, character, list, or factor")}
@@ -82,7 +82,7 @@ tabyl.default <- function(vec, show_na = TRUE) {
     dplyr::mutate(percent = n / sum(n, na.rm = TRUE))
   
   # sort the NA row to the bottom, necessary to retain factor sorting  
-  result <- result[order(is.na(result$vec)), ]
+  result <- result[order(is.na(result$dat)), ]
   result$is_na <- NULL
   
   # replace all NA values with 0 - only applies to missing factor levels
@@ -115,7 +115,9 @@ tabyl.default <- function(vec, show_na = TRUE) {
 #' @rdname tabyl
 # Main dispatching function to underlying functions depending on whether "..." contains 1, 2, or 3 variables
 tabyl.data.frame <- function(dat, var1, var2, var3, show_na = TRUE){
-      # TODO: check that variable names are present in data.frame
+  if("data.frame" %in% class(dat) &
+     missing(var1) & missing(var2) & missing(var3)){stop("if calling on a data.frame, specify unquoted column names(s) to tabulate.  Did you mean to call tabyl() on a vector?")}
+  # TODO: check that variable names are present in data.frame
   if(missing(var2) & missing(var3)){
     tabyl_1way(dat, rlang::enquo(var1))
   } else if(missing(var3)){
@@ -136,7 +138,7 @@ tabyl_1way <- function(dat, var1, show_na = TRUE){
   
   # gather up arguments, pass them to tabyl.default
   arguments <- list()
-  arguments$vec <- x[1]
+  arguments$dat <- x[1]
   arguments$show_na <- show_na
   
   do.call(tabyl.default,
@@ -180,10 +182,7 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE){
 # a list of two-way frequency tables, split into a list on a third variable
 tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE){
   
-  dat <- dat %>%
-    dplyr::select(!! var1, !! var2, !! var3)
-  
-  split(dat, dat[[3]]) %>%
+  split(dat, dat[[rlang::quo_name(var3)]]) %>%
     purrr::map(tabyl_2way, var1, var2)
 }
 
