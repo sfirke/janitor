@@ -20,12 +20,13 @@ adorn_ns <- function(dat, position = "rear"){
   #TODO: validate inputs
   if(! position %in% c("rear", "front")){stop("\"position\" must be one of \"front\" or \"rear\"")}
   if(! "tabyl" %in% class(dat)){stop("adorn_ns() can only be called on a data.frame of class \"tabyl\"")}
+  if(! "two_way" %in% attr(dat, "tabyl_type")){stop("adorn_ns() can only be called on a two_way tabyl; consider combining columns of a one_way tabyl with tidyr::unite()")}
+  attrs <- attributes(dat) # save these to re-append later
+  
   ns <- attr(dat, "core")
   if(!is.null(attr(dat, "totals"))){ # add totals row/col to core for pasting, if applicable
     ns <- adorn_totals(ns, attr(dat, "totals"))
   }
-  
-  attrs <- attributes(dat) # save these to re-append later
   
   if(position == "rear"){
     result <- paste_ns(dat, ns)
@@ -35,8 +36,7 @@ adorn_ns <- function(dat, position = "rear"){
   attributes(result) <- attrs
   result
 }
-
-
+  
 ### Helper functions called by adorn_ns
 
 # takes data.frames of Ns and %s, pastes them together

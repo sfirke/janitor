@@ -15,14 +15,16 @@
 #' The result of calling \code{tabyl()} on a single variable is a special class of one-way tabyl; this function only pertains to the two-way tabyl.
 #'
 #' @param dat a data.frame with variable values in the first column and numeric values in all other columns.
+#' @param axes is this a two_way tabyl or a one_way tabyl?  If this function is being called by a user, this should probably be "2".  One-way tabyls are created by \code(tabyl) but are a special case.
 #' @return Returns the same data.frame, but with the additional class of "tabyl" and the attribute "core".
 #' @export
 #' @examples
 #' as_tabyl(mtcars)
 #' 
 
-as_tabyl <- function(dat){
+as_tabyl <- function(dat, axes = 2){
   if("tabyl" %in% class(dat)){ return(dat) }
+  if(! axes %in% 1:2){stop("axes must be either 1 or 2")}
   
   # check whether input meets requirements
   if(!is.data.frame(dat)){stop("input must be a data.frame")}
@@ -30,7 +32,10 @@ as_tabyl <- function(dat){
   
   # assign core attribute and classes
   attr(dat, "core") <- as.data.frame(dat)
-  attr(dat, "tabyl_type") <- "two_way"
+  attr(dat, "tabyl_type") <- dplyr::case_when(
+    axes == 1 ~ "one_way",
+    axes == 2 ~ "two_way"
+  )
   class(dat) <- c(class(dat), "tabyl")
   dat
 }

@@ -106,7 +106,8 @@ tabyl.default <- function(dat, show_na = TRUE) {
   # in case input var name was "n" or "percent", call helper function to set unique names
   result <- handle_if_special_names_used(result)
   
-  data.frame(result, check.names = FALSE)
+  data.frame(result, check.names = FALSE) %>%
+    as_tabyl(1)
 }
 
 
@@ -175,7 +176,7 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE){
   
   result %>%
     data.frame(., check.names = FALSE) %>%
-    as_tabyl()
+    as_tabyl(2)
 }
 
 
