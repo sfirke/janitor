@@ -16,6 +16,10 @@
 
 
 adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE){
+  numeric_cols <- which(unlist(lapply(dat, is.numeric)))
+  numeric_cols <- setdiff(numeric_cols, 1) # assume 1st column should not be included so remove it from numeric_cols
+  if(length(numeric_cols) == 0){stop("at least one of columns 2:n should be numeric")}
+  
   if("grouped_df" %in% class(dat)){ dat <- dplyr::ungroup(dat) } # grouped_df causes problems, #97
   dat <- as_tabyl(dat)
   attr(dat, "totals") <- where

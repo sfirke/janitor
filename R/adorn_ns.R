@@ -18,6 +18,7 @@
 
 adorn_ns <- function(dat, position = "rear"){
   #TODO: validate inputs
+  if(! position %in% c("rear", "front")){stop("\"position\" must be one of \"front\" or \"rear\"")}
   if(! "tabyl" %in% class(dat)){stop("adorn_ns() can only be called on a data.frame of class \"tabyl\"")}
   ns <- attr(dat, "core")
   if(!is.null(attr(dat, "totals"))){ # add totals row/col to core for pasting, if applicable
