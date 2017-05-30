@@ -31,7 +31,7 @@ A fully-featured alternative to \code{table()}.  Results are data.frames and can
 
 Specify a data.frame and the one, two, or three unquoted column names you want to tabulate.  Three variables generates a list of 2-way tabyls, split by the third variable.
 
-Alternatively, you can also tabulate a single variable that isn't in a data.frame by calling \code{tabyl} on a vector, e.g., \code{tabyl(mtcars$gear)}.
+Alternatively, you can tabulate a single variable that isn't in a data.frame by calling \code{tabyl} on a vector, e.g., \code{tabyl(mtcars$gear)}.
 }
 \examples{
 

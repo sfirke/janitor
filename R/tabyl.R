@@ -5,7 +5,7 @@
 #' 
 #' Specify a data.frame and the one, two, or three unquoted column names you want to tabulate.  Three variables generates a list of 2-way tabyls, split by the third variable.
 #' 
-#' Alternatively, you can also tabulate a single variable that isn't in a data.frame by calling \code{tabyl} on a vector, e.g., \code{tabyl(mtcars$gear)}.
+#' Alternatively, you can tabulate a single variable that isn't in a data.frame by calling \code{tabyl} on a vector, e.g., \code{tabyl(mtcars$gear)}.
 #' 
 #' @param dat a data.frame containing the variables you wish to count.
 #' @param var1 the first variable.
@@ -117,13 +117,13 @@ tabyl.default <- function(vec, show_na = TRUE) {
 tabyl.data.frame <- function(dat, var1, var2, var3, show_na = TRUE){
       # TODO: check that variable names are present in data.frame
   if(missing(var2) & missing(var3)){
-    tabyl_1way(dat, enquo(var1))
+    tabyl_1way(dat, rlang::enquo(var1))
   } else if(missing(var3)){
-    tabyl_2way(dat, enquo(var1), enquo(var2))
+    tabyl_2way(dat, rlang::enquo(var1), rlang::enquo(var2))
   } else if(!missing(var1) &
             !missing(var2) &
             !missing(var3)){
-    tabyl_3way(dat, enquo(var1), enquo(var2), enquo(var3))
+    tabyl_3way(dat, rlang::enquo(var1), rlang::enquo(var2), rlang::enquo(var3))
   } else {
     stop("please specify var1 OR var1 & var2 OR var1 & var2 & var3")
   }
@@ -132,7 +132,7 @@ tabyl.data.frame <- function(dat, var1, var2, var3, show_na = TRUE){
 
 # a one-way frequency table; this was called "tabyl" in janitor <= 0.3.0
 tabyl_1way <- function(dat, var1, show_na = TRUE){
-  x <- select(dat, !! var1)
+  x <- dplyr::select(dat, !! var1)
   
   # gather up arguments, pass them to tabyl.default
   arguments <- list()
@@ -148,7 +148,7 @@ tabyl_1way <- function(dat, var1, show_na = TRUE){
 # a two-way frequency table; this was called "crosstab" in janitor <= 0.3.0
 tabyl_2way <- function(dat, var1, var2, show_na = TRUE){
   
-  dat <- select(dat, !! var1, !! var2)
+  dat <- dplyr::select(dat, !! var1, !! var2)
   
   if(!show_na){
     dat <- dat[!is.na(dat[[1]]) & !is.na(dat[[2]]), ]
@@ -167,7 +167,7 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE){
   tabl[2][is.na(tabl[2])] <- "NA_"
   
   result <- tabl %>%
-    tidyr::spread_(quo_name(var2), "n", fill = 0)
+    tidyr::spread_(rlang::quo_name(var2), "n", fill = 0)
   
   if("NA_" %in% names(result)){ result <- result[c(setdiff(names(result), "NA_"), "NA_")] } # move NA_ column to end, from http://stackoverflow.com/a/18339562
   
@@ -181,7 +181,7 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE){
 tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE){
   
   dat <- dat %>%
-    select(!! var1, !! var2, !! var3)
+    dplyr::select(!! var1, !! var2, !! var3)
   
   split(dat, dat[[3]]) %>%
     purrr::map(tabyl_2way, var1, var2)
