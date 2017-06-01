@@ -1,0 +1,106 @@
+---
+title: "tabyls"
+date: "`r Sys.Date()`"
+output: rmarkdown::github_document
+vignette: >
+  %\VignetteIndexEntry{tabyls}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Motivation: why tabyl?
+
+It's like `table()`: you count co-occurences of one, two, or three variables.
+
+It's also not like `table()`: it is built for data.frame inputs, returns data.frames, and is friendly to the common formatting choices one expects if coming from Microsoft Excel or SPSS.
+
+## What it is
+
+We could discuss the details, but you probably came here because you just want it to work.  In short, `tabyl()` produces frequency tables using 1, 2, or 3 variables.  Handy, but nothing too special... except that `tabyl()` stores a copy these counts (the "core") as an attribute of the result.  This allows for subsequent `adorn_` functions to add pretty formatting.
+
+## One-way tabyl
+
+```{r one_way}
+knitr::opts_chunk$set(collapse = T, comment = "#>")
+library(janitor)
+t1 <- mtcars %>%
+  tabyl(carb)
+
+t1
+```
+
+
+When `NA` values are present, `tabyl()` also produces the "valid" percentages, i.e., with missing values removed from the denominator.  And *shhh, a secret:* While `tabyl()` is meant to take a data.frame and column names, you can also get a one-way tabyl by calling it directly on a vector:
+```{r one_way_vector}
+
+x <- c("big", "big", "small", "small", "small", NA)
+tabyl(x)
+```
+
+
+The `adorn_` helper functions were made for 2-way tabyls, but the ones that would make sense for a 1-way tabyl do work:
+```{r one_way_adorns}
+t1 %>%
+  adorn_totals("row") %>%
+  adorn_pct_formatting()
+```
+
+
+## Two-way tabyl
+
+This is often called a "crosstab" (ala Microsoft Access) or "contingency" table.  The basic call just shortens the very common tidyverse pipeline of `dplyr::count`-ing, followed by `tidyr::spread`-ing to wide form:
+
+```{r two_way}
+t2 <- mtcars %>%
+  tabyl(carb, cyl)
+
+t2
+```
+
+But it's the `adorn_` helper functions that make tabyls powerful.  For instance:
+
+```{r two_way_adorns}
+
+t2 %>%
+  adorn_totals("col") %>%
+  adorn_percentages("row") %>%
+  adorn_pct_formatting(digits = 2) %>%
+  adorn_ns()
+```
+
+## Three-way tabyl
+
+Just like `table()` can take three variables, so can `tabyl()`, producing a list of tabyls:
+
+```{r three_Way}
+t3 <- mtcars %>%
+  tabyl(carb, cyl, am)
+
+t3
+```
+
+One can use `purrr::map()` to apply the `adorn_` helper functions:
+
+```{r three_way_adorns}
+library(purrr)
+t3 %>%
+  map(adorn_totals, "row") %>%
+  map(adorn_percentages, "row") %>%
+  map(adorn_pct_formatting, digits = 1) %>%
+  map(adorn_ns)
+```
+
+## BYOt (Bring Your Own tabyl)
+
+Use `as_tabyl()` when you want to apply the `adorn_` functions to something that is not the result of a call to `tabyl()`.  For instance:
+
+**TODO: do you actually need to call as_tabyl, ever?  Or is it applied automatically by `adorn_` calls?**
+```{r as_tabyl}
+library(dplyr)
+percent_above_20_mpg <- mtcars %>%
+  group_by(cyl) %>%
+  summarise(pct_above_20 = mean(mpg > 20))
+
+percent_above_20_mpg %>%
+  adorn_pct_formatting()
+```
