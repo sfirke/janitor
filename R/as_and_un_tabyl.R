@@ -15,7 +15,7 @@
 #' The result of calling \code{tabyl()} on a single variable is a special class of one-way tabyl; this function only pertains to the two-way tabyl.
 #'
 #' @param dat a data.frame with variable values in the first column and numeric values in all other columns.
-#' @param axes is this a two_way tabyl or a one_way tabyl?  If this function is being called by a user, this should probably be "2".  One-way tabyls are created by \code(tabyl) but are a special case.
+#' @param axes is this a two_way tabyl or a one_way tabyl?  If this function is being called by a user, this should probably be "2".  One-way tabyls are created by \code{tabyl} but are a special case.
 #' @return Returns the same data.frame, but with the additional class of "tabyl" and the attribute "core".
 #' @export
 #' @examples
