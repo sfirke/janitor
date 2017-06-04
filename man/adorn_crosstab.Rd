@@ -30,14 +30,14 @@ Designed to run on the output of a call to \code{janitor::crosstab}, but can be 
 }
 \examples{
 mtcars \%>\%
- crosstab(gear, cyl) \%>\%
+ tabyl(gear, cyl) \%>\%
  adorn_crosstab(denom = "all")
  
 # showing with all parameters
 mtcars \%>\%
- crosstab(gear, cyl) \%>\%
+ tabyl(gear, cyl) \%>\%
  adorn_crosstab(., denom = "col", rounding = "half up", show_n = FALSE, digits = 2)
 mtcars \%>\%
- crosstab(cyl, am) \%>\%
+ tabyl(cyl, am) \%>\%
  adorn_crosstab(., denom = "all", digits = 0, rounding = "half up") 
 }

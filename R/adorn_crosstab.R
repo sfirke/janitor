@@ -14,22 +14,23 @@
 #' @return Returns a data.frame.
 #' @examples
 #'mtcars %>%
-#'  crosstab(gear, cyl) %>%
+#'  tabyl(gear, cyl) %>%
 #'  adorn_crosstab(denom = "all")
 #'  
 #' # showing with all parameters
 #'mtcars %>%
-#'  crosstab(gear, cyl) %>%
+#'  tabyl(gear, cyl) %>%
 #'  adorn_crosstab(., denom = "col", rounding = "half up", show_n = FALSE, digits = 2)
 
 # to illustrate rounding half up - 12.5 becomes 13
 #'mtcars %>%
-#'  crosstab(cyl, am) %>%
+#'  tabyl(cyl, am) %>%
 #'  adorn_crosstab(., denom = "all", digits = 0, rounding = "half up") 
 
 # take result of a crosstab() call and print a nice result
 #' @export
 adorn_crosstab <- function(dat, denom = "row", show_n = TRUE, digits = 1, show_totals = FALSE, rounding = "half to even"){
+  .Deprecated("use the various adorn_ functions instead.  See the \"tabyl\" vignette for examples.")
   # some input checks
   if(! rounding %in% c("half to even", "half up")){stop("'rounding' must be one of 'half to even' or 'half up'")}
   dat[[1]] <- as.character(dat[[1]]) # for type matching when binding the word "Total" on a factor.  Moved up to this line so that if only 1st col is numeric, the function errors
@@ -44,8 +45,8 @@ adorn_crosstab <- function(dat, denom = "row", show_n = TRUE, digits = 1, show_t
   if(showing_row_totals){ dat <- adorn_totals(dat, "row") }
   n_col <- ncol(dat)
   
-  percs <- ns_to_percents(dat, denom, total_n = complete_n) # last argument only gets used in the "all" case = no harm in passing otherwise
-  
+  percs <- adorn_percentages(dat, denom) # last argument only gets used in the "all" case = no harm in passing otherwise
+
   # round %s using specified method, add % sign
   percs <- dplyr::mutate_at(percs, dplyr::vars(2:n_col), dplyr::funs(. * 100)) # since we'll be adding % sign - do this before rounding
   if(rounding == "half to even"){ percs <- dplyr::mutate_at(percs, dplyr::vars(2:n_col), dplyr::funs(round(., digits))) }
