@@ -32,8 +32,10 @@ test_that("NAs handled correctly", {
 })
 
 test_that("show_NA = FALSE parameter works", {
-  expect_equal(test_res %>%
-                 stats::setNames(c("test_df_na$grp", names(test_res)[-1])),
+  resss <- test_res
+  names(resss)[1] <- "test_df_na$grp"
+  names(attr(resss, "core"))[1] <- "test_df_na$grp"
+  expect_equal(resss,
                tabyl(test_df_na$grp, show_na = FALSE))
 })
 
@@ -60,32 +62,14 @@ test_that("missing factor levels are displayed with NA values", {
   expect_equal(tabyl(fac_na)[[4]], c(0, 1, 0, NA))
 })
   
-# check sort parameter
-sorted_test_df_na <- tabyl(test_df_na$grp, sort = TRUE)
-sorted_with_fac <- data.frame(grp = factor(c("a", "c", "c"), levels = letters[1:3]))
-sorted_with_fac <- tabyl(sorted_with_fac$grp, sort = TRUE)
-
-sorted_with_na_and_fac <- data.frame(grp = factor(c("a", "c", "c", NA), levels = letters[1:3]))
-sorted_with_na_and_fac_res <- tabyl(sorted_with_na_and_fac$grp, sort = TRUE)
-
-test_that("sort parameter works", {
-  expect_equal(sorted_test_df_na[[1]], c("b", "a", "c", NA))
-  expect_equal(sorted_test_df_na[[4]], c(0.5, 0.25, 0.25, NA))
-  expect_equal(sorted_with_fac[[1]], factor(c("c", "a", "b"), levels = letters[1:3]))
-  expect_equal(sorted_with_fac[[2]], c(2, 1, 0))
-  expect_equal(sorted_with_na_and_fac_res[[1]], factor(c("c", "a", "b", NA), levels = letters[1:3]))
-  expect_equal(sorted_with_na_and_fac_res[[2]], c(2, 1, 0, 1))
-  expect_equal(sorted_with_na_and_fac_res[[3]], c(2/4, 1/4, 0, 1/4))
-  expect_equal(sorted_with_na_and_fac_res[[4]], c(2/3, 1/3, 0, NA))
-})
 
 # piping
 test_that("piping in a data.frame works", {
-  expect_equal(tabyl(mtcars$cyl) %>%
-                 setNames(., c("cyl", names(.)[2:3])),
+  x <- tabyl(mtcars$cyl)
+  names(x)[1] <- "cyl"
+  names(attr(x, "core"))[1] <- "cyl"
+  expect_equal(x,
                mtcars %>% tabyl(cyl))
-  expect_equal(tabyl(sorted_with_na_and_fac$grp, sort = TRUE) %>% # complete levels + correct sorting work for factors with empty categories
-                 setNames(., c("grp", names(.)[-1])), sorted_with_na_and_fac %>% tabyl(grp, sort = TRUE))
 })
 
 
