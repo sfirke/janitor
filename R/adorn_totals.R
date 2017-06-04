@@ -18,11 +18,18 @@
 adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE){
   numeric_cols <- which(unlist(lapply(dat, is.numeric)))
   numeric_cols <- setdiff(numeric_cols, 1) # assume 1st column should not be included so remove it from numeric_cols
-  if(length(numeric_cols) == 0){stop("at least one of columns 2:n should be numeric")}
+  if(length(numeric_cols) == 0){stop("at least one one of columns 2:n must be of class numeric")}
+  if(sum(where %in% c("row", "col")) != length(where)){ stop("\"where\" must be one of \"row\", \"col\", or c(\"row\", \"col\")") }
   
   if("grouped_df" %in% class(dat)){ dat <- dplyr::ungroup(dat) } # grouped_df causes problems, #97
   dat <- as_tabyl(dat)
-  attr(dat, "totals") <- where
+  
+  # set totals attribute
+  if(sum(where %in% attr(dat, "totals")) > 0){ # if either of the values of "where" are already in totals attribute
+    stop("trying to re-add a totals dimension that is already been added")
+  } else if(length(attr(dat, "totals")) == 1){ # if totals row OR col has already been adorned, append new axis to the current attribute
+    attr(dat, "totals") <- c(attr(dat, "totals"), where)
+  } else{ attr(dat, "totals") <- where }
   
   if("row" %in% where){
     dat[[1]] <- as.character(dat[[1]]) # for type matching when binding the word "Total" on a factor when adding Totals row

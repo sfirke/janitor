@@ -9,7 +9,7 @@ dat <- data.frame(a = c(rep(c("big", "small", "big"), 3)),
                   b = c(1:3, 1:3, 1, 1, 1)
 )
 ct <- dat %>%
-  crosstab(a, b)
+  tabyl(a, b)
 
                           
 
@@ -82,7 +82,7 @@ dat <- data.frame(
 
 test_that("numeric first column is ignored", {
   expect_equal(mtcars %>%
-                 crosstab(cyl, gear) %>%
+                 tabyl(cyl, gear) %>%
                  adorn_totals("col") %>%
                  un_tabyl(),
                data.frame(
@@ -107,7 +107,7 @@ test_that("grouped_df gets ungrouped and succeeds", {
 })
 
 test_that("na.rm value works correctly", {
-  expect_equal(df1 %>% adorn_totals(na.rm = FALSE) %>% un_tabyl(),
+  expect_equal(df1 %>% adorn_totals(c("row", "col"), na.rm = FALSE) %>% un_tabyl(),
                data.frame(
                  x = c("1", "2", "Total"),
                  y = c(NA, 4, NA),
@@ -150,7 +150,7 @@ test_that("works with non-numeric columns mixed in; fill character specification
     stringsAsFactors = FALSE
   )
   
-  expect_equal(mixed %>% adorn_totals(fill = "*") %>% un_tabyl(),
+  expect_equal(mixed %>% adorn_totals(where = c("row", "col"), fill = "*") %>% un_tabyl(),
                data.frame(a = c("1", "2", "3", "Total"),
                           b = c("x", "y", "z", "*"),
                           c = c(5, 6, 7, 18),
@@ -161,15 +161,20 @@ test_that("works with non-numeric columns mixed in; fill character specification
 })
 
 test_that("totals attributes are assigned correctly", {
-  post <- adorn_totals(ct)
+  post <- adorn_totals(ct, c("row", "col"))
   expect_equal(attr(post, "totals"), c("row", "col"))
   expect_equal(class(post), c("data.frame", "tabyl"))
   expect_equal(attr(post, "tabyl_type"), "two_way")
-  expect_equal(attr(post, "core"), ct)
+  expect_equal(attr(post, "core"), un_tabyl(ct))
   
   post_col <- adorn_totals(ct, "col")
   expect_equal(attr(post_col, "totals"), "col")
   expect_equal(class(post_col), c("data.frame", "tabyl"))
   expect_equal(attr(post_col, "tabyl_type"), "two_way")
-  expect_equal(attr(post_col, "core"), ct)
+  expect_equal(attr(post_col, "core"), un_tabyl(ct))
+})
+
+
+test_that("trying to re-adorn a dimension fails", {
+  expect_equal(3,10000)
 })
