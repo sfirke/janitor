@@ -38,7 +38,10 @@
 #'   crosstab(cyl, gear)
 
 #' @export
-crosstab <- function(...) UseMethod("crosstab")
+crosstab <- function(...){
+  .Deprecated("tabyl(dat, var1, var2, ...)")
+  UseMethod("crosstab")
+}
 
 #' @inheritParams crosstab
 #' @rdname crosstab
@@ -93,7 +96,7 @@ crosstab.default <- function(vec1, vec2, percent = "none", show_na = TRUE, ...){
   
   if("NA_" %in% names(result)){ result <- result[c(setdiff(names(result), "NA_"), "NA_")] } # move NA_ column to end, from http://stackoverflow.com/a/18339562
   # calculate percentages, if specified
-  if(percent != "none"){result <- ns_to_percents(result, denom = percent)}
+  if(percent != "none"){result <- adorn_percentages(result, denominator = percent)}
 
   result %>%
     stats::setNames(., c(var_name, names(.)[-1])) %>%
