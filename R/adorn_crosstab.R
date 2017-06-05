@@ -1,10 +1,7 @@
 #' @title Add presentation formatting to a crosstabulation table.
 #'
 #' @description
-#' Formats a data.frame containing counts of co-occurences of two variables (i.e., a contingency table or crosstab).  Adds a mix of percentages, Ns, totals row/column, and custom rounding to a table of integer counts, in the style of a Microsoft Excel PivotTable.  The result is no longer clean data, but is an audience-friendly way to report results.
-#' 
-#' Designed to run on the output of a call to \code{janitor::crosstab}, but can be called on any data.frame containing a contingency table, e.g., the result of \code{dplyr::count()} followed by \code{tidyr::spread()}.
-#'
+#' This function is deprecated, use the \code{adorn_} family of functions instead.
 #' @param dat a data.frame with row names in the first column and numeric values in all other columns.  Usually the piped-in result of a call to  \code{crosstab} that included the argument \code{percent = "none"}.
 #' @param denom the denominator to use for calculating percentages.  One of "row", "col", or "all".
 #' @param show_n should counts be displayed alongside the percentages?
@@ -12,23 +9,8 @@
 #' @param show_totals display a totals summary? Will be a row, column, or both depending on the value of \code{denom}.
 #' @param rounding method to use for truncating percentages - either "half to even", the base R default method, or "half up", where 14.5 rounds up to 15.
 #' @return Returns a data.frame.
-#' @examples
-#'mtcars %>%
-#'  tabyl(gear, cyl) %>%
-#'  adorn_crosstab(denom = "all")
-#'  
-#' # showing with all parameters
-#'mtcars %>%
-#'  tabyl(gear, cyl) %>%
-#'  adorn_crosstab(., denom = "col", rounding = "half up", show_n = FALSE, digits = 2)
-
-# to illustrate rounding half up - 12.5 becomes 13
-#'mtcars %>%
-#'  tabyl(cyl, am) %>%
-#'  adorn_crosstab(., denom = "all", digits = 0, rounding = "half up") 
-
-# take result of a crosstab() call and print a nice result
 #' @export
+
 adorn_crosstab <- function(dat, denom = "row", show_n = TRUE, digits = 1, show_totals = FALSE, rounding = "half to even"){
   .Deprecated("use the various adorn_ functions instead.  See the \"tabyl\" vignette for examples.")
   # some input checks
