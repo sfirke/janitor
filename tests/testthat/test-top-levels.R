@@ -45,13 +45,6 @@ test_that("bad type inputs are handled", {
   expect_error(top_levels(mtcars, "factor_vec is not of type 'factor'"))
 })
 
-
-test_that("sort works", {
-  simpl <- factor(c("a", "b", "b", "c"))
-  expect_equal(top_levels(simpl, 1, sort = TRUE)[[1]], factor(c("b", "a", "c")))
-  expect_equal(top_levels(simpl, 1, sort = TRUE)[[2]], c(2, 1, 1))
-})
-
 test_that("bad n value is handled", {
   expect_error(top_levels(fac, 4))
   expect_error(top_levels(fac_odd_lvls, 3))
