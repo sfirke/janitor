@@ -13,7 +13,7 @@
 #' @examples
 #' 
 #' mtcars %>%
-#'   crosstab(am, cyl) %>%
+#'   tabyl(am, cyl) %>%
 #'   adorn_percentages("col") %>%
 #'   adorn_pct_formatting()
 

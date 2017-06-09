@@ -15,14 +15,14 @@
 #' @examples
 #' 
 #' mtcars %>%
-#'   crosstab(am, cyl) %>%
+#'   tabyl(am, cyl) %>%
 #'   adorn_percentages() %>%
 #'   adorn_rounding(digits = 2, rounding = "half up")
 #'   
 #' # tolerates non-numeric columns:
 #' library(dplyr)
 #' mtcars %>%
-#'   crosstab(am, cyl) %>%
+#'   tabyl(am, cyl) %>%
 #'   adorn_percentages("all") %>%
 #'   mutate(dummy = "a") %>%
 #'   adorn_rounding()

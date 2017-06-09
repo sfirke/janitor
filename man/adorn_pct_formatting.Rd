@@ -25,7 +25,7 @@ Numeric columns get multiplied by 100 and formatted as percentages according to 
 \examples{
 
 mtcars \%>\%
-  crosstab(am, cyl) \%>\%
+  tabyl(am, cyl) \%>\%
   adorn_percentages("col") \%>\%
   adorn_pct_formatting()
 }

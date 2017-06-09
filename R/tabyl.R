@@ -12,6 +12,7 @@
 #' @param var2 (optional) the column name of the second variable (the rows in a 2-way tabulation).
 #' @param var3 (optional) the column name of the third variable (the list in a 3-way tabulation).
 #' @param show_na should counts of \code{NA} values be displayed?  In a one-way tabyl, the presence of \code{NA} values triggers an additional column showing valid percentages(calculated excluding \code{NA} values).
+#' @param ... the arguments to tabyl.
 #' @return Returns a data.frame with frequencies and percentages of the tabulated variable(s).  A 3-way tabulation returns a list of data.frames.
 #' @export
 #' @examples
@@ -42,7 +43,7 @@ tabyl <- function(dat, ...) UseMethod("tabyl")
 #' @rdname tabyl
 # retain this method for calling tabyl() on plain vectors
 
-tabyl.default <- function(dat, show_na = TRUE) {
+tabyl.default <- function(dat, show_na = TRUE, ...) {
   
   # catch and adjust input variable name.
   if(is.null(names(dat))) {
@@ -115,7 +116,7 @@ tabyl.default <- function(dat, show_na = TRUE) {
 #' @export
 #' @rdname tabyl
 # Main dispatching function to underlying functions depending on whether "..." contains 1, 2, or 3 variables
-tabyl.data.frame <- function(dat, var1, var2, var3, show_na = TRUE){
+tabyl.data.frame <- function(dat, var1, var2, var3, show_na = TRUE, ...){
   if("data.frame" %in% class(dat) &
      missing(var1) & missing(var2) & missing(var3)){stop("if calling on a data.frame, specify unquoted column names(s) to tabulate.  Did you mean to call tabyl() on a vector?")}
   # TODO: check that variable names are present in data.frame
