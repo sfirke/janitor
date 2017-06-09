@@ -90,6 +90,38 @@ t3 %>%
   map(adorn_ns)
 ```
 
+## Features of tabyls
+
++ When called on a factor, it will include missing levels in the result (levels not present in the vector)
+
+
+## The `adorn_*` functions
+
+These small, modular functions build on a `crosstab()` to  approximate the functionality of a quick Microsoft Excel PivotTable.  They print an elegant result, either for interactive analysis or for sharing in a report, e.g., with `knitr::kable()`.  For example:
+
+```{r}
+mtcars %>%
+  crosstab(cyl, gear) %>%
+  adorn_totals("row") %>%
+  adorn_percentages("row") %>% 
+  adorn_pct_formatting() %>%
+  adorn_ns()
+
+```
+
+The display options can be fine-tuned:
+
++ Add totals row, column, or both
++ Calculate percentages along either axis or over the entire tabyl
++ Control how many percentage digits to display and whether to append a % sign
++ Round numbers either with the default `round()` function, or round-half-to-up using a [custom rounding function](http://stackoverflow.com/a/12688836/4470365)
+    + e.g., round 10.5 up to 11, consistent with Excel's tie-breaking behavior
+    + This contrasts with rounding 10.5 down to 10 as in base R's `round(10.5)`.
+    
+You can also call these functions on other data.frames, not just the result of calls to `crosstab()`.  E.g., `mtcars %>% adorn_totals("col") %>% adorn_percentages("col")`.
+
+** DISCUSS THE ORDER THEY GET CALLED IN **
+
 ## BYOt (Bring Your Own tabyl)
 
 Use `as_tabyl()` when you want to apply the `adorn_` functions to something that is not the result of a call to `tabyl()`.  For instance:
