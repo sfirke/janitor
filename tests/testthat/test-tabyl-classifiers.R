@@ -20,8 +20,8 @@ test_that("as_tabyl works on result of a non-janitor count/spread", {
 
 test_that("as_tabyl sets attributes correctly", {
   d <- as_tabyl(a)
-  expect_equal(class(d), c(class(a), "tabyl"))
-  expect_equal(attr(d, "core"), a)
+  expect_equal(class(d), class(a))
+  expect_equal(attr(d, "core"), un_tabyl(a))
   expect_equal(attr(d, "tabyl_type"), "two_way")
 })
 

@@ -20,8 +20,8 @@ If percentages were calculated using \code{adorn_percentages()}, the result is a
 \examples{
 
 mtcars \%>\%
-  crosstab(am, cyl) \%>\%
+  tabyl(am, cyl) \%>\%
   adorn_percentages("col") \%>\%
   adorn_pct_formatting() \%>\%
-  adorn_ns(position = "first")
+  adorn_ns(position = "front")
 }

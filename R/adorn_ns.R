@@ -11,10 +11,10 @@
 #' @examples
 #' 
 #' mtcars %>%
-#'   crosstab(am, cyl) %>%
+#'   tabyl(am, cyl) %>%
 #'   adorn_percentages("col") %>%
 #'   adorn_pct_formatting() %>%
-#'   adorn_ns(position = "first")
+#'   adorn_ns(position = "front")
 
 adorn_ns <- function(dat, position = "rear"){
   #TODO: validate inputs

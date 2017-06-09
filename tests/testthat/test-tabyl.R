@@ -92,14 +92,17 @@ test_that("bad input variable name is preserved", {
 test_that("input variable names 'percent' and 'n' are handled", {
   a <- mtcars %>% tabyl(mpg)
   expect_equal(a %>% tabyl(percent),
-               data.frame(percent = c(1/32, 2/32),
+               as_tabyl(
+                 data.frame(percent = c(1/32, 2/32),
                           n = c(18, 7),
-                          percent_percent = c(18/25, 7/25))
+                          percent_percent = c(18/25, 7/25)),
+               1)
   )
   expect_equal(a %>% tabyl(n),
-               data.frame(n = 1:2,
+               as_tabyl(data.frame(n = 1:2,
                           n_n = c(18, 7),
-                          percent = c(18/25, 7/25))
+                          percent = c(18/25, 7/25)),
+                        1)
   )
 })
 

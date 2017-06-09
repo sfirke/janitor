@@ -37,11 +37,11 @@ test_that("totals col is correct", {
   )
 })
 
-               
+
 test_that("totals row and col produce correct results when called together", {
   expect_equal(ct %>%
                  adorn_totals(c("row", "col")) %>%
-               un_tabyl(),
+                 un_tabyl(),
                data.frame(a = c("big", "small", "Total"),
                           `1` = c(4, 1, 5),
                           `2` = c(0, 2, 2),
@@ -62,7 +62,7 @@ test_that("order doesn't matter when row and col are called together", {
 
 test_that("both functions work with a single column", {
   single_col <- data_frame(a = c(as.Date("2016-01-01"), as.Date("2016-02-03")),
-                         b = c(1, 2))
+                           b = c(1, 2))
   expect_error(single_col %>% adorn_totals("row"), NA) # this method of testing passage is from http://stackoverflow.com/a/30068233
   expect_error(single_col %>% adorn_totals("col"), NA)
   expect_error(single_col %>% adorn_totals(c("col", "row")), NA)
@@ -157,7 +157,7 @@ test_that("works with non-numeric columns mixed in; fill character specification
                           d = c("big", "med", "small", "*"),
                           Total = c(5, 6, 7, 18),
                           stringsAsFactors = FALSE)
-               )
+  )
 })
 
 test_that("totals attributes are assigned correctly", {
@@ -176,5 +176,8 @@ test_that("totals attributes are assigned correctly", {
 
 
 test_that("trying to re-adorn a dimension fails", {
-  expect_equal(3,10000)
+  expect_error(ct %>% adorn_totals("col") %>% adorn_totals("col"),
+               "trying to re-add a totals dimension that is already been added")
+  expect_error(ct %>% adorn_totals() %>% adorn_totals(),
+               "trying to re-add a totals dimension that is already been added")
 })
