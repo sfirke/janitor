@@ -19,7 +19,7 @@ BugReports: https://github.com/sfirke/janitor/issues
 Depends:
     R (>= 3.1.2)
 Imports:
-    dplyr (>= 0.6.0),
+    dplyr (>= 0.7.0),
     tidyr,
     magrittr,
     purrr,
