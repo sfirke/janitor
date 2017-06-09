@@ -11,7 +11,7 @@
 #' @export
 #' @examples
 #' mtcars %>%
-#'   crosstab(am, cyl) %>%
+#'   tabyl(am, cyl) %>%
 #'   adorn_totals()
 
 

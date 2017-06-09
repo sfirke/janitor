@@ -23,6 +23,6 @@ This function excludes the first column of the input data.frame, assuming it's a
 }
 \examples{
 mtcars \%>\%
-  crosstab(am, cyl) \%>\%
+  tabyl(am, cyl) \%>\%
   adorn_totals()
 }

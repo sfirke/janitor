@@ -62,7 +62,7 @@ test_that("rounding is correct", {
 
 
 test_that("digits parameter is correct", {
-  digits0 <- suppressWarnings(mtcars %>% crosstab(carb, gear) %>% adorn_crosstab(denom = "row", digits = 0))
+  digits0 <- suppressWarnings(mtcars %>% tabyl(carb, gear) %>% adorn_crosstab(denom = "row", digits = 0))
   expect_equal(digits0, data.frame(
     carb = c(1:4, 6, "8"),
     `3` = c("43% (3)", "40% (4)", "100% (3)", "50% (5)", "0% (0)", "0% (0)"),
@@ -73,7 +73,7 @@ test_that("digits parameter is correct", {
 })
 
 test_that("show_n can suppress Ns, digits parameter is correct", {
-  digits3 <- suppressWarnings(mtcars %>% crosstab(carb, gear) %>% adorn_crosstab(denom = "row", digits = 3, show_n = FALSE))
+  digits3 <- suppressWarnings(mtcars %>% tabyl(carb, gear) %>% adorn_crosstab(denom = "row", digits = 3, show_n = FALSE))
   expect_equal(digits3, data.frame(
     carb = c(1:4, 6, "8"),
     `3` = c("42.857%", "40.000%", "100.000%", "50.000%", "0.000%", "0.000%"),

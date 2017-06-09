@@ -5,7 +5,7 @@ library(testthat)
 context("as_tabyl() and un_tabyl()")
 
 a <- mtcars %>%
-  crosstab(cyl, carb) # will need to rewrite this when this verb goes away
+  tabyl(cyl, carb)
 
 b <- mtcars %>%
   dplyr::count(cyl, carb) %>%
