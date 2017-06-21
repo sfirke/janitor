@@ -41,11 +41,11 @@ adorn_percentages <- function(dat, denominator = "row", na.rm = TRUE){
   } else if(denominator == "col"){
     # if col-wise percentages and a row column, need to exempt totals row and make it all 1s
     if("row" %in% attr(dat, "totals")){
-      col_sum <- colSums(dat[-nrow(dat), numeric_cols], na.rm = na.rm)
+      col_sum <- colSums(dat[-nrow(dat), ][numeric_cols], na.rm = na.rm)
     } else {
-      col_sum <- colSums(dat[, numeric_cols], na.rm = na.rm)
+      col_sum <- colSums(dat[numeric_cols], na.rm = na.rm)
     }
-    dat[, numeric_cols] <- sweep(dat[numeric_cols], 2, col_sum,`/`) # from http://stackoverflow.com/questions/9447801/dividing-columns-by-colsums-in-r
+    dat[numeric_cols] <- sweep(dat[numeric_cols], 2, col_sum,`/`) # from http://stackoverflow.com/questions/9447801/dividing-columns-by-colsums-in-r
     
   } else if(denominator == "all"){
     # if all-wise percentages, need to exempt any totals col or row

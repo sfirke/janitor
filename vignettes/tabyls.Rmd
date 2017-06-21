@@ -12,7 +12,7 @@ vignette: >
 
 It's like `table()`: you count co-occurences of one, two, or three variables.
 
-It's also not like `table()`: it is built for data.frame inputs, returns data.frames, and is friendly to the common formatting choices one expects if coming from Microsoft Excel or SPSS.
+It's also not like `table()`: you can pipe in a data.frame input, it returns data.frames, and it's friendly to the common formatting choices one expects if coming from Microsoft Excel or SPSS.
 
 ## What it is
 
