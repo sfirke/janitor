@@ -1,19 +1,24 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
 language: r
-r:
-  - oldrel
-  - release
-  - devel
-
-# warnings_are_errors: false
-
-
-os:
-  - linux
-  - osx
-
 cache: packages
+
+
+matrix: # don't test osx + r-devel
+  include:
+  - os: linux
+    r: oldrel
+    dist: trusty
+  - os: linux
+    r: release
+    dist: trusty
+  - os: linux
+    r: devel
+    dist: trusty
+  - os: osx
+    r: release
+  - os: osx
+    r: oldrel
 
 r_github_packages:
   - jimhester/covr
