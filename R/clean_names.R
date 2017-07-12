@@ -3,7 +3,8 @@
 #' @title Cleans names of a data.frame.
 #'
 #' @description
-#' Resulting names are unique and consist only of the \code{_} character, lowercase letters, and numbers.
+#' Resulting names are unique and consist only of the \code{_} character, lowercase letters, and numbers. Accented characters are
+#' transliterated.
 #'
 #' @param dat the input data.frame.
 #' @return Returns the data.frame with clean names.
@@ -29,7 +30,8 @@ clean_names <- function(dat){
     gsub("[.]+", "_", .) %>% # convert 1+ periods to single _
     gsub("[_]+", "_", .) %>% # fix rare cases of multiple consecutive underscores
     tolower(.) %>%
-    gsub("_$", "", .) # remove string-final underscores
+    gsub("_$", "", .) %>% # remove string-final underscores
+    stringi::stri_trans_general("latin-ascii") 
 
   # Handle duplicated names - they mess up dplyr pipelines
   # This appends the column number to repeated instances of duplicate variable names
