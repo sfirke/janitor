@@ -3,9 +3,10 @@
 library(janitor)
 context("data.frame name cleaning")
 
-test_df <- data.frame(matrix(ncol = 11) %>% as.data.frame())
+test_df <- data.frame(matrix(ncol = 14) %>% as.data.frame())
 names(test_df) <- c("sp ace", "repeated", "a**#@", "%", "#", "!",
-                    "d(!)9", "REPEATED", "can\"'t", "hi_`there`", "  leading spaces")
+                    "d(!)9", "REPEATED", "can\"'t", "hi_`there`", "  leading spaces",
+                    "€", "ação", "farœ")
 
 clean <- clean_names(test_df)
 
@@ -21,6 +22,10 @@ test_that("Names are cleaned appropriately", {
   expect_equal(names(clean)[9], "cant") # uppercase, 2nd instance of repeat
   expect_equal(names(clean)[10], "hi_there") # double-underscores to single
   expect_equal(names(clean)[11], "leading_spaces") # leading spaces
+  expect_equal(names(clean)[12], "x_3") # euro sign, invalid
+  expect_equal(names(clean)[13], "acao") # accented word, transliterated to latin,
+  expect_equal(names(clean)[14], "faroe") # œ character was failing to convert on Windows, should work universally for stringi 1.1.6 or higher
+                                          # https://github.com/sfirke/janitor/issues/120#issuecomment-303385418
 })
 
 test_that("Returns a data.frame", {

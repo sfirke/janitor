@@ -14,12 +14,18 @@ Returns the data.frame with clean names.
 }
 \description{
 Resulting names are unique and consist only of the \code{_} character, lowercase letters, and numbers.
+
+Accented characters are
+transliterated to ASCII.  For example, an "o" with a german umlaut over it becomes "o", and the Spanish character "enye" becomes "n".
 }
 \examples{
 # not run:
 # clean_names(poorly_named_df)
 
-# library(readxl)
+# or with the pipe character from dplyr:
+# poorly_named_df \%>\% clean_names()
+
 # not run:
+# library(readxl)
 # readxl("messy_excel_file.xlsx") \%>\% clean_names()
 }

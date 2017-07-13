@@ -21,7 +21,7 @@ Depends:
 Imports:
     dplyr (>= 0.5.0),
     tidyr,
-    magrittr
+    stringi
 License: MIT + file LICENSE
 LazyData: true
 RoxygenNote: 6.0.1
