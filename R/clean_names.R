@@ -1,11 +1,10 @@
-#' @importFrom stringi stri_trans_general
-#' @importFrom stats setNames
-#' 
 #' @title Cleans names of a data.frame.
 #'
 #' @description
-#' Resulting names are unique and consist only of the \code{_} character, lowercase letters, and numbers. Accented characters are
-#' transliterated.
+#' Resulting names are unique and consist only of the \code{_} character, lowercase letters, and numbers.
+#' 
+#' Accented characters are
+#' transliterated to ASCII.  For example, an "o" with a german umlaut over it becomes "o", and the Spanish character "enye" becomes "n". 
 #'
 #' @param dat the input data.frame.
 #' @return Returns the data.frame with clean names.
@@ -13,9 +12,12 @@
 #' @examples
 #' # not run:
 #' # clean_names(poorly_named_df)
+#' 
+#' # or with the pipe character from dplyr:
+#' # poorly_named_df %>% clean_names()
 #'
-#' # library(readxl)
 #' # not run:
+#' # library(readxl)
 #' # readxl("messy_excel_file.xlsx") %>% clean_names()
 
 clean_names <- function(dat){
