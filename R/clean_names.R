@@ -1,3 +1,4 @@
+#' @importFrom stringi stri_trans_general
 #' @importFrom stats setNames
 #' 
 #' @title Cleans names of a data.frame.
