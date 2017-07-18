@@ -37,6 +37,7 @@ test_that("show_NA = FALSE parameter works, incl. with piped input", {
   names(attr(resss, "core"))[1] <- "test_df_na$grp"
   expect_equal(resss,
                tabyl(test_df_na$grp, show_na = FALSE))
+  names(attr(resss, "core"))[1] <- "grp" ;   names(resss)[1] <- "grp" # for this next instance, col name changes
   expect_equal(resss,
                test_df_na %>% tabyl(grp, show_na = FALSE))
 })

@@ -121,13 +121,13 @@ tabyl.data.frame <- function(dat, var1, var2, var3, show_na = TRUE, ...){
      missing(var1) & missing(var2) & missing(var3)){stop("if calling on a data.frame, specify unquoted column names(s) to tabulate.  Did you mean to call tabyl() on a vector?")}
   # TODO: check that variable names are present in data.frame
   if(missing(var2) & missing(var3)){
-    tabyl_1way(dat, rlang::enquo(var1))
+    tabyl_1way(dat, rlang::enquo(var1), show_na = show_na)
   } else if(missing(var3)){
-    tabyl_2way(dat, rlang::enquo(var1), rlang::enquo(var2))
+    tabyl_2way(dat, rlang::enquo(var1), rlang::enquo(var2), show_na = show_na)
   } else if(!missing(var1) &
             !missing(var2) &
             !missing(var3)){
-    tabyl_3way(dat, rlang::enquo(var1), rlang::enquo(var2), rlang::enquo(var3))
+    tabyl_3way(dat, rlang::enquo(var1), rlang::enquo(var2), rlang::enquo(var3), show_na = show_na)
   } else {
     stop("please specify var1 OR var1 & var2 OR var1 & var2 & var3")
   }
@@ -185,7 +185,7 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE){
 tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE){
   
   split(dat, dat[[rlang::quo_name(var3)]]) %>%
-    purrr::map(tabyl_2way, var1, var2)
+    purrr::map(tabyl_2way, var1, var2, show_na = show_na)
 }
 
 
