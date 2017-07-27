@@ -119,7 +119,8 @@ tabyl.default <- function(dat, show_na = TRUE, ...) {
 tabyl.data.frame <- function(dat, var1, var2, var3, show_na = TRUE, ...){
   if("data.frame" %in% class(dat) &
      missing(var1) & missing(var2) & missing(var3)){stop("if calling on a data.frame, specify unquoted column names(s) to tabulate.  Did you mean to call tabyl() on a vector?")}
-  # TODO: check that variable names are present in data.frame
+  if(dplyr::is_grouped_df(dat)){ dat <- dplyr::ungroup(dat) } 
+
   if(missing(var2) & missing(var3)){
     tabyl_1way(dat, rlang::enquo(var1), show_na = show_na)
   } else if(missing(var3)){

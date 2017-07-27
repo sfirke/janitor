@@ -123,7 +123,13 @@ test_that("bizarre combination of %>%, quotes, and spaces in names is handled", 
   )
 })
 
+test_that("grouped data.frame inputs are handled (#125)", {
+  expect_equal(mtcars %>% group_by(cyl) %>% tabyl(carb, gear),
+               mtcars %>% tabyl(carb, gear))
+})
+
 test_that("if called on non-existent vector, returns useful error message", {
   expect_error(tabyl(mtcars$moose), "object mtcars\\$moose not found")
   expect_error(tabyl(moose), "object 'moose' not found")
+  expect_error(mtcars %>% tabyl(moose), "object 'moose' not found")
 })
