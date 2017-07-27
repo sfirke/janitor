@@ -8,9 +8,11 @@
 \usage{
 tabyl(dat, ...)
 
-\method{tabyl}{default}(dat, show_na = TRUE, ...)
+\method{tabyl}{default}(dat, show_na = TRUE, show_missing_levels = TRUE,
+  ...)
 
-\method{tabyl}{data.frame}(dat, var1, var2, var3, show_na = TRUE, ...)
+\method{tabyl}{data.frame}(dat, var1, var2, var3, show_na = TRUE,
+  show_missing_levels = TRUE, ...)
 }
 \arguments{
 \item{dat}{a data.frame containing the variables you wish to count.  Or, a vector you want to tabulate.}
@@ -18,6 +20,8 @@ tabyl(dat, ...)
 \item{...}{the arguments to tabyl.}
 
 \item{show_na}{should counts of \code{NA} values be displayed?  In a one-way tabyl, the presence of \code{NA} values triggers an additional column showing valid percentages(calculated excluding \code{NA} values).}
+
+\item{show_missing_levels}{should counts of missing levels of factors be displayed?  These will be rows and/or columns of zeroes.  Useful for keeping consistent output dimensions even when certain factor levels may not be present in the data.}
 
 \item{var1}{the column name of the first variable.}
 

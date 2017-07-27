@@ -12,6 +12,7 @@
 #' @param var2 (optional) the column name of the second variable (the rows in a 2-way tabulation).
 #' @param var3 (optional) the column name of the third variable (the list in a 3-way tabulation).
 #' @param show_na should counts of \code{NA} values be displayed?  In a one-way tabyl, the presence of \code{NA} values triggers an additional column showing valid percentages(calculated excluding \code{NA} values).
+#' @param show_missing_levels should counts of missing levels of factors be displayed?  These will be rows and/or columns of zeroes.  Useful for keeping consistent output dimensions even when certain factor levels may not be present in the data.
 #' @param ... the arguments to tabyl.
 #' @return Returns a data.frame with frequencies and percentages of the tabulated variable(s).  A 3-way tabulation returns a list of data.frames.
 #' @export
@@ -43,7 +44,7 @@ tabyl <- function(dat, ...) UseMethod("tabyl")
 #' @rdname tabyl
 # retain this method for calling tabyl() on plain vectors
 
-tabyl.default <- function(dat, show_na = TRUE, ...) {
+tabyl.default <- function(dat, show_na = TRUE, show_missing_levels = TRUE, ...) {
   
   # catch and adjust input variable name.
   if(is.null(names(dat))) {
@@ -67,7 +68,7 @@ tabyl.default <- function(dat, show_na = TRUE, ...) {
     
     result <- dat_df %>% dplyr::count(dat)
     
-    if(is.factor(dat)){
+    if(is.factor(dat) & show_missing_levels){
       expanded <- tidyr::expand(result, dat)
       result <- merge(x = expanded, # can't use dplyr::left_join because as of 0.6.0, NAs don't match, and na_matches argument not present < 0.6.0
                       y = result,
@@ -116,19 +117,19 @@ tabyl.default <- function(dat, show_na = TRUE, ...) {
 #' @export
 #' @rdname tabyl
 # Main dispatching function to underlying functions depending on whether "..." contains 1, 2, or 3 variables
-tabyl.data.frame <- function(dat, var1, var2, var3, show_na = TRUE, ...){
+tabyl.data.frame <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_levels = TRUE, ...){
   if("data.frame" %in% class(dat) &
      missing(var1) & missing(var2) & missing(var3)){stop("if calling on a data.frame, specify unquoted column names(s) to tabulate.  Did you mean to call tabyl() on a vector?")}
   if(dplyr::is_grouped_df(dat)){ dat <- dplyr::ungroup(dat) } 
 
   if(missing(var2) & missing(var3)){
-    tabyl_1way(dat, rlang::enquo(var1), show_na = show_na)
+    tabyl_1way(dat, rlang::enquo(var1), show_na = show_na, show_missing_levels = show_missing_levels)
   } else if(missing(var3)){
-    tabyl_2way(dat, rlang::enquo(var1), rlang::enquo(var2), show_na = show_na)
+    tabyl_2way(dat, rlang::enquo(var1), rlang::enquo(var2), show_na = show_na, show_missing_levels = show_missing_levels)
   } else if(!missing(var1) &
             !missing(var2) &
             !missing(var3)){
-    tabyl_3way(dat, rlang::enquo(var1), rlang::enquo(var2), rlang::enquo(var3), show_na = show_na)
+    tabyl_3way(dat, rlang::enquo(var1), rlang::enquo(var2), rlang::enquo(var3), show_na = show_na, show_missing_levels = show_missing_levels)
   } else {
     stop("please specify var1 OR var1 & var2 OR var1 & var2 & var3")
   }
@@ -136,13 +137,14 @@ tabyl.data.frame <- function(dat, var1, var2, var3, show_na = TRUE, ...){
 }
 
 # a one-way frequency table; this was called "tabyl" in janitor <= 0.3.0
-tabyl_1way <- function(dat, var1, show_na = TRUE){
+tabyl_1way <- function(dat, var1, show_na = TRUE, show_missing_levels = TRUE){
   x <- dplyr::select(dat, !! var1)
   
   # gather up arguments, pass them to tabyl.default
   arguments <- list()
   arguments$dat <- x[1]
   arguments$show_na <- show_na
+  arguments$show_missing_levels <- show_missing_levels
   
   do.call(tabyl.default,
           args = arguments)
@@ -151,7 +153,7 @@ tabyl_1way <- function(dat, var1, show_na = TRUE){
 
 
 # a two-way frequency table; this was called "crosstab" in janitor <= 0.3.0
-tabyl_2way <- function(dat, var1, var2, show_na = TRUE){
+tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TRUE){
   
   dat <- dplyr::select(dat, !! var1, !! var2)
   
@@ -162,8 +164,15 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE){
   tabl <- dat %>%
     dplyr::count(!! var1, !! var2)
   
-  # TODO: add code here to optionally expand missing factor levels.  Borrow from the part of tabyl() where it says if(is.factor(vec)) ...
-  
+  # Optionally expand missing factor levels.  Inspired by https://stackoverflow.com/a/10954773/4470365
+  if(sum(unlist(lapply(dat, is.factor))) > 0 & show_missing_levels){
+    if(!is.factor(tabl[[1]])){tabl[[1]] <- factor(tabl[[1]])} # no harm in converting to factors if not currently; makes the expand.grid simpler
+    if(!is.factor(tabl[[2]])){tabl[[2]] <- factor(tabl[[2]])}
+    combos <- expand.grid(levels(tabl[[1]]), levels(tabl[[2]]))
+    names(combos) <- names(tabl)[1:2]
+    tabl <- suppressMessages(dplyr::full_join(tabl, combos))
+  }
+
   # replace NA with string NA_ in vec2 to avoid invalid col name after spreading
   # if this col is a factor, need to add that level to the factor
   if(is.factor(tabl[[2]])){
@@ -183,10 +192,10 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE){
 
 
 # a list of two-way frequency tables, split into a list on a third variable
-tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE){
+tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_levels = TRUE){
   
   split(dat, dat[[rlang::quo_name(var3)]]) %>%
-    purrr::map(tabyl_2way, var1, var2, show_na = show_na)
+    purrr::map(tabyl_2way, var1, var2, show_na = show_na, show_missing_levels = show_missing_levels)
 }
 
 
