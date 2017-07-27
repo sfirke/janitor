@@ -2,6 +2,16 @@ NEWS
 ====
 # janitor 0.3.0.9000 (development version, in progress)
 
+## Release summary
+
+... development version, in progress.
+
+## Features
+
+### Major
+
+* `clean_names()` now transliterates accented letters, e.g., `çãüœ` becomes `cauoe` [(#120)](https://github.com/sfirke/janitor/issues/120).  Thanks to *@fernandovmacedo*.
+
 ## Bug fixes
 * `adorn_totals("row")` now handles quirky variable names in 1st column [(#118)](https://github.com/sfirke/janitor/issues/118)
 
@@ -9,11 +19,11 @@ NEWS
 
 ## Release summary
 
-The primary purpose of this release is to maintain accuracy given the changes to the dplyr package, upon which janitor is built, in dplyr version 0.6.0.  This update also contains a number of minor improvements.
+The primary purpose of this release is to maintain accuracy given the changes to the dplyr package, upon which janitor is built, in dplyr version >0.6.0.  This update also contains a number of minor improvements.
 
-**Critical: if you update the package `dplyr` to version 0.6.0, you *must* update janitor to version 0.3.0 to ensure accurate results from janitor's `tabyl()` function.**  This is due to a change in the behavior of dplyr's `_join` functions (*discussed in [#111)](https://github.com/sfirke/janitor/issues/111)*.
+**Critical: if you update the package `dplyr` to version >0.6.0, you *must* update janitor to version 0.3.0 to ensure accurate results from janitor's `tabyl()` function.**  This is due to a change in the behavior of dplyr's `_join` functions (*discussed in [#111)](https://github.com/sfirke/janitor/issues/111)*.
 
-janitor 0.3.0 is compatible with this new version of dplyr as well as old versions of dplyr back to 0.5.0.  That is, updating janitor to 0.3.0 does not necessitate an update to dplyr 0.6.0.
+janitor 0.3.0 is compatible with this new version of dplyr as well as old versions of dplyr back to 0.5.0.  That is, updating janitor to 0.3.0 does not necessitate an update to dplyr >0.6.0.
 
 
 ## Breaking changes
