@@ -151,5 +151,13 @@ expect_equal(z %>% tabyl(a, b, new, show_missing_levels = TRUE),
                                     small = c(1, 0)) %>% as_tabyl()))
 expect_equal(z %>% tabyl(a, b, new, show_missing_levels = FALSE),
              list(lvl1 = data.frame(a = c("hi"),
-                                    small = c(1)) %>% as_tabyl()))
+                                    small = c(1), stringsAsFactors = FALSE) %>% as_tabyl()))
+
+# Works with numerics
+expect_equal(mtcars %>% tabyl(cyl, am),
+             data.frame(cyl = c(4, 6, 8),
+                        `0` = c(3, 4, 12),
+                        `1` = c(8, 3, 2),
+                        check.names = FALSE) %>% as_tabyl())
 })
+

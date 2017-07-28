@@ -164,23 +164,10 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
   tabl <- dat %>%
     dplyr::count(!! var1, !! var2)
   
-  tabl <- complete_(tabl, names(tabl), fill = list("n" = 0))
-  print(tabl)
-  
-  # Optionally expand missing factor levels.  Inspired by https://stackoverflow.com/a/10954773/4470365
+  # Optionally expand missing factor levels.
   if(show_missing_levels){
-    combos <- expand.grid(levels(as.factor(tabl[[1]])), levels(as.factor(tabl[[2]]))) # convert to factor so behavior is consistent for factors and characters
-    print(glimpse(combos))
-    print(glimpse(tabl))
-    # convert to character as inbetween step, otherwise turning factor into numeric yield integer, which mismatches with numeric
-    print("---------")
-    print(class())
-    if(is.factor(combos[[1]])){ combos[[1]] <- as.character(combos[[1]]) }
-    if(is.factor(combos[[2]])){ combos[[2]] <- as.character(combos[[2]]) }
-    names(combos) <- names(tabl)[1:2]
-    class(combos[[1]]) <- class(tabl[[1]]) ; class(combos[[2]]) <- class(tabl[[2]]) # to avoid type-mismatch issues on the join, e.g., factor to numeric
-    print(glimpse(combos))
-    print(glimpse(tabl))
+    combos <- complete_(tabl %>% select(-n), names(tabl)[1:2]) # this is pretty ugly - using dplyr keeps col types the same making for easier join, vs. expand.grid
+                                                               # would be nice to just complete() tabl and skip the join, but couldn't get the eval to work
     tabl <- suppressMessages(dplyr::full_join(tabl, combos))
   }
 
@@ -206,6 +193,7 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
 tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_levels = TRUE){
   dat <- dplyr::select(dat, !! var1, !! var2, !! var3)
   dat[[3]] <- as.character(dat[[3]]) # don't want empty factor levels in the result list - they would be empty data.frames
+
   if(!show_missing_levels){ # this shows missing factor levels, to make the crosstabs consistent across each data.frame in the list based on values of var3
     dat[[1]] <- as.character(dat[[1]])
     dat[[2]] <- as.character(dat[[2]])
