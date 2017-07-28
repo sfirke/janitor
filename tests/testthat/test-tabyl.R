@@ -137,7 +137,7 @@ test_that("if called on non-existent vector, returns useful error message", {
 
 # showing missing factor levels
 
-testthat("show_missing_levels parameter works", {
+test_that("show_missing_levels parameter works", {
 z <- structure(list(
   a = structure(1, .Label = c("hi", "lo"), class = "factor"),
   b = structure(2, .Label = c("big", "small"), class = "factor"),

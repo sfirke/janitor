@@ -25,6 +25,8 @@ adorn_pct_formatting <- function(dat, digits = 1, rounding = "half to even", aff
   if("one_way" %in% attr(dat, "tabyl_type")){
     numeric_cols <- setdiff(numeric_cols, 2) # so that it works on a one-way tabyl
   }
+  # can't use as_tabyl() at this point and its input checking because the raw counts aren't available.
+  if(sum(unlist(lapply(dat, is.numeric))[-1]) == 0){ stop("at least one one of columns 2:n must be of class numeric") }
   
   dat[numeric_cols] <- lapply(dat[numeric_cols], function(x) x * 100)
   if(rounding == "half to even"){ dat[numeric_cols] <- lapply(dat[numeric_cols], function(x) round(x, digits)) }
