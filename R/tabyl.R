@@ -165,9 +165,9 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
     dplyr::count(!! var1, !! var2)
   
   # Optionally expand missing factor levels.  Inspired by https://stackoverflow.com/a/10954773/4470365
-  if(sum(unlist(lapply(dat, is.factor))) > 0 & show_missing_levels){
-    if(!is.factor(tabl[[1]])){tabl[[1]] <- factor(tabl[[1]])} # no harm in converting to factors if not currently; makes the expand.grid simpler
-    if(!is.factor(tabl[[2]])){tabl[[2]] <- factor(tabl[[2]])}
+  if(show_missing_levels){
+    if(!is.factor(tabl[[1]])){ tabl[[1]] <- factor(tabl[[1]]) } # no harm in converting to factors if not currently; makes the expand.grid simpler
+    if(!is.factor(tabl[[2]])){ tabl[[2]] <- factor(tabl[[2]]) }
     combos <- expand.grid(levels(tabl[[1]]), levels(tabl[[2]]))
     names(combos) <- names(tabl)[1:2]
     tabl <- suppressMessages(dplyr::full_join(tabl, combos))
@@ -193,7 +193,15 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
 
 # a list of two-way frequency tables, split into a list on a third variable
 tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_levels = TRUE){
-  
+  dat <- dplyr::select(dat, !! var1, !! var2, !! var3)
+  dat[[3]] <- as.character(dat[[3]]) # don't want empty factor levels in the result list - they would be empty data.frames
+  if(!show_missing_levels){ # this shows missing factor levels, to make the crosstabs consistent across each data.frame in the list based on values of var3
+    dat[[1]] <- as.character(dat[[1]])
+    dat[[2]] <- as.character(dat[[2]])
+  } else {
+    dat[[1]] <- as.factor(dat[[1]])
+    dat[[2]] <- as.factor(dat[[2]])
+  }
   split(dat, dat[[rlang::quo_name(var3)]]) %>%
     purrr::map(tabyl_2way, var1, var2, show_na = show_na, show_missing_levels = show_missing_levels)
 }
