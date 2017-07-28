@@ -166,7 +166,7 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
   
   # Optionally expand missing factor levels.
   if(show_missing_levels){
-    combos <- complete_(tabl %>% select(-n), names(tabl)[1:2]) # this is pretty ugly - using dplyr keeps col types the same making for easier join, vs. expand.grid
+    combos <- tidyr::complete_(tabl %>% dplyr::select(-n), names(tabl)[1:2]) # this is pretty ugly - using dplyr keeps col types the same making for easier join, vs. expand.grid
                                                                # would be nice to just complete() tabl and skip the join, but couldn't get the eval to work
     tabl <- suppressMessages(dplyr::full_join(tabl, combos))
   }
