@@ -128,8 +128,28 @@ test_that("grouped data.frame inputs are handled (#125)", {
                mtcars %>% tabyl(carb, gear))
 })
 
+
 test_that("if called on non-existent vector, returns useful error message", {
   expect_error(tabyl(mtcars$moose), "object mtcars\\$moose not found")
   expect_error(tabyl(moose), "object 'moose' not found")
   expect_error(mtcars %>% tabyl(moose), "object 'moose' not found")
+})
+
+# showing missing factor levels
+
+testthat("show_missing_levels parameter works", {
+z <- structure(list(
+  a = structure(1, .Label = c("hi", "lo"), class = "factor"),
+  b = structure(2, .Label = c("big", "small"), class = "factor"),
+  new = structure(1, .Label = c("lvl1", "lvl2"), class = "factor")),
+  row.names = c(NA, -1L), class = c("tbl_df", "tbl", "data.frame"),
+  .Names = c("a", "b", "new"))
+
+expect_equal(z %>% tabyl(a, b, new, show_missing_levels = TRUE),
+             list(lvl1 = data.frame(a = c("hi", "lo"),
+                                    big = c(0, 0),
+                                    small = c(1, 0)) %>% as_tabyl()))
+expect_equal(z %>% tabyl(a, b, new, show_missing_levels = FALSE),
+             list(lvl1 = data.frame(a = c("hi"),
+                                    small = c(1)) %>% as_tabyl()))
 })

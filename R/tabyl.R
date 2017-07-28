@@ -166,10 +166,13 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
   
   # Optionally expand missing factor levels.  Inspired by https://stackoverflow.com/a/10954773/4470365
   if(show_missing_levels){
-    if(!is.factor(tabl[[1]])){ tabl[[1]] <- factor(tabl[[1]]) } # no harm in converting to factors if not currently; makes the expand.grid simpler
-    if(!is.factor(tabl[[2]])){ tabl[[2]] <- factor(tabl[[2]]) }
-    combos <- expand.grid(levels(tabl[[1]]), levels(tabl[[2]]))
+    combos <- expand.grid(levels(as.factor(tabl[[1]])), levels(as.factor(tabl[[2]]))) %>% # convert to factor so behavior is consistent for factors and characters
+      mutate_all(as.character) # convert to character as inbetween step, otherwise turning factor into numeric yield integer, which mismatches with numeric
+    print(glimpse(combos))
     names(combos) <- names(tabl)[1:2]
+    class(combos[[1]]) <- class(tabl[[1]]) ; class(combos[[2]]) <- class(tabl[[2]]) # to avoid type-mismatch issues on the join, e.g., factor to numeric
+    print(glimpse(combos))
+    print(glimpse(tabl))
     tabl <- suppressMessages(dplyr::full_join(tabl, combos))
   }
 
