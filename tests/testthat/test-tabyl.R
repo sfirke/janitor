@@ -31,13 +31,12 @@ test_that("NAs handled correctly", {
   expect_equal(test_res_na$valid_percent, c(0.25, 0.5, 0.25, NA))
 })
 
-test_that("show_NA = FALSE parameter works, incl. with piped input", {
-  resss <- test_res
-  names(resss)[1] <- "test_df_na$grp"
-  names(attr(resss, "core"))[1] <- "test_df_na$grp"
-  expect_equal(resss,
+test_that("show_NA = FALSE parameter works", {
+  expect_equal(test_res %>%
+                 stats::setNames(c("test_df_na$grp", names(test_res)[-1])),
                tabyl(test_df_na$grp, show_na = FALSE))
-  expect_equal(resss,
+  expect_equal(test_res %>%
+                 stats::setNames(c("grp", names(test_res)[-1])),
                test_df_na %>% tabyl(grp, show_na = FALSE))
 })
 
