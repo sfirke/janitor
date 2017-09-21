@@ -10,10 +10,12 @@ NEWS
 
 ### Major
 
-* `clean_names()` now transliterates accented letters, e.g., `çãüœ` becomes `cauoe` [(#120)](https://github.com/sfirke/janitor/issues/120).  Thanks to *@fernandovmacedo*.
+* `clean_names()` transliterates accented letters, e.g., `çãüœ` becomes `cauoe` [(#120)](https://github.com/sfirke/janitor/issues/120).  Thanks to *@fernandovmacedo*.
+
+* `clean_names()` offers multiple options for variable name styling.  In addition to `snake_case` you can select `smallCamelCase`, `BigCamelCase`, `ALL_CAPS` and others. [(#131)](https://github.com/sfirke/janitor/issues/131).  Thanks to *@tazinho*, who wrote the [snakecase](https://github.com/Tazinho/snakecase/) package that janitor depends on to do this, as well as the patch to incorporate it into `clean_names()`.
 
 ## Bug fixes
-* `adorn_totals("row")` now handles quirky variable names in 1st column [(#118)](https://github.com/sfirke/janitor/issues/118)
+* `adorn_totals("row")` handles quirky variable names in 1st column [(#118)](https://github.com/sfirke/janitor/issues/118)
 
 # janitor 0.3.0  (Release date: 2017-05-06)
 
