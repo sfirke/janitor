@@ -4,7 +4,7 @@
 \alias{round_half_up}
 \title{Round a numeric vector; ties will be rounded up, ala Microsoft Excel.}
 \usage{
-round_half_up(x, digits)
+round_half_up(x, digits = 0)
 }
 \arguments{
 \item{x}{a numeric vector to round.}
@@ -17,7 +17,7 @@ In base R \code{round()}, halves are rounded to even, e.g., 12.5 and 11.5 are bo
 This may skew subsequent statistical analysis of the data, but may be desirable in certain contexts.  This function is implemented exactly from \url{http://stackoverflow.com/a/12688836}; see that question and comments for discussion of this issue.
 }
 \examples{
-round_half_up(12.5, 0)
+round_half_up(12.5)
 round_half_up(1.125, 2)
 round_half_up(1.125, 1)
 round_half_up(-0.5, 0) # negatives get rounded away from zero
