@@ -3,7 +3,9 @@
 language: r
 cache: packages
 
-
+before_install:
+  Rscript -e 'update.packages(ask = FALSE)'
+  
 matrix: # don't test osx + r-devel
   include:
   - os: linux
