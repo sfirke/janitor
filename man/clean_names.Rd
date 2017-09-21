@@ -17,22 +17,14 @@ clean_names(dat, case = "snake")
  \item{ALL_CAPS: \code{"screaming_snake"} or \code{"all_caps"}}
  \item{lowerUPPER: \code{"lower_upper"}}
  \item{UPPERlower: \code{"upper_lower"}}
- }
-
- There are three "special" cases available:
-\itemize{
- \item{\code{"parsed"}: Every substring a string consists of, surrounded by an underscore. No lower or 
- upper case pattern from the input string are changed.}
- \item{\code{"mixed"}: Almost the same as \code{case = "parsed"}. Every letter which is not at the start
- or behind an underscore is turned into lowercase.}
- \item{\code{"none"}: This case is just available as an artifact from the underlying snakecase-pkg, but shouldn't be called within the context of \code{clean_names()}.}
  }}
 }
 \value{
 Returns the data.frame with clean names.
 }
 \description{
-Resulting names are unique and consist only of the \code{_} character, numbers and letters regarding the specified \code{case}.
+Resulting names are unique and consist only of the \code{_} character, numbers, and letters.
+Capitalization preferences can be specified using the \code{case} parameter.
 
 Accented characters are
 transliterated to ASCII.  For example, an "o" with a german umlaut over it becomes "o", and the Spanish character "enye" becomes "n".
@@ -43,6 +35,9 @@ transliterated to ASCII.  For example, an "o" with a german umlaut over it becom
 
 # or with the pipe character from dplyr:
 # poorly_named_df \%>\% clean_names()
+
+# if you prefer camelCase variable names:
+# poorly_named_df \%>\% clean_names(., "small_camel")
 
 # not run:
 # library(readxl)
