@@ -39,15 +39,15 @@ adorn_ns <- function(dat, position = "rear"){
   
 ### Helper functions called by adorn_ns
 
-# takes data.frames of Ns and %s, pastes them together
-paste_ns <- function(perc_df, n_df){
-  n_matrix <- as.matrix(n_df)
-  perc_matrix <- as.matrix(perc_df)
-  
+# takes two matrices, pastes them together
+paste_matrices <- function(front, rear){
+  front_matrix <- as.matrix(front)
+  rear_matrix <- as.matrix(rear)
+
   # paste the results together
-  pasted <- paste(perc_matrix, " (", n_matrix, ")", sep = "") %>% # paste the matrices
+  pasted <- paste(front_matrix, " (", rear_matrix, ")", sep = "") %>% # paste the matrices
     sapply(., fix_parens_whitespace) %>% # apply the whitespace cleaning function to the resulting vector
-    matrix(., nrow = nrow(n_matrix), dimnames = dimnames(perc_matrix)) %>% # cast as matrix, then data.frame
+    matrix(., nrow = nrow(front_matrix), dimnames = dimnames(rear_matrix)) %>% # cast as matrix, then data.frame
     dplyr::as_data_frame(pasted)
   
   pasted[[1]] <- n_df[[1]] # undo the pasting in this 1st column
