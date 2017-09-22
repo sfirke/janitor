@@ -39,12 +39,12 @@ clean_names <- function(dat, case = "snake"){
   # Takes a data.frame, returns the same data frame with cleaned names
   old_names <- names(dat)
   new_names <- old_names %>%
-    gsub("'", "", .) %>% # remove quotation marks
-    gsub("\"", "", .) %>% # remove quotation marks
+    gsub("'", "", .) %>% # remove single quotation marks
+    gsub("\"", "", .) %>% # remove double quotation marks
     gsub("%", ".percent_", .) %>% # starting with "." as a workaround, to make
     # ".percent" a valid name. The "." will be replaced in the call to to_any_case
     # via the preprocess argument anyway.
-    gsub("^[ ]+", "", .) %>%
+    gsub("^[ ]+", "", .) %>% # remove leading spaces
     make.names(.) %>%
     # Handle dots, multiple underscores, case conversion, string transliteration
     snakecase::to_any_case(case = case, preprocess = "\\.", 
