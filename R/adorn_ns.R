@@ -63,7 +63,8 @@ paste_matrices <- function(front, rear){
 
 # Padding function to standardize a column's width by pre-pending whitespace 
 standardize_col_width <- function(x){
-  stringr::str_pad(x, width = max(nchar(x)))
+  width = max(nchar(x))
+  sprintf(paste0("%", width, "s"), x)
 }
 
 # Wrap a string in parentheses
