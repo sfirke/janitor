@@ -28,29 +28,36 @@ adorn_ns <- function(dat, position = "rear"){
     ns <- adorn_totals(ns, attr(dat, "totals"))
   }
   
+  
   if(position == "rear"){
-    result <- paste_ns(dat, ns)
+    result <- paste_matrices(dat, ns%>%
+                               dplyr::mutate_all(as.character) %>%
+                               dplyr::mutate_all(wrap_parens) %>%
+                               dplyr::mutate_all(standardize_col_width))
+    
   } else if(position == "front"){
-    result <- paste_ns(ns, dat)
+    result <- paste_matrices(ns, dat %>%
+                               dplyr::mutate_all(as.character) %>%
+                               dplyr::mutate_all(wrap_parens) %>%
+                               dplyr::mutate_all(standardize_col_width))
   }
   attributes(result) <- attrs
   result
 }
-  
+
 ### Helper functions called by adorn_ns
 
-# takes two matrices, pastes them together
+# takes two matrices, pastes them together, keeps spacing of the two columns aligned
 paste_matrices <- function(front, rear){
   front_matrix <- as.matrix(front)
   rear_matrix <- as.matrix(rear)
-
+  
   # paste the results together
-  pasted <- paste(front_matrix, " (", rear_matrix, ")", sep = "") %>% # paste the matrices
-    sapply(., fix_parens_whitespace) %>% # apply the whitespace cleaning function to the resulting vector
+  pasted <- paste(front_matrix, " ", rear_matrix, sep = "") %>% # paste the matrices
+    #  sapply(., fix_parens_whitespace) %>% # apply the whitespace cleaning function to the resulting vector
     matrix(., nrow = nrow(front_matrix), dimnames = dimnames(rear_matrix)) %>% # cast as matrix, then data.frame
     dplyr::as_data_frame(pasted)
-  
-  pasted[[1]] <- n_df[[1]] # undo the pasting in this 1st column
+  pasted[[1]] <- front[[1]] # undo the pasting in this 1st column
   pasted
 }
 
@@ -71,5 +78,15 @@ fix_parens_whitespace <- function(x){
          x,
          fixed = TRUE)
   }
-  
+}
+
+
+# Padding function to standardize a column's width by pre-pending whitespace 
+standardize_col_width <- function(x){
+  stringr::str_pad(x, width = max(nchar(x)))
+}
+
+# Wrap a string in parentheses
+wrap_parens <- function(x){
+  paste0("(", x, ")")
 }
