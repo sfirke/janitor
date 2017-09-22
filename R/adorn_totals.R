@@ -18,7 +18,7 @@
 adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE){
   numeric_cols <- which(unlist(lapply(dat, is.numeric)))
   numeric_cols <- setdiff(numeric_cols, 1) # assume 1st column should not be included so remove it from numeric_cols
-  if(length(numeric_cols) == 0){stop("at least one one of columns 2:n must be of class numeric")}
+  if(length(numeric_cols) == 0){stop("at least one one of columns 2:n must be of class numeric.  adorn_totals() should be called before other adorn_ functions.")}
   if(sum(where %in% c("row", "col")) != length(where)){ stop("\"where\" must be one of \"row\", \"col\", or c(\"row\", \"col\")") }
   
   if("grouped_df" %in% class(dat)){ dat <- dplyr::ungroup(dat) } # grouped_df causes problems, #97

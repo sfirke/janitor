@@ -131,15 +131,22 @@ test_that("error thrown if no columns past first are numeric", {
   df2 <- data.frame(x = c("big", "small"),
                     y = c("hi", "lo"))
   expect_error(adorn_totals(df2, "col"),
-               "at least one one of columns 2:n must be of class numeric")
+               "at least one one of columns 2:n must be of class numeric.  adorn_totals() should be called before other adorn_ functions.")
   
   # Add a test where only the first column is numeric 
   df3 <- data.frame(x = 1:2,
                     y = c("hi", "lo"))
   expect_error(adorn_totals(df3),
-               "at least one one of columns 2:n must be of class numeric")
+               "at least one one of columns 2:n must be of class numeric.  adorn_totals() should be called before other adorn_ functions.")
   
 })
+
+test_that("bad input to where arg is caught",{
+  expect_error(mtcars %>%
+                 adorn_totals("blargh"),
+               cat('"where" must be one of "row", "col", or c("row", "col")'))
+}
+)
 
 test_that("works with non-numeric columns mixed in; fill character specification", {
   mixed <- data.frame(
