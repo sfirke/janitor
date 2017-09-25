@@ -55,8 +55,3 @@ test_that("calculations are accurate", {
                           stringsAsFactors = FALSE)
   )
 })
-
-
-
-
-})
