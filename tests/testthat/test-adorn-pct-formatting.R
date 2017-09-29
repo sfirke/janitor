@@ -18,7 +18,7 @@ test_that("calculations are accurate", {
                           stringsAsFactors = FALSE)
   )
 })
-########## continue here
+
 test_that("data.frames with no numeric columns beyond the first cause failure", {
   expect_error(adorn_pct_formatting(data.frame(a = 1:2, b = c("hi", "lo"))),
                "at least one one of columns 2:n must be of class numeric")
@@ -41,3 +41,4 @@ test_that("works with totals row", {
                           check.names = FALSE, stringsAsFactors = FALSE)
   )
 })
+

@@ -144,7 +144,8 @@ test_that("error thrown if no columns past first are numeric", {
 test_that("bad input to where arg is caught",{
   expect_error(mtcars %>%
                  adorn_totals("blargh"),
-               cat('"where" must be one of "row", "col", or c("row", "col")'))
+               paste0('"where" must be one of "row", "col", or c("row", "col")'),
+               fixed = TRUE)
 }
 )
 

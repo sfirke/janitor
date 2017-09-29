@@ -5,7 +5,7 @@ context("adorn_ns()")
 
 library(dplyr)
 
-source1 <- data_frame(
+source_an <- data_frame(
   x = c(rep("a", 500), "b", "b", "c", "d"),
   y = rep(c(0,0,0,0,0,1), 84)
 ) %>%
@@ -13,7 +13,7 @@ source1 <- data_frame(
 
 
 test_that("spacing is correct", {
-  expect_equal(source1 %>%
+  expect_equal(source_an %>%
                  adorn_totals() %>%
                  adorn_percentages("all") %>%
                  adorn_pct_formatting() %>%
@@ -30,8 +30,8 @@ test_that("spacing is correct", {
 }
 )
 
-test_that("rear parameter works", {
-  expect_equal(source1 %>%
+test_that("front parameter works", {
+  expect_equal(source_an %>%
                  adorn_totals() %>%
                  adorn_percentages("all") %>%
                  adorn_pct_formatting() %>%
@@ -47,28 +47,9 @@ test_that("rear parameter works", {
   )
 }
 )
-### RESUME HERE ADAPTING OLD TESTS FROM adorn_crosstab()
 
-test_that("calculations are accurate", {
-  expect_equal(un_tabyl(adorn_percentages(source1)), # default parameter is denom = "row"
-               data.frame(cyl = c(4, 6, 8),
-                          `0` = c(3/11, 4/7, 12/14),
-                          `1` = c(8/11, 3/7, 2/14),
-                          check.names = FALSE,
-                          stringsAsFactors = FALSE)
-  )
-  expect_equal(un_tabyl(adorn_percentages(source1, denom = "col")),
-               data.frame(cyl = c(4, 6, 8),
-                          `0` = c(3/19, 4/19, 12/19),
-                          `1` = c(8/13, 3/13, 2/13),
-                          check.names = FALSE,
-                          stringsAsFactors = FALSE)
-  )
-  expect_equal(un_tabyl(adorn_percentages(source1, denom = "all")),
-               data.frame(cyl = c(4, 6, 8),
-                          `0` = c(3/32, 4/32, 12/32),
-                          `1` = c(8/32, 3/32, 2/32),
-                          check.names = FALSE,
-                          stringsAsFactors = FALSE)
-  )
+test_that("bad inputs are caught", {
+  expect_error(mtcars %>% adorn_ns(),
+               "adorn_ns() can only be called on a data.frame of class \"tabyl\"",
+               fixed = TRUE)
 })
