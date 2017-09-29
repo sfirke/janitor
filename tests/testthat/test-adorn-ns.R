@@ -52,4 +52,39 @@ test_that("bad inputs are caught", {
   expect_error(mtcars %>% adorn_ns(),
                "adorn_ns() can only be called on a data.frame of class \"tabyl\"",
                fixed = TRUE)
+  expect_error(mtcars %>% tabyl(am) %>% adorn_ns(),
+               "adorn_ns() can only be called on a two_way tabyl; consider combining columns of a one_way tabyl with tidyr::unite()",
+               fixed = TRUE
+               )
+  expect_error(mtcars %>% tabyl(am, cyl) %>% adorn_ns("huh"),
+               "\"position\" must be one of \"front\" or \"rear\"",
+               fixed = TRUE)
+})
+
+test_that("attributes make it through unaltered", {
+  expect_equal(
+    attributes(source_an %>%
+               adorn_totals() %>%
+               adorn_percentages("all") %>%
+               adorn_pct_formatting() %>%
+               adorn_ns("front") # with adorn_ns
+  ),
+  attributes(source_an %>%
+               adorn_totals() %>%
+               adorn_percentages("all") %>%
+               adorn_pct_formatting() # without adorn_ns
+  ))
+}
+)
+
+test_that("works on smallest tabyls", {
+  expect_equal(
+    mtcars %>%
+      slice(1) %>%
+      tabyl(am, cyl) %>%
+      rename(new_var_name = `6`) %>%
+      adorn_percentages() %>% adorn_pct_formatting() %>% adorn_ns() %>% un_tabyl(),
+    data.frame(am = 1,
+               new_var_name = "100.0% (1)", stringsAsFactors = FALSE)
+  )
 })
