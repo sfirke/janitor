@@ -30,6 +30,23 @@ test_that("spacing is correct", {
 }
 )
 
+test_that("rear parameter works", {
+  expect_equal(source1 %>%
+                 adorn_totals() %>%
+                 adorn_percentages("all") %>%
+                 adorn_pct_formatting() %>%
+                 adorn_ns("front") %>%
+                 un_tabyl(),
+               data.frame(
+                 x = c(letters[1:4], "Total"),
+                 `0` = c("417 (82.7%)", "  2  (0.4%)", "  1  (0.2%)", "  0  (0.0%)", "420 (83.3%)"),
+                 `1` = c("83 (16.5%)", " 0  (0.0%)", " 0  (0.0%)", " 1  (0.2%)", "84 (16.7%)"),
+                 check.names = FALSE,
+                 stringsAsFactors = FALSE
+               )
+  )
+}
+)
 ### RESUME HERE ADAPTING OLD TESTS FROM adorn_crosstab()
 
 test_that("calculations are accurate", {
