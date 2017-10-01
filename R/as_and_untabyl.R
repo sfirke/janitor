@@ -49,12 +49,14 @@ as_tabyl <- function(dat, axes = 2){
 #' @return Returns the same data.frame, but without the \code{tabyl} class and attributes.
 #' @export
 #' @examples
+#' 
 #' mtcars %>%
-#'   as_tabyl() %>%
-#'   un_tabyl()
+#'   tabyl(am) %>%
+#'   untabyl() %>%
+#'   attributes() # tabyl-specific attributes are gone
 
-un_tabyl <- function(dat){
-  if(! "tabyl" %in% class(dat)){warning("un_tabyl() called on a non-tabyl")}
+untabyl <- function(dat){
+  if(! "tabyl" %in% class(dat)){warning("untabyl() called on a non-tabyl")}
   class(dat) <- class(dat)[! class(dat) %in% "tabyl"]
   attr(dat, "core") <- NULL
   attr(dat, "totals") <- NULL # may not exist, but simpler to declare it NULL regardless than to check to see if it exists
