@@ -24,8 +24,9 @@ test_that("data.frames with no numeric columns beyond the first cause failure", 
                "at least one one of columns 2:n must be of class numeric")
 })
 
+dat <- data.frame(Operation = c("Login", "Posted", "Deleted"), `Total Count` = c(5, 25, 40), check.names = FALSE)
+
 test_that("works with a single numeric column per #89", {
-  dat <- data.frame(Operation = c("Login", "Posted", "Deleted"), `Total Count` = c(5, 25, 40), check.names = FALSE)
   expect_equal(dat %>% adorn_percentages("col") %>% un_tabyl(),
                data.frame(Operation = c("Login", "Posted", "Deleted"),
                           `Total Count` = c(5/70, 25/70, 40/70),
@@ -34,7 +35,6 @@ test_that("works with a single numeric column per #89", {
 })
 
 test_that("works with totals row", {
-  dat <- data.frame(Operation = c("Login", "Posted", "Deleted"), `Total Count` = c(5, 25, 40), check.names = FALSE)
   expect_equal(dat %>% adorn_totals("row") %>% adorn_percentages("col") %>% un_tabyl(),
                data.frame(Operation = c("Login", "Posted", "Deleted", "Total"),
                           `Total Count` = c(5/70, 25/70, 40/70, 1),
@@ -42,3 +42,16 @@ test_that("works with totals row", {
   )
 })
 
+test_that("works with one-way tabyl", {
+  expect_equal(
+    mtcars %>%
+      tabyl(carb) %>%
+      adorn_pct_formatting(digits = 0) %>%
+      un_tabyl(),
+    data.frame(
+      carb = c(1:4, 6, 8),
+      n = c(7, 10, 3, 10, 1, 1),
+      percent = c("22%", "31%", "9%", "31%", "3%", "3%"),
+      stringsAsFactors = FALSE)
+  )
+})
