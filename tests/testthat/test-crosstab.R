@@ -57,7 +57,7 @@ test_that("percentages are correct", {
   expect_equal(res_col[[4]], c(1/3, 1/3, 1/3))
 
   res_all <- suppressWarnings(crosstab(dat$v2, dat$v4, "all"))
-  expect_equal(un_tabyl(as.data.frame(res_all[, 2:4])), as.data.frame(res[, 2:4]/9))
+  expect_equal(untabyl(as.data.frame(res_all[, 2:4])), as.data.frame(res[, 2:4]/9))
 })
 
 z <- suppressWarnings(crosstab(dat$v3, dat$v1))
@@ -73,7 +73,7 @@ test_that("NAs display correctly", {
 test_that("NAs are hidden", {
   y <- suppressWarnings(crosstab(dat$v3, dat$v1, show_na = FALSE))
   y2 <- z[!is.na(z$`dat$v3`), names(z) != "NA_"] # should be the same as z above but without bottom and last columns
-  expect_equal(un_tabyl(y), un_tabyl(y2)) # need to un_tabyl because the core is lost on y2, and was different anyway due to NAs
+  expect_equal(untabyl(y), untabyl(y2)) # need to untabyl because the core is lost on y2, and was different anyway due to NAs
 })
 
 test_that("factor levels order correctly", {
@@ -110,7 +110,7 @@ test_that("crosstab.data.frame renders percentages are correct", {
   expect_equal(res_col[[4]], c(1/3, 1/3, 1/3))
 
   res_all <- suppressWarnings(crosstab(dat, v2, v4, "all"))
-  expect_equal(un_tabyl(as.data.frame(res_all[, 2:4])), as.data.frame(res[, 2:4]/9))
+  expect_equal(untabyl(as.data.frame(res_all[, 2:4])), as.data.frame(res[, 2:4]/9))
 })
 
 test_that("bad input variable name is preserved", {
@@ -143,7 +143,7 @@ test_that("NA character column is displayed in right-most position", {
     b = c("x", NA),
     stringsAsFactors = FALSE
   )
-expect_equal(suppressWarnings(dat %>% crosstab(a, b)) %>% un_tabyl(),
+expect_equal(suppressWarnings(dat %>% crosstab(a, b)) %>% untabyl(),
              data.frame(a = 1, x = 1, NA_ = 1)
 )
 })

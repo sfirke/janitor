@@ -18,7 +18,7 @@ test_that("spacing is correct", {
                  adorn_percentages("all") %>%
                  adorn_pct_formatting() %>%
                  adorn_ns() %>%
-                 un_tabyl(),
+                 untabyl(),
                data.frame(
                  x = c(letters[1:4], "Total"),
                  `0` = c("82.7% (417)", "0.4%   (2)", "0.2%   (1)", "0.0%   (0)", "83.3% (420)"),
@@ -36,7 +36,7 @@ test_that("front parameter works", {
                  adorn_percentages("all") %>%
                  adorn_pct_formatting() %>%
                  adorn_ns("front") %>%
-                 un_tabyl(),
+                 untabyl(),
                data.frame(
                  x = c(letters[1:4], "Total"),
                  `0` = c("417 (82.7%)", "  2  (0.4%)", "  1  (0.2%)", "  0  (0.0%)", "420 (83.3%)"),
@@ -83,7 +83,7 @@ test_that("works on smallest tabyls", {
       slice(1) %>%
       tabyl(am, cyl) %>%
       rename(new_var_name = `6`) %>%
-      adorn_percentages() %>% adorn_pct_formatting() %>% adorn_ns() %>% un_tabyl(),
+      adorn_percentages() %>% adorn_pct_formatting() %>% adorn_ns() %>% untabyl(),
     data.frame(am = 1,
                new_var_name = "100.0% (1)", stringsAsFactors = FALSE)
   )

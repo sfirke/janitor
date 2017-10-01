@@ -2,7 +2,7 @@
 
 library(janitor)
 library(testthat)
-context("as_tabyl() and un_tabyl()")
+context("as_tabyl() and untabyl()")
 
 a <- mtcars %>%
   tabyl(cyl, carb)
@@ -21,17 +21,17 @@ test_that("as_tabyl works on result of a non-janitor count/spread", {
 test_that("as_tabyl sets attributes correctly", {
   d <- as_tabyl(a)
   expect_equal(class(d), class(a))
-  expect_equal(attr(d, "core"), un_tabyl(a))
+  expect_equal(attr(d, "core"), untabyl(a))
   expect_equal(attr(d, "tabyl_type"), "two_way")
 })
 
-test_that("un_tabyl puts back to original form", {
-  expect_equal(mtcars, un_tabyl(as_tabyl(mtcars)))
+test_that("untabyl puts back to original form", {
+  expect_equal(mtcars, untabyl(as_tabyl(mtcars)))
 })
 
-test_that("un_tabyl warns if called on non-tabyl", {
-  expect_warning(un_tabyl(mtcars),
-                 "un_tabyl\\(\\) called on a non-tabyl")
+test_that("untabyl warns if called on non-tabyl", {
+  expect_warning(untabyl(mtcars),
+                 "untabyl\\(\\) called on a non-tabyl")
 })
 
 test_that("as_tabyl is okay with non-numeric columns", {

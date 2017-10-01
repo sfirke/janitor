@@ -167,7 +167,7 @@ test_that("NA levels get moved to the last column in the data.frame, are suppres
                   b = c(rep("up", 4), rep("down", 4), NA, NA),
   stringsAsFactors = FALSE)
   y <- tabyl(x, a, b) %>%
-    un_tabyl()
+    untabyl()()
   expect_equal(y,
                data.frame(a = c(1, 2, NA),
                           down = c(3, 0, 1),
@@ -176,7 +176,7 @@ test_that("NA levels get moved to the last column in the data.frame, are suppres
   
   expect_equal(
     tabyl(x, a, b, show_na = FALSE) %>%
-                 un_tabyl(),
+                 untabyl()(),
                  data.frame(a = c(1, 2),
                             down = c(3, 0),
                             up = c(1, 3))
@@ -185,7 +185,7 @@ test_that("NA levels get moved to the last column in the data.frame, are suppres
   #one-way suppression
   expect_equal(
     tabyl(x$a, show_na = FALSE) %>%
-      un_tabyl(),
+      untabyl()(),
     data.frame(
       `x$a` = 1:2,
       n = c(5, 3),

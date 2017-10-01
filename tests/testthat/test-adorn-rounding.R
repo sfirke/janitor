@@ -19,7 +19,7 @@ y <- x %>%
 test_that("rounding parameter works", {
   expect_equal(y %>%
                  adorn_rounding(digits = 1, rounding = "half up") %>%
-                 un_tabyl(),
+                 untabyl(),
                data.frame(
                  a = c("x", "y"),
                  x = c(0.5, 0.0),
@@ -28,7 +28,7 @@ test_that("rounding parameter works", {
                )
   expect_equal(y %>%
                  adorn_rounding(digits = 1) %>% # default rounding: "half to even"
-                 un_tabyl(),
+                 untabyl(),
                data.frame(
                  a = c("x", "y"),
                  x = c(0.5, 0.0),
@@ -44,7 +44,7 @@ test_that("first column toggling works", {
   z$a <- c(0.05, 0.5)
   expect_equal(z %>%
                  adorn_rounding(skip_first_col = FALSE) %>%
-                 un_tabyl(),
+                 untabyl(),
                data.frame(
                  a = c(0.0, 0.5),
                  x = c(0.5, 0.0),
@@ -52,7 +52,7 @@ test_that("first column toggling works", {
   )
   expect_equal(z %>%
                  adorn_rounding() %>% # implied: skip_first_col = TRUE
-                 un_tabyl(),
+                 untabyl(),
                data.frame(
                  a = c(0.05, 0.5),
                  x = c(0.5, 0.0),
@@ -63,7 +63,7 @@ test_that("first column toggling works", {
 test_that("digit control succeeds", {
   expect_equal(y %>%
                  adorn_rounding(digits = 0, rounding = "half up") %>%
-                 un_tabyl(),
+                 untabyl(),
                data.frame(
                  a = c("x", "y"),
                  x = c(1, 0),
