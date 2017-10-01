@@ -189,3 +189,18 @@ test_that("trying to re-adorn a dimension fails", {
   expect_error(ct %>% adorn_totals() %>% adorn_totals(),
                "trying to re-add a totals dimension that is already been added")
 })
+
+test_that("deprecated functions adorn_totals_col and adorn_totals_row function as expected", {
+  expect_equal(
+    mtcars %>%
+      adorn_totals(),
+    suppressWarnings(mtcars %>%
+      add_totals_row())
+  )
+  expect_equal(
+    mtcars %>%
+      adorn_totals("col"),
+    suppressWarnings(mtcars %>%
+      add_totals_col())
+  )
+})
