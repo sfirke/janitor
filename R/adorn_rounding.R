@@ -3,7 +3,7 @@
 #' @description
 #' Can run on any data.frame with at least one numeric column.  This function defaults to excluding the first column of the input data.frame, assuming that it contains a descriptive variable, but this can be overridden with the argument \code{skip_first_col = FALSE}.
 #' 
-#' If you're formatting percentages, e.g., the result of \code{adorn_percentages()}, use \code{adorn_pct_formatting()} instead, which calls this function.  This is a more flexible variant for ad-hoc usage.  Compared to \code{adorn_pct_formatting()}, it can run on the first column and does not multiply by 100 or pad the numbers with spaces for alignment in the results data.frame.   This function retains the class of numeric input columns.
+#' If you're formatting percentages, e.g., the result of \code{adorn_percentages()}, use \code{adorn_pct_formatting()} instead.  This is a more flexible variant for ad-hoc usage.  Compared to \code{adorn_pct_formatting()}, it can run on the first column and does not multiply by 100 or pad the numbers with spaces for alignment in the results data.frame.   This function retains the class of numeric input columns.
 #'
 #' @param dat a data.frame wth at least one numeric column
 #' @param digits how many digits should be displayed after the decimal point?
@@ -34,9 +34,9 @@ adorn_rounding <- function(dat, digits = 1, rounding = "half to even", skip_firs
   if(skip_first_col){ numeric_cols <- setdiff(numeric_cols, 1) }
   
   if(rounding == "half to even"){
-    dat[numeric_cols] <- lapply(dat[numeric_cols], function(x) round_half_up(x, digits = digits))
-  } else {
     dat[numeric_cols] <- lapply(dat[numeric_cols], function(x) round(x, digits = digits))
+  } else {
+    dat[numeric_cols] <- lapply(dat[numeric_cols], function(x) round_half_up(x, digits = digits))
   }
   dat
 }

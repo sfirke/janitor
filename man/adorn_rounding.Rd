@@ -22,7 +22,7 @@ Returns the data.frame with rounded numeric columns.
 \description{
 Can run on any data.frame with at least one numeric column.  This function defaults to excluding the first column of the input data.frame, assuming that it contains a descriptive variable, but this can be overridden with the argument \code{skip_first_col = FALSE}.
 
-If you're formatting percentages, e.g., the result of \code{adorn_percentages()}, use \code{adorn_pct_formatting()} instead, which calls this function.  This is a more flexible variant for ad-hoc usage.  Compared to \code{adorn_pct_formatting()}, it can run on the first column and does not multiply by 100 or pad the numbers with spaces for alignment in the results data.frame.   This function retains the class of numeric input columns.
+If you're formatting percentages, e.g., the result of \code{adorn_percentages()}, use \code{adorn_pct_formatting()} instead.  This is a more flexible variant for ad-hoc usage.  Compared to \code{adorn_pct_formatting()}, it can run on the first column and does not multiply by 100 or pad the numbers with spaces for alignment in the results data.frame.   This function retains the class of numeric input columns.
 }
 \examples{
 
