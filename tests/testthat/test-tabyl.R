@@ -161,3 +161,37 @@ expect_equal(mtcars %>% tabyl(cyl, am),
                         check.names = FALSE) %>% as_tabyl())
 })
 
+# NA handling - position and removal
+test_that("NA levels get moved to the last column in the data.frame, are suppressed properly", {
+  x <- data.frame(a = c(1, 2, 2, 2, 1, 1, 1, NA, NA, 1),
+                  b = c(rep("up", 4), rep("down", 4), NA, NA),
+  stringsAsFactors = FALSE)
+  y <- tabyl(x, a, b) %>%
+    un_tabyl()
+  expect_equal(y,
+               data.frame(a = c(1, 2, NA),
+                          down = c(3, 0, 1),
+                          up = c(1, 3, 0),
+                          NA_ = c(1, 0, 1)))
+  
+  expect_equal(
+    tabyl(x, a, b, show_na = FALSE) %>%
+                 un_tabyl(),
+                 data.frame(a = c(1, 2),
+                            down = c(3, 0),
+                            up = c(1, 3))
+  )
+  
+  #one-way suppression
+  expect_equal(
+    tabyl(x$a, show_na = FALSE) %>%
+      un_tabyl(),
+    data.frame(
+      `x$a` = 1:2,
+      n = c(5, 3),
+      percent = c(0.625, 0.375),
+      check.names = FALSE
+    )
+  )
+})
+
