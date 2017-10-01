@@ -190,6 +190,7 @@ test_that("trying to re-adorn a dimension fails", {
                "trying to re-add a totals dimension that is already been added")
 })
 
+# Kind of superficial given that add_totals_ have been refactored to call adorn_totals() themselves, but might as well keep until deprecated functions are removed
 test_that("deprecated functions adorn_totals_col and adorn_totals_row function as expected", {
   expect_equal(
     mtcars %>%
