@@ -45,3 +45,13 @@ test_that("as_tabyl fails if no numeric columns in 2:n", {
                     b = c("x", "y"))
   expect_error(as_tabyl(bad), "at least one one of columns 2:n must be of class numeric")
 })
+
+test_that("bad inputs are caught", {
+  expect_error(as_tabyl(mtcars, 3),
+               "axes must be either 1 or 2",
+               fixed = TRUE)
+  
+  expect_error(as_tabyl(1:10),
+               "input must be a data.frame",
+               fixed = TRUE)
+})
