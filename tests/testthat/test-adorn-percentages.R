@@ -32,6 +32,18 @@ test_that("calculations are accurate", {
   )
 })
 
+source2 <- source1 %>%
+  adorn_totals(c("row", "col"))
+test_that("calculations are correct when totals row/col doesn't match axis of computation", {
+  expect_equal(untabyl(adorn_percentages(source2, denom = "row")),
+               data.frame(cyl = c(4, 6, 8, "Total"),
+                          `0` = c(3/11, 4/7, 12/14, 19/32),
+                          `1` = c(8/11, 3/7, 2/14, 13/32),
+                          Total = c(1, 1, 1, 1),
+                          check.names = FALSE,
+                          stringsAsFactors = FALSE))
+})
+
 
 source2 <- source1
 source2[2, 2] <- NA
