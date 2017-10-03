@@ -20,6 +20,7 @@
 adorn_pct_formatting <- function(dat, digits = 1, rounding = "half to even", affix_sign = TRUE){
   #TODO: validate inputs
   
+  original <- dat # used below to record original instances of NA and NaN
   numeric_cols <- which(unlist(lapply(dat, is.numeric)))
   numeric_cols <- setdiff(numeric_cols, 1) # assume 1st column should not be included so remove it from numeric_cols
   if("one_way" %in% attr(dat, "tabyl_type")){
@@ -31,7 +32,8 @@ adorn_pct_formatting <- function(dat, digits = 1, rounding = "half to even", aff
   dat[numeric_cols] <- lapply(dat[numeric_cols], function(x) x * 100)
   dat[numeric_cols] <- adorn_rounding(dat[numeric_cols], digits = digits, rounding = rounding, skip_first_col = FALSE)
   dat[numeric_cols] <- lapply(dat[numeric_cols], function(x) format(x, nsmall = digits, trim = TRUE)) # so that 0% prints as 0.0% or 0.00% etc.
-  if(affix_sign){ dat[numeric_cols] <- lapply(dat[numeric_cols], function(x) { ifelse(x == "NA", NA, paste0(x, "%"))}) } # string NA because the previous code converts to strings
+  if(affix_sign){ dat[numeric_cols] <- lapply(dat[numeric_cols], function(x) paste0(x, "%")) }
+  dat[numeric_cols][is.na(original[numeric_cols])] <- "-" # NA and NaN values in the original should be simply "-" for printing of results
   dat
    
 }

@@ -55,3 +55,62 @@ test_that("works with one-way tabyl", {
       stringsAsFactors = FALSE)
   )
 })
+
+test_that("NAs are replaced with dashes when percentage signs are affixed", {
+  # NaNs from adorn_percentages, the more common case (still uncommon)
+  has_nans <- mtcars %>%
+    tabyl(carb, cyl) %>%
+    .[5:6, ] %>%
+    adorn_percentages("col") %>%
+    adorn_pct_formatting() %>%
+    untabyl()
+  row.names(has_nans) <- NULL
+  expect_equal(
+    has_nans,
+    data.frame(
+      carb = c(6, 8),
+      `4` = c("-", "-"),
+      `6` = c("100.0%", "0.0%"),
+      `8` = c("0.0%", "100.0%"),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  )
+  
+  # NAs convert to -
+  has_nas <- data.frame(a = c("big", "little"), x = c(0.1, 0.123), y = c(0.98, NA), stringsAsFactors = FALSE)
+expect_equal(
+  adorn_pct_formatting(has_nas),
+  data.frame(a = c("big", "little"), x = c("10.0%", "12.3%"), y = c("98.0%", "-"), stringsAsFactors = FALSE)
+)  
+})
+
+test_that("NAs are replaced with dashes - no percentage signs affixed", {
+  # NaNs from adorn_percentages, the more common case (still uncommon)
+  has_nans <- mtcars %>%
+    tabyl(carb, cyl) %>%
+    .[5:6, ] %>%
+    adorn_percentages("col") %>%
+    adorn_pct_formatting(affix_sign = FALSE) %>%
+    untabyl()
+  row.names(has_nans) <- NULL
+  expect_equal(
+    has_nans,
+    data.frame(
+      carb = c(6, 8),
+      `4` = c("-", "-"),
+      `6` = c("100.0", "0.0"),
+      `8` = c("0.0", "100.0"),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  )
+  
+  # NAs convert to -
+  has_nas <- data.frame(a = c("big", "little"), x = c(0.1, 0.123), y = c(0.98, NA), stringsAsFactors = FALSE)
+  expect_equal(
+    adorn_pct_formatting(has_nas, affix_sign = FALSE),
+    data.frame(a = c("big", "little"), x = c("10.0", "12.3"), y = c("98.0", "-"), stringsAsFactors = FALSE)
+  )  
+})
+
