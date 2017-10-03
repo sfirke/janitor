@@ -64,7 +64,6 @@ test_that("missing factor levels are displayed with NA values", {
   expect_equal(tabyl(fac_na)[[3]], c(0, 9/11, 0, 2/11))
   expect_equal(tabyl(fac_na)[[4]], c(0, 1, 0, NA))
 })
-  
 
 # piping
 test_that("piping in a data.frame works", {
@@ -133,6 +132,22 @@ test_that("if called on non-existent vector, returns useful error message", {
   expect_error(tabyl(mtcars$moose), "object mtcars\\$moose not found")
   expect_error(tabyl(moose), "object 'moose' not found")
   expect_error(mtcars %>% tabyl(moose), "object 'moose' not found")
+})
+
+test_that("if called on data.frame with no or irregular columns specified, returns informative error message", {
+  expect_error(tabyl(mtcars), "if calling on a data.frame, specify unquoted column names(s) to tabulate.  Did you mean to call tabyl() on a vector?",
+               fixed = TRUE)
+  expect_error(tabyl(mtcars, var2 = am),
+               "please specify var1 OR var1 & var2 OR var1 & var2 & var3",
+               fixed = TRUE)
+})
+
+test_that("fails if called on a non-data.frame list", { # it's not meant to do this and result will likely be garbage, so fail
+  L <- list(a = 1, b = "rstats")
+  expect_error(tabyl(L),
+               "tabyl() is meant to be called on vectors and data.frames; convert non-data.frame lists to one of these types",
+               fixed = TRUE
+  )
 })
 
 # showing missing factor levels

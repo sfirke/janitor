@@ -45,7 +45,7 @@ tabyl <- function(dat, ...) UseMethod("tabyl")
 # retain this method for calling tabyl() on plain vectors
 
 tabyl.default <- function(dat, show_na = TRUE, show_missing_levels = TRUE, ...) {
-  
+  if(is.list(dat) & !"data.frame" %in% class(dat)){stop("tabyl() is meant to be called on vectors and data.frames; convert non-data.frame lists to one of these types")}
   # catch and adjust input variable name.
   if(is.null(names(dat))) {
     var_name <- deparse(substitute(dat))
@@ -118,13 +118,12 @@ tabyl.default <- function(dat, show_na = TRUE, show_missing_levels = TRUE, ...) 
 #' @rdname tabyl
 # Main dispatching function to underlying functions depending on whether "..." contains 1, 2, or 3 variables
 tabyl.data.frame <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_levels = TRUE, ...){
-  if("data.frame" %in% class(dat) &
-     missing(var1) & missing(var2) & missing(var3)){stop("if calling on a data.frame, specify unquoted column names(s) to tabulate.  Did you mean to call tabyl() on a vector?")}
+  if(missing(var1) & missing(var2) & missing(var3)){stop("if calling on a data.frame, specify unquoted column names(s) to tabulate.  Did you mean to call tabyl() on a vector?")}
   if(dplyr::is_grouped_df(dat)){ dat <- dplyr::ungroup(dat) } 
 
-  if(missing(var2) & missing(var3)){
+  if(missing(var2) & missing(var3) & !missing(var1)){
     tabyl_1way(dat, rlang::enquo(var1), show_na = show_na, show_missing_levels = show_missing_levels)
-  } else if(missing(var3)){
+  } else if(missing(var3) & !missing(var1) & !missing(var1)){
     tabyl_2way(dat, rlang::enquo(var1), rlang::enquo(var2), show_na = show_na, show_missing_levels = show_missing_levels)
   } else if(!missing(var1) &
             !missing(var2) &
