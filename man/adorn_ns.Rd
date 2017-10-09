@@ -17,7 +17,7 @@ adorn_ns(dat, position = "rear", ns = attr(dat, "core"))
 a data.frame with Ns appended
 }
 \description{
-This function adds back the underlying Ns to a \code{tabyl} whose percentages were calculated using \code{adorn_percentages()}, to display the Ns and percentages together.
+This function adds back the underlying Ns to a \code{tabyl} whose percentages were calculated using \code{adorn_percentages()}, to display the Ns and percentages together.  You can also call it on a non-tabyl data.frame with tabyl-like format to which you wish to append Ns.
 }
 \examples{
 

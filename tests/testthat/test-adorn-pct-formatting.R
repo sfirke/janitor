@@ -106,7 +106,7 @@ test_that("NAs are replaced with dashes - no percentage signs affixed", {
     )
   )
   
-  # NAs convert to -
+  # NAs convert to - symbol
   has_nas <- data.frame(a = c("big", "little"), x = c(0.1, 0.123), y = c(0.98, NA), stringsAsFactors = FALSE)
   expect_equal(
     adorn_pct_formatting(has_nas, affix_sign = FALSE),
@@ -114,3 +114,13 @@ test_that("NAs are replaced with dashes - no percentage signs affixed", {
   )  
 })
 
+
+test_that("bad rounding argument caught", {
+  expect_error(
+    dat %>%
+      adorn_percentages() %>%
+      adorn_pct_formatting(rounding = "blargh"),
+    "'rounding' must be one of 'half to even' or 'half up'",
+    fixed = TRUE
+  )
+})

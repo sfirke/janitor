@@ -18,8 +18,8 @@
 #'   adorn_pct_formatting()
 
 adorn_pct_formatting <- function(dat, digits = 1, rounding = "half to even", affix_sign = TRUE){
-  #TODO: validate inputs
-  
+
+  if(! rounding %in% c("half to even", "half up")){stop("'rounding' must be one of 'half to even' or 'half up'")}
   original <- dat # used below to record original instances of NA and NaN
   numeric_cols <- which(unlist(lapply(dat, is.numeric)))
   numeric_cols <- setdiff(numeric_cols, 1) # assume 1st column should not be included so remove it from numeric_cols

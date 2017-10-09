@@ -1,7 +1,7 @@
 #' @title Add underlying Ns to a tabyl displaying percentages.
 #'
 #' @description
-#' This function adds back the underlying Ns to a \code{tabyl} whose percentages were calculated using \code{adorn_percentages()}, to display the Ns and percentages together.  
+#' This function adds back the underlying Ns to a \code{tabyl} whose percentages were calculated using \code{adorn_percentages()}, to display the Ns and percentages together.  You can also call it on a non-tabyl data.frame with tabyl-like format to which you wish to append Ns.
 #'
 #' @param dat a data.frame of class \code{tabyl} that has had \code{adorn_percentages} and/or \code{adorn_pct_formatting} called on it.
 #' @param position should the N go in the front, or in the rear, of the percentage? 
