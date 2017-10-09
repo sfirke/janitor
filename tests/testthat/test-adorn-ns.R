@@ -50,15 +50,21 @@ test_that("front parameter works", {
 
 test_that("bad inputs are caught", {
   expect_error(mtcars %>% adorn_ns(),
-               "adorn_ns() can only be called on a data.frame of class \"tabyl\"",
+               "argument \"ns\" cannot be null; if not calling adorn_ns() on a data.frame of class \"tabyl\", pass your own value for ns",
                fixed = TRUE)
-  expect_error(mtcars %>% tabyl(am) %>% adorn_ns(),
-               "adorn_ns() can only be called on a two_way tabyl; consider combining columns of a one_way tabyl with tidyr::unite()",
-               fixed = TRUE
-               )
   expect_error(mtcars %>% tabyl(am, cyl) %>% adorn_ns("huh"),
                "\"position\" must be one of \"front\" or \"rear\"",
                fixed = TRUE)
+  expect_error(mtcars %>% tabyl(am, cyl) %>% adorn_ns(ns = mtcars$mpg),
+               "if supplying a value to the ns argument, it must be of class data.frame")
+  reg_df <- mtcars %>% tabyl(am, cyl)
+  wide_df <- mtcars %>% tabyl(am, cyl)
+  wide_df$extra <- c(10, 20)
+  expect_error(adorn_ns(reg_df, ns = wide_df), 
+               "if supplying your own data.frame of Ns to append, its dimensions must match those of the data.frame in the \"dat\" argument")
+  expect_warning(mtcars %>% tabyl(cyl) %>% adorn_ns(),
+                 "adorn_ns() is meant to be called on a two_way tabyl; consider combining columns of a one_way tabyl with tidyr::unite()",
+                 fixed = TRUE)
 })
 
 test_that("attributes make it through unaltered", {
