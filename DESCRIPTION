@@ -21,6 +21,7 @@ Depends:
 Imports:
     dplyr (>= 0.7.0),
     tidyr,
+    snakecase
     magrittr,
     purrr,
     rlang

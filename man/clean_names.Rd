@@ -4,22 +4,42 @@
 \alias{clean_names}
 \title{Cleans names of a data.frame.}
 \usage{
-clean_names(dat)
+clean_names(dat, case = "snake")
 }
 \arguments{
 \item{dat}{the input data.frame.}
+
+\item{case}{The desired target case (default is \code{"snake"}), provided as one of the following:
+\itemize{
+ \item{snake_case: \code{"snake"}}
+ \item{lowerCamel: \code{"lower_camel"} or \code{"small_camel"}}
+ \item{UpperCamel: \code{"upper_camel"} or \code{"big_camel"}}
+ \item{ALL_CAPS: \code{"screaming_snake"} or \code{"all_caps"}}
+ \item{lowerUPPER: \code{"lower_upper"}}
+ \item{UPPERlower: \code{"upper_lower"}}
+ }}
 }
 \value{
 Returns the data.frame with clean names.
 }
 \description{
-Resulting names are unique and consist only of the \code{_} character, lowercase letters, and numbers.
+Resulting names are unique and consist only of the \code{_} character, numbers, and letters.
+Capitalization preferences can be specified using the \code{case} parameter.
+
+Accented characters are
+transliterated to ASCII.  For example, an "o" with a german umlaut over it becomes "o", and the Spanish character "enye" becomes "n".
 }
 \examples{
 # not run:
 # clean_names(poorly_named_df)
 
-# library(readxl)
+# or with the pipe character from dplyr:
+# poorly_named_df \%>\% clean_names()
+
+# if you prefer camelCase variable names:
+# poorly_named_df \%>\% clean_names(., "small_camel")
+
 # not run:
+# library(readxl)
 # readxl("messy_excel_file.xlsx") \%>\% clean_names()
 }
