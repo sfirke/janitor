@@ -1,10 +1,14 @@
 NEWS
 ====
-# janitor 0.3.0.9000 (development version, in progress)
+# janitor 0.3.1.9000 (development version, in progress)
 
 ## Release summary
 
-... development version, in progress.
+<IN PROGRESS>
+
+Redid the approach to tidy counts / contingency tables, combining `tabyl` and `crosstab` into an all-encompassing function `tabyl` that can tabulate one, two, or three variables.  The count `tabyls` can be manipulated and formatted using a family of `adorn_` functions.  See the `tabyl` vignette for more.
+
+Made other substantive improvements, including a big improvement to `clean_names()`.  This will be a breaking change, though you can find-and-replace (**edit: not yet!**) to insert the argument `case = legacy` to preserve the old behavior of `clean_names` (and thus not have to redo your scripts beyond that.) 
 
 ## Features
 
