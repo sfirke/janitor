@@ -135,4 +135,34 @@ percent_above_20_mpg <- mtcars %>%
 
 percent_above_20_mpg %>%
   adorn_pct_formatting()
+
+# Examples on non-tabyls
+
+# Append Ns and rounding to a table of means grouped by two other variables:
+library(tidyr) # for spread()
+mtcars %>%
+  group_by(cyl, am) %>%
+  summarise(mpg = mean(mpg)) %>%
+  spread(am, mpg) %>%
+  adorn_rounding() %>%
+  as_tabyl() %>%
+  adorn_ns(
+    ns = mtcars %>%
+      tabyl(cyl, am)
+  )
+
+
+# Modify Ns before appending them:
+cyl_ns <- mtcars %>%
+  count(cyl)
+
+mtcars %>%
+  group_by(cyl) %>%
+  summarise(mpg = mean(mpg)) %>%
+  as_tabyl() %>%
+  adorn_rounding() %>%
+  adorn_ns(ns = cyl_ns)
+
+
+
 ```

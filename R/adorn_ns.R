@@ -3,8 +3,9 @@
 #' @description
 #' This function adds back the underlying Ns to a \code{tabyl} whose percentages were calculated using \code{adorn_percentages()}, to display the Ns and percentages together.  
 #'
-#' @param dat a data.frame of class \code{tabyl}, typically the result of a call to \code{adorn_percentages} on a \code{tabyl}.
+#' @param dat a data.frame of class \code{tabyl} that has had \code{adorn_percentages} and/or \code{adorn_pct_formatting} called on it.
 #' @param position should the N go in the front, or in the rear, of the percentage? 
+#' @param ns the Ns to append.  The default is the "core" attribute of the input tabyl \code{dat}, where the original Ns of a two-way \code{tabyl} are stored.  However, if you need to modify the numbers, e.g., to format \code{4000} as \code{4,000} or \code{4k}, you can do that separately and supply the formatted result here.
 #' 
 #' @return a data.frame with Ns appended
 #' @export
@@ -16,19 +17,27 @@
 #'   adorn_pct_formatting() %>%
 #'   adorn_ns(position = "front")
 
-adorn_ns <- function(dat, position = "rear"){
+adorn_ns <- function(dat, position = "rear", ns = attr(dat, "core")){
   #TODO: validate inputs
   if(! position %in% c("rear", "front")){stop("\"position\" must be one of \"front\" or \"rear\"")}
   if(! "tabyl" %in% class(dat)){stop("adorn_ns() can only be called on a data.frame of class \"tabyl\"")}
   if(! "two_way" %in% attr(dat, "tabyl_type")){stop("adorn_ns() can only be called on a two_way tabyl; consider combining columns of a one_way tabyl with tidyr::unite()")}
   attrs <- attributes(dat) # save these to re-append later
   
-  ns <- attr(dat, "core")
-  if(!is.null(attr(dat, "totals"))){ # add totals row/col to core for pasting, if applicable
-    ns <- adorn_totals(ns, attr(dat, "totals"))
+  # If ns argument is not the default "core" attribute, validate that it's a data.frame and has correct right dimensions
+  if(!is.data.frame(ns)){ stop("if supplying a value to the ns argument, it must be of class data.frame") }
+  if(!identical(ns, attr(dat, "core")) && dim(ns) != dim(dat)){ # user-supplied Ns must include values for totals row/col if present 
+    stop("if supplying your own data.frame of Ns to append, its dimensions must match those of the data.frame in the \"dat\" argument")
   }
   
-  
+  # If appending the default Ns from the core, and there are totals rows/cols, append those values to the Ns table
+  # Custom inputs to ns argument will need to calculate & format their own totals row/cols 
+  if(identical(ns, attr(dat, "core"))){
+    if(!is.null(attr(dat, "totals"))){ # add totals row/col to core for pasting, if applicable
+      ns <- adorn_totals(ns, attr(dat, "totals"))
+    }
+  }
+
   if(position == "rear"){
     result <- paste_matrices(dat, ns%>%
                                dplyr::mutate_all(as.character) %>%

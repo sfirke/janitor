@@ -4,12 +4,14 @@
 \alias{adorn_ns}
 \title{Add underlying Ns to a tabyl displaying percentages.}
 \usage{
-adorn_ns(dat, position = "rear")
+adorn_ns(dat, position = "rear", ns = attr(dat, "core"))
 }
 \arguments{
-\item{dat}{a data.frame of class \code{tabyl}, typically the result of a call to \code{adorn_percentages} on a \code{tabyl}.}
+\item{dat}{a data.frame of class \code{tabyl} that has had \code{adorn_percentages} and/or \code{adorn_pct_formatting} called on it.}
 
 \item{position}{should the N go in the front, or in the rear, of the percentage?}
+
+\item{ns}{the Ns to append.  The default is the "core" attribute of the input tabyl \code{dat}, where the original Ns of a two-way \code{tabyl} are stored.  However, if you need to modify the numbers, e.g., to format \code{4000} as \code{4,000} or \code{4k}, you can do that separately and supply the formatted result here.}
 }
 \value{
 a data.frame with Ns appended

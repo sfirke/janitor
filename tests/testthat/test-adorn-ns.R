@@ -88,3 +88,38 @@ test_that("works on smallest tabyls", {
                new_var_name = "100.0% (1)", stringsAsFactors = FALSE)
   )
 })
+
+
+test_that("works with totals", {
+  
+})
+
+test_that("users can supply own Ns", {
+  # make tabyl with thousands, convert to Ks to append
+  set.seed(2)
+  big_tabyl <- data.frame(
+    a = sample(c("x", rep("y", 10)), 10000, replace = TRUE),
+    b = sample(c("big", "big", "big", "small", "small"), 10000, replace = TRUE),
+    stringsAsFactors = FALSE
+  ) %>%
+    tabyl(a, b)
+  
+  custom_Ns <- big_tabyl %>%
+    mutate(big = paste0(round(big/1000,1), "k"),
+           small = paste0(round(small/1000,1), "k"))
+
+    expect_equal(
+      big_tabyl %>%
+        adorn_percentages("col") %>%
+        adorn_pct_formatting() %>%
+        adorn_ns(ns = custom_Ns) %>%
+        untabyl(),
+      data.frame(
+        a = c("x", "y"),
+        big = c("8.8% (0.5k)", "91.2% (5.5k)"),
+        small = c("9.3% (0.4k)", "90.7% (3.6k)"),
+        stringsAsFactors = FALSE
+      )
+    )
+})
+
