@@ -16,6 +16,7 @@
 #'  \item{ALL_CAPS: \code{"screaming_snake"} or \code{"all_caps"}}
 #'  \item{lowerUPPER: \code{"lower_upper"}}
 #'  \item{UPPERlower: \code{"upper_lower"}}
+#`  \item{old_janitor: "old behaviour" (from before case argument was provided)}
 #'  }
 #'  
 #' @return Returns the data.frame with clean names.
@@ -34,8 +35,17 @@
 #' # library(readxl)
 #' # readxl("messy_excel_file.xlsx") %>% clean_names()
 
-clean_names <- function(dat, case = "snake"){
-
+clean_names <- function(dat, case = c("snake", "small_camel", "big_camel", "screaming_snake", 
+                                      "parsed", "mixed", "lower_upper", "upper_lower",
+                                      "all_caps", "lower_camel", "upper_camel", "none", "old_janitor") {
+  
+  ### old behaviour without different case options
+  case <- match.arg(case)
+  if (case == "old_janitor"){
+    return(old_clean_names(dat))  
+  }
+  
+  ### new behaviour with snakecase integration
   # Takes a data.frame, returns the same data frame with cleaned names
   old_names <- names(dat)
   new_names <- old_names %>%
@@ -55,6 +65,31 @@ clean_names <- function(dat, case = "snake"){
   dupe_count <- vapply(1:length(new_names), function(i) { 
     sum(new_names[i] == new_names[1:i]) }, integer(1))
   
+  new_names[dupe_count > 1] <- paste(new_names[dupe_count > 1],
+                                     dupe_count[dupe_count > 1],
+                                     sep = "_")
+  stats::setNames(dat, new_names)
+}
+                    
+old_clean_names <- function(dat){
+
+  # Takes a data.frame, returns the same data frame with cleaned names
+  old_names <- names(dat)
+  new_names <- old_names %>%
+    gsub("'", "", .) %>% # remove quotation marks
+    gsub("\"", "", .) %>% # remove quotation marks
+    gsub("%", "percent", .) %>%
+    gsub("^[ ]+", "", .) %>%
+    make.names(.) %>%
+    gsub("[.]+", "_", .) %>% # convert 1+ periods to single _
+    gsub("[_]+", "_", .) %>% # fix rare cases of multiple consecutive underscores
+    tolower(.) %>%
+    gsub("_$", "", .) %>% # remove string-final underscores
+    stringi::stri_trans_general("latin-ascii") 
+
+  # Handle duplicated names - they mess up dplyr pipelines
+  # This appends the column number to repeated instances of duplicate variable names
+  dupe_count <- sapply(1:length(new_names), function(i) { sum(new_names[i] == new_names[1:i]) })
   new_names[dupe_count > 1] <- paste(new_names[dupe_count > 1],
                                      dupe_count[dupe_count > 1],
                                      sep = "_")
