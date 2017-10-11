@@ -30,33 +30,5 @@ crosstab(...)
 Returns a data.frame with the frequencies of the crosstabulated variables.
 }
 \description{
-Create a crosstab, displaying either frequencies or percentages calculated by row, column, or overall.
-
-\code{crosstab} can be called in two ways:
-
-1) It can simply be called on two vectors, like \code{crosstab(mtcars$gear, mtcars$cyl)}.
-
-2) Or, when both vectors are columns in a single data.frame, the data.frame can be provided as the first argument, followed by two unquoted column names to crosstabulate.  This enables passing in a data.frame from a \code{\%>\%} pipeline, in addition to making for a shorter function call.  Like \code{mtcars \%>\% crosstab(gear, cyl)}. 
-
-For fancy formatting of the resulting data.frame, see \code{\link{adorn_crosstab}}.
-}
-\examples{
-# Calling on two vectors:
-a <- c("hi", "hi", "lo", "lo")
-b <- c(1, 2, 2, 2)
-crosstab(a, b)
-
-crosstab(mtcars$cyl, mtcars$gear)
-crosstab(mtcars$cyl, mtcars$gear, "row")
-
-# Passing in a data.frame using a pipeline:
-mtcars \%>\% crosstab(cyl, gear)
-mtcars \%>\% crosstab(cyl, gear, "row")
-
-# This allows for upstream operations
-# prior to the crosstab() call:
-library(dplyr)
-mtcars \%>\%
-  filter(am == 0) \%>\%
-  crosstab(cyl, gear)
+This function is deprecated, use \code{tabyl(dat, var1, var2)} instead.
 }

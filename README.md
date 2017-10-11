@@ -15,10 +15,10 @@ janitor <img src="tools/readme/logo_small.png" align="right" />
 The main janitor functions:
 
 -   perfectly format data.frame column names;
--   provide quick one- and two-variable tabulations (i.e., frequency tables and crosstabs); and
+-   generate and format quick one- and two-variable tabulations (i.e., frequency tables and crosstabs); and
 -   isolate partially-duplicate records.
 
-Other janitor functions nicely format the results of these tabulations. Together, these tabulate-and-report functions approximate popular features of SPSS and Microsoft Excel.
+The tabulate-and-report functions approximate popular features of SPSS and Microsoft Excel.
 
 janitor is a [\#tidyverse](https://github.com/hadley/tidyverse/blob/master/vignettes/manifesto.Rmd)-oriented package. Specifically, it plays nicely with the `%>%` pipe and is optimized for cleaning data brought in with the [readr](https://github.com/hadley/readr) and [readxl](https://github.com/hadley/readxl) packages.
 
@@ -65,20 +65,19 @@ p_load(readxl, janitor, dplyr)
 
 roster_raw <- read_excel("dirty_data.xlsx") # available at http://github.com/sfirke/janitor
 glimpse(roster_raw)
-#> Observations: 17
-#> Variables: 12
-#> $ First Name        <chr> "Jason", "Jason", "Alicia", "Ada", "Desus", "Chien-Shiung", "Chien-Shiung", NA,...
-#> $ Last Name         <chr> "Bourne", "Bourne", "Keys", "Lovelace", "Nice", "Wu", "Wu", NA, "Joyce", "Lamar...
-#> $ Employee Status   <chr> "Teacher", "Teacher", "Teacher", "Teacher", "Administration", "Teacher", "Teach...
-#> $ Subject           <chr> "PE", "Drafting", "Music", NA, "Dean", "Physics", "Chemistry", NA, "English", "...
-#> $ Hire Date         <dbl> 39690, 39690, 37118, 27515, 41431, 11037, 11037, NA, 32994, 27919, 42221, 34700...
-#> $ % Allocated       <dbl> 0.75, 0.25, 1.00, 1.00, 1.00, 0.50, 0.50, NA, 0.50, 0.50, NA, NA, 0.80, NA, NA,...
-#> $ Full time?        <chr> "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", NA, "No", "No", "No", "No", "N...
-#> $ do not edit! ---> <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA
-#> $ Certification     <chr> "Physical ed", "Physical ed", "Instr. music", "PENDING", "PENDING", "Science 6-...
-#> $ Certification     <chr> "Theater", "Theater", "Vocal music", "Computers", NA, "Physics", "Physics", NA,...
-#> $ Certification     <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA
-#> $                   <dttm> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA
+#> Observations: 13
+#> Variables: 11
+#> $ `First Name`        <chr> "Jason", "Jason", "Alicia", "Ada", "Desus", "Chien-Shiung", "Chien-Shiung", N...
+#> $ `Last Name`         <chr> "Bourne", "Bourne", "Keys", "Lovelace", "Nice", "Wu", "Wu", NA, "Joyce", "Lam...
+#> $ `Employee Status`   <chr> "Teacher", "Teacher", "Teacher", "Teacher", "Administration", "Teacher", "Tea...
+#> $ Subject             <chr> "PE", "Drafting", "Music", NA, "Dean", "Physics", "Chemistry", NA, "English",...
+#> $ `Hire Date`         <dbl> 39690, 39690, 37118, 27515, 41431, 11037, 11037, NA, 32994, 27919, 42221, 347...
+#> $ `% Allocated`       <dbl> 0.75, 0.25, 1.00, 1.00, 1.00, 0.50, 0.50, NA, 0.50, 0.50, NA, NA, 0.80
+#> $ `Full time?`        <chr> "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", NA, "No", "No", "No", "No", ...
+#> $ `do not edit! --->` <lgl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA
+#> $ Certification       <chr> "Physical ed", "Physical ed", "Instr. music", "PENDING", "PENDING", "Science ...
+#> $ Certification__1    <chr> "Theater", "Theater", "Vocal music", "Computers", NA, "Physics", "Physics", N...
+#> $ Certification__2    <lgl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA
 ```
 
 Excel formatting led to an untitled empty column and 5 empty rows at the bottom of the table (only 12 records have any actual data). Bad column names are preserved.
@@ -90,25 +89,26 @@ roster <- roster_raw %>%
   clean_names() %>%
   remove_empty_rows() %>%
   remove_empty_cols() %>%
-  mutate(hire_date = excel_numeric_to_date(hire_date)) %>%
-  select(-certification, -certification_2) # drop unwanted columns
+  mutate(hire_date = excel_numeric_to_date(hire_date),
+         cert = coalesce(certification, certification_1)) %>% # from dplyr
+  select(-certification, -certification_1) # drop unwanted columns
 
 roster
-#> # A tibble: 12 × 7
-#>      first_name last_name employee_status    subject  hire_date percent_allocated full_time
-#>           <chr>     <chr>           <chr>      <chr>     <date>             <dbl>     <chr>
-#>  1        Jason    Bourne         Teacher         PE 2008-08-30              0.75       Yes
-#>  2        Jason    Bourne         Teacher   Drafting 2008-08-30              0.25       Yes
-#>  3       Alicia      Keys         Teacher      Music 2001-08-15              1.00       Yes
-#>  4          Ada  Lovelace         Teacher       <NA> 1975-05-01              1.00       Yes
-#>  5        Desus      Nice  Administration       Dean 2013-06-06              1.00       Yes
-#>  6 Chien-Shiung        Wu         Teacher    Physics 1930-03-20              0.50       Yes
-#>  7 Chien-Shiung        Wu         Teacher  Chemistry 1930-03-20              0.50       Yes
-#>  8        James     Joyce         Teacher    English 1990-05-01              0.50        No
-#>  9         Hedy    Lamarr         Teacher    Science 1976-06-08              0.50        No
-#> 10       Carlos    Boozer           Coach Basketball 2015-08-05                NA        No
-#> 11        Young    Boozer           Coach       <NA> 1995-01-01                NA        No
-#> 12      Micheal    Larsen         Teacher    English 2009-09-15              0.80        No
+#> # A tibble: 12 x 8
+#>      first_name last_name employee_status    subject  hire_date percent_allocated full_time           cert
+#>           <chr>     <chr>           <chr>      <chr>     <date>             <dbl>     <chr>          <chr>
+#>  1        Jason    Bourne         Teacher         PE 2008-08-30              0.75       Yes    Physical ed
+#>  2        Jason    Bourne         Teacher   Drafting 2008-08-30              0.25       Yes    Physical ed
+#>  3       Alicia      Keys         Teacher      Music 2001-08-15              1.00       Yes   Instr. music
+#>  4          Ada  Lovelace         Teacher       <NA> 1975-05-01              1.00       Yes        PENDING
+#>  5        Desus      Nice  Administration       Dean 2013-06-06              1.00       Yes        PENDING
+#>  6 Chien-Shiung        Wu         Teacher    Physics 1930-03-20              0.50       Yes   Science 6-12
+#>  7 Chien-Shiung        Wu         Teacher  Chemistry 1930-03-20              0.50       Yes   Science 6-12
+#>  8        James     Joyce         Teacher    English 1990-05-01              0.50        No   English 6-12
+#>  9         Hedy    Lamarr         Teacher    Science 1976-06-08              0.50        No        PENDING
+#> 10       Carlos    Boozer           Coach Basketball 2015-08-05                NA        No    Physical ed
+#> 11        Young    Boozer           Coach       <NA> 1995-01-01                NA        No Political sci.
+#> 12      Micheal    Larsen         Teacher    English 2009-09-15              0.80        No    Vocal music
 ```
 
 The core janitor cleaning function is `clean_names()` - call it whenever you load data into R.
@@ -121,30 +121,33 @@ Use `get_dupes()` to identify and examine duplicate records during data cleaning
 
 ``` r
 roster %>% get_dupes(first_name, last_name)
-#> # A tibble: 4 × 8
+#> # A tibble: 4 x 9
 #>     first_name last_name dupe_count employee_status   subject  hire_date percent_allocated full_time
 #>          <chr>     <chr>      <int>           <chr>     <chr>     <date>             <dbl>     <chr>
 #> 1 Chien-Shiung        Wu          2         Teacher   Physics 1930-03-20              0.50       Yes
 #> 2 Chien-Shiung        Wu          2         Teacher Chemistry 1930-03-20              0.50       Yes
 #> 3        Jason    Bourne          2         Teacher        PE 2008-08-30              0.75       Yes
 #> 4        Jason    Bourne          2         Teacher  Drafting 2008-08-30              0.25       Yes
+#> # ... with 1 more variables: cert <chr>
 ```
 
 Yes, some teachers appear twice. We ought to address this before counting employees.
 
 #### Tabulating tools
 
-janitor has several functions for quick counts. The big ones are `tabyl()` and `crosstab()`.
+A variable (or combinations of two or three variables) can be tabulated with `tabyl()`. The resulting data.frame can be tweaked and formatted with the suite of `adorn_` functions for quick analysis and printing of pretty results in a report. `adorn_` functions can be helpful with non-tabyls, too.
 
-Notably, they can be called two ways:
+`tabyl` can be called two ways:
 
--   On vectors - e.g., `tabyl(roster$subject)`
--   On a piped-in data.frame: `roster %>% tabyl(subject)`.
-    -   This allows for dplyr commands earlier in the pipeline
+-   On a vector, when tabulating a single variable - e.g., `tabyl(roster$subject)`
+-   On a data.frame, specifying 1, 2, or 3 variable names to tabulate : `roster %>% tabyl(subject, employee_status)`.
+    -   Here the data.frame is passed in with the `%>%` pipe; this allows for dplyr commands earlier in the pipeline
 
 ##### tabyl()
 
-Like `table()`, but pipe-able and fully featured.
+Like `table()`, but pipe-able, data.frame-based, and fully featured.
+
+One variable:
 
 ``` r
 roster %>%
@@ -162,41 +165,60 @@ roster %>%
 #> 10       <NA> 2 0.16666667            NA
 ```
 
-##### crosstab()
+Two variables:
 
 ``` r
 roster %>%
   filter(hire_date > as.Date("1950-01-01")) %>%
-  crosstab(employee_status, full_time)
+  tabyl(employee_status, full_time)
 #>   employee_status No Yes
 #> 1  Administration  0   1
 #> 2           Coach  2   0
 #> 3         Teacher  3   4
 ```
 
-##### Prettifying
-
-Other janitor functions dress up the results of these tabulation calls for fast, basic reporting. Here are some of the functions that augment a summary table for reporting:
+Three variables:
 
 ``` r
 roster %>%
-  tabyl(employee_status, sort = TRUE) %>%
-  adorn_totals("row")
-#>   employee_status  n    percent
-#> 1         Teacher  9 0.75000000
-#> 2           Coach  2 0.16666667
-#> 3  Administration  1 0.08333333
-#> 4           Total 12 1.00000000
-
-roster %>%
-  crosstab(full_time, employee_status) %>%
-  adorn_crosstab(denom = "col", show_totals = TRUE)
-#>   full_time Administration      Coach   Teacher     Total
-#> 1        No       0.0% (0) 100.0% (2) 33.3% (3) 41.7% (5)
-#> 2       Yes     100.0% (1)   0.0% (0) 66.7% (6) 58.3% (7)
+  tabyl(full_time, subject, employee_status)
+#> $Administration
+#>   full_time Basketball Chemistry Dean Drafting English Music PE Physics Science
+#> 1        No          0         0    0        0       0     0  0       0       0
+#> 2       Yes          0         0    1        0       0     0  0       0       0
+#> 
+#> $Coach
+#>   full_time Basketball Chemistry Dean Drafting English Music PE Physics Science NA_
+#> 1        No          1         0    0        0       0     0  0       0       0   1
+#> 2       Yes          0         0    0        0       0     0  0       0       0   0
+#> 
+#> $Teacher
+#>   full_time Basketball Chemistry Dean Drafting English Music PE Physics Science NA_
+#> 1        No          0         0    0        0       2     0  0       0       1   0
+#> 2       Yes          0         1    0        1       0     1  1       1       0   1
 ```
 
-Together, these tabulation functions reduce R's deficit against Excel and SPSS when it comes to quick, informative counts.
+##### Adorning tabyls
+
+The suite of `adorn_` functions dress up the results of these tabulation calls for fast, basic reporting. Here are some of the functions that augment a summary table for reporting:
+
+``` r
+roster %>%
+  tabyl(employee_status, full_time) %>%
+  adorn_totals("row") %>%
+  adorn_percentages("row") %>%
+  adorn_pct_formatting() %>%
+  adorn_ns()
+#>   employee_status         No        Yes
+#> 1  Administration   0.0% (0) 100.0% (1)
+#> 2           Coach 100.0% (2)   0.0% (0)
+#> 3         Teacher  33.3% (3)  66.7% (6)
+#> 4           Total  41.7% (5)  58.3% (7)
+```
+
+Pipe that right into `knitr::kable()` in your RMarkdown report!
+
+These modular adornments can be layered to reduce R's deficit against Excel and SPSS when it comes to quick, informative counts.
 
 Contact me
 ----------

@@ -53,94 +53,18 @@ make.names(names(test_df))
 ## Exploring
 
 ### `tabyl()` - a better version of `table()`
-`tabyl()` takes a vector and returns a frequency table, like `table()`. But its additional features are:
-
-+ It returns a data.frame - for manipulating further, or printing with `knitr::kable()`.
-+ It automatically calculates percentages
-+ It can (optionally) display `NA` values
-    + When `NA` values are present, it will calculate an additional column `valid_percent` in the style of SPSS
-+ It can (optionally) sort on counts
-+ It can be called with `%>%` in a pipeline
-+ When called on a factor, it will include missing levels in the result (levels not present in the vector)
-
-Usage:
-```{r}
-x <- c("a", "b", "c", "c", NA)
-tabyl(x, sort = TRUE)
-```
-Compare to:
-```{r}
-table(x)
-```
-
-`tabyl()` can be called on a piped-in data.frame, which allows for fast, flexible exploration of data:
-```{r}
-mtcars %>%
-  filter(gear > 3) %>%
-  tabyl(cyl)
-```
-
-
-### Crosstabulate two variables with `crosstab()`
-`crosstab()` generates a crosstab table.  There many R crosstab functions already; this one is distinguished by:
-
-+ It returns a data.frame
-+ It is simple.
-    + It calculates frequencies by default but can calculate row, column, and table-wise percentages.
-    + It can (optionally) display `NA` values
-+ It can be called with `%>%` in a pipeline
-
-Usage:
-```{r}
-y <- c(1, 1, 2, 1, 2)
-x <- c("a", "a", "b", "b", NA)
-
-crosstab(x, y)
-crosstab(x, y, percent = "row")
-```
-
-If the variables are in the same data frame, call `crosstab` with the `%>%` pipe:
-```{r}
-dat <- data.frame(x, y)
-dat %>%
-  crosstab(x, y, percent = "row")
-```
-
-This function wraps the common pipeline of `group_by %>% summarise %>% mutate %>% spread` from the dplyr and tidyr packages, often used in exploratory analysis.  The simple `crosstab` call above produces the same result* as this much longer pipeline:
-```{r, message=FALSE, results = "hide"}
-library(dplyr) ; library(tidyr)
-dat %>%
-  group_by(x, y) %>%
-  tally() %>%
-  mutate(percent = n / sum(n, na.rm = TRUE)) %>%
-  select(-n) %>%
-  spread(y, percent, fill = 0) %>%
-  ungroup()
-```
-And is more featured than the base R equivalents `table(dat$x, dat$y)` and `prop.table(table(dat$x, dat$y), 1)`.
-
-\**not exactly: the long pipeline returns a `tibble`, while crosstab() returns a `data.frame` that prints fully in the console.*
-
-### Format a crosstab table with `adorn_crosstab()`
-Builds off of `crosstab()` to  approximate the functionality of a quick Microsoft Excel PivotTable.  It prints an elegant result, either for interactive analysis or for sharing in a report, e.g., with `knitr::kable()`.  The simple default call yields:
+`tabyl()` is a tidyverse-oriented replacement for `table()`.  It counts combinations of one, two, or three variables, and then can be formatted with a suite of `adorn_*` functions to look just how you want.  For instance:
 
 ```{r}
 mtcars %>%
-  crosstab(cyl, gear) %>%
-  adorn_crosstab()
+  tabyl(gear, cyl) %>%
+  adorn_totals("col") %>%
+  adorn_percentages("row") %>%
+  adorn_pct_formatting(digits = 2) %>%
+  adorn_ns()
 ```
 
-The user can specify additional formatting options:
-
-+ Percentages can be calculated by row, column, or overall
-+ Display only percentages, or show Ns in parentheses
-+ Control how many digits of the percentages to display
-+ Display a totals row, column, or both
-+ Round percentages either with the default `round()` function, or round-half-to-up using a [custom rounding function](http://stackoverflow.com/a/12688836/4470365)
-    + e.g., round 10.5 up to 11, consistent with Excel's tie-breaking behavior
-    + This contrasts with rounding 10.5 down to 10 as in base R's `round(10.5)`.
-
-*When calling `crosstab()` to feed this function, leave the default argument `percent = "none"` so that the integer values are passed through.*
+Learn more in the [tabyls vignette](https://github.com/sfirke/janitor/blob/master/vignettes/tabyls.md).
 
 ### Explore records with duplicated values for specific combinations of variables with `get_dupes()`
 This is for hunting down and examining duplicate records during data cleaning - usually when there shouldn't be any.
@@ -179,24 +103,6 @@ q %>%
 
 ## Exploring
 
-### `adorn_totals()`
-This adds a totals row and/or column to a data.frame (you specify which).  This function excludes the first column of the input data.frame, assuming that it contains a descriptive variable not to be summed.
-```{r}
-mtcars %>%
-  crosstab(am, cyl) %>%
-  adorn_totals("row")
-```
-
-### Convert a data.frame of numbers to percentages with `ns_to_percents()`
-A helper function for `adorn_crosstab`, but can be called directly.  Takes a data.frame with at least one numeric column and returns corresponding percentages of rows, columns, or the total sum of the data.frame.  Similar to `prop.table`, but for data.frames, and skips the first column (which is assumed to contain a non-numeric descriptive variable).
-
-```{r}
-mtcars %>%
-  crosstab(cyl, am) %>%
-  ns_to_percents("col")
-```
-
-
 ### Count factor levels in groups of high, medium, and low with `top_levels()`
 
 Originally designed for use with Likert survey data stored as factors.  Returns a `tbl_df` frequency table with appropriately-named rows, grouped into head/middle/tail groups.
@@ -210,6 +116,6 @@ Originally designed for use with Likert survey data stored as factors.  Returns 
 f <- factor(c("strongly agree", "agree", "neutral", "neutral", "disagree", "strongly agree"),
             levels = c("strongly agree", "agree", "neutral", "disagree", "strongly disagree"))
 top_levels(f)
-top_levels(f, n = 1, sort = TRUE)
+top_levels(f, n = 1)
 ```
 

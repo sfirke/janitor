@@ -1,6 +1,6 @@
 Package: janitor
 Title: Simple Tools for Examining and Cleaning Dirty Data
-Version: 0.3.0.9000
+Version: 0.3.1.9000
 Authors@R: c(person("Sam", "Firke", email = "samuel.firke@gmail.com", role = c("aut", "cre")),
     person("Chris", "Haid", email = "chrishaid@gmail.com", role = "ctb"),
     person("Ryan", "Knight", email = "ryangknight@gmail.com", role = "ctb"))
@@ -19,9 +19,12 @@ BugReports: https://github.com/sfirke/janitor/issues
 Depends:
     R (>= 3.1.2)
 Imports:
-    dplyr (>= 0.5.0),
+    dplyr (>= 0.7.0),
     tidyr,
-    snakecase
+    snakecase,
+    magrittr,
+    purrr,
+    rlang
 License: MIT + file LICENSE
 LazyData: true
 RoxygenNote: 6.0.1
