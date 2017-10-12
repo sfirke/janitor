@@ -16,7 +16,7 @@
 #'  \item{ALL_CAPS: \code{"screaming_snake"} or \code{"all_caps"}}
 #'  \item{lowerUPPER: \code{"lower_upper"}}
 #'  \item{UPPERlower: \code{"upper_lower"}}
-#`  \item{old_janitor: "old behaviour" (from before case argument was provided)}
+#'  \item{old_janitor: legacy compatibility option to preserve behavior of \code{clean_names} in janitor versions <= 0.3.0 (prior to addition of the "case" argument)}
 #'  }
 #'  
 #' @return Returns the data.frame with clean names.
@@ -37,9 +37,9 @@
 
 clean_names <- function(dat, case = c("snake", "small_camel", "big_camel", "screaming_snake", 
                                       "parsed", "mixed", "lower_upper", "upper_lower",
-                                      "all_caps", "lower_camel", "upper_camel", "none", "old_janitor") {
+                                      "all_caps", "lower_camel", "upper_camel", "old_janitor")) {
   
-  ### old behaviour without different case options
+  # old behavior, to provide easy fix for people whose code breaks with the snakecase integration
   case <- match.arg(case)
   if (case == "old_janitor"){
     return(old_clean_names(dat))  
@@ -71,6 +71,7 @@ clean_names <- function(dat, case = c("snake", "small_camel", "big_camel", "scre
   stats::setNames(dat, new_names)
 }
                     
+# copy of clean_names from janitor v0.3 on CRAN, to preserve old behavior
 old_clean_names <- function(dat){
 
   # Takes a data.frame, returns the same data frame with cleaned names
@@ -84,9 +85,8 @@ old_clean_names <- function(dat){
     gsub("[.]+", "_", .) %>% # convert 1+ periods to single _
     gsub("[_]+", "_", .) %>% # fix rare cases of multiple consecutive underscores
     tolower(.) %>%
-    gsub("_$", "", .) %>% # remove string-final underscores
-    stringi::stri_trans_general("latin-ascii") 
-
+    gsub("_$", "", .) # remove string-final underscores
+  
   # Handle duplicated names - they mess up dplyr pipelines
   # This appends the column number to repeated instances of duplicate variable names
   dupe_count <- sapply(1:length(new_names), function(i) { sum(new_names[i] == new_names[1:i]) })
