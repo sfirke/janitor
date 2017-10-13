@@ -4,7 +4,9 @@
 \alias{clean_names}
 \title{Cleans names of a data.frame.}
 \usage{
-clean_names(dat, case = "snake")
+clean_names(dat, case = c("snake", "small_camel", "big_camel",
+  "screaming_snake", "parsed", "mixed", "lower_upper", "upper_lower",
+  "all_caps", "lower_camel", "upper_camel", "old_janitor"))
 }
 \arguments{
 \item{dat}{the input data.frame.}
@@ -17,6 +19,7 @@ clean_names(dat, case = "snake")
  \item{ALL_CAPS: \code{"screaming_snake"} or \code{"all_caps"}}
  \item{lowerUPPER: \code{"lower_upper"}}
  \item{UPPERlower: \code{"upper_lower"}}
+ \item{old_janitor: legacy compatibility option to preserve behavior of \code{clean_names} in janitor versions <= 0.3.0 (prior to addition of the "case" argument)}
  }}
 }
 \value{
