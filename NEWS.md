@@ -10,7 +10,7 @@ Redid the approach to tidy counts / contingency tables, combining `tabyl` and `c
 
 The legacy functions `crosstab` and `adorn_crosstab` have been deprecated, but remain in the package for now.  Existing code that relies on `tabyl` will break if the `sort` argument is used, as that argument no longer exists in `tabyl` (use `dplyr::arrange()` instead).
 
-Made other substantive improvements, including a big improvement to `clean_names()`.  This is a breaking change, though you can find-and-replace (**edit: not yet!**) to insert the argument `case = legacy` to preserve the old behavior of `clean_names` (and thus not have to redo your scripts beyond that.)
+Made other substantive improvements, including a big improvement to `clean_names()` to detect and preserve camelCase inputs and allow multiple options for case outputs of the cleaned data.frame.  This is a breaking change, though we've added a quick fix for compatibility: you can find-and-replace to insert the argument `case = old_janitor` to preserve the old behavior of `clean_names` as of version 0.3.0 (and thus not have to redo your scripts beyond that.)
 
 ## Features
 
