@@ -36,7 +36,7 @@ as_tabyl <- function(dat, axes = 2){
     axes == 1 ~ "one_way",
     axes == 2 ~ "two_way"
   )
-  class(dat) <- c(class(dat), "tabyl")
+  class(dat) <- c("tabyl", class(dat))
   dat
 }
 
@@ -62,4 +62,8 @@ untabyl <- function(dat){
   attr(dat, "totals") <- NULL # may not exist, but simpler to declare it NULL regardless than to check to see if it exists
   attr(dat, "tabyl_type") <- NULL # may not exist, but simpler to declare it NULL regardless than to check to see if it exists
   dat
+}
+
+print.tabyl <- function(x){
+  print.data.frame(x, row.names = FALSE)
 }

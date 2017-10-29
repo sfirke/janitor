@@ -171,13 +171,13 @@ test_that("works with non-numeric columns mixed in; fill character specification
 test_that("totals attributes are assigned correctly", {
   post <- adorn_totals(ct, c("row", "col"))
   expect_equal(attr(post, "totals"), c("row", "col"))
-  expect_equal(class(post), c("data.frame", "tabyl"))
+  expect_equal(class(post), c("tabyl", "data.frame"))
   expect_equal(attr(post, "tabyl_type"), "two_way")
   expect_equal(attr(post, "core"), untabyl(ct))
   
   post_col <- adorn_totals(ct, "col")
   expect_equal(attr(post_col, "totals"), "col")
-  expect_equal(class(post_col), c("data.frame", "tabyl"))
+  expect_equal(class(post_col), c("tabyl", "data.frame"))
   expect_equal(attr(post_col, "tabyl_type"), "two_way")
   expect_equal(attr(post_col, "core"), untabyl(ct))
 })

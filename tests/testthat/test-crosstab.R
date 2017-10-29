@@ -57,7 +57,7 @@ test_that("percentages are correct", {
   expect_equal(res_col[[4]], c(1/3, 1/3, 1/3))
 
   res_all <- suppressWarnings(crosstab(dat$v2, dat$v4, "all"))
-  expect_equal(untabyl(as.data.frame(res_all[, 2:4])), as.data.frame(res[, 2:4]/9))
+  expect_equal(as.data.frame(res_all[, 2:4]), res[, 2:4]/9)
 })
 
 z <- suppressWarnings(crosstab(dat$v3, dat$v1))
@@ -110,7 +110,7 @@ test_that("crosstab.data.frame renders percentages are correct", {
   expect_equal(res_col[[4]], c(1/3, 1/3, 1/3))
 
   res_all <- suppressWarnings(crosstab(dat, v2, v4, "all"))
-  expect_equal(untabyl(as.data.frame(res_all[, 2:4])), as.data.frame(res[, 2:4]/9))
+  expect_equal(untabyl(res_all[, 2:4]), res[, 2:4]/9)
 })
 
 test_that("bad input variable name is preserved", {
