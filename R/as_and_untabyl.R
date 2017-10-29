@@ -36,7 +36,7 @@ as_tabyl <- function(dat, axes = 2){
     axes == 1 ~ "one_way",
     axes == 2 ~ "two_way"
   )
-  class(dat) <- c(class(dat), "tabyl")
+  class(dat) <- c("tabyl", class(dat))
   dat
 }
 
