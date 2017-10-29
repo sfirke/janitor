@@ -54,7 +54,8 @@ clean_names <- function(dat, case = c("snake", "small_camel", "big_camel", "scre
     gsub("%", ".percent_", .) %>% # starting with "." as a workaround, to make
     # ".percent" a valid name. The "." will be replaced in the call to to_any_case
     # via the preprocess argument anyway.
-    gsub("^[ ]+", "", .) %>% # remove leading spaces
+    gsub("#", ".number_", .) %>%
+    gsub("^[[:space:][:punct:]]+", "", .) %>% # remove leading spaces & punctuation
     make.names(.) %>%
     # Handle dots, multiple underscores, case conversion, string transliteration
     snakecase::to_any_case(case = case, preprocess = "\\.", 
