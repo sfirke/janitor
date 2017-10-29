@@ -63,7 +63,3 @@ untabyl <- function(dat){
   attr(dat, "tabyl_type") <- NULL # may not exist, but simpler to declare it NULL regardless than to check to see if it exists
   dat
 }
-
-print.tabyl <- function(x){
-  print.data.frame(x, row.names = FALSE)
-}
