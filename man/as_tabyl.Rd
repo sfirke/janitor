@@ -4,12 +4,16 @@
 \alias{as_tabyl}
 \title{Add \code{tabyl} attributes to a data.frame.}
 \usage{
-as_tabyl(dat, axes = 2)
+as_tabyl(dat, axes = 2, row_var_name = NULL, col_var_name = NULL)
 }
 \arguments{
 \item{dat}{a data.frame with variable values in the first column and numeric values in all other columns.}
 
 \item{axes}{is this a two_way tabyl or a one_way tabyl?  If this function is being called by a user, this should probably be "2".  One-way tabyls are created by \code{tabyl} but are a special case.}
+
+\item{row_var_name}{(optional) the name of the variable in the row dimension.}
+
+\item{col_var_name}{(optional) the name of the variable in the column dimension; used by \code{adorn_col_title()}.}
 }
 \value{
 Returns the same data.frame, but with the additional class of "tabyl" and the attribute "core".
