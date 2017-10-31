@@ -16,26 +16,32 @@
 #'
 #' @param dat a data.frame with variable values in the first column and numeric values in all other columns.
 #' @param axes is this a two_way tabyl or a one_way tabyl?  If this function is being called by a user, this should probably be "2".  One-way tabyls are created by \code{tabyl} but are a special case.
+#' @param row_var_name (optional) the name of the variable in the row dimension.
+#' @param col_var_name (optional) the name of the variable in the column dimension; used by \code{adorn_col_title()}.
 #' @return Returns the same data.frame, but with the additional class of "tabyl" and the attribute "core".
 #' @export
 #' @examples
 #' as_tabyl(mtcars)
 #' 
 
-as_tabyl <- function(dat, axes = 2){
+as_tabyl <- function(dat, axes = 2, row_var_name = NULL, col_var_name = NULL){
   if("tabyl" %in% class(dat)){ return(dat) }
   if(! axes %in% 1:2){stop("axes must be either 1 or 2")}
   
   # check whether input meets requirements
   if(!is.data.frame(dat)){stop("input must be a data.frame")}
   if(sum(unlist(lapply(dat, is.numeric))[-1]) == 0){stop("at least one one of columns 2:n must be of class numeric")}
-  
+  if(!missing(row_var_name) | !missing(col_var_name)){
+    if(axes != 2){ stop("variable names are only meaningful for two-way tabyls") }
+  }
+
   # assign core attribute and classes
   attr(dat, "core") <- as.data.frame(dat)
   attr(dat, "tabyl_type") <- dplyr::case_when(
     axes == 1 ~ "one_way",
     axes == 2 ~ "two_way"
   )
+  attr(dat, "var_names") <- list(row = row_var_name, col = col_var_name)
   class(dat) <- c("tabyl", class(dat))
   dat
 }
