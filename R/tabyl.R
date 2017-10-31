@@ -109,7 +109,7 @@ tabyl.default <- function(dat, show_na = TRUE, show_missing_levels = TRUE, ...) 
   result <- handle_if_special_names_used(result)
   
   data.frame(result, check.names = FALSE) %>%
-    as_tabyl(1)
+    as_tabyl(axes = 1)
 }
 
 
@@ -184,7 +184,7 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
   
   result %>%
     data.frame(., check.names = FALSE) %>%
-    as_tabyl(2)
+    as_tabyl(axes = 2, row_var_name = names(dat)[1], col_var_name = names(dat)[2])
 }
 
 
