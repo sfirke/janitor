@@ -6,7 +6,7 @@ NEWS
 
 <IN PROGRESS>
 
-Redid the approach to tidy counts / contingency tables, combining `tabyl` and `crosstab` into an all-encompassing function `tabyl` that can tabulate one, two, or three variables.  The resulting `tabyl` data.frames can be manipulated and formatted using a family of `adorn_` functions.  See the `tabyl` vignette for more.
+Redid the approach to tidy counts / contingency tables, combining `tabyl` and `crosstab` into an all-encompassing function `tabyl` that can tabulate one, two, or three variables.  The resulting `tabyl` data.frames can be manipulated and formatted using a family of `adorn_` functions.  See the `tabyl` vignette for more. **<LINK>**
 
 The legacy functions `crosstab` and `adorn_crosstab` have been deprecated, but remain in the package for now.  Existing code that relies on `tabyl` will break if the `sort` argument is used, as that argument no longer exists in `tabyl` (use `dplyr::arrange()` instead).
 
@@ -22,10 +22,16 @@ Made other substantive improvements, including a big improvement to `clean_names
 
 * `clean_names()` offers multiple options for variable name styling.  In addition to `snake_case` you can select `smallCamelCase`, `BigCamelCase`, `ALL_CAPS` and others. [(#131)](https://github.com/sfirke/janitor/issues/131).  Thanks to **@tazinho**, who wrote the [snakecase](https://github.com/Tazinho/snakecase/) package that janitor depends on to do this, as well as the patch to incorporate it into `clean_names()`.
 
+### Minor
+
+* `tabyl` objects now print with row numbers suppressed
+* `clean_names()` now retains the character `#` as `"number"` in the resulting names
+
 ## Bug fixes
 * `adorn_totals("row")` handles quirky variable names in 1st column [(#118)](https://github.com/sfirke/janitor/issues/118)
 
 * The utility function `round_half_up()` is now exported for public use.  An exact implementation of http://stackoverflow.com/questions/12688717/round-up-from-5-in-r/12688836#12688836.
+
 # janitor 0.3.0  (Release date: 2017-05-06)
 
 ## Release summary
