@@ -1,11 +1,11 @@
 Package: janitor
 Title: Simple Tools for Examining and Cleaning Dirty Data
-Version: 0.3.1.9000
+Version: 0.4.0.9000
 Authors@R: c(person("Sam", "Firke", email = "samuel.firke@gmail.com", role = c("aut", "cre")),
     person("Chris", "Haid", email = "chrishaid@gmail.com", role = "ctb"),
     person("Ryan", "Knight", email = "ryangknight@gmail.com", role = "ctb"))
 Description: The main janitor functions can: perfectly format data.frame column
-    names; provide quick one- and two-variable tabulations (i.e., frequency
+    names; provide quick counts of variable combinations (i.e., frequency
     tables and crosstabs); and isolate duplicate records. Other janitor functions
     nicely format the tabulation results. These tabulate-and-report functions
     approximate popular features of SPSS and Microsoft Excel. This package
