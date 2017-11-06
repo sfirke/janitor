@@ -105,11 +105,11 @@ t3 # the result is a tabyl of eye color x skin color, split into a list by gende
 
 Use `purrr::map()` to apply the `adorn_` helper functions to the entire list:
 
-```{r three_way_adorns}
+```{r three_way_adorns, warning = FALSE, message = FALSE}
 library(purrr)
 humans %>%
   tabyl(eye_color, skin_color, gender, show_missing_levels = FALSE) %>%
-  map(adorn_totals, c("row", "col")) %>%
+  map(adorn_totals, "row") %>%
   map(adorn_percentages, "all") %>%
   map(adorn_pct_formatting, digits = 1) %>%
   map(adorn_ns)

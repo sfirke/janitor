@@ -64,6 +64,8 @@ You can install:
     devtools::install_github("sfirke/janitor")
     ```
 
+** November 2017: Please try out the dev version! **
+The current development version is significantly ahead of version 0.3.0 on CRAN (which was released May 2017).  It has a greatly-enhanced `tabyl()` function - see the [tabyls vignette](https://github.com/sfirke/janitor/blob/master/vignettes/tabyls.md) - and improvements to `clean_names()`.  These `clean_names()` improvements may cause old code to break, due to better handling of variable names.  More info is in the [NEWS](https://github.com/sfirke/janitor/blob/master/NEWS.md) file; the very quick fix is to supply the argument `case = "old janitor"`.
 
 ## Using janitor
 
