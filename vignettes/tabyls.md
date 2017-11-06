@@ -1,7 +1,3 @@
-### Installing
-
-The features of `tabyl()` shown here are in the development version of janitor on GitHub and are not on CRAN yet. You can install the dev version with `devtools::install_github("sfirke/janitor")`.
-
 Motivation: why tabyl?
 ----------------------
 
@@ -32,6 +28,10 @@ library(dplyr)
 humans <- starwars %>%
   filter(species == "Human")
 ```
+
+### Installing
+
+The features of `tabyl()` shown here are in the development version of janitor on GitHub and are not on CRAN yet. You can install the dev version with `devtools::install_github("sfirke/janitor")`.
 
 One-way tabyl
 -------------
