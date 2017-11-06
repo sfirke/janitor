@@ -13,6 +13,11 @@ vignette: >
 ```{r chunk_options, include = FALSE}
 knitr::opts_chunk$set(collapse = T, comment = "#>")
 ```
+
+### Installing
+
+The features of `tabyl()` shown here are in the development version of janitor on GitHub and are not on CRAN yet.  You can install the dev version with `devtools::install_github("sfirke/janitor")`.
+
 ## Motivation: why tabyl?
 
 Analysts do a lot of counting.  Indeed, it's been said that "[data science is mostly counting things](https://twitter.com/joelgrus/status/833691273873600512)." But the base R function for counting, `table()`, leaves much to be desired:
