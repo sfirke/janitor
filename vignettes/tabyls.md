@@ -18,6 +18,17 @@ On its surface, `tabyl()` produces frequency tables using 1, 2, or 3 variables. 
 
 The result looks like a basic data.frame of counts, but because it's also a `tabyl` containing this metadata, you can use `adorn_` functions to add pretty formatting.
 
+Examples
+========
+
+This vignette demonstrates `tabyl` in the context of studying humans in the `starwars` dataset from dplyr:
+
+``` r
+library(dplyr)
+humans <- starwars %>%
+  filter(species == "Human")
+```
+
 One-way tabyl
 -------------
 
@@ -25,14 +36,18 @@ Tabulating a single variable is the simplest kind of tabyl:
 
 ``` r
 library(janitor)
-t1 <- mtcars %>%
-  tabyl(cyl)
+
+t1 <- humans %>%
+  tabyl(eye_color)
 
 t1
-#>   cyl  n percent
-#> 1   4 11 0.34375
-#> 2   6  7 0.21875
-#> 3   8 14 0.43750
+#>   eye_color  n    percent
+#> 1      blue 12 0.34285714
+#> 2 blue-gray  1 0.02857143
+#> 3     brown 17 0.48571429
+#> 4      dark  1 0.02857143
+#> 5     hazel  2 0.05714286
+#> 6    yellow  2 0.05714286
 ```
 
 When `NA` values are present, `tabyl()` also displays "valid" percentages, i.e., with missing values removed from the denominator. And while `tabyl()` is built to take a data.frame and column names, you can also produce a one-way tabyl by calling it directly on a vector:
@@ -52,11 +67,14 @@ Most `adorn_` helper functions are built for 2-way tabyls, but those that make s
 t1 %>%
   adorn_totals("row") %>%
   adorn_pct_formatting()
-#>     cyl  n percent
-#> 1     4 11   34.4%
-#> 2     6  7   21.9%
-#> 3     8 14   43.8%
-#> 4 Total 32  100.0%
+#>   eye_color  n percent
+#> 1      blue 12   34.3%
+#> 2 blue-gray  1    2.9%
+#> 3     brown 17   48.6%
+#> 4      dark  1    2.9%
+#> 5     hazel  2    5.7%
+#> 6    yellow  2    5.7%
+#> 7     Total 35  100.0%
 ```
 
 Two-way tabyl
@@ -65,14 +83,13 @@ Two-way tabyl
 This is often called a "crosstab" or "contingency" table. The initial call produces the same result as the common combination of `dplyr::count()`, followed by `tidyr::spread()` to wide form:
 
 ``` r
-t2 <- mtcars %>%
-  tabyl(cyl, carb)
+t2 <- humans %>%
+  tabyl(gender, eye_color)
 
 t2
-#>   cyl 1 2 3 4 6 8
-#> 1   4 5 6 0 0 0 0
-#> 2   6 2 0 0 4 1 0
-#> 3   8 0 4 3 6 0 1
+#>   gender blue blue-gray brown dark hazel yellow
+#> 1 female    3         0     5    0     1      0
+#> 2   male    9         1    12    1     1      2
 ```
 
 And since it's a `tabyl`, we can enhance it with `adorn_` helper functions. For instance:
@@ -83,13 +100,12 @@ t2 %>%
   adorn_percentages("row") %>%
   adorn_pct_formatting(digits = 2) %>%
   adorn_ns()
-#>   cyl          1          2          3          4          6         8
-#> 1   4 45.45% (5) 54.55% (6)  0.00% (0)  0.00% (0)  0.00% (0) 0.00% (0)
-#> 2   6 28.57% (2)  0.00% (0)  0.00% (0) 57.14% (4) 14.29% (1) 0.00% (0)
-#> 3   8  0.00% (0) 28.57% (4) 21.43% (3) 42.86% (6)  0.00% (0) 7.14% (1)
+#>   gender       blue blue-gray       brown      dark      hazel    yellow
+#> 1 female 33.33% (3) 0.00% (0) 55.56%  (5) 0.00% (0) 11.11% (1) 0.00% (0)
+#> 2   male 34.62% (9) 3.85% (1) 46.15% (12) 3.85% (1)  3.85% (1) 7.69% (2)
 ```
 
-Each of these has options to control axes, rounding, and other relevant formatting choices.
+Adornments have options to control axes, rounding, and other relevant formatting choices (more on that below).
 
 Three-way tabyl
 ---------------
@@ -97,62 +113,72 @@ Three-way tabyl
 Just as `table()` accepts three variables, so does `tabyl()`, producing a list of tabyls:
 
 ``` r
-t3 <- mtcars %>%
-  tabyl(cyl, carb, am)
+t3 <- humans %>%
+  tabyl(eye_color, skin_color, gender)
 
-t3 # the result is a tabyl of cyl x carb, split into a list by the values of am
-#> $`0`
-#>   cyl 1 2 3 4 6 8
-#> 1   4 1 2 0 0 0 0
-#> 2   6 2 0 0 2 0 0
-#> 3   8 0 4 3 5 0 0
+t3 # the result is a tabyl of eye color x skin color, split into a list by gender
+#> $female
+#>   eye_color dark fair light pale tan white
+#> 1      blue    0    2     1    0   0     0
+#> 2 blue-gray    0    0     0    0   0     0
+#> 3     brown    0    1     4    0   0     0
+#> 4      dark    0    0     0    0   0     0
+#> 5     hazel    0    0     1    0   0     0
+#> 6    yellow    0    0     0    0   0     0
 #> 
-#> $`1`
-#>   cyl 1 2 3 4 6 8
-#> 1   4 4 4 0 0 0 0
-#> 2   6 0 0 0 2 1 0
-#> 3   8 0 0 0 1 0 1
+#> $male
+#>   eye_color dark fair light pale tan white
+#> 1      blue    0    7     2    0   0     0
+#> 2 blue-gray    0    1     0    0   0     0
+#> 3     brown    3    4     3    0   2     0
+#> 4      dark    1    0     0    0   0     0
+#> 5     hazel    0    1     0    0   0     0
+#> 6    yellow    0    0     0    1   0     1
 ```
 
-One can use `purrr::map()` to apply the `adorn_` helper functions to the entire list:
+Use `purrr::map()` to apply the `adorn_` helper functions to the entire list:
 
 ``` r
 library(purrr)
 #> Warning: package 'purrr' was built under R version 3.4.2
-mtcars %>%
-  tabyl(carb, am, cyl, show_missing_levels = FALSE) %>%
-  map(adorn_totals, "row") %>%
-  map(adorn_percentages, "row") %>%
+humans %>%
+  tabyl(eye_color, skin_color, gender, show_missing_levels = FALSE) %>%
+  map(adorn_totals, c("row", "col")) %>%
+  map(adorn_percentages, "all") %>%
   map(adorn_pct_formatting, digits = 1) %>%
   map(adorn_ns)
-#> $`4`
-#>    carb         0         1
-#> 1     1 20.0% (1) 80.0% (4)
-#> 2     2 33.3% (2) 66.7% (4)
-#> 3 Total 27.3% (3) 72.7% (8)
+#> $female
+#>   eye_color      fair     light      Total
+#> 1      blue 22.2% (2) 11.1% (1)  33.3% (3)
+#> 2     brown 11.1% (1) 44.4% (4)  55.6% (5)
+#> 3     hazel  0.0% (0) 11.1% (1)  11.1% (1)
+#> 4     Total 33.3% (3) 66.7% (6) 100.0% (9)
 #> 
-#> $`6`
-#>    carb          0          1
-#> 1     1 100.0% (2)   0.0% (0)
-#> 2     4  50.0% (2)  50.0% (2)
-#> 3     6   0.0% (0) 100.0% (1)
-#> 4 Total  57.1% (4)  42.9% (3)
-#> 
-#> $`8`
-#>    carb           0          1
-#> 1     2 100.0%  (4)   0.0% (0)
-#> 2     3 100.0%  (3)   0.0% (0)
-#> 3     4  83.3%  (5)  16.7% (1)
-#> 4     8   0.0%  (0) 100.0% (1)
-#> 5 Total  85.7% (12)  14.3% (2)
+#> $male
+#>   eye_color      dark       fair     light     pale      tan    white
+#> 1      blue  0.0% (0) 26.9%  (7)  7.7% (2) 0.0% (0) 0.0% (0) 0.0% (0)
+#> 2 blue-gray  0.0% (0)  3.8%  (1)  0.0% (0) 0.0% (0) 0.0% (0) 0.0% (0)
+#> 3     brown 11.5% (3) 15.4%  (4) 11.5% (3) 0.0% (0) 7.7% (2) 0.0% (0)
+#> 4      dark  3.8% (1)  0.0%  (0)  0.0% (0) 0.0% (0) 0.0% (0) 0.0% (0)
+#> 5     hazel  0.0% (0)  3.8%  (1)  0.0% (0) 0.0% (0) 0.0% (0) 0.0% (0)
+#> 6    yellow  0.0% (0)  0.0%  (0)  0.0% (0) 3.8% (1) 0.0% (0) 3.8% (1)
+#> 7     Total 15.4% (4) 50.0% (13) 19.2% (5) 3.8% (1) 7.7% (2) 3.8% (1)
+#>         Total
+#> 1  34.6%  (9)
+#> 2   3.8%  (1)
+#> 3  46.2% (12)
+#> 4   3.8%  (1)
+#> 5   3.8%  (1)
+#> 6   7.7%  (2)
+#> 7 100.0% (26)
 ```
 
 ### Other features of tabyls
 
--   When called on a factor, it will include missing levels in the result (levels not present in the vector)
-    -   This can be suppressed if not desired behavior
+-   When called on a factor, it will include missing levels (levels not present in the data) in the result
+    -   This can be suppressed if not desired
 -   `NA` values can be displayed or suppressed
--   They print without row numbers displaying
+-   Prints without displaying row numbers
 
 `adorn_*` functions
 -------------------
@@ -160,8 +186,8 @@ mtcars %>%
 These modular functions build on a `tabyl` to approximate the functionality of a quick PivotTable in Microsoft Excel. They print elegant results for interactive analysis or for sharing in a report, e.g., with `knitr::kable()`. For example:
 
 ``` r
-mtcars %>%
-  tabyl(cyl, gear) %>%
+humans %>%
+  tabyl(gender, eye_color) %>%
   adorn_totals(c("row", "col")) %>%
   adorn_percentages("row") %>% 
   adorn_pct_formatting(rounding = "half up", digits = 0) %>%
@@ -169,12 +195,11 @@ mtcars %>%
   knitr::kable()
 ```
 
-| cyl   | 3        | 4        | 5       | Total     |
-|:------|:---------|:---------|:--------|:----------|
-| 4     | 9% (1)   | 73% (8)  | 18% (2) | 100% (11) |
-| 6     | 29% (2)  | 57% (4)  | 14% (1) | 100% (7)  |
-| 8     | 86% (12) | 0% (0)   | 14% (2) | 100% (14) |
-| Total | 47% (15) | 38% (12) | 16% (5) | 100% (32) |
+| gender | blue     | blue-gray | brown    | dark   | hazel   | yellow | Total     |
+|:-------|:---------|:----------|:---------|:-------|:--------|:-------|:----------|
+| female | 33% (3)  | 0% (0)    | 56% (5)  | 0% (0) | 11% (1) | 0% (0) | 100% (9)  |
+| male   | 35% (9)  | 4% (1)    | 46% (12) | 4% (1) | 4% (1)  | 8% (2) | 100% (26) |
+| Total  | 34% (12) | 3% (1)    | 49% (17) | 3% (1) | 6% (2)  | 6% (2) | 100% (35) |
 
 ### The adorn functions are:
 
@@ -201,31 +226,29 @@ This can be handy when you have a data.frame that is not a simple tabulation gen
 A simple example: formatting percentages in a data.frame showing the % of records meeting a certain condition:
 
 ``` r
-library(dplyr)
-percent_above_20_mpg <- mtcars %>%
-  group_by(cyl) %>%
-  summarise(pct_above_20_mpg = mean(mpg > 20))
+percent_above_165_cm <- humans %>%
+  group_by(gender) %>%
+  summarise(pct_above_165_cm = mean(height > 165, na.rm = TRUE))
 
-percent_above_20_mpg %>%
+percent_above_165_cm %>%
   adorn_pct_formatting()
-#> # A tibble: 3 x 2
-#>     cyl pct_above_20_mpg
-#>   <dbl>            <chr>
-#> 1     4           100.0%
-#> 2     6            42.9%
-#> 3     8             0.0%
+#> # A tibble: 2 x 2
+#>   gender pct_above_165_cm
+#>    <chr>            <chr>
+#> 1 female            12.5%
+#> 2   male           100.0%
 ```
 
 Here's a more complex example. We'll create a table containing the mean of a 3rd variable when grouped by two other variables, then use `adorn_` functions to round the values and append Ns. The first part is pretty straightforward:
 
 ``` r
 library(tidyr) # for spread()
-base_table <- mtcars %>%
+mpg_by_cyl_and_am <- mtcars %>%
   group_by(cyl, am) %>%
   summarise(mpg = mean(mpg)) %>%
   spread(am, mpg)
 
-base_table
+mpg_by_cyl_and_am
 #> # A tibble: 3 x 3
 #> # Groups:   cyl [3]
 #>     cyl    `0`      `1`
@@ -238,7 +261,7 @@ base_table
 Now to `adorn_` it. Since this is not a result of a `tabyl()` call, it doesn't have the underlying Ns stored in the `core` attribute, so we'll have to supply them:
 
 ``` r
-base_table %>%
+mpg_by_cyl_and_am %>%
   adorn_rounding() %>%
   adorn_ns(
     ns = mtcars %>% # calculate the Ns on the fly by calling tabyl on the original data
