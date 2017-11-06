@@ -140,19 +140,18 @@ Use `purrr::map()` to apply the `adorn_` helper functions to the entire list:
 
 ``` r
 library(purrr)
-#> Warning: package 'purrr' was built under R version 3.4.2
 humans %>%
   tabyl(eye_color, skin_color, gender, show_missing_levels = FALSE) %>%
-  map(adorn_totals, c("row", "col")) %>%
+  map(adorn_totals, "row") %>%
   map(adorn_percentages, "all") %>%
   map(adorn_pct_formatting, digits = 1) %>%
   map(adorn_ns)
 #> $female
-#>   eye_color      fair     light      Total
-#> 1      blue 22.2% (2) 11.1% (1)  33.3% (3)
-#> 2     brown 11.1% (1) 44.4% (4)  55.6% (5)
-#> 3     hazel  0.0% (0) 11.1% (1)  11.1% (1)
-#> 4     Total 33.3% (3) 66.7% (6) 100.0% (9)
+#>   eye_color      fair     light
+#> 1      blue 22.2% (2) 11.1% (1)
+#> 2     brown 11.1% (1) 44.4% (4)
+#> 3     hazel  0.0% (0) 11.1% (1)
+#> 4     Total 33.3% (3) 66.7% (6)
 #> 
 #> $male
 #>   eye_color      dark       fair     light     pale      tan    white
@@ -163,14 +162,6 @@ humans %>%
 #> 5     hazel  0.0% (0)  3.8%  (1)  0.0% (0) 0.0% (0) 0.0% (0) 0.0% (0)
 #> 6    yellow  0.0% (0)  0.0%  (0)  0.0% (0) 3.8% (1) 0.0% (0) 3.8% (1)
 #> 7     Total 15.4% (4) 50.0% (13) 19.2% (5) 3.8% (1) 7.7% (2) 3.8% (1)
-#>         Total
-#> 1  34.6%  (9)
-#> 2   3.8%  (1)
-#> 3  46.2% (12)
-#> 4   3.8%  (1)
-#> 5   3.8%  (1)
-#> 6   7.7%  (2)
-#> 7 100.0% (26)
 ```
 
 ### Other features of tabyls
