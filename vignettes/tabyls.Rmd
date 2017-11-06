@@ -1,7 +1,9 @@
 ---
 title: "tabyls: a tidy, fully-featured approach to counting things"
 date: "`r Sys.Date()`"
-output: rmarkdown::github_document
+output:
+  md_document:
+    variant: markdown_github
 vignette: >
   %\VignetteIndexEntry{tabyls}
   %\VignetteEngine{knitr::rmarkdown}
@@ -21,7 +23,7 @@ Analysts do a lot of counting.  Indeed, it's been said that "[data science is mo
 
 `tabyl()` is an approach to tabulating variables that addresses these shortcomings.  It's part of the janitor package because counting is such a fundamental part of data cleaning and exploration.
 
-`tabyl()` is tidyverse-aligned, and in fact is primarily built upon the dplyr and tidyr packages.
+`tabyl()` is tidyverse-aligned and is primarily built upon the dplyr and tidyr packages.
 
 ## How it works
 
