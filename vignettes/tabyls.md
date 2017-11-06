@@ -198,7 +198,7 @@ humans %>%
 
 ### The adorn functions are:
 
--   **`adorn_totals_row()`**: Add totals row, column, or both. Replaces the janitor functions `add_totals_row` and `add_totals_col`
+-   **`adorn_totals()`**: Add totals row, column, or both. Replaces the janitor functions `add_totals_row` and `add_totals_col`
 -   **`adorn_percentages()`**: Calculate percentages along either axis or over the entire tabyl
 -   **`adorn_pct_formatting()`**: Format percentage columns, controlling number of digits to display and whether to append the `%` symbol
 -   **`adorn_rounding()`**: Round a data.frame of numbers (usually the result of `adorn_percentages`), either using the base R `round()` function or rounding all ties up using a custom rounding function ([thanks, StackOverflow](http://stackoverflow.com/a/12688836/4470365)).
