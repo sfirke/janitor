@@ -69,7 +69,7 @@ clean_names <- function(dat, case = c("snake", "small_camel", "big_camel", "scre
   new_names[dupe_count > 1] <- paste(new_names[dupe_count > 1],
                                      dupe_count[dupe_count > 1],
                                      sep = "_")
-  stats::setNames(dat, new_names)
+  purrr::set_names(dat, new_names)
 }
                     
 # copy of clean_names from janitor v0.3 on CRAN, to preserve old behavior
@@ -94,5 +94,5 @@ old_clean_names <- function(dat){
   new_names[dupe_count > 1] <- paste(new_names[dupe_count > 1],
                                      dupe_count[dupe_count > 1],
                                      sep = "_")
-  stats::setNames(dat, new_names)
+  purrr::set_names(dat, new_names)
 }
