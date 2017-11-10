@@ -2,10 +2,9 @@
 title: "Catalog of janitor functions"
 date: "`r Sys.Date()`"
 output:
-  md_document:
-    variant: markdown_github
-    toc: true
-    toc_depth: 3
+  rmarkdown::github_document: 
+    toc: true 
+    toc_depth: 3 
 vignette: >
   %\VignetteIndexEntry{Introduction}
   %\VignetteEngine{knitr::rmarkdown}

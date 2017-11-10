@@ -32,11 +32,11 @@ The legacy functions `crosstab` and `adorn_crosstab` have been deprecated, but r
 
 * `tabyl` objects now print with row numbers suppressed
 * `clean_names()` now retains the character `#` as `"number"` in the resulting names
+* The utility function `round_half_up()` is now exported for public use.  It's an exact implementation of http://stackoverflow.com/questions/12688717/round-up-from-5-in-r/12688836#12688836.
 
 ## Bug fixes
 * `adorn_totals("row")` handles quirky variable names in 1st column [(#118)](https://github.com/sfirke/janitor/issues/118)
 
-* The utility function `round_half_up()` is now exported for public use.  An exact implementation of http://stackoverflow.com/questions/12688717/round-up-from-5-in-r/12688836#12688836.
 
 # janitor 0.3.0  (Release date: 2017-05-06)
 
