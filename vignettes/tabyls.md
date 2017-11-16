@@ -1,5 +1,14 @@
-# tabyls: a tidy, fully-featured approach to counting things
-`r Sys.Date()`  
+---
+title: "tabyls: a tidy, fully-featured approach to counting things"
+date: '2017-11-16'
+output:
+  rmarkdown::github_document:
+    keep_md: true
+vignette: >
+  %\VignetteIndexEntry{tabyls}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
 
 
 
@@ -136,7 +145,7 @@ t3 # the result is a tabyl of eye color x skin color, split into a list by gende
 #> 4      dark    0    0     0    0   0     0
 #> 5     hazel    0    0     1    0   0     0
 #> 6    yellow    0    0     0    0   0     0
-#> 
+#>
 #> $male
 #>   eye_color dark fair light pale tan white
 #> 1      blue    0    7     2    0   0     0
@@ -164,7 +173,7 @@ humans %>%
 #> 2     brown 11.1% (1) 44.4% (4)
 #> 3     hazel  0.0% (0) 11.1% (1)
 #> 4     Total 33.3% (3) 66.7% (6)
-#> 
+#>
 #> $male
 #>   eye_color      dark       fair     light     pale      tan    white
 #> 1      blue  0.0% (0) 26.9%  (7)  7.7% (2) 0.0% (0) 0.0% (0) 0.0% (0)
@@ -192,7 +201,7 @@ These modular functions build on a `tabyl` to  approximate the functionality of 
 humans %>%
   tabyl(gender, eye_color) %>%
   adorn_totals(c("row", "col")) %>%
-  adorn_percentages("row") %>% 
+  adorn_percentages("row") %>%
   adorn_pct_formatting(rounding = "half up", digits = 0) %>%
   adorn_ns() %>%
   knitr::kable()
@@ -202,9 +211,9 @@ humans %>%
 
 gender   blue       blue-gray   brown      dark     hazel     yellow   Total     
 -------  ---------  ----------  ---------  -------  --------  -------  ----------
-female   33%  (3)   0% (0)      56%  (5)   0% (0)   11% (1)   0% (0)   100%  (9) 
-male     35%  (9)   4% (1)      46% (12)   4% (1)   4% (1)    8% (2)   100% (26) 
-Total    34% (12)   3% (1)      49% (17)   3% (1)   6% (2)    6% (2)   100% (35) 
+female   33%  (3)   0% (0)      56%  (5)   0% (0)   11% (1)   0% (0)   100%  (9)
+male     35%  (9)   4% (1)      46% (12)   4% (1)   4% (1)    8% (2)   100% (26)
+Total    34% (12)   3% (1)      49% (17)   3% (1)   6% (2)    6% (2)   100% (35)
 
 ### The adorn functions are:
 
@@ -245,7 +254,7 @@ percent_above_165_cm %>%
 #> 2   male           100.0%
 ```
 
-Here's a more complex example.  We'll create a table containing the mean of a 3rd variable when grouped by two other variables, then use `adorn_` functions to round the values and append Ns.  The first part is pretty straightforward: 
+Here's a more complex example.  We'll create a table containing the mean of a 3rd variable when grouped by two other variables, then use `adorn_` functions to round the values and append Ns.  The first part is pretty straightforward:
 
 ```r
 library(tidyr) # for spread()

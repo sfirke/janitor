@@ -1,6 +1,6 @@
 ---
 title: "tabyls: a tidy, fully-featured approach to counting things"
-date: "`r Sys.Date()`"
+date: '`r Sys.Date()`'
 output:
   rmarkdown::html_vignette:
     keep_md: true
