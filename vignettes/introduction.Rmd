@@ -4,7 +4,7 @@ date: "`r Sys.Date()`"
 output:
   rmarkdown::html_vignette:
     toc: true
-    toc_depth: 4
+    toc_depth: 3
     keep_md: true
 vignette: >
   %\VignetteIndexEntry{Introduction}

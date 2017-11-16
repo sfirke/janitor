@@ -4,7 +4,6 @@ date: "`r Sys.Date()`"
 output:
   rmarkdown::html_vignette:
     keep_md: true
-keep_md: yes
 vignette: >
   %\VignetteIndexEntry{tabyls}
   %\VignetteEngine{knitr::rmarkdown}
