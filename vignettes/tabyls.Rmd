@@ -1,9 +1,9 @@
 ---
 title: "tabyls: a tidy, fully-featured approach to counting things"
 date: "`r Sys.Date()`"
-output: 
-  md_document: 
-    variant: markdown_github 
+output:
+  rmarkdown::html_vignette:
+    keep_md: true
 keep_md: yes
 vignette: >
   %\VignetteIndexEntry{tabyls}
