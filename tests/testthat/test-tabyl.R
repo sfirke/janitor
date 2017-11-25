@@ -26,6 +26,11 @@ test_that("names are right", {
   expect_equal(names(test_res_na), c("test_df_na$grp", "n", "percent", "valid_percent"))
 })
 
+test_that("named vectors are handled properly", { # issue 144
+  x <- c(a = "x", b = "y", c = "z")
+  expect_equal(names(tabyl(x))[1], "x")
+})
+
 test_that("NAs handled correctly", {
   expect_equal(test_res_na$percent, c(0.2, 0.4, 0.2, 0.2))
   expect_equal(test_res_na$valid_percent, c(0.25, 0.5, 0.25, NA))
