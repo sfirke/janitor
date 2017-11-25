@@ -215,3 +215,9 @@ test_that("NA levels get moved to the last column in the data.frame, are suppres
   )
 })
 
+test_that("print.tabyl prints without row numbers", {
+  expect_equal(
+    mtcars %>% tabyl(am, cyl) %>% capture.output(),
+    c(" am 4 6  8", "  0 3 4 12", "  1 8 3  2")
+  )
+})
