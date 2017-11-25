@@ -47,11 +47,12 @@ tabyl <- function(dat, ...) UseMethod("tabyl")
 tabyl.default <- function(dat, show_na = TRUE, show_missing_levels = TRUE, ...) {
   if(is.list(dat) & !"data.frame" %in% class(dat)){stop("tabyl() is meant to be called on vectors and data.frames; convert non-data.frame lists to one of these types")}
   # catch and adjust input variable name.
-  if(is.null(names(dat))) {
+  if(is.null(names(dat)) | is.vector(dat)) {
     var_name <- deparse(substitute(dat))
   } else {
     var_name <- names(dat)
   }
+  
   
   # useful error message if input vector doesn't exist
   if(is.null(dat)){stop(paste0("object ", var_name, " not found"))}
