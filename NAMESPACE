@@ -2,6 +2,7 @@
 
 S3method(crosstab,data.frame)
 S3method(crosstab,default)
+S3method(print,tabyl)
 S3method(tabyl,data.frame)
 S3method(tabyl,default)
 export("%>%")

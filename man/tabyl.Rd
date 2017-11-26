@@ -17,7 +17,7 @@ tabyl(dat, ...)
 \arguments{
 \item{dat}{a data.frame containing the variables you wish to count.  Or, a vector you want to tabulate.}
 
-\item{...}{the arguments to tabyl.}
+\item{...}{the arguments to tabyl (here just for the sake of documentation compliance, as all arguments are listed with the vector- and data.frame-specific methods)}
 
 \item{show_na}{should counts of \code{NA} values be displayed?  In a one-way tabyl, the presence of \code{NA} values triggers an additional column showing valid percentages(calculated excluding \code{NA} values).}
 
