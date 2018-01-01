@@ -64,7 +64,7 @@ paste_matrices <- function(front, rear){
   # paste the results together
   pasted <- paste(front_matrix, " ", rear_matrix, sep = "") %>% # paste the matrices
     matrix(., nrow = nrow(front_matrix), dimnames = dimnames(rear_matrix)) %>% # cast as matrix, then data.frame
-    dplyr::as_data_frame(pasted)
+    dplyr::as_data_frame()
   pasted[[1]] <- front[[1]] # undo the pasting in this 1st column
   pasted
 }
