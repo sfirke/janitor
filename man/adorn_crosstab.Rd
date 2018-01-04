@@ -24,7 +24,7 @@ adorn_crosstab(dat, denom = "row", show_n = TRUE, digits = 1,
 Returns a data.frame.
 }
 \description{
-Formats a data.frame containing counts of co-occurences of two variables (i.e., a contingency table or crosstab).  Adds a mix of percentages, Ns, totals row/column, and custom rounding to a table of integer counts, in the style of a Microsoft Excel PivotTable.  The result is no longer clean data, but is an audience-friendly way to report results.
+Formats a data.frame containing counts of co-occurrences of two variables (i.e., a contingency table or crosstab).  Adds a mix of percentages, Ns, totals row/column, and custom rounding to a table of integer counts, in the style of a Microsoft Excel PivotTable.  The result is no longer clean data, but is an audience-friendly way to report results.
 
 Designed to run on the output of a call to \code{janitor::crosstab}, but can be called on any data.frame containing a contingency table, e.g., the result of \code{dplyr::count()} followed by \code{tidyr::spread()}.
 }
