@@ -20,7 +20,7 @@ paste_ns <- function(perc_df, n_df){
   pasted <- paste(perc_matrix, " (", n_matrix, ")", sep = "") %>% # paste the matrices
     sapply(., fix_parens_whitespace) %>% # apply the whitespace cleaning function to the resulting vector
     matrix(., nrow = nrow(n_matrix), dimnames = dimnames(perc_matrix)) %>% # cast as matrix, then data.frame
-    dplyr::as_data_frame(pasted)
+    dplyr::as_data_frame()
   
   pasted[[1]] <- n_df[[1]] # undo the pasting in this 1st column
   pasted

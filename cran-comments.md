@@ -1,11 +1,11 @@
 
 # Submission
-2017-05-06
+2018-01-04
 
 
 ### Test environments
-* local Windows 10 install, R 3.3.3
-* win-builder with R-devel 2017-05-06
+* local Windows 10 install, R 3.4.1
+* win-builder with R-devel 2018-01-04
 
 On Travis CI:
 * ubuntu 12.04.5, R-oldrel 3.3.3
