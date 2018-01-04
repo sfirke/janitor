@@ -5,9 +5,10 @@ NEWS
 
 ## Release summary
 
-This is a bug-fix release with no new functionality or changes.  It fixes a bug where `adorn_crosstab()` failed if the tibble package was version > 1.4.
+This is a bug-fix release with no new functionality or changes.  It fixes a bug where `adorn_crosstab()` failed if the `tibble` package was version > 1.4.
 
-Major changes to janitor are currently on GitHub and will be released soon.  This is not that release.
+Major changes to janitor are currently in development on GitHub and will be released soon.  This is not that next big release.
+
 
 # janitor 0.3.0  (Release date: 2017-05-06)
 
