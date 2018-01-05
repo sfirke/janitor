@@ -19,7 +19,7 @@ clean_names(dat, case = c("snake", "small_camel", "big_camel",
  \item{ALL_CAPS: \code{"screaming_snake"} or \code{"all_caps"}}
  \item{lowerUPPER: \code{"lower_upper"}}
  \item{UPPERlower: \code{"upper_lower"}}
- \item{old_janitor: legacy compatibility option to preserve behavior of \code{clean_names} in janitor versions <= 0.3.0 (prior to addition of the "case" argument)}
+ \item{old_janitor: legacy compatibility option to preserve behavior of \code{clean_names} in janitor versions <= 0.3.1 (prior to addition of the "case" argument)}
  }}
 }
 \value{
