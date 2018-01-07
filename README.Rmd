@@ -1,7 +1,6 @@
 ---
 output:
-  md_document:
-    variant: markdown_github
+  github_document
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -86,9 +85,9 @@ Dirtiness includes:
 Here's that data after being read in to R:
 ```{r, warning = FALSE, message = FALSE}
 library(pacman) # for loading packages
-p_load(readxl, janitor, dplyr)
+p_load(readxl, janitor, dplyr, here)
 
-roster_raw <- read_excel("dirty_data.xlsx") # available at http://github.com/sfirke/janitor
+roster_raw <- read_excel(here("dirty_data.xlsx")) # available at http://github.com/sfirke/janitor
 glimpse(roster_raw)
 ```
 

@@ -1,3 +1,4 @@
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 > Data scientists, according to interviews and expert estimates, spend from 50 percent to 80 percent of their time mired in this more mundane labor of collecting and preparing unruly digital data, before it can be explored for useful nuggets.
 >
@@ -65,9 +66,9 @@ Here's that data after being read in to R:
 
 ``` r
 library(pacman) # for loading packages
-p_load(readxl, janitor, dplyr)
+p_load(readxl, janitor, dplyr, here)
 
-roster_raw <- read_excel("dirty_data.xlsx") # available at http://github.com/sfirke/janitor
+roster_raw <- read_excel(here("dirty_data.xlsx")) # available at http://github.com/sfirke/janitor
 glimpse(roster_raw)
 #> Observations: 13
 #> Variables: 11
@@ -99,20 +100,20 @@ roster <- roster_raw %>%
 
 roster
 #> # A tibble: 12 x 8
-#>      first_name last_name employee_status    subject  hire_date percent_allocated full_time           cert
-#>           <chr>     <chr>           <chr>      <chr>     <date>             <dbl>     <chr>          <chr>
-#>  1        Jason    Bourne         Teacher         PE 2008-08-30              0.75       Yes    Physical ed
-#>  2        Jason    Bourne         Teacher   Drafting 2008-08-30              0.25       Yes    Physical ed
-#>  3       Alicia      Keys         Teacher      Music 2001-08-15              1.00       Yes   Instr. music
-#>  4          Ada  Lovelace         Teacher       <NA> 1975-05-01              1.00       Yes        PENDING
-#>  5        Desus      Nice  Administration       Dean 2013-06-06              1.00       Yes        PENDING
-#>  6 Chien-Shiung        Wu         Teacher    Physics 1930-03-20              0.50       Yes   Science 6-12
-#>  7 Chien-Shiung        Wu         Teacher  Chemistry 1930-03-20              0.50       Yes   Science 6-12
-#>  8        James     Joyce         Teacher    English 1990-05-01              0.50        No   English 6-12
-#>  9         Hedy    Lamarr         Teacher    Science 1976-06-08              0.50        No        PENDING
-#> 10       Carlos    Boozer           Coach Basketball 2015-08-05                NA        No    Physical ed
-#> 11        Young    Boozer           Coach       <NA> 1995-01-01                NA        No Political sci.
-#> 12      Micheal    Larsen         Teacher    English 2009-09-15              0.80        No    Vocal music
+#>    first_name   last_name employee_status subject    hire_date  percent_allocated full_time cert          
+#>    <chr>        <chr>     <chr>           <chr>      <date>                 <dbl> <chr>     <chr>         
+#>  1 Jason        Bourne    Teacher         PE         2008-08-30             0.750 Yes       Physical ed   
+#>  2 Jason        Bourne    Teacher         Drafting   2008-08-30             0.250 Yes       Physical ed   
+#>  3 Alicia       Keys      Teacher         Music      2001-08-15             1.00  Yes       Instr. music  
+#>  4 Ada          Lovelace  Teacher         <NA>       1975-05-01             1.00  Yes       PENDING       
+#>  5 Desus        Nice      Administration  Dean       2013-06-06             1.00  Yes       PENDING       
+#>  6 Chien-Shiung Wu        Teacher         Physics    1930-03-20             0.500 Yes       Science 6-12  
+#>  7 Chien-Shiung Wu        Teacher         Chemistry  1930-03-20             0.500 Yes       Science 6-12  
+#>  8 James        Joyce     Teacher         English    1990-05-01             0.500 No        English 6-12  
+#>  9 Hedy         Lamarr    Teacher         Science    1976-06-08             0.500 No        PENDING       
+#> 10 Carlos       Boozer    Coach           Basketball 2015-08-05            NA     No        Physical ed   
+#> 11 Young        Boozer    Coach           <NA>       1995-01-01            NA     No        Political sci.
+#> 12 Micheal      Larsen    Teacher         English    2009-09-15             0.800 No        Vocal music
 ```
 
 The core janitor cleaning function is `clean_names()` - call it whenever you load data into R.
@@ -126,13 +127,12 @@ Use `get_dupes()` to identify and examine duplicate records during data cleaning
 ``` r
 roster %>% get_dupes(first_name, last_name)
 #> # A tibble: 4 x 9
-#>     first_name last_name dupe_count employee_status   subject  hire_date percent_allocated full_time
-#>          <chr>     <chr>      <int>           <chr>     <chr>     <date>             <dbl>     <chr>
-#> 1 Chien-Shiung        Wu          2         Teacher   Physics 1930-03-20              0.50       Yes
-#> 2 Chien-Shiung        Wu          2         Teacher Chemistry 1930-03-20              0.50       Yes
-#> 3        Jason    Bourne          2         Teacher        PE 2008-08-30              0.75       Yes
-#> 4        Jason    Bourne          2         Teacher  Drafting 2008-08-30              0.25       Yes
-#> # ... with 1 more variables: cert <chr>
+#>   first_name   last_name dupe_count employee_status subject   hire_date  percent_allocated full_time cert    
+#>   <chr>        <chr>          <int> <chr>           <chr>     <date>                 <dbl> <chr>     <chr>   
+#> 1 Chien-Shiung Wu                 2 Teacher         Physics   1930-03-20             0.500 Yes       Science…
+#> 2 Chien-Shiung Wu                 2 Teacher         Chemistry 1930-03-20             0.500 Yes       Science…
+#> 3 Jason        Bourne             2 Teacher         PE        2008-08-30             0.750 Yes       Physica…
+#> 4 Jason        Bourne             2 Teacher         Drafting  2008-08-30             0.250 Yes       Physica…
 ```
 
 Yes, some teachers appear twice. We ought to address this before counting employees.
@@ -156,17 +156,17 @@ One variable:
 ``` r
 roster %>%
   tabyl(subject)
-#>       subject n    percent valid_percent
-#> 1  Basketball 1 0.08333333           0.1
-#> 2   Chemistry 1 0.08333333           0.1
-#> 3        Dean 1 0.08333333           0.1
-#> 4    Drafting 1 0.08333333           0.1
-#> 5     English 2 0.16666667           0.2
-#> 6       Music 1 0.08333333           0.1
-#> 7          PE 1 0.08333333           0.1
-#> 8     Physics 1 0.08333333           0.1
-#> 9     Science 1 0.08333333           0.1
-#> 10       <NA> 2 0.16666667            NA
+#>     subject n    percent valid_percent
+#>  Basketball 1 0.08333333           0.1
+#>   Chemistry 1 0.08333333           0.1
+#>        Dean 1 0.08333333           0.1
+#>    Drafting 1 0.08333333           0.1
+#>     English 2 0.16666667           0.2
+#>       Music 1 0.08333333           0.1
+#>          PE 1 0.08333333           0.1
+#>     Physics 1 0.08333333           0.1
+#>     Science 1 0.08333333           0.1
+#>        <NA> 2 0.16666667            NA
 ```
 
 Two variables:
@@ -175,10 +175,10 @@ Two variables:
 roster %>%
   filter(hire_date > as.Date("1950-01-01")) %>%
   tabyl(employee_status, full_time)
-#>   employee_status No Yes
-#> 1  Administration  0   1
-#> 2           Coach  2   0
-#> 3         Teacher  3   4
+#>  employee_status No Yes
+#>   Administration  0   1
+#>            Coach  2   0
+#>          Teacher  3   4
 ```
 
 Three variables:
@@ -187,19 +187,19 @@ Three variables:
 roster %>%
   tabyl(full_time, subject, employee_status)
 #> $Administration
-#>   full_time Basketball Chemistry Dean Drafting English Music PE Physics Science
-#> 1        No          0         0    0        0       0     0  0       0       0
-#> 2       Yes          0         0    1        0       0     0  0       0       0
+#>  full_time Basketball Chemistry Dean Drafting English Music PE Physics Science
+#>         No          0         0    0        0       0     0  0       0       0
+#>        Yes          0         0    1        0       0     0  0       0       0
 #> 
 #> $Coach
-#>   full_time Basketball Chemistry Dean Drafting English Music PE Physics Science NA_
-#> 1        No          1         0    0        0       0     0  0       0       0   1
-#> 2       Yes          0         0    0        0       0     0  0       0       0   0
+#>  full_time Basketball Chemistry Dean Drafting English Music PE Physics Science NA_
+#>         No          1         0    0        0       0     0  0       0       0   1
+#>        Yes          0         0    0        0       0     0  0       0       0   0
 #> 
 #> $Teacher
-#>   full_time Basketball Chemistry Dean Drafting English Music PE Physics Science NA_
-#> 1        No          0         0    0        0       2     0  0       0       1   0
-#> 2       Yes          0         1    0        1       0     1  1       1       0   1
+#>  full_time Basketball Chemistry Dean Drafting English Music PE Physics Science NA_
+#>         No          0         0    0        0       2     0  0       0       1   0
+#>        Yes          0         1    0        1       0     1  1       1       0   1
 ```
 
 ##### Adorning tabyls
@@ -213,11 +213,11 @@ roster %>%
   adorn_percentages("row") %>%
   adorn_pct_formatting() %>%
   adorn_ns()
-#>   employee_status         No        Yes
-#> 1  Administration   0.0% (0) 100.0% (1)
-#> 2           Coach 100.0% (2)   0.0% (0)
-#> 3         Teacher  33.3% (3)  66.7% (6)
-#> 4           Total  41.7% (5)  58.3% (7)
+#>  employee_status         No        Yes
+#>   Administration   0.0% (0) 100.0% (1)
+#>            Coach 100.0% (2)   0.0% (0)
+#>          Teacher  33.3% (3)  66.7% (6)
+#>            Total  41.7% (5)  58.3% (7)
 ```
 
 Pipe that right into `knitr::kable()` in your RMarkdown report!
