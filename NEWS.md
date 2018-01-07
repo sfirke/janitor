@@ -1,10 +1,11 @@
 NEWS
 ====
+
 # janitor 0.4.0.9000 (development version, in progress)
 
 Targeting CRAN submission around February 2018.
 
-# Release summary
+## Release summary
 
 ## Breaking changes
 
