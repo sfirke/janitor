@@ -2,7 +2,7 @@ NEWS
 ====
 # janitor 0.4.0.9000 (development version, in progress)
 
-Targeting CRAN submission around December 2017.
+Targeting CRAN submission around February 2018.
 
 # Release summary
 
@@ -36,6 +36,15 @@ The legacy functions `crosstab` and `adorn_crosstab` have been deprecated, but r
 
 ## Bug fixes
 * `adorn_totals("row")` handles quirky variable names in 1st column [(#118)](https://github.com/sfirke/janitor/issues/118)
+
+
+# janitor 0.3.1  (Release date: 2018-01-04)
+
+## Release summary
+
+This is a bug-fix release with no new functionality or changes.  It fixes a bug where `adorn_crosstab()` failed if the `tibble` package was version > 1.4.
+
+Major changes to janitor are currently in development on GitHub and will be released soon.  This is not that next big release.
 
 
 # janitor 0.3.0  (Release date: 2017-05-06)
