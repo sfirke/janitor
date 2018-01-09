@@ -19,7 +19,7 @@ get_dupes <- function(dat, ...) {
   
   # check that each variable name provided is present in names(dat); if not, throw error
   q_names <- uq_names
-  if(is.list(q_names)){ q_names <- lapply(uq_names, deparse) } # 'names' is not a list if defaulting to whole df, need this for consistency
+  if(is.list(q_names)){ q_names <- lapply(uq_names, deparse) } # uq_names is not a list if defaulting to whole df, need this for consistency
   check_vars_in_df(dat, df_name, unlist(q_names))
   dupe_count <- NULL # to appease NOTE for CRAN; does nothing.
   
