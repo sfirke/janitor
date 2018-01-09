@@ -37,6 +37,7 @@ The legacy functions `crosstab` and `adorn_crosstab` have been deprecated, but r
 
 ## Bug fixes
 * `adorn_totals("row")` handles quirky variable names in 1st column [(#118)](https://github.com/sfirke/janitor/issues/118)
+* `get_dupes()` returns the correct result when a variable in the input data.frame is already called `"n"` [(#162)](https://github.com/sfirke/janitor/issues/162)
 
 
 # janitor 0.3.1  (Release date: 2018-01-04)
