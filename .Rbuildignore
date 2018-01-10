@@ -15,3 +15,5 @@ planning.Rmd
 map of janitor 1.0 API.docx
 .github
 ^docs$
+Index.md
+Index.Rmd
