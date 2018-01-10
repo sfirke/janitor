@@ -31,14 +31,13 @@ get_dupes <- function(dat, ...) {
   
   # calculate counts to join back to main df
   counts <- dat %>%
-    dplyr::count_(vars = uq_names)
+    dplyr::add_count_(vars = uq_names) # in the new tidy evaluation, would this be dplyr::add_count(!!!uq_names)?  That causes some test warnings
   
   names(counts)[ncol(counts)] <- "dupe_count"
-  # join new count vector to main data.frame
-  dupes <- suppressMessages(dplyr::inner_join(counts, dat))
-  
-  dupes <- dupes %>%
+
+  dupes <- counts %>%
     dplyr::filter(dupe_count > 1) %>%
+    dplyr::select(!!!q_names, dupe_count, dplyr::everything()) %>%
     dplyr::ungroup() %>%
     dplyr::arrange_(.dots = uq_names)
   
