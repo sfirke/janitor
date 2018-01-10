@@ -1,7 +1,7 @@
 
 <!-- Index.md is generated from Index.Rmd. Please edit that file -->
 
-# janitor <img src="tools/readme/logo_small.png" align="right" />
+# janitor <img src="https://github.com/sfirke/janitor/raw/master/tools/readme/logo_small.png" align="right" />
 
 > Data scientists, according to interviews and expert estimates, spend
 > from 50 percent to 80 percent of their time mired in this more mundane
