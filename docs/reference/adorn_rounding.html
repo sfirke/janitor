@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Round the numeric columns in a data.frame. — adorn_rounding • janitor</title>
+<title>Round the numeric columns in a data.frame. � adorn_rounding • janitor</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -144,12 +144,14 @@
 #&gt;   0 0.16 0.21 0.63
 #&gt;   1 0.62 0.23 0.15</div><div class='input'>
 <span class='co'># tolerates non-numeric columns:</span>
-<span class='fu'>library</span>(<span class='no'>dplyr</span>)</div><div class='output co'>#&gt; <span class='error'>Error in value[[3L]](cond): Package ‘dplyr’ version 0.7.4 cannot be unloaded:</span>
-#&gt; <span class='error'> Error in unloadNamespace(package) : namespace ‘dplyr’ is imported by ‘janitor’ so cannot be unloaded</span></div><div class='input'><span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
+<span class='fu'>library</span>(<span class='no'>dplyr</span>)
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='tabyl.html'>tabyl</a></span>(<span class='no'>am</span>, <span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='adorn_percentages.html'>adorn_percentages</a></span>(<span class='st'>"all"</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='http://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>dummy</span> <span class='kw'>=</span> <span class='st'>"a"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>adorn_rounding</span>()</div><div class='output co'>#&gt; <span class='error'>Error in mutate(., dummy = "a"): could not find function "mutate"</span></div></pre>
+  <span class='fu'>adorn_rounding</span>()</div><div class='output co'>#&gt;   am   4   6   8 dummy
+#&gt; 1  0 0.1 0.1 0.4     a
+#&gt; 2  1 0.2 0.1 0.1     a</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -170,7 +172,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>

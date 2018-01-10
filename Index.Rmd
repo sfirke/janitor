@@ -170,7 +170,7 @@ Pipe that right into `knitr::kable()` in your RMarkdown report!
 
 These modular adornments can be layered to reduce R's deficit against Excel and SPSS when it comes to quick, informative counts.
 
-## <i class="fa fa-bullhorn-o" aria-hidden="true"></i> Contact Me
+## <i class="fa fa-bullhorn" aria-hidden="true"></i> Contact Me
 
 You are welcome to:
 
