@@ -28,14 +28,14 @@ The legacy functions `crosstab` and `adorn_crosstab` have been deprecated, but r
 
 - `clean_names()` offers multiple options for variable name styling.  In addition to `snake_case` you can select `smallCamelCase`, `BigCamelCase`, `ALL_CAPS` and others. [(#131)](https://github.com/sfirke/janitor/issues/131).  Thanks to **@tazinho**, who wrote the [snakecase](https://github.com/Tazinho/snakecase/) package that janitor depends on to do this, as well as the patch to incorporate it into `clean_names()`.
 
-- Launched the janitor documentation website: http://sfirke.github.io/janitor.  Thanks to the [pkgdown](https://github.com/r-lib/pkgdown) package!
+- Launched the janitor documentation website: [http://sfirke.github.io/janitor](http://sfirke.github.io/janitor).  Thanks to the [pkgdown](https://github.com/r-lib/pkgdown) package!
 
 
 ## Minor Features
 
 - `tabyl` objects now print with row numbers suppressed
 - `clean_names()` now retains the character `#` as `"number"` in the resulting names
-- The utility function `round_half_up()` is now exported for public use.  It's an exact implementation of http://stackoverflow.com/questions/12688717/round-up-from-5-in-r/12688836#12688836.
+- The utility function `round_half_up()` is now exported for public use.  It's an exact implementation of [http://stackoverflow.com/questions/12688717/round-up-from-5-in-r/12688836#12688836](http://stackoverflow.com/questions/12688717/round-up-from-5-in-r/12688836#12688836).
 
 ## Bug fixes
 - `adorn_totals("row")` handles quirky variable names in 1st column [(#118)](https://github.com/sfirke/janitor/issues/118)
