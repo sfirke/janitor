@@ -1,7 +1,7 @@
 
 <!-- Index.md is generated from Index.Rmd. Please edit that file -->
 
-# janitor <img src="https://github.com/sfirke/janitor/raw/master/tools/readme/logo_small.png" align="right" />
+# janitor <img src="man/figures/logo_small.png" align="right" />
 
 > Data scientists, according to interviews and expert estimates, spend
 > from 50 percent to 80 percent of their time mired in this more mundane
@@ -89,8 +89,7 @@ functions](https://github.com/sfirke/janitor/blob/master/vignettes/introduction.
 Take this roster of teachers at a fictional American high school, stored
 in the Microsoft Excel file
 [dirty\_data.xlsx](https://github.com/sfirke/janitor/blob/master/dirty_data.xlsx):
-![All kinds of
-dirty.](https://github.com/sfirke/janitor/raw/master/tools/readme/dirty_data.PNG)
+![All kinds of dirty.](man/figures/dirty_data.PNG)
 
 Dirtiness includes:
 

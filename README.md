@@ -10,7 +10,7 @@
 > Insight](http://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html)”
 > - The New York Times, 2014*
 
-# janitor <img src="tools/readme/logo_small.png" align="right" />
+# janitor <img src="man/figures/logo_small.png" align="right" />
 
 -----
 
@@ -87,7 +87,7 @@ functions](https://github.com/sfirke/janitor/blob/master/vignettes/introduction.
 Take this roster of teachers at a fictional American high school, stored
 in the Microsoft Excel file
 [dirty\_data.xlsx](https://github.com/sfirke/janitor/blob/master/dirty_data.xlsx):
-![All kinds of dirty.](tools/readme/dirty_data.PNG)
+![All kinds of dirty.](man/figures/dirty_data.PNG)
 
 Dirtiness includes:
 
