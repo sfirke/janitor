@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Removes empty rows from a data.frame. — remove_empty_rows • janitor</title>
+<title>Remove empty rows and/or columns from a data.frame. — remove_empty • janitor</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -98,14 +98,14 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Removes empty rows from a data.frame.</h1>
+    <h1>Remove empty rows and/or columns from a data.frame.</h1>
     </div>
 
     
-    <p>This function is deprecated, use <code><a href='remove_empty.html'>remove_empty("rows")</a></code> instead.</p>
+    <p>Removes all rows and/or columns from a data.frame that are composed entirely of <code>NA</code> values.</p>
     
 
-    <pre class="usage"><span class='fu'>remove_empty_rows</span>(<span class='no'>dat</span>)</pre>
+    <pre class="usage"><span class='fu'>remove_empty</span>(<span class='no'>dat</span>, <span class='no'>which</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -114,16 +114,20 @@
       <th>dat</th>
       <td><p>the input data.frame.</p></td>
     </tr>
+    <tr>
+      <th>which</th>
+      <td><p>one of "row", "col", or <code>c("row", "col")</code></p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns the data.frame with no empty rows.</p>
+    <p>Returns the data.frame without its missing rows or columns.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'># not run:
-# dat %>% remove_empty_rows
+# dat %>% remove_empty("rows")
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

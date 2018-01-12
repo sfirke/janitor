@@ -90,16 +90,16 @@ excel_numeric_to_date(41103)
 excel_numeric_to_date(41103, date_system = "mac pre-2011")
 ```
 
-### `remove_empty_cols()` and `remove_empty_rows()`
-One-line wrapper functions that do what they say.  For cases like cleaning Excel files containing empty rows and columns.
+### `remove_empty()` rows and columns
+Does what it says.  For cases like cleaning Excel files containing empty rows and columns.
 ```{r}
 q <- data.frame(v1 = c(1, NA, 3),
                 v2 = c(NA, NA, NA),
                 v3 = c("a", NA, "b"))
 q %>%
-  remove_empty_cols() %>%
-  remove_empty_rows()
+  remove_empty(c("rows", "cols"))
 ```
+Just a simple wrapper for one-line functions, but improves readability of the code and saves a little thinking.
 
 ## Exploring
 
