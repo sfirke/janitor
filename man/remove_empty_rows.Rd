@@ -13,7 +13,7 @@ remove_empty_rows(dat)
 Returns the data.frame with no empty rows.
 }
 \description{
-Removes all rows from a data.frame that are composed entirely of \code{NA} values.
+This function is deprecated, use \code{remove_empty("rows")} instead.
 }
 \examples{
 # not run:
