@@ -65,7 +65,9 @@ untabyl <- function(dat){
   if(! "tabyl" %in% class(dat)){warning("untabyl() called on a non-tabyl")}
   class(dat) <- class(dat)[! class(dat) %in% "tabyl"]
   attr(dat, "core") <- NULL
-  attr(dat, "totals") <- NULL # may not exist, but simpler to declare it NULL regardless than to check to see if it exists
+  # These attributes may not exist, but simpler to declare them NULL regardless than to check to see if they exist:
+  attr(dat, "totals") <- NULL 
   attr(dat, "tabyl_type") <- NULL # may not exist, but simpler to declare it NULL regardless than to check to see if it exists
+  attr(dat, "var_names") <- NULL # may not exist, but simpler to declare it NULL regardless than to check to see if it exists
   dat
 }

@@ -33,6 +33,7 @@ The legacy functions `crosstab` and `adorn_crosstab` have been deprecated, but r
 **Deprecated the following functions:**
 - `remove_empty_rows()` and `remove_empty_cols()` - replaced by the single function `remove_empty()`.  It does not have a default value for the `which` argument, forcing more explicit and readable code. e.g. `remove_empty("rows")`.
 
+- Added `adorn_title()` function to show name of 2nd `tabyl` variable - this un-tidies the data.frame but makes the result clearer to readers [(#77)](https://github.com/sfirke/janitor/issues/77) 
 
 ## Minor Features
 

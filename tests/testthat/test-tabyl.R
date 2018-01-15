@@ -168,17 +168,17 @@ z <- structure(list(
 expect_equal(z %>% tabyl(a, b, new, show_missing_levels = TRUE),
              list(lvl1 = data.frame(a = c("hi", "lo"),
                                     big = c(0, 0),
-                                    small = c(1, 0)) %>% as_tabyl()))
+                                    small = c(1, 0)) %>% as_tabyl(2, "a", "b")))
 expect_equal(z %>% tabyl(a, b, new, show_missing_levels = FALSE),
              list(lvl1 = data.frame(a = c("hi"),
-                                    small = c(1), stringsAsFactors = FALSE) %>% as_tabyl()))
+                                    small = c(1), stringsAsFactors = FALSE) %>% as_tabyl(2, "a", "b")))
 
 # Works with numerics
 expect_equal(mtcars %>% tabyl(cyl, am),
              data.frame(cyl = c(4, 6, 8),
                         `0` = c(3, 4, 12),
                         `1` = c(8, 3, 2),
-                        check.names = FALSE) %>% as_tabyl())
+                        check.names = FALSE) %>% as_tabyl(2, "cyl", "am"))
 })
 
 # NA handling - position and removal
