@@ -77,7 +77,7 @@
     <div class="page-header toc-ignore">
       <h1>tabyls: a tidy, fully-featured approach to counting things</h1>
             
-            <h4 class="date">2018-01-10</h4>
+            <h4 class="date">2018-01-16</h4>
           </div>
 
     
@@ -145,7 +145,7 @@
 <a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt;  gender blue blue-gray brown dark hazel yellow</span></a>
 <a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt;  female    3         0     5    0     1      0</span></a>
 <a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt;    male    9         1    12    1     1      2</span></a></code></pre></div>
-<p>And since it’s a <code>tabyl</code>, we can enhance it with <code>adorn_</code> helper functions. For instance:</p>
+<p>Since it’s a <code>tabyl</code>, we can enhance it with <code>adorn_</code> helper functions. For instance:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"></a>
 <a class="sourceLine" id="cb6-2" data-line-number="2">t2 <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb6-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/adorn_percentages.html">adorn_percentages</a></span>(<span class="st">"row"</span>) <span class="op">%&gt;%</span></a>
@@ -185,23 +185,26 @@
 <a class="sourceLine" id="cb8-4" data-line-number="4"><span class="st">  </span><span class="kw">map</span>(adorn_totals, <span class="st">"row"</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb8-5" data-line-number="5"><span class="st">  </span><span class="kw">map</span>(adorn_percentages, <span class="st">"all"</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb8-6" data-line-number="6"><span class="st">  </span><span class="kw">map</span>(adorn_pct_formatting, <span class="dt">digits =</span> <span class="dv">1</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="st">  </span><span class="kw">map</span>(adorn_ns)</a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; $female</span></a>
-<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt;  eye_color      fair     light</span></a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt;       blue 22.2% (2) 11.1% (1)</span></a>
-<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt;      brown 11.1% (1) 44.4% (4)</span></a>
-<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt;      hazel  0.0% (0) 11.1% (1)</span></a>
-<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt;      Total 33.3% (3) 66.7% (6)</span></a>
-<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">#&gt; $male</span></a>
-<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">#&gt;  eye_color      dark       fair     light     pale      tan    white</span></a>
-<a class="sourceLine" id="cb8-17" data-line-number="17"><span class="co">#&gt;       blue  0.0% (0) 26.9%  (7)  7.7% (2) 0.0% (0) 0.0% (0) 0.0% (0)</span></a>
-<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="co">#&gt;  blue-gray  0.0% (0)  3.8%  (1)  0.0% (0) 0.0% (0) 0.0% (0) 0.0% (0)</span></a>
-<a class="sourceLine" id="cb8-19" data-line-number="19"><span class="co">#&gt;      brown 11.5% (3) 15.4%  (4) 11.5% (3) 0.0% (0) 7.7% (2) 0.0% (0)</span></a>
-<a class="sourceLine" id="cb8-20" data-line-number="20"><span class="co">#&gt;       dark  3.8% (1)  0.0%  (0)  0.0% (0) 0.0% (0) 0.0% (0) 0.0% (0)</span></a>
-<a class="sourceLine" id="cb8-21" data-line-number="21"><span class="co">#&gt;      hazel  0.0% (0)  3.8%  (1)  0.0% (0) 0.0% (0) 0.0% (0) 0.0% (0)</span></a>
-<a class="sourceLine" id="cb8-22" data-line-number="22"><span class="co">#&gt;     yellow  0.0% (0)  0.0%  (0)  0.0% (0) 3.8% (1) 0.0% (0) 3.8% (1)</span></a>
-<a class="sourceLine" id="cb8-23" data-line-number="23"><span class="co">#&gt;      Total 15.4% (4) 50.0% (13) 19.2% (5) 3.8% (1) 7.7% (2) 3.8% (1)</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="st">  </span><span class="kw">map</span>(adorn_ns) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="st">  </span><span class="kw">map</span>(adorn_title)</a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; $female</span></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt;             skin_color          </span></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt; 1 eye_color       fair     light</span></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt; 2      blue  22.2% (2) 11.1% (1)</span></a>
+<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt; 3     brown  11.1% (1) 44.4% (4)</span></a>
+<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt; 4     hazel   0.0% (0) 11.1% (1)</span></a>
+<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">#&gt; 5     Total  33.3% (3) 66.7% (6)</span></a>
+<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb8-17" data-line-number="17"><span class="co">#&gt; $male</span></a>
+<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="co">#&gt;             skin_color                                                </span></a>
+<a class="sourceLine" id="cb8-19" data-line-number="19"><span class="co">#&gt; 1 eye_color       dark       fair     light     pale      tan    white</span></a>
+<a class="sourceLine" id="cb8-20" data-line-number="20"><span class="co">#&gt; 2      blue   0.0% (0) 26.9%  (7)  7.7% (2) 0.0% (0) 0.0% (0) 0.0% (0)</span></a>
+<a class="sourceLine" id="cb8-21" data-line-number="21"><span class="co">#&gt; 3 blue-gray   0.0% (0)  3.8%  (1)  0.0% (0) 0.0% (0) 0.0% (0) 0.0% (0)</span></a>
+<a class="sourceLine" id="cb8-22" data-line-number="22"><span class="co">#&gt; 4     brown  11.5% (3) 15.4%  (4) 11.5% (3) 0.0% (0) 7.7% (2) 0.0% (0)</span></a>
+<a class="sourceLine" id="cb8-23" data-line-number="23"><span class="co">#&gt; 5      dark   3.8% (1)  0.0%  (0)  0.0% (0) 0.0% (0) 0.0% (0) 0.0% (0)</span></a>
+<a class="sourceLine" id="cb8-24" data-line-number="24"><span class="co">#&gt; 6     hazel   0.0% (0)  3.8%  (1)  0.0% (0) 0.0% (0) 0.0% (0) 0.0% (0)</span></a>
+<a class="sourceLine" id="cb8-25" data-line-number="25"><span class="co">#&gt; 7    yellow   0.0% (0)  0.0%  (0)  0.0% (0) 3.8% (1) 0.0% (0) 3.8% (1)</span></a>
+<a class="sourceLine" id="cb8-26" data-line-number="26"><span class="co">#&gt; 8     Total  15.4% (4) 50.0% (13) 19.2% (5) 3.8% (1) 7.7% (2) 3.8% (1)</span></a></code></pre></div>
 <section id="other-features-of-tabyls" class="level3"><h3>Other features of tabyls</h3>
 <ul>
 <li>When called on a factor, it will include missing levels (levels not present in the data) in the result
@@ -221,10 +224,11 @@
 <a class="sourceLine" id="cb9-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="../reference/adorn_percentages.html">adorn_percentages</a></span>(<span class="st">"row"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb9-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="../reference/adorn_pct_formatting.html">adorn_pct_formatting</a></span>(<span class="dt">rounding =</span> <span class="st">"half up"</span>, <span class="dt">digits =</span> <span class="dv">0</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb9-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="../reference/adorn_ns.html">adorn_ns</a></span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="st">  </span>knitr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/knitr/topics/kable">kable</a></span>()</a></code></pre></div>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="st">  </span><span class="kw"><a href="../reference/adorn_title.html">adorn_title</a></span>(<span class="st">"combined"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="st">  </span>knitr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/knitr/topics/kable">kable</a></span>()</a></code></pre></div>
 <table class="table">
 <thead><tr class="header">
-<th style="text-align: left;">gender</th>
+<th style="text-align: left;">gender/eye_color</th>
 <th style="text-align: left;">blue</th>
 <th style="text-align: left;">blue-gray</th>
 <th style="text-align: left;">brown</th>
@@ -289,6 +293,8 @@
 </li>
 <li>
 <strong><code><a href="../reference/adorn_ns.html">adorn_ns()</a></code></strong>: add Ns to a tabyl. These can be drawn from the tabyl’s <code>core</code> attribute (by default), or supplied by the user.</li>
+<li>
+<strong><code><a href="../reference/adorn_title.html">adorn_title()</a></code></strong>: add a title to a tabyl (or other data.frame). Options include putting the column title in a new row on top of the data.frame or combining the row and column titles in the data.frame’s first name slot.</li>
 </ul>
 <p>These adornments should be called in a logical order, e.g., you probably want to add totals before percentages are calculated. In general, call them in the order they appear above.</p>
 <p>Users of janitor version &lt;= 0.3.0 should replace the obsolete <code><a href="../reference/adorn_crosstab.html">adorn_crosstab()</a></code> with combinations of the above <code>adorn_</code> functions.</p>
@@ -328,14 +334,12 @@
 <a class="sourceLine" id="cb12-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/adorn_ns.html">adorn_ns</a></span>(</a>
 <a class="sourceLine" id="cb12-4" data-line-number="4">    <span class="dt">ns =</span> mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># calculate the Ns on the fly by calling tabyl on the original data</span></a>
 <a class="sourceLine" id="cb12-5" data-line-number="5"><span class="st">      </span><span class="kw"><a href="../reference/tabyl.html">tabyl</a></span>(cyl, am)</a>
-<a class="sourceLine" id="cb12-6" data-line-number="6">  )</a>
-<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co">#&gt; # A tibble: 3 x 3</span></a>
-<a class="sourceLine" id="cb12-8" data-line-number="8"><span class="co">#&gt; # Groups: cyl [3]</span></a>
-<a class="sourceLine" id="cb12-9" data-line-number="9"><span class="co">#&gt;     cyl `0`       `1`     </span></a>
-<a class="sourceLine" id="cb12-10" data-line-number="10"><span class="co">#&gt; * &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;   </span></a>
-<a class="sourceLine" id="cb12-11" data-line-number="11"><span class="co">#&gt; 1  4.00 22.9  (3) 28.1 (8)</span></a>
-<a class="sourceLine" id="cb12-12" data-line-number="12"><span class="co">#&gt; 2  6.00 19.1  (4) 20.6 (3)</span></a>
-<a class="sourceLine" id="cb12-13" data-line-number="13"><span class="co">#&gt; 3  8.00 15.1 (12) 15.4 (2)</span></a></code></pre></div>
+<a class="sourceLine" id="cb12-6" data-line-number="6">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="st">  </span><span class="kw"><a href="../reference/adorn_title.html">adorn_title</a></span>(<span class="st">"combined"</span>, <span class="dt">row_name =</span> <span class="st">"Cylinders"</span>, <span class="dt">col_name =</span> <span class="st">"Is Automatic"</span>)</a>
+<a class="sourceLine" id="cb12-8" data-line-number="8"><span class="co">#&gt;   Cylinders/Is Automatic         0        1</span></a>
+<a class="sourceLine" id="cb12-9" data-line-number="9"><span class="co">#&gt; 1                      4 22.9  (3) 28.1 (8)</span></a>
+<a class="sourceLine" id="cb12-10" data-line-number="10"><span class="co">#&gt; 2                      6 19.1  (4) 20.6 (3)</span></a>
+<a class="sourceLine" id="cb12-11" data-line-number="11"><span class="co">#&gt; 3                      8 15.1 (12) 15.4 (2)</span></a></code></pre></div>
 <p>Or you could tinker with the Ns before appending them, e.g., if you have large Ns in a tabyl, divide them by 1000, round, and append “k” before calling <code>adorn_ns</code>.</p>
 <section id="questions-comments" class="level3"><h3>Questions? Comments?</h3>
 <p>File <a href="https://github.com/sfirke/janitor/issues">an issue on GitHub</a> if you have questions or ideas related to <code><a href="../reference/tabyl.html">tabyl()</a></code> and its <code>adorn_</code> helpers or encounter problems while using them.</p>
@@ -371,7 +375,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
 </div>
 
       </footer>

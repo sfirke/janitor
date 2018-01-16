@@ -112,7 +112,7 @@
 <p>The result of calling <code><a href='tabyl.html'>tabyl()</a></code> on a single variable is a special class of one-way tabyl; this function only pertains to the two-way tabyl.</p>
     
 
-    <pre class="usage"><span class='fu'>as_tabyl</span>(<span class='no'>dat</span>, <span class='kw'>axes</span> <span class='kw'>=</span> <span class='fl'>2</span>)</pre>
+    <pre class="usage"><span class='fu'>as_tabyl</span>(<span class='no'>dat</span>, <span class='kw'>axes</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>row_var_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>col_var_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -124,6 +124,14 @@
     <tr>
       <th>axes</th>
       <td><p>is this a two_way tabyl or a one_way tabyl?  If this function is being called by a user, this should probably be "2".  One-way tabyls are created by <code>tabyl</code> but are a special case.</p></td>
+    </tr>
+    <tr>
+      <th>row_var_name</th>
+      <td><p>(optional) the name of the variable in the row dimension.</p></td>
+    </tr>
+    <tr>
+      <th>col_var_name</th>
+      <td><p>(optional) the name of the variable in the column dimension; used by <code>adorn_col_title()</code>.</p></td>
     </tr>
     </table>
     
@@ -187,7 +195,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
 </div>
 
       </footer>

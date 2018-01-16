@@ -155,23 +155,29 @@
 <a class="sourceLine" id="cb4-5" data-line-number="5"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">hire_date =</span> <span class="kw"><a href="reference/excel_numeric_to_date.html">excel_numeric_to_date</a></span>(hire_date),</a>
 <a class="sourceLine" id="cb4-6" data-line-number="6">         <span class="dt">cert =</span> <span class="kw">coalesce</span>(certification, certification_<span class="dv">1</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># from dplyr</span></a>
 <a class="sourceLine" id="cb4-7" data-line-number="7"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>certification, <span class="op">-</span>certification_<span class="dv">1</span>) <span class="co"># drop unwanted columns</span></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb4-9" data-line-number="9">roster</a>
-<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; # A tibble: 12 x 8</span></a>
-<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt;    first_name   last_name employee_status subject    hire_date  percent_allocated full_time cert          </span></a>
-<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt;    &lt;chr&gt;        &lt;chr&gt;     &lt;chr&gt;           &lt;chr&gt;      &lt;date&gt;                 &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;         </span></a>
-<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt;  1 Jason        Bourne    Teacher         PE         2008-08-30             0.750 Yes       Physical ed   </span></a>
-<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt;  2 Jason        Bourne    Teacher         Drafting   2008-08-30             0.250 Yes       Physical ed   </span></a>
-<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt;  3 Alicia       Keys      Teacher         Music      2001-08-15             1.00  Yes       Instr. music  </span></a>
-<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt;  4 Ada          Lovelace  Teacher         &lt;NA&gt;       1975-05-01             1.00  Yes       PENDING       </span></a>
-<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt;  5 Desus        Nice      Administration  Dean       2013-06-06             1.00  Yes       PENDING       </span></a>
-<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt;  6 Chien-Shiung Wu        Teacher         Physics    1930-03-20             0.500 Yes       Science 6-12  </span></a>
-<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt;  7 Chien-Shiung Wu        Teacher         Chemistry  1930-03-20             0.500 Yes       Science 6-12  </span></a>
-<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt;  8 James        Joyce     Teacher         English    1990-05-01             0.500 No        English 6-12  </span></a>
-<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt;  9 Hedy         Lamarr    Teacher         Science    1976-06-08             0.500 No        PENDING       </span></a>
-<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="co">#&gt; 10 Carlos       Boozer    Coach           Basketball 2015-08-05            NA     No        Physical ed   </span></a>
-<a class="sourceLine" id="cb4-23" data-line-number="23"><span class="co">#&gt; 11 Young        Boozer    Coach           &lt;NA&gt;       1995-01-01            NA     No        Political sci.</span></a>
-<a class="sourceLine" id="cb4-24" data-line-number="24"><span class="co">#&gt; 12 Micheal      Larsen    Teacher         English    2009-09-15             0.800 No        Vocal music</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; Warning: 'remove_empty_rows' is deprecated.</span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; Use 'remove_empty("rows")' instead.</span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; See help("Deprecated")</span></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt; Warning: 'remove_empty_cols' is deprecated.</span></a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt; Use 'remove_empty("cols")' instead.</span></a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt; See help("Deprecated")</span></a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb4-15" data-line-number="15">roster</a>
+<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt; # A tibble: 12 x 8</span></a>
+<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt;    first_name   last_name employee_status subject    hire_date  percent_allocated full_time cert          </span></a>
+<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt;    &lt;chr&gt;        &lt;chr&gt;     &lt;chr&gt;           &lt;chr&gt;      &lt;date&gt;                 &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;         </span></a>
+<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt;  1 Jason        Bourne    Teacher         PE         2008-08-30             0.750 Yes       Physical ed   </span></a>
+<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt;  2 Jason        Bourne    Teacher         Drafting   2008-08-30             0.250 Yes       Physical ed   </span></a>
+<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt;  3 Alicia       Keys      Teacher         Music      2001-08-15             1.00  Yes       Instr. music  </span></a>
+<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="co">#&gt;  4 Ada          Lovelace  Teacher         &lt;NA&gt;       1975-05-01             1.00  Yes       PENDING       </span></a>
+<a class="sourceLine" id="cb4-23" data-line-number="23"><span class="co">#&gt;  5 Desus        Nice      Administration  Dean       2013-06-06             1.00  Yes       PENDING       </span></a>
+<a class="sourceLine" id="cb4-24" data-line-number="24"><span class="co">#&gt;  6 Chien-Shiung Wu        Teacher         Physics    1930-03-20             0.500 Yes       Science 6-12  </span></a>
+<a class="sourceLine" id="cb4-25" data-line-number="25"><span class="co">#&gt;  7 Chien-Shiung Wu        Teacher         Chemistry  1930-03-20             0.500 Yes       Science 6-12  </span></a>
+<a class="sourceLine" id="cb4-26" data-line-number="26"><span class="co">#&gt;  8 James        Joyce     Teacher         English    1990-05-01             0.500 No        English 6-12  </span></a>
+<a class="sourceLine" id="cb4-27" data-line-number="27"><span class="co">#&gt;  9 Hedy         Lamarr    Teacher         Science    1976-06-08             0.500 No        PENDING       </span></a>
+<a class="sourceLine" id="cb4-28" data-line-number="28"><span class="co">#&gt; 10 Carlos       Boozer    Coach           Basketball 2015-08-05            NA     No        Physical ed   </span></a>
+<a class="sourceLine" id="cb4-29" data-line-number="29"><span class="co">#&gt; 11 Young        Boozer    Coach           &lt;NA&gt;       1995-01-01            NA     No        Political sci.</span></a>
+<a class="sourceLine" id="cb4-30" data-line-number="30"><span class="co">#&gt; 12 Micheal      Larsen    Teacher         English    2009-09-15             0.800 No        Vocal music</span></a></code></pre></div>
 <p>The core janitor cleaning function is <code><a href="reference/clean_names.html">clean_names()</a></code> - call it whenever you load data into R.</p>
 </section><section id="examining-dirty-data" class="level3"><h3>Examining dirty data</h3>
 <section id="finding-duplicates" class="level4"><h4>Finding duplicates</h4>

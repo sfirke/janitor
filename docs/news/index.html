@@ -118,12 +118,26 @@
 </section></section><section id="major-features" class="level2"><h2>Major Features</h2>
 <ul>
 <li>
-<code><a href="../reference/clean_names.html">clean_names()</a></code> transliterates accented letters, e.g., <code>çãüœ</code> becomes <code>cauoe</code> <a href="https://github.com/sfirke/janitor/issues/120">(#120)</a>. Thanks to <strong><span class="citation" data-cites="fernandovmacedo">@fernandovmacedo</span></strong>.</li>
-</ul>
-<p><strong>Note</strong>: to obtain this character transliteration functionality on a Windows computer, you will need version &gt;= 1.1.6 of the stringi package. As of November 2017, this is available on GitHub, but not yet on CRAN.</p>
+<code><a href="../reference/clean_names.html">clean_names()</a></code> transliterates accented letters, e.g., <code>çãüœ</code> becomes <code>cauoe</code> <a href="https://github.com/sfirke/janitor/issues/120">(#120)</a>. Thanks to <strong><span class="citation" data-cites="fernandovmacedo">@fernandovmacedo</span></strong>.
 <ul>
-<li><p><code><a href="../reference/clean_names.html">clean_names()</a></code> offers multiple options for variable name styling. In addition to <code>snake_case</code> you can select <code>smallCamelCase</code>, <code>BigCamelCase</code>, <code>ALL_CAPS</code> and others. <a href="https://github.com/sfirke/janitor/issues/131">(#131)</a>. Thanks to <strong><span class="citation" data-cites="tazinho">@tazinho</span></strong>, who wrote the <a href="https://github.com/Tazinho/snakecase/">snakecase</a> package that janitor depends on to do this, as well as the patch to incorporate it into <code><a href="../reference/clean_names.html">clean_names()</a></code>.</p></li>
+<li>
+<em>To obtain this character transliteration functionality on a Windows computer, you will need version &gt;= 1.1.6 of the stringi package. As of January 2018, this is available on GitHub, but not yet on CRAN</em>.</li>
+</ul>
+</li>
+<li>
+<code><a href="../reference/clean_names.html">clean_names()</a></code> offers multiple options for variable name styling. In addition to <code>snake_case</code> you can select <code>smallCamelCase</code>, <code>BigCamelCase</code>, <code>ALL_CAPS</code> and others. <a href="https://github.com/sfirke/janitor/issues/131">(#131)</a>.
+<ul>
+<li>Thanks to <strong><span class="citation" data-cites="tazinho">@tazinho</span></strong>, who wrote the <a href="https://github.com/Tazinho/snakecase/">snakecase</a> package that janitor depends on to do this, as well as the patch to incorporate it into <code><a href="../reference/clean_names.html">clean_names()</a></code>.</li>
+</ul>
+</li>
 <li><p>Launched the janitor documentation website: <a href="http://sfirke.github.io/janitor" class="uri">http://sfirke.github.io/janitor</a>. Thanks to the <a href="https://github.com/r-lib/pkgdown">pkgdown</a> package!</p></li>
+<li>Deprecated the functions <code><a href="../reference/remove_empty_rows.html">remove_empty_rows()</a></code> and <code><a href="../reference/remove_empty_cols.html">remove_empty_cols()</a></code>, which are replaced by the single function <code><a href="../reference/remove_empty.html">remove_empty()</a></code>.
+<ul>
+<li>
+<code><a href="../reference/remove_empty.html">remove_empty()</a></code> does not have a default value for the <code>which</code> argument, forcing more explicit and readable code. e.g. <code><a href="../reference/remove_empty.html">remove_empty("rows")</a></code>.</li>
+</ul>
+</li>
+<li><p>The new <code><a href="../reference/adorn_title.html">adorn_title()</a></code> function shows the name of the 2nd <code>tabyl</code> variable - this un-tidies the data.frame but makes the result clearer to readers <a href="https://github.com/sfirke/janitor/issues/77">(#77)</a></p></li>
 </ul></section><section id="minor-features" class="level2"><h2>Minor Features</h2>
 <ul>
 <li>
