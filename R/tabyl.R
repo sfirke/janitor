@@ -13,7 +13,7 @@
 #' @param var3 (optional) the column name of the third variable (the list in a 3-way tabulation).
 #' @param show_na should counts of \code{NA} values be displayed?  In a one-way tabyl, the presence of \code{NA} values triggers an additional column showing valid percentages(calculated excluding \code{NA} values).
 #' @param show_missing_levels should counts of missing levels of factors be displayed?  These will be rows and/or columns of zeroes.  Useful for keeping consistent output dimensions even when certain factor levels may not be present in the data.
-#' @param ... the arguments to tabyl.
+#' @param ... the arguments to tabyl (here just for the sake of documentation compliance, as all arguments are listed with the vector- and data.frame-specific methods)
 #' @return Returns a data.frame with frequencies and percentages of the tabulated variable(s).  A 3-way tabulation returns a list of data.frames.
 #' @export
 #' @examples
@@ -47,11 +47,12 @@ tabyl <- function(dat, ...) UseMethod("tabyl")
 tabyl.default <- function(dat, show_na = TRUE, show_missing_levels = TRUE, ...) {
   if(is.list(dat) & !"data.frame" %in% class(dat)){stop("tabyl() is meant to be called on vectors and data.frames; convert non-data.frame lists to one of these types")}
   # catch and adjust input variable name.
-  if(is.null(names(dat))) {
+  if(is.null(names(dat)) | is.vector(dat)) {
     var_name <- deparse(substitute(dat))
   } else {
     var_name <- names(dat)
   }
+  
   
   # useful error message if input vector doesn't exist
   if(is.null(dat)){stop(paste0("object ", var_name, " not found"))}

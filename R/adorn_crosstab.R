@@ -31,8 +31,11 @@ adorn_crosstab <- function(dat, denom = "row", show_n = TRUE, digits = 1, show_t
 
   # round %s using specified method, add % sign
   percs <- dplyr::mutate_at(percs, dplyr::vars(2:n_col), dplyr::funs(. * 100)) # since we'll be adding % sign - do this before rounding
-  if(rounding == "half to even"){ percs <- dplyr::mutate_at(percs, dplyr::vars(2:n_col), dplyr::funs(round(., digits))) }
-  else if(rounding == "half up"){ percs <- dplyr::mutate_at(percs, dplyr::vars(2:n_col), dplyr::funs(round_half_up(., digits)))}
+  if(rounding == "half to even"){
+    percs <- dplyr::mutate_at(percs, dplyr::vars(2:n_col), dplyr::funs(round(., digits)))
+  } else if(rounding == "half up"){
+    percs <- dplyr::mutate_at(percs, dplyr::vars(2:n_col), dplyr::funs(round_half_up(., digits)))
+  }
   percs <- dplyr::mutate_at(percs, dplyr::vars(2:n_col), dplyr::funs(format(., nsmall = digits, trim = TRUE))) # so that 0% prints as 0.0% or 0.00% etc.
   percs <- dplyr::mutate_at(percs, dplyr::vars(2:n_col), dplyr::funs(paste0(., "%")))
 
@@ -57,7 +60,7 @@ paste_ns <- function(perc_df, n_df){
   pasted <- paste(perc_matrix, " (", n_matrix, ")", sep = "") %>% # paste the matrices
     sapply(., fix_parens_whitespace) %>% # apply the whitespace cleaning function to the resulting vector
     matrix(., nrow = nrow(n_matrix), dimnames = dimnames(perc_matrix)) %>% # cast as matrix, then data.frame
-    dplyr::as_data_frame(pasted)
+    dplyr::as_data_frame()
   
   pasted[[1]] <- n_df[[1]] # undo the pasting in this 1st column
   pasted

@@ -1,7 +1,6 @@
 .Rproj.user
 .Rhistory
 .RData
-inst/doc
 *.docx
 
 ~WRL0005\.tmp

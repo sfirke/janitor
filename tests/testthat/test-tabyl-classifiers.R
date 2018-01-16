@@ -15,7 +15,7 @@ b <- mtcars %>%
 
 test_that("as_tabyl works on result of a non-janitor count/spread", {
  expect_equal(as_tabyl(a),
-              as_tabyl(b))
+              as_tabyl(b, 2, "cyl", "carb"))
 })
 
 test_that("as_tabyl sets attributes correctly", {

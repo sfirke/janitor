@@ -13,7 +13,7 @@ remove_empty_cols(dat)
 Returns the data.frame with no empty columns.
 }
 \description{
-Removes all columns from a data.frame that are composed entirely of \code{NA} values.
+This function is deprecated, use \code{remove_empty("cols")} instead.
 }
 \examples{
 # not run:
