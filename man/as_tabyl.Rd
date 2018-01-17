@@ -11,9 +11,9 @@ as_tabyl(dat, axes = 2, row_var_name = NULL, col_var_name = NULL)
 
 \item{axes}{is this a two_way tabyl or a one_way tabyl?  If this function is being called by a user, this should probably be "2".  One-way tabyls are created by \code{tabyl} but are a special case.}
 
-\item{row_var_name}{(optional) the name of the variable in the row dimension.}
+\item{row_var_name}{(optional) the name of the variable in the row dimension; used by \code{adorn_title()}.}
 
-\item{col_var_name}{(optional) the name of the variable in the column dimension; used by \code{adorn_col_title()}.}
+\item{col_var_name}{(optional) the name of the variable in the column dimension; used by \code{adorn_title()}.}
 }
 \value{
 Returns the same data.frame, but with the additional class of "tabyl" and the attribute "core".
@@ -21,7 +21,7 @@ Returns the same data.frame, but with the additional class of "tabyl" and the at
 \description{
 A \code{tabyl} is a data.frame containing counts of a variable or co-occurrences of two variables (a.k.a., a contingency table or crosstab).  This specialized kind of data.frame has attributes that enable \code{adorn_} functions to be called for precise formatting and presentation of results.  E.g., display results as a mix of percentages, Ns, add totals rows or columns, rounding options, in the style of Microsoft Excel PivotTable.
 
-A \code{tabyl} can be the result of a call to \code{janitor::tabyl()}, in which case the attributes are added automatically.  This function adds \code{tabyl} class attributes to a data.frame that isn't the result of a call to \code{tabyl} but meets the requirements of a tabyl:
+A \code{tabyl} can be the result of a call to \code{janitor::tabyl()}, in which case the attributes are added automatically.  This function adds \code{tabyl} class attributes to a data.frame that isn't the result of a call to \code{tabyl} but meets the requirements of a two-way tabyl:
 1) First column contains values of variable 1
 2) Column names 2:n are the values of variable 2
 3) Numeric values in columns 2:n are counts of the co-occurrences of the two variables.*
