@@ -59,7 +59,7 @@ test_that("bad inputs are caught", {
   
   # Doesn't make sense with a one-way tabyl
   expect_warning(mtcars %>% tabyl(cyl) %>% adorn_title,
-                 "adorn_title is meant for two-way tables, calling it on a one-way tabyl may not yield a meaningful result")
+                 "adorn_title is meant for two-way tabyls, calling it on a one-way tabyl may not yield a meaningful result")
 })
 
 test_that("works with non-count inputs", {
