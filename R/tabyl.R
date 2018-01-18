@@ -160,10 +160,16 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
   if(!show_na){
     dat <- dat[!is.na(dat[[1]]) & !is.na(dat[[2]]), ]
   }
+   if(nrow(dat) == 0){ # if passed a zero-length input, or an entirely NA input, return a zero-row data.frame
+     message("No records to count so returning a zero-row tabyl")
+     return(dat %>%
+              dplyr::select(1) %>%
+              dplyr::slice(0))
+   }
   
   tabl <- dat %>%
     dplyr::count(!! var1, !! var2)
-  
+
   # Optionally expand missing factor levels.
   if(show_missing_levels){
     combos <- tidyr::complete_(tabl %>% dplyr::select(-n), names(tabl)[1:2]) # this is pretty ugly - using dplyr keeps col types the same making for easier join, vs. expand.grid
@@ -206,6 +212,7 @@ tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_level
     dat[[1]] <- as.factor(dat[[1]])
     dat[[2]] <- as.factor(dat[[2]])
   }
+  
   split(dat, dat[[rlang::quo_name(var3)]]) %>%
     purrr::map(tabyl_2way, var1, var2, show_na = show_na, show_missing_levels = show_missing_levels)
 }

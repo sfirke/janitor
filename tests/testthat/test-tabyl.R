@@ -240,6 +240,22 @@ test_that("NA levels get moved to the last column in the data.frame, are suppres
                         tabyl(eye_color, skin_color, gender, show_missing_levels = FALSE)), 5)
 })
 
+test_that("zero-row and fully-NA inputs are handled", {
+  zero_vec <- character(0)
+  expect_equal(nrow(tabyl(zero_vec)), 0) 
+  expect_equal(names(tabyl(zero_vec)), c("zero_vec", "n", "percent"))
+  
+  zero_df <- data.frame(a = character(0), b = character(0))
+  expect_equal(nrow(tabyl(zero_df, a, b)), 0)
+  expect_equal(names(tabyl(zero_df, a, b)), "a")
+  expect_message(tabyl(zero_df, a, b), "No records to count so returning a zero-row tabyl")
+  
+  all_na_df <- data.frame(a = c(NA, NA), b = c(NA_character_, NA_character_))
+  expect_equal(tabyl(all_na_df, a, b, show_na = FALSE) %>% nrow, 0)
+  expect_equal(tabyl(all_na_df, a, b, show_na = FALSE) %>% names, "a")
+  expect_message(tabyl(all_na_df, a, b, show_na = FALSE), "No records to count so returning a zero-row tabyl")
+})
+
 test_that("print.tabyl prints without row numbers", {
   expect_equal(
     mtcars %>% tabyl(am, cyl) %>% capture.output(),
