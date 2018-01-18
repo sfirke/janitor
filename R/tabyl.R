@@ -193,10 +193,14 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
 tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_levels = TRUE){
   dat <- dplyr::select(dat, !! var1, !! var2, !! var3)
   dat[[3]] <- as.character(dat[[3]]) # don't want empty factor levels in the result list - they would be empty data.frames
-
+  
+  # print NA level as its own data.frame, and make it appear last
+  dat[[3]] <- factor(dat[[3]], levels = c(sort(unique(dat[[3]])), "NA_"))
+  dat[[3]][is.na(dat[[3]])] <- "NA_"
+  
   if(!show_missing_levels){ # this shows missing factor levels, to make the crosstabs consistent across each data.frame in the list based on values of var3
-    dat[[1]] <- as.character(dat[[1]])
-    dat[[2]] <- as.character(dat[[2]])
+    if(is.factor(dat[[1]])){ dat[[1]] <- as.character(dat[[1]]) }
+    if(is.factor(dat[[2]])){ dat[[2]] <- as.character(dat[[2]]) }
   } else {
     dat[[1]] <- as.factor(dat[[1]])
     dat[[2]] <- as.factor(dat[[2]])

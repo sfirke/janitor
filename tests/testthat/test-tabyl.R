@@ -185,6 +185,7 @@ expect_equal(mtcars %>% tabyl(cyl, am),
 test_that("NA levels get moved to the last column in the data.frame, are suppressed properly", {
   x <- data.frame(a = c(1, 2, 2, 2, 1, 1, 1, NA, NA, 1),
                   b = c(rep("up", 4), rep("down", 4), NA, NA),
+                  c = 10,
   stringsAsFactors = FALSE)
   y <- tabyl(x, a, b) %>%
     untabyl()
@@ -213,6 +214,20 @@ test_that("NA levels get moved to the last column in the data.frame, are suppres
       check.names = FALSE
     )
   )
+  
+  # NA level is shown in 3 way split
+  y <- x %>% tabyl(c, a, b, show_missing_levels = FALSE)
+  expect_equal(length(y), 3)
+  expect_equal(names(y), c("down", "up", "NA_"))
+  expect_equal(y[["NA_"]], # here the c column is numeric because show_missing_levels = FALSE
+               x %>% filter(is.na(b)) %>% tabyl(c, a))
+  
+  y_with_missing <- x %>% tabyl(c, a, b, show_missing_levels = TRUE)
+  expect_equal(length(y_with_missing), 3)
+  expect_equal(names(y_with_missing), c("down", "up", "NA_"))
+  expect_equal(y_with_missing[["NA_"]] %>% untabyl(), # here c column is factor b/c show_missing_levels = TRUE
+               data.frame(c = "10", `1` = 1, `2` = 0, NA_ = 1, check.names = FALSE))
+  
 })
 
 test_that("print.tabyl prints without row numbers", {
