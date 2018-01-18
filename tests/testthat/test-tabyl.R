@@ -228,6 +228,16 @@ test_that("NA levels get moved to the last column in the data.frame, are suppres
   expect_equal(y_with_missing[["NA_"]] %>% untabyl(), # here c column is factor b/c show_missing_levels = TRUE
                data.frame(c = "10", `1` = 1, `2` = 0, NA_ = 1, check.names = FALSE))
   
+  # If no NA in 3rd variable, it doesn't appear in split list
+  expect_equal(length(starwars %>%
+                        filter(species == "Human") %>%
+                        tabyl(eye_color, skin_color, gender, show_missing_levels = TRUE)), 2)
+  
+  # If there is NA, it does appear in split list
+  expect_equal(length(starwars %>%
+                        tabyl(eye_color, skin_color, gender, show_missing_levels = TRUE)), 5)
+  expect_equal(length(starwars %>%
+                        tabyl(eye_color, skin_color, gender, show_missing_levels = FALSE)), 5)
 })
 
 test_that("print.tabyl prints without row numbers", {

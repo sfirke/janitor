@@ -177,7 +177,6 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
     levels(tabl[[2]]) <- c(levels(tabl[[2]]), "NA_")
   }
   tabl[2][is.na(tabl[2])] <- "NA_"
-  
   result <- tabl %>%
     tidyr::spread_(rlang::quo_name(var2), "n", fill = 0)
   
@@ -195,8 +194,10 @@ tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_level
   dat[[3]] <- as.character(dat[[3]]) # don't want empty factor levels in the result list - they would be empty data.frames
   
   # print NA level as its own data.frame, and make it appear last
-  dat[[3]] <- factor(dat[[3]], levels = c(sort(unique(dat[[3]])), "NA_"))
-  dat[[3]][is.na(dat[[3]])] <- "NA_"
+  if(sum(is.na(dat[[3]])) > 0){
+    dat[[3]] <- factor(dat[[3]], levels = c(sort(unique(dat[[3]])), "NA_"))
+    dat[[3]][is.na(dat[[3]])] <- "NA_"
+  }
   
   if(!show_missing_levels){ # this shows missing factor levels, to make the crosstabs consistent across each data.frame in the list based on values of var3
     if(is.factor(dat[[1]])){ dat[[1]] <- as.character(dat[[1]]) }
