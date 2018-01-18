@@ -32,7 +32,7 @@ The legacy functions `crosstab` and `adorn_crosstab` have been deprecated, but r
 
 - Launched the janitor documentation website: [http://sfirke.github.io/janitor](http://sfirke.github.io/janitor).  Thanks to the [pkgdown](https://github.com/r-lib/pkgdown) package!
 
-- Deprecated the functions `remove_empty_rows()` and `remove_empty_cols()`, which are replaced by the single function `remove_empty()`.
+- Deprecated the functions `remove_empty_rows()` and `remove_empty_cols()`, which are replaced by the single function `remove_empty()`. [(#100)](https://github.com/sfirke/janitor/issues/100)
   - `remove_empty()` does not have a default value for the `which` argument, forcing more explicit and readable code. e.g. `remove_empty("rows")`.
 
 

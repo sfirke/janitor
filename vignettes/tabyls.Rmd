@@ -29,7 +29,7 @@ Analysts do a lot of counting.  Indeed, it's been said that "[data science is mo
 
 On its surface, `tabyl()` produces frequency tables using 1, 2, or 3 variables.  Under the hood, `tabyl()` also attaches a copy of these counts as an attribute of the resulting data.frame.
 
-The result looks like a basic data.frame of counts, but because it's also a `tabyl` containing this metadata, you can use `adorn_` functions to add pretty formatting.
+The result looks like a basic data.frame of counts, but because it's also a `tabyl` containing this metadata, you can use `adorn_` functions to add additional information and pretty formatting.
 
 # Examples
 This vignette demonstrates `tabyl` in the context of studying humans in the `starwars` dataset from dplyr:
@@ -160,7 +160,7 @@ humans %>%
 
 These adornments should be called in a logical order, e.g., you probably want to add totals before percentages are calculated.  In general, call them in the order they appear above.
 
-Users of janitor version <= 0.3.0 should replace the obsolete `adorn_crosstab()` with combinations of the above `adorn_` functions.
+Users of janitor version <= 0.3.0 should replace the deprecated `adorn_crosstab()` function with combinations of the above `adorn_` functions.
 
 ## BYOt (Bring Your Own tabyl)
 

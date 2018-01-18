@@ -103,7 +103,7 @@
 
     
     <p>A <code>tabyl</code> is a data.frame containing counts of a variable or co-occurrences of two variables (a.k.a., a contingency table or crosstab).  This specialized kind of data.frame has attributes that enable <code>adorn_</code> functions to be called for precise formatting and presentation of results.  E.g., display results as a mix of percentages, Ns, add totals rows or columns, rounding options, in the style of Microsoft Excel PivotTable.</p>
-<p>A <code>tabyl</code> can be the result of a call to <code><a href='http://www.rdocumentation.org/packages/janitor/topics/tabyl'>janitor::tabyl()</a></code>, in which case the attributes are added automatically.  This function adds <code>tabyl</code> class attributes to a data.frame that isn't the result of a call to <code>tabyl</code> but meets the requirements of a tabyl:
+<p>A <code>tabyl</code> can be the result of a call to <code><a href='http://www.rdocumentation.org/packages/janitor/topics/tabyl'>janitor::tabyl()</a></code>, in which case these attributes are added automatically.  This function adds <code>tabyl</code> class attributes to a data.frame that isn't the result of a call to <code>tabyl</code> but meets the requirements of a two-way tabyl:
 1) First column contains values of variable 1
 2) Column names 2:n are the values of variable 2
 3) Numeric values in columns 2:n are counts of the co-occurrences of the two variables.*</p>
@@ -127,11 +127,11 @@
     </tr>
     <tr>
       <th>row_var_name</th>
-      <td><p>(optional) the name of the variable in the row dimension.</p></td>
+      <td><p>(optional) the name of the variable in the row dimension; used by <code><a href='adorn_title.html'>adorn_title()</a></code>.</p></td>
     </tr>
     <tr>
       <th>col_var_name</th>
-      <td><p>(optional) the name of the variable in the column dimension; used by <code>adorn_col_title()</code>.</p></td>
+      <td><p>(optional) the name of the variable in the column dimension; used by <code><a href='adorn_title.html'>adorn_title()</a></code>.</p></td>
     </tr>
     </table>
     
