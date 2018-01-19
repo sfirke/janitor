@@ -7,7 +7,8 @@
 #' @param placement whether the column name should be added to the top of the tabyl in an otherwise-empty row \code{"top"} or appended to the already-present row name variable (\code{"combined"}).  The formatting in the \code{"top"} option has the look of base R's \code{table()}; it also wipes out the other column names, making it hard to further use the data.frame besides formatting it for reporting.  The \code{"combined"} option is more conservative in this regard.
 #' @param row_name (optional) default behavior is to pull the row name from the attributes of the input \code{tabyl} object.  If you wish to override that text, or if your input is not a \code{tabyl}, supply a string here.  
 #' @param col_name (optional) default behavior is to pull the column_name from the attributes of the input \code{tabyl} object.  If you wish to override that text, or if your input is not a \code{tabyl}, supply a string here.  
-#' @return the input tabyl, augmented with the column title.  The output data.frame is always of class \code{tabyl} for printing purposes (\code{tabyls} print without row numbers).
+#' @return the input tabyl, augmented with the column title.  Non-tabyl inputs that are of class \code{tbl_df} are downgraded to basic data.frames so that the title row prints correctly.
+#' 
 #' @export
 #' @examples
 #' 
@@ -49,8 +50,6 @@ adorn_title <- function(dat, placement = "top", row_name, col_name){
     }
   }
   
-  # make a tabyl for printing purposes. "top" title text won't print if a tibble, row numbers print if a data.frame
-  dat <- as_tabyl(dat, axes = 2, row_var, col_var)
   
   if(placement == "top"){
     top <- dat[1, ]
@@ -66,5 +65,8 @@ adorn_title <- function(dat, placement = "top", row_name, col_name){
     out <- dat
     names(out)[1] <- paste(row_var, col_var, sep = "/")
   }
-  out
+  if("tbl_df" %in% class(out)){# "top" text doesn't print if input (and thus the output) is a tibble
+    out <- as.data.frame(out)  # but this prints row numbers, so don't apply to non-tbl_dfs like tabyls
+  }
+  out 
 }

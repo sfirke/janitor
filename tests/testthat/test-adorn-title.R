@@ -68,7 +68,27 @@ test_that("works with non-count inputs", {
                c("", "Characteristics", ""))
 })
 
-test_that("returns a tabyl as to not print row numbers", {
-  expect_equal(class(mtcars %>% dplyr::group_by(cyl) %>% tabyl(gear, carb) %>% adorn_title), c("tabyl", "data.frame")) # input is a tibble
-  expect_equal(class(mtcars %>% dplyr::group_by(cyl) %>% tabyl(gear, carb) %>% adorn_title(., "combined")), c("tabyl", "data.frame")) # input is a tibble
+test_that("for printing purposes: tabyl class stays tabyl, data.frame stays data.frame, tibble is downgraded to data.frame", {
+  # right output classes with tabyl inputs
+  expect_equal(class(mtcars %>% tabyl(cyl, am) %>% adorn_title), c("tabyl", "data.frame")) # input is a tibble
+  expect_equal(class(mtcars %>% tabyl(gear, carb) %>% adorn_title(., "combined")), c("tabyl", "data.frame")) # input is a tibble
+
+  # Create tibble input:
+  mpg_by_cyl_and_am <- mtcars %>%
+    group_by(cyl, am) %>%
+    summarise(mean_mpg = mean(mpg)) %>%
+    tidyr::spread(am, mean_mpg)
+  
+  # handles tibble input
+  expect_equal(class(mpg_by_cyl_and_am %>%
+                       adorn_title("top", "Cylinders", "Automatic?")), c("data.frame"))
+  
+  # Convert columns 2:n to strings
+  expect_equal(class(mpg_by_cyl_and_am %>%
+                       adorn_pct_formatting() %>% # nonsense command here, just want to convert cols 2:n into character
+                       adorn_title("top", "Cylinders", "Automatic?")), c("data.frame"))
+  
+  # handles data.frame non-tabyl input
+  expect_equal(mtcars %>% adorn_title("top", col_name = "hey look ma I'm a title") %>% class,
+               "data.frame")
 })
