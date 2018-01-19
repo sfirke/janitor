@@ -11,12 +11,12 @@ adorn_title(dat, placement = "top", row_name, col_name)
 
 \item{placement}{whether the column name should be added to the top of the tabyl in an otherwise-empty row \code{"top"} or appended to the already-present row name variable (\code{"combined"}).  The formatting in the \code{"top"} option has the look of base R's \code{table()}; it also wipes out the other column names, making it hard to further use the data.frame besides formatting it for reporting.  The \code{"combined"} option is more conservative in this regard.}
 
-\item{row_name}{(optional) default behavior is to pull the row name from the attributes of the input `tabyl` object.  If you wish to override that text, or if your input is not a `tabyl`, supply a string here.}
+\item{row_name}{(optional) default behavior is to pull the row name from the attributes of the input \code{tabyl} object.  If you wish to override that text, or if your input is not a \code{tabyl}, supply a string here.}
 
-\item{col_name}{(optional) default behavior is to pull the column_name from the attributes of the input `tabyl` object.  If you wish to override that text, or if your input is not a `tabyl`, supply a string here.}
+\item{col_name}{(optional) default behavior is to pull the column_name from the attributes of the input \code{tabyl} object.  If you wish to override that text, or if your input is not a \code{tabyl}, supply a string here.}
 }
 \value{
-the input tabyl, augmented with the column title.
+the input tabyl, augmented with the column title.  The output data.frame is always of class \code{tabyl} for printing purposes (\code{tabyls} print without row numbers).
 }
 \description{
 This function adds the column variable name to the top of a \code{tabyl} for a complete display of information.  This makes the tabyl prettier, but renders the data.frame less useful for further manipulation.

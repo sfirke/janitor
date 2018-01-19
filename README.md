@@ -128,8 +128,7 @@ Clean it with janitor functions:
 ``` r
 roster <- roster_raw %>%
   clean_names() %>%
-  remove_empty_rows() %>%
-  remove_empty_cols() %>%
+  remove_empty(c("rows", "cols")) %>%
   mutate(hire_date = excel_numeric_to_date(hire_date),
          cert = coalesce(certification, certification_1)) %>% # from dplyr
   select(-certification, -certification_1) # drop unwanted columns
@@ -260,12 +259,13 @@ roster %>%
   adorn_totals("row") %>%
   adorn_percentages("row") %>%
   adorn_pct_formatting() %>%
-  adorn_ns()
-#>  employee_status         No        Yes
-#>   Administration   0.0% (0) 100.0% (1)
-#>            Coach 100.0% (2)   0.0% (0)
-#>          Teacher  33.3% (3)  66.7% (6)
-#>            Total  41.7% (5)  58.3% (7)
+  adorn_ns() %>%
+  adorn_title("combined")
+#>  employee_status/full_time         No        Yes
+#>             Administration   0.0% (0) 100.0% (1)
+#>                      Coach 100.0% (2)   0.0% (0)
+#>                    Teacher  33.3% (3)  66.7% (6)
+#>                      Total  41.7% (5)  58.3% (7)
 ```
 
 Pipe that right into `knitr::kable()` in your RMarkdown report\!

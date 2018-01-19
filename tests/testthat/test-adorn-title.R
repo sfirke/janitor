@@ -66,4 +66,9 @@ test_that("works with non-count inputs", {
   source2 <- tibble::tibble(sector = c("North", "South"), units = 1:2, group = c("a", "b"))  
   expect_equal(adorn_title(source2, col_name = "Characteristics") %>% names,
                c("", "Characteristics", ""))
-})  
+})
+
+test_that("returns a tabyl as to not print row numbers", {
+  expect_equal(class(mtcars %>% dplyr::group_by(cyl) %>% tabyl(gear, carb) %>% adorn_title), c("tabyl", "data.frame")) # input is a tibble
+  expect_equal(class(mtcars %>% dplyr::group_by(cyl) %>% tabyl(gear, carb) %>% adorn_title(., "combined")), c("tabyl", "data.frame")) # input is a tibble
+})

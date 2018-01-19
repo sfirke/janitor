@@ -5,9 +5,9 @@
 #'
 #' @param dat a data.frame of class \code{tabyl}.
 #' @param placement whether the column name should be added to the top of the tabyl in an otherwise-empty row \code{"top"} or appended to the already-present row name variable (\code{"combined"}).  The formatting in the \code{"top"} option has the look of base R's \code{table()}; it also wipes out the other column names, making it hard to further use the data.frame besides formatting it for reporting.  The \code{"combined"} option is more conservative in this regard.
-#' @param row_name (optional) default behavior is to pull the row name from the attributes of the input `tabyl` object.  If you wish to override that text, or if your input is not a `tabyl`, supply a string here.  
-#' @param col_name (optional) default behavior is to pull the column_name from the attributes of the input `tabyl` object.  If you wish to override that text, or if your input is not a `tabyl`, supply a string here.  
-#' @return the input tabyl, augmented with the column title. 
+#' @param row_name (optional) default behavior is to pull the row name from the attributes of the input \code{tabyl} object.  If you wish to override that text, or if your input is not a \code{tabyl}, supply a string here.  
+#' @param col_name (optional) default behavior is to pull the column_name from the attributes of the input \code{tabyl} object.  If you wish to override that text, or if your input is not a \code{tabyl}, supply a string here.  
+#' @return the input tabyl, augmented with the column title.  The output data.frame is always of class \code{tabyl} for printing purposes (\code{tabyls} print without row numbers).
 #' @export
 #' @examples
 #' 
@@ -49,6 +49,9 @@ adorn_title <- function(dat, placement = "top", row_name, col_name){
     }
   }
   
+  # make a tabyl for printing purposes. "top" title text won't print if a tibble, row numbers print if a data.frame
+  dat <- as_tabyl(dat, axes = 2, row_var, col_var)
+  
   if(placement == "top"){
     top <- dat[1, ]
     top[1, ] <- names(top)
@@ -63,5 +66,5 @@ adorn_title <- function(dat, placement = "top", row_name, col_name){
     out <- dat
     names(out)[1] <- paste(row_var, col_var, sep = "/")
   }
-  as.data.frame(out) # "top" text isn't printing if input (and thus the output) is a tibble
+  out
 }
