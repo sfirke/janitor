@@ -23,16 +23,20 @@ The legacy functions `crosstab` and `adorn_crosstab` have been deprecated, but r
 ## Major Features
 
 - `clean_names()` transliterates accented letters, e.g., `çãüœ` becomes `cauoe` [(#120)](https://github.com/sfirke/janitor/issues/120).  Thanks to **@fernandovmacedo**.
+  - *To obtain this character transliteration functionality on a Windows computer, you will need version >= 1.1.6 of the stringi package.  As of January 2018, this is available on GitHub, but not yet on CRAN*.
 
-**Note**: to obtain this character transliteration functionality on a Windows computer, you will need version >= 1.1.6 of the stringi package.  As of November 2017, this is available on GitHub, but not yet on CRAN.
 
-- `clean_names()` offers multiple options for variable name styling.  In addition to `snake_case` you can select `smallCamelCase`, `BigCamelCase`, `ALL_CAPS` and others. [(#131)](https://github.com/sfirke/janitor/issues/131).  Thanks to **@tazinho**, who wrote the [snakecase](https://github.com/Tazinho/snakecase/) package that janitor depends on to do this, as well as the patch to incorporate it into `clean_names()`.
+- `clean_names()` offers multiple options for variable name styling.  In addition to `snake_case` you can select `smallCamelCase`, `BigCamelCase`, `ALL_CAPS` and others. [(#131)](https://github.com/sfirke/janitor/issues/131).  
+  - Thanks to **@tazinho**, who wrote the [snakecase](https://github.com/Tazinho/snakecase/) package that janitor depends on to do this, as well as the patch to incorporate it into `clean_names()`.
+
 
 - Launched the janitor documentation website: [http://sfirke.github.io/janitor](http://sfirke.github.io/janitor).  Thanks to the [pkgdown](https://github.com/r-lib/pkgdown) package!
 
-**Deprecated the following functions:**
-- `remove_empty_rows()` and `remove_empty_cols()` - replaced by the single function `remove_empty()`.  It does not have a default value for the `which` argument, forcing more explicit and readable code. e.g. `remove_empty("rows")`.
+- Deprecated the functions `remove_empty_rows()` and `remove_empty_cols()`, which are replaced by the single function `remove_empty()`. [(#100)](https://github.com/sfirke/janitor/issues/100)
+  - `remove_empty()` does not have a default value for the `which` argument, forcing more explicit and readable code. e.g. `remove_empty("rows")`.
 
+
+- The new `adorn_title()` function shows the name of the 2nd `tabyl` variable - this un-tidies the data.frame but makes the result clearer to readers [(#77)](https://github.com/sfirke/janitor/issues/77)
 
 ## Minor Features
 

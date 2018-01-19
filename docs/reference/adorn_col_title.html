@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Remove <code>tabyl</code> attributes to a data.frame. � untabyl • janitor</title>
+<title>Add column name to the top of a two-way tabyl. — adorn_col_title • janitor</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -98,14 +98,14 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Remove <code>tabyl</code> attributes to a data.frame.</h1>
+    <h1>Add column name to the top of a two-way tabyl.</h1>
     </div>
 
     
-    <p>Strips away all <code>tabyl</code>-related attributes from a data.frame.</p>
+    <p>This function adds the column variable name to the top of a <code>tabyl</code> for a complete display of information.  This makes the tabyl prettier, but renders the data.frame less useful for further manipulation.</p>
     
 
-    <pre class="usage"><span class='fu'>untabyl</span>(<span class='no'>dat</span>)</pre>
+    <pre class="usage"><span class='fu'>adorn_col_title</span>(<span class='no'>dat</span>, <span class='kw'>placement</span> <span class='kw'>=</span> <span class='st'>"top"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -114,27 +114,22 @@
       <th>dat</th>
       <td><p>a data.frame of class <code>tabyl</code>.</p></td>
     </tr>
+    <tr>
+      <th>placement</th>
+      <td><p>whether the column name should be added to the top of the tabyl in an otherwise-empty row <code>"top"</code> or appended to the already-present row name variable (<code>"combined"</code>).  The formatting in the <code>"top"</code> option has the look of base R's <code>table()</code>; it also wipes out the other column names, making it hard to further use the data.frame besides formatting it for reporting.  The <code>"combined"</code> option is more conservative in this regard.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns the same data.frame, but without the <code>tabyl</code> class and attributes.</p>
+    <p>the input tabyl, augmented with the column title.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='tabyl.html'>tabyl</a></span>(<span class='no'>am</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>untabyl</span>() <span class='kw'>%&gt;%</span>
-  <span class='fu'>attributes</span>() <span class='co'># tabyl-specific attributes are gone</span></div><div class='output co'>#&gt; $names
-#&gt; [1] "am"      "n"       "percent"
-#&gt; 
-#&gt; $row.names
-#&gt; [1] 1 2
-#&gt; 
-#&gt; $class
-#&gt; [1] "data.frame"
-#&gt; </div></pre>
+  <span class='fu'><a href='tabyl.html'>tabyl</a></span>(<span class='no'>am</span>, <span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>adorn_col_title</span>(<span class='kw'>placement</span> <span class='kw'>=</span> <span class='st'>"top"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in adorn_col_title(., placement = "top"): object 'ns' not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -61,7 +61,8 @@ mtcars %>%
   adorn_totals("col") %>%
   adorn_percentages("row") %>%
   adorn_pct_formatting(digits = 2) %>%
-  adorn_ns()
+  adorn_ns() %>%
+  adorn_title()
 ```
 
 Learn more in the [tabyls vignette](https://github.com/sfirke/janitor/blob/master/vignettes/tabyls.md).

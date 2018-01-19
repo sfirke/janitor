@@ -7,7 +7,7 @@ context("crosstab()")
 
 expect_equal_deprecated <- function(object, expected, ...){
   expect_warning(object, "deprecated", ignore.case = TRUE)
-  expect_equal_deprecated(suppressWarnings(object), expected, ...)
+  expect_equal(suppressWarnings(object), expected, ...)
 }
 
 dat <- data.frame(

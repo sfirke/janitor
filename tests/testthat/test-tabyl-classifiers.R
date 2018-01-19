@@ -15,7 +15,7 @@ b <- mtcars %>%
 
 test_that("as_tabyl works on result of a non-janitor count/spread", {
  expect_equal(as_tabyl(a),
-              as_tabyl(b))
+              as_tabyl(b, 2, "cyl", "carb"))
 })
 
 test_that("as_tabyl sets attributes correctly", {
@@ -54,4 +54,8 @@ test_that("bad inputs are caught", {
   expect_error(as_tabyl(1:10),
                "input must be a data.frame",
                fixed = TRUE)
+  
+  # don't pass names to a 1-way tabyl
+  expect_error(as_tabyl(mtcars, axes = 1, row_var_name = "foo"),
+               "variable names are only meaningful for two-way tabyls")
 })

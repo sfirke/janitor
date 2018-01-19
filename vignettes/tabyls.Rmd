@@ -29,7 +29,7 @@ Analysts do a lot of counting.  Indeed, it's been said that "[data science is mo
 
 On its surface, `tabyl()` produces frequency tables using 1, 2, or 3 variables.  Under the hood, `tabyl()` also attaches a copy of these counts as an attribute of the resulting data.frame.
 
-The result looks like a basic data.frame of counts, but because it's also a `tabyl` containing this metadata, you can use `adorn_` functions to add pretty formatting.
+The result looks like a basic data.frame of counts, but because it's also a `tabyl` containing this metadata, you can use `adorn_` functions to add additional information and pretty formatting.
 
 # Examples
 This vignette demonstrates `tabyl` in the context of studying humans in the `starwars` dataset from dplyr:
@@ -85,7 +85,7 @@ t2 <- humans %>%
 t2
 ```
 
-And since it's a `tabyl`, we can enhance it with `adorn_` helper functions.  For instance:
+Since it's a `tabyl`, we can enhance it with `adorn_` helper functions.  For instance:
 
 ```{r two_way_adorns}
 
@@ -117,7 +117,8 @@ humans %>%
   map(adorn_totals, "row") %>%
   map(adorn_percentages, "all") %>%
   map(adorn_pct_formatting, digits = 1) %>%
-  map(adorn_ns)
+  map(adorn_ns) %>%
+  map(adorn_title)
 
 ```
 
@@ -139,6 +140,7 @@ humans %>%
   adorn_percentages("row") %>% 
   adorn_pct_formatting(rounding = "half up", digits = 0) %>%
   adorn_ns() %>%
+  adorn_title("combined") %>%
   knitr::kable()
 
 ```
@@ -153,11 +155,12 @@ humans %>%
       + This contrasts with rounding 10.5 down to 10 as in base R's `round(10.5)`.
     + `adorn_rounding()` outputs retain the class `numeric`, allowing for graphing, sorting, etc.  It's a less-aggressive substitute for `adorn_pct_formatting()`; these two functions should not be called together.
 + **`adorn_ns()`**: add Ns to a tabyl.  These can be drawn from the tabyl's `core` attribute (by default), or supplied by the user.
++ **`adorn_title()`**: add a title to a tabyl (or other data.frame).  Options include putting the column title in a new row on top of the data.frame or combining the row and column titles in the data.frame's first name slot.
 
 
 These adornments should be called in a logical order, e.g., you probably want to add totals before percentages are calculated.  In general, call them in the order they appear above.
 
-Users of janitor version <= 0.3.0 should replace the obsolete `adorn_crosstab()` with combinations of the above `adorn_` functions.
+Users of janitor version <= 0.3.0 should replace the deprecated `adorn_crosstab()` function with combinations of the above `adorn_` functions.
 
 ## BYOt (Bring Your Own tabyl)
 
@@ -194,7 +197,8 @@ mpg_by_cyl_and_am %>%
   adorn_ns(
     ns = mtcars %>% # calculate the Ns on the fly by calling tabyl on the original data
       tabyl(cyl, am)
-  )
+  ) %>%
+  adorn_title("combined", row_name = "Cylinders", col_name = "Is Automatic")
 ```
 
 
