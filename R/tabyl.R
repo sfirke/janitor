@@ -160,10 +160,16 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
   if(!show_na){
     dat <- dat[!is.na(dat[[1]]) & !is.na(dat[[2]]), ]
   }
+   if(nrow(dat) == 0){ # if passed a zero-length input, or an entirely NA input, return a zero-row data.frame
+     message("No records to count so returning a zero-row tabyl")
+     return(dat %>%
+              dplyr::select(1) %>%
+              dplyr::slice(0))
+   }
   
   tabl <- dat %>%
     dplyr::count(!! var1, !! var2)
-  
+
   # Optionally expand missing factor levels.
   if(show_missing_levels){
     combos <- tidyr::complete_(tabl %>% dplyr::select(-n), names(tabl)[1:2]) # this is pretty ugly - using dplyr keeps col types the same making for easier join, vs. expand.grid
@@ -177,7 +183,6 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
     levels(tabl[[2]]) <- c(levels(tabl[[2]]), "NA_")
   }
   tabl[2][is.na(tabl[2])] <- "NA_"
-  
   result <- tabl %>%
     tidyr::spread_(rlang::quo_name(var2), "n", fill = 0)
   
@@ -193,14 +198,21 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
 tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_levels = TRUE){
   dat <- dplyr::select(dat, !! var1, !! var2, !! var3)
   dat[[3]] <- as.character(dat[[3]]) # don't want empty factor levels in the result list - they would be empty data.frames
-
+  
+  # print NA level as its own data.frame, and make it appear last
+  if(sum(is.na(dat[[3]])) > 0){
+    dat[[3]] <- factor(dat[[3]], levels = c(sort(unique(dat[[3]])), "NA_"))
+    dat[[3]][is.na(dat[[3]])] <- "NA_"
+  }
+  
   if(!show_missing_levels){ # this shows missing factor levels, to make the crosstabs consistent across each data.frame in the list based on values of var3
-    dat[[1]] <- as.character(dat[[1]])
-    dat[[2]] <- as.character(dat[[2]])
+    if(is.factor(dat[[1]])){ dat[[1]] <- as.character(dat[[1]]) }
+    if(is.factor(dat[[2]])){ dat[[2]] <- as.character(dat[[2]]) }
   } else {
     dat[[1]] <- as.factor(dat[[1]])
     dat[[2]] <- as.factor(dat[[2]])
   }
+  
   split(dat, dat[[rlang::quo_name(var3)]]) %>%
     purrr::map(tabyl_2way, var1, var2, show_na = show_na, show_missing_levels = show_missing_levels)
 }
