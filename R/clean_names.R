@@ -58,8 +58,8 @@ clean_names <- function(dat, case = c("snake", "small_camel", "big_camel", "scre
     gsub("^[[:space:][:punct:]]+", "", .) %>% # remove leading spaces & punctuation
     make.names(.) %>%
     # Handle dots, multiple underscores, case conversion, string transliteration
-    snakecase::to_any_case(case = case, preprocess = "\\.", 
-                replace_special_characters = c("Latin-ASCII"))
+    snakecase::to_any_case(case = case, sep_in = "\\.", 
+                           transliterations = c("Latin-ASCII"))
   
   # Handle duplicated names - they mess up dplyr pipelines
   # This appends the column number to repeated instances of duplicate variable names
