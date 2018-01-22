@@ -96,10 +96,6 @@ test_that("works on smallest tabyls", {
 })
 
 
-test_that("works with totals", {
-  
-})
-
 test_that("users can supply own Ns", {
   # make tabyl with thousands, convert to Ks to append
   set.seed(2)
