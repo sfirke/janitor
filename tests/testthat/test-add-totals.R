@@ -190,6 +190,22 @@ test_that("trying to re-adorn a dimension fails", {
                "trying to re-add a totals dimension that is already been added")
 })
 
+
+test_that("automatically invokes purrr::map when called on a 3-way tabyl", {
+  three <- tabyl(mtcars, cyl, am, gear)
+  expect_equal(adorn_totals(three), # vanilla call
+               purrr::map(three, adorn_totals))
+
+    # with arguments passing through
+  expect_equal(adorn_totals(three, c("row", "col"), fill = "---", na.rm = FALSE),
+               purrr::map(three, adorn_totals, c("row", "col"), fill = "---", FALSE))
+  
+})
+
+test_that("non-data.frame inputs are handled", {
+  expect_error(adorn_totals(1:5), "adorn_totals() must be called on a data.frame or list of data.frames", fixed = TRUE)
+})
+
 # Kind of superficial given that add_totals_ have been refactored to call adorn_totals() themselves, but might as well keep until deprecated functions are removed
 test_that("deprecated functions adorn_totals_col and adorn_totals_row function as expected", {
   expect_equal(
