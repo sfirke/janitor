@@ -77,7 +77,7 @@
     <div class="page-header toc-ignore">
       <h1>tabyls: a tidy, fully-featured approach to counting things</h1>
             
-            <h4 class="date">2018-01-18</h4>
+            <h4 class="date">2018-01-26</h4>
           </div>
 
     
@@ -178,33 +178,35 @@
 <a class="sourceLine" id="cb7-19" data-line-number="19"><span class="co">#&gt;       dark    1    0     0    0   0     0</span></a>
 <a class="sourceLine" id="cb7-20" data-line-number="20"><span class="co">#&gt;      hazel    0    1     0    0   0     0</span></a>
 <a class="sourceLine" id="cb7-21" data-line-number="21"><span class="co">#&gt;     yellow    0    0     0    1   0     1</span></a></code></pre></div>
-<p>Use <code><a href="http://www.rdocumentation.org/packages/purrr/topics/map">purrr::map()</a></code> to apply the <code>adorn_</code> helper functions to the entire list:</p>
+<p>If called on a list of data.frames - like the output of a three-way <code>tabyl</code> call - the <code>adorn_</code> helper functions will apply themselves to each data.frame:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">library</span>(purrr)</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2">humans <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb8-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/tabyl.html">tabyl</a></span>(eye_color, skin_color, gender, <span class="dt">show_missing_levels =</span> <span class="ot">FALSE</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="st">  </span><span class="kw">map</span>(adorn_totals, <span class="st">"row"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="st">  </span><span class="kw">map</span>(adorn_percentages, <span class="st">"all"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="st">  </span><span class="kw">map</span>(adorn_pct_formatting, <span class="dt">digits =</span> <span class="dv">1</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="st">  </span><span class="kw">map</span>(adorn_ns) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="st">  </span><span class="kw">map</span>(adorn_title)</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="../reference/adorn_totals.html">adorn_totals</a></span>(<span class="st">"row"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="../reference/adorn_percentages.html">adorn_percentages</a></span>(<span class="st">"all"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="../reference/adorn_pct_formatting.html">adorn_pct_formatting</a></span>(<span class="dt">digits =</span> <span class="dv">1</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="st">  </span>adorn_ns <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="st">  </span>adorn_title</a>
 <a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; $female</span></a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt;             skin_color          </span></a>
-<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt; 1 eye_color       fair     light</span></a>
-<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt; 2      blue  22.2% (2) 11.1% (1)</span></a>
-<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt; 3     brown  11.1% (1) 44.4% (4)</span></a>
-<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt; 4     hazel   0.0% (0) 11.1% (1)</span></a>
-<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">#&gt; 5     Total  33.3% (3) 66.7% (6)</span></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt;            skin_color          </span></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt;  eye_color       fair     light</span></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt;       blue  22.2% (2) 11.1% (1)</span></a>
+<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt;      brown  11.1% (1) 44.4% (4)</span></a>
+<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt;      hazel   0.0% (0) 11.1% (1)</span></a>
+<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">#&gt;      Total  33.3% (3) 66.7% (6)</span></a>
 <a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb8-17" data-line-number="17"><span class="co">#&gt; $male</span></a>
-<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="co">#&gt;             skin_color                                                </span></a>
-<a class="sourceLine" id="cb8-19" data-line-number="19"><span class="co">#&gt; 1 eye_color       dark       fair     light     pale      tan    white</span></a>
-<a class="sourceLine" id="cb8-20" data-line-number="20"><span class="co">#&gt; 2      blue   0.0% (0) 26.9%  (7)  7.7% (2) 0.0% (0) 0.0% (0) 0.0% (0)</span></a>
-<a class="sourceLine" id="cb8-21" data-line-number="21"><span class="co">#&gt; 3 blue-gray   0.0% (0)  3.8%  (1)  0.0% (0) 0.0% (0) 0.0% (0) 0.0% (0)</span></a>
-<a class="sourceLine" id="cb8-22" data-line-number="22"><span class="co">#&gt; 4     brown  11.5% (3) 15.4%  (4) 11.5% (3) 0.0% (0) 7.7% (2) 0.0% (0)</span></a>
-<a class="sourceLine" id="cb8-23" data-line-number="23"><span class="co">#&gt; 5      dark   3.8% (1)  0.0%  (0)  0.0% (0) 0.0% (0) 0.0% (0) 0.0% (0)</span></a>
-<a class="sourceLine" id="cb8-24" data-line-number="24"><span class="co">#&gt; 6     hazel   0.0% (0)  3.8%  (1)  0.0% (0) 0.0% (0) 0.0% (0) 0.0% (0)</span></a>
-<a class="sourceLine" id="cb8-25" data-line-number="25"><span class="co">#&gt; 7    yellow   0.0% (0)  0.0%  (0)  0.0% (0) 3.8% (1) 0.0% (0) 3.8% (1)</span></a>
-<a class="sourceLine" id="cb8-26" data-line-number="26"><span class="co">#&gt; 8     Total  15.4% (4) 50.0% (13) 19.2% (5) 3.8% (1) 7.7% (2) 3.8% (1)</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="co">#&gt;            skin_color                                                </span></a>
+<a class="sourceLine" id="cb8-19" data-line-number="19"><span class="co">#&gt;  eye_color       dark       fair     light     pale      tan    white</span></a>
+<a class="sourceLine" id="cb8-20" data-line-number="20"><span class="co">#&gt;       blue   0.0% (0) 26.9%  (7)  7.7% (2) 0.0% (0) 0.0% (0) 0.0% (0)</span></a>
+<a class="sourceLine" id="cb8-21" data-line-number="21"><span class="co">#&gt;  blue-gray   0.0% (0)  3.8%  (1)  0.0% (0) 0.0% (0) 0.0% (0) 0.0% (0)</span></a>
+<a class="sourceLine" id="cb8-22" data-line-number="22"><span class="co">#&gt;      brown  11.5% (3) 15.4%  (4) 11.5% (3) 0.0% (0) 7.7% (2) 0.0% (0)</span></a>
+<a class="sourceLine" id="cb8-23" data-line-number="23"><span class="co">#&gt;       dark   3.8% (1)  0.0%  (0)  0.0% (0) 0.0% (0) 0.0% (0) 0.0% (0)</span></a>
+<a class="sourceLine" id="cb8-24" data-line-number="24"><span class="co">#&gt;      hazel   0.0% (0)  3.8%  (1)  0.0% (0) 0.0% (0) 0.0% (0) 0.0% (0)</span></a>
+<a class="sourceLine" id="cb8-25" data-line-number="25"><span class="co">#&gt;     yellow   0.0% (0)  0.0%  (0)  0.0% (0) 3.8% (1) 0.0% (0) 3.8% (1)</span></a>
+<a class="sourceLine" id="cb8-26" data-line-number="26"><span class="co">#&gt;      Total  15.4% (4) 50.0% (13) 19.2% (5) 3.8% (1) 7.7% (2) 3.8% (1)</span></a></code></pre></div>
+<p>These functions automatically call <code><a href="http://www.rdocumentation.org/packages/purrr/topics/map">purrr::map()</a></code> internally to support interactive data analysis that switches between 2 and 3 variables. That way, if a user starts with <code>humans %&gt;% tabyl(eye_color, skin_color)</code>, adds some <code>adorn_</code> calls, then decides to split the tabulation by gender and modifies their first line to <code>humans %&gt;% tabyl(eye_color, skin_color, gender</code>), they don’t have to refactor the subsequent adornment calls to use <code>map()</code>.</p>
+<p>However, if feels more natural to call these with <code><a href="http://www.rdocumentation.org/packages/purrr/topics/map">purrr::map()</a></code> or <code>lapply()</code>, that is still supported. For instance, <code>t3 %&gt;% lapply(adorn_percentages)</code> would produce the same result as <code>t3 %&gt;% adorn_percentages</code>.</p>
 <section id="other-features-of-tabyls" class="level3"><h3>Other features of tabyls</h3>
 <ul>
 <li>When called on a factor, it will include missing levels (levels not present in the data) in the result
@@ -322,7 +324,7 @@
 <a class="sourceLine" id="cb11-6" data-line-number="6"></a>
 <a class="sourceLine" id="cb11-7" data-line-number="7">mpg_by_cyl_and_am</a>
 <a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt; # A tibble: 3 x 3</span></a>
-<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co">#&gt; # Groups: cyl [3]</span></a>
+<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co">#&gt; # Groups:   cyl [3]</span></a>
 <a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co">#&gt;     cyl   `0`   `1`</span></a>
 <a class="sourceLine" id="cb11-11" data-line-number="11"><span class="co">#&gt; * &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
 <a class="sourceLine" id="cb11-12" data-line-number="12"><span class="co">#&gt; 1  4.00  22.9  28.1</span></a>
