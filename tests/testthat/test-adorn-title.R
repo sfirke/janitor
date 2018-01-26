@@ -70,8 +70,8 @@ test_that("works with non-count inputs", {
 
 test_that("for printing purposes: tabyl class stays tabyl, data.frame stays data.frame, tibble is downgraded to data.frame", {
   # right output classes with tabyl inputs
-  expect_equal(class(mtcars %>% tabyl(cyl, am) %>% adorn_title), c("tabyl", "data.frame")) # input is a tibble
-  expect_equal(class(mtcars %>% tabyl(gear, carb) %>% adorn_title(., "combined")), c("tabyl", "data.frame")) # input is a tibble
+  expect_equal(class(mtcars %>% tabyl(cyl, am) %>% adorn_title), c("tabyl", "data.frame"))
+  expect_equal(class(mtcars %>% tabyl(gear, carb) %>% adorn_title(., "combined")), c("tabyl", "data.frame"))
 
   # Create tibble input:
   mpg_by_cyl_and_am <- mtcars %>%
@@ -91,4 +91,30 @@ test_that("for printing purposes: tabyl class stays tabyl, data.frame stays data
   # handles data.frame non-tabyl input
   expect_equal(mtcars %>% adorn_title("top", col_name = "hey look ma I'm a title") %>% class,
                "data.frame")
+
 })
+
+test_that("works with factors in input", {
+  facts <- data.frame(a = "high", large = "1", stringsAsFactors = TRUE)
+  # first with "top" then "combined"
+  expect_equal(facts %>% adorn_title(col_name = "col"),
+               data.frame(a = c("a", "high"), col = c("large", "1"), stringsAsFactors = FALSE) %>%
+                 setNames(., c("", "col")))
+  # with combined the original column types are preserved
+  expect_equal(facts %>% adorn_title("combined", col_name = "col"),
+               data.frame(`a/col` = "high", large = "1", stringsAsFactors = TRUE, check.names = FALSE))
+})
+
+test_that("automatically invokes purrr::map when called on a 3-way tabyl", { 
+  three <- tabyl(mtcars, cyl, am, gear) %>%
+    adorn_percentages() %>%
+    adorn_pct_formatting()
+  expect_equal(adorn_title(three), # vanilla call 
+               purrr::map(three, adorn_title)) 
+  
+  # with arguments passing through, incl. custom row and col names
+  expect_equal(adorn_title(three, "combined", "cyl", "am"), 
+               purrr::map(three, adorn_title, "combined", "cyl", "am"))
+
+  
+}) 

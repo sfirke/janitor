@@ -8,7 +8,7 @@ adorn_pct_formatting(dat, digits = 1, rounding = "half to even",
   affix_sign = TRUE)
 }
 \arguments{
-\item{dat}{a data.frame with decimal values, typically the result of a call to \code{adorn_percentages} on a \code{tabyl}.}
+\item{dat}{a data.frame with decimal values, typically the result of a call to \code{adorn_percentages} on a \code{tabyl}.  If given a list of data.frames, this function will apply itself to each data.frame in the list (designed for 3-way \code{tabyl} lists).}
 
 \item{digits}{how many digits should be displayed after the decimal point?}
 

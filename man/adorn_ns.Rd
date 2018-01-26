@@ -7,7 +7,7 @@
 adorn_ns(dat, position = "rear", ns = attr(dat, "core"))
 }
 \arguments{
-\item{dat}{a data.frame of class \code{tabyl} that has had \code{adorn_percentages} and/or \code{adorn_pct_formatting} called on it.}
+\item{dat}{a data.frame of class \code{tabyl} that has had \code{adorn_percentages} and/or \code{adorn_pct_formatting} called on it.  If given a list of data.frames, this function will apply itself to each data.frame in the list (designed for 3-way \code{tabyl} lists).}
 
 \item{position}{should the N go in the front, or in the rear, of the percentage?}
 
