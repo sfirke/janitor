@@ -124,3 +124,19 @@ test_that("bad rounding argument caught", {
     fixed = TRUE
   )
 })
+
+test_that("automatically invokes purrr::map when called on a 3-way tabyl", { 
+  three <- tabyl(mtcars, cyl, am, gear) 
+  expect_equal(adorn_pct_formatting(three), # vanilla call 
+               purrr::map(three, adorn_pct_formatting)) 
+  
+  # with arguments passing through 
+  expect_equal(adorn_pct_formatting(three, 2, "half up", affix_sign = FALSE), 
+               purrr::map(three, adorn_pct_formatting, 2, "half up", FALSE)) 
+  
+}) 
+
+test_that("non-data.frame inputs are handled", { 
+  expect_error(adorn_pct_formatting(1:5), "adorn_pct_formatting() must be called on a data.frame or list of data.frames", fixed = TRUE) 
+}) 
+

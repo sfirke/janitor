@@ -125,3 +125,20 @@ test_that("users can supply own Ns", {
     )
 })
 
+test_that("automatically invokes purrr::map when called on a 3-way tabyl", { 
+  three <- tabyl(mtcars, cyl, am, gear) %>%
+    adorn_percentages() %>%
+    adorn_pct_formatting()
+  expect_equal(adorn_ns(three), # vanilla call 
+               purrr::map(three, adorn_ns)) 
+  
+  # with arguments passing through 
+  expect_equal(adorn_ns(three, "front"), 
+               purrr::map(three, adorn_ns, "front")) 
+  
+}) 
+
+test_that("non-data.frame inputs are handled", { 
+  expect_error(adorn_ns(1:5), "adorn_ns() must be called on a data.frame or list of data.frames", fixed = TRUE) 
+}) 
+

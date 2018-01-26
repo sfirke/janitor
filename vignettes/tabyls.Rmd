@@ -1,8 +1,8 @@
 ---
 title: "tabyls: a tidy, fully-featured approach to counting things"
 date: '`r Sys.Date()`'
-output:
-  rmarkdown::github_document
+output: 
+  rmarkdown::github_document 
 vignette: >
   %\VignetteIndexEntry{tabyls}
   %\VignetteEngine{knitr::rmarkdown}
@@ -108,19 +108,23 @@ t3 <- humans %>%
 t3 # the result is a tabyl of eye color x skin color, split into a list by gender
 ```
 
-Use `purrr::map()` to apply the `adorn_` helper functions to the entire list:
+If called on a list of data.frames - like the output of a three-way `tabyl` call - the `adorn_` helper functions will apply themselves to each data.frame:
 
 ```{r three_way_adorns, warning = FALSE, message = FALSE}
 library(purrr)
 humans %>%
   tabyl(eye_color, skin_color, gender, show_missing_levels = FALSE) %>%
-  map(adorn_totals, "row") %>%
-  map(adorn_percentages, "all") %>%
-  map(adorn_pct_formatting, digits = 1) %>%
-  map(adorn_ns) %>%
-  map(adorn_title)
+  adorn_totals("row") %>%
+  adorn_percentages("all") %>%
+  adorn_pct_formatting(digits = 1) %>%
+  adorn_ns %>%
+  adorn_title
 
 ```
+
+These functions automatically call `purrr::map()` internally to support interactive data analysis that switches between 2 and 3 variables.  That way, if a user starts with `humans %>% tabyl(eye_color, skin_color)`, adds some `adorn_` calls, then decides to split the tabulation by gender and modifies their first line to `humans %>% tabyl(eye_color, skin_color, gender`), they don't have to refactor the subsequent adornment calls to use  `map()`.
+
+However, if feels more natural to call these with `purrr::map()` or `lapply()`, that is still supported.  For instance, `t3 %>% lapply(adorn_percentages)` would produce the same result as `t3 %>% adorn_percentages`.
 
 ### Other features of tabyls
 

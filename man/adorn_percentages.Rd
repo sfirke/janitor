@@ -7,7 +7,7 @@
 adorn_percentages(dat, denominator = "row", na.rm = TRUE)
 }
 \arguments{
-\item{dat}{a \code{tabyl} or other data.frame with a tabyl-like layout.}
+\item{dat}{a \code{tabyl} or other data.frame with a tabyl-like layout.  If given a list of data.frames, this function will apply itself to each data.frame in the list (designed for 3-way \code{tabyl} lists).}
 
 \item{denominator}{the direction to use for calculating percentages.  One of "row", "col", or "all".}
 

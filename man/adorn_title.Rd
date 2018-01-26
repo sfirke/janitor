@@ -7,7 +7,7 @@
 adorn_title(dat, placement = "top", row_name, col_name)
 }
 \arguments{
-\item{dat}{a data.frame of class \code{tabyl}.}
+\item{dat}{a data.frame of class \code{tabyl} or other data.frame with a tabyl-like layout.  If given a list of data.frames, this function will apply itself to each data.frame in the list (designed for 3-way \code{tabyl} lists).}
 
 \item{placement}{whether the column name should be added to the top of the tabyl in an otherwise-empty row \code{"top"} or appended to the already-present row name variable (\code{"combined"}).  The formatting in the \code{"top"} option has the look of base R's \code{table()}; it also wipes out the other column names, making it hard to further use the data.frame besides formatting it for reporting.  The \code{"combined"} option is more conservative in this regard.}
 

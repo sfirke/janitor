@@ -165,37 +165,51 @@ t3 # the result is a tabyl of eye color x skin color, split into a list by gende
 #>     yellow    0    0     0    1   0     1
 ```
 
-Use `purrr::map()` to apply the `adorn_` helper functions to the entire
-list:
+If called on a list of data.frames - like the output of a three-way
+`tabyl` call - the `adorn_` helper functions will apply themselves to
+each data.frame:
 
 ``` r
 library(purrr)
 humans %>%
   tabyl(eye_color, skin_color, gender, show_missing_levels = FALSE) %>%
-  map(adorn_totals, "row") %>%
-  map(adorn_percentages, "all") %>%
-  map(adorn_pct_formatting, digits = 1) %>%
-  map(adorn_ns) %>%
-  map(adorn_title)
+  adorn_totals("row") %>%
+  adorn_percentages("all") %>%
+  adorn_pct_formatting(digits = 1) %>%
+  adorn_ns %>%
+  adorn_title
 #> $female
-#>             skin_color          
-#> 1 eye_color       fair     light
-#> 2      blue  22.2% (2) 11.1% (1)
-#> 3     brown  11.1% (1) 44.4% (4)
-#> 4     hazel   0.0% (0) 11.1% (1)
-#> 5     Total  33.3% (3) 66.7% (6)
+#>            skin_color          
+#>  eye_color       fair     light
+#>       blue  22.2% (2) 11.1% (1)
+#>      brown  11.1% (1) 44.4% (4)
+#>      hazel   0.0% (0) 11.1% (1)
+#>      Total  33.3% (3) 66.7% (6)
 #> 
 #> $male
-#>             skin_color                                                
-#> 1 eye_color       dark       fair     light     pale      tan    white
-#> 2      blue   0.0% (0) 26.9%  (7)  7.7% (2) 0.0% (0) 0.0% (0) 0.0% (0)
-#> 3 blue-gray   0.0% (0)  3.8%  (1)  0.0% (0) 0.0% (0) 0.0% (0) 0.0% (0)
-#> 4     brown  11.5% (3) 15.4%  (4) 11.5% (3) 0.0% (0) 7.7% (2) 0.0% (0)
-#> 5      dark   3.8% (1)  0.0%  (0)  0.0% (0) 0.0% (0) 0.0% (0) 0.0% (0)
-#> 6     hazel   0.0% (0)  3.8%  (1)  0.0% (0) 0.0% (0) 0.0% (0) 0.0% (0)
-#> 7    yellow   0.0% (0)  0.0%  (0)  0.0% (0) 3.8% (1) 0.0% (0) 3.8% (1)
-#> 8     Total  15.4% (4) 50.0% (13) 19.2% (5) 3.8% (1) 7.7% (2) 3.8% (1)
+#>            skin_color                                                
+#>  eye_color       dark       fair     light     pale      tan    white
+#>       blue   0.0% (0) 26.9%  (7)  7.7% (2) 0.0% (0) 0.0% (0) 0.0% (0)
+#>  blue-gray   0.0% (0)  3.8%  (1)  0.0% (0) 0.0% (0) 0.0% (0) 0.0% (0)
+#>      brown  11.5% (3) 15.4%  (4) 11.5% (3) 0.0% (0) 7.7% (2) 0.0% (0)
+#>       dark   3.8% (1)  0.0%  (0)  0.0% (0) 0.0% (0) 0.0% (0) 0.0% (0)
+#>      hazel   0.0% (0)  3.8%  (1)  0.0% (0) 0.0% (0) 0.0% (0) 0.0% (0)
+#>     yellow   0.0% (0)  0.0%  (0)  0.0% (0) 3.8% (1) 0.0% (0) 3.8% (1)
+#>      Total  15.4% (4) 50.0% (13) 19.2% (5) 3.8% (1) 7.7% (2) 3.8% (1)
 ```
+
+These functions automatically call `purrr::map()` internally to support
+interactive data analysis that switches between 2 and 3 variables. That
+way, if a user starts with `humans %>% tabyl(eye_color, skin_color)`,
+adds some `adorn_` calls, then decides to split the tabulation by gender
+and modifies their first line to
+`humans %>% tabyl(eye_color, skin_color, gender`), they don’t have to
+refactor the subsequent adornment calls to use `map()`.
+
+However, if feels more natural to call these with `purrr::map()` or
+`lapply()`, that is still supported. For instance,
+`t3 %>% lapply(adorn_percentages)` would produce the same result as
+`t3 %>% adorn_percentages`.
 
 ### Other features of tabyls
 
@@ -309,7 +323,7 @@ mpg_by_cyl_and_am <- mtcars %>%
 
 mpg_by_cyl_and_am
 #> # A tibble: 3 x 3
-#> # Groups: cyl [3]
+#> # Groups:   cyl [3]
 #>     cyl   `0`   `1`
 #> * <dbl> <dbl> <dbl>
 #> 1  4.00  22.9  28.1
