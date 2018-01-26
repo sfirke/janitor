@@ -2,8 +2,7 @@
 title: "tabyls: a tidy, fully-featured approach to counting things"
 date: '`r Sys.Date()`'
 output: 
-  md_document: 
-    variant: markdown_github 
+  rmarkdown::github_document 
 vignette: >
   %\VignetteIndexEntry{tabyls}
   %\VignetteEngine{knitr::rmarkdown}
