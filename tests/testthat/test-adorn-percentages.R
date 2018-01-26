@@ -104,3 +104,20 @@ test_that("works with totals row", {
                           check.names = FALSE, stringsAsFactors = FALSE)
   )
 })
+
+test_that("automatically invokes purrr::map when called on a 3-way tabyl", { 
+  three <- tabyl(mtcars, cyl, am, gear) 
+  expect_equal(adorn_percentages(three), # vanilla call 
+               purrr::map(three, adorn_percentages)) 
+  
+  # with arguments passing through 
+  expect_equal(adorn_percentages(three, "col", na.rm = FALSE), 
+               purrr::map(three, adorn_percentages, "col", FALSE)) 
+  
+}) 
+
+test_that("non-data.frame inputs are handled", { 
+  expect_error(adorn_percentages(1:5), "adorn_percentages() must be called on a data.frame or list of data.frames", fixed = TRUE) 
+}) 
+
+

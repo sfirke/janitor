@@ -7,7 +7,7 @@
 adorn_totals(dat, where = "row", fill = "-", na.rm = TRUE)
 }
 \arguments{
-\item{dat}{an input data.frame with at least one numeric column.  If given a list of data.frames, this function will apply itself to each of them (designed for 3-way \code{tabyl} lists).}
+\item{dat}{an input data.frame with at least one numeric column.  If given a list of data.frames, this function will apply itself to each data.frame in the list (designed for 3-way \code{tabyl} lists).}
 
 \item{where}{one of "row", "col", or \code{c("row", "col")}}
 

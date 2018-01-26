@@ -3,7 +3,7 @@
 #' @description
 #' This function excludes the first column of the input data.frame, assuming it's a descriptive variable not to be summed.  It also excludes other non-numeric columns.
 #'
-#' @param dat an input data.frame with at least one numeric column.  If given a list of data.frames, this function will apply itself to each of them (designed for 3-way \code{tabyl} lists).
+#' @param dat an input data.frame with at least one numeric column.  If given a list of data.frames, this function will apply itself to each data.frame in the list (designed for 3-way \code{tabyl} lists).
 #' @param where one of "row", "col", or \code{c("row", "col")} 
 #' @param fill if there are multiple non-numeric columns, what string should fill the bottom row of those columns?
 #' @param na.rm should missing values (including NaN) be omitted from the calculations?
