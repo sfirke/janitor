@@ -4,7 +4,7 @@
 \alias{top_levels}
 \title{Generate a frequency table of a factor grouped into top-n, bottom-n, and all other levels.}
 \usage{
-top_levels(input_vec, n = 2, show_na = FALSE, sort = FALSE)
+top_levels(input_vec, n = 2, show_na = FALSE)
 }
 \arguments{
 \item{input_vec}{the factor variable to tabulate.}
@@ -12,8 +12,6 @@ top_levels(input_vec, n = 2, show_na = FALSE, sort = FALSE)
 \item{n}{number of levels to include in top and bottom groups}
 
 \item{show_na}{should cases where the variable is NA be shown?}
-
-\item{sort}{should the resulting table be sorted in descending order?}
 }
 \value{
 Returns a data.frame (actually a \code{tbl_df}) with the frequencies of the grouped, tabulated variable.  Includes counts and percentages, and valid percentages (calculated omitting \code{NA} values, if present in the vector and \code{show_na = TRUE}.)

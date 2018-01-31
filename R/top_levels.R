@@ -6,7 +6,6 @@
 #' @param input_vec the factor variable to tabulate.
 #' @param n number of levels to include in top and bottom groups
 #' @param show_na should cases where the variable is NA be shown?
-#' @param sort should the resulting table be sorted in descending order?
 #' @return Returns a data.frame (actually a \code{tbl_df}) with the frequencies of the grouped, tabulated variable.  Includes counts and percentages, and valid percentages (calculated omitting \code{NA} values, if present in the vector and \code{show_na = TRUE}.)
 #' @export
 #' @examples
@@ -15,7 +14,7 @@
 # todo: test for when there are ~5 classes to factor but only 3 are present in vector - does it work?
 # todo: generate warning if n = 3, factor has only 4 levels - groups will sum to >100%
 
-top_levels <- function(input_vec, n = 2, show_na = FALSE, sort = FALSE){
+top_levels <- function(input_vec, n = 2, show_na = FALSE){
   
   # Initial type error catching
   if(!is.factor(input_vec)){stop("factor_vec is not of type 'factor'")}
@@ -44,7 +43,7 @@ top_levels <- function(input_vec, n = 2, show_na = FALSE, sort = FALSE){
   }
   
   # tabulate grouped variable, then reset name to match input variable name
-  result <- tabyl(new_vec, show_na = show_na, sort = sort)
+  result <- tabyl(new_vec, show_na = show_na)
   names(result)[1] <- var_name 
   result
 }

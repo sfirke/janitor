@@ -26,15 +26,25 @@ test_that("names are right", {
   expect_equal(names(test_res_na), c("test_df_na$grp", "n", "percent", "valid_percent"))
 })
 
+test_that("named vectors are handled properly", { # issue 144
+  x <- c(a = "x", b = "y", c = "z")
+  expect_equal(names(tabyl(x))[1], "x")
+})
+
 test_that("NAs handled correctly", {
   expect_equal(test_res_na$percent, c(0.2, 0.4, 0.2, 0.2))
   expect_equal(test_res_na$valid_percent, c(0.25, 0.5, 0.25, NA))
 })
 
-test_that("show_NA = FALSE parameter works", {
-  expect_equal(test_res %>%
-                 stats::setNames(c("test_df_na$grp", names(test_res)[-1])),
+test_that("show_NA = FALSE parameter works, incl. with piped input", {
+  resss <- test_res
+  names(resss)[1] <- "test_df_na$grp"
+  names(attr(resss, "core"))[1] <- "test_df_na$grp"
+  expect_equal(resss,
                tabyl(test_df_na$grp, show_na = FALSE))
+  names(attr(resss, "core"))[1] <- "grp" ;   names(resss)[1] <- "grp" # for this next instance, col name changes
+  expect_equal(resss,
+               test_df_na %>% tabyl(grp, show_na = FALSE))
 })
 
 test_that("ordering of result by factor levels is preserved for factors", {
@@ -59,33 +69,14 @@ test_that("missing factor levels are displayed with NA values", {
   expect_equal(tabyl(fac_na)[[3]], c(0, 9/11, 0, 2/11))
   expect_equal(tabyl(fac_na)[[4]], c(0, 1, 0, NA))
 })
-  
-# check sort parameter
-sorted_test_df_na <- tabyl(test_df_na$grp, sort = TRUE)
-sorted_with_fac <- data.frame(grp = factor(c("a", "c", "c"), levels = letters[1:3]))
-sorted_with_fac <- tabyl(sorted_with_fac$grp, sort = TRUE)
-
-sorted_with_na_and_fac <- data.frame(grp = factor(c("a", "c", "c", NA), levels = letters[1:3]))
-sorted_with_na_and_fac_res <- tabyl(sorted_with_na_and_fac$grp, sort = TRUE)
-
-test_that("sort parameter works", {
-  expect_equal(sorted_test_df_na[[1]], c("b", "a", "c", NA))
-  expect_equal(sorted_test_df_na[[4]], c(0.5, 0.25, 0.25, NA))
-  expect_equal(sorted_with_fac[[1]], factor(c("c", "a", "b"), levels = letters[1:3]))
-  expect_equal(sorted_with_fac[[2]], c(2, 1, 0))
-  expect_equal(sorted_with_na_and_fac_res[[1]], factor(c("c", "a", "b", NA), levels = letters[1:3]))
-  expect_equal(sorted_with_na_and_fac_res[[2]], c(2, 1, 0, 1))
-  expect_equal(sorted_with_na_and_fac_res[[3]], c(2/4, 1/4, 0, 1/4))
-  expect_equal(sorted_with_na_and_fac_res[[4]], c(2/3, 1/3, 0, NA))
-})
 
 # piping
 test_that("piping in a data.frame works", {
-  expect_equal(tabyl(mtcars$cyl) %>%
-                 setNames(., c("cyl", names(.)[2:3])),
+  x <- tabyl(mtcars$cyl)
+  names(x)[1] <- "cyl"
+  names(attr(x, "core"))[1] <- "cyl"
+  expect_equal(x,
                mtcars %>% tabyl(cyl))
-  expect_equal(tabyl(sorted_with_na_and_fac$grp, sort = TRUE) %>% # complete levels + correct sorting work for factors with empty categories
-                 setNames(., c("grp", names(.)[-1])), sorted_with_na_and_fac %>% tabyl(grp, sort = TRUE))
 })
 
 
@@ -108,14 +99,17 @@ test_that("bad input variable name is preserved", {
 test_that("input variable names 'percent' and 'n' are handled", {
   a <- mtcars %>% tabyl(mpg)
   expect_equal(a %>% tabyl(percent),
-               data.frame(percent = c(1/32, 2/32),
+               as_tabyl(
+                 data.frame(percent = c(1/32, 2/32),
                           n = c(18, 7),
-                          percent_percent = c(18/25, 7/25))
+                          percent_percent = c(18/25, 7/25)),
+               1)
   )
   expect_equal(a %>% tabyl(n),
-               data.frame(n = 1:2,
+               as_tabyl(data.frame(n = 1:2,
                           n_n = c(18, 7),
-                          percent = c(18/25, 7/25))
+                          percent = c(18/25, 7/25)),
+                        1)
   )
 })
 
@@ -133,7 +127,138 @@ test_that("bizarre combination of %>%, quotes, and spaces in names is handled", 
   )
 })
 
+test_that("grouped data.frame inputs are handled (#125)", {
+  expect_equal(mtcars %>% group_by(cyl) %>% tabyl(carb, gear),
+               mtcars %>% tabyl(carb, gear))
+})
+
+
 test_that("if called on non-existent vector, returns useful error message", {
   expect_error(tabyl(mtcars$moose), "object mtcars\\$moose not found")
   expect_error(tabyl(moose), "object 'moose' not found")
+  expect_error(mtcars %>% tabyl(moose), "object 'moose' not found")
+})
+
+test_that("if called on data.frame with no or irregular columns specified, returns informative error message", {
+  expect_error(tabyl(mtcars), "if calling on a data.frame, specify unquoted column names(s) to tabulate.  Did you mean to call tabyl() on a vector?",
+               fixed = TRUE)
+  expect_error(tabyl(mtcars, var2 = am),
+               "please specify var1 OR var1 & var2 OR var1 & var2 & var3",
+               fixed = TRUE)
+})
+
+test_that("fails if called on a non-data.frame list", { # it's not meant to do this and result will likely be garbage, so fail
+  L <- list(a = 1, b = "rstats")
+  expect_error(tabyl(L),
+               "tabyl() is meant to be called on vectors and data.frames; convert non-data.frame lists to one of these types",
+               fixed = TRUE
+  )
+})
+
+# showing missing factor levels
+
+test_that("show_missing_levels parameter works", {
+z <- structure(list(
+  a = structure(1, .Label = c("hi", "lo"), class = "factor"),
+  b = structure(2, .Label = c("big", "small"), class = "factor"),
+  new = structure(1, .Label = c("lvl1", "lvl2"), class = "factor")),
+  row.names = c(NA, -1L), class = c("tbl_df", "tbl", "data.frame"),
+  .Names = c("a", "b", "new"))
+
+expect_equal(z %>% tabyl(a, b, new, show_missing_levels = TRUE),
+             list(lvl1 = data.frame(a = c("hi", "lo"),
+                                    big = c(0, 0),
+                                    small = c(1, 0)) %>% as_tabyl(2, "a", "b")))
+expect_equal(z %>% tabyl(a, b, new, show_missing_levels = FALSE),
+             list(lvl1 = data.frame(a = c("hi"),
+                                    small = c(1), stringsAsFactors = FALSE) %>% as_tabyl(2, "a", "b")))
+
+# Works with numerics
+expect_equal(mtcars %>% tabyl(cyl, am),
+             data.frame(cyl = c(4, 6, 8),
+                        `0` = c(3, 4, 12),
+                        `1` = c(8, 3, 2),
+                        check.names = FALSE) %>% as_tabyl(2, "cyl", "am"))
+})
+
+# NA handling - position and removal
+test_that("NA levels get moved to the last column in the data.frame, are suppressed properly", {
+  x <- data.frame(a = c(1, 2, 2, 2, 1, 1, 1, NA, NA, 1),
+                  b = c(rep("up", 4), rep("down", 4), NA, NA),
+                  c = 10,
+  stringsAsFactors = FALSE)
+  y <- tabyl(x, a, b) %>%
+    untabyl()
+  expect_equal(y,
+               data.frame(a = c(1, 2, NA),
+                          down = c(3, 0, 1),
+                          up = c(1, 3, 0),
+                          NA_ = c(1, 0, 1)))
+  
+  expect_equal(
+    tabyl(x, a, b, show_na = FALSE) %>%
+                 untabyl(),
+                 data.frame(a = c(1, 2),
+                            down = c(3, 0),
+                            up = c(1, 3))
+  )
+  
+  #one-way suppression
+  expect_equal(
+    tabyl(x$a, show_na = FALSE) %>%
+      untabyl(),
+    data.frame(
+      `x$a` = 1:2,
+      n = c(5, 3),
+      percent = c(0.625, 0.375),
+      check.names = FALSE
+    )
+  )
+  
+  # NA level is shown in 3 way split
+  y <- x %>% tabyl(c, a, b, show_missing_levels = FALSE)
+  expect_equal(length(y), 3)
+  expect_equal(names(y), c("down", "up", "NA_"))
+  expect_equal(y[["NA_"]], # here the c column is numeric because show_missing_levels = FALSE
+               x %>% filter(is.na(b)) %>% tabyl(c, a))
+  
+  y_with_missing <- x %>% tabyl(c, a, b, show_missing_levels = TRUE)
+  expect_equal(length(y_with_missing), 3)
+  expect_equal(names(y_with_missing), c("down", "up", "NA_"))
+  expect_equal(y_with_missing[["NA_"]] %>% untabyl(), # here c column is factor b/c show_missing_levels = TRUE
+               data.frame(c = "10", `1` = 1, `2` = 0, NA_ = 1, check.names = FALSE))
+  
+  # If no NA in 3rd variable, it doesn't appear in split list
+  expect_equal(length(starwars %>%
+                        filter(species == "Human") %>%
+                        tabyl(eye_color, skin_color, gender, show_missing_levels = TRUE)), 2)
+  
+  # If there is NA, it does appear in split list
+  expect_equal(length(starwars %>%
+                        tabyl(eye_color, skin_color, gender, show_missing_levels = TRUE)), 5)
+  expect_equal(length(starwars %>%
+                        tabyl(eye_color, skin_color, gender, show_missing_levels = FALSE)), 5)
+})
+
+test_that("zero-row and fully-NA inputs are handled", {
+  zero_vec <- character(0)
+  expect_equal(nrow(tabyl(zero_vec)), 0) 
+  expect_equal(names(tabyl(zero_vec)), c("zero_vec", "n", "percent"))
+  
+  zero_df <- data.frame(a = character(0), b = character(0))
+  expect_equal(nrow(tabyl(zero_df, a, b)), 0)
+  expect_equal(names(tabyl(zero_df, a, b)), "a")
+  expect_message(tabyl(zero_df, a, b), "No records to count so returning a zero-row tabyl")
+  
+  all_na_df <- data.frame(a = c(NA, NA), b = c(NA_character_, NA_character_))
+  expect_equal(tabyl(all_na_df, a, b, show_na = FALSE) %>% nrow, 0)
+  expect_equal(tabyl(all_na_df, a, b, show_na = FALSE) %>% names, "a")
+  expect_message(tabyl(all_na_df, a, b, show_na = FALSE), "No records to count so returning a zero-row tabyl")
+})
+
+test_that("print.tabyl prints without row numbers", {
+  expect_equal(
+    mtcars %>% tabyl(am, cyl) %>% capture.output(),
+    c(" am 4 6  8", "  0 3 4 12", "  1 8 3  2")
+  )
 })

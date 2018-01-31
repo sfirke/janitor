@@ -8,10 +8,10 @@
 #' @rdname pipe
 #' @keywords internal
 #' @export
-#' @importFrom magrittr %>%
+#' @importFrom dplyr %>%
 #' @usage lhs \%>\% rhs
 #' @examples
 #' mtcars %>%
-#'   crosstab(carb, cyl) %>%
+#'   tabyl(carb, cyl) %>%
 #'   adorn_totals()
 NULL
