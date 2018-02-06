@@ -200,7 +200,7 @@ tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_level
   dat[[3]] <- as.character(dat[[3]]) # don't want empty factor levels in the result list - they would be empty data.frames
   
   # print NA level as its own data.frame, and make it appear last
-  if(sum(is.na(dat[[3]])) > 0){
+  if(show_na && sum(is.na(dat[[3]])) > 0){
     dat[[3]] <- factor(dat[[3]], levels = c(sort(unique(dat[[3]])), "NA_"))
     dat[[3]][is.na(dat[[3]])] <- "NA_"
   }

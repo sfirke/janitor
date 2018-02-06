@@ -45,6 +45,7 @@ test_that("show_NA = FALSE parameter works, incl. with piped input", {
   names(attr(resss, "core"))[1] <- "grp" ;   names(resss)[1] <- "grp" # for this next instance, col name changes
   expect_equal(resss,
                test_df_na %>% tabyl(grp, show_na = FALSE))
+  
 })
 
 test_that("ordering of result by factor levels is preserved for factors", {
@@ -238,6 +239,12 @@ test_that("NA levels get moved to the last column in the data.frame, are suppres
                         tabyl(eye_color, skin_color, gender, show_missing_levels = TRUE)), 5)
   expect_equal(length(starwars %>%
                         tabyl(eye_color, skin_color, gender, show_missing_levels = FALSE)), 5)
+  
+  # NA level in the list gets suppressed if show_na = FALSE.  Should have one less level if NA is suppressed.
+  expect_equal(length(starwars %>%
+                        tabyl(eye_color, skin_color, gender, show_na = TRUE)), 5)
+  expect_equal(length(starwars %>%
+                        tabyl(eye_color, skin_color, gender, show_na = FALSE)), 4)
 })
 
 test_that("zero-row and fully-NA inputs are handled", {
@@ -255,6 +262,7 @@ test_that("zero-row and fully-NA inputs are handled", {
   expect_equal(tabyl(all_na_df, a, b, show_na = FALSE) %>% names, "a")
   expect_message(tabyl(all_na_df, a, b, show_na = FALSE), "No records to count so returning a zero-row tabyl")
 })
+
 
 test_that("print.tabyl prints without row numbers", {
   expect_equal(
