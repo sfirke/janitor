@@ -81,7 +81,30 @@ test_that("piping in a data.frame works", {
 })
 
 
-test_that("column1 stays its original data type per #168", {
+test_that("column1 stays its original data type per #168, in both resulting tabyl and core", {
+  # test character, logical, numeric, factor X both values for show_missing_levels; confirm class in core and in main result
+  # do those 8 tests in a loop?
+  loop_df <- data.frame(a = c(TRUE, FALSE, TRUE),
+                        b = c("x", "y", "y"),
+                        c = c(1, 1, 2), stringsAsFactors = FALSE)
+  for(i in c("logical", "numeric", "character")){
+    for(j in c(TRUE, FALSE)){
+      loop_df_temp <- loop_df
+      class(loop_df_temp$a) <- i
+      loop_tab <- loop_df_temp %>% tabyl(a, b, c, show_missing_levels = j)
+      expect_equal(class(loop_tab[[1]]$a), class(loop_df_temp$a))
+      expect_equal(class(attr(loop_tab[[1]], "core")$a), class(loop_df_temp$a)) # check core class
+    }
+  }
+  loop_df$a <- factor(c("hi", "lo", "hi"))
+  for(j in c(TRUE, FALSE)){
+    loop_df_temp <- loop_df
+    loop_tab <- loop_df_temp %>% tabyl(a, b, c, show_missing_levels = j)
+    expect_equal(class(loop_tab[[1]]$a), class(loop_df_temp$a))
+    expect_equal(levels(loop_tab[[1]]$a), levels(loop_df_temp$a))
+    expect_equal(class(attr(loop_tab[[1]], "core")$a), class(loop_df_temp$a)) # check core class and levels
+    expect_equal(levels(attr(loop_tab[[1]], "core")$a), levels(loop_df_temp$a))
+  }
   
 })
 
