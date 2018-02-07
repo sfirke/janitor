@@ -81,6 +81,33 @@ test_that("piping in a data.frame works", {
 })
 
 
+test_that("column1 stays its original data type per #168, in both resulting tabyl and core", {
+  # test character, logical, numeric, factor X both values for show_missing_levels; confirm class in core and in main result
+  # do those 8 tests in a loop?
+  loop_df <- data.frame(a = c(TRUE, FALSE, TRUE),
+                        b = c("x", "y", "y"),
+                        c = c(1, 1, 2), stringsAsFactors = FALSE)
+  for(i in c("logical", "numeric", "character")){
+    for(j in c(TRUE, FALSE)){
+      loop_df_temp <- loop_df
+      class(loop_df_temp$a) <- i
+      loop_tab <- loop_df_temp %>% tabyl(a, b, c, show_missing_levels = j)
+      expect_equal(class(loop_tab[[1]]$a), class(loop_df_temp$a))
+      expect_equal(class(attr(loop_tab[[1]], "core")$a), class(loop_df_temp$a)) # check core class
+    }
+  }
+  loop_df$a <- factor(c("hi", "lo", "hi"))
+  for(j in c(TRUE, FALSE)){
+    loop_df_temp <- loop_df
+    loop_tab <- loop_df_temp %>% tabyl(a, b, c, show_missing_levels = j)
+    expect_equal(class(loop_tab[[1]]$a), class(loop_df_temp$a))
+    expect_equal(levels(loop_tab[[1]]$a), levels(loop_df_temp$a))
+    expect_equal(class(attr(loop_tab[[1]], "core")$a), class(loop_df_temp$a)) # check core class and levels
+    expect_equal(levels(attr(loop_tab[[1]], "core")$a), levels(loop_df_temp$a))
+  }
+  
+})
+
 # bad inputs
 
 test_that("failure occurs when passed unsupported types", {
@@ -170,9 +197,9 @@ expect_equal(z %>% tabyl(a, b, new, show_missing_levels = TRUE),
              list(lvl1 = data.frame(a = c("hi", "lo"),
                                     big = c(0, 0),
                                     small = c(1, 0)) %>% as_tabyl(2, "a", "b")))
-expect_equal(z %>% tabyl(a, b, new, show_missing_levels = FALSE),
-             list(lvl1 = data.frame(a = c("hi"),
-                                    small = c(1), stringsAsFactors = FALSE) %>% as_tabyl(2, "a", "b")))
+expect_equal(z %>% tabyl(a, b, new, show_missing_levels = FALSE) %>% .[[1]],
+             data.frame(a = factor("hi", levels = c("hi", "lo")),
+                                    small = c(1)) %>% as_tabyl(2, "a", "b"))
 
 # Works with numerics
 expect_equal(mtcars %>% tabyl(cyl, am),
@@ -220,14 +247,14 @@ test_that("NA levels get moved to the last column in the data.frame, are suppres
   y <- x %>% tabyl(c, a, b, show_missing_levels = FALSE)
   expect_equal(length(y), 3)
   expect_equal(names(y), c("down", "up", "NA_"))
-  expect_equal(y[["NA_"]], # here the c column is numeric because show_missing_levels = FALSE
+  expect_equal(y[["NA_"]], # column c remains numeric
                x %>% filter(is.na(b)) %>% tabyl(c, a))
   
   y_with_missing <- x %>% tabyl(c, a, b, show_missing_levels = TRUE)
   expect_equal(length(y_with_missing), 3)
   expect_equal(names(y_with_missing), c("down", "up", "NA_"))
-  expect_equal(y_with_missing[["NA_"]] %>% untabyl(), # here c column is factor b/c show_missing_levels = TRUE
-               data.frame(c = "10", `1` = 1, `2` = 0, NA_ = 1, check.names = FALSE))
+  expect_equal(y_with_missing[["NA_"]] %>% untabyl(), # column c remains numeric
+               data.frame(c = 10, `1` = 1, `2` = 0, NA_ = 1, check.names = FALSE))
   
   # If no NA in 3rd variable, it doesn't appear in split list
   expect_equal(length(starwars %>%

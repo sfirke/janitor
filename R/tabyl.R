@@ -199,7 +199,12 @@ tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_level
   dat <- dplyr::select(dat, !! var1, !! var2, !! var3)
   dat[[3]] <- as.character(dat[[3]]) # don't want empty factor levels in the result list - they would be empty data.frames
   
-  # print NA level as its own data.frame, and make it appear last
+  # grab class of 1st variable to restore it later
+  col1_class <- class(dat[[1]])
+  col1_levels <- NULL
+  if(col1_class %in% "factor"){ col1_levels <- levels(dat[[1]]) }
+
+    # print NA level as its own data.frame, and make it appear last
   if(show_na && sum(is.na(dat[[3]])) > 0){
     dat[[3]] <- factor(dat[[3]], levels = c(sort(unique(dat[[3]])), "NA_"))
     dat[[3]][is.na(dat[[3]])] <- "NA_"
@@ -213,11 +218,15 @@ tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_level
     dat[[2]] <- as.factor(dat[[2]])
   }
   
-  split(dat, dat[[rlang::quo_name(var3)]]) %>%
-    purrr::map(tabyl_2way, var1, var2, show_na = show_na, show_missing_levels = show_missing_levels)
+  result <- split(dat, dat[[rlang::quo_name(var3)]]) %>%
+    purrr::map(tabyl_2way, var1, var2, show_na = show_na, show_missing_levels = show_missing_levels) %>%
+    purrr::map(reset_1st_col_status, col1_class, col1_levels) # reset class of var in 1st col to its input class, #168 
+  
+  result
+  
 }
 
-
+### Helper functions called by tabyl() ------------
 
 # function that checks if col 1 name is "n" or "percent",
 ## if so modifies the appropriate other column name to avoid duplicates
@@ -226,6 +235,21 @@ handle_if_special_names_used <- function(dat){
     names(dat)[2] <- "n_n"
   } else if(names(dat)[1] == "percent"){
     names(dat)[3] <- "percent_percent"
+  }
+  dat
+}
+
+# reset the 1st col's class of a data.frame to a provided class
+# also reset in tabyl's core
+reset_1st_col_status <- function(dat, new_class, lvls){
+  if(new_class %in% "factor"){
+    dat[[1]] <- factor(dat[[1]], levels = lvls)
+    attr(dat, "core")[[1]] <- factor(attr(dat, "core")[[1]], levels = lvls)
+  } else{
+    dat[[1]] <- as.character(dat[[1]]) # first do as.character in case eventual class is numeric
+    class(dat[[1]]) <- new_class
+    attr(dat, "core")[[1]] <- as.character(attr(dat, "core")[[1]])
+    class(attr(dat, "core")[[1]]) <- new_class
   }
   dat
 }
