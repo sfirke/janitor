@@ -4,22 +4,23 @@
 \alias{clean_names}
 \title{Cleans names of a data.frame.}
 \usage{
-clean_names(dat, case = c("snake", "small_camel", "big_camel",
-  "screaming_snake", "parsed", "mixed", "lower_upper", "upper_lower",
-  "all_caps", "lower_camel", "upper_camel", "old_janitor"))
+clean_names(dat, case = c("snake", "lower_camel", "upper_camel",
+  "screaming_snake", "lower_upper", "upper_lower", "all_caps", "small_camel",
+  "big_camel", "old_janitor", "parsed", "mixed"))
 }
 \arguments{
 \item{dat}{the input data.frame.}
 
-\item{case}{The desired target case (default is \code{"snake"}), provided as one of the following:
+\item{case}{The desired target case (default is \code{"snake"}), indicated by these possible values:
 \itemize{
- \item{snake_case: \code{"snake"}}
- \item{lowerCamel: \code{"lower_camel"} or \code{"small_camel"}}
- \item{UpperCamel: \code{"upper_camel"} or \code{"big_camel"}}
- \item{ALL_CAPS: \code{"screaming_snake"} or \code{"all_caps"}}
- \item{lowerUPPER: \code{"lower_upper"}}
- \item{UPPERlower: \code{"upper_lower"}}
- \item{old_janitor: legacy compatibility option to preserve behavior of \code{clean_names} in janitor versions <= 0.3.1 (prior to addition of the "case" argument)}
+ \item{\code{"snake"} produces snake_case} 
+ \item{\code{"lower_camel"} or \code{"small_camel"} produces lowerCamel}
+ \item{\code{"upper_camel"} or \code{"big_camel"} produces UpperCamel}
+ \item{\code{"screaming_snake"} or \code{"all_caps"} produces ALL_CAPS}
+ \item{\code{"lower_upper"} produces lowerUPPER}
+ \item{\code{"upper_lower"} produces UPPERlower}
+ \item{\code{old_janitor}: legacy compatibility option to preserve behavior of \code{clean_names} prior to addition of the "case" argument(janitor versions <= 0.3.1 )}.  Provided as a quick fix for old scripts broken by the changes to \code{clean_names} in janitor v1.0.
+ \item{\code{"parsed"}, \code{"mixed"}, \code{"none"}, \code{"internal_parsing"}: less-common cases offered by \code{snakecase::to_any_case}.  See \code{\link[snakecase]{to_any_case}} for details.}
  }}
 }
 \value{
@@ -36,7 +37,7 @@ transliterated to ASCII.  For example, an "o" with a german umlaut over it becom
 # not run:
 # clean_names(poorly_named_df)
 
-# or with the pipe character from dplyr:
+# or pipe in the input data.frame:
 # poorly_named_df \%>\% clean_names()
 
 # if you prefer camelCase variable names:

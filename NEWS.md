@@ -18,7 +18,7 @@ The legacy functions `crosstab` and `adorn_crosstab` have been deprecated, but r
 
 ### Breaking improvements to `clean_names`
 
-`clean_names()` now detects and preserves camelCase inputs and allows multiple options for case outputs of the cleaned data.frame.  It also converts accented letters and turns `#` into `"number"`.  This is a breaking change, e.g., `variableName` in the data is now converted to `variable_name` (or `variableName`, `VariableName`, etc. depending on your preference).  This may cause old code to break, where it would have been `variablename`.  To minimize this inconvenience, there's a quick fix for compatibility: you can find-and-replace to insert the argument `case = "old_janitor"` to preserve the old behavior of `clean_names()` as of version 0.3.0 (and thus not have to redo your scripts beyond that.)
+`clean_names()` now detects and preserves camelCase inputs and allows multiple options for case outputs of the cleaned data.frame.  It also converts accented letters and turns `#` into `"number"`.  This is a breaking change, e.g., `variableName` in the data is now converted to `variable_name` (or `variableName`, `VariableName`, etc. depending on your preference).  This may cause old code to break, where it would have been converted to `variablename`.  To minimize this inconvenience, there's a quick fix for compatibility: you can find-and-replace to insert the argument `case = "old_janitor"` to preserve the old behavior of `clean_names()` as of version 0.3.1 (and thus not have to redo your scripts beyond that.)
 
 ## Major Features
 
