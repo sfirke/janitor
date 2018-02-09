@@ -20,7 +20,7 @@ Depends:
     R (>= 3.1.2)
 Imports:
     dplyr (>= 0.7.0),
-    tidyr,
+    tidyr (>= 0.7.0),
     snakecase (>= 0.8.1),
     magrittr,
     purrr,

@@ -17,11 +17,11 @@
 
 adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE){
   # if input is a list, call purrr::map to recursively apply this function to each data.frame
-  if(is.list(dat) & !is.data.frame(dat)){
+  if(is.list(dat) && !is.data.frame(dat)){
     purrr::map(dat, adorn_totals, where, fill, na.rm)
   } else{
     if(!is.data.frame(dat)){ stop("adorn_totals() must be called on a data.frame or list of data.frames") }
-    numeric_cols <- which(unlist(lapply(dat, is.numeric)))
+    numeric_cols <- which(vapply(dat, is.numeric, logical(1)))
     numeric_cols <- setdiff(numeric_cols, 1) # assume 1st column should not be included so remove it from numeric_cols
     if(length(numeric_cols) == 0){stop("at least one one of columns 2:n must be of class numeric.  adorn_totals should be called before other adorn_ functions.")}
     if(sum(where %in% c("row", "col")) != length(where)){ stop("\"where\" must be one of \"row\", \"col\", or c(\"row\", \"col\")") }
@@ -45,9 +45,7 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE){
         } else {fill}
       }
       
-      col_totals <- lapply(dat, col_vec) %>%
-        as.data.frame(stringsAsFactors = FALSE) %>%
-        stats::setNames(names(dat))
+      col_totals <- purrr::map_df(dat, col_vec)
       
       col_totals[nrow(col_totals), 1] <- "Total" # replace final row, first column with "Total"
       dat[(nrow(dat) + 1), ] <- col_totals[1, ] # insert totals_col as last row in dat

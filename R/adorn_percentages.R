@@ -23,13 +23,13 @@
 
 adorn_percentages <- function(dat, denominator = "row", na.rm = TRUE){
   # if input is a list, call purrr::map to recursively apply this function to each data.frame
-  if(is.list(dat) & !is.data.frame(dat)){
+  if(is.list(dat) && !is.data.frame(dat)){
     purrr::map(dat, adorn_percentages, denominator, na.rm)
   } else{
     # catch bad inputs
     if(!is.data.frame(dat)){ stop("adorn_percentages() must be called on a data.frame or list of data.frames") }
     if(! denominator %in% c("row", "col", "all")){stop("'denominator' must be one of 'row', 'col', or 'all'")}
-    numeric_cols <- which(unlist(lapply(dat, is.numeric)))
+    numeric_cols <- which(vapply(dat, is.numeric, logical(1)))
     numeric_cols <- setdiff(numeric_cols, 1) # assume 1st column should not be included so remove it from numeric_cols. Moved up to this line so that if only 1st col is numeric, the function errors
     cols_to_tally <- numeric_cols
     

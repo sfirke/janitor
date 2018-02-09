@@ -45,9 +45,9 @@ tabyl <- function(dat, ...) UseMethod("tabyl")
 # retain this method for calling tabyl() on plain vectors
 
 tabyl.default <- function(dat, show_na = TRUE, show_missing_levels = TRUE, ...) {
-  if(is.list(dat) & !"data.frame" %in% class(dat)){stop("tabyl() is meant to be called on vectors and data.frames; convert non-data.frame lists to one of these types")}
+  if(is.list(dat) && !"data.frame" %in% class(dat)){stop("tabyl() is meant to be called on vectors and data.frames; convert non-data.frame lists to one of these types")}
   # catch and adjust input variable name.
-  if(is.null(names(dat)) | is.vector(dat)) {
+  if(is.null(names(dat)) || is.vector(dat)) {
     var_name <- deparse(substitute(dat))
   } else {
     var_name <- names(dat)
@@ -61,7 +61,7 @@ tabyl.default <- function(dat, show_na = TRUE, show_missing_levels = TRUE, ...) 
   
   # calculate initial counts table
   # convert vector to a 1 col data.frame
-  if(mode(dat) %in% c("logical", "numeric", "character", "list") & !is.matrix(dat)) {
+  if(mode(dat) %in% c("logical", "numeric", "character", "list") && !is.matrix(dat)) {
     if(is.list(dat)){ dat <- dat[[1]] } # to preserve factor properties when vec is passed in as a list from data.frame method
     dat_df <- data.frame(dat, stringsAsFactors = is.factor(dat))
     names(dat_df)[1] <- "dat"
@@ -69,7 +69,7 @@ tabyl.default <- function(dat, show_na = TRUE, show_missing_levels = TRUE, ...) 
     
     result <- dat_df %>% dplyr::count(dat)
     
-    if(is.factor(dat) & show_missing_levels){
+    if(is.factor(dat) && show_missing_levels){
       expanded <- tidyr::expand(result, dat)
       result <- merge(x = expanded, # can't use dplyr::left_join because as of 0.6.0, NAs don't match, and na_matches argument not present < 0.6.0
                       y = result,
@@ -119,15 +119,15 @@ tabyl.default <- function(dat, show_na = TRUE, show_missing_levels = TRUE, ...) 
 #' @rdname tabyl
 # Main dispatching function to underlying functions depending on whether "..." contains 1, 2, or 3 variables
 tabyl.data.frame <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_levels = TRUE, ...){
-  if(missing(var1) & missing(var2) & missing(var3)){stop("if calling on a data.frame, specify unquoted column names(s) to tabulate.  Did you mean to call tabyl() on a vector?")}
+  if(missing(var1) && missing(var2) && missing(var3)){stop("if calling on a data.frame, specify unquoted column names(s) to tabulate.  Did you mean to call tabyl() on a vector?")}
   if(dplyr::is_grouped_df(dat)){ dat <- dplyr::ungroup(dat) } 
 
-  if(missing(var2) & missing(var3) & !missing(var1)){
+  if(missing(var2) && missing(var3) && !missing(var1)){
     tabyl_1way(dat, rlang::enquo(var1), show_na = show_na, show_missing_levels = show_missing_levels)
-  } else if(missing(var3) & !missing(var1) & !missing(var1)){
+  } else if(missing(var3) && !missing(var1) && !missing(var1)){
     tabyl_2way(dat, rlang::enquo(var1), rlang::enquo(var2), show_na = show_na, show_missing_levels = show_missing_levels)
-  } else if(!missing(var1) &
-            !missing(var2) &
+  } else if(!missing(var1) &&
+            !missing(var2) &&
             !missing(var3)){
     tabyl_3way(dat, rlang::enquo(var1), rlang::enquo(var2), rlang::enquo(var3), show_na = show_na, show_missing_levels = show_missing_levels)
   } else {
@@ -172,7 +172,7 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
 
   # Optionally expand missing factor levels.
   if(show_missing_levels){
-    combos <- tidyr::complete_(tabl %>% dplyr::select(-n), names(tabl)[1:2]) # this is pretty ugly - using dplyr keeps col types the same making for easier join, vs. expand.grid
+    combos <- tidyr::complete(tabl %>% dplyr::select(-n), !!!rlang::syms(names(tabl)[1:2])) # this is pretty ugly - using dplyr keeps col types the same making for easier join, vs. expand.grid
                                                                # would be nice to just complete() tabl and skip the join, but couldn't get the eval to work
     tabl <- suppressMessages(dplyr::full_join(tabl, combos))
   }
@@ -184,7 +184,7 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
   }
   tabl[2][is.na(tabl[2])] <- "NA_"
   result <- tabl %>%
-    tidyr::spread_(rlang::quo_name(var2), "n", fill = 0)
+    tidyr::spread(!! var2, "n", fill = 0)
   
   if("NA_" %in% names(result)){ result <- result[c(setdiff(names(result), "NA_"), "NA_")] } # move NA_ column to end, from http://stackoverflow.com/a/18339562
   
