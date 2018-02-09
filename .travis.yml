@@ -5,7 +5,7 @@ cache: packages
 
 before_install:
   Rscript -e 'update.packages(ask = FALSE)'
-  
+
 matrix: # don't test osx + r-devel
   include:
   - os: linux
@@ -24,6 +24,7 @@ matrix: # don't test osx + r-devel
 
 r_github_packages:
   - jimhester/covr
+  - tazinho/snakecase
 
 after_success:
   - Rscript -e 'covr::codecov()'
