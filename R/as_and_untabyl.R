@@ -2,16 +2,16 @@
 #'
 #' @description
 #' A \code{tabyl} is a data.frame containing counts of a variable or co-occurrences of two variables (a.k.a., a contingency table or crosstab).  This specialized kind of data.frame has attributes that enable \code{adorn_} functions to be called for precise formatting and presentation of results.  E.g., display results as a mix of percentages, Ns, add totals rows or columns, rounding options, in the style of Microsoft Excel PivotTable.
-#' 
+#'
 #' A \code{tabyl} can be the result of a call to \code{janitor::tabyl()}, in which case these attributes are added automatically.  This function adds \code{tabyl} class attributes to a data.frame that isn't the result of a call to \code{tabyl} but meets the requirements of a two-way tabyl:
 #' 1) First column contains values of variable 1
 #' 2) Column names 2:n are the values of variable 2
 #' 3) Numeric values in columns 2:n are counts of the co-occurrences of the two variables.*
-#' 
-#' * = this is the ideal form of a tabyl, but janitor's \code{adorn_} functions tolerate and ignore non-numeric columns in positions 2:n. 
-#' 
+#'
+#' * = this is the ideal form of a tabyl, but janitor's \code{adorn_} functions tolerate and ignore non-numeric columns in positions 2:n.
+#'
 #' For instance, the result of \code{dplyr::count()} followed by \code{tidyr::spread()} can be treated as a \code{tabyl}.
-#' 
+#'
 #' The result of calling \code{tabyl()} on a single variable is a special class of one-way tabyl; this function only pertains to the two-way tabyl.
 #'
 #' @param dat a data.frame with variable values in the first column and numeric values in all other columns.
@@ -22,15 +22,23 @@
 #' @export
 #' @examples
 #' as_tabyl(mtcars)
-#' 
+#'
 
-as_tabyl <- function(dat, axes = 2, row_var_name = NULL, col_var_name = NULL){
-  if("tabyl" %in% class(dat)){ return(dat) }
-  if(! axes %in% 1:2){stop("axes must be either 1 or 2")}
-  
+as_tabyl <- function(dat, axes = 2, row_var_name = NULL, col_var_name = NULL) {
+  if ("tabyl" %in% class(dat)) {
+    return(dat)
+  }
+  if (!axes %in% 1:2) {
+    stop("axes must be either 1 or 2")
+  }
+
   # check whether input meets requirements
-  if(!is.data.frame(dat)){stop("input must be a data.frame")}
-  if(sum(unlist(lapply(dat, is.numeric))[-1]) == 0){stop("at least one one of columns 2:n must be of class numeric")}
+  if (!is.data.frame(dat)) {
+    stop("input must be a data.frame")
+  }
+  if (sum(unlist(lapply(dat, is.numeric))[-1]) == 0) {
+    stop("at least one one of columns 2:n must be of class numeric")
+  }
 
   # assign core attribute and classes
   attr(dat, "core") <- as.data.frame(dat) # core goes first so dat does not yet have attributes attached to it
@@ -39,9 +47,11 @@ as_tabyl <- function(dat, axes = 2, row_var_name = NULL, col_var_name = NULL){
     axes == 2 ~ "two_way"
   )
   class(dat) <- c("tabyl", class(dat))
-  
-    if(!missing(row_var_name) | !missing(col_var_name)){
-    if(axes != 2){ stop("variable names are only meaningful for two-way tabyls") }
+
+  if (!missing(row_var_name) | !missing(col_var_name)) {
+    if (axes != 2) {
+      stop("variable names are only meaningful for two-way tabyls")
+    }
     attr(dat, "var_names") <- list(row = row_var_name, col = col_var_name)
   }
 
@@ -57,18 +67,20 @@ as_tabyl <- function(dat, axes = 2, row_var_name = NULL, col_var_name = NULL){
 #' @return Returns the same data.frame, but without the \code{tabyl} class and attributes.
 #' @export
 #' @examples
-#' 
+#'
 #' mtcars %>%
 #'   tabyl(am) %>%
 #'   untabyl() %>%
 #'   attributes() # tabyl-specific attributes are gone
 
-untabyl <- function(dat){
-  if(! "tabyl" %in% class(dat)){warning("untabyl() called on a non-tabyl")}
-  class(dat) <- class(dat)[! class(dat) %in% "tabyl"]
+untabyl <- function(dat) {
+  if (!"tabyl" %in% class(dat)) {
+    warning("untabyl() called on a non-tabyl")
+  }
+  class(dat) <- class(dat)[!class(dat) %in% "tabyl"]
   attr(dat, "core") <- NULL
   # These attributes may not exist, but simpler to declare them NULL regardless than to check to see if they exist:
-  attr(dat, "totals") <- NULL 
+  attr(dat, "totals") <- NULL
   attr(dat, "tabyl_type") <- NULL # may not exist, but simpler to declare it NULL regardless than to check to see if it exists
   attr(dat, "var_names") <- NULL # may not exist, but simpler to declare it NULL regardless than to check to see if it exists
   dat

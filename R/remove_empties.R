@@ -4,20 +4,22 @@
 #' Removes all rows and/or columns from a data.frame that are composed entirely of \code{NA} values.
 #'
 #' @param dat the input data.frame.
-#' @param which one of "row", "col", or \code{c("row", "col")} 
+#' @param which one of "row", "col", or \code{c("row", "col")}
 #' @return Returns the data.frame without its missing rows or columns.
 #' @export
 #' @examples
 #' # not run:
 #' # dat %>% remove_empty("rows")
 
-remove_empty <- function(dat, which){
-  if(missing(which) ||
-     sum(which %in% c("rows", "cols")) != length(which)){ stop("\"which\" must be one of \"rows\", \"cols\", or c(\"rows\", \"cols\")") }
-  if("rows" %in% which){
+remove_empty <- function(dat, which) {
+  if (missing(which) ||
+    sum(which %in% c("rows", "cols")) != length(which)) {
+    stop("\"which\" must be one of \"rows\", \"cols\", or c(\"rows\", \"cols\")")
+  }
+  if ("rows" %in% which) {
     dat <- dat[rowSums(is.na(dat)) != ncol(dat), ]
   }
-  if("cols" %in% which){
+  if ("cols" %in% which) {
     dat <- dat[colSums(!is.na(dat)) > 0]
   }
   dat
@@ -38,7 +40,7 @@ remove_empty <- function(dat, which){
 #' # not run:
 #' # dat %>% remove_empty_rows
 
-remove_empty_rows <- function(dat){
+remove_empty_rows <- function(dat) {
   .Deprecated("remove_empty(\"rows\")")
   remove_empty(dat, which = "rows")
 }
@@ -56,7 +58,7 @@ remove_empty_rows <- function(dat){
 #' # dat %>% remove_empty_cols
 #'
 
-remove_empty_cols <- function(dat){
+remove_empty_cols <- function(dat) {
   .Deprecated("remove_empty(\"cols\")")
   remove_empty(dat, which = "cols")
-  }
+}

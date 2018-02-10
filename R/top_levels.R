@@ -14,38 +14,49 @@
 # todo: test for when there are ~5 classes to factor but only 3 are present in vector - does it work?
 # todo: generate warning if n = 3, factor has only 4 levels - groups will sum to >100%
 
-top_levels <- function(input_vec, n = 2, show_na = FALSE){
-  
+top_levels <- function(input_vec, n = 2, show_na = FALSE) {
+
   # Initial type error catching
-  if(!is.factor(input_vec)){stop("factor_vec is not of type 'factor'")}
-  
+  if (!is.factor(input_vec)) {
+    stop("factor_vec is not of type 'factor'")
+  }
+
   num_levels_in_var <- nlevels(input_vec)
 
   # handle bad inputs
-  if(!num_levels_in_var > 2){stop("input factor variable must have at least 3 levels")}
-  if(num_levels_in_var < 2 * n){stop(paste0("there are ", num_levels_in_var, " levels in the variable and ", n, " levels in each of the top and bottom groups.\nSince ", 2 * n, " is greater than ", num_levels_in_var, ", there would be overlap in the top and bottom groups and some records will be double-counted."))}
-  if(n < 1 || n %% 1 != 0){stop("n must be a whole number at least 1")}
-  
+  if (!num_levels_in_var > 2) {
+    stop("input factor variable must have at least 3 levels")
+  }
+  if (num_levels_in_var < 2 * n) {
+    stop(paste0("there are ", num_levels_in_var, " levels in the variable and ", n, " levels in each of the top and bottom groups.\nSince ", 2 * n, " is greater than ", num_levels_in_var, ", there would be overlap in the top and bottom groups and some records will be double-counted."))
+  }
+  if (n < 1 || n %% 1 != 0) {
+    stop("n must be a whole number at least 1")
+  }
+
   var_name <- deparse(substitute(input_vec))
-  
+
   # Identify top/mid/bottom group labels for printing
   groups <- get_level_groups(input_vec, n, num_levels_in_var)
-  
+
   # convert input vector into grouped variable
-  new_vec <- ifelse(as.numeric(input_vec) <= n, groups$top,
-                           ifelse(as.numeric(input_vec) > (num_levels_in_var - n), groups$bot,
-                                  groups$mid))
-  
+  new_vec <- ifelse(as.numeric(input_vec) <= n,
+                    groups$top,
+                    ifelse(as.numeric(input_vec) > (num_levels_in_var - n),
+                           groups$bot,
+                           groups$mid
+                    )
+  )
+
   # recode variable as hi-med-lo factor so table prints w/ correct sorting
-  if(!is.na(groups$mid)){new_vec <- factor(new_vec, levels = c(groups$top, groups$mid, groups$bot))
-  } else{
+  if (!is.na(groups$mid)) {
+    new_vec <- factor(new_vec, levels = c(groups$top, groups$mid, groups$bot))
+  } else {
     new_vec <- factor(new_vec, levels = c(groups$top, groups$bot))
   }
-  
+
   # tabulate grouped variable, then reset name to match input variable name
   result <- tabyl(new_vec, show_na = show_na)
-  names(result)[1] <- var_name 
+  names(result)[1] <- var_name
   result
 }
-
-
