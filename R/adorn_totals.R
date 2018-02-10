@@ -39,15 +39,14 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE){
     if("row" %in% where){
       dat[[1]] <- as.character(dat[[1]]) # for type matching when binding the word "Total" on a factor when adding Totals row
       # creates the totals row to be appended
-      col_vec <- function(a_col, na_rm = na.rm){
+      col_sum <- function(a_col, na_rm = na.rm){
         if(is.numeric(a_col)){ # can't do this with if_else because it doesn't like the sum() of a character vector, even if that clause is not reached
           sum(a_col, na.rm = na_rm)
         } else {fill}
       }
       
-      col_totals <- purrr::map_df(dat, col_vec)
-      
-      col_totals[nrow(col_totals), 1] <- "Total" # replace final row, first column with "Total"
+      col_totals <- purrr::map_df(dat, col_sum)
+      col_totals[1, 1] <- "Total" # replace first column value with "Total"
       dat[(nrow(dat) + 1), ] <- col_totals[1, ] # insert totals_col as last row in dat
     }
     
