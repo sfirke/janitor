@@ -13,7 +13,7 @@ clean_names(dat, case = c("snake", "lower_camel", "upper_camel",
 
 \item{case}{The desired target case (default is \code{"snake"}), indicated by these possible values:
 \itemize{
- \item{\code{"snake"} produces snake_case} 
+ \item{\code{"snake"} produces snake_case}
  \item{\code{"lower_camel"} or \code{"small_camel"} produces lowerCamel}
  \item{\code{"upper_camel"} or \code{"big_camel"} produces UpperCamel}
  \item{\code{"screaming_snake"} or \code{"all_caps"} produces ALL_CAPS}

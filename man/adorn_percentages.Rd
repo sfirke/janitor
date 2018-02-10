@@ -24,7 +24,7 @@ This function excludes the first column of the input data.frame, assuming that i
 mtcars \%>\%
   tabyl(am, cyl) \%>\%
   adorn_percentages("col")
-  
+
 # calculates correctly even with totals column and/or row:
 mtcars \%>\%
   tabyl(am, cyl) \%>\%

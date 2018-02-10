@@ -36,28 +36,29 @@ test_that("percentages are correct", {
 
 test_that("rounding is correct", {
   # rounding up
-    rounded_up <- suppressWarnings(mtcars %>%
+  rounded_up <- suppressWarnings(mtcars %>%
     tabyl(cyl, am) %>%
-    adorn_crosstab(., denom = "all", digits = 0, rounding = "half up")) 
-    
-    expect_equal(rounded_up, data.frame(
-      cyl = c("4", "6", "8"),
-      `0` = c("9%  (3)", "13%  (4)", "38% (12)"),
-      `1` = c("25% (8)", "9% (3)", "6% (2)"),
-      check.names = FALSE, stringsAsFactors = FALSE
-    ))
-    # default base R rounding
-    rounded_to_even <- suppressWarnings(
-      mtcars %>%
+    adorn_crosstab(., denom = "all", digits = 0, rounding = "half up"))
+
+  expect_equal(rounded_up, data.frame(
+    cyl = c("4", "6", "8"),
+    `0` = c("9%  (3)", "13%  (4)", "38% (12)"),
+    `1` = c("25% (8)", "9% (3)", "6% (2)"),
+    check.names = FALSE, stringsAsFactors = FALSE
+  ))
+  # default base R rounding
+  rounded_to_even <- suppressWarnings(
+    mtcars %>%
       tabyl(cyl, am) %>%
-      adorn_crosstab(., denom = "all", digits = 0))
-    
-    expect_equal(rounded_to_even, data.frame(
-      cyl = c("4", "6", "8"),
-      `0` = c("9%  (3)", "12%  (4)", "38% (12)"),
-      `1` = c("25% (8)", "9% (3)", "6% (2)"),
-      check.names = FALSE, stringsAsFactors = FALSE
-    ))
+      adorn_crosstab(., denom = "all", digits = 0)
+  )
+
+  expect_equal(rounded_to_even, data.frame(
+    cyl = c("4", "6", "8"),
+    `0` = c("9%  (3)", "12%  (4)", "38% (12)"),
+    `1` = c("25% (8)", "9% (3)", "6% (2)"),
+    check.names = FALSE, stringsAsFactors = FALSE
+  ))
 })
 
 
@@ -69,7 +70,7 @@ test_that("digits parameter is correct", {
     `4` = c("57% (4)", "40% (4)", "0% (0)", "40% (4)", "0% (0)", "0% (0)"),
     `5` = c("0% (0)", "20% (2)", "0% (0)", "10% (1)", "100% (1)", "100% (1)"),
     check.names = FALSE, stringsAsFactors = FALSE
-  ))    
+  ))
 })
 
 test_that("show_n can suppress Ns, digits parameter is correct", {
@@ -87,11 +88,12 @@ test_that("spacing is correct", {
   spacings <- suppressWarnings(
     data_frame(
       x = c(rep("a", 500), "b", "b", "c", "d"),
-      y = rep(c(0,0,0,0,0,1), 84)
+      y = rep(c(0, 0, 0, 0, 0, 1), 84)
     ) %>%
       tabyl(x, y) %>%
-      adorn_crosstab(., denom = "all"))
-  
+      adorn_crosstab(., denom = "all")
+  )
+
   expect_equal(spacings, data.frame(
     x = letters[1:4],
     `0` = c("82.7% (417)", "0.4%   (2)", "0.2%   (1)", "0.0%   (0)"),
@@ -128,16 +130,20 @@ test_that("totals row and columns are correct", {
 })
 
 test_that("Totals works with factor column", {
-  df1 <- data.frame(x = c("big", "small"),
-                    y = 1:2,
-                    z = 10:11)
+  df1 <- data.frame(
+    x = c("big", "small"),
+    y = 1:2,
+    z = 10:11
+  )
   expect_equal(
     suppressWarnings(adorn_crosstab(df1, denom = "row", show_totals = TRUE)),
-    data.frame(x = c("big", "small", "Total"),
-               y = c("9.1% (1)", "15.4% (2)", "12.5% (3)"),
-               z = c("90.9% (10)", "84.6% (11)", "87.5% (21)"),
-               stringsAsFactors = FALSE
-  ))
+    data.frame(
+      x = c("big", "small", "Total"),
+      y = c("9.1% (1)", "15.4% (2)", "12.5% (3)"),
+      z = c("90.9% (10)", "84.6% (11)", "87.5% (21)"),
+      stringsAsFactors = FALSE
+    )
+  )
 })
 
 
@@ -147,10 +153,14 @@ test_that("bad inputs are caught", {
 })
 
 test_that("error thrown if any of columns 2:n in input are not numeric", {
-  df2 <- data.frame(x = c("big", "small"),
-                    y = c(1:2),
-                    z = c("hi", "lo"),
-                    stringsAsFactors = FALSE)
-  expect_error(suppressWarnings(adorn_crosstab(df2)),
-               "all columns 2:n in input data.frame must be of class numeric")
+  df2 <- data.frame(
+    x = c("big", "small"),
+    y = c(1:2),
+    z = c("hi", "lo"),
+    stringsAsFactors = FALSE
+  )
+  expect_error(
+    suppressWarnings(adorn_crosstab(df2)),
+    "all columns 2:n in input data.frame must be of class numeric"
+  )
 })

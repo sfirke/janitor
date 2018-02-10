@@ -4,7 +4,7 @@ library(janitor)
 library(dplyr)
 context("use_first_valid_of()")
 
-expect_equal_deprecated <- function(object, expected, ...){ # for retaining tests and not causing check() problems while the function is callable but deprecated
+expect_equal_deprecated <- function(object, expected, ...) { # for retaining tests and not causing check() problems while the function is callable but deprecated
   expect_warning(object, "deprecated", ignore.case = TRUE)
   expect_equal(suppressWarnings(object), expected, ...)
 }
@@ -37,10 +37,14 @@ test_that("input vectors of different lengths throw error", {
 test_that("outputs are correct", {
   expect_equal_deprecated(use_first_valid_of(dat$a, dat$b, dat$c), c(1, 2, 3))
   expect_equal_deprecated(use_first_valid_of(dat$d1, dat$d2), c(as.Date("1999-01-01"), as.Date("1999-02-02"), as.Date("2016-03-03")))
-  expect_equal(suppressWarnings(use_first_valid_of(dat$a, dat$x)), # mismatched types, supposed to throw warning
-               c("1", "med", "lo"))
-  expect_equal(suppressWarnings(use_first_valid_of(dat$a, dat$d1)),
-               c("1", "1999-02-02", NA)) # mismatched types, supposed to throw warning
+  expect_equal(
+    suppressWarnings(use_first_valid_of(dat$a, dat$x)), # mismatched types, supposed to throw warning
+    c("1", "med", "lo")
+  )
+  expect_equal(
+    suppressWarnings(use_first_valid_of(dat$a, dat$d1)),
+    c("1", "1999-02-02", NA)
+  ) # mismatched types, supposed to throw warning
 })
 
 test_that("factors are handled correctly", {
@@ -55,17 +59,23 @@ test_that("if_all_NA works", {
 })
 
 test_that("works with piping", {
-  expect_equal(suppressWarnings(use_first_valid_of(dat$a, dat$b, dat$c)),
-               suppressWarnings(dat %>%
-                 mutate(new_var = use_first_valid_of(a, b, c)) %>%
-                 .$new_var))
+  expect_equal(
+    suppressWarnings(use_first_valid_of(dat$a, dat$b, dat$c)),
+    suppressWarnings(dat %>%
+      mutate(new_var = use_first_valid_of(a, b, c)) %>%
+      .$new_var)
+  )
 })
 
 test_that("POSIXct outputs are correct and retain proper class", {
-  expect_equal_deprecated(use_first_valid_of(dat$p1, dat$p2),
-               c(dat$p1[1:2], dat$p2[3]))
-  expect_equal_deprecated(use_first_valid_of(dat$p1, dat$p2) %>% class,
-               c("POSIXct", "POSIXt"))
+  expect_equal_deprecated(
+    use_first_valid_of(dat$p1, dat$p2),
+    c(dat$p1[1:2], dat$p2[3])
+  )
+  expect_equal_deprecated(
+    use_first_valid_of(dat$p1, dat$p2) %>% class(),
+    c("POSIXct", "POSIXt")
+  )
 })
 
 test_that("POSIXlt throws correct error message, other lists are rejected", {

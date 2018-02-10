@@ -4,12 +4,12 @@ library(janitor)
 context("duplicate identification")
 
 library(dplyr)
-test_df <- data.frame(a = c(1,3,3,3,5), b = c("a", "c","c", "e", "c"), stringsAsFactors = FALSE)
+test_df <- data.frame(a = c(1, 3, 3, 3, 5), b = c("a", "c", "c", "e", "c"), stringsAsFactors = FALSE)
 
 test_that("Correct combinations of duplicates are found", {
   expect_equal(get_dupes(test_df, a), data_frame(a = test_df[[1]][2:4], dupe_count = rep(3L, 3), b = test_df[[2]][2:4]))
-  expect_equal(get_dupes(test_df, b), data_frame(b = test_df[[2]][c(2:3,5)], dupe_count = rep(3L, 3), a = test_df[[1]][c(2:3,5)]))
-  })
+  expect_equal(get_dupes(test_df, b), data_frame(b = test_df[[2]][c(2:3, 5)], dupe_count = rep(3L, 3), a = test_df[[1]][c(2:3, 5)]))
+})
 
 test_that("calling with no specified variable names uses all variable names", {
   expect_equal(get_dupes(test_df), get_dupes(test_df, a, b))
@@ -31,7 +31,9 @@ test_that("incorrect variable names are handled", {
 
 test_that("works on variables with irregular names", {
   badname_df <- mtcars %>% mutate(`bad name!` = mpg * 1000)
-  expect_equal(badname_df %>% get_dupes(`bad name!`, cyl) %>% dim,
-               c(10, 13)) # does it return the right-sized result?
+  expect_equal(
+    badname_df %>% get_dupes(`bad name!`, cyl) %>% dim(),
+    c(10, 13)
+  ) # does it return the right-sized result?
   expect_is(badname_df %>% get_dupes(), "data.frame") # test for success, i.e., produces a data.frame (with 0 rows)
 })

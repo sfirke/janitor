@@ -26,7 +26,7 @@ This function adds the column variable name to the top of a \code{tabyl} for a c
 mtcars \%>\%
   tabyl(am, cyl) \%>\%
   adorn_title(placement = "top")
-  
+
 # Adding a title to a non-tabyl
 library(tidyr); library(dplyr)
 mtcars \%>\%

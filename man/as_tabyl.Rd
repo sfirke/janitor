@@ -26,7 +26,7 @@ A \code{tabyl} can be the result of a call to \code{janitor::tabyl()}, in which 
 2) Column names 2:n are the values of variable 2
 3) Numeric values in columns 2:n are counts of the co-occurrences of the two variables.*
 
-* = this is the ideal form of a tabyl, but janitor's \code{adorn_} functions tolerate and ignore non-numeric columns in positions 2:n. 
+* = this is the ideal form of a tabyl, but janitor's \code{adorn_} functions tolerate and ignore non-numeric columns in positions 2:n.
 
 For instance, the result of \code{dplyr::count()} followed by \code{tidyr::spread()} can be treated as a \code{tabyl}.
 

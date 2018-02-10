@@ -9,9 +9,9 @@ fac_odd_lvls <- factor(fac, levels = rev(letters[1:5]))
 
 # more tests - group names and ordering - are in test-get-level-groups.R
 test_that("values are correct", {
-  expect_equal(top_levels(fac)[[3]], c(3/7, 2/7, 2/7)) # default n = 2, num_levels = 6
+  expect_equal(top_levels(fac)[[3]], c(3 / 7, 2 / 7, 2 / 7)) # default n = 2, num_levels = 6
   expect_equal(top_levels(fac)[[2]], c(3, 2, 2))
-  expect_equal(top_levels(fac, 3)[[3]], c(4/7, 3/7)) # n = 3, num_levels = 6
+  expect_equal(top_levels(fac, 3)[[3]], c(4 / 7, 3 / 7)) # n = 3, num_levels = 6
   expect_equal(top_levels(fac, 3)[[2]], c(4, 3))
   expect_equal(top_levels(fac_odd_lvls)[[2]], c(2, 1, 2)) # default n = 2, num_levels = 5
   expect_equal(top_levels(fac_odd_lvls)[[3]], c(0.4, 0.2, 0.4))
@@ -20,14 +20,14 @@ test_that("values are correct", {
 })
 
 
-test_that("NA results are treated appropriately",{
+test_that("NA results are treated appropriately", {
   fac_na <- fac
   fac_na[7] <- NA
   expect_equal(top_levels(fac_na)[[2]], rep(2, 3))
   expect_equal(top_levels(fac_na, show_na = TRUE)[[2]], c(2, 2, 2, 1))
-  expect_equal(top_levels(fac_na, show_na = TRUE)[[3]], c(2/7, 2/7, 2/7, 1/7))
-  expect_equal(top_levels(fac_na, show_na = TRUE)[[4]], c(1/3, 1/3, 1/3, NA))
-  })
+  expect_equal(top_levels(fac_na, show_na = TRUE)[[3]], c(2 / 7, 2 / 7, 2 / 7, 1 / 7))
+  expect_equal(top_levels(fac_na, show_na = TRUE)[[4]], c(1 / 3, 1 / 3, 1 / 3, NA))
+})
 
 test_that("default n parameter works", {
   expect_equal(top_levels(fac), top_levels(fac, 2))

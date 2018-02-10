@@ -5,7 +5,7 @@ library(janitor)
 library(dplyr)
 context("crosstab()")
 
-expect_equal_deprecated <- function(object, expected, ...){
+expect_equal_deprecated <- function(object, expected, ...) {
   expect_warning(object, "deprecated", ignore.case = TRUE)
   expect_equal(suppressWarnings(object), expected, ...)
 }
@@ -22,8 +22,8 @@ test_that("bad inputs are handled properly", {
   expect_error(suppressWarnings(crosstab(matrix(1:10, nrow = 2))), "vec1 must be a vector of type logical, numeric, character, list, or factor")
   expect_error(suppressWarnings(crosstab(complex(1:2), complex(1:2))), "vec1 must be a vector of type logical, numeric, character, list, or factor")
   expect_error(suppressWarnings(crosstab(c(1, 2), matrix(1:10, nrow = 2))), "vec2 must be a vector of type logical, numeric, character, list, or factor")
-  expect_error(suppressWarnings(crosstab(c(1,2), complex(1:2), complex(1:2))), "vec2 must be a vector of type logical, numeric, character, list, or factor")
-  expect_error(suppressWarnings(crosstab(c(1,2), c(1:2), "blargh")), "'percent' must be one of 'none', 'row', 'col', or 'all'")
+  expect_error(suppressWarnings(crosstab(c(1, 2), complex(1:2), complex(1:2))), "vec2 must be a vector of type logical, numeric, character, list, or factor")
+  expect_error(suppressWarnings(crosstab(c(1, 2), c(1:2), "blargh")), "'percent' must be one of 'none', 'row', 'col', or 'all'")
   expect_error(suppressWarnings(crosstab(c(1, 1), c(1))), "the two vectors are not the same length")
   expect_error(suppressWarnings(mtcars %>% crosstab(cyl, cyl)), "the same column name is specified for both input variables.  Use tabyl() for tabulating a single variable", fixed = TRUE)
 })
@@ -47,17 +47,17 @@ test_that("counts are correct", {
 
 test_that("percentages are correct", {
   res_row <- suppressWarnings(crosstab(dat$v2, dat$v4, "row"))
-  expect_equal(res_row[[2]], c(0.5, 1/3, 0))
+  expect_equal(res_row[[2]], c(0.5, 1 / 3, 0))
   expect_equal(res_row[[3]], c(0, 0.5, 0))
-  expect_equal(res_row[[4]], c(0.5, 1/6, 1))
+  expect_equal(res_row[[4]], c(0.5, 1 / 6, 1))
 
   res_col <- suppressWarnings(crosstab(dat$v2, dat$v4, "col"))
-  expect_equal(res_col[[2]], c(1/3, 2/3, 0))
+  expect_equal(res_col[[2]], c(1 / 3, 2 / 3, 0))
   expect_equal(res_col[[3]], c(0, 1, 0))
-  expect_equal(res_col[[4]], c(1/3, 1/3, 1/3))
+  expect_equal(res_col[[4]], c(1 / 3, 1 / 3, 1 / 3))
 
   res_all <- suppressWarnings(crosstab(dat$v2, dat$v4, "all"))
-  expect_equal(as.data.frame(res_all[, 2:4]), res[, 2:4]/9)
+  expect_equal(as.data.frame(res_all[, 2:4]), res[, 2:4] / 9)
 })
 
 z <- suppressWarnings(crosstab(dat$v3, dat$v1))
@@ -88,8 +88,10 @@ z_df <- suppressWarnings(crosstab(dat, v3, v1))
 test_that("crosstab.data.frame dispatches", {
   zz <- z %>% setNames(., c("v3", names(.)[-1]))
   names(attr(zz, "core"))[1] <- "v3"
-  expect_equal(z_df,
-               zz) # compare to regular z above - they have different names[1] due to piping
+  expect_equal(
+    z_df,
+    zz
+  ) # compare to regular z above - they have different names[1] due to piping
 })
 
 test_that("crosstab.data.frame is pipeable", {
@@ -100,25 +102,29 @@ test_that("crosstab.data.frame is pipeable", {
 
 test_that("crosstab.data.frame renders percentages are correct", {
   res_row <- suppressWarnings(crosstab(dat, v2, v4, "row"))
-  expect_equal(res_row[[2]], c(0.5, 1/3, 0))
+  expect_equal(res_row[[2]], c(0.5, 1 / 3, 0))
   expect_equal(res_row[[3]], c(0, 0.5, 0))
-  expect_equal(res_row[[4]], c(0.5, 1/6, 1))
+  expect_equal(res_row[[4]], c(0.5, 1 / 6, 1))
 
   res_col <- suppressWarnings(crosstab(dat, v2, v4, "col"))
-  expect_equal(res_col[[2]], c(1/3, 2/3, 0))
+  expect_equal(res_col[[2]], c(1 / 3, 2 / 3, 0))
   expect_equal(res_col[[3]], c(0, 1, 0))
-  expect_equal(res_col[[4]], c(1/3, 1/3, 1/3))
+  expect_equal(res_col[[4]], c(1 / 3, 1 / 3, 1 / 3))
 
   res_all <- suppressWarnings(crosstab(dat, v2, v4, "all"))
-  expect_equal(untabyl(res_all[, 2:4]), res[, 2:4]/9)
+  expect_equal(untabyl(res_all[, 2:4]), res[, 2:4] / 9)
 })
 
 test_that("bad input variable name is preserved", {
-  expect_equal(suppressWarnings(mtcars %>% mutate(`bad name` = cyl) %>% crosstab(`bad name`, gear)) %>% names %>% .[[1]],
-               "bad name")
+  expect_equal(
+    suppressWarnings(mtcars %>% mutate(`bad name` = cyl) %>% crosstab(`bad name`, gear)) %>% names() %>% .[[1]],
+    "bad name"
+  )
   k <- mtcars %>% mutate(`bad name` = cyl)
-  expect_equal(suppressWarnings(crosstab(k$`bad name`, k$gear)) %>% names %>% .[[1]],
-               "k$`bad name`")
+  expect_equal(
+    suppressWarnings(crosstab(k$`bad name`, k$gear)) %>% names() %>% .[[1]],
+    "k$`bad name`"
+  )
 })
 
 test_that("bizarre combination of %>%, quotes, and spaces in names is handled", {
@@ -129,11 +135,12 @@ test_that("bizarre combination of %>%, quotes, and spaces in names is handled", 
     stringsAsFactors = FALSE
   )
 
-expect_equal(
-  suppressWarnings(crosstab(dat$`The candidate(s) applied directly to my school` %>% gsub("hi", "there", .), dat$x)) %>%
-    names() %>% .[1],
-  "dat$`The candidate(s) applied directly to my school` %>% gsub(\"hi\",     \"there\", .)"
-)
+  expect_equal(
+    suppressWarnings(crosstab(dat$`The candidate(s) applied directly to my school` %>% gsub("hi", "there", .), dat$x)) %>%
+      names() %>%
+      .[1],
+    "dat$`The candidate(s) applied directly to my school` %>% gsub(\"hi\",     \"there\", .)"
+  )
 })
 
 
@@ -143,7 +150,8 @@ test_that("NA character column is displayed in right-most position", {
     b = c("x", NA),
     stringsAsFactors = FALSE
   )
-expect_equal(suppressWarnings(dat %>% crosstab(a, b)) %>% untabyl(),
-             data.frame(a = 1, x = 1, NA_ = 1)
-)
+  expect_equal(
+    suppressWarnings(dat %>% crosstab(a, b)) %>% untabyl(),
+    data.frame(a = 1, x = 1, NA_ = 1)
+  )
 })
