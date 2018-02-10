@@ -24,7 +24,8 @@ Imports:
     snakecase (>= 0.8.1),
     magrittr,
     purrr,
-    rlang
+    rlang,
+    utils
 License: MIT + file LICENSE
 LazyData: true
 RoxygenNote: 6.0.1

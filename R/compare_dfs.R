@@ -1,53 +1,70 @@
-check_bindable <- function(df1, df2){ # should eventually take a list of dfs
-  vars_in_df1_only <- names(df1)[!names(df1) %in% names(df2)]
-  vars_in_df2_only <- names(df2)[!names(df2) %in% names(df1)]
+get_first_col_classes <- function(dat) {
+  all_classes <- lapply(dat, class)
+  vapply(all_classes, `[[`, character(1), 1)
+}
+
+compare_two_dfs <- function(df1, df2) {
   
-  # subset DFs to only the same for class investigation
-  common_vars <- Reduce(intersect, list(names(df1), names(df2)))
-  df1_common <- df1[, common_vars]
-  df2_common <- df2[, common_vars]
+  common_vars <- intersect(names(df1), names(df2))
+  vars_in_df1_only <- setdiff(names(df1), names(df2))
+  vars_in_df2_only <- setdiff(names(df2), names(df1))
   
-  if(sum(names(df1_common) == names(df2_common)) != ncol(df1_common)){stop("something is wrong, names in df1_common don't match names in df2_common")}
+  df1_common <- df1[common_vars]
+  df2_common <- df2[common_vars]
   
-  df1_col_types <- lapply(df1_common, class) %>%
-    lapply(`[[`, 1) %>% # get first class, in case of POSIX there are multiple
-    unlist
-  
-  df2_col_types <- lapply(df2_common, class) %>%
-    lapply(`[[`, 1) %>% # get first class, in case of POSIX there are multiple
-    unlist
+  df1_col_types <- get_first_col_classes(df1_common)
+  df2_col_types <- get_first_col_classes(df2_common)
   
   col_mismatch_index <- df1_col_types != df2_col_types
   col_mismatches <- names(df1_common)[col_mismatch_index]
   col_mismatch_class1 <- df1_col_types[col_mismatch_index]
   col_mismatch_class2 <- df2_col_types[col_mismatch_index]
   
-  # result is ragged, so return as a list
-  list(
-    vars_in_df1_only = vars_in_df1_only,
-    vars_in_df2_only = vars_in_df2_only,
-    column_class_mismatches = data_frame(variable = col_mismatches,
-                                         class_in_df1 = col_mismatch_class1,
-                                         class_in_df2 = col_mismatch_class2
+  dfs_agree <- ! (length(vars_in_df1_only) ||
+                  length(vars_in_df2_only) ||
+                  any(col_mismatch_index))
+  
+  if (dfs_agree) {
+    NULL
+  } else {
+    list(
+      vars_in_df1_only = vars_in_df1_only,
+      vars_in_df2_only = vars_in_df2_only,
+      column_class_mismatches = data_frame(variable = col_mismatches,
+                                           class_in_df1 = col_mismatch_class1,
+                                           class_in_df2 = col_mismatch_class2
+      )
     )
-  )
+  }
+
 }
 
-check_bindable(mtcars %>%
-                 mutate(cyl = as.factor(cyl),
-                        new_var = "hi"),
-               mtcars %>%
-                 select(-mpg, -wt) %>%
-                 rename(CARB = carb)
-)
-#> $vars_in_df1_only
-#> [1] "mpg"     "wt"      "carb"    "new_var"
-#> 
-#> $vars_in_df2_only
-#> [1] "CARB"
-#> 
-#> $column_class_mismatches
-#> # A tibble: 1 × 3
-#>   variable class_in_df1 class_in_df2
-#>      <chr>        <chr>        <chr>
-#> 1      cyl       factor      numeric
+
+
+compare_dfs <- function(...) {
+  
+  df_list <- list(...)
+  
+  dataframes <- vapply(df_list, is.data.frame, logical(1))
+  if (! all(dataframes)) {
+    stop("All arguments to `compare_dfs` must be data frames.", call. = FALSE)
+  }
+  
+  df_names <- names(df_list)
+  if (is.null(df_names)) {
+    names(df_list) <- paste0("df", seq_along(df_list))
+  } else if (any(missing_names <- df_names == "")) {
+    missing_name_ind <- which(missing_names)
+    names(df_list)[missing_names] <- paste0("df", missing_name_ind)
+  }
+  
+  df_pairs <- utils::combn(names(df_list), 2)
+  df_pair_names <- apply(df_pairs, 2, paste0, collapse = "")
+  
+  comp <- lapply(seq_len(ncol(df_pairs)),
+                 function(i) compare_two_dfs(df_list[[df_pairs[1, i]]],
+                                             df_list[[df_pairs[2, i]]]))
+  
+  purrr::set_names(comp, df_pair_names)
+  
+}
