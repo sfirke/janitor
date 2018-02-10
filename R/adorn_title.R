@@ -26,7 +26,7 @@
 
 adorn_title <- function(dat, placement = "top", row_name, col_name){
   # if input is a list, call purrr::map to recursively apply this function to each data.frame
-  if(is.list(dat) & !is.data.frame(dat)){
+  if(is.list(dat) && !is.data.frame(dat)){
     purrr::map(dat, adorn_title, placement, row_name, col_name)
   } else {
     if(!is.data.frame(dat)){stop("\"dat\" must be a data.frame")}

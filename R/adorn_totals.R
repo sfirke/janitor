@@ -17,11 +17,11 @@
 
 adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE){
   # if input is a list, call purrr::map to recursively apply this function to each data.frame
-  if(is.list(dat) & !is.data.frame(dat)){
+  if(is.list(dat) && !is.data.frame(dat)){
     purrr::map(dat, adorn_totals, where, fill, na.rm)
   } else{
     if(!is.data.frame(dat)){ stop("adorn_totals() must be called on a data.frame or list of data.frames") }
-    numeric_cols <- which(unlist(lapply(dat, is.numeric)))
+    numeric_cols <- which(vapply(dat, is.numeric, logical(1)))
     numeric_cols <- setdiff(numeric_cols, 1) # assume 1st column should not be included so remove it from numeric_cols
     if(length(numeric_cols) == 0){stop("at least one one of columns 2:n must be of class numeric.  adorn_totals should be called before other adorn_ functions.")}
     if(sum(where %in% c("row", "col")) != length(where)){ stop("\"where\" must be one of \"row\", \"col\", or c(\"row\", \"col\")") }
@@ -39,17 +39,14 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE){
     if("row" %in% where){
       dat[[1]] <- as.character(dat[[1]]) # for type matching when binding the word "Total" on a factor when adding Totals row
       # creates the totals row to be appended
-      col_vec <- function(a_col, na_rm = na.rm){
+      col_sum <- function(a_col, na_rm = na.rm){
         if(is.numeric(a_col)){ # can't do this with if_else because it doesn't like the sum() of a character vector, even if that clause is not reached
           sum(a_col, na.rm = na_rm)
         } else {fill}
       }
       
-      col_totals <- lapply(dat, col_vec) %>%
-        as.data.frame(stringsAsFactors = FALSE) %>%
-        stats::setNames(names(dat))
-      
-      col_totals[nrow(col_totals), 1] <- "Total" # replace final row, first column with "Total"
+      col_totals <- purrr::map_df(dat, col_sum)
+      col_totals[1, 1] <- "Total" # replace first column value with "Total"
       dat[(nrow(dat) + 1), ] <- col_totals[1, ] # insert totals_col as last row in dat
     }
     

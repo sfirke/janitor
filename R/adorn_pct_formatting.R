@@ -19,14 +19,14 @@
 
 adorn_pct_formatting <- function(dat, digits = 1, rounding = "half to even", affix_sign = TRUE){
   # if input is a list, call purrr::map to recursively apply this function to each data.frame
-  if(is.list(dat) & !is.data.frame(dat)){
+  if(is.list(dat) && !is.data.frame(dat)){
     purrr::map(dat, adorn_pct_formatting, digits, rounding, affix_sign)
   } else{
     # catch bad inputs
     if(!is.data.frame(dat)){ stop("adorn_pct_formatting() must be called on a data.frame or list of data.frames") }
     if(! rounding %in% c("half to even", "half up")){stop("'rounding' must be one of 'half to even' or 'half up'")}
     original <- dat # used below to record original instances of NA and NaN
-    numeric_cols <- which(unlist(lapply(dat, is.numeric)))
+    numeric_cols <- which(vapply(dat, is.numeric, logical(1)))
     numeric_cols <- setdiff(numeric_cols, 1) # assume 1st column should not be included so remove it from numeric_cols
     if("one_way" %in% attr(dat, "tabyl_type")){
       numeric_cols <- setdiff(numeric_cols, 2) # so that it works on a one-way tabyl

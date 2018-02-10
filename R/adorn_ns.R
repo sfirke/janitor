@@ -19,7 +19,7 @@
 
 adorn_ns <- function(dat, position = "rear", ns = attr(dat, "core")){
   # if input is a list, call purrr::map to recursively apply this function to each data.frame
-  if(is.list(dat) & !is.data.frame(dat)){
+  if(is.list(dat) && !is.data.frame(dat)){
     purrr::map(dat, adorn_ns, position) # okay not to pass ns and allow for static Ns, b/c one size fits all for each list entry doesn't make sense for Ns.
   } else{
     # catch bad inputs

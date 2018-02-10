@@ -30,7 +30,7 @@
 
 adorn_rounding <- function(dat, digits = 1, rounding = "half to even", skip_first_col = TRUE){
   if(! rounding %in% c("half to even", "half up")){stop("'rounding' must be one of 'half to even' or 'half up'")}
-  numeric_cols <- which(unlist(lapply(dat, is.numeric)))
+  numeric_cols <- which(vapply(dat, is.numeric, logical(1)))
   if(skip_first_col){ numeric_cols <- setdiff(numeric_cols, 1) }
   
   if(rounding == "half to even"){
