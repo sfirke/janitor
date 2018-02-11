@@ -67,7 +67,7 @@ The current development version is significantly ahead of version 0.3.0 on CRAN 
 
 ## Using janitor
 
-Below are quick examples of how janitor tools are commonly used.  A full description of each function can be found in janitor's [catalog of functions](https://github.com/sfirke/janitor/blob/master/vignettes/introduction.md).  
+Below are quick examples of how janitor tools are commonly used.  A full description of each function can be found in janitor's [catalog of functions](https://sfirke.github.io/janitor/reference/index.html).  
 
 ### Cleaning dirty data
 
