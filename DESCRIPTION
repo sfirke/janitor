@@ -21,11 +21,10 @@ Depends:
 Imports:
     dplyr (>= 0.7.0),
     tidyr (>= 0.7.0),
-    snakecase (>= 0.8.1),
+    snakecase (>= 0.9.0),
     magrittr,
     purrr,
     rlang
-Remotes: tazinho/snakecase
 License: MIT + file LICENSE
 LazyData: true
 RoxygenNote: 6.0.1
