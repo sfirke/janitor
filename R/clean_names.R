@@ -102,7 +102,7 @@ old_clean_names <- function(dat) {
   dupe_count <- vapply(1:length(new_names), function(i) {
     sum(new_names[i] == new_names[1:i])
   }, integer(1))
-  
+
   new_names[dupe_count > 1] <- paste(
     new_names[dupe_count > 1],
     dupe_count[dupe_count > 1],

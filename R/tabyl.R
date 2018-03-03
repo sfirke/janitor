@@ -71,7 +71,7 @@ tabyl.default <- function(dat, show_na = TRUE, show_missing_levels = TRUE, ...) 
     # to preserve factor properties when vec is passed in as a list from data.frame method:
     if (is.list(dat)) {
       dat <- dat[[1]]
-    } 
+    }
     dat_df <- data.frame(dat, stringsAsFactors = is.factor(dat))
     names(dat_df)[1] <- "dat"
 

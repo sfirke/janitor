@@ -35,7 +35,7 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE) {
     # grouped_df causes problems, #97
     if ("grouped_df" %in% class(dat)) {
       dat <- dplyr::ungroup(dat)
-    } 
+    }
     dat <- as_tabyl(dat)
 
     # set totals attribute
