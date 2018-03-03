@@ -1,5 +1,5 @@
 ---
-title: "Catalog of janitor functions"
+title: "Overview of janitor functions"
 date: "`r Sys.Date()`"
 output:
   github_document:
@@ -27,10 +27,12 @@ Call this function every time you read data.
 
 It works in a `%>%` pipeline, and handles problematic variable names, especially those that are so well preserved by `readxl::read_excel()` and `readr::read_csv()`.
 
-+ Returns names with only lowercase letters, with `_` as a separator
-+ Handles special characters and spaces
++ Parses letter cases and separators to a consistent format.
+    + Default is to snake_case, but other cases like camelCase are available
++ Handles special characters and spaces, including transilerating characters like `œ` to `oe`.
 + Appends numbers to duplicated names
-+ Converts "%" to "percent" to retain meaning
++ Converts "%" to "percent" and "#" to "number" to retain meaning
++ Spacing (or lack of) around numbers is preserved
 
 ```{r, message = FALSE, warning = FALSE}
 # Load dplyr for the %>% pipe
