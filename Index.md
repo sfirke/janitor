@@ -130,8 +130,7 @@ Clean it with janitor functions:
 ``` r
 roster <- roster_raw %>%
   clean_names() %>%
-  remove_empty_rows() %>%
-  remove_empty_cols() %>%
+  remove_empty(c("rows", "cols")) %>%
   mutate(hire_date = excel_numeric_to_date(hire_date),
          cert = coalesce(certification, certification_1)) %>% # from dplyr
   select(-certification, -certification_1) # drop unwanted columns
