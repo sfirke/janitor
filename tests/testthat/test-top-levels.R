@@ -19,6 +19,14 @@ test_that("values are correct", {
   expect_equal(top_levels(fac_odd_lvls, 1)[[3]], c(0.2, 0.6, 0.2))
 })
 
+test_that("missing levels are represented", {
+  x <- as.factor(letters[1:5])[1:3]
+  expect_equal(top_levels(x)[[1]],
+               structure(1:3, .Label = c("a, b", "c", "d, e"), class = "factor"))
+  expect_equal(top_levels(x)[[2]],
+               c(2, 1, 0))
+})
+
 
 test_that("NA results are treated appropriately", {
   fac_na <- fac
