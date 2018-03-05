@@ -22,26 +22,27 @@ adorn_ns <- function(dat, position = "rear", ns = attr(dat, "core")) {
   if (is.list(dat) && !is.data.frame(dat)) {
     purrr::map(dat, adorn_ns, position) # okay not to pass ns and allow for static Ns, b/c one size fits all for each list entry doesn't make sense for Ns.
   } else {
+    
     # catch bad inputs
     if (!is.data.frame(dat)) {
       stop("adorn_ns() must be called on a data.frame or list of data.frames")
     }
-    # TODO: validate inputs
     if (!position %in% c("rear", "front")) {
       stop("\"position\" must be one of \"front\" or \"rear\"")
     }
     if (is.null(ns)) {
       stop("argument \"ns\" cannot be null; if not calling adorn_ns() on a data.frame of class \"tabyl\", pass your own value for ns")
     }
-    if ("one_way" %in% attr(dat, "tabyl_type")) {
-      warning("adorn_ns() is meant to be called on a two_way tabyl; consider combining columns of a one_way tabyl with tidyr::unite()")
-    }
-    attrs <- attributes(dat) # save these to re-append later
-
     # If ns argument is not the default "core" attribute, validate that it's a data.frame and has correct right dimensions
     if (!is.data.frame(ns)) {
       stop("if supplying a value to the ns argument, it must be of class data.frame")
     }
+    if ("one_way" %in% attr(dat, "tabyl_type")) {
+      warning("adorn_ns() is meant to be called on a two_way tabyl; consider combining columns of a one_way tabyl with tidyr::unite()")
+    }
+    
+    attrs <- attributes(dat) # save these to re-append later
+    
     if ((!identical(ns, attr(dat, "core"))) & !identical(dim(ns), dim(dat))) { # user-supplied Ns must include values for totals row/col if present
       stop("if supplying your own data.frame of Ns to append, its dimensions must match those of the data.frame in the \"dat\" argument")
     }
