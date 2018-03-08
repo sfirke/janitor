@@ -2,7 +2,7 @@
 % Please edit documentation in R/round_half_up.R
 \name{round_half_up}
 \alias{round_half_up}
-\title{Round a numeric vector; ties will be rounded up, ala Microsoft Excel.}
+\title{Round a numeric vector; halves will be rounded up, ala Microsoft Excel.}
 \usage{
 round_half_up(x, digits = 0)
 }

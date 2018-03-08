@@ -58,7 +58,7 @@ as_tabyl <- function(dat, axes = 2, row_var_name = NULL, col_var_name = NULL) {
   dat
 }
 
-#' @title Remove \code{tabyl} attributes to a data.frame.
+#' @title Remove \code{tabyl} attributes from a data.frame.
 #'
 #' @description
 #' Strips away all \code{tabyl}-related attributes from a data.frame.

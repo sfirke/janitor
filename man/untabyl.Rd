@@ -2,7 +2,7 @@
 % Please edit documentation in R/as_and_untabyl.R
 \name{untabyl}
 \alias{untabyl}
-\title{Remove \code{tabyl} attributes to a data.frame.}
+\title{Remove \code{tabyl} attributes from a data.frame.}
 \usage{
 untabyl(dat)
 }
