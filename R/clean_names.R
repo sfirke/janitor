@@ -69,7 +69,7 @@ clean_names <- function(dat, case = c(
 
   # Handle duplicated names - they mess up dplyr pipelines
   # This appends the column number to repeated instances of duplicate variable names
-  dupe_count <- vapply(1:length(new_names), function(i) {
+  dupe_count <- vapply(seq_along(new_names), function(i) {
     sum(new_names[i] == new_names[1:i])
   }, integer(1))
 
@@ -99,7 +99,7 @@ old_clean_names <- function(dat) {
 
   # Handle duplicated names - they mess up dplyr pipelines
   # This appends the column number to repeated instances of duplicate variable names
-  dupe_count <- vapply(1:length(new_names), function(i) {
+  dupe_count <- vapply(seq_along(new_names), function(i) {
     sum(new_names[i] == new_names[1:i])
   }, integer(1))
 

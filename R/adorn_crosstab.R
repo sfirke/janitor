@@ -65,7 +65,7 @@ paste_ns <- function(perc_df, n_df) {
 
   # paste the results together
   pasted <- paste(perc_matrix, " (", n_matrix, ")", sep = "") %>% # paste the matrices
-    sapply(., fix_parens_whitespace) %>% # apply the whitespace cleaning function to the resulting vector
+    vapply(., fix_parens_whitespace, "") %>% # apply the whitespace cleaning function to the resulting vector
     matrix(., nrow = nrow(n_matrix), dimnames = dimnames(perc_matrix)) %>% # cast as matrix, then data.frame
     dplyr::as_data_frame()
 
