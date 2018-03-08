@@ -4,7 +4,7 @@
 #' Removes all rows and/or columns from a data.frame that are composed entirely of \code{NA} values.
 #'
 #' @param dat the input data.frame.
-#' @param which one of "row", "col", or \code{c("row", "col")}
+#' @param which one of "rows", "cols", or \code{c("rows", "cols")}
 #' @return Returns the data.frame without its missing rows or columns.
 #' @export
 #' @examples
