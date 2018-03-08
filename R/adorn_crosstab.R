@@ -25,8 +25,6 @@ adorn_crosstab <- function(dat, denom = "row", show_n = TRUE, digits = 1, show_t
   showing_col_totals <- (show_totals & denom %in% c("col", "all"))
   showing_row_totals <- (show_totals & denom %in% c("row", "all"))
 
-  complete_n <- sum(dat[, -1], na.rm = TRUE) # capture for percent calcs before any totals col/row is added
-
   if (showing_col_totals) {
     dat <- adorn_totals(dat, "col")
   }
