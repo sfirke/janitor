@@ -1,34 +1,32 @@
 NEWS
 ===========
 
-# janitor 0.4.0.9000 (development version, in progress)
+# janitor 1.0.0
 
 ## Release summary
-Will be version 1.0, containing a new `tabyl` API and with breaking changes to the output of `clean_names()`.
+A stable version 1.0.0, containing a new `tabyl` API and with breaking changes to the output of `clean_names()`.
 
-Targeting CRAN submission around February 2018.
+This preserves the original functionality of janitor, but significantly changes the implementation.
 
 ## Breaking changes
 
 ### A fully-overhauled `tabyl`
 
-Redid the approach to tidy counts / contingency tables, combining `tabyl` and `crosstab` into an all-encompassing function `tabyl` that can tabulate one, two, or three variables.  The resulting `tabyl` data.frames can be manipulated and formatted using a family of `adorn_` functions.  See the [`tabyl` vignette](https://github.com/sfirke/janitor/blob/master/vignettes/tabyls.md) for more.
+This is now a single function `tabyl()` to count combinations of one, two, or three variables, ala base R's `table()`.  This replaces the `crosstab()` function.  The resulting `tabyl` data.frames can be manipulated and formatted using a family of `adorn_` functions.  See the [`tabyl` vignette](https://github.com/sfirke/janitor/blob/master/vignettes/tabyls.md) for more.
 
-The legacy functions `crosstab` and `adorn_crosstab` have been deprecated, but remain in the package for now.  Existing code that relies on `tabyl` will break if the `sort` argument is used, as that argument no longer exists in `tabyl` (use `dplyr::arrange()` instead).
+The now-redundant legacy functions `crosstab()` and `adorn_crosstab()` have been deprecated, but remain in the package for now.  Existing code that relies on `tabyl` will break if the `sort` argument is used, as that argument no longer exists in `tabyl` (use `dplyr::arrange()` instead).
 
 ### Breaking improvements to `clean_names`
 
-`clean_names()` now detects and preserves camelCase inputs, allows multiple options for case outputs of the cleaned data.frame, and preserves whether there's space between letters and numbers.  It also converts accented letters and turns `#` into `"number"`.  This is a breaking change, e.g., `variableName` in the data is now converted to `variable_name` (or `variableName`, `VariableName`, etc. depending on your preference).  This may cause old code to break, as it would previously have been converted to `variablename`.  To minimize this inconvenience, there's a quick fix for compatibility: you can find-and-replace to insert the argument `case = "old_janitor"` to preserve the old behavior of `clean_names()` as of version 0.3.1 (and thus not have to redo your scripts beyond that.)
+`clean_names()` now detects and preserves camelCase inputs, allows multiple options for case outputs of the cleaned data.frame, and preserves whether there's space between letters and numbers.  It also transliterates accented letters and turns `#` into `"number"`.  This may cause old code to break. E.g., `variableName` as a raw column name is now converted to `variable_name` (or `variableName`, `VariableName`, etc. depending on your preference), where it would previously have been converted to `variablename`.  To minimize this inconvenience, there's a quick fix for compatibility: you can find-and-replace to insert the argument `case = "old_janitor"`, preserving the old behavior of `clean_names()` as of janitor version 0.3.1 (and thus not have to redo your scripts beyond that.)
 
 ## Major Features
 
 - `clean_names()` transliterates accented letters, e.g., `çãüœ` becomes `cauoe` [(#120)](https://github.com/sfirke/janitor/issues/120).  Thanks to **@fernandovmacedo**.
-  - *To obtain this character transliteration functionality on a Windows computer, you will need version >= 1.1.6 of the stringi package.  As of January 2018, this is available on GitHub, but not yet on CRAN*.
 
-
-- `clean_names()` offers multiple options for variable name styling.  In addition to `snake_case` you can select `smallCamelCase`, `BigCamelCase`, `ALL_CAPS` and others. [(#131)](https://github.com/sfirke/janitor/issues/131).  
-  - Thanks to **@tazinho**, who wrote the [snakecase](https://github.com/Tazinho/snakecase/) package that janitor depends on to do this, as well as the patch to incorporate it into `clean_names()`.
-
+- `clean_names()` offers multiple options for variable name styling.  In addition to `snake_case` output you can select `smallCamelCase`, `BigCamelCase`, `ALL_CAPS` and others. [(#131)](https://github.com/sfirke/janitor/issues/131).  
+  - Thanks to **@tazinho**, who wrote the [snakecase](https://github.com/Tazinho/snakecase/) package that janitor depends on to do this, as well as the patch to incorporate it into `clean_names()`.  Thanks also to **@maelle** for proposing this feature.
+jani
 
 - Launched the janitor documentation website: [http://sfirke.github.io/janitor](http://sfirke.github.io/janitor).  Thanks to the [pkgdown](https://github.com/r-lib/pkgdown) package!
 
@@ -36,13 +34,13 @@ The legacy functions `crosstab` and `adorn_crosstab` have been deprecated, but r
   - `remove_empty()` does not have a default value for the `which` argument, forcing more explicit and readable code. e.g. `remove_empty("rows")`.
 
 
-- The new `adorn_title()` function shows the name of the 2nd `tabyl` variable - this un-tidies the data.frame but makes the result clearer to readers [(#77)](https://github.com/sfirke/janitor/issues/77)
+- The new `adorn_title()` function shows the name of the 2nd `tabyl` variable (column name) - this un-tidies the data.frame but makes the result clearer to readers [(#77)](https://github.com/sfirke/janitor/issues/77)
 
 ## Minor Features
 
 - `tabyl` objects now print with row numbers suppressed
 - `clean_names()` now retains the character `#` as `"number"` in the resulting names
-- The utility function `round_half_up()` is now exported for public use.  It's an exact implementation of [http://stackoverflow.com/questions/12688717/round-up-from-5-in-r/12688836#12688836](http://stackoverflow.com/questions/12688717/round-up-from-5-in-r/12688836#12688836).
+- The utility function `round_half_up()` is now exported for public use.  It's an exact implementation of [http://stackoverflow.com/questions/12688717/round-up-from-5-in-r/12688836#12688836](http://stackoverflow.com/questions/12688717/round-up-from-5-in-r/12688836#12688836), written by **@mrdwab**.
 
 ## Bug fixes
 - `adorn_totals("row")` handles quirky variable names in 1st column [(#118)](https://github.com/sfirke/janitor/issues/118)
