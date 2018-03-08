@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Removes empty rows from a data.frame. — remove_empty_rows • janitor</title>
+<title>C:/Users/SFirke/Documents/Bitbucket/janitor/planning.md • janitor</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -22,15 +22,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
-<script src="../pkgdown.js"></script>
+<link href="pkgdown.css" rel="stylesheet">
+<script src="jquery.sticky-kit.min.js"></script>
+<script src="pkgdown.js"></script>
   
   
-<meta property="og:title" content="Removes empty rows from a data.frame. — remove_empty_rows" />
-
-<meta property="og:description" content="This function is deprecated, use remove_empty("rows") instead." />
-<meta name="twitter:card" content="summary" />
+<meta property="og:title" content="C:/Users/SFirke/Documents/Bitbucket/janitor/planning.md" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -43,7 +40,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-topic">
+    <div class="container template-title-body">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -53,21 +50,21 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">janitor</a>
+      <a class="navbar-brand" href="index.html">janitor</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
+  <a href="index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
-  <a href="../articles/janitor.html">Get Started</a>
+  <a href="articles/janitor.html">Get Started</a>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -77,12 +74,12 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/tabyls.html">tabyls: a tidy, fully-featured approach to counting things</a>
+      <a href="articles/tabyls.html">tabyls: a tidy, fully-featured approach to counting things</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="news/index.html">News</a>
 </li>
       </ul>
       
@@ -102,48 +99,78 @@
       </header>
 
       <div class="row">
-  <div class="col-md-9 contents">
+  <div class="contents col-md-12">
     <div class="page-header">
-    <h1>Removes empty rows from a data.frame.</h1>
+      <h1>C:/Users/SFirke/Documents/Bitbucket/janitor/planning.md</h1>
     </div>
 
-    
-    <p>This function is deprecated, use <code><a href='remove_empty.html'>remove_empty("rows")</a></code> instead.</p>
-    
-
-    <pre class="usage"><span class='fu'>remove_empty_rows</span>(<span class='no'>dat</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>dat</th>
-      <td><p>the input data.frame.</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>Returns the data.frame with no empty rows.</p>
-    
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'># not run:
-# dat %>% remove_empty_rows
-</div></pre>
-  </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-  </div>
+<div class="section level1">
+<h1>High-level package planning</h1>
+<p>2016-12-23</p>
+<ul>
+<li>
+<a href="#package-vision">Package vision</a>
+<ul>
+<li><a href="#purpose">Purpose</a></li>
+<li><a href="#questions-to-resolve">Questions to resolve</a></li>
+<li><a href="#priorities">Priorities</a></li>
+</ul>
+</li>
+</ul>
+<!-- README.md is generated from README.Rmd. Please edit that file --><p>This page is for planning the janitor package, at a high level. More-finite questions and ideas can be handled via GitHub issues. This is for say, articulating what the package does or doesn’t do, and how it should be organized. If it turns out we need a more discussion- and comment-friendly format, we can move to Google Docs, but let’s try commenting and editing here.</p>
+<div class="section level2">
+<h2>Package vision</h2>
+<div class="section level3">
+<h3>Purpose</h3>
+<p>Provide a framework and associated functions for checking and cleaning dirty data. There are two kinds of checks: interactive checks, like <code>tabyl</code>, and programmatic checks that say, confirm in production that some variables contain no duplicate records, or contain no missing values.</p>
+<div class="section level4">
+<h4>In scope:</h4>
 </div>
+<div class="section level4">
+<h4>Out of scope:</h4>
+<ul>
+<li>A thorough set of alerting functions for assertive data cleaning in production (instead, recommend assertr or other package)</li>
+</ul>
+</div>
+</div>
+<div class="section level3">
+<h3>Questions to resolve</h3>
+<ol>
+<li>Where should the organizing framework go - vignette? Bookdown? Main page?</li>
+</ol>
+</div>
+<div class="section level3">
+<h3>Priorities</h3>
+<div class="section level4">
+<h4>Big items</h4>
+<ol>
+<li>Establish organizing framework for the package
+<ol>
+<li>Write up documentation/vignette showing check/clean iterative cycle</li>
+<li>Figure out new names for functions to fit schema, and rename them</li>
+<li>Redo vignette</li>
+<li>Redo homepage</li>
+</ol>
+</li>
+<li>New function: fuzzy dupes</li>
+<li>New function family: bindability issues</li>
+</ol>
+</div>
+<div class="section level4">
+<h4>Smaller items</h4>
+<ol>
+<li>
+<code>get_dupes</code> should have an option for returning with or without Ns as a column (it’s so much faster without)</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+
+  </div>
+
+</div>
+
 
       <footer>
       <div class="copyright">

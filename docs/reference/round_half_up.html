@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Round a numeric vector; ties will be rounded up, ala Microsoft Excel. � round_half_up • janitor</title>
+<title>Round a numeric vector; halves will be rounded up, ala Microsoft Excel. — round_half_up • janitor</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -18,6 +18,8 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -25,6 +27,11 @@
 <script src="../pkgdown.js"></script>
   
   
+<meta property="og:title" content="Round a numeric vector; halves will be rounded up, ala Microsoft Excel. — round_half_up" />
+
+<meta property="og:description" content="In base R round(), halves are rounded to even, e.g., 12.5 and 11.5 are both rounded to 12.  This function rounds 12.5 to 13 (assuming digits = 0).  Negative halves are rounded away from zero, e.g., -0.5 is rounded to -1.
+This may skew subsequent statistical analysis of the data, but may be desirable in certain contexts.  This function is implemented exactly from http://stackoverflow.com/a/12688836; see that question and comments for discussion of this issue." />
+<meta name="twitter:card" content="summary" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -98,7 +105,7 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Round a numeric vector; ties will be rounded up, ala Microsoft Excel.</h1>
+    <h1>Round a numeric vector; halves will be rounded up, ala Microsoft Excel.</h1>
     </div>
 
     
@@ -143,7 +150,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
@@ -151,3 +158,4 @@
 
   </body>
 </html>
+

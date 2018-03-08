@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add <code>tabyl</code> attributes to a data.frame. � as_tabyl • janitor</title>
+<title>Add <code>tabyl</code> attributes to a data.frame. — as_tabyl • janitor</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -18,6 +18,8 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -25,6 +27,17 @@
 <script src="../pkgdown.js"></script>
   
   
+<meta property="og:title" content="Add <code>tabyl</code> attributes to a data.frame. — as_tabyl" />
+
+<meta property="og:description" content="A tabyl is a data.frame containing counts of a variable or co-occurrences of two variables (a.k.a., a contingency table or crosstab).  This specialized kind of data.frame has attributes that enable adorn_ functions to be called for precise formatting and presentation of results.  E.g., display results as a mix of percentages, Ns, add totals rows or columns, rounding options, in the style of Microsoft Excel PivotTable.
+A tabyl can be the result of a call to janitor::tabyl(), in which case these attributes are added automatically.  This function adds tabyl class attributes to a data.frame that isn't the result of a call to tabyl but meets the requirements of a two-way tabyl:
+1) First column contains values of variable 1
+2) Column names 2:n are the values of variable 2
+3) Numeric values in columns 2:n are counts of the co-occurrences of the two variables.*
+* = this is the ideal form of a tabyl, but janitor's adorn_ functions tolerate and ignore non-numeric columns in positions 2:n.
+For instance, the result of dplyr::count() followed by tidyr::spread() can be treated as a tabyl.
+The result of calling tabyl() on a single variable is a special class of one-way tabyl; this function only pertains to the two-way tabyl." />
+<meta name="twitter:card" content="summary" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -103,7 +116,7 @@
 
     
     <p>A <code>tabyl</code> is a data.frame containing counts of a variable or co-occurrences of two variables (a.k.a., a contingency table or crosstab).  This specialized kind of data.frame has attributes that enable <code>adorn_</code> functions to be called for precise formatting and presentation of results.  E.g., display results as a mix of percentages, Ns, add totals rows or columns, rounding options, in the style of Microsoft Excel PivotTable.</p>
-<p>A <code>tabyl</code> can be the result of a call to <code><a href='http://www.rdocumentation.org/packages/janitor/topics/tabyl'>janitor::tabyl()</a></code>, in which case these attributes are added automatically.  This function adds <code>tabyl</code> class attributes to a data.frame that isn't the result of a call to <code>tabyl</code> but meets the requirements of a two-way tabyl:
+<p>A <code>tabyl</code> can be the result of a call to <code><a href='tabyl.html'>janitor::tabyl()</a></code>, in which case these attributes are added automatically.  This function adds <code>tabyl</code> class attributes to a data.frame that isn't the result of a call to <code>tabyl</code> but meets the requirements of a two-way tabyl:
 1) First column contains values of variable 1
 2) Column names 2:n are the values of variable 2
 3) Numeric values in columns 2:n are counts of the co-occurrences of the two variables.*</p>
@@ -195,7 +208,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
@@ -203,3 +216,4 @@
 
   </body>
 </html>
+

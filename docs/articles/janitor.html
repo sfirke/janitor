@@ -5,11 +5,14 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Catalog of janitor functions • janitor</title>
+<title>Overview of janitor functions • janitor</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-<!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><meta property="og:title" content="Overview of janitor functions">
+<meta property="og:description" content="">
+<meta name="twitter:card" content="summary">
+<!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
@@ -75,27 +78,38 @@
       </header><div class="row">
   <div class="col-md-9">
     <div class="page-header toc-ignore">
-      <h1>Catalog of janitor functions</h1>
+      <h1>Overview of janitor functions</h1>
             
-            <h4 class="date">2018-01-26</h4>
+            <h4 class="date">2018-03-08</h4>
           </div>
 
     
     
 <div class="contents">
 <p>The janitor functions expedite the initial data exploration and cleaning that comes with any new data set. This catalog describes the usage for each function.</p>
-<section id="major-functions" class="level1"><h1>Major functions</h1>
+<div id="major-functions" class="section level1">
+<h1 class="hasAnchor">
+<a href="#major-functions" class="anchor"></a>Major functions</h1>
 <p>Functions for everyday use.</p>
-<section id="cleaning" class="level2"><h2>Cleaning</h2>
-<section id="clean-data.frame-names-with-clean_names" class="level3"><h3>Clean data.frame names with <code><a href="../reference/clean_names.html">clean_names()</a></code>
+<div id="cleaning" class="section level2">
+<h2 class="hasAnchor">
+<a href="#cleaning" class="anchor"></a>Cleaning</h2>
+<div id="clean-data-frame-names-with-clean_names" class="section level3">
+<h3 class="hasAnchor">
+<a href="#clean-data-frame-names-with-clean_names" class="anchor"></a>Clean data.frame names with <code><a href="../reference/clean_names.html">clean_names()</a></code>
 </h3>
 <p>Call this function every time you read data.</p>
 <p>It works in a <code>%&gt;%</code> pipeline, and handles problematic variable names, especially those that are so well preserved by <code><a href="http://www.rdocumentation.org/packages/readxl/topics/read_excel">readxl::read_excel()</a></code> and <code><a href="http://www.rdocumentation.org/packages/readr/topics/read_delim">readr::read_csv()</a></code>.</p>
 <ul>
-<li>Returns names with only lowercase letters, with <code>_</code> as a separator</li>
-<li>Handles special characters and spaces</li>
+<li>Parses letter cases and separators to a consistent format.
+<ul>
+<li>Default is to snake_case, but other cases like camelCase are available</li>
+</ul>
+</li>
+<li>Handles special characters and spaces, including transilerating characters like <code>œ</code> to <code>oe</code>.</li>
 <li>Appends numbers to duplicated names</li>
-<li>Converts “%” to “percent” to retain meaning</li>
+<li>Converts “%” to “percent” and “#” to “number” to retain meaning</li>
+<li>Spacing (or lack of) around numbers is preserved</li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># Load dplyr for the %&gt;% pipe</span></a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(dplyr)</a>
@@ -112,9 +126,14 @@
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">make.names</span>(<span class="kw">names</span>(test_df))</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; [1] "hIgHlo"               "REPEAT.VALUE"         "REPEAT.VALUE"        </span></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; [4] "X..successful..2009." "abc..."               "X"</span></a></code></pre></div>
-</section></section><section id="exploring" class="level2"><h2>Exploring</h2>
-<section id="tabyl---a-better-version-of-table" class="level3"><h3>
-<code><a href="../reference/tabyl.html">tabyl()</a></code> - a better version of <code>table()</code>
+</div>
+</div>
+<div id="exploring" class="section level2">
+<h2 class="hasAnchor">
+<a href="#exploring" class="anchor"></a>Exploring</h2>
+<div id="tabyl---a-better-version-of-table" class="section level3">
+<h3 class="hasAnchor">
+<a href="#tabyl---a-better-version-of-table" class="anchor"></a><code><a href="../reference/tabyl.html">tabyl()</a></code> - a better version of <code>table()</code>
 </h3>
 <p><code><a href="../reference/tabyl.html">tabyl()</a></code> is a tidyverse-oriented replacement for <code>table()</code>. It counts combinations of one, two, or three variables, and then can be formatted with a suite of <code>adorn_*</code> functions to look just how you want. For instance:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">mtcars <span class="op">%&gt;%</span></a>
@@ -130,7 +149,10 @@
 <a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt;     4 66.67% (8) 33.33% (4)  0.00%  (0) 100.00% (12)</span></a>
 <a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt;     5 40.00% (2) 20.00% (1) 40.00%  (2) 100.00%  (5)</span></a></code></pre></div>
 <p>Learn more in the <a href="https://github.com/sfirke/janitor/blob/master/vignettes/tabyls.md">tabyls vignette</a>.</p>
-</section><section id="explore-records-with-duplicated-values-for-specific-combinations-of-variables-with-get_dupes" class="level3"><h3>Explore records with duplicated values for specific combinations of variables with <code><a href="../reference/get_dupes.html">get_dupes()</a></code>
+</div>
+<div id="explore-records-with-duplicated-values-for-specific-combinations-of-variables-with-get_dupes" class="section level3">
+<h3 class="hasAnchor">
+<a href="#explore-records-with-duplicated-values-for-specific-combinations-of-variables-with-get_dupes" class="anchor"></a>Explore records with duplicated values for specific combinations of variables with <code><a href="../reference/get_dupes.html">get_dupes()</a></code>
 </h3>
 <p>This is for hunting down and examining duplicate records during data cleaning - usually when there shouldn’t be any.</p>
 <p>For example, in a tidy data frame you might expect to have a unique ID repeated for each year, and year repeated for each unique ID, but no duplicated pairs of unique ID &amp; year. Say you want to check for their presence, and study any such duplicated records.</p>
@@ -144,18 +166,29 @@
 <a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; 3  3.57  8.00          2  14.3   360   245  3.21  15.8  0     0     3.00</span></a>
 <a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt; 4  3.57  8.00          2  15.0   301   335  3.54  14.6  0     1.00  5.00</span></a>
 <a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; # ... with 1 more variable: carb &lt;dbl&gt;</span></a></code></pre></div>
-</section></section></section><section id="minor-functions" class="level1"><h1>Minor functions</h1>
+</div>
+</div>
+</div>
+<div id="minor-functions" class="section level1">
+<h1 class="hasAnchor">
+<a href="#minor-functions" class="anchor"></a>Minor functions</h1>
 <p>Smaller functions for use in particular situations. More human-readable than the equivalent code they replace.</p>
-<section id="cleaning-1" class="level2"><h2>Cleaning</h2>
-<section id="fix-dates-stored-as-serial-numbers-with-excel_numeric_to_date" class="level3"><h3>Fix dates stored as serial numbers with <code><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date()</a></code>
+<div id="cleaning-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#cleaning-1" class="anchor"></a>Cleaning</h2>
+<div id="fix-dates-stored-as-serial-numbers-with-excel_numeric_to_date" class="section level3">
+<h3 class="hasAnchor">
+<a href="#fix-dates-stored-as-serial-numbers-with-excel_numeric_to_date" class="anchor"></a>Fix dates stored as serial numbers with <code><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date()</a></code>
 </h3>
 <p>Ever load data from Excel and see a value like <code>42223</code> where a date should be? This function converts those serial numbers to class <code>Date</code>, and contains an option for specifying the alternate date system for files created with Excel for Mac 2008 and earlier versions (which count from a different starting point).</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date</a></span>(<span class="dv">41103</span>)</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; [1] "2012-07-13"</span></a>
 <a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw"><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date</a></span>(<span class="dv">41103</span>, <span class="dt">date_system =</span> <span class="st">"mac pre-2011"</span>)</a>
 <a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; [1] "2016-07-14"</span></a></code></pre></div>
-</section><section id="remove_empty-rows-and-columns" class="level3"><h3>
-<code><a href="../reference/remove_empty.html">remove_empty()</a></code> rows and columns</h3>
+</div>
+<div id="remove_empty-rows-and-columns" class="section level3">
+<h3 class="hasAnchor">
+<a href="#remove_empty-rows-and-columns" class="anchor"></a><code><a href="../reference/remove_empty.html">remove_empty()</a></code> rows and columns</h3>
 <p>Does what it says. For cases like cleaning Excel files containing empty rows and columns.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">q &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">v1 =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="ot">NA</span>, <span class="dv">3</span>),</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2">                <span class="dt">v2 =</span> <span class="kw">c</span>(<span class="ot">NA</span>, <span class="ot">NA</span>, <span class="ot">NA</span>),</a>
@@ -166,8 +199,14 @@
 <a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; 1  1  a</span></a>
 <a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; 3  3  b</span></a></code></pre></div>
 <p>Just a simple wrapper for one-line functions, but improves readability of the code and saves a little thinking.</p>
-</section></section><section id="exploring-1" class="level2"><h2>Exploring</h2>
-<section id="count-factor-levels-in-groups-of-high-medium-and-low-with-top_levels" class="level3"><h3>Count factor levels in groups of high, medium, and low with <code><a href="../reference/top_levels.html">top_levels()</a></code>
+</div>
+</div>
+<div id="exploring-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#exploring-1" class="anchor"></a>Exploring</h2>
+<div id="count-factor-levels-in-groups-of-high-medium-and-low-with-top_levels" class="section level3">
+<h3 class="hasAnchor">
+<a href="#count-factor-levels-in-groups-of-high-medium-and-low-with-top_levels" class="anchor"></a>Count factor levels in groups of high, medium, and low with <code><a href="../reference/top_levels.html">top_levels()</a></code>
 </h3>
 <p>Originally designed for use with Likert survey data stored as factors. Returns a <code>tbl_df</code> frequency table with appropriately-named rows, grouped into head/middle/tail groups.</p>
 <ul>
@@ -188,7 +227,9 @@
 <a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt;            strongly agree 2 0.3333333</span></a>
 <a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt;  agree, neutral, disagree 4 0.6666667</span></a>
 <a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt;         strongly disagree 0 0.0000000</span></a></code></pre></div>
-</section></section></section>
+</div>
+</div>
+</div>
 </div>
   </div>
 
@@ -221,7 +262,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
