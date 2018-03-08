@@ -25,8 +25,6 @@ adorn_crosstab <- function(dat, denom = "row", show_n = TRUE, digits = 1, show_t
   showing_col_totals <- (show_totals & denom %in% c("col", "all"))
   showing_row_totals <- (show_totals & denom %in% c("row", "all"))
 
-  complete_n <- sum(dat[, -1], na.rm = TRUE) # capture for percent calcs before any totals col/row is added
-
   if (showing_col_totals) {
     dat <- adorn_totals(dat, "col")
   }
@@ -67,7 +65,7 @@ paste_ns <- function(perc_df, n_df) {
 
   # paste the results together
   pasted <- paste(perc_matrix, " (", n_matrix, ")", sep = "") %>% # paste the matrices
-    sapply(., fix_parens_whitespace) %>% # apply the whitespace cleaning function to the resulting vector
+    vapply(., fix_parens_whitespace, "") %>% # apply the whitespace cleaning function to the resulting vector
     matrix(., nrow = nrow(n_matrix), dimnames = dimnames(perc_matrix)) %>% # cast as matrix, then data.frame
     dplyr::as_data_frame()
 
