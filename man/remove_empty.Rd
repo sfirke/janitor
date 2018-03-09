@@ -9,7 +9,7 @@ remove_empty(dat, which)
 \arguments{
 \item{dat}{the input data.frame.}
 
-\item{which}{one of "row", "col", or \code{c("row", "col")}}
+\item{which}{one of "rows", "cols", or \code{c("rows", "cols")}}
 }
 \value{
 Returns the data.frame without its missing rows or columns.
