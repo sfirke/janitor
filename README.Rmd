@@ -123,7 +123,7 @@ with the suite of `adorn_` functions for quick analysis and printing of pretty r
 * On a data.frame, specifying 1, 2, or 3 variable names to tabulate : `roster %>% tabyl(subject, employee_status)`.
     * Here the data.frame is passed in with the `%>%` pipe; this allows for dplyr commands earlier in the pipeline
 
-##### tabyl()
+#### tabyl()
 
 Like `table()`, but pipe-able, data.frame-based, and fully featured.
 

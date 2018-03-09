@@ -181,7 +181,7 @@ non-tabyls, too.
       - Here the data.frame is passed in with the `%>%` pipe; this
         allows for dplyr commands earlier in the pipeline
 
-##### tabyl()
+#### tabyl()
 
 Like `table()`, but pipe-able, data.frame-based, and fully featured.
 

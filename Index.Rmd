@@ -15,7 +15,7 @@ options(width = 110)
 ```
 
 
-# janitor <img src="reference/figures/logo_small.png" align="right" />
+# janitor <img src="docs/reference/figures/logo_small.png" align="right" />
 
 > Data scientists, according to interviews and expert estimates, spend from 50 percent to 80 percent of their time mired in this more mundane labor of collecting and preparing unruly digital data, before it can be explored for useful nuggets.
 > 
@@ -65,8 +65,10 @@ You can install:
 
 ## <i class="fa fa-newspaper-o" aria-hidden="true"></i> What's New 
 
-#### November 2017: Please try out the dev version!
-The current development version is significantly ahead of version 0.3.0 on CRAN (which was released May 2017).  It has a greatly-enhanced `tabyl()` function - see the [tabyls vignette](https://github.com/sfirke/janitor/blob/master/vignettes/tabyls.md) - and improvements to `clean_names()`.  These `clean_names()` improvements may cause old code to break, due to better handling of variable names.  More info is in the [NEWS](https://github.com/sfirke/janitor/blob/master/NEWS.md) file; the very quick fix is to supply the argument `case = "old_janitor"`.
+#### March 2018: Version 1.0 !
+Depending on when you're reading this, v.1.0 is about to go to CRAN or is already available there.  It has some big improvements that also result in breaking changes.
+
+There's a greatly-enhanced `tabyl()` function - see the [tabyls vignette](https://github.com/sfirke/janitor/blob/master/vignettes/tabyls.md) - and improvements to `clean_names()`.  These `clean_names()` improvements may cause old code to break, due to better handling of variable names.  More info is in the [NEWS](https://github.com/sfirke/janitor/blob/master/NEWS.md) file; the very quick fix is to supply the argument `case = "old_janitor"`.
 
 ## Using janitor
 
@@ -75,7 +77,7 @@ Below are quick examples of how janitor tools are commonly used.  A full descrip
 ### Cleaning dirty data
 
 Take this roster of teachers at a fictional American high school, stored in the Microsoft Excel file [dirty_data.xlsx](https://github.com/sfirke/janitor/blob/master/dirty_data.xlsx):
-![All kinds of dirty.](reference/figures/dirty_data.PNG)
+![All kinds of dirty.](docs/reference/figures/dirty_data.PNG)
 
 Dirtiness includes:
 
