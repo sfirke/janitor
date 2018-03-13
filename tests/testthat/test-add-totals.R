@@ -202,6 +202,23 @@ test_that("works with non-numeric columns mixed in; fill character specification
   )
 })
 
+test_that("fill works with multiple factor and date columns", {
+  has_facs <- data.frame(
+    a = c("hi", "low"),
+    b = c("big", "small"),
+    c = c(as.Date("2000-01-01"), as.Date("2000-01-02")),
+    d = 1:2
+  )
+  expect_equal(
+    adorn_totals(has_facs, "row") %>% untabyl,
+    data.frame(a = c("hi", "low", "Total"),
+               b = c("big", "small", "-"),
+               c = c("2000-01-01","2000-01-02", "-"),
+               d = 1:3,
+               stringsAsFactors = FALSE
+    ))
+})
+
 test_that("totals attributes are assigned correctly", {
   post <- adorn_totals(ct, c("row", "col"))
   expect_equal(attr(post, "totals"), c("row", "col"))
@@ -262,3 +279,4 @@ test_that("deprecated functions adorn_totals_col and adorn_totals_row function a
       add_totals_col())
   )
 })
+

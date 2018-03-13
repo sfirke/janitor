@@ -19,7 +19,7 @@ adorn_totals(dat, where = "row", fill = "-", na.rm = TRUE)
 Returns a data.frame augmented with a totals row, column, or both.  The data.frame is now also of class \code{tabyl} and stores information about the attached totals and underlying data in the tabyl attributes.
 }
 \description{
-This function excludes the first column of the input data.frame, assuming it's a descriptive variable not to be summed.  It also excludes other non-numeric columns.
+This function excludes the first column of the input data.frame, assuming it's a descriptive variable not to be summed.  Non-numeric columns are converted to character class and have a user-specified fill character inserted in the totals row.
 }
 \examples{
 mtcars \%>\%

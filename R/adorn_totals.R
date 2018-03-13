@@ -1,7 +1,7 @@
 #' @title Append a totals row and/or column to a data.frame.
 #'
 #' @description
-#' This function excludes the first column of the input data.frame, assuming it's a descriptive variable not to be summed.  It also excludes other non-numeric columns.
+#' This function excludes the first column of the input data.frame, assuming it's a descriptive variable not to be summed.  Non-numeric columns are converted to character class and have a user-specified fill character inserted in the totals row.
 #'
 #' @param dat an input data.frame with at least one numeric column.  If given a list of data.frames, this function will apply itself to each data.frame in the list (designed for 3-way \code{tabyl} lists).
 #' @param where one of "row", "col", or \code{c("row", "col")}
@@ -48,7 +48,11 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE) {
     }
 
     if ("row" %in% where) {
-      dat[[1]] <- as.character(dat[[1]]) # for type matching when binding the word "Total" on a factor when adding Totals row
+      # to allow binding of "Total" and "-" onto date, factor columns 
+      not_numerics <- vapply(dat, function(x) !is.numeric(x), NA)
+      dat[not_numerics] <- lapply(dat[not_numerics], as.character)
+      
+      
       # creates the totals row to be appended
       col_sum <- function(a_col, na_rm = na.rm) {
         if (is.numeric(a_col)) { # can't do this with if_else because it doesn't like the sum() of a character vector, even if that clause is not reached
