@@ -17,14 +17,18 @@ On Travis CI:
 * OS X Sierra 10.12.6, R-release 3.4.4
 
 ### R CMD check results
-There were no ERRORs or WARNINGs or NOTEs.
+0 errors | 0 warnings | 0 notes
 
 ### Downstream dependencies
-This update to janitor v1.0 involves breaking changes that affect some downstream packages.  I advised all downstream package maintainers of these changes on February 21.
+This update to janitor v1.0 involves breaking changes that affect some downstream packages.  I advised all downstream package maintainers of these changes on February 21, including providing code that would keep their packages compatible with all versions of janitor.
 
-These CRAN packages depending on janitor each had 1 warning:
+I checked 4 reverse dependencies from CRAN.
 
-* ballr, bomrang, fivethirtyeight: 
+#### New problems
+These CRAN packages depending on janitor each have 1 warning:
+
+* ballr: vignette fails due to change in janitor::clean_names, I proposed a fix to package maintainer
+* 
 
 
 # Submission
