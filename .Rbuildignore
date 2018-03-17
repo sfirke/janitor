@@ -17,3 +17,4 @@ map of janitor 1.0 API.docx
 ^docs$
 Index.md
 Index.Rmd
+^revdep$
