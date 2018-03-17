@@ -27,7 +27,7 @@ janitor is a [\#tidyverse](https://github.com/hadley/tidyverse/blob/master/vigne
 
 You can install:
 
--   the latest released version from CRAN with
+-   the most recent officially-released version from CRAN with
 
     ``` r
     install.packages("janitor")
@@ -138,7 +138,7 @@ A variable (or combinations of two or three variables) can be tabulated with `ta
 
 -   On a vector, when tabulating a single variable - e.g., `tabyl(roster$subject)`
 -   On a data.frame, specifying 1, 2, or 3 variable names to tabulate : `roster %>% tabyl(subject, employee_status)`.
-    -   Here the data.frame is passed in with the `%>%` pipe; this allows for dplyr commands earlier in the pipeline
+    -   Here the data.frame is passed in with the `%>%` pipe; this allows `tabyl` to be used in an analysis pipeline
 
 #### tabyl()
 
@@ -178,26 +178,24 @@ Three variables:
 
 ``` r
 roster %>%
-  tabyl(full_time, subject, employee_status)
+  tabyl(full_time, subject, employee_status, show_missing_levels = FALSE)
 #> $Administration
-#>  full_time Basketball Chemistry Dean Drafting English Music PE Physics Science
-#>         No          0         0    0        0       0     0  0       0       0
-#>        Yes          0         0    1        0       0     0  0       0       0
+#>  full_time Dean
+#>        Yes    1
 #> 
 #> $Coach
-#>  full_time Basketball Chemistry Dean Drafting English Music PE Physics Science NA_
-#>         No          1         0    0        0       0     0  0       0       0   1
-#>        Yes          0         0    0        0       0     0  0       0       0   0
+#>  full_time Basketball NA_
+#>         No          1   1
 #> 
 #> $Teacher
-#>  full_time Basketball Chemistry Dean Drafting English Music PE Physics Science NA_
-#>         No          0         0    0        0       2     0  0       0       1   0
-#>        Yes          0         1    0        1       0     1  1       1       0   1
+#>  full_time Chemistry Drafting English Music PE Physics Science NA_
+#>         No         0        0       2     0  0       0       1   0
+#>        Yes         1        1       0     1  1       1       0   1
 ```
 
 ##### Adorning tabyls
 
-The suite of `adorn_` functions dress up the results of these tabulation calls for fast, basic reporting. Here are some of the functions that augment a summary table for reporting:
+The `adorn_` functions dress up the results of these tabulation calls for fast, basic reporting. Here are some of the functions that augment a summary table for reporting:
 
 ``` r
 roster %>%
@@ -214,7 +212,7 @@ roster %>%
 #>                      Total  41.7% (5)  58.3% (7)
 ```
 
-Pipe that right into `knitr::kable()` in your RMarkdown report!
+Pipe that right into `knitr::kable()` in your RMarkdown report.
 
 These modular adornments can be layered to reduce R's deficit against Excel and SPSS when it comes to quick, informative counts.
 
@@ -224,6 +222,5 @@ Contact me
 You are welcome to:
 
 -   submit suggestions and report bugs: <https://github.com/sfirke/janitor/issues>
--   send a pull request: <https://github.com/sfirke/janitor/>
--   let me know what you think on twitter @samfirke
+-   let me know what you think on twitter <a href="https://twitter.com/samfirke">@samfirke</a>
 -   compose a friendly e-mail to: <img src = "http://samfirke.com/wp-content/uploads/2016/07/email_address_whitespace_top.png" alt = "samuel.firke AT gmail" width = "210"/>

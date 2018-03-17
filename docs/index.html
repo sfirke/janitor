@@ -116,10 +116,9 @@
 <p>You can install:</p>
 <ul>
 <li>
-<p>the latest released version from CRAN with</p>
+<p>the most recent officially-released version from CRAN with</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"janitor"</span>)</code></pre></div>
 </li>
-<li><p>the latest development version from GitHub with</p></li>
 <li>
 <p>the latest development version from GitHub with</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"devtools"</span>)
@@ -134,13 +133,13 @@ devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocument
 <h4 class="hasAnchor">
 <a href="#march-2018-version-1-0" class="anchor"></a>March 2018: Version 1.0 !</h4>
 <p>Depending on when you’re reading this, v.1.0 is about to go to CRAN or is already available there. It has some big improvements that also result in breaking changes.</p>
-<p>There’s a greatly-enhanced <code><a href="reference/tabyl.html">tabyl()</a></code> function - see the <a href="https://github.com/sfirke/janitor/blob/master/vignettes/tabyls.html">tabyls vignette</a> - and improvements to <code><a href="reference/clean_names.html">clean_names()</a></code>. These <code><a href="reference/clean_names.html">clean_names()</a></code> improvements may cause old code to break, due to better handling of variable names. More info is in the <a href="http://sfirke.github.io/janitor/news/index.html">NEWS</a> file; the very quick fix is to supply the argument <code>case = "old_janitor"</code>.</p>
+<p>There’s a greatly-enhanced <code><a href="reference/tabyl.html">tabyl()</a></code> function - see the <a href="http://sfirke.github.io/janitor/articles/tabyls.html">tabyls vignette</a> - and improvements to <code><a href="reference/clean_names.html">clean_names()</a></code>. These <code><a href="reference/clean_names.html">clean_names()</a></code> improvements may cause old code to break, due to better handling of variable names. More info is in the <a href="http://sfirke.github.io/janitor/news/index.html">NEWS</a> file; the very quick fix is to supply the argument <code>case = "old_janitor"</code>.</p>
 </div>
 </div>
 <div id="using-janitor" class="section level2">
 <h2 class="hasAnchor">
 <a href="#using-janitor" class="anchor"></a>Using janitor</h2>
-<p>Below are quick examples of how janitor tools are commonly used. A full description of each function can be found in janitor’s <a href="https://github.com/sfirke/janitor/blob/master/vignettes/introduction.html">catalog of functions</a>.</p>
+<p>Below are quick examples of how janitor tools are commonly used. A full description of each function can be found in janitor’s <a href="http://sfirke.github.io/janitor/articles/janitor.html">catalog of functions</a>.</p>
 <div id="cleaning-dirty-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#cleaning-dirty-data" class="anchor"></a>Cleaning dirty data</h3>
@@ -225,7 +224,7 @@ roster
 </li>
 <li>On a data.frame, specifying 1, 2, or 3 variable names to tabulate : <code>roster %&gt;% tabyl(subject, employee_status)</code>.
 <ul>
-<li>Here the data.frame is passed in with the <code>%&gt;%</code> pipe; this allows for dplyr commands earlier in the pipeline</li>
+<li>Here the data.frame is passed in with the <code>%&gt;%</code> pipe; this allows <code>tabyl</code> to be used in an analysis pipeline</li>
 </ul>
 </li>
 </ul>
@@ -258,39 +257,35 @@ roster
 <span class="co">#&gt;          Teacher  3   4</span></code></pre></div>
 <p>Three variables:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">roster <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="reference/tabyl.html">tabyl</a></span>(full_time, subject, employee_status)
+<span class="st">  </span><span class="kw"><a href="reference/tabyl.html">tabyl</a></span>(full_time, subject, employee_status, <span class="dt">show_missing_levels =</span> <span class="ot">FALSE</span>)
 <span class="co">#&gt; $Administration</span>
-<span class="co">#&gt;  full_time Basketball Chemistry Dean Drafting English Music PE Physics Science</span>
-<span class="co">#&gt;         No          0         0    0        0       0     0  0       0       0</span>
-<span class="co">#&gt;        Yes          0         0    1        0       0     0  0       0       0</span>
+<span class="co">#&gt;  full_time Dean</span>
+<span class="co">#&gt;        Yes    1</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $Coach</span>
-<span class="co">#&gt;  full_time Basketball Chemistry Dean Drafting English Music PE Physics Science NA_</span>
-<span class="co">#&gt;         No          1         0    0        0       0     0  0       0       0   1</span>
-<span class="co">#&gt;        Yes          0         0    0        0       0     0  0       0       0   0</span>
+<span class="co">#&gt;  full_time Basketball NA_</span>
+<span class="co">#&gt;         No          1   1</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $Teacher</span>
-<span class="co">#&gt;  full_time Basketball Chemistry Dean Drafting English Music PE Physics Science NA_</span>
-<span class="co">#&gt;         No          0         0    0        0       2     0  0       0       1   0</span>
-<span class="co">#&gt;        Yes          0         1    0        1       0     1  1       1       0   1</span></code></pre></div>
-<div id="adorning-tabyls" class="section level5">
-<h5 class="hasAnchor">
-<a href="#adorning-tabyls" class="anchor"></a>Adorning tabyls</h5>
-<p>The suite of <code>adorn_</code> functions dress up the results of these tabulation calls for fast, basic reporting. Here are some of the functions that augment a summary table for reporting:</p>
+<span class="co">#&gt;  full_time Chemistry Drafting English Music PE Physics Science NA_</span>
+<span class="co">#&gt;         No         0        0       2     0  0       0       1   0</span>
+<span class="co">#&gt;        Yes         1        1       0     1  1       1       0   1</span></code></pre></div>
+<p><strong>Adorning tabyls</strong></p>
+<p>The <code>adorn_</code> functions dress up the results of these tabulation calls for fast, basic reporting. Here are some of the functions that augment a summary table for reporting:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">roster <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw"><a href="reference/tabyl.html">tabyl</a></span>(employee_status, full_time) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw"><a href="reference/adorn_totals.html">adorn_totals</a></span>(<span class="st">"row"</span>) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw"><a href="reference/adorn_percentages.html">adorn_percentages</a></span>(<span class="st">"row"</span>) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw"><a href="reference/adorn_pct_formatting.html">adorn_pct_formatting</a></span>() <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="reference/adorn_ns.html">adorn_ns</a></span>()
-<span class="co">#&gt;  employee_status         No        Yes</span>
-<span class="co">#&gt;   Administration   0.0% (0) 100.0% (1)</span>
-<span class="co">#&gt;            Coach 100.0% (2)   0.0% (0)</span>
-<span class="co">#&gt;          Teacher  33.3% (3)  66.7% (6)</span>
-<span class="co">#&gt;            Total  41.7% (5)  58.3% (7)</span></code></pre></div>
-<p>Pipe that right into <code><a href="http://www.rdocumentation.org/packages/knitr/topics/kable">knitr::kable()</a></code> in your RMarkdown report!</p>
+<span class="st">  </span><span class="kw"><a href="reference/adorn_ns.html">adorn_ns</a></span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="reference/adorn_title.html">adorn_title</a></span>(<span class="st">"combined"</span>)
+<span class="co">#&gt;  employee_status/full_time         No        Yes</span>
+<span class="co">#&gt;             Administration   0.0% (0) 100.0% (1)</span>
+<span class="co">#&gt;                      Coach 100.0% (2)   0.0% (0)</span>
+<span class="co">#&gt;                    Teacher  33.3% (3)  66.7% (6)</span>
+<span class="co">#&gt;                      Total  41.7% (5)  58.3% (7)</span></code></pre></div>
+<p>Pipe that right into <code><a href="http://www.rdocumentation.org/packages/knitr/topics/kable">knitr::kable()</a></code> in your RMarkdown report.</p>
 <p>These modular adornments can be layered to reduce R’s deficit against Excel and SPSS when it comes to quick, informative counts.</p>
-</div>
 </div>
 </div>
 </div>
@@ -301,9 +296,7 @@ roster
 <ul>
 <li>submit suggestions and report bugs: <a href="https://github.com/sfirke/janitor/issues" class="uri">https://github.com/sfirke/janitor/issues</a>
 </li>
-<li>send a pull request: <a href="https://github.com/sfirke/janitor/" class="uri">https://github.com/sfirke/janitor/</a>
-</li>
-<li>let me know what you think on twitter <span class="citation">@samfirke</span>
+<li>let me know what you think on twitter <a href="https://twitter.com/samfirke"><span class="citation">@samfirke</span></a>
 </li>
 <li>compose a friendly e-mail to: <img src="http://samfirke.com/wp-content/uploads/2016/07/email_address_whitespace_top.png" alt="samuel.firke AT gmail" width="210">
 </li>
