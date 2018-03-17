@@ -106,10 +106,7 @@
 
 <blockquote>
 <p>Data scientists, according to interviews and expert estimates, spend from 50 percent to 80 percent of their time mired in this more mundane labor of collecting and preparing unruly digital data, before it can be explored for useful nuggets.</p>
-<p>– *“<a href="http://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html">For Big-Data Scientists, ‘Janitor Work’ Is Key Hurdle to Insight</a>”</p>
-<ul>
-<li>The New York Times, 2014*</li>
-</ul>
+<p>– <em>“<a href="http://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html">For Big-Data Scientists, ‘Janitor Work’ Is Key Hurdle to Insight</a>” - The New York Times, 2014</em></p>
 </blockquote>
 <hr>
 <p><a href="https://travis-ci.org/sfirke/janitor"><img src="https://travis-ci.org/sfirke/janitor.svg?branch=master" alt="Travis-CI Build Status"></a> <a href="https://codecov.io/github/sfirke/janitor?branch=master"><img src="https://img.shields.io/codecov/c/github/sfirke/janitor/master.svg" alt="Coverage Status"></a> <a href="https://cran.r-project.org/package=janitor"><img src="https://www.r-pkg.org/badges/version-ago/janitor" alt="CRAN_Status_Badge"></a> <img src="https://cranlogs.r-pkg.org/badges/janitor" alt="!Monthly Downloads"><img src="https://cranlogs.r-pkg.org/badges/grand-total/janitor" alt="!Downloads"></p>
@@ -147,10 +144,7 @@ devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocument
 <h4 class="hasAnchor">
 <a href="#march-2018-version-1-0" class="anchor"></a>March 2018: Version 1.0 !</h4>
 <p>Depending on when you’re reading this, v.1.0 is about to go to CRAN or is already available there. It has some big improvements that also result in breaking changes.</p>
-<p>There’s a greatly-enhanced <code><a href="reference/tabyl.html">tabyl()</a></code> function - see the <a href="https://github.com/sfirke/janitor/blob/master/vignettes/tabyls.html">tabyls vignette</a></p>
-<ul>
-<li>and improvements to <code><a href="reference/clean_names.html">clean_names()</a></code>. These <code><a href="reference/clean_names.html">clean_names()</a></code> improvements may cause old code to break, due to better handling of variable names. More info is in the <a href="https://github.com/sfirke/janitor/blob/master/NEWS.html">NEWS</a> file; the very quick fix is to supply the argument <code>case = "old_janitor"</code>.</li>
-</ul>
+<p>There’s a greatly-enhanced <code><a href="reference/tabyl.html">tabyl()</a></code> function - see the <a href="https://github.com/sfirke/janitor/blob/master/vignettes/tabyls.html">tabyls vignette</a> - and improvements to <code><a href="reference/clean_names.html">clean_names()</a></code>. These <code><a href="reference/clean_names.html">clean_names()</a></code> improvements may cause old code to break, due to better handling of variable names. More info is in the <a href="https://github.com/sfirke/janitor/blob/master/NEWS.html">NEWS</a> file; the very quick fix is to supply the argument <code>case = "old_janitor"</code>.</p>
 </div>
 </div>
 <div id="using-janitor" class="section level2">
@@ -225,10 +219,10 @@ roster
 <span class="co">#&gt; # A tibble: 4 x 9</span>
 <span class="co">#&gt;   first_name   last_name dupe_count employee_status subject   hire_date  percent_allocated full_time cert    </span>
 <span class="co">#&gt;   &lt;chr&gt;        &lt;chr&gt;          &lt;int&gt; &lt;chr&gt;           &lt;chr&gt;     &lt;date&gt;                 &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;   </span>
-<span class="co">#&gt; 1 Chien-Shiung Wu                 2 Teacher         Physics   1930-03-20             0.500 Yes       Science~</span>
-<span class="co">#&gt; 2 Chien-Shiung Wu                 2 Teacher         Chemistry 1930-03-20             0.500 Yes       Science~</span>
-<span class="co">#&gt; 3 Jason        Bourne             2 Teacher         PE        2008-08-30             0.750 Yes       Physica~</span>
-<span class="co">#&gt; 4 Jason        Bourne             2 Teacher         Drafting  2008-08-30             0.250 Yes       Physica~</span></code></pre></div>
+<span class="co">#&gt; 1 Chien-Shiung Wu                 2 Teacher         Physics   1930-03-20             0.500 Yes       Science…</span>
+<span class="co">#&gt; 2 Chien-Shiung Wu                 2 Teacher         Chemistry 1930-03-20             0.500 Yes       Science…</span>
+<span class="co">#&gt; 3 Jason        Bourne             2 Teacher         PE        2008-08-30             0.750 Yes       Physica…</span>
+<span class="co">#&gt; 4 Jason        Bourne             2 Teacher         Drafting  2008-08-30             0.250 Yes       Physica…</span></code></pre></div>
 <p>Yes, some teachers appear twice. We ought to address this before counting employees.</p>
 </div>
 <div id="tabulating-tools" class="section level4">
