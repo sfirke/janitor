@@ -1,6 +1,6 @@
 Overview of janitor functions
 ================
-2018-03-03
+2018-03-17
 
 -   [Major functions](#major-functions)
     -   [Cleaning](#cleaning)

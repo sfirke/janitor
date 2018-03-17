@@ -1,4 +1,4 @@
-# janitor 1.0.0
+# janitor 1.0.0  (2018-03-17)
 
 ## Release summary
 A stable version 1.0.0, with a new `tabyl` API and with breaking changes to the output of `clean_names()`.
@@ -9,7 +9,7 @@ This preserves the original functionality of janitor, but significantly changes 
 
 ### A fully-overhauled `tabyl`
 
-This is now a single function `tabyl()` to count combinations of one, two, or three variables, ala base R's `table()`.  This replaces the `crosstab()` function.  The resulting `tabyl` data.frames can be manipulated and formatted using a family of `adorn_` functions.  See the [`tabyl` vignette](https://github.com/sfirke/janitor/blob/master/vignettes/tabyls.md) for more.
+This is now a single function `tabyl()` to count combinations of one, two, or three variables, ala base R's `table()`.  This replaces the `crosstab()` function.  The resulting `tabyl` data.frames can be manipulated and formatted using a family of `adorn_` functions.  See the [tabyls vignette](http://sfirke.github.io/janitor/articles/tabyls.html) for more.
 
 The now-redundant legacy functions `crosstab()` and `adorn_crosstab()` have been deprecated, but remain in the package for now.  Existing code that relies on `tabyl` will break if the `sort` argument is used, as that argument no longer exists in `tabyl` (use `dplyr::arrange()` instead).
 
@@ -45,7 +45,7 @@ jani
 
 ***********************
 
-# janitor 0.3.1  (Release date: 2018-01-04)
+# janitor 0.3.1  (2018-01-04)
 
 ## Release summary
 
@@ -55,7 +55,7 @@ Major changes to janitor are currently in development on GitHub and will be rele
 
 ***********************
 
-# janitor 0.3.0  (Release date: 2017-05-06)
+# janitor 0.3.0  (2017-05-06)
 
 ## Release summary
 
@@ -92,7 +92,7 @@ janitor 0.3.0 is compatible with this new version of dplyr as well as old versio
 
 ***********************
 
-# janitor 0.2.1 (Release date: 2016-10-30)
+# janitor 0.2.1 (2016-10-30)
 
 ## Bug fixes
 - `tabyl()` and `crosstab()` now appear in the package manual [(#65)](https://github.com/sfirke/janitor/issues/65)
@@ -102,7 +102,7 @@ janitor 0.3.0 is compatible with this new version of dplyr as well as old versio
 
 ***********************
 
-# janitor 0.2.0 (Release date: 2016-10-03)
+# janitor 0.2.0 (2016-10-03)
 
 ## Features
 
@@ -148,6 +148,6 @@ janitor 0.3.0 is compatible with this new version of dplyr as well as old versio
 
 ***********************
 
-# janitor 0.1 (Release date: 2016-04-17)
+# janitor 0.1 (2016-04-17)
 
 - Initial draft of skeleton package on GitHub
