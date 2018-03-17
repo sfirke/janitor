@@ -16,7 +16,7 @@ janitor <img src="docs/reference/figures/logo_small.png" align="right" />
 The main janitor functions:
 
 -   perfectly format data.frame column names;
--   generate and format quick one- and two-variable tabulations (i.e., frequency tables and crosstabs); and
+-   create and format frequency tables of one, two, or three variables - think an improved `table()`; and
 -   isolate partially-duplicate records.
 
 The tabulate-and-report functions approximate popular features of SPSS and Microsoft Excel.
@@ -36,10 +36,10 @@ You can install:
 
 -   the latest development version from GitHub with
 
+-   the latest development version from GitHub with
+
     ``` r
-    if (packageVersion("devtools") < 1.6) {
-      install.packages("devtools")
-    }
+    install.packages("devtools")
     devtools::install_github("sfirke/janitor")
     ```
 
@@ -50,7 +50,7 @@ You can install:
 
 Depending on when you're reading this, v.1.0 is about to go to CRAN or is already available there. It has some big improvements that also result in breaking changes.
 
-There's a greatly-enhanced `tabyl()` function - see the [tabyls vignette](https://github.com/sfirke/janitor/blob/master/vignettes/tabyls.md) - and improvements to `clean_names()`. These `clean_names()` improvements may cause old code to break, due to better handling of variable names. More info is in the [NEWS](https://github.com/sfirke/janitor/blob/master/NEWS.md) file; the very quick fix is to supply the argument `case = "old_janitor"`.
+There's a greatly-enhanced `tabyl()` function - see the [tabyls vignette](https://github.com/sfirke/janitor/blob/master/vignettes/tabyls.md) - and improvements to `clean_names()`. These `clean_names()` improvements may cause old code to break, due to better handling of variable names. More info is in the [NEWS](http://sfirke.github.io/janitor/news/index.html) file; the very quick fix is to supply the argument `case = "old_janitor"`.
 
 Using janitor
 -------------

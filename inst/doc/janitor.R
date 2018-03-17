@@ -5,7 +5,7 @@ library(janitor)
 ## ---- message = FALSE, warning = FALSE-----------------------------------
 # Create a data.frame with dirty names
 test_df <- as.data.frame(matrix(ncol = 6))
-names(test_df) <- c("firstName", "ábc@!*", "% successful (2009)",
+names(test_df) <- c("firstName", "Ã¡bc@!*", "% successful (2009)",
                     "REPEAT VALUE", "REPEAT VALUE", "")
 
 ## ------------------------------------------------------------------------

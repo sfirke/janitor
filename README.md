@@ -21,7 +21,7 @@ The main janitor functions:
 
 The tabulate-and-report functions approximate popular features of SPSS and Microsoft Excel.
 
-janitor is a [\#tidyverse](https://github.com/hadley/tidyverse/blob/master/vignettes/manifesto.Rmd)-oriented package. Specifically, it plays nicely with the `%>%` pipe and is optimized for cleaning data brought in with the [readr](https://github.com/hadley/readr) and [readxl](https://github.com/hadley/readxl) packages.
+janitor is a [\#tidyverse](https://github.com/hadley/tidyverse/blob/master/vignettes/manifesto.Rmd)-oriented package. Specifically, it plays nicely with the `%>%` pipe and is optimized for cleaning data brought in with the [readr](https://github.com/tidyverse/readr) and [readxl](https://github.com/tidyverse/readxl) packages.
 
 ### Installation
 
@@ -36,16 +36,14 @@ You can install:
 -   the latest development version from GitHub with
 
     ``` r
-    if (packageVersion("devtools") < 1.6) {
-      install.packages("devtools")
-    }
+    install.packages("devtools")
     devtools::install_github("sfirke/janitor")
     ```
 
 Using janitor
 -------------
 
-Below are quick examples of how janitor tools are commonly used. A full description of each function can be found in janitor's [catalog of functions vignette](https://github.com/sfirke/janitor/blob/master/vignettes/janitor.md).
+Below are quick examples of how janitor tools are commonly used. A full description of each function can be found in janitor's [catalog of functions vignette](http://sfirke.github.io/janitor/articles/janitor.html).
 
 ### Cleaning dirty data
 
