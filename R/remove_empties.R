@@ -12,11 +12,11 @@
 #' # dat %>% remove_empty("rows")
 
 remove_empty <- function(dat, which = c("rows", "cols")) {
-  if (missing(which)) {
+  if (missing(which) && !missing(dat)) {
     message("value for \"which\" not specified, defaulting to c(\"rows\", \"cols\")")
     which <- c("rows", "cols")
   }
-  if (sum(which %in% c("rows", "cols")) != length(which)) {
+  if ((sum(which %in% c("rows", "cols")) != length(which)) && !missing(dat)) {
     stop("\"which\" must be one of \"rows\", \"cols\", or c(\"rows\", \"cols\")")
   }
   if ("rows" %in% which) {

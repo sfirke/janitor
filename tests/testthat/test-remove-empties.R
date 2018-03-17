@@ -35,6 +35,12 @@ test_that("missing argument to which defaults to both, printing a message", {
                dat %>% remove_empty(c("rows", "cols")))
 })
 
+test_that("missing data.frame input throws its error before messages about 'which' arg", {
+  expect_error(remove_empty(),
+               "argument \"dat\" is missing, with no default",
+               fixed = TRUE)
+})
+
 # Kind of superficial given that remove_empty_* have been refactored to call remove_empty() themselves, but might as well keep until deprecated functions are removed
 test_that("deprecated functions remove_empty_cols and remove_empty_rows function as expected", {
   expect_equal(
