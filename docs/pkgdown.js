@@ -45,6 +45,11 @@ function is_prefix(needle, haystack) {
   if (needle.length > haystack.lengh)
     return(false);
 
+  // Special case for length-0 haystack, since for loop won't run
+  if (haystack.length === 0) {
+    return(needle.length === 0);
+  }
+
   for (var i = 0; i < haystack.length; i++) {
     if (needle[i] != haystack[i])
       return(false);

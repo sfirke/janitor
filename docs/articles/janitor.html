@@ -56,7 +56,7 @@
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -80,8 +80,11 @@
     <div class="page-header toc-ignore">
       <h1>Overview of janitor functions</h1>
             
-            <h4 class="date">2018-03-08</h4>
-          </div>
+            <h4 class="date">2018-03-17</h4>
+      
+      <small>Source: <a href="https:/github.com/sfirke/janitor/blob/master/vignettes/janitor.Rmd"><code>vignettes/janitor.Rmd</code></a></small>
+
+    </div>
 
     
     
@@ -111,21 +114,21 @@
 <li>Converts “%” to “percent” and “#” to “number” to retain meaning</li>
 <li>Spacing (or lack of) around numbers is preserved</li>
 </ul>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># Load dplyr for the %&gt;% pipe</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(dplyr)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co"># Create a data.frame with dirty names</span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4">test_df &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">matrix</span>(<span class="dt">ncol =</span> <span class="dv">6</span>))</a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw">names</span>(test_df) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"hIgHlo"</span>, <span class="st">"REPEAT VALUE"</span>, <span class="st">"REPEAT VALUE"</span>,</a>
-<a class="sourceLine" id="cb1-6" data-line-number="6">                    <span class="st">"% successful (2009)"</span>,  <span class="st">"abc@!*"</span>, <span class="st">""</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load dplyr for the %&gt;% pipe</span>
+<span class="kw">library</span>(dplyr)
+<span class="co"># Create a data.frame with dirty names</span>
+test_df &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">matrix</span>(<span class="dt">ncol =</span> <span class="dv">6</span>))
+<span class="kw">names</span>(test_df) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"hIgHlo"</span>, <span class="st">"REPEAT VALUE"</span>, <span class="st">"REPEAT VALUE"</span>,
+                    <span class="st">"% successful (2009)"</span>,  <span class="st">"abc@!*"</span>, <span class="st">""</span>)</code></pre></div>
 <p>Clean the variable names, returning a data.frame:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">test_df <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/clean_names.html">clean_names</a></span>()</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt;   h_ig_hlo repeat_value repeat_value_2 percent_successful_2009 abc  x</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; 1       NA           NA             NA                      NA  NA NA</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">test_df <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="../reference/clean_names.html">clean_names</a></span>()
+<span class="co">#&gt;   h_ig_hlo repeat_value repeat_value_2 percent_successful_2009 abc  x</span>
+<span class="co">#&gt; 1       NA           NA             NA                      NA  NA NA</span></code></pre></div>
 <p>Compare to what base R produces:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">make.names</span>(<span class="kw">names</span>(test_df))</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; [1] "hIgHlo"               "REPEAT.VALUE"         "REPEAT.VALUE"        </span></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; [4] "X..successful..2009." "abc..."               "X"</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">make.names</span>(<span class="kw">names</span>(test_df))
+<span class="co">#&gt; [1] "hIgHlo"               "REPEAT.VALUE"         "REPEAT.VALUE"        </span>
+<span class="co">#&gt; [4] "X..successful..2009." "abc..."               "X"</span></code></pre></div>
 </div>
 </div>
 <div id="exploring" class="section level2">
@@ -136,19 +139,19 @@
 <a href="#tabyl---a-better-version-of-table" class="anchor"></a><code><a href="../reference/tabyl.html">tabyl()</a></code> - a better version of <code>table()</code>
 </h3>
 <p><code><a href="../reference/tabyl.html">tabyl()</a></code> is a tidyverse-oriented replacement for <code>table()</code>. It counts combinations of one, two, or three variables, and then can be formatted with a suite of <code>adorn_*</code> functions to look just how you want. For instance:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">mtcars <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/tabyl.html">tabyl</a></span>(gear, cyl) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/adorn_totals.html">adorn_totals</a></span>(<span class="st">"col"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="../reference/adorn_percentages.html">adorn_percentages</a></span>(<span class="st">"row"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="../reference/adorn_pct_formatting.html">adorn_pct_formatting</a></span>(<span class="dt">digits =</span> <span class="dv">2</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="../reference/adorn_ns.html">adorn_ns</a></span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="st">  </span><span class="kw"><a href="../reference/adorn_title.html">adorn_title</a></span>()</a>
-<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt;              cyl                                    </span></a>
-<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt;  gear          4          6           8        Total</span></a>
-<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt;     3  6.67% (1) 13.33% (2) 80.00% (12) 100.00% (15)</span></a>
-<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt;     4 66.67% (8) 33.33% (4)  0.00%  (0) 100.00% (12)</span></a>
-<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt;     5 40.00% (2) 20.00% (1) 40.00%  (2) 100.00%  (5)</span></a></code></pre></div>
-<p>Learn more in the <a href="https://github.com/sfirke/janitor/blob/master/vignettes/tabyls.md">tabyls vignette</a>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="../reference/tabyl.html">tabyl</a></span>(gear, cyl) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="../reference/adorn_totals.html">adorn_totals</a></span>(<span class="st">"col"</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="../reference/adorn_percentages.html">adorn_percentages</a></span>(<span class="st">"row"</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="../reference/adorn_pct_formatting.html">adorn_pct_formatting</a></span>(<span class="dt">digits =</span> <span class="dv">2</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="../reference/adorn_ns.html">adorn_ns</a></span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="../reference/adorn_title.html">adorn_title</a></span>()
+<span class="co">#&gt;              cyl                                    </span>
+<span class="co">#&gt;  gear          4          6           8        Total</span>
+<span class="co">#&gt;     3  6.67% (1) 13.33% (2) 80.00% (12) 100.00% (15)</span>
+<span class="co">#&gt;     4 66.67% (8) 33.33% (4)  0.00%  (0) 100.00% (12)</span>
+<span class="co">#&gt;     5 40.00% (2) 20.00% (1) 40.00%  (2) 100.00%  (5)</span></code></pre></div>
+<p>Learn more in the <a href="https://github.com/sfirke/janitor/blob/master/vignettes/tabyls.html">tabyls vignette</a>.</p>
 </div>
 <div id="explore-records-with-duplicated-values-for-specific-combinations-of-variables-with-get_dupes" class="section level3">
 <h3 class="hasAnchor">
@@ -157,15 +160,15 @@
 <p>This is for hunting down and examining duplicate records during data cleaning - usually when there shouldn’t be any.</p>
 <p>For example, in a tidy data frame you might expect to have a unique ID repeated for each year, and year repeated for each unique ID, but no duplicated pairs of unique ID &amp; year. Say you want to check for their presence, and study any such duplicated records.</p>
 <p><code><a href="../reference/get_dupes.html">get_dupes()</a></code> returns the records (and inserts a count of duplicates) so you can sleuth out the problematic cases:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="../reference/get_dupes.html">get_dupes</a></span>(mtcars, wt, cyl) <span class="co"># or mtcars %&gt;% get_dupes(wt, cyl) if you prefer to pipe</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; # A tibble: 4 x 12</span></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt;      wt   cyl dupe_count   mpg  disp    hp  drat  qsec    vs    am  gear</span></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; 1  3.44  6.00          2  19.2   168   123  3.92  18.3  1.00  0     4.00</span></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; 2  3.44  6.00          2  17.8   168   123  3.92  18.9  1.00  0     4.00</span></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; 3  3.57  8.00          2  14.3   360   245  3.21  15.8  0     0     3.00</span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt; 4  3.57  8.00          2  15.0   301   335  3.54  14.6  0     1.00  5.00</span></a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; # ... with 1 more variable: carb &lt;dbl&gt;</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/get_dupes.html">get_dupes</a></span>(mtcars, wt, cyl) <span class="co"># or mtcars %&gt;% get_dupes(wt, cyl) if you prefer to pipe</span>
+<span class="co">#&gt; # A tibble: 4 x 12</span>
+<span class="co">#&gt;      wt   cyl dupe_count   mpg  disp    hp  drat  qsec    vs    am  gear</span>
+<span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1  3.44  6.00          2  19.2   168   123  3.92  18.3  1.00  0     4.00</span>
+<span class="co">#&gt; 2  3.44  6.00          2  17.8   168   123  3.92  18.9  1.00  0     4.00</span>
+<span class="co">#&gt; 3  3.57  8.00          2  14.3   360   245  3.21  15.8  0     0     3.00</span>
+<span class="co">#&gt; 4  3.57  8.00          2  15.0   301   335  3.54  14.6  0     1.00  5.00</span>
+<span class="co">#&gt; # ... with 1 more variable: carb &lt;dbl&gt;</span></code></pre></div>
 </div>
 </div>
 </div>
@@ -181,23 +184,23 @@
 <a href="#fix-dates-stored-as-serial-numbers-with-excel_numeric_to_date" class="anchor"></a>Fix dates stored as serial numbers with <code><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date()</a></code>
 </h3>
 <p>Ever load data from Excel and see a value like <code>42223</code> where a date should be? This function converts those serial numbers to class <code>Date</code>, and contains an option for specifying the alternate date system for files created with Excel for Mac 2008 and earlier versions (which count from a different starting point).</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date</a></span>(<span class="dv">41103</span>)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; [1] "2012-07-13"</span></a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw"><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date</a></span>(<span class="dv">41103</span>, <span class="dt">date_system =</span> <span class="st">"mac pre-2011"</span>)</a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; [1] "2016-07-14"</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date</a></span>(<span class="dv">41103</span>)
+<span class="co">#&gt; [1] "2012-07-13"</span>
+<span class="kw"><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date</a></span>(<span class="dv">41103</span>, <span class="dt">date_system =</span> <span class="st">"mac pre-2011"</span>)
+<span class="co">#&gt; [1] "2016-07-14"</span></code></pre></div>
 </div>
 <div id="remove_empty-rows-and-columns" class="section level3">
 <h3 class="hasAnchor">
 <a href="#remove_empty-rows-and-columns" class="anchor"></a><code><a href="../reference/remove_empty.html">remove_empty()</a></code> rows and columns</h3>
 <p>Does what it says. For cases like cleaning Excel files containing empty rows and columns.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">q &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">v1 =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="ot">NA</span>, <span class="dv">3</span>),</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">                <span class="dt">v2 =</span> <span class="kw">c</span>(<span class="ot">NA</span>, <span class="ot">NA</span>, <span class="ot">NA</span>),</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3">                <span class="dt">v3 =</span> <span class="kw">c</span>(<span class="st">"a"</span>, <span class="ot">NA</span>, <span class="st">"b"</span>))</a>
-<a class="sourceLine" id="cb7-4" data-line-number="4">q <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="../reference/remove_empty.html">remove_empty</a></span>(<span class="kw">c</span>(<span class="st">"rows"</span>, <span class="st">"cols"</span>))</a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt;   v1 v3</span></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; 1  1  a</span></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; 3  3  b</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">q &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">v1 =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="ot">NA</span>, <span class="dv">3</span>),
+                <span class="dt">v2 =</span> <span class="kw">c</span>(<span class="ot">NA</span>, <span class="ot">NA</span>, <span class="ot">NA</span>),
+                <span class="dt">v3 =</span> <span class="kw">c</span>(<span class="st">"a"</span>, <span class="ot">NA</span>, <span class="st">"b"</span>))
+q <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="../reference/remove_empty.html">remove_empty</a></span>(<span class="kw">c</span>(<span class="st">"rows"</span>, <span class="st">"cols"</span>))
+<span class="co">#&gt;   v1 v3</span>
+<span class="co">#&gt; 1  1  a</span>
+<span class="co">#&gt; 3  3  b</span></code></pre></div>
 <p>Just a simple wrapper for one-line functions, but improves readability of the code and saves a little thinking.</p>
 </div>
 </div>
@@ -215,18 +218,18 @@
 <li>Supports sorting</li>
 <li>Can show or hide <code>NA</code> values.</li>
 </ul>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">f &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">"strongly agree"</span>, <span class="st">"agree"</span>, <span class="st">"neutral"</span>, <span class="st">"neutral"</span>, <span class="st">"disagree"</span>, <span class="st">"strongly agree"</span>),</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2">            <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">"strongly agree"</span>, <span class="st">"agree"</span>, <span class="st">"neutral"</span>, <span class="st">"disagree"</span>, <span class="st">"strongly disagree"</span>))</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="kw"><a href="../reference/top_levels.html">top_levels</a></span>(f)</a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;                            f n   percent</span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt;        strongly agree, agree 3 0.5000000</span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt;                      neutral 2 0.3333333</span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt;  disagree, strongly disagree 1 0.1666667</span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="kw"><a href="../reference/top_levels.html">top_levels</a></span>(f, <span class="dt">n =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt;                         f n   percent</span></a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt;            strongly agree 2 0.3333333</span></a>
-<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt;  agree, neutral, disagree 4 0.6666667</span></a>
-<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt;         strongly disagree 0 0.0000000</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">"strongly agree"</span>, <span class="st">"agree"</span>, <span class="st">"neutral"</span>, <span class="st">"neutral"</span>, <span class="st">"disagree"</span>, <span class="st">"strongly agree"</span>),
+            <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">"strongly agree"</span>, <span class="st">"agree"</span>, <span class="st">"neutral"</span>, <span class="st">"disagree"</span>, <span class="st">"strongly disagree"</span>))
+<span class="kw"><a href="../reference/top_levels.html">top_levels</a></span>(f)
+<span class="co">#&gt;                            f n   percent</span>
+<span class="co">#&gt;        strongly agree, agree 3 0.5000000</span>
+<span class="co">#&gt;                      neutral 2 0.3333333</span>
+<span class="co">#&gt;  disagree, strongly disagree 1 0.1666667</span>
+<span class="kw"><a href="../reference/top_levels.html">top_levels</a></span>(f, <span class="dt">n =</span> <span class="dv">1</span>)
+<span class="co">#&gt;                         f n   percent</span>
+<span class="co">#&gt;            strongly agree 2 0.3333333</span>
+<span class="co">#&gt;  agree, neutral, disagree 4 0.6666667</span>
+<span class="co">#&gt;         strongly disagree 0 0.0000000</span></code></pre></div>
 </div>
 </div>
 </div>

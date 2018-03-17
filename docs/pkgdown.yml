@@ -1,9 +1,7 @@
-pandoc: 2.0.6
+pandoc: 1.19.2.1
 pkgdown: 0.1.0.9000
-pkgdown_sha: 17f683717d0a1547f13a08a259b34c58927452d6
+pkgdown_sha: 7cbafcd6b97e5108ccde816a00d300152534a192
 articles:
-  janitor.md: janitor.md
   janitor: janitor.html
-  tabyls.md: tabyls.md
   tabyls: tabyls.html
 

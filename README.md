@@ -1,62 +1,40 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+> Data scientists, according to interviews and expert estimates, spend from 50 percent to 80 percent of their time mired in this more mundane labor of collecting and preparing unruly digital data, before it can be explored for useful nuggets.
+>
+> -- *"[For Big-Data Scientists, 'Janitor Work' Is Key Hurdle to Insight](http://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html)" - The New York Times, 2014*
 
-> Data scientists, according to interviews and expert estimates, spend
-> from 50 percent to 80 percent of their time mired in this more mundane
-> labor of collecting and preparing unruly digital data, before it can
-> be explored for useful nuggets.
-> 
-> – *“[For Big-Data Scientists, ‘Janitor Work’ Is Key Hurdle to
-> Insight](http://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html)”
-> - The New York Times, 2014*
+janitor <img src="man/figures/logo_small.png" align="right" />
+==============================================================
 
-# janitor <img src="man/figures/logo_small.png" align="right" />
+------------------------------------------------------------------------
 
------
+[![Travis-CI Build Status](https://travis-ci.org/sfirke/janitor.svg?branch=master)](https://travis-ci.org/sfirke/janitor) [![Coverage Status](https://img.shields.io/codecov/c/github/sfirke/janitor/master.svg)](https://codecov.io/github/sfirke/janitor?branch=master) [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version-ago/janitor)](https://cran.r-project.org/package=janitor) ![!Monthly Downloads](https://cranlogs.r-pkg.org/badges/janitor) ![!Downloads](https://cranlogs.r-pkg.org/badges/grand-total/janitor)
 
-[![Travis-CI Build
-Status](https://travis-ci.org/sfirke/janitor.svg?branch=master)](https://travis-ci.org/sfirke/janitor)
-[![Coverage
-Status](https://img.shields.io/codecov/c/github/sfirke/janitor/master.svg)](https://codecov.io/github/sfirke/janitor?branch=master)
-[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version-ago/janitor)](https://cran.r-project.org/package=janitor)
-![\!Monthly Downloads](https://cranlogs.r-pkg.org/badges/janitor)
-![\!Downloads](https://cranlogs.r-pkg.org/badges/grand-total/janitor)
-
-**janitor** has simple functions for examining and cleaning dirty data.
-It was built with beginning and intermediate R users in mind and is
-optimized for user-friendliness. Advanced R users can already do
-everything covered here, but with janitor they can do it faster and save
-their thinking for the fun stuff.
+**janitor** has simple functions for examining and cleaning dirty data. It was built with beginning and intermediate R users in mind and is optimized for user-friendliness. Advanced R users can already do everything covered here, but with janitor they can do it faster and save their thinking for the fun stuff.
 
 The main janitor functions:
 
-  - perfectly format data.frame column names;
-  - create and format frequency tables of one, two, or three variables -
-    think an improved `table()`; and
-  - isolate partially-duplicate records.
+-   perfectly format data.frame column names;
+-   create and format frequency tables of one, two, or three variables - think an improved `table()`; and
+-   isolate partially-duplicate records.
 
-The tabulate-and-report functions approximate popular features of SPSS
-and Microsoft Excel.
+The tabulate-and-report functions approximate popular features of SPSS and Microsoft Excel.
 
-janitor is a
-[\#tidyverse](https://github.com/hadley/tidyverse/blob/master/vignettes/manifesto.Rmd)-oriented
-package. Specifically, it plays nicely with the `%>%` pipe and is
-optimized for cleaning data brought in with the
-[readr](https://github.com/hadley/readr) and
-[readxl](https://github.com/hadley/readxl) packages.
+janitor is a [\#tidyverse](https://github.com/hadley/tidyverse/blob/master/vignettes/manifesto.Rmd)-oriented package. Specifically, it plays nicely with the `%>%` pipe and is optimized for cleaning data brought in with the [readr](https://github.com/hadley/readr) and [readxl](https://github.com/hadley/readxl) packages.
 
 ### Installation
 
 You can install:
 
-  - the latest released version from CRAN with
-    
+-   the latest released version from CRAN with
+
     ``` r
     install.packages("janitor")
     ```
 
-  - the latest development version from GitHub with
-    
+-   the latest development version from GitHub with
+
     ``` r
     if (packageVersion("devtools") < 1.6) {
       install.packages("devtools")
@@ -64,28 +42,23 @@ You can install:
     devtools::install_github("sfirke/janitor")
     ```
 
-## Using janitor
+Using janitor
+-------------
 
-Below are quick examples of how janitor tools are commonly used. A full
-description of each function can be found in janitor’s [catalog of
-functions
-vignette](https://github.com/sfirke/janitor/blob/master/vignettes/janitor.md).
+Below are quick examples of how janitor tools are commonly used. A full description of each function can be found in janitor's [catalog of functions vignette](https://github.com/sfirke/janitor/blob/master/vignettes/janitor.md).
 
 ### Cleaning dirty data
 
-Take this roster of teachers at a fictional American high school, stored
-in the Microsoft Excel file
-[dirty\_data.xlsx](https://github.com/sfirke/janitor/blob/master/dirty_data.xlsx):
-![All kinds of dirty.](man/figures/dirty_data.PNG)
+Take this roster of teachers at a fictional American high school, stored in the Microsoft Excel file [dirty\_data.xlsx](https://github.com/sfirke/janitor/blob/master/dirty_data.xlsx): ![All kinds of dirty.](man/figures/dirty_data.PNG)
 
 Dirtiness includes:
 
-  - Dreadful column names
-  - Rows and columns containing Excel formatting but no data
-  - Dates stored as numbers
-  - Values spread inconsistently over the “Certification” columns
+-   Dreadful column names
+-   Rows and columns containing Excel formatting but no data
+-   Dates stored as numbers
+-   Values spread inconsistently over the "Certification" columns
 
-Here’s that data after being read in to R:
+Here's that data after being read in to R:
 
 ``` r
 library(pacman) # for loading packages
@@ -108,9 +81,7 @@ glimpse(roster_raw)
 #> $ Certification__2    <lgl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA
 ```
 
-Excel formatting led to an untitled empty column and 5 empty rows at the
-bottom of the table (only 12 records have any actual data). Bad column
-names are preserved.
+Excel formatting led to an untitled empty column and 5 empty rows at the bottom of the table (only 12 records have any actual data). Bad column names are preserved.
 
 Clean it with janitor functions:
 
@@ -140,46 +111,36 @@ roster
 #> 12 Micheal      Larsen    Teacher         English    2009-09-15             0.800 No        Vocal music
 ```
 
-The core janitor cleaning function is `clean_names()` - call it whenever
-you load data into R.
+The core janitor cleaning function is `clean_names()` - call it whenever you load data into R.
 
 ### Examining dirty data
 
 #### Finding duplicates
 
-Use `get_dupes()` to identify and examine duplicate records during data
-cleaning. Let’s see if any teachers are listed more than once:
+Use `get_dupes()` to identify and examine duplicate records during data cleaning. Let's see if any teachers are listed more than once:
 
 ``` r
 roster %>% get_dupes(first_name, last_name)
 #> # A tibble: 4 x 9
 #>   first_name   last_name dupe_count employee_status subject   hire_date  percent_allocated full_time cert    
 #>   <chr>        <chr>          <int> <chr>           <chr>     <date>                 <dbl> <chr>     <chr>   
-#> 1 Chien-Shiung Wu                 2 Teacher         Physics   1930-03-20             0.500 Yes       Science~
-#> 2 Chien-Shiung Wu                 2 Teacher         Chemistry 1930-03-20             0.500 Yes       Science~
-#> 3 Jason        Bourne             2 Teacher         PE        2008-08-30             0.750 Yes       Physica~
-#> 4 Jason        Bourne             2 Teacher         Drafting  2008-08-30             0.250 Yes       Physica~
+#> 1 Chien-Shiung Wu                 2 Teacher         Physics   1930-03-20             0.500 Yes       Science…
+#> 2 Chien-Shiung Wu                 2 Teacher         Chemistry 1930-03-20             0.500 Yes       Science…
+#> 3 Jason        Bourne             2 Teacher         PE        2008-08-30             0.750 Yes       Physica…
+#> 4 Jason        Bourne             2 Teacher         Drafting  2008-08-30             0.250 Yes       Physica…
 ```
 
-Yes, some teachers appear twice. We ought to address this before
-counting employees.
+Yes, some teachers appear twice. We ought to address this before counting employees.
 
 #### Tabulating tools
 
-A variable (or combinations of two or three variables) can be tabulated
-with `tabyl()`. The resulting data.frame can be tweaked and formatted
-with the suite of `adorn_` functions for quick analysis and printing of
-pretty results in a report. `adorn_` functions can be helpful with
-non-tabyls, too.
+A variable (or combinations of two or three variables) can be tabulated with `tabyl()`. The resulting data.frame can be tweaked and formatted with the suite of `adorn_` functions for quick analysis and printing of pretty results in a report. `adorn_` functions can be helpful with non-tabyls, too.
 
 `tabyl` can be called two ways:
 
-  - On a vector, when tabulating a single variable - e.g.,
-    `tabyl(roster$subject)`
-  - On a data.frame, specifying 1, 2, or 3 variable names to tabulate :
-    `roster %>% tabyl(subject, employee_status)`.
-      - Here the data.frame is passed in with the `%>%` pipe; this
-        allows for dplyr commands earlier in the pipeline
+-   On a vector, when tabulating a single variable - e.g., `tabyl(roster$subject)`
+-   On a data.frame, specifying 1, 2, or 3 variable names to tabulate : `roster %>% tabyl(subject, employee_status)`.
+    -   Here the data.frame is passed in with the `%>%` pipe; this allows for dplyr commands earlier in the pipeline
 
 #### tabyl()
 
@@ -238,9 +199,7 @@ roster %>%
 
 ##### Adorning tabyls
 
-The suite of `adorn_` functions dress up the results of these tabulation
-calls for fast, basic reporting. Here are some of the functions that
-augment a summary table for reporting:
+The suite of `adorn_` functions dress up the results of these tabulation calls for fast, basic reporting. Here are some of the functions that augment a summary table for reporting:
 
 ``` r
 roster %>%
@@ -257,18 +216,16 @@ roster %>%
 #>                      Total  41.7% (5)  58.3% (7)
 ```
 
-Pipe that right into `knitr::kable()` in your RMarkdown report\!
+Pipe that right into `knitr::kable()` in your RMarkdown report!
 
-These modular adornments can be layered to reduce R’s deficit against
-Excel and SPSS when it comes to quick, informative counts.
+These modular adornments can be layered to reduce R's deficit against Excel and SPSS when it comes to quick, informative counts.
 
-## Contact me
+Contact me
+----------
 
 You are welcome to:
 
-  - submit suggestions and report bugs:
-    <https://github.com/sfirke/janitor/issues>
-  - send a pull request: <https://github.com/sfirke/janitor/>
-  - let me know what you think on twitter @samfirke
-  - compose a friendly e-mail to:
-    <img src = "http://samfirke.com/wp-content/uploads/2016/07/email_address_whitespace_top.png" alt = "samuel.firke AT gmail" width = "210"/>
+-   submit suggestions and report bugs: <https://github.com/sfirke/janitor/issues>
+-   send a pull request: <https://github.com/sfirke/janitor/>
+-   let me know what you think on twitter @samfirke
+-   compose a friendly e-mail to: <img src = "http://samfirke.com/wp-content/uploads/2016/07/email_address_whitespace_top.png" alt = "samuel.firke AT gmail" width = "210"/>
