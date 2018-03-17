@@ -2,19 +2,22 @@
 2018-03-17
 
 ### Test environments
+
+#### Windows
 * local Windows 10 install, R 3.4.3
 * local Windows 10 install, R 3.4.4
 * win-builder with R-devel 2018-03-16 74418
-* ubuntu 16.04.3, R-release 3.4.3
-* ubuntu 16.04.3, R-release 3.4.4
 
+#### Linux
+* ubuntu 16.04.3, R-release 3.4.3 (local)
+* ubuntu 16.04.3, R-release 3.4.4 (local)
+* ubuntu 14.04.5, R-oldrel 3.3.3 (Travis CI)
+* ubuntu 14.04.5 R-release 3.4.4 (Travis CI)
+* ubuntu 14.04.5 R-devel R 3.5.0 74418 (Travis CI)
 
-On Travis CI:
-* ubuntu 14.04.5, R-oldrel 3.3.3
-* ubuntu 14.04.5 R-release 3.4.4
-* ubuntu 14.04.5 R-devel R 3.5.0 74418
-* OS X Sierra 10.12.6, R-oldrel 3.3.3
-* OS X Sierra 10.12.6, R-release 3.4.4
+#### Mac
+* OS X Sierra 10.12.6, R-oldrel 3.3.3 (Travis CI)
+* OS X Sierra 10.12.6, R-release 3.4.4 (Travis CI)
 
 ### R CMD check results
 0 errors | 0 warnings | 0 notes
