@@ -27,7 +27,7 @@
 <script src="../pkgdown.js"></script>
 <meta property="og:title" content="Append a totals row and/or column to a data.frame. — adorn_totals" />
 
-<meta property="og:description" content="This function excludes the first column of the input data.frame, assuming it's a descriptive variable not to be summed.  It also excludes other non-numeric columns." />
+<meta property="og:description" content="This function excludes the first column of the input data.frame, assuming it's a descriptive variable not to be summed.  Non-numeric columns are converted to character class and have a user-specified fill character inserted in the totals row." />
 <meta name="twitter:card" content="summary" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -107,7 +107,7 @@
     </div>
 
     
-    <p>This function excludes the first column of the input data.frame, assuming it's a descriptive variable not to be summed.  It also excludes other non-numeric columns.</p>
+    <p>This function excludes the first column of the input data.frame, assuming it's a descriptive variable not to be summed.  Non-numeric columns are converted to character class and have a user-specified fill character inserted in the totals row.</p>
     
 
     <pre class="usage"><span class='fu'>adorn_totals</span>(<span class='no'>dat</span>, <span class='kw'>where</span> <span class='kw'>=</span> <span class='st'>"row"</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='st'>"-"</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>

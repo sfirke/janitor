@@ -4,16 +4,19 @@
 #' Removes all rows and/or columns from a data.frame that are composed entirely of \code{NA} values.
 #'
 #' @param dat the input data.frame.
-#' @param which one of "rows", "cols", or \code{c("rows", "cols")}
+#' @param which one of "rows", "cols", or \code{c("rows", "cols")}.  Where no value of which is provided, defaults to removing both empty rows and empty columns, declaring the behavior with a printed message.
 #' @return Returns the data.frame without its missing rows or columns.
 #' @export
 #' @examples
 #' # not run:
 #' # dat %>% remove_empty("rows")
 
-remove_empty <- function(dat, which) {
-  if (missing(which) ||
-    sum(which %in% c("rows", "cols")) != length(which)) {
+remove_empty <- function(dat, which = c("rows", "cols")) {
+  if (missing(which)) {
+    message("value for \"which\" not specified, defaulting to c(\"rows\", \"cols\")")
+    which <- c("rows", "cols")
+  }
+  if (sum(which %in% c("rows", "cols")) != length(which)) {
     stop("\"which\" must be one of \"rows\", \"cols\", or c(\"rows\", \"cols\")")
   }
   if ("rows" %in% which) {

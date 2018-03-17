@@ -110,7 +110,7 @@
     <p>Removes all rows and/or columns from a data.frame that are composed entirely of <code>NA</code> values.</p>
     
 
-    <pre class="usage"><span class='fu'>remove_empty</span>(<span class='no'>dat</span>, <span class='no'>which</span>)</pre>
+    <pre class="usage"><span class='fu'>remove_empty</span>(<span class='no'>dat</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"rows"</span>, <span class='st'>"cols"</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -121,7 +121,7 @@
     </tr>
     <tr>
       <th>which</th>
-      <td><p>one of "rows", "cols", or <code>c("rows", "cols")</code></p></td>
+      <td><p>one of "rows", "cols", or <code>c("rows", "cols")</code>.  Where no value of which is provided, defaults to removing both empty rows and empty columns, declaring the behavior with a printed message.</p></td>
     </tr>
     </table>
     

@@ -17,17 +17,22 @@ test_that("empty cols are removed", {
   expect_equal(remove_empty(dat, "cols"), dat[, 1:2])
 })
 
-test_that("missing or bad argument to which throws error", {
+test_that("bad argument to which throws error", {
   expect_error(mtcars %>%
     remove_empty("blargh"),
   paste0('"which" must be one of "rows", "cols", or c("rows", "cols")'),
   fixed = TRUE
   )
-  expect_error(mtcars %>%
+})
+
+test_that("missing argument to which defaults to both, printing a message", {
+  expect_message(dat %>%
     remove_empty(),
-  paste0('"which" must be one of "rows", "cols", or c("rows", "cols")'),
+    "value for \"which\" not specified, defaulting to c(\"rows\", \"cols\")",
   fixed = TRUE
   )
+  expect_equal(dat %>% remove_empty,
+               dat %>% remove_empty(c("rows", "cols")))
 })
 
 # Kind of superficial given that remove_empty_* have been refactored to call remove_empty() themselves, but might as well keep until deprecated functions are removed
