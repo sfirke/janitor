@@ -90,29 +90,29 @@
     
     
 <div class="contents">
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- index.md is generated from index.Rmd. Please edit that file -->
+<div id="janitor" class="section level1">
+<div class="page-header"><h1 class="hasAnchor">
+<a href="#janitor" class="anchor"></a>janitor <img src="reference/figures/logo_small.png" align="right">
+</h1></div>
 <blockquote>
 <p>Data scientists, according to interviews and expert estimates, spend from 50 percent to 80 percent of their time mired in this more mundane labor of collecting and preparing unruly digital data, before it can be explored for useful nuggets.</p>
 <p>– <em>“<a href="http://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html">For Big-Data Scientists, ‘Janitor Work’ Is Key Hurdle to Insight</a>” - The New York Times, 2014</em></p>
 </blockquote>
-<div id="janitor" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#janitor" class="anchor"></a>janitor <img src="/home/sam/git/janitor/man/figures/logo_small.png" align="right">
-</h1></div>
 <hr>
 <p><a href="https://travis-ci.org/sfirke/janitor"><img src="https://travis-ci.org/sfirke/janitor.svg?branch=master" alt="Travis-CI Build Status"></a> <a href="https://codecov.io/github/sfirke/janitor?branch=master"><img src="https://img.shields.io/codecov/c/github/sfirke/janitor/master.svg" alt="Coverage Status"></a> <a href="https://cran.r-project.org/package=janitor"><img src="https://www.r-pkg.org/badges/version-ago/janitor" alt="CRAN_Status_Badge"></a> <img src="https://cranlogs.r-pkg.org/badges/janitor" alt="!Monthly Downloads"><img src="https://cranlogs.r-pkg.org/badges/grand-total/janitor" alt="!Downloads"></p>
 <p><strong>janitor</strong> has simple functions for examining and cleaning dirty data. It was built with beginning and intermediate R users in mind and is optimized for user-friendliness. Advanced R users can already do everything covered here, but with janitor they can do it faster and save their thinking for the fun stuff.</p>
 <p>The main janitor functions:</p>
 <ul>
 <li>perfectly format data.frame column names;</li>
-<li>create and format frequency tables of one, two, or three variables - think an improved <code>table()</code>; and</li>
+<li>generate and format quick one- and two-variable tabulations (i.e., frequency tables and crosstabs); and</li>
 <li>isolate partially-duplicate records.</li>
 </ul>
 <p>The tabulate-and-report functions approximate popular features of SPSS and Microsoft Excel.</p>
 <p>janitor is a <a href="https://github.com/hadley/tidyverse/blob/master/vignettes/manifesto.Rmd">#tidyverse</a>-oriented package. Specifically, it plays nicely with the <code>%&gt;%</code> pipe and is optimized for cleaning data brought in with the <a href="https://github.com/hadley/readr">readr</a> and <a href="https://github.com/hadley/readxl">readxl</a> packages.</p>
-<div id="installation" class="section level3">
-<h3 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h3>
+<div id="getting-started" class="section level2">
+<h2 class="hasAnchor">
+<a href="#getting-started" class="anchor"></a><i class="fa fa-cog" aria-hidden="true"></i> Getting Started</h2>
 <p>You can install:</p>
 <ul>
 <li>
@@ -128,14 +128,24 @@ devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocument
 </li>
 </ul>
 </div>
+<div id="whats-new" class="section level2">
+<h2 class="hasAnchor">
+<a href="#whats-new" class="anchor"></a><i class="fa fa-newspaper-o" aria-hidden="true"></i> What’s New</h2>
+<div id="march-2018-version-1-0" class="section level4">
+<h4 class="hasAnchor">
+<a href="#march-2018-version-1-0" class="anchor"></a>March 2018: Version 1.0 !</h4>
+<p>Depending on when you’re reading this, v.1.0 is about to go to CRAN or is already available there. It has some big improvements that also result in breaking changes.</p>
+<p>There’s a greatly-enhanced <code><a href="reference/tabyl.html">tabyl()</a></code> function - see the <a href="https://github.com/sfirke/janitor/blob/master/vignettes/tabyls.html">tabyls vignette</a> - and improvements to <code><a href="reference/clean_names.html">clean_names()</a></code>. These <code><a href="reference/clean_names.html">clean_names()</a></code> improvements may cause old code to break, due to better handling of variable names. More info is in the <a href="https://github.com/sfirke/janitor/blob/master/NEWS.html">NEWS</a> file; the very quick fix is to supply the argument <code>case = "old_janitor"</code>.</p>
+</div>
+</div>
 <div id="using-janitor" class="section level2">
 <h2 class="hasAnchor">
 <a href="#using-janitor" class="anchor"></a>Using janitor</h2>
-<p>Below are quick examples of how janitor tools are commonly used. A full description of each function can be found in janitor’s <a href="https://github.com/sfirke/janitor/blob/master/vignettes/janitor.html">catalog of functions vignette</a>.</p>
+<p>Below are quick examples of how janitor tools are commonly used. A full description of each function can be found in janitor’s <a href="https://github.com/sfirke/janitor/blob/master/vignettes/introduction.html">catalog of functions</a>.</p>
 <div id="cleaning-dirty-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#cleaning-dirty-data" class="anchor"></a>Cleaning dirty data</h3>
-<p>Take this roster of teachers at a fictional American high school, stored in the Microsoft Excel file <a href="https://github.com/sfirke/janitor/blob/master/dirty_data.xlsx">dirty_data.xlsx</a>: <img src="/home/sam/git/janitor/man/figures/dirty_data.PNG" alt="All kinds of dirty."></p>
+<p>Take this roster of teachers at a fictional American high school, stored in the Microsoft Excel file <a href="https://github.com/sfirke/janitor/blob/master/dirty_data.xlsx">dirty_data.xlsx</a>: <img src="reference/figures/dirty_data.PNG" alt="All kinds of dirty."></p>
 <p>Dirtiness includes:</p>
 <ul>
 <li>Dreadful column names</li>
@@ -273,13 +283,12 @@ roster
 <span class="st">  </span><span class="kw"><a href="reference/adorn_totals.html">adorn_totals</a></span>(<span class="st">"row"</span>) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw"><a href="reference/adorn_percentages.html">adorn_percentages</a></span>(<span class="st">"row"</span>) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw"><a href="reference/adorn_pct_formatting.html">adorn_pct_formatting</a></span>() <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="reference/adorn_ns.html">adorn_ns</a></span>() <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="reference/adorn_title.html">adorn_title</a></span>(<span class="st">"combined"</span>)
-<span class="co">#&gt;  employee_status/full_time         No        Yes</span>
-<span class="co">#&gt;             Administration   0.0% (0) 100.0% (1)</span>
-<span class="co">#&gt;                      Coach 100.0% (2)   0.0% (0)</span>
-<span class="co">#&gt;                    Teacher  33.3% (3)  66.7% (6)</span>
-<span class="co">#&gt;                      Total  41.7% (5)  58.3% (7)</span></code></pre></div>
+<span class="st">  </span><span class="kw"><a href="reference/adorn_ns.html">adorn_ns</a></span>()
+<span class="co">#&gt;  employee_status         No        Yes</span>
+<span class="co">#&gt;   Administration   0.0% (0) 100.0% (1)</span>
+<span class="co">#&gt;            Coach 100.0% (2)   0.0% (0)</span>
+<span class="co">#&gt;          Teacher  33.3% (3)  66.7% (6)</span>
+<span class="co">#&gt;            Total  41.7% (5)  58.3% (7)</span></code></pre></div>
 <p>Pipe that right into <code><a href="http://www.rdocumentation.org/packages/knitr/topics/kable">knitr::kable()</a></code> in your RMarkdown report!</p>
 <p>These modular adornments can be layered to reduce R’s deficit against Excel and SPSS when it comes to quick, informative counts.</p>
 </div>
@@ -288,7 +297,7 @@ roster
 </div>
 <div id="contact-me" class="section level2">
 <h2 class="hasAnchor">
-<a href="#contact-me" class="anchor"></a>Contact me</h2>
+<a href="#contact-me" class="anchor"></a><i class="fa fa-bullhorn" aria-hidden="true"></i> Contact Me</h2>
 <p>You are welcome to:</p>
 <ul>
 <li>submit suggestions and report bugs: <a href="https://github.com/sfirke/janitor/issues" class="uri">https://github.com/sfirke/janitor/issues</a>

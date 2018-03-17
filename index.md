@@ -1,5 +1,5 @@
 
-<!-- Index.md is generated from Index.Rmd. Please edit that file -->
+<!-- index.md is generated from index.Rmd. Please edit that file -->
 janitor <img src="docs/reference/figures/logo_small.png" align="right" />
 =========================================================================
 
