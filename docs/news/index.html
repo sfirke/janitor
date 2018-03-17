@@ -105,6 +105,74 @@
     </div>
 
     <div class="contents">
+    <div id="janitor-1-0-0" class="section level1">
+<h1 class="page-header">
+<a href="#janitor-1-0-0" class="anchor"></a>janitor 1.0.0<small> Unreleased </small>
+</h1>
+<div id="release-summary" class="section level2">
+<h2 class="hasAnchor">
+<a href="#release-summary" class="anchor"></a>Release summary</h2>
+<p>A stable version 1.0.0, with a new <code>tabyl</code> API and with breaking changes to the output of <code><a href="../reference/clean_names.html">clean_names()</a></code>.</p>
+<p>This preserves the original functionality of janitor, but significantly changes the implementation.</p>
+</div>
+<div id="breaking-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#breaking-changes" class="anchor"></a>Breaking changes</h2>
+<div id="a-fully-overhauled-tabyl" class="section level3">
+<h3 class="hasAnchor">
+<a href="#a-fully-overhauled-tabyl" class="anchor"></a>A fully-overhauled <code>tabyl</code>
+</h3>
+<p>This is now a single function <code><a href="../reference/tabyl.html">tabyl()</a></code> to count combinations of one, two, or three variables, ala base R’s <code>table()</code>. This replaces the <code><a href="../reference/crosstab.html">crosstab()</a></code> function. The resulting <code>tabyl</code> data.frames can be manipulated and formatted using a family of <code>adorn_</code> functions. See the <a href="https://github.com/sfirke/janitor/blob/master/vignettes/tabyls.html"><code>tabyl</code> vignette</a> for more.</p>
+<p>The now-redundant legacy functions <code><a href="../reference/crosstab.html">crosstab()</a></code> and <code><a href="../reference/adorn_crosstab.html">adorn_crosstab()</a></code> have been deprecated, but remain in the package for now. Existing code that relies on <code>tabyl</code> will break if the <code>sort</code> argument is used, as that argument no longer exists in <code>tabyl</code> (use <code><a href="http://dplyr.tidyverse.org/reference/arrange.html">dplyr::arrange()</a></code> instead).</p>
+</div>
+<div id="breaking-improvements-to-clean_names" class="section level3">
+<h3 class="hasAnchor">
+<a href="#breaking-improvements-to-clean_names" class="anchor"></a>Breaking improvements to <code>clean_names</code>
+</h3>
+<p><code><a href="../reference/clean_names.html">clean_names()</a></code> now detects and preserves camelCase inputs, allows multiple options for case outputs of the cleaned data.frame, and preserves whether there’s space between letters and numbers. It also transliterates accented letters and turns <code>#</code> into <code>"number"</code>. This may cause old code to break. E.g., <code>variableName</code> as a raw column name is now converted to <code>variable_name</code> (or <code>variableName</code>, <code>VariableName</code>, etc. depending on your preference), where it would previously have been converted to <code>variablename</code>. To minimize this inconvenience, there’s a quick fix for compatibility: you can find-and-replace to insert the argument <code>case = "old_janitor"</code>, preserving the old behavior of <code><a href="../reference/clean_names.html">clean_names()</a></code> as of janitor version 0.3.1 (and thus not have to redo your scripts beyond that.)</p>
+</div>
+</div>
+<div id="major-features" class="section level2">
+<h2 class="hasAnchor">
+<a href="#major-features" class="anchor"></a>Major Features</h2>
+<ul>
+<li><p><code><a href="../reference/clean_names.html">clean_names()</a></code> transliterates accented letters, e.g., <code>çãüœ</code> becomes <code>cauoe</code> <a href="https://github.com/sfirke/janitor/issues/120">(<a href='https://github.com/sfirke/janitor/issues/120'>#120</a>)</a>. Thanks to <strong><a href='http://github.com/fernandovmacedo'>@fernandovmacedo</a></strong>.</p></li>
+<li>
+<code><a href="../reference/clean_names.html">clean_names()</a></code> offers multiple options for variable name styling. In addition to <code>snake_case</code> output you can select <code>smallCamelCase</code>, <code>BigCamelCase</code>, <code>ALL_CAPS</code> and others. <a href="https://github.com/sfirke/janitor/issues/131">(<a href='https://github.com/sfirke/janitor/issues/131'>#131</a>)</a>.<br>
+</li>
+<li><p>Thanks to <strong><a href='http://github.com/tazinho'>@tazinho</a></strong>, who wrote the <a href="https://github.com/Tazinho/snakecase/">snakecase</a> package that janitor depends on to do this, as well as the patch to incorporate it into <code><a href="../reference/clean_names.html">clean_names()</a></code>. Thanks also to <strong><a href='http://github.com/maelle'>@maelle</a></strong> for proposing this feature. jani</p></li>
+<li><p>Launched the janitor documentation website: <a href="http://sfirke.github.io/janitor" class="uri">http://sfirke.github.io/janitor</a>. Thanks to the <a href="https://github.com/r-lib/pkgdown">pkgdown</a> package!</p></li>
+<li>Deprecated the functions <code><a href="../reference/remove_empty_rows.html">remove_empty_rows()</a></code> and <code><a href="../reference/remove_empty_cols.html">remove_empty_cols()</a></code>, which are replaced by the single function <code><a href="../reference/remove_empty.html">remove_empty()</a></code>. <a href="https://github.com/sfirke/janitor/issues/100">(<a href='https://github.com/sfirke/janitor/issues/100'>#100</a>)</a>
+</li>
+<li><p><code><a href="../reference/remove_empty.html">remove_empty()</a></code> does not have a default value for the <code>which</code> argument, forcing more explicit and readable code. e.g. <code><a href="../reference/remove_empty.html">remove_empty("rows")</a></code>.</p></li>
+<li><p>The new <code><a href="../reference/adorn_title.html">adorn_title()</a></code> function shows the name of the 2nd <code>tabyl</code> variable (column name) - this un-tidies the data.frame but makes the result clearer to readers <a href="https://github.com/sfirke/janitor/issues/77">(<a href='https://github.com/sfirke/janitor/issues/77'>#77</a>)</a></p></li>
+</ul>
+</div>
+<div id="minor-features" class="section level2">
+<h2 class="hasAnchor">
+<a href="#minor-features" class="anchor"></a>Minor Features</h2>
+<ul>
+<li>
+<code>tabyl</code> objects now print with row numbers suppressed</li>
+<li>
+<code><a href="../reference/clean_names.html">clean_names()</a></code> now retains the character <code>#</code> as <code>"number"</code> in the resulting names</li>
+<li>The utility function <code><a href="../reference/round_half_up.html">round_half_up()</a></code> is now exported for public use. It’s an exact implementation of <a href="http://stackoverflow.com/questions/12688717/round-up-from-5-in-r/12688836<a href='https://github.com/sfirke/janitor/issues/12688836'>#12688836</a>" class="uri">http://stackoverflow.com/questions/12688717/round-up-from-5-in-r/12688836<a href='https://github.com/sfirke/janitor/issues/12688836'>#12688836</a></a>, written by <strong><a href='http://github.com/mrdwab'>@mrdwab</a></strong>.</li>
+</ul>
+</div>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+<ul>
+<li>
+<code><a href="../reference/adorn_totals.html">adorn_totals("row")</a></code> handles quirky variable names in 1st column <a href="https://github.com/sfirke/janitor/issues/118">(<a href='https://github.com/sfirke/janitor/issues/118'>#118</a>)</a>
+</li>
+<li>
+<code><a href="../reference/get_dupes.html">get_dupes()</a></code> returns the correct result when a variable in the input data.frame is already called <code>"n"</code> <a href="https://github.com/sfirke/janitor/issues/162">(<a href='https://github.com/sfirke/janitor/issues/162'>#162</a>)</a>
+</li>
+</ul>
+<hr>
+</div>
+</div>
     <div id="janitor-0-3-1-release-date-2018-01-04" class="section level1">
 <h1 class="page-header">
 <a href="#janitor-0-3-1-release-date-2018-01-04" class="anchor"></a>janitor 0.3.1 (Release date: 2018-01-04)<small> 2018-01-04 </small>
@@ -303,7 +371,6 @@
 <li>Initial draft of skeleton package on GitHub</li>
 </ul>
 </div>
-    NA
     </div>
   </div>
 
@@ -311,13 +378,13 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#janitor-1-0-0">1.0.0</a></li>
         <li><a href="#janitor-0-3-1-release-date-2018-01-04">0.3.1</a></li>
         <li><a href="#janitor-0-3-0-release-date-2017-05-06">0.3.0</a></li>
         <li><a href="#janitor-0-2-1-release-date-2016-10-30">0.2.1</a></li>
         <li><a href="#janitor-0-2-0-release-date-2016-10-03">0.2.0</a></li>
         <li><a href="#janitor-0-1-2">0.1.2</a></li>
         <li><a href="#janitor-0-1-release-date-2016-04-17">0.1</a></li>
-        <li><a href="#NA">NA</a></li>
       </ul>
     </div>
   </div>

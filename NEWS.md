@@ -1,10 +1,7 @@
-NEWS
-===========
-
 # janitor 1.0.0
 
 ## Release summary
-A stable version 1.0.0, containing a new `tabyl` API and with breaking changes to the output of `clean_names()`.
+A stable version 1.0.0, with a new `tabyl` API and with breaking changes to the output of `clean_names()`.
 
 This preserves the original functionality of janitor, but significantly changes the implementation.
 
