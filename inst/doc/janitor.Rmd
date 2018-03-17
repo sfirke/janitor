@@ -25,22 +25,20 @@ Functions for everyday use.
 ### Clean data.frame names with `clean_names()`
 Call this function every time you read data.
 
-It works in a `%>%` pipeline, and handles problematic variable names, especially those that are so well preserved by `readxl::read_excel()` and `readr::read_csv()`.
+It works in a `%>%` pipeline, and handles problematic variable names, especially those that are so well-preserved by `readxl::read_excel()` and `readr::read_csv()`.
 
 + Parses letter cases and separators to a consistent format.
     + Default is to snake_case, but other cases like camelCase are available
 + Handles special characters and spaces, including transilerating characters like `œ` to `oe`.
 + Appends numbers to duplicated names
 + Converts "%" to "percent" and "#" to "number" to retain meaning
-+ Spacing (or lack of) around numbers is preserved
++ Spacing (or lack thereof) around numbers is preserved
 
 ```{r, message = FALSE, warning = FALSE}
-# Load dplyr for the %>% pipe
-library(dplyr)
 # Create a data.frame with dirty names
 test_df <- as.data.frame(matrix(ncol = 6))
-names(test_df) <- c("hIgHlo", "REPEAT VALUE", "REPEAT VALUE",
-                    "% successful (2009)",  "abc@!*", "")
+names(test_df) <- c("firstName", "ábc@!*", "% successful (2009)",
+                    "REPEAT VALUE", "REPEAT VALUE", "")
 ```
 Clean the variable names, returning a data.frame:
 ```{r}
@@ -72,9 +70,9 @@ Learn more in the [tabyls vignette](https://github.com/sfirke/janitor/blob/maste
 ### Explore records with duplicated values for specific combinations of variables with `get_dupes()`
 This is for hunting down and examining duplicate records during data cleaning - usually when there shouldn't be any.
 
-For example, in a tidy data frame you might expect to have a unique ID repeated for each year, and year repeated for each unique ID, but no duplicated pairs of unique ID & year.  Say you want to check for their presence, and study any such duplicated records.
+For example, in a tidy data.frame you might expect to have a unique ID repeated for each year, but no duplicated pairs of unique ID & year.  Say you want to check for and study any such duplicated records.
 
-`get_dupes()` returns the records (and inserts a count of duplicates) so you can sleuth out the problematic cases:
+`get_dupes()` returns the records (and inserts a count of duplicates) so you can examine the problematic cases:
 ```{r}
 get_dupes(mtcars, wt, cyl) # or mtcars %>% get_dupes(wt, cyl) if you prefer to pipe
 ```
@@ -94,7 +92,7 @@ excel_numeric_to_date(41103, date_system = "mac pre-2011")
 ```
 
 ### `remove_empty()` rows and columns
-Does what it says.  For cases like cleaning Excel files containing empty rows and columns.
+Does what it says.  For cases like cleaning Excel files that contain empty rows and columns after being read into R.
 ```{r}
 q <- data.frame(v1 = c(1, NA, 3),
                 v2 = c(NA, NA, NA),
@@ -102,7 +100,16 @@ q <- data.frame(v1 = c(1, NA, 3),
 q %>%
   remove_empty(c("rows", "cols"))
 ```
-Just a simple wrapper for one-line functions, but improves readability of the code and saves a little thinking.
+Just a simple wrapper for one-line functions, but it saves a little thinking for both the code writer and the reader.
+
+### Directionally-consistent rounding behavior with `round_half_up()`
+
+R uses "banker's rounding", i.e., halves are rounded to the nearest *even* number.  This function, an exact implementation of https://stackoverflow.com/questions/12688717/round-up-from-5/12688836#12688836, will round all halves up.  Compare:
+```{r}
+nums <- c(2.5, 3.5)
+round(nums)
+round_half_up(nums)
+```
 
 ## Exploring
 

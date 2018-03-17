@@ -138,13 +138,18 @@
 <ul>
 <li><p><code><a href="../reference/clean_names.html">clean_names()</a></code> transliterates accented letters, e.g., <code>çãüœ</code> becomes <code>cauoe</code> <a href="https://github.com/sfirke/janitor/issues/120">(<a href='https://github.com/sfirke/janitor/issues/120'>#120</a>)</a>. Thanks to <strong><a href='http://github.com/fernandovmacedo'>@fernandovmacedo</a></strong>.</p></li>
 <li>
-<code><a href="../reference/clean_names.html">clean_names()</a></code> offers multiple options for variable name styling. In addition to <code>snake_case</code> output you can select <code>smallCamelCase</code>, <code>BigCamelCase</code>, <code>ALL_CAPS</code> and others. <a href="https://github.com/sfirke/janitor/issues/131">(<a href='https://github.com/sfirke/janitor/issues/131'>#131</a>)</a>.<br>
+<code><a href="../reference/clean_names.html">clean_names()</a></code> offers multiple options for variable name styling. In addition to <code>snake_case</code> output you can select <code>smallCamelCase</code>, <code>BigCamelCase</code>, <code>ALL_CAPS</code> and others. <a href="https://github.com/sfirke/janitor/issues/131">(<a href='https://github.com/sfirke/janitor/issues/131'>#131</a>)</a>.
+<ul>
+<li>Thanks to <strong><a href='http://github.com/tazinho'>@tazinho</a></strong>, who wrote the <a href="https://github.com/Tazinho/snakecase/">snakecase</a> package that janitor depends on to do this, as well as the patch to incorporate it into <code><a href="../reference/clean_names.html">clean_names()</a></code>. Thanks also to <strong><a href='http://github.com/maelle'>@maelle</a></strong> for proposing this feature. jani</li>
+</ul>
 </li>
-<li><p>Thanks to <strong><a href='http://github.com/tazinho'>@tazinho</a></strong>, who wrote the <a href="https://github.com/Tazinho/snakecase/">snakecase</a> package that janitor depends on to do this, as well as the patch to incorporate it into <code><a href="../reference/clean_names.html">clean_names()</a></code>. Thanks also to <strong><a href='http://github.com/maelle'>@maelle</a></strong> for proposing this feature. jani</p></li>
 <li><p>Launched the janitor documentation website: <a href="http://sfirke.github.io/janitor" class="uri">http://sfirke.github.io/janitor</a>. Thanks to the <a href="https://github.com/r-lib/pkgdown">pkgdown</a> package!</p></li>
 <li>Deprecated the functions <code><a href="../reference/remove_empty_rows.html">remove_empty_rows()</a></code> and <code><a href="../reference/remove_empty_cols.html">remove_empty_cols()</a></code>, which are replaced by the single function <code><a href="../reference/remove_empty.html">remove_empty()</a></code>. <a href="https://github.com/sfirke/janitor/issues/100">(<a href='https://github.com/sfirke/janitor/issues/100'>#100</a>)</a>
+<ul>
+<li>
+<code><a href="../reference/remove_empty.html">remove_empty()</a></code> does not have a default value for the <code>which</code> argument, forcing more explicit and readable code. e.g. <code><a href="../reference/remove_empty.html">remove_empty("rows")</a></code>.</li>
+</ul>
 </li>
-<li><p><code><a href="../reference/remove_empty.html">remove_empty()</a></code> does not have a default value for the <code>which</code> argument, forcing more explicit and readable code. e.g. <code><a href="../reference/remove_empty.html">remove_empty("rows")</a></code>.</p></li>
 <li><p>The new <code><a href="../reference/adorn_title.html">adorn_title()</a></code> function shows the name of the 2nd <code>tabyl</code> variable (column name) - this un-tidies the data.frame but makes the result clearer to readers <a href="https://github.com/sfirke/janitor/issues/77">(<a href='https://github.com/sfirke/janitor/issues/77'>#77</a>)</a></p></li>
 </ul>
 </div>

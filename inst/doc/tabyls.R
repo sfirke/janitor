@@ -40,7 +40,8 @@ t2 %>%
 t3 <- humans %>%
   tabyl(eye_color, skin_color, gender)
 
-t3 # the result is a tabyl of eye color x skin color, split into a list by gender
+# the result is a tabyl of eye color x skin color, split into a list by gender
+t3 
 
 ## ----three_way_adorns, warning = FALSE, message = FALSE------------------
 library(purrr)

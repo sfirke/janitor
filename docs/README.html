@@ -113,12 +113,12 @@
 <h1>janitor <img src="man/figures/logo_small.png" align="right">
 </h1>
 <hr>
-<p><a href="https://travis-ci.org/sfirke/janitor"><img src="https://travis-ci.org/sfirke/janitor.svg?branch=master" alt="Travis-CI Build Status"></a> <a href="https://codecov.io/github/sfirke/janitor?branch=master"><img src="https://img.shields.io/codecov/c/github/sfirke/janitor/master.svg" alt="Coverage Status"></a> <a href="https://cran.r-project.org/package=janitor"><img src="https://www.r-pkg.org/badges/version-ago/janitor" alt="CRAN_Status_Badge"></a> <img src="https://cranlogs.r-pkg.org/badges/janitor" alt="!Monthly Downloads"><img src="https://cranlogs.r-pkg.org/badges/grand-total/janitor" alt="!Downloads"></p>
+<p><a href="https://travis-ci.org/sfirke/janitor"><img src="https://travis-ci.org/sfirke/janitor.svg?branch=master" alt="Travis-CI Build Status"></a> <a href="https://codecov.io/github/sfirke/janitor?branch=master"><img src="https://img.shields.io/codecov/c/github/sfirke/janitor/master.svg" alt="Coverage Status"></a> <a href="https://www.tidyverse.org/lifecycle/#stable"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="lifecycle"></a> <a href="https://cran.r-project.org/package=janitor"><img src="https://www.r-pkg.org/badges/version-ago/janitor" alt="CRAN_Status_Badge"></a> <img src="https://cranlogs.r-pkg.org/badges/janitor" alt="!Monthly Downloads"><img src="https://cranlogs.r-pkg.org/badges/grand-total/janitor" alt="!Downloads"></p>
 <p><strong>janitor</strong> has simple functions for examining and cleaning dirty data. It was built with beginning and intermediate R users in mind and is optimized for user-friendliness. Advanced R users can already do everything covered here, but with janitor they can do it faster and save their thinking for the fun stuff.</p>
 <p>The main janitor functions:</p>
 <ul>
 <li>perfectly format data.frame column names;</li>
-<li>generate and format quick one- and two-variable tabulations (i.e., frequency tables and crosstabs); and</li>
+<li>create and format frequency tables of one, two, or three variables - think an improved <code>table()</code>; and</li>
 <li>isolate partially-duplicate records.</li>
 </ul>
 <p>The tabulate-and-report functions approximate popular features of SPSS and Microsoft Excel.</p>
@@ -139,10 +139,6 @@
 <a class="sourceLine" id="cb2-4" data-line-number="4">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"sfirke/janitor"</span>)</a></code></pre></div>
 </li>
 </ul>
-<div class="section level4">
-<h4>November 2017: Please try out the dev version!</h4>
-<p>The current development version is significantly ahead of version 0.3.0 on CRAN (which was released May 2017). It has a greatly-enhanced <code><a href="reference/tabyl.html">tabyl()</a></code> function - see the <a href="https://github.com/sfirke/janitor/blob/master/vignettes/tabyls.md">tabyls vignette</a> - and improvements to <code><a href="reference/clean_names.html">clean_names()</a></code>. These <code><a href="reference/clean_names.html">clean_names()</a></code> improvements may cause old code to break, due to better handling of variable names. More info is in the <a href="https://github.com/sfirke/janitor/blob/master/NEWS.md">NEWS</a> file; the very quick fix is to supply the argument <code>case = "old_janitor"</code>.</p>
-</div>
 </div>
 <div class="section level2">
 <h2>Using janitor</h2>
@@ -231,8 +227,9 @@
 </ul>
 </li>
 </ul>
-<div class="section level5">
-<h5>tabyl()</h5>
+</div>
+<div class="section level4">
+<h4>tabyl()</h4>
 <p>Like <code>table()</code>, but pipe-able, data.frame-based, and fully featured.</p>
 <p>One variable:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">roster <span class="op">%&gt;%</span></a>
@@ -273,7 +270,6 @@
 <a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt;  full_time Basketball Chemistry Dean Drafting English Music PE Physics Science NA_</span></a>
 <a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">#&gt;         No          0         0    0        0       2     0  0       0       1   0</span></a>
 <a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">#&gt;        Yes          0         1    0        1       0     1  1       1       0   1</span></a></code></pre></div>
-</div>
 <div class="section level5">
 <h5>Adorning tabyls</h5>
 <p>The suite of <code>adorn_</code> functions dress up the results of these tabulation calls for fast, basic reporting. Here are some of the functions that augment a summary table for reporting:</p>

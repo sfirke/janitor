@@ -17,7 +17,7 @@ knitr::opts_chunk$set(collapse = T, comment = "#>")
 
 Analysts do a lot of counting.  Indeed, it's been said that "[data science is mostly counting things](https://twitter.com/joelgrus/status/833691273873600512)." But the base R function for counting, `table()`, leaves much to be desired:
 
-- It doesn't accept data.frame inputs (and thus doesn't play nicely with the tidyverse)
+- It doesn't accept data.frame inputs (and thus doesn't play nicely with the `%>%` pipe)
 - It doesn't output data.frames
 - Its results are hard to format.  Compare the look and formatting choices of an R table to a Microsoft Excel PivotTable or even the table formatting provided by SPSS.
 
@@ -72,7 +72,7 @@ t1 %>%
 
 ## Two-way tabyl
 
-This is often called a "crosstab" or "contingency" table.  The initial call produces the same result as the common combination of `dplyr::count()`, followed by `tidyr::spread()` to wide form:
+This is often called a "crosstab" or "contingency" table.  Calling `tabyl` on two columns of a data.frame produces the same result as the common combination of `dplyr::count()`, followed by `tidyr::spread()` to wide form:
 
 ```{r two_way}
 t2 <- humans %>%
@@ -101,10 +101,11 @@ Just as `table()` accepts three variables, so does `tabyl()`, producing a list o
 t3 <- humans %>%
   tabyl(eye_color, skin_color, gender)
 
-t3 # the result is a tabyl of eye color x skin color, split into a list by gender
+# the result is a tabyl of eye color x skin color, split into a list by gender
+t3 
 ```
 
-If called on a list of data.frames - like the output of a three-way `tabyl` call - the `adorn_` helper functions will apply themselves to each data.frame:
+If the `adorn_` helper functions are called on a list of data.frames - like the output of a three-way `tabyl` call - they will call `purrr::map()` to apply themselves to each data.frame in the list:
 
 ```{r three_way_adorns, warning = FALSE, message = FALSE}
 library(purrr)
@@ -118,20 +119,20 @@ humans %>%
 
 ```
 
-These functions automatically call `purrr::map()` internally to support interactive data analysis that switches between 2 and 3 variables.  That way, if a user starts with `humans %>% tabyl(eye_color, skin_color)`, adds some `adorn_` calls, then decides to split the tabulation by gender and modifies their first line to `humans %>% tabyl(eye_color, skin_color, gender`), they don't have to refactor the subsequent adornment calls to use  `map()`.
+This automatic mapping supports interactive data analysis that switches between combinations of 2 and 3 variables.  That way, if a user starts with `humans %>% tabyl(eye_color, skin_color)`, adds some `adorn_` calls, then decides to split the tabulation by gender and modifies their first line to `humans %>% tabyl(eye_color, skin_color, gender`), they don't have to rewrite the subsequent adornment calls to use `map()`.
 
-However, if feels more natural to call these with `purrr::map()` or `lapply()`, that is still supported.  For instance, `t3 %>% lapply(adorn_percentages)` would produce the same result as `t3 %>% adorn_percentages`.
+However, if feels more natural to call these with `map()` or `lapply()`, that is still supported.  For instance, `t3 %>% lapply(adorn_percentages)` would produce the same result as `t3 %>% adorn_percentages`.
 
 ### Other features of tabyls
 
-+ When called on a factor, it will include missing levels (levels not present in the data) in the result
++ When called on a factor, `tabyl` will show missing levels (levels not present in the data) in the result
     + This can be suppressed if not desired
 + `NA` values can be displayed or suppressed
-+ Prints without displaying row numbers
++ `tabyls` print without displaying row numbers
 
-## `adorn_*` functions
+## The `adorn_*` functions
 
-These modular functions build on a `tabyl` to  approximate the functionality of a quick PivotTable in Microsoft Excel.  They print elegant results for interactive analysis or for sharing in a report, e.g., with `knitr::kable()`.  For example:
+These modular functions build on a `tabyl` to  approximate the functionality of a PivotTable in Microsoft Excel.  They print elegant results for interactive analysis or for sharing in a report, e.g., with `knitr::kable()`.  For example:
 
 ```{r}
 humans %>%
@@ -147,20 +148,20 @@ humans %>%
 
 ### The adorn functions are:
 
-+ **`adorn_totals()`**: Add totals row, column, or both.  Replaces the janitor functions `add_totals_row` and `add_totals_col`
++ **`adorn_totals()`**: Add totals row, column, or both.  Replaces the older janitor functions `add_totals_row` and `add_totals_col`
 + **`adorn_percentages()`**: Calculate percentages along either axis or over the entire tabyl
-+ **`adorn_pct_formatting()`**: Format percentage columns, controlling number of digits to display and whether to append the `%` symbol
-+ **`adorn_rounding()`**: Round a data.frame of numbers (usually the result of `adorn_percentages`), either using the base R `round()` function or rounding all ties up using a custom rounding function ([thanks, StackOverflow](http://stackoverflow.com/a/12688836/4470365)).
++ **`adorn_pct_formatting()`**: Format percentage columns, controlling the number of digits to display and whether to append the `%` symbol
++ **`adorn_rounding()`**: Round a data.frame of numbers (usually the result of `adorn_percentages`), either using the base R `round()` function or using janitor's `round_half_up()` to round all ties up ([thanks, StackOverflow](http://stackoverflow.com/a/12688836/4470365)).
     + e.g., round 10.5 up to 11, consistent with Excel's tie-breaking behavior.
       + This contrasts with rounding 10.5 down to 10 as in base R's `round(10.5)`.
-    + `adorn_rounding()` outputs retain the class `numeric`, allowing for graphing, sorting, etc.  It's a less-aggressive substitute for `adorn_pct_formatting()`; these two functions should not be called together.
-+ **`adorn_ns()`**: add Ns to a tabyl.  These can be drawn from the tabyl's `core` attribute (by default), or supplied by the user.
+    + `adorn_rounding()` returns columns of class `numeric`, allowing for graphing, sorting, etc.  It's a less-aggressive substitute for `adorn_pct_formatting()`; these two functions should not be called together.
++ **`adorn_ns()`**: add Ns to a tabyl.  These can be drawn from the tabyl's underlying counts, which are attached to the tabyl as metadata, or they can be supplied by the user.
 + **`adorn_title()`**: add a title to a tabyl (or other data.frame).  Options include putting the column title in a new row on top of the data.frame or combining the row and column titles in the data.frame's first name slot.
 
 
 These adornments should be called in a logical order, e.g., you probably want to add totals before percentages are calculated.  In general, call them in the order they appear above.
 
-Users of janitor version <= 0.3.0 should replace the deprecated `adorn_crosstab()` function with combinations of the above `adorn_` functions.
+Users of janitor version <= 0.3.1 should replace the deprecated `adorn_crosstab()` function with combinations of the above `adorn_` functions.
 
 ## BYOt (Bring Your Own tabyl)
 
@@ -168,7 +169,7 @@ You can also call `adorn_` functions on other data.frames, not only the results 
 
 This can be handy when you have a data.frame that is not a simple tabulation generated by `tabyl` but would still benefit from the `adorn_` formatting functions.
 
-A simple example: formatting percentages in a data.frame showing the % of records meeting a certain condition:
+A simple example: calculate the proportion of records meeting a certain condition, then format the results.
 
 ```{r first_non_tabyl}
 percent_above_165_cm <- humans %>%
@@ -190,7 +191,7 @@ mpg_by_cyl_and_am <- mtcars %>%
 mpg_by_cyl_and_am
 ```
 
-Now to `adorn_` it.  Since this is not a result of a `tabyl()` call, it doesn't have the underlying Ns stored in the `core` attribute, so we'll have to supply them:
+Now to `adorn_` it.  Since this is not the result of a `tabyl()` call, it doesn't have the underlying Ns stored in the `core` attribute, so we'll have to supply them:
 ```{r add_the_Ns}
 mpg_by_cyl_and_am %>%
   adorn_rounding() %>%
@@ -202,8 +203,8 @@ mpg_by_cyl_and_am %>%
 ```
 
 
-Or you could tinker with the Ns before appending them, e.g., if you have large Ns in a tabyl, divide them by 1000, round, and append "k" before calling `adorn_ns`.
+If needed, Ns can be manipulated in their own data.frame before they are appended.  E.g., if you have a tabyl with values of N in the thousands, you could divide them by 1000, round, and append "k" before inserting them with `adorn_ns`.
 
 ### Questions?  Comments?
 
-File [an issue on GitHub](https://github.com/sfirke/janitor/issues) if you have questions or ideas related to `tabyl()` and its `adorn_` helpers or encounter problems while using them.
+File [an issue on GitHub](https://github.com/sfirke/janitor/issues) if you have suggestions related to `tabyl()` and its `adorn_` helpers or encounter problems while using them.

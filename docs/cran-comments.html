@@ -106,30 +106,40 @@
 
 <div class="section level1">
 <h1>Submission</h1>
-<p>2018-01-04</p>
-<p>This is a tiny fix (I deleted six characters) to address a bug exposed by an updated dependency package and identified by CRAN automated testing.</p>
+<p>2018-03-17</p>
 <div class="section level3">
 <h3>Test environments</h3>
 <ul>
-<li>local Windows 10 install, R 3.4.1</li>
-<li>win-builder with R-devel 2018-01-03 r74042</li>
+<li>local Windows 10 install, R 3.4.3</li>
+<li>local Windows 10 install, R 3.4.4</li>
+<li>win-builder with R-devel 2018-03-16 74418</li>
+<li>ubuntu 16.04.3, R-release 3.4.3</li>
+<li>ubuntu 16.04.3, R-release 3.4.4</li>
 </ul>
 <p>On Travis CI:</p>
 <ul>
 <li>ubuntu 14.04.5, R-oldrel 3.3.3</li>
-<li>ubuntu 14.04.5 R-release 3.4.2</li>
-<li>ubuntu 14.04.5 R-devel R 3.5.0 74052</li>
+<li>ubuntu 14.04.5 R-release 3.4.4</li>
+<li>ubuntu 14.04.5 R-devel R 3.5.0 74418</li>
 <li>OS X Sierra 10.12.6, R-oldrel 3.3.3</li>
-<li>OS X Sierra 10.12.6, R-release 3.4.3</li>
+<li>OS X Sierra 10.12.6, R-release 3.4.4</li>
 </ul>
 </div>
 <div class="section level3">
 <h3>R CMD check results</h3>
-<p>There were no ERRORs or WARNINGs or NOTEs.</p>
+<p>0 errors | 0 warnings | 0 notes</p>
 </div>
 <div class="section level3">
 <h3>Downstream dependencies</h3>
-<p>Both CRAN packages depending on janitor (ballr, bomrang) fully passed R CMD check.</p>
+<p>This update to janitor v1.0 involves breaking changes that affect some downstream packages. I advised all downstream package maintainers of these changes on February 21, including providing code that would keep their packages compatible with all versions of janitor.</p>
+<p>I checked 4 reverse dependencies from CRAN.</p>
+<div class="section level4">
+<h4>New problems</h4>
+<p>These CRAN packages depending on janitor each have 1 warning:</p>
+<ul>
+<li>ballr, bomrang: failures due to change in janitor::clean_names, I proposed a fix to package maintainers on Feb 21</li>
+</ul>
+</div>
 </div>
 </div>
 

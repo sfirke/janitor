@@ -9,7 +9,582 @@
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link href="data:text/css;charset=utf-8,%0A%40font%2Dface%20%7B%0Afont%2Dfamily%3A%20octicons%2Dlink%3B%0Asrc%3A%20url%28data%3Afont%2Fwoff%3Bcharset%3Dutf%2D8%3Bbase64%2Cd09GRgABAAAAAAZwABAAAAAACFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEU0lHAAAGaAAAAAgAAAAIAAAAAUdTVUIAAAZcAAAACgAAAAoAAQAAT1MvMgAAAyQAAABJAAAAYFYEU3RjbWFwAAADcAAAAEUAAACAAJThvmN2dCAAAATkAAAABAAAAAQAAAAAZnBnbQAAA7gAAACyAAABCUM%2B8IhnYXNwAAAGTAAAABAAAAAQABoAI2dseWYAAAFsAAABPAAAAZwcEq9taGVhZAAAAsgAAAA0AAAANgh4a91oaGVhAAADCAAAABoAAAAkCA8DRGhtdHgAAAL8AAAADAAAAAwGAACfbG9jYQAAAsAAAAAIAAAACABiATBtYXhwAAACqAAAABgAAAAgAA8ASm5hbWUAAAToAAABQgAAAlXu73sOcG9zdAAABiwAAAAeAAAAME3QpOBwcmVwAAAEbAAAAHYAAAB%2FaFGpk3jaTY6xa8JAGMW%2FO62BDi0tJLYQincXEypYIiGJjSgHniQ6umTsUEyLm5BV6NDBP8Tpts6F0v%2Bk%2F0an2i%2BitHDw3v2%2B9%2BDBKTzsJNnWJNTgHEy4BgG3EMI9DCEDOGEXzDADU5hBKMIgNPZqoD3SilVaXZCER3%2FI7AtxEJLtzzuZfI%2BVVkprxTlXShWKb3TBecG11rwoNlmmn1P2WYcJczl32etSpKnziC7lQyWe1smVPy%2FLt7Kc%2B0vWY%2FgAgIIEqAN9we0pwKXreiMasxvabDQMM4riO%2BqxM2ogwDGOZTXxwxDiycQIcoYFBLj5K3EIaSctAq2kTYiw%2Bymhce7vwM9jSqO8JyVd5RH9gyTt2%2BJ%2FyUmYlIR0s04n6%2B7Vm1ozezUeLEaUjhaDSuXHwVRgvLJn1tQ7xiuVv%2FocTRF42mNgZGBgYGbwZOBiAAFGJBIMAAizAFoAAABiAGIAznjaY2BkYGAA4in8zwXi%2BW2%2BMjCzMIDApSwvXzC97Z4Ig8N%2FBxYGZgcgl52BCSQKAA3jCV8CAABfAAAAAAQAAEB42mNgZGBg4f3vACQZQABIMjKgAmYAKEgBXgAAeNpjYGY6wTiBgZWBg2kmUxoDA4MPhGZMYzBi1AHygVLYQUCaawqDA4PChxhmh%2F8ODDEsvAwHgMKMIDnGL0x7gJQCAwMAJd4MFwAAAHjaY2BgYGaA4DAGRgYQkAHyGMF8NgYrIM3JIAGVYYDT%2BAEjAwuDFpBmA9KMDEwMCh9i%2Fv8H8sH0%2F4dQc1iAmAkALaUKLgAAAHjaTY9LDsIgEIbtgqHUPpDi3gPoBVyRTmTddOmqTXThEXqrob2gQ1FjwpDvfwCBdmdXC5AVKFu3e5MfNFJ29KTQT48Ob9%2FlqYwOGZxeUelN2U2R6%2BcArgtCJpauW7UQBqnFkUsjAY%2FkOU1cP%2BDAgvxwn1chZDwUbd6CFimGXwzwF6tPbFIcjEl%2BvvmM%2FbyA48e6tWrKArm4ZJlCbdsrxksL1AwWn%2FyBSJKpYbq8AXaaTb8AAHja28jAwOC00ZrBeQNDQOWO%2F%2FsdBBgYGRiYWYAEELEwMTE4uzo5Zzo5b2BxdnFOcALxNjA6b2ByTswC8jYwg0VlNuoCTWAMqNzMzsoK1rEhNqByEyerg5PMJlYuVueETKcd%2F89uBpnpvIEVomeHLoMsAAe1Id4AAAAAAAB42oWQT07CQBTGv0JBhagk7HQzKxca2sJCE1hDt4QF%2B9JOS0nbaaYDCQfwCJ7Au3AHj%2BLO13FMmm6cl7785vven0kBjHCBhfpYuNa5Ph1c0e2Xu3jEvWG7UdPDLZ4N92nOm%2BEBXuAbHmIMSRMs%2B4aUEd4Nd3CHD8NdvOLTsA2GL8M9PODbcL%2BhD7C1xoaHeLJSEao0FEW14ckxC%2BTU8TxvsY6X0eLPmRhry2WVioLpkrbp84LLQPGI7c6sOiUzpWIWS5GzlSgUzzLBSikOPFTOXqly7rqx0Z1Q5BAIoZBSFihQYQOOBEdkCOgXTOHA07HAGjGWiIjaPZNW13%2F%2Blm6S9FT7rLHFJ6fQbkATOG1j2OFMucKJJsxIVfQORl%2B9Jyda6Sl1dUYhSCm1dyClfoeDve4qMYdLEbfqHf3O%2FAdDumsjAAB42mNgYoAAZQYjBmyAGYQZmdhL8zLdDEydARfoAqIAAAABAAMABwAKABMAB%2F%2F%2FAA8AAQAAAAAAAAAAAAAAAAABAAAAAA%3D%3D%29%20format%28%27woff%27%29%3B%0A%7D%0Abody%20%7B%0A%2Dwebkit%2Dtext%2Dsize%2Dadjust%3A%20100%25%3B%0Atext%2Dsize%2Dadjust%3A%20100%25%3B%0Acolor%3A%20%23333%3B%0Afont%2Dfamily%3A%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20%22Segoe%20UI%22%2C%20Arial%2C%20freesans%2C%20sans%2Dserif%2C%20%22Apple%20Color%20Emoji%22%2C%20%22Segoe%20UI%20Emoji%22%2C%20%22Segoe%20UI%20Symbol%22%3B%0Afont%2Dsize%3A%2016px%3B%0Aline%2Dheight%3A%201%2E6%3B%0Aword%2Dwrap%3A%20break%2Dword%3B%0A%7D%0Aa%20%7B%0Abackground%2Dcolor%3A%20transparent%3B%0A%7D%0Aa%3Aactive%2C%0Aa%3Ahover%20%7B%0Aoutline%3A%200%3B%0A%7D%0Astrong%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Ah1%20%7B%0Afont%2Dsize%3A%202em%3B%0Amargin%3A%200%2E67em%200%3B%0A%7D%0Aimg%20%7B%0Aborder%3A%200%3B%0A%7D%0Ahr%20%7B%0Abox%2Dsizing%3A%20content%2Dbox%3B%0Aheight%3A%200%3B%0A%7D%0Apre%20%7B%0Aoverflow%3A%20auto%3B%0A%7D%0Acode%2C%0Akbd%2C%0Apre%20%7B%0Afont%2Dfamily%3A%20monospace%2C%20monospace%3B%0Afont%2Dsize%3A%201em%3B%0A%7D%0Ainput%20%7B%0Acolor%3A%20inherit%3B%0Afont%3A%20inherit%3B%0Amargin%3A%200%3B%0A%7D%0Ahtml%20input%5Bdisabled%5D%20%7B%0Acursor%3A%20default%3B%0A%7D%0Ainput%20%7B%0Aline%2Dheight%3A%20normal%3B%0A%7D%0Ainput%5Btype%3D%22checkbox%22%5D%20%7B%0Abox%2Dsizing%3A%20border%2Dbox%3B%0Apadding%3A%200%3B%0A%7D%0Atable%20%7B%0Aborder%2Dcollapse%3A%20collapse%3B%0Aborder%2Dspacing%3A%200%3B%0A%7D%0Atd%2C%0Ath%20%7B%0Apadding%3A%200%3B%0A%7D%0A%2A%20%7B%0Abox%2Dsizing%3A%20border%2Dbox%3B%0A%7D%0Ainput%20%7B%0Afont%3A%2013px%20%2F%201%2E4%20Helvetica%2C%20arial%2C%20nimbussansl%2C%20liberationsans%2C%20freesans%2C%20clean%2C%20sans%2Dserif%2C%20%22Apple%20Color%20Emoji%22%2C%20%22Segoe%20UI%20Emoji%22%2C%20%22Segoe%20UI%20Symbol%22%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%234078c0%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%2C%0Aa%3Aactive%20%7B%0Atext%2Ddecoration%3A%20underline%3B%0A%7D%0Ahr%20%7B%0Aheight%3A%200%3B%0Amargin%3A%2015px%200%3B%0Aoverflow%3A%20hidden%3B%0Abackground%3A%20transparent%3B%0Aborder%3A%200%3B%0Aborder%2Dbottom%3A%201px%20solid%20%23ddd%3B%0A%7D%0Ahr%3Abefore%20%7B%0Adisplay%3A%20table%3B%0Acontent%3A%20%22%22%3B%0A%7D%0Ahr%3Aafter%20%7B%0Adisplay%3A%20table%3B%0Aclear%3A%20both%3B%0Acontent%3A%20%22%22%3B%0A%7D%0Ah1%2C%0Ah2%2C%0Ah3%2C%0Ah4%2C%0Ah5%2C%0Ah6%20%7B%0Amargin%2Dtop%3A%2015px%3B%0Amargin%2Dbottom%3A%2015px%3B%0Aline%2Dheight%3A%201%2E1%3B%0A%7D%0Ah1%20%7B%0Afont%2Dsize%3A%2030px%3B%0A%7D%0Ah2%20%7B%0Afont%2Dsize%3A%2021px%3B%0A%7D%0Ah3%20%7B%0Afont%2Dsize%3A%2016px%3B%0A%7D%0Ah4%20%7B%0Afont%2Dsize%3A%2014px%3B%0A%7D%0Ah5%20%7B%0Afont%2Dsize%3A%2012px%3B%0A%7D%0Ah6%20%7B%0Afont%2Dsize%3A%2011px%3B%0A%7D%0Ablockquote%20%7B%0Amargin%3A%200%3B%0A%7D%0Aul%2C%0Aol%20%7B%0Apadding%3A%200%3B%0Amargin%2Dtop%3A%200%3B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Aol%20ol%2C%0Aul%20ol%20%7B%0Alist%2Dstyle%2Dtype%3A%20lower%2Droman%3B%0A%7D%0Aul%20ul%20ol%2C%0Aul%20ol%20ol%2C%0Aol%20ul%20ol%2C%0Aol%20ol%20ol%20%7B%0Alist%2Dstyle%2Dtype%3A%20lower%2Dalpha%3B%0A%7D%0Add%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20%22Liberation%20Mono%22%2C%20Menlo%2C%20Courier%2C%20monospace%3B%0Afont%2Dsize%3A%2012px%3B%0A%7D%0Apre%20%7B%0Amargin%2Dtop%3A%200%3B%0Amargin%2Dbottom%3A%200%3B%0Afont%3A%2012px%20Consolas%2C%20%22Liberation%20Mono%22%2C%20Menlo%2C%20Courier%2C%20monospace%3B%0A%7D%0A%2Eselect%3A%3A%2Dms%2Dexpand%20%7B%0Aopacity%3A%200%3B%0A%7D%0A%2Eocticon%20%7B%0Afont%3A%20normal%20normal%20normal%2016px%2F1%20octicons%2Dlink%3B%0Adisplay%3A%20inline%2Dblock%3B%0Atext%2Ddecoration%3A%20none%3B%0Atext%2Drendering%3A%20auto%3B%0A%2Dwebkit%2Dfont%2Dsmoothing%3A%20antialiased%3B%0A%2Dmoz%2Dosx%2Dfont%2Dsmoothing%3A%20grayscale%3B%0A%2Dwebkit%2Duser%2Dselect%3A%20none%3B%0A%2Dmoz%2Duser%2Dselect%3A%20none%3B%0A%2Dms%2Duser%2Dselect%3A%20none%3B%0Auser%2Dselect%3A%20none%3B%0A%7D%0A%2Eocticon%2Dlink%3Abefore%20%7B%0Acontent%3A%20%27%5Cf05c%27%3B%0A%7D%0A%2Emarkdown%2Dbody%3Abefore%20%7B%0Adisplay%3A%20table%3B%0Acontent%3A%20%22%22%3B%0A%7D%0A%2Emarkdown%2Dbody%3Aafter%20%7B%0Adisplay%3A%20table%3B%0Aclear%3A%20both%3B%0Acontent%3A%20%22%22%3B%0A%7D%0A%2Emarkdown%2Dbody%3E%2A%3Afirst%2Dchild%20%7B%0Amargin%2Dtop%3A%200%20%21important%3B%0A%7D%0A%2Emarkdown%2Dbody%3E%2A%3Alast%2Dchild%20%7B%0Amargin%2Dbottom%3A%200%20%21important%3B%0A%7D%0Aa%3Anot%28%5Bhref%5D%29%20%7B%0Acolor%3A%20inherit%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0A%2Eanchor%20%7B%0Adisplay%3A%20inline%2Dblock%3B%0Apadding%2Dright%3A%202px%3B%0Amargin%2Dleft%3A%20%2D18px%3B%0A%7D%0A%2Eanchor%3Afocus%20%7B%0Aoutline%3A%20none%3B%0A%7D%0Ah1%2C%0Ah2%2C%0Ah3%2C%0Ah4%2C%0Ah5%2C%0Ah6%20%7B%0Amargin%2Dtop%3A%201em%3B%0Amargin%2Dbottom%3A%2016px%3B%0Afont%2Dweight%3A%20bold%3B%0Aline%2Dheight%3A%201%2E4%3B%0A%7D%0Ah1%20%2Eocticon%2Dlink%2C%0Ah2%20%2Eocticon%2Dlink%2C%0Ah3%20%2Eocticon%2Dlink%2C%0Ah4%20%2Eocticon%2Dlink%2C%0Ah5%20%2Eocticon%2Dlink%2C%0Ah6%20%2Eocticon%2Dlink%20%7B%0Acolor%3A%20%23000%3B%0Avertical%2Dalign%3A%20middle%3B%0Avisibility%3A%20hidden%3B%0A%7D%0Ah1%3Ahover%20%2Eanchor%2C%0Ah2%3Ahover%20%2Eanchor%2C%0Ah3%3Ahover%20%2Eanchor%2C%0Ah4%3Ahover%20%2Eanchor%2C%0Ah5%3Ahover%20%2Eanchor%2C%0Ah6%3Ahover%20%2Eanchor%20%7B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Ah1%3Ahover%20%2Eanchor%20%2Eocticon%2Dlink%2C%0Ah2%3Ahover%20%2Eanchor%20%2Eocticon%2Dlink%2C%0Ah3%3Ahover%20%2Eanchor%20%2Eocticon%2Dlink%2C%0Ah4%3Ahover%20%2Eanchor%20%2Eocticon%2Dlink%2C%0Ah5%3Ahover%20%2Eanchor%20%2Eocticon%2Dlink%2C%0Ah6%3Ahover%20%2Eanchor%20%2Eocticon%2Dlink%20%7B%0Avisibility%3A%20visible%3B%0A%7D%0Ah1%20%7B%0Apadding%2Dbottom%3A%200%2E3em%3B%0Afont%2Dsize%3A%202%2E25em%3B%0Aline%2Dheight%3A%201%2E2%3B%0Aborder%2Dbottom%3A%201px%20solid%20%23eee%3B%0A%7D%0Ah1%20%2Eanchor%20%7B%0Aline%2Dheight%3A%201%3B%0A%7D%0Ah2%20%7B%0Apadding%2Dbottom%3A%200%2E3em%3B%0Afont%2Dsize%3A%201%2E75em%3B%0Aline%2Dheight%3A%201%2E225%3B%0Aborder%2Dbottom%3A%201px%20solid%20%23eee%3B%0A%7D%0Ah2%20%2Eanchor%20%7B%0Aline%2Dheight%3A%201%3B%0A%7D%0Ah3%20%7B%0Afont%2Dsize%3A%201%2E5em%3B%0Aline%2Dheight%3A%201%2E43%3B%0A%7D%0Ah3%20%2Eanchor%20%7B%0Aline%2Dheight%3A%201%2E2%3B%0A%7D%0Ah4%20%7B%0Afont%2Dsize%3A%201%2E25em%3B%0A%7D%0Ah4%20%2Eanchor%20%7B%0Aline%2Dheight%3A%201%2E2%3B%0A%7D%0Ah5%20%7B%0Afont%2Dsize%3A%201em%3B%0A%7D%0Ah5%20%2Eanchor%20%7B%0Aline%2Dheight%3A%201%2E1%3B%0A%7D%0Ah6%20%7B%0Afont%2Dsize%3A%201em%3B%0Acolor%3A%20%23777%3B%0A%7D%0Ah6%20%2Eanchor%20%7B%0Aline%2Dheight%3A%201%2E1%3B%0A%7D%0Ap%2C%0Ablockquote%2C%0Aul%2C%0Aol%2C%0Adl%2C%0Atable%2C%0Apre%20%7B%0Amargin%2Dtop%3A%200%3B%0Amargin%2Dbottom%3A%2016px%3B%0A%7D%0Ahr%20%7B%0Aheight%3A%204px%3B%0Apadding%3A%200%3B%0Amargin%3A%2016px%200%3B%0Abackground%2Dcolor%3A%20%23e7e7e7%3B%0Aborder%3A%200%20none%3B%0A%7D%0Aul%2C%0Aol%20%7B%0Apadding%2Dleft%3A%202em%3B%0A%7D%0Aul%20ul%2C%0Aul%20ol%2C%0Aol%20ol%2C%0Aol%20ul%20%7B%0Amargin%2Dtop%3A%200%3B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Ali%3Ep%20%7B%0Amargin%2Dtop%3A%2016px%3B%0A%7D%0Adl%20%7B%0Apadding%3A%200%3B%0A%7D%0Adl%20dt%20%7B%0Apadding%3A%200%3B%0Amargin%2Dtop%3A%2016px%3B%0Afont%2Dsize%3A%201em%3B%0Afont%2Dstyle%3A%20italic%3B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Adl%20dd%20%7B%0Apadding%3A%200%2016px%3B%0Amargin%2Dbottom%3A%2016px%3B%0A%7D%0Ablockquote%20%7B%0Apadding%3A%200%2015px%3B%0Acolor%3A%20%23777%3B%0Aborder%2Dleft%3A%204px%20solid%20%23ddd%3B%0A%7D%0Ablockquote%3E%3Afirst%2Dchild%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Ablockquote%3E%3Alast%2Dchild%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Atable%20%7B%0Adisplay%3A%20block%3B%0Awidth%3A%20100%25%3B%0Aoverflow%3A%20auto%3B%0Aword%2Dbreak%3A%20normal%3B%0Aword%2Dbreak%3A%20keep%2Dall%3B%0A%7D%0Atable%20th%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Atable%20th%2C%0Atable%20td%20%7B%0Apadding%3A%206px%2013px%3B%0Aborder%3A%201px%20solid%20%23ddd%3B%0A%7D%0Atable%20tr%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Aborder%2Dtop%3A%201px%20solid%20%23ccc%3B%0A%7D%0Atable%20tr%3Anth%2Dchild%282n%29%20%7B%0Abackground%2Dcolor%3A%20%23f8f8f8%3B%0A%7D%0Aimg%20%7B%0Amax%2Dwidth%3A%20100%25%3B%0Abox%2Dsizing%3A%20content%2Dbox%3B%0Abackground%2Dcolor%3A%20%23fff%3B%0A%7D%0Acode%20%7B%0Apadding%3A%200%3B%0Apadding%2Dtop%3A%200%2E2em%3B%0Apadding%2Dbottom%3A%200%2E2em%3B%0Amargin%3A%200%3B%0Afont%2Dsize%3A%2085%25%3B%0Abackground%2Dcolor%3A%20rgba%280%2C0%2C0%2C0%2E04%29%3B%0Aborder%2Dradius%3A%203px%3B%0A%7D%0Acode%3Abefore%2C%0Acode%3Aafter%20%7B%0Aletter%2Dspacing%3A%20%2D0%2E2em%3B%0Acontent%3A%20%22%5C00a0%22%3B%0A%7D%0Apre%3Ecode%20%7B%0Apadding%3A%200%3B%0Amargin%3A%200%3B%0Afont%2Dsize%3A%20100%25%3B%0Aword%2Dbreak%3A%20normal%3B%0Awhite%2Dspace%3A%20pre%3B%0Abackground%3A%20transparent%3B%0Aborder%3A%200%3B%0A%7D%0A%2Ehighlight%20%7B%0Amargin%2Dbottom%3A%2016px%3B%0A%7D%0A%2Ehighlight%20pre%2C%0Apre%20%7B%0Apadding%3A%2016px%3B%0Aoverflow%3A%20auto%3B%0Afont%2Dsize%3A%2085%25%3B%0Aline%2Dheight%3A%201%2E45%3B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0A%7D%0A%2Ehighlight%20pre%20%7B%0Amargin%2Dbottom%3A%200%3B%0Aword%2Dbreak%3A%20normal%3B%0A%7D%0Apre%20%7B%0Aword%2Dwrap%3A%20normal%3B%0A%7D%0Apre%20code%20%7B%0Adisplay%3A%20inline%3B%0Amax%2Dwidth%3A%20initial%3B%0Apadding%3A%200%3B%0Amargin%3A%200%3B%0Aoverflow%3A%20initial%3B%0Aline%2Dheight%3A%20inherit%3B%0Aword%2Dwrap%3A%20normal%3B%0Abackground%2Dcolor%3A%20transparent%3B%0Aborder%3A%200%3B%0A%7D%0Apre%20code%3Abefore%2C%0Apre%20code%3Aafter%20%7B%0Acontent%3A%20normal%3B%0A%7D%0Akbd%20%7B%0Adisplay%3A%20inline%2Dblock%3B%0Apadding%3A%203px%205px%3B%0Afont%2Dsize%3A%2011px%3B%0Aline%2Dheight%3A%2010px%3B%0Acolor%3A%20%23555%3B%0Avertical%2Dalign%3A%20middle%3B%0Abackground%2Dcolor%3A%20%23fcfcfc%3B%0Aborder%3A%20solid%201px%20%23ccc%3B%0Aborder%2Dbottom%2Dcolor%3A%20%23bbb%3B%0Aborder%2Dradius%3A%203px%3B%0Abox%2Dshadow%3A%20inset%200%20%2D1px%200%20%23bbb%3B%0A%7D%0A%2Epl%2Dc%20%7B%0Acolor%3A%20%23969896%3B%0A%7D%0A%2Epl%2Dc1%2C%0A%2Epl%2Ds%20%2Epl%2Dv%20%7B%0Acolor%3A%20%230086b3%3B%0A%7D%0A%2Epl%2De%2C%0A%2Epl%2Den%20%7B%0Acolor%3A%20%23795da3%3B%0A%7D%0A%2Epl%2Ds%20%2Epl%2Ds1%2C%0A%2Epl%2Dsmi%20%7B%0Acolor%3A%20%23333%3B%0A%7D%0A%2Epl%2Dent%20%7B%0Acolor%3A%20%2363a35c%3B%0A%7D%0A%2Epl%2Dk%20%7B%0Acolor%3A%20%23a71d5d%3B%0A%7D%0A%2Epl%2Dpds%2C%0A%2Epl%2Ds%2C%0A%2Epl%2Ds%20%2Epl%2Dpse%20%2Epl%2Ds1%2C%0A%2Epl%2Dsr%2C%0A%2Epl%2Dsr%20%2Epl%2Dcce%2C%0A%2Epl%2Dsr%20%2Epl%2Dsra%2C%0A%2Epl%2Dsr%20%2Epl%2Dsre%20%7B%0Acolor%3A%20%23183691%3B%0A%7D%0A%2Epl%2Dv%20%7B%0Acolor%3A%20%23ed6a43%3B%0A%7D%0A%2Epl%2Did%20%7B%0Acolor%3A%20%23b52a1d%3B%0A%7D%0A%2Epl%2Dii%20%7B%0Abackground%2Dcolor%3A%20%23b52a1d%3B%0Acolor%3A%20%23f8f8f8%3B%0A%7D%0A%2Epl%2Dsr%20%2Epl%2Dcce%20%7B%0Acolor%3A%20%2363a35c%3B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0A%2Epl%2Dml%20%7B%0Acolor%3A%20%23693a17%3B%0A%7D%0A%2Epl%2Dmh%2C%0A%2Epl%2Dmh%20%2Epl%2Den%2C%0A%2Epl%2Dms%20%7B%0Acolor%3A%20%231d3e81%3B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0A%2Epl%2Dmq%20%7B%0Acolor%3A%20%23008080%3B%0A%7D%0A%2Epl%2Dmi%20%7B%0Acolor%3A%20%23333%3B%0Afont%2Dstyle%3A%20italic%3B%0A%7D%0A%2Epl%2Dmb%20%7B%0Acolor%3A%20%23333%3B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0A%2Epl%2Dmd%20%7B%0Abackground%2Dcolor%3A%20%23ffecec%3B%0Acolor%3A%20%23bd2c00%3B%0A%7D%0A%2Epl%2Dmi1%20%7B%0Abackground%2Dcolor%3A%20%23eaffea%3B%0Acolor%3A%20%2355a532%3B%0A%7D%0A%2Epl%2Dmdr%20%7B%0Acolor%3A%20%23795da3%3B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0A%2Epl%2Dmo%20%7B%0Acolor%3A%20%231d3e81%3B%0A%7D%0Akbd%20%7B%0Adisplay%3A%20inline%2Dblock%3B%0Apadding%3A%203px%205px%3B%0Afont%3A%2011px%20Consolas%2C%20%22Liberation%20Mono%22%2C%20Menlo%2C%20Courier%2C%20monospace%3B%0Aline%2Dheight%3A%2010px%3B%0Acolor%3A%20%23555%3B%0Avertical%2Dalign%3A%20middle%3B%0Abackground%2Dcolor%3A%20%23fcfcfc%3B%0Aborder%3A%20solid%201px%20%23ccc%3B%0Aborder%2Dbottom%2Dcolor%3A%20%23bbb%3B%0Aborder%2Dradius%3A%203px%3B%0Abox%2Dshadow%3A%20inset%200%20%2D1px%200%20%23bbb%3B%0A%7D%0A%2Etask%2Dlist%2Ditem%20%7B%0Alist%2Dstyle%2Dtype%3A%20none%3B%0A%7D%0A%2Etask%2Dlist%2Ditem%2B%2Etask%2Dlist%2Ditem%20%7B%0Amargin%2Dtop%3A%203px%3B%0A%7D%0A%2Etask%2Dlist%2Ditem%20input%20%7B%0Amargin%3A%200%200%2E35em%200%2E25em%20%2D1%2E6em%3B%0Avertical%2Dalign%3A%20middle%3B%0A%7D%0A%3Achecked%2B%2Eradio%2Dlabel%20%7B%0Az%2Dindex%3A%201%3B%0Aposition%3A%20relative%3B%0Aborder%2Dcolor%3A%20%234078c0%3B%0A%7D%0A%2EsourceLine%20%7B%0Adisplay%3A%20inline%2Dblock%3B%0A%7D%0Acode%20%2Ekw%20%7B%20color%3A%20%23000000%3B%20%7D%0Acode%20%2Edt%20%7B%20color%3A%20%23ed6a43%3B%20%7D%0Acode%20%2Edv%20%7B%20color%3A%20%23009999%3B%20%7D%0Acode%20%2Ebn%20%7B%20color%3A%20%23009999%3B%20%7D%0Acode%20%2Efl%20%7B%20color%3A%20%23009999%3B%20%7D%0Acode%20%2Ech%20%7B%20color%3A%20%23009999%3B%20%7D%0Acode%20%2Est%20%7B%20color%3A%20%23183691%3B%20%7D%0Acode%20%2Eco%20%7B%20color%3A%20%23969896%3B%20%7D%0Acode%20%2Eot%20%7B%20color%3A%20%230086b3%3B%20%7D%0Acode%20%2Eal%20%7B%20color%3A%20%23a61717%3B%20%7D%0Acode%20%2Efu%20%7B%20color%3A%20%2363a35c%3B%20%7D%0Acode%20%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%0Acode%20%2Ewa%20%7B%20color%3A%20%23000000%3B%20%7D%0Acode%20%2Ecn%20%7B%20color%3A%20%23008080%3B%20%7D%0Acode%20%2Esc%20%7B%20color%3A%20%23008080%3B%20%7D%0Acode%20%2Evs%20%7B%20color%3A%20%23183691%3B%20%7D%0Acode%20%2Ess%20%7B%20color%3A%20%23183691%3B%20%7D%0Acode%20%2Eim%20%7B%20color%3A%20%23000000%3B%20%7D%0Acode%20%2Eva%20%7Bcolor%3A%20%23008080%3B%20%7D%0Acode%20%2Ecf%20%7B%20color%3A%20%23000000%3B%20%7D%0Acode%20%2Eop%20%7B%20color%3A%20%23000000%3B%20%7D%0Acode%20%2Ebu%20%7B%20color%3A%20%23000000%3B%20%7D%0Acode%20%2Eex%20%7B%20color%3A%20%23000000%3B%20%7D%0Acode%20%2Epp%20%7B%20color%3A%20%23999999%3B%20%7D%0Acode%20%2Eat%20%7B%20color%3A%20%23008080%3B%20%7D%0Acode%20%2Edo%20%7B%20color%3A%20%23969896%3B%20%7D%0Acode%20%2Ean%20%7B%20color%3A%20%23008080%3B%20%7D%0Acode%20%2Ecv%20%7B%20color%3A%20%23008080%3B%20%7D%0Acode%20%2Ein%20%7B%20color%3A%20%23008080%3B%20%7D%0A" rel="stylesheet">
+<style type="text/css">
+@font-face {
+font-family: octicons-link;
+src: url(data:font/woff;charset=utf-8;base64,d09GRgABAAAAAAZwABAAAAAACFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEU0lHAAAGaAAAAAgAAAAIAAAAAUdTVUIAAAZcAAAACgAAAAoAAQAAT1MvMgAAAyQAAABJAAAAYFYEU3RjbWFwAAADcAAAAEUAAACAAJThvmN2dCAAAATkAAAABAAAAAQAAAAAZnBnbQAAA7gAAACyAAABCUM+8IhnYXNwAAAGTAAAABAAAAAQABoAI2dseWYAAAFsAAABPAAAAZwcEq9taGVhZAAAAsgAAAA0AAAANgh4a91oaGVhAAADCAAAABoAAAAkCA8DRGhtdHgAAAL8AAAADAAAAAwGAACfbG9jYQAAAsAAAAAIAAAACABiATBtYXhwAAACqAAAABgAAAAgAA8ASm5hbWUAAAToAAABQgAAAlXu73sOcG9zdAAABiwAAAAeAAAAME3QpOBwcmVwAAAEbAAAAHYAAAB/aFGpk3jaTY6xa8JAGMW/O62BDi0tJLYQincXEypYIiGJjSgHniQ6umTsUEyLm5BV6NDBP8Tpts6F0v+k/0an2i+itHDw3v2+9+DBKTzsJNnWJNTgHEy4BgG3EMI9DCEDOGEXzDADU5hBKMIgNPZqoD3SilVaXZCER3/I7AtxEJLtzzuZfI+VVkprxTlXShWKb3TBecG11rwoNlmmn1P2WYcJczl32etSpKnziC7lQyWe1smVPy/Lt7Kc+0vWY/gAgIIEqAN9we0pwKXreiMasxvabDQMM4riO+qxM2ogwDGOZTXxwxDiycQIcoYFBLj5K3EIaSctAq2kTYiw+ymhce7vwM9jSqO8JyVd5RH9gyTt2+J/yUmYlIR0s04n6+7Vm1ozezUeLEaUjhaDSuXHwVRgvLJn1tQ7xiuVv/ocTRF42mNgZGBgYGbwZOBiAAFGJBIMAAizAFoAAABiAGIAznjaY2BkYGAA4in8zwXi+W2+MjCzMIDApSwvXzC97Z4Ig8N/BxYGZgcgl52BCSQKAA3jCV8CAABfAAAAAAQAAEB42mNgZGBg4f3vACQZQABIMjKgAmYAKEgBXgAAeNpjYGY6wTiBgZWBg2kmUxoDA4MPhGZMYzBi1AHygVLYQUCaawqDA4PChxhmh/8ODDEsvAwHgMKMIDnGL0x7gJQCAwMAJd4MFwAAAHjaY2BgYGaA4DAGRgYQkAHyGMF8NgYrIM3JIAGVYYDT+AEjAwuDFpBmA9KMDEwMCh9i/v8H8sH0/4dQc1iAmAkALaUKLgAAAHjaTY9LDsIgEIbtgqHUPpDi3gPoBVyRTmTddOmqTXThEXqrob2gQ1FjwpDvfwCBdmdXC5AVKFu3e5MfNFJ29KTQT48Ob9/lqYwOGZxeUelN2U2R6+cArgtCJpauW7UQBqnFkUsjAY/kOU1cP+DAgvxwn1chZDwUbd6CFimGXwzwF6tPbFIcjEl+vvmM/byA48e6tWrKArm4ZJlCbdsrxksL1AwWn/yBSJKpYbq8AXaaTb8AAHja28jAwOC00ZrBeQNDQOWO//sdBBgYGRiYWYAEELEwMTE4uzo5Zzo5b2BxdnFOcALxNjA6b2ByTswC8jYwg0VlNuoCTWAMqNzMzsoK1rEhNqByEyerg5PMJlYuVueETKcd/89uBpnpvIEVomeHLoMsAAe1Id4AAAAAAAB42oWQT07CQBTGv0JBhagk7HQzKxca2sJCE1hDt4QF+9JOS0nbaaYDCQfwCJ7Au3AHj+LO13FMmm6cl7785vven0kBjHCBhfpYuNa5Ph1c0e2Xu3jEvWG7UdPDLZ4N92nOm+EBXuAbHmIMSRMs+4aUEd4Nd3CHD8NdvOLTsA2GL8M9PODbcL+hD7C1xoaHeLJSEao0FEW14ckxC+TU8TxvsY6X0eLPmRhry2WVioLpkrbp84LLQPGI7c6sOiUzpWIWS5GzlSgUzzLBSikOPFTOXqly7rqx0Z1Q5BAIoZBSFihQYQOOBEdkCOgXTOHA07HAGjGWiIjaPZNW13/+lm6S9FT7rLHFJ6fQbkATOG1j2OFMucKJJsxIVfQORl+9Jyda6Sl1dUYhSCm1dyClfoeDve4qMYdLEbfqHf3O/AdDumsjAAB42mNgYoAAZQYjBmyAGYQZmdhL8zLdDEydARfoAqIAAAABAAMABwAKABMAB///AA8AAQAAAAAAAAAAAAAAAAABAAAAAA==) format('woff');
+}
+body {
+-webkit-text-size-adjust: 100%;
+text-size-adjust: 100%;
+color: #333;
+font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+font-size: 16px;
+line-height: 1.6;
+word-wrap: break-word;
+}
+a {
+background-color: transparent;
+}
+a:active,
+a:hover {
+outline: 0;
+}
+strong {
+font-weight: bold;
+}
+h1 {
+font-size: 2em;
+margin: 0.67em 0;
+}
+img {
+border: 0;
+}
+hr {
+box-sizing: content-box;
+height: 0;
+}
+pre {
+overflow: auto;
+}
+code,
+kbd,
+pre {
+font-family: monospace, monospace;
+font-size: 1em;
+}
+input {
+color: inherit;
+font: inherit;
+margin: 0;
+}
+html input[disabled] {
+cursor: default;
+}
+input {
+line-height: normal;
+}
+input[type="checkbox"] {
+box-sizing: border-box;
+padding: 0;
+}
+table {
+border-collapse: collapse;
+border-spacing: 0;
+}
+td,
+th {
+padding: 0;
+}
+* {
+box-sizing: border-box;
+}
+input {
+font: 13px / 1.4 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+a {
+color: #4078c0;
+text-decoration: none;
+}
+a:hover,
+a:active {
+text-decoration: underline;
+}
+hr {
+height: 0;
+margin: 15px 0;
+overflow: hidden;
+background: transparent;
+border: 0;
+border-bottom: 1px solid #ddd;
+}
+hr:before {
+display: table;
+content: "";
+}
+hr:after {
+display: table;
+clear: both;
+content: "";
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+margin-top: 15px;
+margin-bottom: 15px;
+line-height: 1.1;
+}
+h1 {
+font-size: 30px;
+}
+h2 {
+font-size: 21px;
+}
+h3 {
+font-size: 16px;
+}
+h4 {
+font-size: 14px;
+}
+h5 {
+font-size: 12px;
+}
+h6 {
+font-size: 11px;
+}
+blockquote {
+margin: 0;
+}
+ul,
+ol {
+padding: 0;
+margin-top: 0;
+margin-bottom: 0;
+}
+ol ol,
+ul ol {
+list-style-type: lower-roman;
+}
+ul ul ol,
+ul ol ol,
+ol ul ol,
+ol ol ol {
+list-style-type: lower-alpha;
+}
+dd {
+margin-left: 0;
+}
+code {
+font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+font-size: 12px;
+}
+pre {
+margin-top: 0;
+margin-bottom: 0;
+font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+.select::-ms-expand {
+opacity: 0;
+}
+.octicon {
+font: normal normal normal 16px/1 octicons-link;
+display: inline-block;
+text-decoration: none;
+text-rendering: auto;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+.octicon-link:before {
+content: '\f05c';
+}
+.markdown-body:before {
+display: table;
+content: "";
+}
+.markdown-body:after {
+display: table;
+clear: both;
+content: "";
+}
+.markdown-body>*:first-child {
+margin-top: 0 !important;
+}
+.markdown-body>*:last-child {
+margin-bottom: 0 !important;
+}
+a:not([href]) {
+color: inherit;
+text-decoration: none;
+}
+.anchor {
+display: inline-block;
+padding-right: 2px;
+margin-left: -18px;
+}
+.anchor:focus {
+outline: none;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+margin-top: 1em;
+margin-bottom: 16px;
+font-weight: bold;
+line-height: 1.4;
+}
+h1 .octicon-link,
+h2 .octicon-link,
+h3 .octicon-link,
+h4 .octicon-link,
+h5 .octicon-link,
+h6 .octicon-link {
+color: #000;
+vertical-align: middle;
+visibility: hidden;
+}
+h1:hover .anchor,
+h2:hover .anchor,
+h3:hover .anchor,
+h4:hover .anchor,
+h5:hover .anchor,
+h6:hover .anchor {
+text-decoration: none;
+}
+h1:hover .anchor .octicon-link,
+h2:hover .anchor .octicon-link,
+h3:hover .anchor .octicon-link,
+h4:hover .anchor .octicon-link,
+h5:hover .anchor .octicon-link,
+h6:hover .anchor .octicon-link {
+visibility: visible;
+}
+h1 {
+padding-bottom: 0.3em;
+font-size: 2.25em;
+line-height: 1.2;
+border-bottom: 1px solid #eee;
+}
+h1 .anchor {
+line-height: 1;
+}
+h2 {
+padding-bottom: 0.3em;
+font-size: 1.75em;
+line-height: 1.225;
+border-bottom: 1px solid #eee;
+}
+h2 .anchor {
+line-height: 1;
+}
+h3 {
+font-size: 1.5em;
+line-height: 1.43;
+}
+h3 .anchor {
+line-height: 1.2;
+}
+h4 {
+font-size: 1.25em;
+}
+h4 .anchor {
+line-height: 1.2;
+}
+h5 {
+font-size: 1em;
+}
+h5 .anchor {
+line-height: 1.1;
+}
+h6 {
+font-size: 1em;
+color: #777;
+}
+h6 .anchor {
+line-height: 1.1;
+}
+p,
+blockquote,
+ul,
+ol,
+dl,
+table,
+pre {
+margin-top: 0;
+margin-bottom: 16px;
+}
+hr {
+height: 4px;
+padding: 0;
+margin: 16px 0;
+background-color: #e7e7e7;
+border: 0 none;
+}
+ul,
+ol {
+padding-left: 2em;
+}
+ul ul,
+ul ol,
+ol ol,
+ol ul {
+margin-top: 0;
+margin-bottom: 0;
+}
+li>p {
+margin-top: 16px;
+}
+dl {
+padding: 0;
+}
+dl dt {
+padding: 0;
+margin-top: 16px;
+font-size: 1em;
+font-style: italic;
+font-weight: bold;
+}
+dl dd {
+padding: 0 16px;
+margin-bottom: 16px;
+}
+blockquote {
+padding: 0 15px;
+color: #777;
+border-left: 4px solid #ddd;
+}
+blockquote>:first-child {
+margin-top: 0;
+}
+blockquote>:last-child {
+margin-bottom: 0;
+}
+table {
+display: block;
+width: 100%;
+overflow: auto;
+word-break: normal;
+word-break: keep-all;
+}
+table th {
+font-weight: bold;
+}
+table th,
+table td {
+padding: 6px 13px;
+border: 1px solid #ddd;
+}
+table tr {
+background-color: #fff;
+border-top: 1px solid #ccc;
+}
+table tr:nth-child(2n) {
+background-color: #f8f8f8;
+}
+img {
+max-width: 100%;
+box-sizing: content-box;
+background-color: #fff;
+}
+code {
+padding: 0;
+padding-top: 0.2em;
+padding-bottom: 0.2em;
+margin: 0;
+font-size: 85%;
+background-color: rgba(0,0,0,0.04);
+border-radius: 3px;
+}
+code:before,
+code:after {
+letter-spacing: -0.2em;
+content: "\00a0";
+}
+pre>code {
+padding: 0;
+margin: 0;
+font-size: 100%;
+word-break: normal;
+white-space: pre;
+background: transparent;
+border: 0;
+}
+.highlight {
+margin-bottom: 16px;
+}
+.highlight pre,
+pre {
+padding: 16px;
+overflow: auto;
+font-size: 85%;
+line-height: 1.45;
+background-color: #f7f7f7;
+border-radius: 3px;
+}
+.highlight pre {
+margin-bottom: 0;
+word-break: normal;
+}
+pre {
+word-wrap: normal;
+}
+pre code {
+display: inline;
+max-width: initial;
+padding: 0;
+margin: 0;
+overflow: initial;
+line-height: inherit;
+word-wrap: normal;
+background-color: transparent;
+border: 0;
+}
+pre code:before,
+pre code:after {
+content: normal;
+}
+kbd {
+display: inline-block;
+padding: 3px 5px;
+font-size: 11px;
+line-height: 10px;
+color: #555;
+vertical-align: middle;
+background-color: #fcfcfc;
+border: solid 1px #ccc;
+border-bottom-color: #bbb;
+border-radius: 3px;
+box-shadow: inset 0 -1px 0 #bbb;
+}
+.pl-c {
+color: #969896;
+}
+.pl-c1,
+.pl-s .pl-v {
+color: #0086b3;
+}
+.pl-e,
+.pl-en {
+color: #795da3;
+}
+.pl-s .pl-s1,
+.pl-smi {
+color: #333;
+}
+.pl-ent {
+color: #63a35c;
+}
+.pl-k {
+color: #a71d5d;
+}
+.pl-pds,
+.pl-s,
+.pl-s .pl-pse .pl-s1,
+.pl-sr,
+.pl-sr .pl-cce,
+.pl-sr .pl-sra,
+.pl-sr .pl-sre {
+color: #183691;
+}
+.pl-v {
+color: #ed6a43;
+}
+.pl-id {
+color: #b52a1d;
+}
+.pl-ii {
+background-color: #b52a1d;
+color: #f8f8f8;
+}
+.pl-sr .pl-cce {
+color: #63a35c;
+font-weight: bold;
+}
+.pl-ml {
+color: #693a17;
+}
+.pl-mh,
+.pl-mh .pl-en,
+.pl-ms {
+color: #1d3e81;
+font-weight: bold;
+}
+.pl-mq {
+color: #008080;
+}
+.pl-mi {
+color: #333;
+font-style: italic;
+}
+.pl-mb {
+color: #333;
+font-weight: bold;
+}
+.pl-md {
+background-color: #ffecec;
+color: #bd2c00;
+}
+.pl-mi1 {
+background-color: #eaffea;
+color: #55a532;
+}
+.pl-mdr {
+color: #795da3;
+font-weight: bold;
+}
+.pl-mo {
+color: #1d3e81;
+}
+kbd {
+display: inline-block;
+padding: 3px 5px;
+font: 11px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+line-height: 10px;
+color: #555;
+vertical-align: middle;
+background-color: #fcfcfc;
+border: solid 1px #ccc;
+border-bottom-color: #bbb;
+border-radius: 3px;
+box-shadow: inset 0 -1px 0 #bbb;
+}
+.task-list-item {
+list-style-type: none;
+}
+.task-list-item+.task-list-item {
+margin-top: 3px;
+}
+.task-list-item input {
+margin: 0 0.35em 0.25em -1.6em;
+vertical-align: middle;
+}
+:checked+.radio-label {
+z-index: 1;
+position: relative;
+border-color: #4078c0;
+}
+.sourceLine {
+display: inline-block;
+}
+code .kw { color: #000000; }
+code .dt { color: #ed6a43; }
+code .dv { color: #009999; }
+code .bn { color: #009999; }
+code .fl { color: #009999; }
+code .ch { color: #009999; }
+code .st { color: #183691; }
+code .co { color: #969896; }
+code .ot { color: #0086b3; }
+code .al { color: #a61717; }
+code .fu { color: #63a35c; }
+code .er { color: #a61717; background-color: #e3d2d2; }
+code .wa { color: #000000; }
+code .cn { color: #008080; }
+code .sc { color: #008080; }
+code .vs { color: #183691; }
+code .ss { color: #183691; }
+code .im { color: #000000; }
+code .va {color: #008080; }
+code .cf { color: #000000; }
+code .op { color: #000000; }
+code .bu { color: #000000; }
+code .ex { color: #000000; }
+code .pp { color: #999999; }
+code .at { color: #008080; }
+code .do { color: #969896; }
+code .an { color: #008080; }
+code .cv { color: #008080; }
+code .in { color: #008080; }
+</style>
 <style>
 body {
   box-sizing: border-box;
@@ -28,146 +603,147 @@ body {
 <h1 id="tabyls-a-tidy-fully-featured-approach-to-counting-things">tabyls: a tidy, fully-featured approach to counting things</h1>
 <p>2018-03-17</p>
 <h2 id="motivation-why-tabyl">Motivation: why tabyl?</h2>
-<p>Analysts do a lot of counting. Indeed, it's been said that &quot;<a href="https://twitter.com/joelgrus/status/833691273873600512">data science is mostly counting things</a>.&quot; But the base R function for counting, <code>table()</code>, leaves much to be desired:</p>
+<p>Analysts do a lot of counting. Indeed, it’s been said that “<a href="https://twitter.com/joelgrus/status/833691273873600512">data science is mostly counting things</a>.” But the base R function for counting, <code>table()</code>, leaves much to be desired:</p>
 <ul>
-<li>It doesn't accept data.frame inputs (and thus doesn't play nicely with the tidyverse)</li>
-<li>It doesn't output data.frames</li>
+<li>It doesn’t accept data.frame inputs (and thus doesn’t play nicely with the <code>%&gt;%</code> pipe)</li>
+<li>It doesn’t output data.frames</li>
 <li>Its results are hard to format. Compare the look and formatting choices of an R table to a Microsoft Excel PivotTable or even the table formatting provided by SPSS.</li>
 </ul>
-<p><code>tabyl()</code> is an approach to tabulating variables that addresses these shortcomings. It's part of the janitor package because counting is such a fundamental part of data cleaning and exploration.</p>
+<p><code>tabyl()</code> is an approach to tabulating variables that addresses these shortcomings. It’s part of the janitor package because counting is such a fundamental part of data cleaning and exploration.</p>
 <p><code>tabyl()</code> is tidyverse-aligned and is primarily built upon the dplyr and tidyr packages.</p>
 <h2 id="how-it-works">How it works</h2>
 <p>On its surface, <code>tabyl()</code> produces frequency tables using 1, 2, or 3 variables. Under the hood, <code>tabyl()</code> also attaches a copy of these counts as an attribute of the resulting data.frame.</p>
-<p>The result looks like a basic data.frame of counts, but because it's also a <code>tabyl</code> containing this metadata, you can use <code>adorn_</code> functions to add additional information and pretty formatting.</p>
+<p>The result looks like a basic data.frame of counts, but because it’s also a <code>tabyl</code> containing this metadata, you can use <code>adorn_</code> functions to add additional information and pretty formatting.</p>
 <h1 id="examples">Examples</h1>
 <p>This vignette demonstrates <code>tabyl</code> in the context of studying humans in the <code>starwars</code> dataset from dplyr:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
-humans &lt;-<span class="st"> </span>starwars <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(species <span class="op">==</span><span class="st"> &quot;Human&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">humans &lt;-<span class="st"> </span>starwars <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="st">  </span><span class="kw">filter</span>(species <span class="op">==</span><span class="st"> &quot;Human&quot;</span>)</a></code></pre></div>
 <h2 id="one-way-tabyl">One-way tabyl</h2>
 <p>Tabulating a single variable is the simplest kind of tabyl:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(janitor)
-
-t1 &lt;-<span class="st"> </span>humans <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">tabyl</span>(eye_color)
-
-t1
-<span class="co">#&gt;  eye_color  n    percent</span>
-<span class="co">#&gt;       blue 12 0.34285714</span>
-<span class="co">#&gt;  blue-gray  1 0.02857143</span>
-<span class="co">#&gt;      brown 17 0.48571429</span>
-<span class="co">#&gt;       dark  1 0.02857143</span>
-<span class="co">#&gt;      hazel  2 0.05714286</span>
-<span class="co">#&gt;     yellow  2 0.05714286</span></code></pre></div>
-<p>When <code>NA</code> values are present, <code>tabyl()</code> also displays &quot;valid&quot; percentages, i.e., with missing values removed from the denominator. And while <code>tabyl()</code> is built to take a data.frame and column names, you can also produce a one-way tabyl by calling it directly on a vector:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;big&quot;</span>, <span class="st">&quot;big&quot;</span>, <span class="st">&quot;small&quot;</span>, <span class="st">&quot;small&quot;</span>, <span class="st">&quot;small&quot;</span>, <span class="ot">NA</span>)
-<span class="kw">tabyl</span>(x)
-<span class="co">#&gt;      x n   percent valid_percent</span>
-<span class="co">#&gt;    big 2 0.3333333           0.4</span>
-<span class="co">#&gt;  small 3 0.5000000           0.6</span>
-<span class="co">#&gt;   &lt;NA&gt; 1 0.1666667            NA</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">library</span>(janitor)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">t1 &lt;-<span class="st"> </span>humans <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="st">  </span><span class="kw">tabyl</span>(eye_color)</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">t1</a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt;  eye_color  n    percent</span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt;       blue 12 0.34285714</span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt;  blue-gray  1 0.02857143</span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt;      brown 17 0.48571429</span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt;       dark  1 0.02857143</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt;      hazel  2 0.05714286</span></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt;     yellow  2 0.05714286</span></a></code></pre></div>
+<p>When <code>NA</code> values are present, <code>tabyl()</code> also displays “valid” percentages, i.e., with missing values removed from the denominator. And while <code>tabyl()</code> is built to take a data.frame and column names, you can also produce a one-way tabyl by calling it directly on a vector:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;big&quot;</span>, <span class="st">&quot;big&quot;</span>, <span class="st">&quot;small&quot;</span>, <span class="st">&quot;small&quot;</span>, <span class="st">&quot;small&quot;</span>, <span class="ot">NA</span>)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">tabyl</span>(x)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt;      x n   percent valid_percent</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt;    big 2 0.3333333           0.4</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt;  small 3 0.5000000           0.6</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt;   &lt;NA&gt; 1 0.1666667            NA</span></a></code></pre></div>
 <p>Most <code>adorn_</code> helper functions are built for 2-way tabyls, but those that make sense for a 1-way tabyl do work:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t1 <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">adorn_totals</span>(<span class="st">&quot;row&quot;</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">adorn_pct_formatting</span>()
-<span class="co">#&gt;  eye_color  n percent</span>
-<span class="co">#&gt;       blue 12   34.3%</span>
-<span class="co">#&gt;  blue-gray  1    2.9%</span>
-<span class="co">#&gt;      brown 17   48.6%</span>
-<span class="co">#&gt;       dark  1    2.9%</span>
-<span class="co">#&gt;      hazel  2    5.7%</span>
-<span class="co">#&gt;     yellow  2    5.7%</span>
-<span class="co">#&gt;      Total 35  100.0%</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">t1 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="st">  </span><span class="kw">adorn_totals</span>(<span class="st">&quot;row&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="st">  </span><span class="kw">adorn_pct_formatting</span>()</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt;  eye_color  n percent</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt;       blue 12   34.3%</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt;  blue-gray  1    2.9%</span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt;      brown 17   48.6%</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt;       dark  1    2.9%</span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt;      hazel  2    5.7%</span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt;     yellow  2    5.7%</span></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt;      Total 35  100.0%</span></a></code></pre></div>
 <h2 id="two-way-tabyl">Two-way tabyl</h2>
-<p>This is often called a &quot;crosstab&quot; or &quot;contingency&quot; table. The initial call produces the same result as the common combination of <code>dplyr::count()</code>, followed by <code>tidyr::spread()</code> to wide form:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t2 &lt;-<span class="st"> </span>humans <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">tabyl</span>(gender, eye_color)
-
-t2
-<span class="co">#&gt;  gender blue blue-gray brown dark hazel yellow</span>
-<span class="co">#&gt;  female    3         0     5    0     1      0</span>
-<span class="co">#&gt;    male    9         1    12    1     1      2</span></code></pre></div>
-<p>Since it's a <code>tabyl</code>, we can enhance it with <code>adorn_</code> helper functions. For instance:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
-t2 <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">adorn_percentages</span>(<span class="st">&quot;row&quot;</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">adorn_pct_formatting</span>(<span class="dt">digits =</span> <span class="dv">2</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">adorn_ns</span>()
-<span class="co">#&gt;  gender       blue blue-gray       brown      dark      hazel    yellow</span>
-<span class="co">#&gt;  female 33.33% (3) 0.00% (0) 55.56%  (5) 0.00% (0) 11.11% (1) 0.00% (0)</span>
-<span class="co">#&gt;    male 34.62% (9) 3.85% (1) 46.15% (12) 3.85% (1)  3.85% (1) 7.69% (2)</span></code></pre></div>
+<p>This is often called a “crosstab” or “contingency” table. Calling <code>tabyl</code> on two columns of a data.frame produces the same result as the common combination of <code>dplyr::count()</code>, followed by <code>tidyr::spread()</code> to wide form:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">t2 &lt;-<span class="st"> </span>humans <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="st">  </span><span class="kw">tabyl</span>(gender, eye_color)</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">t2</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt;  gender blue blue-gray brown dark hazel yellow</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt;  female    3         0     5    0     1      0</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt;    male    9         1    12    1     1      2</span></a></code></pre></div>
+<p>Since it’s a <code>tabyl</code>, we can enhance it with <code>adorn_</code> helper functions. For instance:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">t2 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="st">  </span><span class="kw">adorn_percentages</span>(<span class="st">&quot;row&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="st">  </span><span class="kw">adorn_pct_formatting</span>(<span class="dt">digits =</span> <span class="dv">2</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="st">  </span><span class="kw">adorn_ns</span>()</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt;  gender       blue blue-gray       brown      dark      hazel    yellow</span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt;  female 33.33% (3) 0.00% (0) 55.56%  (5) 0.00% (0) 11.11% (1) 0.00% (0)</span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt;    male 34.62% (9) 3.85% (1) 46.15% (12) 3.85% (1)  3.85% (1) 7.69% (2)</span></a></code></pre></div>
 <p>Adornments have options to control axes, rounding, and other relevant formatting choices (more on that below).</p>
 <h2 id="three-way-tabyl">Three-way tabyl</h2>
 <p>Just as <code>table()</code> accepts three variables, so does <code>tabyl()</code>, producing a list of tabyls:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t3 &lt;-<span class="st"> </span>humans <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">tabyl</span>(eye_color, skin_color, gender)
-
-t3 <span class="co"># the result is a tabyl of eye color x skin color, split into a list by gender</span>
-<span class="co">#&gt; $female</span>
-<span class="co">#&gt;  eye_color dark fair light pale tan white</span>
-<span class="co">#&gt;       blue    0    2     1    0   0     0</span>
-<span class="co">#&gt;  blue-gray    0    0     0    0   0     0</span>
-<span class="co">#&gt;      brown    0    1     4    0   0     0</span>
-<span class="co">#&gt;       dark    0    0     0    0   0     0</span>
-<span class="co">#&gt;      hazel    0    0     1    0   0     0</span>
-<span class="co">#&gt;     yellow    0    0     0    0   0     0</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $male</span>
-<span class="co">#&gt;  eye_color dark fair light pale tan white</span>
-<span class="co">#&gt;       blue    0    7     2    0   0     0</span>
-<span class="co">#&gt;  blue-gray    0    1     0    0   0     0</span>
-<span class="co">#&gt;      brown    3    4     3    0   2     0</span>
-<span class="co">#&gt;       dark    1    0     0    0   0     0</span>
-<span class="co">#&gt;      hazel    0    1     0    0   0     0</span>
-<span class="co">#&gt;     yellow    0    0     0    1   0     1</span></code></pre></div>
-<p>If called on a list of data.frames - like the output of a three-way <code>tabyl</code> call - the <code>adorn_</code> helper functions will apply themselves to each data.frame:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(purrr)
-humans <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">tabyl</span>(eye_color, skin_color, gender, <span class="dt">show_missing_levels =</span> <span class="ot">FALSE</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">adorn_totals</span>(<span class="st">&quot;row&quot;</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">adorn_percentages</span>(<span class="st">&quot;all&quot;</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">adorn_pct_formatting</span>(<span class="dt">digits =</span> <span class="dv">1</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span>adorn_ns <span class="op">%&gt;%</span>
-<span class="st">  </span>adorn_title
-<span class="co">#&gt; $female</span>
-<span class="co">#&gt;            skin_color          </span>
-<span class="co">#&gt;  eye_color       fair     light</span>
-<span class="co">#&gt;       blue  22.2% (2) 11.1% (1)</span>
-<span class="co">#&gt;      brown  11.1% (1) 44.4% (4)</span>
-<span class="co">#&gt;      hazel   0.0% (0) 11.1% (1)</span>
-<span class="co">#&gt;      Total  33.3% (3) 66.7% (6)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $male</span>
-<span class="co">#&gt;            skin_color                                                </span>
-<span class="co">#&gt;  eye_color       dark       fair     light     pale      tan    white</span>
-<span class="co">#&gt;       blue   0.0% (0) 26.9%  (7)  7.7% (2) 0.0% (0) 0.0% (0) 0.0% (0)</span>
-<span class="co">#&gt;  blue-gray   0.0% (0)  3.8%  (1)  0.0% (0) 0.0% (0) 0.0% (0) 0.0% (0)</span>
-<span class="co">#&gt;      brown  11.5% (3) 15.4%  (4) 11.5% (3) 0.0% (0) 7.7% (2) 0.0% (0)</span>
-<span class="co">#&gt;       dark   3.8% (1)  0.0%  (0)  0.0% (0) 0.0% (0) 0.0% (0) 0.0% (0)</span>
-<span class="co">#&gt;      hazel   0.0% (0)  3.8%  (1)  0.0% (0) 0.0% (0) 0.0% (0) 0.0% (0)</span>
-<span class="co">#&gt;     yellow   0.0% (0)  0.0%  (0)  0.0% (0) 3.8% (1) 0.0% (0) 3.8% (1)</span>
-<span class="co">#&gt;      Total  15.4% (4) 50.0% (13) 19.2% (5) 3.8% (1) 7.7% (2) 3.8% (1)</span></code></pre></div>
-<p>These functions automatically call <code>purrr::map()</code> internally to support interactive data analysis that switches between 2 and 3 variables. That way, if a user starts with <code>humans %&gt;% tabyl(eye_color, skin_color)</code>, adds some <code>adorn_</code> calls, then decides to split the tabulation by gender and modifies their first line to <code>humans %&gt;% tabyl(eye_color, skin_color, gender</code>), they don't have to refactor the subsequent adornment calls to use <code>map()</code>.</p>
-<p>However, if feels more natural to call these with <code>purrr::map()</code> or <code>lapply()</code>, that is still supported. For instance, <code>t3 %&gt;% lapply(adorn_percentages)</code> would produce the same result as <code>t3 %&gt;% adorn_percentages</code>.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">t3 &lt;-<span class="st"> </span>humans <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="st">  </span><span class="kw">tabyl</span>(eye_color, skin_color, gender)</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co"># the result is a tabyl of eye color x skin color, split into a list by gender</span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">t3 </a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; $female</span></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt;  eye_color dark fair light pale tan white</span></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt;       blue    0    2     1    0   0     0</span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt;  blue-gray    0    0     0    0   0     0</span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt;      brown    0    1     4    0   0     0</span></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt;       dark    0    0     0    0   0     0</span></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt;      hazel    0    0     1    0   0     0</span></a>
+<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">#&gt;     yellow    0    0     0    0   0     0</span></a>
+<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb7-15" data-line-number="15"><span class="co">#&gt; $male</span></a>
+<a class="sourceLine" id="cb7-16" data-line-number="16"><span class="co">#&gt;  eye_color dark fair light pale tan white</span></a>
+<a class="sourceLine" id="cb7-17" data-line-number="17"><span class="co">#&gt;       blue    0    7     2    0   0     0</span></a>
+<a class="sourceLine" id="cb7-18" data-line-number="18"><span class="co">#&gt;  blue-gray    0    1     0    0   0     0</span></a>
+<a class="sourceLine" id="cb7-19" data-line-number="19"><span class="co">#&gt;      brown    3    4     3    0   2     0</span></a>
+<a class="sourceLine" id="cb7-20" data-line-number="20"><span class="co">#&gt;       dark    1    0     0    0   0     0</span></a>
+<a class="sourceLine" id="cb7-21" data-line-number="21"><span class="co">#&gt;      hazel    0    1     0    0   0     0</span></a>
+<a class="sourceLine" id="cb7-22" data-line-number="22"><span class="co">#&gt;     yellow    0    0     0    1   0     1</span></a></code></pre></div>
+<p>If the <code>adorn_</code> helper functions are called on a list of data.frames - like the output of a three-way <code>tabyl</code> call - they will call <code>purrr::map()</code> to apply themselves to each data.frame in the list:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">library</span>(purrr)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">humans <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="st">  </span><span class="kw">tabyl</span>(eye_color, skin_color, gender, <span class="dt">show_missing_levels =</span> <span class="ot">FALSE</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="st">  </span><span class="kw">adorn_totals</span>(<span class="st">&quot;row&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="st">  </span><span class="kw">adorn_percentages</span>(<span class="st">&quot;all&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="st">  </span><span class="kw">adorn_pct_formatting</span>(<span class="dt">digits =</span> <span class="dv">1</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="st">  </span>adorn_ns <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="st">  </span>adorn_title</a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; $female</span></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt;            skin_color          </span></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt;  eye_color       fair     light</span></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt;       blue  22.2% (2) 11.1% (1)</span></a>
+<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt;      brown  11.1% (1) 44.4% (4)</span></a>
+<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt;      hazel   0.0% (0) 11.1% (1)</span></a>
+<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">#&gt;      Total  33.3% (3) 66.7% (6)</span></a>
+<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb8-17" data-line-number="17"><span class="co">#&gt; $male</span></a>
+<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="co">#&gt;            skin_color                                                </span></a>
+<a class="sourceLine" id="cb8-19" data-line-number="19"><span class="co">#&gt;  eye_color       dark       fair     light     pale      tan    white</span></a>
+<a class="sourceLine" id="cb8-20" data-line-number="20"><span class="co">#&gt;       blue   0.0% (0) 26.9%  (7)  7.7% (2) 0.0% (0) 0.0% (0) 0.0% (0)</span></a>
+<a class="sourceLine" id="cb8-21" data-line-number="21"><span class="co">#&gt;  blue-gray   0.0% (0)  3.8%  (1)  0.0% (0) 0.0% (0) 0.0% (0) 0.0% (0)</span></a>
+<a class="sourceLine" id="cb8-22" data-line-number="22"><span class="co">#&gt;      brown  11.5% (3) 15.4%  (4) 11.5% (3) 0.0% (0) 7.7% (2) 0.0% (0)</span></a>
+<a class="sourceLine" id="cb8-23" data-line-number="23"><span class="co">#&gt;       dark   3.8% (1)  0.0%  (0)  0.0% (0) 0.0% (0) 0.0% (0) 0.0% (0)</span></a>
+<a class="sourceLine" id="cb8-24" data-line-number="24"><span class="co">#&gt;      hazel   0.0% (0)  3.8%  (1)  0.0% (0) 0.0% (0) 0.0% (0) 0.0% (0)</span></a>
+<a class="sourceLine" id="cb8-25" data-line-number="25"><span class="co">#&gt;     yellow   0.0% (0)  0.0%  (0)  0.0% (0) 3.8% (1) 0.0% (0) 3.8% (1)</span></a>
+<a class="sourceLine" id="cb8-26" data-line-number="26"><span class="co">#&gt;      Total  15.4% (4) 50.0% (13) 19.2% (5) 3.8% (1) 7.7% (2) 3.8% (1)</span></a></code></pre></div>
+<p>This automatic mapping supports interactive data analysis that switches between combinations of 2 and 3 variables. That way, if a user starts with <code>humans %&gt;% tabyl(eye_color, skin_color)</code>, adds some <code>adorn_</code> calls, then decides to split the tabulation by gender and modifies their first line to <code>humans %&gt;% tabyl(eye_color, skin_color, gender</code>), they don’t have to rewrite the subsequent adornment calls to use <code>map()</code>.</p>
+<p>However, if feels more natural to call these with <code>map()</code> or <code>lapply()</code>, that is still supported. For instance, <code>t3 %&gt;% lapply(adorn_percentages)</code> would produce the same result as <code>t3 %&gt;% adorn_percentages</code>.</p>
 <h3 id="other-features-of-tabyls">Other features of tabyls</h3>
 <ul>
-<li>When called on a factor, it will include missing levels (levels not present in the data) in the result
+<li>When called on a factor, <code>tabyl</code> will show missing levels (levels not present in the data) in the result
 <ul>
 <li>This can be suppressed if not desired</li>
 </ul></li>
 <li><code>NA</code> values can be displayed or suppressed</li>
-<li>Prints without displaying row numbers</li>
+<li><code>tabyls</code> print without displaying row numbers</li>
 </ul>
-<h2 id="adorn_-functions"><code>adorn_*</code> functions</h2>
-<p>These modular functions build on a <code>tabyl</code> to approximate the functionality of a quick PivotTable in Microsoft Excel. They print elegant results for interactive analysis or for sharing in a report, e.g., with <code>knitr::kable()</code>. For example:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">humans <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">tabyl</span>(gender, eye_color) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">adorn_totals</span>(<span class="kw">c</span>(<span class="st">&quot;row&quot;</span>, <span class="st">&quot;col&quot;</span>)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">adorn_percentages</span>(<span class="st">&quot;row&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">adorn_pct_formatting</span>(<span class="dt">rounding =</span> <span class="st">&quot;half up&quot;</span>, <span class="dt">digits =</span> <span class="dv">0</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">adorn_ns</span>() <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">adorn_title</span>(<span class="st">&quot;combined&quot;</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span>knitr<span class="op">::</span><span class="kw">kable</span>()</code></pre></div>
+<h2 id="the-adorn_-functions">The <code>adorn_*</code> functions</h2>
+<p>These modular functions build on a <code>tabyl</code> to approximate the functionality of a PivotTable in Microsoft Excel. They print elegant results for interactive analysis or for sharing in a report, e.g., with <code>knitr::kable()</code>. For example:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">humans <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="st">  </span><span class="kw">tabyl</span>(gender, eye_color) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="st">  </span><span class="kw">adorn_totals</span>(<span class="kw">c</span>(<span class="st">&quot;row&quot;</span>, <span class="st">&quot;col&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="st">  </span><span class="kw">adorn_percentages</span>(<span class="st">&quot;row&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="st">  </span><span class="kw">adorn_pct_formatting</span>(<span class="dt">rounding =</span> <span class="st">&quot;half up&quot;</span>, <span class="dt">digits =</span> <span class="dv">0</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="st">  </span><span class="kw">adorn_ns</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="st">  </span><span class="kw">adorn_title</span>(<span class="st">&quot;combined&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="st">  </span>knitr<span class="op">::</span><span class="kw">kable</span>()</a></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -216,65 +792,67 @@ humans <span class="op">%&gt;%</span>
 </table>
 <h3 id="the-adorn-functions-are">The adorn functions are:</h3>
 <ul>
-<li><strong><code>adorn_totals()</code></strong>: Add totals row, column, or both. Replaces the janitor functions <code>add_totals_row</code> and <code>add_totals_col</code></li>
+<li><strong><code>adorn_totals()</code></strong>: Add totals row, column, or both. Replaces the older janitor functions <code>add_totals_row</code> and <code>add_totals_col</code></li>
 <li><strong><code>adorn_percentages()</code></strong>: Calculate percentages along either axis or over the entire tabyl</li>
-<li><strong><code>adorn_pct_formatting()</code></strong>: Format percentage columns, controlling number of digits to display and whether to append the <code>%</code> symbol</li>
-<li><strong><code>adorn_rounding()</code></strong>: Round a data.frame of numbers (usually the result of <code>adorn_percentages</code>), either using the base R <code>round()</code> function or rounding all ties up using a custom rounding function (<a href="http://stackoverflow.com/a/12688836/4470365">thanks, StackOverflow</a>).
+<li><strong><code>adorn_pct_formatting()</code></strong>: Format percentage columns, controlling the number of digits to display and whether to append the <code>%</code> symbol</li>
+<li><strong><code>adorn_rounding()</code></strong>: Round a data.frame of numbers (usually the result of <code>adorn_percentages</code>), either using the base R <code>round()</code> function or using janitor’s <code>round_half_up()</code> to round all ties up (<a href="http://stackoverflow.com/a/12688836/4470365">thanks, StackOverflow</a>).
 <ul>
-<li>e.g., round 10.5 up to 11, consistent with Excel's tie-breaking behavior.</li>
-<li>This contrasts with rounding 10.5 down to 10 as in base R's <code>round(10.5)</code>.</li>
-<li><code>adorn_rounding()</code> outputs retain the class <code>numeric</code>, allowing for graphing, sorting, etc. It's a less-aggressive substitute for <code>adorn_pct_formatting()</code>; these two functions should not be called together.</li>
+<li>e.g., round 10.5 up to 11, consistent with Excel’s tie-breaking behavior.
+<ul>
+<li>This contrasts with rounding 10.5 down to 10 as in base R’s <code>round(10.5)</code>.</li>
 </ul></li>
-<li><strong><code>adorn_ns()</code></strong>: add Ns to a tabyl. These can be drawn from the tabyl's <code>core</code> attribute (by default), or supplied by the user.</li>
-<li><strong><code>adorn_title()</code></strong>: add a title to a tabyl (or other data.frame). Options include putting the column title in a new row on top of the data.frame or combining the row and column titles in the data.frame's first name slot.</li>
+<li><code>adorn_rounding()</code> returns columns of class <code>numeric</code>, allowing for graphing, sorting, etc. It’s a less-aggressive substitute for <code>adorn_pct_formatting()</code>; these two functions should not be called together.</li>
+</ul></li>
+<li><strong><code>adorn_ns()</code></strong>: add Ns to a tabyl. These can be drawn from the tabyl’s underlying counts, which are attached to the tabyl as metadata, or they can be supplied by the user.</li>
+<li><strong><code>adorn_title()</code></strong>: add a title to a tabyl (or other data.frame). Options include putting the column title in a new row on top of the data.frame or combining the row and column titles in the data.frame’s first name slot.</li>
 </ul>
 <p>These adornments should be called in a logical order, e.g., you probably want to add totals before percentages are calculated. In general, call them in the order they appear above.</p>
-<p>Users of janitor version &lt;= 0.3.0 should replace the deprecated <code>adorn_crosstab()</code> function with combinations of the above <code>adorn_</code> functions.</p>
+<p>Users of janitor version &lt;= 0.3.1 should replace the deprecated <code>adorn_crosstab()</code> function with combinations of the above <code>adorn_</code> functions.</p>
 <h2 id="byot-bring-your-own-tabyl">BYOt (Bring Your Own tabyl)</h2>
 <p>You can also call <code>adorn_</code> functions on other data.frames, not only the results of calls to <code>tabyl()</code>. E.g., <code>mtcars %&gt;% adorn_totals(&quot;col&quot;) %&gt;% adorn_percentages(&quot;col&quot;)</code> performs as expected, despite <code>mtcars</code> not being a <code>tabyl</code>.</p>
 <p>This can be handy when you have a data.frame that is not a simple tabulation generated by <code>tabyl</code> but would still benefit from the <code>adorn_</code> formatting functions.</p>
-<p>A simple example: formatting percentages in a data.frame showing the % of records meeting a certain condition:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">percent_above_165_cm &lt;-<span class="st"> </span>humans <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">group_by</span>(gender) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">pct_above_165_cm =</span> <span class="kw">mean</span>(height <span class="op">&gt;</span><span class="st"> </span><span class="dv">165</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))
-
-percent_above_165_cm <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">adorn_pct_formatting</span>()
-<span class="co">#&gt; # A tibble: 2 x 2</span>
-<span class="co">#&gt;   gender pct_above_165_cm</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;           </span>
-<span class="co">#&gt; 1 female 12.5%           </span>
-<span class="co">#&gt; 2 male   100.0%</span></code></pre></div>
-<p>Here's a more complex example. We'll create a table containing the mean of a 3rd variable when grouped by two other variables, then use <code>adorn_</code> functions to round the values and append Ns. The first part is pretty straightforward:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyr) <span class="co"># for spread()</span>
-mpg_by_cyl_and_am &lt;-<span class="st"> </span>mtcars <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">group_by</span>(cyl, am) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mpg =</span> <span class="kw">mean</span>(mpg)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">spread</span>(am, mpg)
-
-mpg_by_cyl_and_am
-<span class="co">#&gt; # A tibble: 3 x 3</span>
-<span class="co">#&gt; # Groups:   cyl [3]</span>
-<span class="co">#&gt;     cyl   `0`   `1`</span>
-<span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1  4.00  22.9  28.1</span>
-<span class="co">#&gt; 2  6.00  19.1  20.6</span>
-<span class="co">#&gt; 3  8.00  15.0  15.4</span></code></pre></div>
-<p>Now to <code>adorn_</code> it. Since this is not a result of a <code>tabyl()</code> call, it doesn't have the underlying Ns stored in the <code>core</code> attribute, so we'll have to supply them:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mpg_by_cyl_and_am <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">adorn_rounding</span>() <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">adorn_ns</span>(
-    <span class="dt">ns =</span> mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># calculate the Ns on the fly by calling tabyl on the original data</span>
-<span class="st">      </span><span class="kw">tabyl</span>(cyl, am)
-  ) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">adorn_title</span>(<span class="st">&quot;combined&quot;</span>, <span class="dt">row_name =</span> <span class="st">&quot;Cylinders&quot;</span>, <span class="dt">col_name =</span> <span class="st">&quot;Is Automatic&quot;</span>)
-<span class="co">#&gt;   Cylinders/Is Automatic         0        1</span>
-<span class="co">#&gt; 1                      4 22.9  (3) 28.1 (8)</span>
-<span class="co">#&gt; 2                      6 19.1  (4) 20.6 (3)</span>
-<span class="co">#&gt; 3                      8 15.1 (12) 15.4 (2)</span></code></pre></div>
-<p>Or you could tinker with the Ns before appending them, e.g., if you have large Ns in a tabyl, divide them by 1000, round, and append &quot;k&quot; before calling <code>adorn_ns</code>.</p>
+<p>A simple example: calculate the proportion of records meeting a certain condition, then format the results.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">percent_above_<span class="dv">165</span>_cm &lt;-<span class="st"> </span>humans <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(gender) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">pct_above_165_cm =</span> <span class="kw">mean</span>(height <span class="op">&gt;</span><span class="st"> </span><span class="dv">165</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5">percent_above_<span class="dv">165</span>_cm <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="st">  </span><span class="kw">adorn_pct_formatting</span>()</a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt; # A tibble: 2 x 2</span></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt;   gender pct_above_165_cm</span></a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;           </span></a>
+<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt; 1 female 12.5%           </span></a>
+<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co">#&gt; 2 male   100.0%</span></a></code></pre></div>
+<p>Here’s a more complex example. We’ll create a table containing the mean of a 3rd variable when grouped by two other variables, then use <code>adorn_</code> functions to round the values and append Ns. The first part is pretty straightforward:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">library</span>(tidyr) <span class="co"># for spread()</span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">mpg_by_cyl_and_am &lt;-<span class="st"> </span>mtcars <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(cyl, am) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mpg =</span> <span class="kw">mean</span>(mpg)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="st">  </span><span class="kw">spread</span>(am, mpg)</a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb11-7" data-line-number="7">mpg_by_cyl_and_am</a>
+<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt; # A tibble: 3 x 3</span></a>
+<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co">#&gt; # Groups:   cyl [3]</span></a>
+<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co">#&gt;     cyl   `0`   `1`</span></a>
+<a class="sourceLine" id="cb11-11" data-line-number="11"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb11-12" data-line-number="12"><span class="co">#&gt; 1    4.  22.9  28.1</span></a>
+<a class="sourceLine" id="cb11-13" data-line-number="13"><span class="co">#&gt; 2    6.  19.1  20.6</span></a>
+<a class="sourceLine" id="cb11-14" data-line-number="14"><span class="co">#&gt; 3    8.  15.0  15.4</span></a></code></pre></div>
+<p>Now to <code>adorn_</code> it. Since this is not the result of a <code>tabyl()</code> call, it doesn’t have the underlying Ns stored in the <code>core</code> attribute, so we’ll have to supply them:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">mpg_by_cyl_and_am <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="st">  </span><span class="kw">adorn_rounding</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="st">  </span><span class="kw">adorn_ns</span>(</a>
+<a class="sourceLine" id="cb12-4" data-line-number="4">    <span class="dt">ns =</span> mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># calculate the Ns on the fly by calling tabyl on the original data</span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="st">      </span><span class="kw">tabyl</span>(cyl, am)</a>
+<a class="sourceLine" id="cb12-6" data-line-number="6">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="st">  </span><span class="kw">adorn_title</span>(<span class="st">&quot;combined&quot;</span>, <span class="dt">row_name =</span> <span class="st">&quot;Cylinders&quot;</span>, <span class="dt">col_name =</span> <span class="st">&quot;Is Automatic&quot;</span>)</a>
+<a class="sourceLine" id="cb12-8" data-line-number="8"><span class="co">#&gt;   Cylinders/Is Automatic         0        1</span></a>
+<a class="sourceLine" id="cb12-9" data-line-number="9"><span class="co">#&gt; 1                      4 22.9  (3) 28.1 (8)</span></a>
+<a class="sourceLine" id="cb12-10" data-line-number="10"><span class="co">#&gt; 2                      6 19.1  (4) 20.6 (3)</span></a>
+<a class="sourceLine" id="cb12-11" data-line-number="11"><span class="co">#&gt; 3                      8 15.1 (12) 15.4 (2)</span></a></code></pre></div>
+<p>If needed, Ns can be manipulated in their own data.frame before they are appended. E.g., if you have a tabyl with values of N in the thousands, you could divide them by 1000, round, and append “k” before inserting them with <code>adorn_ns</code>.</p>
 <h3 id="questions-comments">Questions? Comments?</h3>
-<p>File <a href="https://github.com/sfirke/janitor/issues">an issue on GitHub</a> if you have questions or ideas related to <code>tabyl()</code> and its <code>adorn_</code> helpers or encounter problems while using them.</p>
+<p>File <a href="https://github.com/sfirke/janitor/issues">an issue on GitHub</a> if you have suggestions related to <code>tabyl()</code> and its <code>adorn_</code> helpers or encounter problems while using them.</p>
 
 </body>
 </html>
