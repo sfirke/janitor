@@ -1,5 +1,5 @@
 # Submission
-2018-03-17
+2018-03-21
 
 ### Test environments
 
@@ -30,5 +30,5 @@ I checked 4 reverse dependencies from CRAN.
 #### New problems
 These CRAN packages depending on janitor each have 1 warning:
 
-* ballr, bomrang: failures due to change in janitor::clean_names. I proposed a fix to package maintainers on Feb 21 and emailed them notice of failing R CMD check on Mar 17.
-* fivethirtyeight: my check yielded a warning `checking for unstated dependencies in example ... WARNING warning in parse(file = files, n = -1L) : invalid input found on input connection 'fivethirtyeight-Ex.R'.`   I proposed a fix to the package maintainer on Feb 21 and emailed about this warning on Mar 17, though I don't think this is a result of the change to janitor.
+* ballr, bomrang: failures due to change in janitor::clean_names. I proposed a fix to package maintainers on Feb 21 and emailed them notice of failing R CMD check on Mar 17.  Maintainers of both packages have since confirmed to me that they've updated their packages accordingly.  Both packages have been submitted to CRAN or will be shortly following janitor 1.0.0's acceptance.
+* fivethirtyeight: my check yielded a warning `checking for unstated dependencies in example ... WARNING warning in parse(file = files, n = -1L) : invalid input found on input connection 'fivethirtyeight-Ex.R'.`   I discussed this warning with the maintainer; he tested janitor 1.0.0 with his package and confirmed that any WARNING or NOTE is not the result of changes to janitor.
