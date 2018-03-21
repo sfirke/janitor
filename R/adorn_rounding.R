@@ -5,10 +5,10 @@
 #'
 #' If you're formatting percentages, e.g., the result of \code{adorn_percentages()}, use \code{adorn_pct_formatting()} instead.  This is a more flexible variant for ad-hoc usage.  Compared to \code{adorn_pct_formatting()}, it can run on the first column and does not multiply by 100 or pad the numbers with spaces for alignment in the results data.frame.   This function retains the class of numeric input columns.
 #'
-#' @param dat a data.frame wth at least one numeric column
+#' @param dat a data.frame with at least one numeric column
 #' @param digits how many digits should be displayed after the decimal point?
 #' @param rounding method to use for rounding - either "half to even", the base R default method, or "half up", where 14.5 rounds up to 15.
-#' @param skip_first_col should the first column be left un-rounded, assuming it contains values of a descriptive variable as in a \code{tabyl}?  Defaults to \code{TRUE}.
+#' @param skip_first_col should the first column be left unrounded, assuming it contains values of a descriptive variable as in a \code{tabyl}?  Defaults to \code{TRUE}.
 #'
 #' @return Returns the data.frame with rounded numeric columns.
 #' @export

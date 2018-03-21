@@ -31,7 +31,7 @@ Resulting names are unique and consist only of the \code{_} character, numbers, 
 Capitalization preferences can be specified using the \code{case} parameter.
 
 Accented characters are
-transliterated to ASCII.  For example, an "o" with a german umlaut over it becomes "o", and the Spanish character "enye" becomes "n".
+transliterated to ASCII.  For example, an "o" with a German umlaut over it becomes "o", and the Spanish character "enye" becomes "n".
 }
 \examples{
 # not run:

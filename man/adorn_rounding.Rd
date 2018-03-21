@@ -8,13 +8,13 @@ adorn_rounding(dat, digits = 1, rounding = "half to even",
   skip_first_col = TRUE)
 }
 \arguments{
-\item{dat}{a data.frame wth at least one numeric column}
+\item{dat}{a data.frame with at least one numeric column}
 
 \item{digits}{how many digits should be displayed after the decimal point?}
 
 \item{rounding}{method to use for rounding - either "half to even", the base R default method, or "half up", where 14.5 rounds up to 15.}
 
-\item{skip_first_col}{should the first column be left un-rounded, assuming it contains values of a descriptive variable as in a \code{tabyl}?  Defaults to \code{TRUE}.}
+\item{skip_first_col}{should the first column be left unrounded, assuming it contains values of a descriptive variable as in a \code{tabyl}?  Defaults to \code{TRUE}.}
 }
 \value{
 Returns the data.frame with rounded numeric columns.
