@@ -3,7 +3,7 @@
 ## Release summary
 A stable version 1.0.0, with a new `tabyl` API and with breaking changes to the output of `clean_names()`.
 
-This builds on the original functionality of janitor, with similar-but-improved tools and  significantly-changed implementation.
+This builds on the original functionality of janitor, with similar-but-improved tools and significantly-changed implementation.
 
 ## Breaking changes
 
@@ -20,6 +20,8 @@ The now-redundant legacy functions `crosstab()` and `adorn_crosstab()` have been
 These changes may cause old code to break. E.g., a raw column name `variableName` would now be converted to `variable_name` (or `variableName`, `VariableName`, etc. depending on your preference), where previously it would have been converted to `variablename`.
 
 To minimize this inconvenience, there's a quick fix for compatibility: you can find-and-replace to insert the argument `case = "old_janitor"`, preserving the old behavior of `clean_names()` as of janitor version 0.3.1 (and thus not have to redo your scripts beyond that.)
+
+No further changes are planned to `clean_names()` and its results should be stable from version 1.0.0 onward.
 
 ## Major Features
 
