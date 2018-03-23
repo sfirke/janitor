@@ -26,6 +26,8 @@
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 <meta property="og:title" content="Changelog" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -48,8 +50,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">janitor</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">janitor</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.0</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -101,13 +107,13 @@
   <div class="col-md-9">
     <div class="page-header">
       <h1>Change log <small></small></h1>
-      <small>Source: <a href='https:/github.com/sfirke/janitor/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+      <small>Source: <a href='https://github.com/sfirke/janitor/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
     <div class="contents">
     <div id="janitor-1-0-0-2018-03-17" class="section level1">
 <h1 class="page-header">
-<a href="#janitor-1-0-0-2018-03-17" class="anchor"></a>janitor 1.0.0 (2018-03-17)<small> Unreleased </small>
+<a href="#janitor-1-0-0-2018-03-17" class="anchor"></a>janitor 1.0.0 (2018-03-17)<small> 2018-03-22 </small>
 </h1>
 <div id="release-summary" class="section level2">
 <h2 class="hasAnchor">
@@ -132,6 +138,7 @@
 <p><code><a href="../reference/clean_names.html">clean_names()</a></code> now detects and preserves camelCase inputs, allows multiple options for case outputs of the cleaned names, and preserves whether there’s space between letters and numbers. It also transliterates accented letters and turns <code>#</code> into <code>"number"</code>.</p>
 <p>These changes may cause old code to break. E.g., a raw column name <code>variableName</code> would now be converted to <code>variable_name</code> (or <code>variableName</code>, <code>VariableName</code>, etc. depending on your preference), where previously it would have been converted to <code>variablename</code>.</p>
 <p>To minimize this inconvenience, there’s a quick fix for compatibility: you can find-and-replace to insert the argument <code>case = "old_janitor"</code>, preserving the old behavior of <code><a href="../reference/clean_names.html">clean_names()</a></code> as of janitor version 0.3.1 (and thus not have to redo your scripts beyond that.)</p>
+<p>No further changes are planned to <code><a href="../reference/clean_names.html">clean_names()</a></code> and its results should be stable from version 1.0.0 onward.</p>
 </div>
 </div>
 <div id="major-features" class="section level2">
@@ -140,13 +147,17 @@
 <ul>
 <li><p><code><a href="../reference/clean_names.html">clean_names()</a></code> transliterates accented letters, e.g., <code>çãüœ</code> becomes <code>cauoe</code> <a href="https://github.com/sfirke/janitor/issues/120">(<a href='https://github.com/sfirke/janitor/issues/120'>#120</a>)</a>. Thanks to <strong><a href='http://github.com/fernandovmacedo'>@fernandovmacedo</a></strong>.</p></li>
 <li>
-<code><a href="../reference/clean_names.html">clean_names()</a></code> offers multiple options for variable name styling. In addition to <code>snake_case</code> output you can select <code>smallCamelCase</code>, <code>BigCamelCase</code>, <code>ALL_CAPS</code> and others. <a href="https://github.com/sfirke/janitor/issues/131">(<a href='https://github.com/sfirke/janitor/issues/131'>#131</a>)</a>.<br>
+<code><a href="../reference/clean_names.html">clean_names()</a></code> offers multiple options for variable name styling. In addition to <code>snake_case</code> output you can select <code>smallCamelCase</code>, <code>BigCamelCase</code>, <code>ALL_CAPS</code> and others. <a href="https://github.com/sfirke/janitor/issues/131">(<a href='https://github.com/sfirke/janitor/issues/131'>#131</a>)</a>.
+<ul>
+<li>Thanks to <strong><a href='http://github.com/tazinho'>@tazinho</a></strong>, who wrote the <a href="https://github.com/Tazinho/snakecase/">snakecase</a> package that janitor depends on to do this, as well as the patch to incorporate it into <code><a href="../reference/clean_names.html">clean_names()</a></code>. And thanks to <strong><a href='http://github.com/maelle'>@maelle</a></strong> for proposing this feature.</li>
+</ul>
 </li>
-<li><p>Thanks to <strong><a href='http://github.com/tazinho'>@tazinho</a></strong>, who wrote the <a href="https://github.com/Tazinho/snakecase/">snakecase</a> package that janitor depends on to do this, as well as the patch to incorporate it into <code><a href="../reference/clean_names.html">clean_names()</a></code>. And thanks to <strong><a href='http://github.com/maelle'>@maelle</a></strong> for proposing this feature.</p></li>
 <li><p>Launched the janitor documentation website: <a href="http://sfirke.github.io/janitor" class="uri">http://sfirke.github.io/janitor</a>. Thanks to the <a href="https://github.com/r-lib/pkgdown">pkgdown</a> package.</p></li>
 <li>Deprecated the functions <code><a href="../reference/remove_empty_rows.html">remove_empty_rows()</a></code> and <code><a href="../reference/remove_empty_cols.html">remove_empty_cols()</a></code>, which are replaced by the single function <code><a href="../reference/remove_empty.html">remove_empty()</a></code>. <a href="https://github.com/sfirke/janitor/issues/100">(<a href='https://github.com/sfirke/janitor/issues/100'>#100</a>)</a>
+<ul>
+<li>To encourage transparency, <code><a href="../reference/remove_empty.html">remove_empty()</a></code> prints a message if no value is supplied for the <code>which</code> argument; to suppress this, supply a value to <code>which</code>, even if it’s the default <code>c("rows", "cols")</code>.</li>
+</ul>
 </li>
-<li><p>To encourage transparency, <code><a href="../reference/remove_empty.html">remove_empty()</a></code> prints a message if no value is supplied for the <code>which</code> argument; to suppress this, supply a value to <code>which</code>, even if it’s the default <code>c("rows", "cols")</code>.</p></li>
 <li><p>The new <code><a href="../reference/adorn_title.html">adorn_title()</a></code> function adds the name of the 2nd <code>tabyl</code> variable (i.e., the name of the column variable). This un-tidies the data.frame but makes the result clearer to readers <a href="https://github.com/sfirke/janitor/issues/77">(<a href='https://github.com/sfirke/janitor/issues/77'>#77</a>)</a></p></li>
 </ul>
 </div>
