@@ -1,3 +1,9 @@
+# janitor 1.0.1 ()
+
+## Major Features
+
+The new function `row_to_names` allows promoting a row of data to names.  And, thanks to **@billdenney** for writing this feature.
+
 # janitor 1.0.0  (2018-03-17)
 
 ## Release summary
