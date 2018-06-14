@@ -1,6 +1,6 @@
 Overview of janitor functions
 ================
-2018-03-17
+2018-06-14
 
 -   [Major functions](#major-functions)
     -   [Cleaning](#cleaning)
@@ -15,6 +15,7 @@ Overview of janitor functions
         -   [Directionally-consistent rounding behavior with `round_half_up()`](#directionally-consistent-rounding-behavior-with-round_half_up)
     -   [Exploring](#exploring-1)
         -   [Count factor levels in groups of high, medium, and low with `top_levels()`](#count-factor-levels-in-groups-of-high-medium-and-low-with-top_levels)
+    -   [Correcting Column Names](#correcting-column-names)
 
 The janitor functions expedite the initial data exploration and cleaning that comes with any new data set. This catalog describes the usage for each function.
 
@@ -34,7 +35,7 @@ It works in a `%>%` pipeline, and handles problematic variable names, especially
 
 -   Parses letter cases and separators to a consistent format.
     -   Default is to snake\_case, but other cases like camelCase are available
--   Handles special characters and spaces, including transilerating characters like `œ` to `oe`.
+-   Handles special characters and spaces, including transilerating characters like `Å` to `oe`.
 -   Appends numbers to duplicated names
 -   Converts "%" to "percent" and "\#" to "number" to retain meaning
 -   Spacing (or lack thereof) around numbers is preserved
@@ -42,7 +43,7 @@ It works in a `%>%` pipeline, and handles problematic variable names, especially
 ``` r
 # Create a data.frame with dirty names
 test_df <- as.data.frame(matrix(ncol = 6))
-names(test_df) <- c("firstName", "ábc@!*", "% successful (2009)",
+names(test_df) <- c("firstName", "Ã¡bc@!*", "% successful (2009)",
                     "REPEAT VALUE", "REPEAT VALUE", "")
 ```
 
@@ -51,15 +52,15 @@ Clean the variable names, returning a data.frame:
 ``` r
 test_df %>%
   clean_names()
-#>   first_name abc percent_successful_2009 repeat_value repeat_value_2  x
-#> 1         NA  NA                      NA           NA             NA NA
+#>   first_name a_bc percent_successful_2009 repeat_value repeat_value_2  x
+#> 1         NA   NA                      NA           NA             NA NA
 ```
 
 Compare to what base R produces:
 
 ``` r
 make.names(names(test_df))
-#> [1] "firstName"            "ábc..."               "X..successful..2009."
+#> [1] "firstName"            "Ã.bc..."              "X..successful..2009."
 #> [4] "REPEAT.VALUE"         "REPEAT.VALUE"         "X"
 ```
 
@@ -78,6 +79,7 @@ mtcars %>%
   adorn_pct_formatting(digits = 2) %>%
   adorn_ns() %>%
   adorn_title()
+#> Warning: package 'bindrcpp' was built under R version 3.4.4
 #>              cyl                                    
 #>  gear          4          6           8        Total
 #>     3  6.67% (1) 13.33% (2) 80.00% (12) 100.00% (15)
@@ -100,10 +102,10 @@ get_dupes(mtcars, wt, cyl) # or mtcars %>% get_dupes(wt, cyl) if you prefer to p
 #> # A tibble: 4 x 12
 #>      wt   cyl dupe_count   mpg  disp    hp  drat  qsec    vs    am  gear
 #>   <dbl> <dbl>      <int> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-#> 1  3.44  6.00          2  19.2   168   123  3.92  18.3  1.00  0     4.00
-#> 2  3.44  6.00          2  17.8   168   123  3.92  18.9  1.00  0     4.00
-#> 3  3.57  8.00          2  14.3   360   245  3.21  15.8  0     0     3.00
-#> 4  3.57  8.00          2  15.0   301   335  3.54  14.6  0     1.00  5.00
+#> 1  3.44    6.          2  19.2  168.  123.  3.92  18.3    1.    0.    4.
+#> 2  3.44    6.          2  17.8  168.  123.  3.92  18.9    1.    0.    4.
+#> 3  3.57    8.          2  14.3  360.  245.  3.21  15.8    0.    0.    3.
+#> 4  3.57    8.          2  15.0  301.  335.  3.54  14.6    0.    1.    5.
 #> # ... with 1 more variable: carb <dbl>
 ```
 
@@ -180,4 +182,20 @@ top_levels(f, n = 1)
 #>            strongly agree 2 0.3333333
 #>  agree, neutral, disagree 4 0.6666667
 #>         strongly disagree 0 0.0000000
+```
+
+Correcting Column Names
+-----------------------
+
+If data has the header in one of the rows, `row_to_names` will elevate the given row to a header and optionally (by default) remove the row that was made into the header and/or the rows above.
+
+``` r
+data.frame(X__1=c(NA, "Title", 1:3),
+           X__2=c(NA, "Title2", 4:6),
+           stringsAsFactors=FALSE) %>%
+  row_to_names(2)
+#>   Title Title2
+#> 3     1      4
+#> 4     2      5
+#> 5     3      6
 ```
