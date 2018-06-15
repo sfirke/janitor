@@ -1,11 +1,10 @@
 # Test adorn_title function
 
-library(janitor)
 context("adorn_title")
-
+library(janitor)
 library(dplyr)
 library(tidyr)
-library(tibble)
+
 source1 <- mtcars %>%
   tabyl(gear, cyl)
 
@@ -94,11 +93,17 @@ test_that("bad inputs are caught", {
 })
 
 test_that("works with non-count inputs", {
-  source2 <- tibble::tibble(sector = c("North", "South"), units = 1:2, group = c("a", "b"))
+  source2_base <- data.frame(sector = c("North", "South"), units = 1:2, group = c("a", "b"))
+  source2_tibble <- dplyr::as_data_frame(source2_base)
   expect_equal(
-    adorn_title(source2, col_name = "Characteristics") %>% names(),
+    adorn_title(source2_base, col_name = "Characteristics") %>% names(),
     c("", "Characteristics", "")
   )
+  expect_equal(
+    adorn_title(source2_base, col_name = "Characteristics"),
+    adorn_title(source2_tibble, col_name = "Characteristics")
+  )
+  
 })
 
 test_that("for printing purposes: tabyl class stays tabyl, data.frame stays data.frame, tibble is downgraded to data.frame", {
