@@ -90,3 +90,10 @@ test_that("Tests for cases beyond default snake", {
   expect_equal(names(clean_names(test_df, "big_camel")), names(clean_names(test_df, "upper_camel")))
   expect_equal(names(clean_names(test_df, "small_camel")), names(clean_names(test_df, "lower_camel")))
 })
+
+test_that("the delta character converts to d across platforms, issue #204", {
+  delta <- structure(list(`δ2H, in ‰` = -24.99), row.names = c(NA, 
+                                                                                       -1L), class = c("tbl_df", "tbl", "data.frame"))
+  expect_equal(clean_names(delta))
+})
+  
