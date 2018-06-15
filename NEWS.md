@@ -1,3 +1,8 @@
+# janitor 1.0.1.9000  (current development version)
+
+Current dev't version on GitHub.
+
+
 # janitor 1.0.0  (2018-03-17)
 
 ## Release summary
