@@ -23,7 +23,6 @@
 #'
 #' @docType package
 #' @name janitor
-#' @importFrom dplyr %>%
 #' @keywords internal
 NULL
 ## quiets concerns of R CMD check re: the .'s that appear in pipelines
