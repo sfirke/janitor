@@ -2,7 +2,7 @@
 
 ## Major Features
 
-The new function `row_to_names` allows promoting a row of data to names.  And, thanks to **@billdenney** for writing this feature.
+The new function `row_to_names` handles the case where a dirty data file is read in with its names stored as a row of the data.frame, rather than in the names.  This function sets the names of the data.frame to this row and optionally cleans up the rows above and including where the names were stored.  Thanks to **@billdenney** for writing this feature.
 
 # janitor 1.0.0  (2018-03-17)
 

@@ -1,6 +1,6 @@
 Overview of janitor functions
 ================
-2018-06-15
+2018-06-18
 
 The janitor functions expedite the initial data exploration and cleaning
 that comes with any new data set. This catalog describes the usage for
@@ -114,21 +114,6 @@ than the equivalent code they replace.
 
 ## Cleaning
 
-### Fix dates stored as serial numbers with `excel_numeric_to_date()`
-
-Ever load data from Excel and see a value like `42223` where a date
-should be? This function converts those serial numbers to class `Date`,
-and contains an option for specifying the alternate date system for
-files created with Excel for Mac 2008 and earlier versions (which count
-from a different starting point).
-
-``` r
-excel_numeric_to_date(41103)
-#> [1] "2012-07-13"
-excel_numeric_to_date(41103, date_system = "mac pre-2011")
-#> [1] "2016-07-14"
-```
-
 ### `remove_empty()` rows and columns
 
 Does what it says. For cases like cleaning Excel files that contain
@@ -163,6 +148,39 @@ round_half_up(nums)
 #> [1] 3 4
 ```
 
+### Fix dates stored as serial numbers with `excel_numeric_to_date()`
+
+Ever load data from Excel and see a value like `42223` where a date
+should be? This function converts those serial numbers to class `Date`,
+and contains an option for specifying the alternate date system for
+files created with Excel for Mac 2008 and earlier versions (which count
+from a different starting point).
+
+``` r
+excel_numeric_to_date(41103)
+#> [1] "2012-07-13"
+excel_numeric_to_date(41103, date_system = "mac pre-2011")
+#> [1] "2016-07-14"
+```
+
+### Elevate column names stored in a data.frame row
+
+If a data.frame has the intended variable names stored in one of its
+rows, `row_to_names` will elevate the specifeid row to become the names
+of the data.frame and optionally (by default) remove the row in which
+names were stored and/or the rows above it.
+
+``` r
+dirt <- data.frame(X_1 = c(NA, "ID", 1:3),
+           X_2 = c(NA, "Value", 4:6))
+
+row_to_names(dirt, 2)
+#>   ID Value
+#> 3  1     4
+#> 4  2     5
+#> 5  3     6
+```
+
 ## Exploring
 
 ### Count factor levels in groups of high, medium, and low with `top_levels()`
@@ -192,21 +210,4 @@ top_levels(f, n = 1)
 #>            strongly agree 2 0.3333333
 #>  agree, neutral, disagree 4 0.6666667
 #>         strongly disagree 0 0.0000000
-```
-
-## Correcting Column Names
-
-If data has the header in one of the rows, `row_to_names` will elevate
-the given row to a header and optionally (by default) remove the row
-that was made into the header and/or the rows above.
-
-``` r
-data.frame(X__1=c(NA, "Title", 1:3),
-           X__2=c(NA, "Title2", 4:6),
-           stringsAsFactors=FALSE) %>%
-  row_to_names(2)
-#>   Title Title2
-#> 3     1      4
-#> 4     2      5
-#> 5     3      6
 ```
