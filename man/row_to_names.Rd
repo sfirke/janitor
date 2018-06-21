@@ -2,30 +2,29 @@
 % Please edit documentation in R/row_to_names.R
 \name{row_to_names}
 \alias{row_to_names}
-\title{Elevate a row to be the column names of a data.frame}
+\title{Elevate a row to be the column names of a data.frame.}
 \usage{
-row_to_names(dat, row_number = 1, remove_row = TRUE,
-  remove_rows_above = TRUE)
+row_to_names(dat, row_number, remove_row = TRUE, remove_rows_above = TRUE)
 }
 \arguments{
 \item{dat}{The input data.frame}
 
-\item{row_number}{The row of \code{dat} to make into the header}
+\item{row_number}{The row of \code{dat} containing the variable names}
 
-\item{remove_row}{Remove \code{row_number} from the return value?}
+\item{remove_row}{Should the row \code{row_number} be removed from the resulting data.frame?}
 
-\item{remove_rows_above}{If \code{row_number != 1}, remove rows
-\code{1:(row_number-1)} from the return value?}
+\item{remove_rows_above}{If \code{row_number != 1}, should the rows above \code{row_number} - that is, between
+\code{1:(row_number-1)} - be removed from the resulting data.frame?}
 }
 \value{
-A data frame with new names (and some rows removed, if requested)
+A data.frame with new names (and some rows removed, if specified)
 }
 \description{
-Elevate a row to be the column names of a data.frame
+Elevate a row to be the column names of a data.frame.
 }
 \examples{
-data.frame(X__1=c(NA, "Title", 1:3),
-           X__2=c(NA, "Title2", 4:6),
-           stringsAsFactors=FALSE) \%>\%
-  row_to_names(row_number=2)
+x <- data.frame(X_1 = c(NA, "Title", 1:3),
+           X_2 = c(NA, "Title2", 4:6))
+x \%>\%
+  row_to_names(row_number = 2)
 }

@@ -20,12 +20,12 @@ test_that("row_to_names invalid and semi-valid input checking", {
   expect_error(
     example_data_row_to_names[[1]] %>%
       row_to_names(row_number=1:2),
-    regexp="row_number must be a scalar")
+    regexp="row_number must be a numeric of length 1")
   for (nm in names(example_data_row_to_names)) {
     expect_warning(
       example_data_row_to_names[[1]] %>%
         row_to_names(row_number=1),
-      regexp="Row 1 does not provide unique names (consider running clean_names() on the return value)",
+      regexp="Row 1 does not provide unique names. Consider running clean_names() after row_to_names()",
       info=paste("Unique name warning,", nm),
       fixed=TRUE)
   }
