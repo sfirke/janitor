@@ -114,7 +114,7 @@ excel_numeric_to_date(41103, date_system = "mac pre-2011")
 
 ### Elevate column names stored in a data.frame row
 
-If a data.frame has the intended variable names stored in one of its rows, `row_to_names` will elevate the specifeid row to become the names of the data.frame and optionally (by default) remove the row in which names were stored and/or the rows above it.
+If a data.frame has the intended variable names stored in one of its rows, `row_to_names` will elevate the specified row to become the names of the data.frame and optionally (by default) remove the row in which names were stored and/or the rows above it.
 
 ```{r}
 dirt <- data.frame(X_1 = c(NA, "ID", 1:3),

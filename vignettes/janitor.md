@@ -1,6 +1,6 @@
 Overview of janitor functions
 ================
-2018-06-18
+2018-06-22
 
 The janitor functions expedite the initial data exploration and cleaning
 that comes with any new data set. This catalog describes the usage for
@@ -166,7 +166,7 @@ excel_numeric_to_date(41103, date_system = "mac pre-2011")
 ### Elevate column names stored in a data.frame row
 
 If a data.frame has the intended variable names stored in one of its
-rows, `row_to_names` will elevate the specifeid row to become the names
+rows, `row_to_names` will elevate the specified row to become the names
 of the data.frame and optionally (by default) remove the row in which
 names were stored and/or the rows above it.
 
