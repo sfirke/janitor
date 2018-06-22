@@ -29,7 +29,7 @@ It works in a `%>%` pipeline, and handles problematic variable names, especially
 
 + Parses letter cases and separators to a consistent format.
     + Default is to snake_case, but other cases like camelCase are available
-+ Handles special characters and spaces, including transilerating characters like `œ` to `oe`.
++ Handles special characters and spaces, including transliterating characters like `œ` to `oe`.
 + Appends numbers to duplicated names
 + Converts "%" to "percent" and "#" to "number" to retain meaning
 + Spacing (or lack thereof) around numbers is preserved

@@ -23,7 +23,7 @@ and `readr::read_csv()`.
   - Parses letter cases and separators to a consistent format.
       - Default is to snake\_case, but other cases like camelCase are
         available
-  - Handles special characters and spaces, including transilerating
+  - Handles special characters and spaces, including transliterating
     characters like `œ` to `oe`.
   - Appends numbers to duplicated names
   - Converts “%” to “percent” and “\#” to “number” to retain meaning
