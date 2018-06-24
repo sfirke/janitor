@@ -4,15 +4,20 @@
 \alias{excel_numeric_to_date}
 \title{Convert dates encoded as serial numbers to Date class.}
 \usage{
-excel_numeric_to_date(date_num, date_system = "modern")
+excel_numeric_to_date(date_num, date_system = "modern",
+  include_time = FALSE, round_seconds = TRUE)
 }
 \arguments{
 \item{date_num}{numeric vector of serial numbers to convert.}
 
 \item{date_system}{the date system, either \code{"modern"} or \code{"mac pre-2011"}.}
+
+\item{include_time}{Include the time (hours, minutes, seconds) in the output? (See details)}
+
+\item{round_seconds}{Round the seconds to an integer (only has an effect when \code{include_time} is \code{TRUE})?}
 }
 \value{
-Returns a vector of class Date.
+Returns a vector of class Date if \code{include_time} is \code{FALSE}.  Returns a vector of class POSIXlt if \code{include_time} is \code{TRUE}.
 }
 \description{
 Converts numbers like \code{42370} into date values like \code{2016-01-01}.
@@ -20,6 +25,19 @@ Converts numbers like \code{42370} into date values like \code{2016-01-01}.
 Defaults to the modern Excel date encoding system. However, Excel for Mac 2008 and earlier Mac versions of Excel used a different date system. To determine what platform to specify: if the date 2016-01-01 is represented by the number 42370 in your spreadsheet, it's the modern system.  If it's 40908, it's the old Mac system.
 More on date encoding systems at http://support.office.com/en-us/article/Date-calculations-in-Excel-e7fe7167-48a9-4b96-bb53-5612a800b487.
 }
+\details{
+When using \code{include_time=TRUE} the returned object will not
+  include a time zone since excel does not store dates and times with time
+  zones.  When adding time zones, ensure that any conversion done does not
+  change the intended time including if the time is or is not in daylight
+  savings time.  Also, days with leap seconds will not be accurately handled
+  as they do not appear to be accurately handled by Windows (as described in
+  https://support.microsoft.com/en-us/help/2722715/support-for-the-leap-second).
+}
 \examples{
 excel_numeric_to_date(40000)
+excel_numeric_to_date(40000.5) # No time is included
+excel_numeric_to_date(40000.5, include_time=TRUE) # Time is included
+excel_numeric_to_date(40000.521, include_time=TRUE) # Time is included
+excel_numeric_to_date(40000.521, include_time=TRUE, round_seconds=FALSE) # Time with fractional seconds is included
 }

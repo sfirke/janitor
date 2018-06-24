@@ -4,6 +4,14 @@
 
 The new function `row_to_names` handles the case where a dirty data file is read in with its names stored as a row of the data.frame, rather than in the names.  This function sets the names of the data.frame to this row and optionally cleans up the rows above and including where the names were stored.  Thanks to **@billdenney** for writing this feature.
 
+## Minor features
+
+`excel_numeric_to_date()` can now provide times as well with the new `include_time` argument.
+
+## Breaking changes
+
+As part of `excel_numeric_to_date()` handling times, if a Date-only result is requested (the default) any fractional part of the date is now removed.  The date itself is identical, but the underlying object now has only the integer part of the date.
+
 # janitor 1.0.0  (2018-03-17)
 
 ## Release summary
