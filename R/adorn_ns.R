@@ -54,6 +54,10 @@ adorn_ns <- function(dat, position = "rear", ns = attr(dat, "core")) {
         ns <- adorn_totals(ns, attr(dat, "totals"))
       }
     }
+    
+    # Only append Ns to columns where there are numeric Ns 
+    non_numeric_cols <- which(!vapply(ns, is.numeric, logical(1)))
+    non_numeric_cols <- unique(c(1, non_numeric_cols)) # assume 1st column should not be included
 
     if (position == "rear") {
       result <- paste_matrices(dat, ns %>%
@@ -66,6 +70,8 @@ adorn_ns <- function(dat, position = "rear", ns = attr(dat, "core")) {
         dplyr::mutate_all(wrap_parens) %>%
         dplyr::mutate_all(standardize_col_width))
     }
+    # reset non-numeric columns, attributes
+    result[, non_numeric_cols] <- dat[, non_numeric_cols]
     attributes(result) <- attrs
     result
   }
@@ -82,7 +88,6 @@ paste_matrices <- function(front, rear) {
   pasted <- paste(front_matrix, " ", rear_matrix, sep = "") %>% # paste the matrices
     matrix(., nrow = nrow(front_matrix), dimnames = dimnames(rear_matrix)) %>% # cast as matrix, then data.frame
     dplyr::as_data_frame()
-  pasted[[1]] <- front[[1]] # undo the pasting in this 1st column
   pasted
 }
 
