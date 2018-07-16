@@ -34,10 +34,17 @@ excel_numeric_to_date <- function(date_num, date_system = "modern", include_time
   }
 
   # Manage floating point imprecision
-  date_num_days <- (date_num * 86400) %/% 86400
+  date_num_days <- (date_num * 86400L + 0.001) %/% 86400L
+  date_num_days_no_floating_correction <- date_num %/% 1
+  # If the day rolls over due to machine precision, then the seconds should be zero
+  mask_day_rollover <- date_num_days > date_num_days_no_floating_correction
   date_num_seconds <- (date_num - date_num_days) * 86400
+  date_num_seconds[mask_day_rollover] <- 0
   if (round_seconds) {
     date_num_seconds <- round(date_num_seconds)
+  }
+  if (any(mask_day_rollover)) {
+    warning(sum(mask_day_rollover), " date_num values are within 0.001 sec of a later date and were rounded up to the next day.")
   }
   ret <-
     if (date_system == "mac pre-2011") {
