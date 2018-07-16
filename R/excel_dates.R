@@ -33,23 +33,25 @@ excel_numeric_to_date <- function(date_num, date_system = "modern", include_time
     stop("argument `date_num` must be of class numeric")
   }
 
+  # Manage floating point imprecision
+  date_num_days <- (date_num * 86400) %/% 86400
+  date_num_seconds <- (date_num - date_num_days) * 86400
+  if (round_seconds) {
+    date_num_seconds <- round(date_num_seconds)
+  }
   ret <-
     if (date_system == "mac pre-2011") {
-      as.Date(floor(date_num), origin = "1904-01-01")
+      as.Date(floor(date_num_days), origin = "1904-01-01")
     } else if (date_system == "modern") {
-      as.Date(floor(date_num), origin = "1899-12-30")
+      as.Date(floor(date_num_days), origin = "1899-12-30")
     } else {
       stop("argument 'created' must be one of 'mac pre-2011' or 'modern'")
     }
   if (include_time) {
     ret <- as.POSIXlt(ret)
-    total_sec <- 86400*(date_num %% 1)
-    ret$sec <- total_sec %% 60
-    if (round_seconds) {
-      ret$sec <- round(ret$sec)
-    }
-    ret$min <- floor(total_sec/60) %% 60
-    ret$hour <- floor(total_sec/3600)
+    ret$sec <- date_num_seconds %% 60
+    ret$min <- floor(date_num_seconds/60) %% 60
+    ret$hour <- floor(date_num_seconds/3600)
     # Excel does not store the timezone; remove all ways of storing timezone and
     # clean related fields (isdst).  Multiple methods are used by R for storing
     # timezone information in POSIXlt objects
