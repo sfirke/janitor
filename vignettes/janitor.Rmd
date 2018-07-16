@@ -106,9 +106,11 @@ round_half_up(nums)
 ```
 
 ### Fix dates stored as serial numbers with `excel_numeric_to_date()`
-Ever load data from Excel and see a value like `42223` where a date should be?  This function converts those serial numbers to class `Date`, and contains an option for specifying the alternate date system for files created with Excel for Mac 2008 and earlier versions (which count from a different starting point).
+Ever load data from Excel and see a value like `42223` where a date should be?  This function converts those serial numbers to class `Date`, with options for different Excel date encoding systems and preserving fractions of a date as time (in which case the returned value is of class `POSIXlt`).
 ```{r}
 excel_numeric_to_date(41103)
+excel_numeric_to_date(41103.01) # ignores decimal places, returns Date object
+excel_numeric_to_date(41103.01, include_time = TRUE) # returns POSIXlt object
 excel_numeric_to_date(41103, date_system = "mac pre-2011")
 ```
 

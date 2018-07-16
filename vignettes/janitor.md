@@ -1,35 +1,44 @@
 Overview of janitor functions
 ================
-2018-06-22
+2018-07-16
 
-The janitor functions expedite the initial data exploration and cleaning
-that comes with any new data set. This catalog describes the usage for
-each function.
+-   [Major functions](#major-functions)
+    -   [Cleaning](#cleaning)
+        -   [Clean data.frame names with `clean_names()`](#clean-data.frame-names-with-clean_names)
+    -   [Exploring](#exploring)
+        -   [`tabyl()` - a better version of `table()`](#tabyl---a-better-version-of-table)
+        -   [Explore records with duplicated values for specific combinations of variables with `get_dupes()`](#explore-records-with-duplicated-values-for-specific-combinations-of-variables-with-get_dupes)
+-   [Minor functions](#minor-functions)
+    -   [Cleaning](#cleaning-1)
+        -   [`remove_empty()` rows and columns](#remove_empty-rows-and-columns)
+        -   [Directionally-consistent rounding behavior with `round_half_up()`](#directionally-consistent-rounding-behavior-with-round_half_up)
+        -   [Fix dates stored as serial numbers with `excel_numeric_to_date()`](#fix-dates-stored-as-serial-numbers-with-excel_numeric_to_date)
+        -   [Elevate column names stored in a data.frame row](#elevate-column-names-stored-in-a-data.frame-row)
+    -   [Exploring](#exploring-1)
+        -   [Count factor levels in groups of high, medium, and low with `top_levels()`](#count-factor-levels-in-groups-of-high-medium-and-low-with-top_levels)
 
-# Major functions
+The janitor functions expedite the initial data exploration and cleaning that comes with any new data set. This catalog describes the usage for each function.
+
+Major functions
+===============
 
 Functions for everyday use.
 
-## Cleaning
+Cleaning
+--------
 
 ### Clean data.frame names with `clean_names()`
 
 Call this function every time you read data.
 
-It works in a `%>%` pipeline, and handles problematic variable names,
-especially those that are so well-preserved by `readxl::read_excel()`
-and `readr::read_csv()`.
+It works in a `%>%` pipeline, and handles problematic variable names, especially those that are so well-preserved by `readxl::read_excel()` and `readr::read_csv()`.
 
-  - Parses letter cases and separators to a consistent format.
-      - Default is to snake\_case, but other cases like camelCase are
-        available
-  - Handles special characters and spaces, including transliterating
-    characters like `œ` to `oe`.
-  - Appends numbers to duplicated names
-  - Converts “%” to “percent” and “\#” to “number” to retain meaning
-  - Spacing (or lack thereof) around numbers is preserved
-
-<!-- end list -->
+-   Parses letter cases and separators to a consistent format.
+    -   Default is to snake\_case, but other cases like camelCase are available
+-   Handles special characters and spaces, including transliterating characters like `œ` to `oe`.
+-   Appends numbers to duplicated names
+-   Converts "%" to "percent" and "\#" to "number" to retain meaning
+-   Spacing (or lack thereof) around numbers is preserved
 
 ``` r
 # Create a data.frame with dirty names
@@ -55,14 +64,12 @@ make.names(names(test_df))
 #> [4] "REPEAT.VALUE"         "REPEAT.VALUE"         "X"
 ```
 
-## Exploring
+Exploring
+---------
 
 ### `tabyl()` - a better version of `table()`
 
-`tabyl()` is a tidyverse-oriented replacement for `table()`. It counts
-combinations of one, two, or three variables, and then can be formatted
-with a suite of `adorn_*` functions to look just how you want. For
-instance:
+`tabyl()` is a tidyverse-oriented replacement for `table()`. It counts combinations of one, two, or three variables, and then can be formatted with a suite of `adorn_*` functions to look just how you want. For instance:
 
 ``` r
 mtcars %>%
@@ -79,21 +86,15 @@ mtcars %>%
 #>     5 40.00% (2) 20.00% (1) 40.00%  (2) 100.00%  (5)
 ```
 
-Learn more in the [tabyls
-vignette](https://github.com/sfirke/janitor/blob/master/vignettes/tabyls.md).
+Learn more in the [tabyls vignette](https://github.com/sfirke/janitor/blob/master/vignettes/tabyls.md).
 
 ### Explore records with duplicated values for specific combinations of variables with `get_dupes()`
 
-This is for hunting down and examining duplicate records during data
-cleaning - usually when there shouldn’t be any.
+This is for hunting down and examining duplicate records during data cleaning - usually when there shouldn't be any.
 
-For example, in a tidy data.frame you might expect to have a unique ID
-repeated for each year, but no duplicated pairs of unique ID & year. Say
-you want to check for and study any such duplicated records.
+For example, in a tidy data.frame you might expect to have a unique ID repeated for each year, but no duplicated pairs of unique ID & year. Say you want to check for and study any such duplicated records.
 
-`get_dupes()` returns the records (and inserts a count of duplicates) so
-you can examine the problematic
-cases:
+`get_dupes()` returns the records (and inserts a count of duplicates) so you can examine the problematic cases:
 
 ``` r
 get_dupes(mtcars, wt, cyl) # or mtcars %>% get_dupes(wt, cyl) if you prefer to pipe
@@ -107,17 +108,17 @@ get_dupes(mtcars, wt, cyl) # or mtcars %>% get_dupes(wt, cyl) if you prefer to p
 #> # ... with 1 more variable: carb <dbl>
 ```
 
-# Minor functions
+Minor functions
+===============
 
-Smaller functions for use in particular situations. More human-readable
-than the equivalent code they replace.
+Smaller functions for use in particular situations. More human-readable than the equivalent code they replace.
 
-## Cleaning
+Cleaning
+--------
 
 ### `remove_empty()` rows and columns
 
-Does what it says. For cases like cleaning Excel files that contain
-empty rows and columns after being read into R.
+Does what it says. For cases like cleaning Excel files that contain empty rows and columns after being read into R.
 
 ``` r
 q <- data.frame(v1 = c(1, NA, 3),
@@ -130,15 +131,11 @@ q %>%
 #> 3  3  b
 ```
 
-Just a simple wrapper for one-line functions, but it saves a little
-thinking for both the code writer and the reader.
+Just a simple wrapper for one-line functions, but it saves a little thinking for both the code writer and the reader.
 
 ### Directionally-consistent rounding behavior with `round_half_up()`
 
-R uses “banker’s rounding”, i.e., halves are rounded to the nearest
-*even* number. This function, an exact implementation of
-<https://stackoverflow.com/questions/12688717/round-up-from-5/12688836#12688836>,
-will round all halves up. Compare:
+R uses "banker's rounding", i.e., halves are rounded to the nearest *even* number. This function, an exact implementation of <https://stackoverflow.com/questions/12688717/round-up-from-5/12688836#12688836>, will round all halves up. Compare:
 
 ``` r
 nums <- c(2.5, 3.5)
@@ -150,25 +147,22 @@ round_half_up(nums)
 
 ### Fix dates stored as serial numbers with `excel_numeric_to_date()`
 
-Ever load data from Excel and see a value like `42223` where a date
-should be? This function converts those serial numbers to class `Date`,
-and contains an option for specifying the alternate date system for
-files created with Excel for Mac 2008 and earlier versions (which count
-from a different starting point).
+Ever load data from Excel and see a value like `42223` where a date should be? This function converts those serial numbers to class `Date`, with options for different Excel date encoding systems and preserving fractions of a date as time (in which case the returned value is of class `POSIXlt`).
 
 ``` r
 excel_numeric_to_date(41103)
 #> [1] "2012-07-13"
+excel_numeric_to_date(41103.01) # ignores decimal places, returns Date object
+#> [1] "2012-07-13"
+excel_numeric_to_date(41103.01, include_time = TRUE) # returns POSIXlt object
+#> [1] "2012-07-13 00:14:24"
 excel_numeric_to_date(41103, date_system = "mac pre-2011")
 #> [1] "2016-07-14"
 ```
 
 ### Elevate column names stored in a data.frame row
 
-If a data.frame has the intended variable names stored in one of its
-rows, `row_to_names` will elevate the specified row to become the names
-of the data.frame and optionally (by default) remove the row in which
-names were stored and/or the rows above it.
+If a data.frame has the intended variable names stored in one of its rows, `row_to_names` will elevate the specified row to become the names of the data.frame and optionally (by default) remove the row in which names were stored and/or the rows above it.
 
 ``` r
 dirt <- data.frame(X_1 = c(NA, "ID", 1:3),
@@ -181,21 +175,17 @@ row_to_names(dirt, 2)
 #> 5  3     6
 ```
 
-## Exploring
+Exploring
+---------
 
 ### Count factor levels in groups of high, medium, and low with `top_levels()`
 
-Originally designed for use with Likert survey data stored as factors.
-Returns a `tbl_df` frequency table with appropriately-named rows,
-grouped into head/middle/tail groups.
+Originally designed for use with Likert survey data stored as factors. Returns a `tbl_df` frequency table with appropriately-named rows, grouped into head/middle/tail groups.
 
-  - Takes a user-specified size for the head/tail groups
-  - Automatically calculates a percent column
-  - Supports sorting
-  - Can show or hide `NA`
-values.
-
-<!-- end list -->
+-   Takes a user-specified size for the head/tail groups
+-   Automatically calculates a percent column
+-   Supports sorting
+-   Can show or hide `NA` values.
 
 ``` r
 f <- factor(c("strongly agree", "agree", "neutral", "neutral", "disagree", "strongly agree"),
