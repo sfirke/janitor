@@ -114,7 +114,8 @@ More on date encoding systems at http://support.office.com/en-us/article/Date-ca
 More on date encoding systems at http://support.office.com/en-us/article/Date-calculations-in-Excel-e7fe7167-48a9-4b96-bb53-5612a800b487.</p>
     
 
-    <pre class="usage"><span class='fu'>excel_numeric_to_date</span>(<span class='no'>date_num</span>, <span class='kw'>date_system</span> <span class='kw'>=</span> <span class='st'>"modern"</span>)</pre>
+    <pre class="usage"><span class='fu'>excel_numeric_to_date</span>(<span class='no'>date_num</span>, <span class='kw'>date_system</span> <span class='kw'>=</span> <span class='st'>"modern"</span>,
+  <span class='kw'>include_time</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>round_seconds</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -127,15 +128,33 @@ More on date encoding systems at http://support.office.com/en-us/article/Date-ca
       <th>date_system</th>
       <td><p>the date system, either <code>"modern"</code> or <code>"mac pre-2011"</code>.</p></td>
     </tr>
+    <tr>
+      <th>include_time</th>
+      <td><p>Include the time (hours, minutes, seconds) in the output? (See details)</p></td>
+    </tr>
+    <tr>
+      <th>round_seconds</th>
+      <td><p>Round the seconds to an integer (only has an effect when <code>include_time</code> is <code>TRUE</code>)?</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns a vector of class Date.</p>
+    <p>Returns a vector of class Date if <code>include_time</code> is <code>FALSE</code>.  Returns a vector of class POSIXlt if <code>include_time</code> is <code>TRUE</code>.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>When using <code>include_time=TRUE</code> the returned object will not
+  include a time zone since excel does not store dates and times with time
+  zones.  When adding time zones, ensure that any conversion done does not
+  change the intended time including if the time is or is not in daylight
+  savings time.  Also, days with leap seconds will not be accurately handled
+  as they do not appear to be accurately handled by Windows (as described in
+  https://support.microsoft.com/en-us/help/2722715/support-for-the-leap-second).</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>excel_numeric_to_date</span>(<span class='fl'>40000</span>)</div><div class='output co'>#&gt; [1] "2009-07-06"</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>excel_numeric_to_date</span>(<span class='fl'>40000</span>)</div><div class='output co'>#&gt; [1] "2009-07-06"</div><div class='input'><span class='fu'>excel_numeric_to_date</span>(<span class='fl'>40000.5</span>) <span class='co'># No time is included</span></div><div class='output co'>#&gt; [1] "2009-07-06"</div><div class='input'><span class='fu'>excel_numeric_to_date</span>(<span class='fl'>40000.5</span>, <span class='kw'>include_time</span><span class='kw'>=</span><span class='fl'>TRUE</span>) <span class='co'># Time is included</span></div><div class='output co'>#&gt; [1] "2009-07-06 12:00:00"</div><div class='input'><span class='fu'>excel_numeric_to_date</span>(<span class='fl'>40000.521</span>, <span class='kw'>include_time</span><span class='kw'>=</span><span class='fl'>TRUE</span>) <span class='co'># Time is included</span></div><div class='output co'>#&gt; [1] "2009-07-06 12:30:14"</div><div class='input'><span class='fu'>excel_numeric_to_date</span>(<span class='fl'>40000.521</span>, <span class='kw'>include_time</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>round_seconds</span><span class='kw'>=</span><span class='fl'>FALSE</span>) <span class='co'># Time with fractional seconds is included</span></div><div class='output co'>#&gt; [1] "2009-07-06 12:30:14"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -143,6 +162,8 @@ More on date encoding systems at http://support.office.com/en-us/article/Date-ca
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

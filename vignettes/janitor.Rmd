@@ -111,7 +111,7 @@ Ever load data from Excel and see a value like `42223` where a date should be?  
 excel_numeric_to_date(41103)
 excel_numeric_to_date(41103.01) # ignores decimal places, returns Date object
 excel_numeric_to_date(41103.01, include_time = TRUE) # returns POSIXlt object
-excel_numeric_to_date(41103, date_system = "mac pre-2011")
+excel_numeric_to_date(41103.01, date_system = "mac pre-2011")
 ```
 
 ### Elevate column names stored in a data.frame row

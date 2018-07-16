@@ -80,7 +80,7 @@
     <div class="page-header toc-ignore">
       <h1>tabyls: a tidy, fully-featured approach to counting things</h1>
             
-            <h4 class="date">2018-03-17</h4>
+            <h4 class="date">2018-07-16</h4>
       
       <small>Source: <a href="https:/github.com/sfirke/janitor/blob/master/vignettes/tabyls.Rmd"><code>vignettes/tabyls.Rmd</code></a></small>
 
@@ -358,9 +358,9 @@ mpg_by_cyl_and_am
 <span class="co">#&gt; # Groups:   cyl [3]</span>
 <span class="co">#&gt;     cyl   `0`   `1`</span>
 <span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1  4.00  22.9  28.1</span>
-<span class="co">#&gt; 2  6.00  19.1  20.6</span>
-<span class="co">#&gt; 3  8.00  15.0  15.4</span></code></pre></div>
+<span class="co">#&gt; 1     4  22.9  28.1</span>
+<span class="co">#&gt; 2     6  19.1  20.6</span>
+<span class="co">#&gt; 3     8  15.0  15.4</span></code></pre></div>
 <p>Now to <code>adorn_</code> it. Since this is not the result of a <code><a href="../reference/tabyl.html">tabyl()</a></code> call, it doesn’t have the underlying Ns stored in the <code>core</code> attribute, so we’ll have to supply them:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mpg_by_cyl_and_am <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw"><a href="../reference/adorn_rounding.html">adorn_rounding</a></span>() <span class="op">%&gt;%</span>

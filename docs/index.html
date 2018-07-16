@@ -35,12 +35,8 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">janitor</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.0</span>
-      </span>
+      <a class="navbar-brand" href="index.html">janitor</a>
     </div>
-
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
@@ -121,12 +117,12 @@
 <ul>
 <li>
 <p>the most recent officially-released version from CRAN with</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">"janitor"</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"janitor"</span>)</code></pre></div>
 </li>
 <li>
 <p>the latest development version from GitHub with</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">"devtools"</span>)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"sfirke/janitor"</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"devtools"</span>)
+devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"sfirke/janitor"</span>)</code></pre></div>
 </li>
 </ul>
 </div>
@@ -156,49 +152,49 @@
 <li>Values spread inconsistently over the “Certification” columns</li>
 </ul>
 <p>Here’s that data after being read in to R:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(pacman) <span class="co"># for loading packages</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">p_load</span>(readxl, janitor, dplyr, here)</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">roster_raw &lt;-<span class="st"> </span><span class="kw">read_excel</span>(<span class="kw">here</span>(<span class="st">"dirty_data.xlsx"</span>)) <span class="co"># available at http://github.com/sfirke/janitor</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="kw">glimpse</span>(roster_raw)</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; Observations: 13</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; Variables: 11</span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; $ `First Name`        &lt;chr&gt; "Jason", "Jason", "Alicia", "Ada", "Desus", "Chien-Shiung", "Chien-Shiung", N...</span></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; $ `Last Name`         &lt;chr&gt; "Bourne", "Bourne", "Keys", "Lovelace", "Nice", "Wu", "Wu", NA, "Joyce", "Lam...</span></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; $ `Employee Status`   &lt;chr&gt; "Teacher", "Teacher", "Teacher", "Teacher", "Administration", "Teacher", "Tea...</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; $ Subject             &lt;chr&gt; "PE", "Drafting", "Music", NA, "Dean", "Physics", "Chemistry", NA, "English",...</span></a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; $ `Hire Date`         &lt;dbl&gt; 39690, 39690, 37118, 27515, 41431, 11037, 11037, NA, 32994, 27919, 42221, 347...</span></a>
-<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt; $ `% Allocated`       &lt;dbl&gt; 0.75, 0.25, 1.00, 1.00, 1.00, 0.50, 0.50, NA, 0.50, 0.50, NA, NA, 0.80</span></a>
-<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt; $ `Full time?`        &lt;chr&gt; "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", NA, "No", "No", "No", "No", ...</span></a>
-<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">#&gt; $ `do not edit! ---&gt;` &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA</span></a>
-<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">#&gt; $ Certification       &lt;chr&gt; "Physical ed", "Physical ed", "Instr. music", "PENDING", "PENDING", "Science ...</span></a>
-<a class="sourceLine" id="cb3-17" data-line-number="17"><span class="co">#&gt; $ Certification__1    &lt;chr&gt; "Theater", "Theater", "Vocal music", "Computers", NA, "Physics", "Physics", N...</span></a>
-<a class="sourceLine" id="cb3-18" data-line-number="18"><span class="co">#&gt; $ Certification__2    &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(pacman) <span class="co"># for loading packages</span>
+<span class="kw"><a href="http://www.rdocumentation.org/packages/pacman/topics/p_load">p_load</a></span>(readxl, janitor, dplyr, here)
+
+roster_raw &lt;-<span class="st"> </span><span class="kw">read_excel</span>(<span class="kw">here</span>(<span class="st">"dirty_data.xlsx"</span>)) <span class="co"># available at http://github.com/sfirke/janitor</span>
+<span class="kw">glimpse</span>(roster_raw)
+<span class="co">#&gt; Observations: 13</span>
+<span class="co">#&gt; Variables: 11</span>
+<span class="co">#&gt; $ `First Name`        &lt;chr&gt; "Jason", "Jason", "Alicia", "Ada", "Desus", "Chien-Shiung", "Chien-Shiung", N...</span>
+<span class="co">#&gt; $ `Last Name`         &lt;chr&gt; "Bourne", "Bourne", "Keys", "Lovelace", "Nice", "Wu", "Wu", NA, "Joyce", "Lam...</span>
+<span class="co">#&gt; $ `Employee Status`   &lt;chr&gt; "Teacher", "Teacher", "Teacher", "Teacher", "Administration", "Teacher", "Tea...</span>
+<span class="co">#&gt; $ Subject             &lt;chr&gt; "PE", "Drafting", "Music", NA, "Dean", "Physics", "Chemistry", NA, "English",...</span>
+<span class="co">#&gt; $ `Hire Date`         &lt;dbl&gt; 39690, 39690, 37118, 27515, 41431, 11037, 11037, NA, 32994, 27919, 42221, 347...</span>
+<span class="co">#&gt; $ `% Allocated`       &lt;dbl&gt; 0.75, 0.25, 1.00, 1.00, 1.00, 0.50, 0.50, NA, 0.50, 0.50, NA, NA, 0.80</span>
+<span class="co">#&gt; $ `Full time?`        &lt;chr&gt; "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", NA, "No", "No", "No", "No", ...</span>
+<span class="co">#&gt; $ `do not edit! ---&gt;` &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA</span>
+<span class="co">#&gt; $ Certification       &lt;chr&gt; "Physical ed", "Physical ed", "Instr. music", "PENDING", "PENDING", "Science ...</span>
+<span class="co">#&gt; $ Certification__1    &lt;chr&gt; "Theater", "Theater", "Vocal music", "Computers", NA, "Physics", "Physics", N...</span>
+<span class="co">#&gt; $ Certification__2    &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA</span></code></pre></div>
 <p>Excel formatting led to an untitled empty column and 5 empty rows at the bottom of the table (only 12 records have any actual data). Bad column names are preserved.</p>
 <p>Clean it with janitor functions:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">roster &lt;-<span class="st"> </span>roster_raw <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/clean_names.html">clean_names</a></span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="reference/remove_empty.html">remove_empty</a></span>(<span class="kw">c</span>(<span class="st">"rows"</span>, <span class="st">"cols"</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">hire_date =</span> <span class="kw"><a href="reference/excel_numeric_to_date.html">excel_numeric_to_date</a></span>(hire_date),</a>
-<a class="sourceLine" id="cb4-5" data-line-number="5">         <span class="dt">cert =</span> <span class="kw">coalesce</span>(certification, certification_<span class="dv">1</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># from dplyr</span></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>certification, <span class="op">-</span>certification_<span class="dv">1</span>) <span class="co"># drop unwanted columns</span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8">roster</a>
-<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; # A tibble: 12 x 8</span></a>
-<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt;    first_name   last_name employee_status subject    hire_date  percent_allocated full_time cert          </span></a>
-<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt;    &lt;chr&gt;        &lt;chr&gt;     &lt;chr&gt;           &lt;chr&gt;      &lt;date&gt;                 &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;         </span></a>
-<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt;  1 Jason        Bourne    Teacher         PE         2008-08-30             0.750 Yes       Physical ed   </span></a>
-<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt;  2 Jason        Bourne    Teacher         Drafting   2008-08-30             0.250 Yes       Physical ed   </span></a>
-<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt;  3 Alicia       Keys      Teacher         Music      2001-08-15             1.00  Yes       Instr. music  </span></a>
-<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt;  4 Ada          Lovelace  Teacher         &lt;NA&gt;       1975-05-01             1.00  Yes       PENDING       </span></a>
-<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt;  5 Desus        Nice      Administration  Dean       2013-06-06             1.00  Yes       PENDING       </span></a>
-<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt;  6 Chien-Shiung Wu        Teacher         Physics    1930-03-20             0.500 Yes       Science 6-12  </span></a>
-<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt;  7 Chien-Shiung Wu        Teacher         Chemistry  1930-03-20             0.500 Yes       Science 6-12  </span></a>
-<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt;  8 James        Joyce     Teacher         English    1990-05-01             0.500 No        English 6-12  </span></a>
-<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt;  9 Hedy         Lamarr    Teacher         Science    1976-06-08             0.500 No        PENDING       </span></a>
-<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt; 10 Carlos       Boozer    Coach           Basketball 2015-08-05            NA     No        Physical ed   </span></a>
-<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="co">#&gt; 11 Young        Boozer    Coach           &lt;NA&gt;       1995-01-01            NA     No        Political sci.</span></a>
-<a class="sourceLine" id="cb4-23" data-line-number="23"><span class="co">#&gt; 12 Micheal      Larsen    Teacher         English    2009-09-15             0.800 No        Vocal music</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">roster &lt;-<span class="st"> </span>roster_raw <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="reference/clean_names.html">clean_names</a></span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="reference/remove_empty.html">remove_empty</a></span>(<span class="kw">c</span>(<span class="st">"rows"</span>, <span class="st">"cols"</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">hire_date =</span> <span class="kw"><a href="reference/excel_numeric_to_date.html">excel_numeric_to_date</a></span>(hire_date),
+         <span class="dt">cert =</span> <span class="kw">coalesce</span>(certification, certification_<span class="dv">1</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># from dplyr</span>
+<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>certification, <span class="op">-</span>certification_<span class="dv">1</span>) <span class="co"># drop unwanted columns</span>
+
+roster
+<span class="co">#&gt; # A tibble: 12 x 8</span>
+<span class="co">#&gt;    first_name   last_name employee_status subject    hire_date  percent_allocated full_time cert          </span>
+<span class="co">#&gt;    &lt;chr&gt;        &lt;chr&gt;     &lt;chr&gt;           &lt;chr&gt;      &lt;date&gt;                 &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;         </span>
+<span class="co">#&gt;  1 Jason        Bourne    Teacher         PE         2008-08-30              0.75 Yes       Physical ed   </span>
+<span class="co">#&gt;  2 Jason        Bourne    Teacher         Drafting   2008-08-30              0.25 Yes       Physical ed   </span>
+<span class="co">#&gt;  3 Alicia       Keys      Teacher         Music      2001-08-15              1    Yes       Instr. music  </span>
+<span class="co">#&gt;  4 Ada          Lovelace  Teacher         &lt;NA&gt;       1975-05-01              1    Yes       PENDING       </span>
+<span class="co">#&gt;  5 Desus        Nice      Administration  Dean       2013-06-06              1    Yes       PENDING       </span>
+<span class="co">#&gt;  6 Chien-Shiung Wu        Teacher         Physics    1930-03-20              0.5  Yes       Science 6-12  </span>
+<span class="co">#&gt;  7 Chien-Shiung Wu        Teacher         Chemistry  1930-03-20              0.5  Yes       Science 6-12  </span>
+<span class="co">#&gt;  8 James        Joyce     Teacher         English    1990-05-01              0.5  No        English 6-12  </span>
+<span class="co">#&gt;  9 Hedy         Lamarr    Teacher         Science    1976-06-08              0.5  No        PENDING       </span>
+<span class="co">#&gt; 10 Carlos       Boozer    Coach           Basketball 2015-08-05             NA    No        Physical ed   </span>
+<span class="co">#&gt; 11 Young        Boozer    Coach           &lt;NA&gt;       1995-01-01             NA    No        Political sci.</span>
+<span class="co">#&gt; 12 Micheal      Larsen    Teacher         English    2009-09-15              0.8  No        Vocal music</span></code></pre></div>
 <p>The core janitor cleaning function is <code><a href="reference/clean_names.html">clean_names()</a></code> - call it whenever you load data into R.</p>
 </div>
 <div id="examining-dirty-data" class="section level3">
@@ -208,14 +204,14 @@
 <h4 class="hasAnchor">
 <a href="#finding-duplicates" class="anchor"></a>Finding duplicates</h4>
 <p>Use <code><a href="reference/get_dupes.html">get_dupes()</a></code> to identify and examine duplicate records during data cleaning. Let’s see if any teachers are listed more than once:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">roster <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/get_dupes.html">get_dupes</a></span>(first_name, last_name)</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; # A tibble: 4 x 9</span></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt;   first_name   last_name dupe_count employee_status subject   hire_date  percent_allocated full_time cert    </span></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;        &lt;chr&gt;          &lt;int&gt; &lt;chr&gt;           &lt;chr&gt;     &lt;date&gt;                 &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;   </span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; 1 Chien-Shiung Wu                 2 Teacher         Physics   1930-03-20             0.500 Yes       Science~</span></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; 2 Chien-Shiung Wu                 2 Teacher         Chemistry 1930-03-20             0.500 Yes       Science~</span></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; 3 Jason        Bourne             2 Teacher         PE        2008-08-30             0.750 Yes       Physica~</span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt; 4 Jason        Bourne             2 Teacher         Drafting  2008-08-30             0.250 Yes       Physica~</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">roster <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/get_dupes.html">get_dupes</a></span>(first_name, last_name)
+<span class="co">#&gt; # A tibble: 4 x 9</span>
+<span class="co">#&gt;   first_name   last_name dupe_count employee_status subject   hire_date  percent_allocat… full_time cert     </span>
+<span class="co">#&gt;   &lt;chr&gt;        &lt;chr&gt;          &lt;int&gt; &lt;chr&gt;           &lt;chr&gt;     &lt;date&gt;                &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;    </span>
+<span class="co">#&gt; 1 Chien-Shiung Wu                 2 Teacher         Physics   1930-03-20             0.5  Yes       Science …</span>
+<span class="co">#&gt; 2 Chien-Shiung Wu                 2 Teacher         Chemistry 1930-03-20             0.5  Yes       Science …</span>
+<span class="co">#&gt; 3 Jason        Bourne             2 Teacher         PE        2008-08-30             0.75 Yes       Physical…</span>
+<span class="co">#&gt; 4 Jason        Bourne             2 Teacher         Drafting  2008-08-30             0.25 Yes       Physical…</span></code></pre></div>
 <p>Yes, some teachers appear twice. We ought to address this before counting employees.</p>
 </div>
 <div id="tabulating-tools" class="section level4">
@@ -238,56 +234,56 @@
 <a href="#tabyl" class="anchor"></a>tabyl()</h4>
 <p>Like <code>table()</code>, but pipe-able, data.frame-based, and fully featured.</p>
 <p>One variable:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">roster <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/tabyl.html">tabyl</a></span>(subject)</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt;     subject n    percent valid_percent</span></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt;  Basketball 1 0.08333333           0.1</span></a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt;   Chemistry 1 0.08333333           0.1</span></a>
-<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt;        Dean 1 0.08333333           0.1</span></a>
-<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt;    Drafting 1 0.08333333           0.1</span></a>
-<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt;     English 2 0.16666667           0.2</span></a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt;       Music 1 0.08333333           0.1</span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt;          PE 1 0.08333333           0.1</span></a>
-<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt;     Physics 1 0.08333333           0.1</span></a>
-<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt;     Science 1 0.08333333           0.1</span></a>
-<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt;        &lt;NA&gt; 2 0.16666667            NA</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">roster <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="reference/tabyl.html">tabyl</a></span>(subject)
+<span class="co">#&gt;     subject n    percent valid_percent</span>
+<span class="co">#&gt;  Basketball 1 0.08333333           0.1</span>
+<span class="co">#&gt;   Chemistry 1 0.08333333           0.1</span>
+<span class="co">#&gt;        Dean 1 0.08333333           0.1</span>
+<span class="co">#&gt;    Drafting 1 0.08333333           0.1</span>
+<span class="co">#&gt;     English 2 0.16666667           0.2</span>
+<span class="co">#&gt;       Music 1 0.08333333           0.1</span>
+<span class="co">#&gt;          PE 1 0.08333333           0.1</span>
+<span class="co">#&gt;     Physics 1 0.08333333           0.1</span>
+<span class="co">#&gt;     Science 1 0.08333333           0.1</span>
+<span class="co">#&gt;        &lt;NA&gt; 2 0.16666667            NA</span></code></pre></div>
 <p>Two variables:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">roster <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(hire_date <span class="op">&gt;</span><span class="st"> </span><span class="kw">as.Date</span>(<span class="st">"1950-01-01"</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="reference/tabyl.html">tabyl</a></span>(employee_status, full_time)</a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt;  employee_status No Yes</span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt;   Administration  0   1</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt;            Coach  2   0</span></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt;          Teacher  3   4</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">roster <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(hire_date <span class="op">&gt;</span><span class="st"> </span><span class="kw">as.Date</span>(<span class="st">"1950-01-01"</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="reference/tabyl.html">tabyl</a></span>(employee_status, full_time)
+<span class="co">#&gt;  employee_status No Yes</span>
+<span class="co">#&gt;   Administration  0   1</span>
+<span class="co">#&gt;            Coach  2   0</span>
+<span class="co">#&gt;          Teacher  3   4</span></code></pre></div>
 <p>Three variables:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">roster <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/tabyl.html">tabyl</a></span>(full_time, subject, employee_status, <span class="dt">show_missing_levels =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; $Administration</span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;  full_time Dean</span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt;        Yes    1</span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; $Coach</span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt;  full_time Basketball NA_</span></a>
-<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt;         No          1   1</span></a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt; $Teacher</span></a>
-<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt;  full_time Chemistry Drafting English Music PE Physics Science NA_</span></a>
-<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt;         No         0        0       2     0  0       0       1   0</span></a>
-<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt;        Yes         1        1       0     1  1       1       0   1</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">roster <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="reference/tabyl.html">tabyl</a></span>(full_time, subject, employee_status, <span class="dt">show_missing_levels =</span> <span class="ot">FALSE</span>)
+<span class="co">#&gt; $Administration</span>
+<span class="co">#&gt;  full_time Dean</span>
+<span class="co">#&gt;        Yes    1</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $Coach</span>
+<span class="co">#&gt;  full_time Basketball NA_</span>
+<span class="co">#&gt;         No          1   1</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $Teacher</span>
+<span class="co">#&gt;  full_time Chemistry Drafting English Music PE Physics Science NA_</span>
+<span class="co">#&gt;         No         0        0       2     0  0       0       1   0</span>
+<span class="co">#&gt;        Yes         1        1       0     1  1       1       0   1</span></code></pre></div>
 <p><strong>Adorning tabyls</strong></p>
 <p>The <code>adorn_</code> functions dress up the results of these tabulation calls for fast, basic reporting. Here are some of the functions that augment a summary table for reporting:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">roster <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/tabyl.html">tabyl</a></span>(employee_status, full_time) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="reference/adorn_totals.html">adorn_totals</a></span>(<span class="st">"row"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="reference/adorn_percentages.html">adorn_percentages</a></span>(<span class="st">"row"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="reference/adorn_pct_formatting.html">adorn_pct_formatting</a></span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="reference/adorn_ns.html">adorn_ns</a></span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="st">  </span><span class="kw"><a href="reference/adorn_title.html">adorn_title</a></span>(<span class="st">"combined"</span>)</a>
-<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt;  employee_status/full_time         No        Yes</span></a>
-<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt;             Administration   0.0% (0) 100.0% (1)</span></a>
-<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt;                      Coach 100.0% (2)   0.0% (0)</span></a>
-<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt;                    Teacher  33.3% (3)  66.7% (6)</span></a>
-<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">#&gt;                      Total  41.7% (5)  58.3% (7)</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">roster <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="reference/tabyl.html">tabyl</a></span>(employee_status, full_time) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="reference/adorn_totals.html">adorn_totals</a></span>(<span class="st">"row"</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="reference/adorn_percentages.html">adorn_percentages</a></span>(<span class="st">"row"</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="reference/adorn_pct_formatting.html">adorn_pct_formatting</a></span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="reference/adorn_ns.html">adorn_ns</a></span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="reference/adorn_title.html">adorn_title</a></span>(<span class="st">"combined"</span>)
+<span class="co">#&gt;  employee_status/full_time         No        Yes</span>
+<span class="co">#&gt;             Administration   0.0% (0) 100.0% (1)</span>
+<span class="co">#&gt;                      Coach 100.0% (2)   0.0% (0)</span>
+<span class="co">#&gt;                    Teacher  33.3% (3)  66.7% (6)</span>
+<span class="co">#&gt;                      Total  41.7% (5)  58.3% (7)</span></code></pre></div>
 <p>Pipe that right into <code><a href="http://www.rdocumentation.org/packages/knitr/topics/kable">knitr::kable()</a></code> in your RMarkdown report.</p>
 <p>These modular adornments can be layered to reduce R’s deficit against Excel and SPSS when it comes to quick, informative counts.</p>
 </div>
@@ -311,33 +307,24 @@
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <div class="links">
-<h2>Links</h2>
+    <h2 class="hasAnchor">
+<a href="#sidebar" class="anchor"></a>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=janitor">https://​cloud.r-project.org/​package=janitor</a>
+<li>Download from CRAN at <br><a href="https://cran.r-project.org/package=janitor">https://​cran.r-project.org/​package=janitor</a>
 </li>
 <li>Browse source code at <br><a href="https://github.com/sfirke/janitor">https://​github.com/​sfirke/​janitor</a>
 </li>
 <li>Report a bug at <br><a href="https://github.com/sfirke/janitor/issues">https://​github.com/​sfirke/​janitor/​issues</a>
 </li>
 </ul>
-</div>
-<div class="license">
 <h2>License</h2>
-<ul class="list-unstyled">
-<li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
-</ul>
-</div>
-<div class="developers">
+<p><a href="license.html">Full license</a><br><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a><small></small></small></p>
 <h2>Developers</h2>
 <ul class="list-unstyled">
 <li>Sam Firke <br><small class="roles"> Author, maintainer </small>  </li>
 <li><a href="authors.html">All authors...</a></li>
 </ul>
 </div>
-
-      </div>
 
 </div>
 

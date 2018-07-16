@@ -80,7 +80,7 @@
     <div class="page-header toc-ignore">
       <h1>Overview of janitor functions</h1>
             
-            <h4 class="date">2018-03-17</h4>
+            <h4 class="date">2018-07-16</h4>
       
       <small>Source: <a href="https:/github.com/sfirke/janitor/blob/master/vignettes/janitor.Rmd"><code>vignettes/janitor.Rmd</code></a></small>
 
@@ -109,7 +109,7 @@
 <li>Default is to snake_case, but other cases like camelCase are available</li>
 </ul>
 </li>
-<li>Handles special characters and spaces, including transilerating characters like <code>œ</code> to <code>oe</code>.</li>
+<li>Handles special characters and spaces, including transliterating characters like <code>œ</code> to <code>oe</code>.</li>
 <li>Appends numbers to duplicated names</li>
 <li>Converts “%” to “percent” and “#” to “number” to retain meaning</li>
 <li>Spacing (or lack thereof) around numbers is preserved</li>
@@ -162,10 +162,10 @@ test_df &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<spa
 <span class="co">#&gt; # A tibble: 4 x 12</span>
 <span class="co">#&gt;      wt   cyl dupe_count   mpg  disp    hp  drat  qsec    vs    am  gear</span>
 <span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1  3.44  6.00          2  19.2   168   123  3.92  18.3  1.00  0     4.00</span>
-<span class="co">#&gt; 2  3.44  6.00          2  17.8   168   123  3.92  18.9  1.00  0     4.00</span>
-<span class="co">#&gt; 3  3.57  8.00          2  14.3   360   245  3.21  15.8  0     0     3.00</span>
-<span class="co">#&gt; 4  3.57  8.00          2  15.0   301   335  3.54  14.6  0     1.00  5.00</span>
+<span class="co">#&gt; 1  3.44     6          2  19.2  168.   123  3.92  18.3     1     0     4</span>
+<span class="co">#&gt; 2  3.44     6          2  17.8  168.   123  3.92  18.9     1     0     4</span>
+<span class="co">#&gt; 3  3.57     8          2  14.3  360    245  3.21  15.8     0     0     3</span>
+<span class="co">#&gt; 4  3.57     8          2  15    301    335  3.54  14.6     0     1     5</span>
 <span class="co">#&gt; # ... with 1 more variable: carb &lt;dbl&gt;</span></code></pre></div>
 </div>
 </div>
@@ -177,16 +177,6 @@ test_df &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<spa
 <div id="cleaning-1" class="section level2">
 <h2 class="hasAnchor">
 <a href="#cleaning-1" class="anchor"></a>Cleaning</h2>
-<div id="fix-dates-stored-as-serial-numbers-with-excel_numeric_to_date" class="section level3">
-<h3 class="hasAnchor">
-<a href="#fix-dates-stored-as-serial-numbers-with-excel_numeric_to_date" class="anchor"></a>Fix dates stored as serial numbers with <code><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date()</a></code>
-</h3>
-<p>Ever load data from Excel and see a value like <code>42223</code> where a date should be? This function converts those serial numbers to class <code>Date</code>, and contains an option for specifying the alternate date system for files created with Excel for Mac 2008 and earlier versions (which count from a different starting point).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date</a></span>(<span class="dv">41103</span>)
-<span class="co">#&gt; [1] "2012-07-13"</span>
-<span class="kw"><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date</a></span>(<span class="dv">41103</span>, <span class="dt">date_system =</span> <span class="st">"mac pre-2011"</span>)
-<span class="co">#&gt; [1] "2016-07-14"</span></code></pre></div>
-</div>
 <div id="remove_empty-rows-and-columns" class="section level3">
 <h3 class="hasAnchor">
 <a href="#remove_empty-rows-and-columns" class="anchor"></a><code><a href="../reference/remove_empty.html">remove_empty()</a></code> rows and columns</h3>
@@ -211,6 +201,33 @@ q <span class="op">%&gt;%</span>
 <span class="co">#&gt; [1] 2 4</span>
 <span class="kw"><a href="../reference/round_half_up.html">round_half_up</a></span>(nums)
 <span class="co">#&gt; [1] 3 4</span></code></pre></div>
+</div>
+<div id="fix-dates-stored-as-serial-numbers-with-excel_numeric_to_date" class="section level3">
+<h3 class="hasAnchor">
+<a href="#fix-dates-stored-as-serial-numbers-with-excel_numeric_to_date" class="anchor"></a>Fix dates stored as serial numbers with <code><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date()</a></code>
+</h3>
+<p>Ever load data from Excel and see a value like <code>42223</code> where a date should be? This function converts those serial numbers to class <code>Date</code>, with options for different Excel date encoding systems and preserving fractions of a date as time (in which case the returned value is of class <code>POSIXlt</code>).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date</a></span>(<span class="dv">41103</span>)
+<span class="co">#&gt; [1] "2012-07-13"</span>
+<span class="kw"><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date</a></span>(<span class="fl">41103.01</span>) <span class="co"># ignores decimal places, returns Date object</span>
+<span class="co">#&gt; [1] "2012-07-13"</span>
+<span class="kw"><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date</a></span>(<span class="fl">41103.01</span>, <span class="dt">include_time =</span> <span class="ot">TRUE</span>) <span class="co"># returns POSIXlt object</span>
+<span class="co">#&gt; [1] "2012-07-13 00:14:24"</span>
+<span class="kw"><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date</a></span>(<span class="fl">41103.01</span>, <span class="dt">date_system =</span> <span class="st">"mac pre-2011"</span>)
+<span class="co">#&gt; [1] "2016-07-14"</span></code></pre></div>
+</div>
+<div id="elevate-column-names-stored-in-a-data-frame-row" class="section level3">
+<h3 class="hasAnchor">
+<a href="#elevate-column-names-stored-in-a-data-frame-row" class="anchor"></a>Elevate column names stored in a data.frame row</h3>
+<p>If a data.frame has the intended variable names stored in one of its rows, <code>row_to_names</code> will elevate the specified row to become the names of the data.frame and optionally (by default) remove the row in which names were stored and/or the rows above it.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dirt &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">X_1 =</span> <span class="kw">c</span>(<span class="ot">NA</span>, <span class="st">"ID"</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>),
+           <span class="dt">X_2 =</span> <span class="kw">c</span>(<span class="ot">NA</span>, <span class="st">"Value"</span>, <span class="dv">4</span><span class="op">:</span><span class="dv">6</span>))
+
+<span class="kw"><a href="../reference/row_to_names.html">row_to_names</a></span>(dirt, <span class="dv">2</span>)
+<span class="co">#&gt;   ID Value</span>
+<span class="co">#&gt; 3  1     4</span>
+<span class="co">#&gt; 4  2     5</span>
+<span class="co">#&gt; 5  3     6</span></code></pre></div>
 </div>
 </div>
 <div id="exploring-1" class="section level2">
