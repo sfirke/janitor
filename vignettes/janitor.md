@@ -1,6 +1,6 @@
 Overview of janitor functions
 ================
-2018-07-16
+2018-07-17
 
 -   [Major functions](#major-functions)
     -   [Cleaning](#cleaning)
@@ -156,7 +156,7 @@ excel_numeric_to_date(41103.01) # ignores decimal places, returns Date object
 #> [1] "2012-07-13"
 excel_numeric_to_date(41103.01, include_time = TRUE) # returns POSIXlt object
 #> [1] "2012-07-13 00:14:24"
-excel_numeric_to_date(41103, date_system = "mac pre-2011")
+excel_numeric_to_date(41103.01, date_system = "mac pre-2011")
 #> [1] "2016-07-14"
 ```
 
