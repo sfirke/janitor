@@ -37,7 +37,8 @@ When using \code{include_time=TRUE} the returned object will not
 \examples{
 excel_numeric_to_date(40000)
 excel_numeric_to_date(40000.5) # No time is included
-excel_numeric_to_date(40000.5, include_time=TRUE) # Time is included
-excel_numeric_to_date(40000.521, include_time=TRUE) # Time is included
-excel_numeric_to_date(40000.521, include_time=TRUE, round_seconds=FALSE) # Time with fractional seconds is included
+excel_numeric_to_date(40000.5, include_time = TRUE) # Time is included
+excel_numeric_to_date(40000.521, include_time = TRUE) # Time is included
+excel_numeric_to_date(40000.521, include_time = TRUE,
+  round_seconds = FALSE) # Time with fractional seconds is included
 }
