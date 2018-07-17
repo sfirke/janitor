@@ -22,13 +22,13 @@
 #' @examples
 #' excel_numeric_to_date(40000)
 #' excel_numeric_to_date(40000.5) # No time is included
-#' excel_numeric_to_date(40000.5, include_time=TRUE) # Time is included
-#' excel_numeric_to_date(40000.521, include_time=TRUE) # Time is included
-#' excel_numeric_to_date(40000.521, include_time=TRUE, round_seconds=FALSE) # Time with fractional seconds is included
+#' excel_numeric_to_date(40000.5, include_time = TRUE) # Time is included
+#' excel_numeric_to_date(40000.521, include_time = TRUE) # Time is included
+#' excel_numeric_to_date(40000.521, include_time = TRUE, round_seconds = FALSE) # Time with fractional seconds is included
 
 # Converts a numeric value like 42414 into a date "2016-02-14"
 
-excel_numeric_to_date <- function(date_num, date_system = "modern", include_time=FALSE, round_seconds=TRUE) {
+excel_numeric_to_date <- function(date_num, date_system = "modern", include_time = FALSE, round_seconds = TRUE) {
   if (!is.numeric(date_num)) {
     stop("argument `date_num` must be of class numeric")
   }
