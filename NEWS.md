@@ -1,4 +1,6 @@
-# janitor 1.0.1.9000  (current development version)
+# janitor 1.1
+
+This release was requested by CRAN to address some minor package dependency issues.  It also contains several updates and additions described below.
 
 ## Major Features
 
@@ -6,11 +8,11 @@ The new function `row_to_names` handles the case where a dirty data file is read
 
 ## Minor features
 
-`excel_numeric_to_date()` can now provide times as well with the new `include_time` argument.
+`excel_numeric_to_date()` can now convert fractions of a day to time, e.g., `excel_numeric_to_date(43001.01, include_time = TRUE)` returns the POSIXlt value `"2017-09-23 00:14:24"`.  Thanks to **@billdenney**.
 
 ## Breaking changes
 
-As part of `excel_numeric_to_date()` handling times, if a Date-only result is requested (the default) any fractional part of the date is now removed.  The date itself is identical, but the underlying object now has only the integer part of the date.
+As part of `excel_numeric_to_date()` now handling times, if a Date-only result is requested (the default) any fractional part of the date is now removed.  The date itself is identical, but the underlying object now contains only the integer part of the date.  For example, while under both the old and new versions of this function the call `excel_numeric_to_date_old(42001.1)` would return the Date object `"2014-12-28"`, calling `as.numeric` on this result would previously return `16432.1`, while now it returns `16432`.
 
 # janitor 1.0.0  (2018-03-17)
 
