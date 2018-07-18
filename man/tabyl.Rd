@@ -8,8 +8,8 @@
 \usage{
 tabyl(dat, ...)
 
-\method{tabyl}{default}(dat, show_na = TRUE, show_missing_levels = TRUE,
-  ...)
+\method{tabyl}{default}(dat, show_na = TRUE,
+  show_missing_levels = TRUE, ...)
 
 \method{tabyl}{data.frame}(dat, var1, var2, var3, show_na = TRUE,
   show_missing_levels = TRUE, ...)

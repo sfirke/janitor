@@ -1,10 +1,10 @@
 Package: janitor
 Title: Simple Tools for Examining and Cleaning Dirty Data
-Version: 1.1
+Version: 1.1.0
 Authors@R: c(person("Sam", "Firke", email = "samuel.firke@gmail.com", role = c("aut", "cre")),
     person("Chris", "Haid", email = "chrishaid@gmail.com", role = "ctb"),
     person("Ryan", "Knight", email = "ryangknight@gmail.com", role = "ctb"),
-    person("Bill", "Denney", email = "wdenney@humanpredictions.com", role="ctb"))
+    person("Bill", "Denney", email = "wdenney@humanpredictions.com", role = "ctb"))
 Description: The main janitor functions can: perfectly format data.frame column
     names; provide quick counts of variable combinations (i.e., frequency
     tables and crosstabs); and isolate duplicate records. Other janitor functions

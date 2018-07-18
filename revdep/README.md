@@ -15,7 +15,7 @@
 
 |package    |old      |new      |Δ  |
 |:----------|:--------|:--------|:--|
-|janitor    |1.0.0    |1.1      |*  |
+|janitor    |1.0.0    |1.1.0    |*  |
 |assertthat |0.2.0    |0.2.0    |   |
 |BH         |1.66.0-1 |1.66.0-1 |   |
 |bindr      |0.1.1    |0.1.1    |   |
@@ -24,7 +24,7 @@
 |crayon     |1.3.4    |1.3.4    |   |
 |dplyr      |0.7.6    |0.7.6    |   |
 |fansi      |0.2.3    |0.2.3    |   |
-|glue       |1.2.0    |1.2.0    |   |
+|glue       |1.3.0    |1.3.0    |   |
 |magrittr   |1.5      |1.5      |   |
 |pillar     |1.3.0    |1.3.0    |   |
 |pkgconfig  |2.0.1    |2.0.1    |   |
@@ -43,13 +43,14 @@
 
 # Revdeps
 
-## All (5)
+## All (6)
 
 |package                                        |version |error |warning |note |
 |:----------------------------------------------|:-------|:-----|:-------|:----|
-|[ballr](problems.md#ballr)                     |0.2.1   |1     |1       |     |
+|[ballr](problems.md#ballr)                     |0.2.1   |1     |        |     |
 |[bomrang](problems.md#bomrang)                 |0.2.1   |1     |        |     |
-|[driftR](problems.md#driftr)                   |1.1.0   |1     |1       |     |
-|[fivethirtyeight](problems.md#fivethirtyeight) |0.4.0   |1     |1       |3    |
-|[moderndive](problems.md#moderndive)           |0.2.0   |1     |1       |     |
+|[driftR](problems.md#driftr)                   |1.1.0   |1     |        |     |
+|[fivethirtyeight](problems.md#fivethirtyeight) |0.4.0   |1     |        |     |
+|[moderndive](problems.md#moderndive)           |0.2.0   |1     |        |     |
+|[questionr](problems.md#questionr)             |0.6.3   |1     |        |     |
 

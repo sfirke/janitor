@@ -105,33 +105,39 @@
     </div>
 
     <div class="contents">
-    <div id="janitor-1-0-1-9000-current-development-version" class="section level1">
+    <div id="janitor-1-1-0-2018-07-17" class="section level1">
 <h1 class="page-header">
-<a href="#janitor-1-0-1-9000-current-development-version" class="anchor"></a>janitor 1.0.1.9000 (current development version)<small> Unreleased </small>
+<a href="#janitor-1-1-0-2018-07-17" class="anchor"></a>janitor 1.1.0 (2018-07-17)<small> Unreleased </small>
 </h1>
+<div id="release-summary" class="section level2">
+<h2 class="hasAnchor">
+<a href="#release-summary" class="anchor"></a>Release summary</h2>
+<p>This release was requested by CRAN to address some minor package dependency issues. It also contains several updates and additions described below.</p>
+</div>
 <div id="major-features" class="section level2">
 <h2 class="hasAnchor">
 <a href="#major-features" class="anchor"></a>Major Features</h2>
-<p>The new function <code>row_to_names</code> handles the case where a dirty data file is read in with its names stored as a row of the data.frame, rather than in the names. This function sets the names of the data.frame to this row and optionally cleans up the rows above and including where the names were stored. Thanks to <strong><a href='http://github.com/billdenney'>@billdenney</a></strong> for writing this feature.</p>
+<p>The new function <code><a href="../reference/row_to_names.html">row_to_names()</a></code> handles the case where a dirty data file is read in with its names stored as a row of the data.frame, rather than in the names. This function sets the names of the data.frame to this row and optionally cleans up the rows above and including where the names were stored. Thanks to <strong><a href='http://github.com/billdenney'>@billdenney</a></strong> for writing this feature.</p>
 </div>
 <div id="minor-features" class="section level2">
 <h2 class="hasAnchor">
 <a href="#minor-features" class="anchor"></a>Minor features</h2>
-<p><code><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date()</a></code> can now provide times as well with the new <code>include_time</code> argument.</p>
+<p><code><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date()</a></code> can now convert fractions of a day to time, e.g., <code><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date(43001.01, include_time = TRUE)</a></code> returns the POSIXlt value <code>"2017-09-23 00:14:24"</code>. Thanks to <strong><a href='http://github.com/billdenney'>@billdenney</a></strong>.</p>
 </div>
 <div id="breaking-changes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#breaking-changes" class="anchor"></a>Breaking changes</h2>
-<p>As part of <code><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date()</a></code> handling times, if a Date-only result is requested (the default) any fractional part of the date is now removed. The date itself is identical, but the underlying object now has only the integer part of the date.</p>
+<p>As part of <code><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date()</a></code> now handling times, if a Date-only result is requested (the default behavior of <code>include_time = FALSE</code>), any fractional part of the date is now removed. The printed date itself is identical, but the internal representation of this object now contains only the integer part of the date. For example, while under both the old and new versions of this function the call <code>excel_numeric_to_date_old(42001.1)</code> would return the Date object <code>"2014-12-28"</code>, calling <code>as.numeric</code> on this Date result would previously return <code>16432.1</code>, while now it returns <code>16432</code>.</p>
+<p>This an improved behavior, as now <code>excel_numeric_to_date(42001.1, include_time = FALSE) == as.Date("2014-12-28")</code> returns TRUE, while previously it would appear to be equivalent from the printed value but this comparison would return FALSE.</p>
 </div>
 </div>
     <div id="janitor-1-0-0-2018-03-17" class="section level1">
 <h1 class="page-header">
 <a href="#janitor-1-0-0-2018-03-17" class="anchor"></a>janitor 1.0.0 (2018-03-17)<small> 2018-03-22 </small>
 </h1>
-<div id="release-summary" class="section level2">
+<div id="release-summary-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#release-summary" class="anchor"></a>Release summary</h2>
+<a href="#release-summary-1" class="anchor"></a>Release summary</h2>
 <p>A stable version 1.0.0, with a new <code>tabyl</code> API and with breaking changes to the output of <code><a href="../reference/clean_names.html">clean_names()</a></code>.</p>
 <p>This builds on the original functionality of janitor, with similar-but-improved tools and significantly-changed implementation.</p>
 </div>
@@ -200,9 +206,9 @@
 <h1 class="page-header">
 <a href="#janitor-0-3-1-2018-01-04" class="anchor"></a>janitor 0.3.1 (2018-01-04)<small> 2018-01-04 </small>
 </h1>
-<div id="release-summary-1" class="section level2">
+<div id="release-summary-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#release-summary-1" class="anchor"></a>Release summary</h2>
+<a href="#release-summary-2" class="anchor"></a>Release summary</h2>
 <p>This is a bug-fix release with no new functionality or changes. It fixes a bug where <code><a href="../reference/adorn_crosstab.html">adorn_crosstab()</a></code> failed if the <code>tibble</code> package was version &gt; 1.4.</p>
 <p>Major changes to janitor are currently in development on GitHub and will be released soon. This is not that next big release.</p>
 <hr>
@@ -212,9 +218,9 @@
 <h1 class="page-header">
 <a href="#janitor-0-3-0-2017-05-06" class="anchor"></a>janitor 0.3.0 (2017-05-06)<small> 2017-05-06 </small>
 </h1>
-<div id="release-summary-2" class="section level2">
+<div id="release-summary-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#release-summary-2" class="anchor"></a>Release summary</h2>
+<a href="#release-summary-3" class="anchor"></a>Release summary</h2>
 <p>The primary purpose of this release is to maintain accuracy given breaking changes to the dplyr package, upon which janitor is built, in dplyr version &gt;0.6.0. This update also contains a number of minor improvements.</p>
 <p><strong>Critical: if you update the package <code>dplyr</code> to version &gt;0.6.0, you <em>must</em> update janitor to version 0.3.0 to ensure accurate results from janitor’s <code><a href="../reference/tabyl.html">tabyl()</a></code> function.</strong> This is due to a change in the behavior of dplyr’s <code>_join</code> functions (<em>discussed in <a href="https://github.com/sfirke/janitor/issues/111"><a href='https://github.com/sfirke/janitor/issues/111'>#111</a>)</a></em>.</p>
 <p>janitor 0.3.0 is compatible with this new version of dplyr as well as old versions of dplyr back to 0.5.0. That is, updating janitor to 0.3.0 does not necessitate an update to dplyr &gt;0.6.0.</p>
@@ -401,7 +407,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#janitor-1-0-1-9000-current-development-version">1.0.1.9000</a></li>
+        <li><a href="#janitor-1-1-0-2018-07-17">1.1.0</a></li>
         <li><a href="#janitor-1-0-0-2018-03-17">1.0.0</a></li>
         <li><a href="#janitor-0-3-1-2018-01-04">0.3.1</a></li>
         <li><a href="#janitor-0-3-0-2017-05-06">0.3.0</a></li>

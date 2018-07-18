@@ -25,4 +25,4 @@ Per CRAN request (Kurt Hornik on July 3rd 2018), I am submitting a patched versi
 ### Downstream dependencies
 The only breaking change in this release that could affect another package is quite obscure and does not affect the downstream dependencies.
 
-I checked 5 reverse dependencies from CRAN: ballr, bomrang, driftR, fivethirtyeight, moderndive.  I get some unrelated warnings and notes but nothing having to do with the janitor package or this update.
+I checked 6 reverse dependencies from CRAN: ballr, bomrang, driftR, fivethirtyeight, moderndive, questionr.  I get some unrelated warnings and notes but nothing having to do with the janitor package or this update.
