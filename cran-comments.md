@@ -1,37 +1,28 @@
 # Submission
-2018-03-21
+2018-07-17
 
 ## Submission summary
-An overhaul of core package functions, including breaking changes.  Brings the package to a stable long-term state, as reflected by the 1.0.0 version number.
+Per CRAN request (Kurt Hornik on July 3rd 2018), I am submitting a patched version that addresses two dependency-based warnings currently being thrown under R-devel.  There are a few minor changes to the package functionality as well.
 
 ### Test environments
 
 #### Windows
-* local Windows 10 install, R 3.4.3
-* local Windows 10 install, R 3.4.4
-* win-builder with R-devel 2018-03-20 r74431
+* win-builder with R Under development (unstable) (2018-07-15 r74966)
 
 #### Linux
-* ubuntu 16.04.3, R-release 3.4.3 (local)
-* ubuntu 16.04.3, R-release 3.4.4 (local)
-* ubuntu 14.04.5, R-oldrel 3.3.3 (Travis CI)
-* ubuntu 14.04.5 R-release 3.4.4 (Travis CI)
-* ubuntu 14.04.5 R-devel R 3.5.0 74418 (Travis CI)
+* ubuntu 16.04.3, R-oldrel 3.4.4 (local)
+* ubuntu 14.04.5, R-oldrel 3.4.4 (Travis CI)
+* ubuntu 14.04.5 R-release 3.5.0 (Travis CI)
+* ubuntu 14.04.5 R-devel R Under development (unstable) (2018-06-20 r74923) (Travis CI)
 
 #### Mac
-* OS X Sierra 10.12.6, R-oldrel 3.3.3 (Travis CI)
-* OS X Sierra 10.12.6, R-release 3.4.4 (Travis CI)
+* OS X Sierra 10.12.6, R-oldrel 3.4.4 (Travis CI)
+* OS X Sierra 10.12.6, R-release 3.5.0 (Travis CI)
 
 ### R CMD check results
 0 errors | 0 warnings | 0 notes
 
 ### Downstream dependencies
-The janitor v1.0 update involves breaking changes that affect some downstream packages.  I advised all downstream package maintainers of these changes on February 21, including providing example code that would keep their packages compatible with all versions of janitor.  All downstream packages have since been updated to address the janitor 1.0.0 changes.
+The only breaking change in this release that could affect another package is quite obscure and does not affect the downstream dependencies.
 
-I checked 4 reverse dependencies from CRAN.
-
-#### New problems
-These CRAN packages depending on janitor each have 1 warning:
-
-* ballr, bomrang: failures due to change in janitor::clean_names. I emailed the maintainers notice of failing R CMD check on Mar 17.  Maintainers of both packages have since confirmed to me that they've updated their packages accordingly.  Both packages have been submitted to CRAN or will be shortly following janitor 1.0.0's acceptance.
-* fivethirtyeight: my check yielded a warning `checking for unstated dependencies in example ... WARNING warning in parse(file = files, n = -1L) : invalid input found on input connection 'fivethirtyeight-Ex.R'.`   I discussed this warning with the maintainer; he tested janitor 1.0.0 with his package and confirmed that any WARNING or NOTE is not the result of changes to janitor.
+I checked 5 reverse dependencies from CRAN: ballr, bomrang, driftR, fivethirtyeight, moderndive.  I get some unrelated warnings and notes but nothing having to do with the janitor package or this update.
