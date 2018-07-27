@@ -1,3 +1,9 @@
+# janitor 1.1.1
+
+## Bug fixes
+
+* `excel_numeric_to_date()` again handles NA correctly (#220).
+
 # janitor 1.1.0 (2018-07-17)
 
 ## Release summary

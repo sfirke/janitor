@@ -30,7 +30,14 @@
 # Converts a numeric value like 42414 into a date "2016-02-14"
 
 excel_numeric_to_date <- function(date_num, date_system = "modern", include_time = FALSE, round_seconds = TRUE) {
-  if (!is.numeric(date_num)) {
+  if (all(is.na(date_num))) {
+    # For NA input, return the expected type of NA output.
+    if (include_time) {
+      return(as.POSIXlt(as.character(date_num)))
+    } else {
+      return(as.Date(as.character(date_num)))
+    }
+  } else if (!is.numeric(date_num)) {
     stop("argument `date_num` must be of class numeric")
   }
 
@@ -38,7 +45,7 @@ excel_numeric_to_date <- function(date_num, date_system = "modern", include_time
   date_num_days <- (date_num * 86400L + 0.001) %/% 86400L
   date_num_days_no_floating_correction <- date_num %/% 1
   # If the day rolls over due to machine precision, then the seconds should be zero
-  mask_day_rollover <- date_num_days > date_num_days_no_floating_correction
+  mask_day_rollover <- !is.na(date_num) & date_num_days > date_num_days_no_floating_correction
   date_num_seconds <- (date_num - date_num_days) * 86400
   date_num_seconds[mask_day_rollover] <- 0
   if (round_seconds) {

@@ -48,3 +48,19 @@ test_that("time handling at the edge of the next date works correctly", {
   expect_equal(excel_numeric_to_date(42002 - 0.0011/86400, include_time=TRUE, round_seconds=TRUE),
                as.POSIXlt("2014-12-29"))
 })
+
+test_that("excel_numeric_to_date handles NA", {
+  expect_equal(excel_numeric_to_date(NA),
+               as.Date(NA_character_),
+               info="Return NA output of the correct class (Date) for NA input.")
+  expect_equal(excel_numeric_to_date(NA, include_time=TRUE),
+               as.POSIXlt(NA_character_),
+               info="Return NA output of the correct class (POSIXlt) for NA input.")
+  expect_equal(excel_numeric_to_date(c(43088, NA)),
+               as.Date(floor(c(43088, NA)), origin = "1899-12-30"),
+               info="Return NA output as part of a vector of inputs correctly")
+  expect_equal(excel_numeric_to_date(c(43088, NA), include_time=TRUE),
+               structure(as.POSIXlt(as.Date(floor(c(43088, NA)), origin = "1899-12-30")),
+                         tzone=NULL),
+               info="Return NA output as part of a vector of inputs correctly")
+})
