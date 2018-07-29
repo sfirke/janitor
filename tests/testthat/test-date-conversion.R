@@ -39,10 +39,19 @@ test_that("time handling at the edge of a minute works correctly", {
 test_that("time handling at the edge of the next date works correctly", {
   expect_warning(excel_numeric_to_date(42002 - 0.0005/86400, include_time=TRUE, round_seconds=FALSE),
                  regexp="1 date_num values are within 0.001 sec of a later date and were rounded up to the next day.")
-  expect_equal(excel_numeric_to_date(42002 - 0.0005/86400, include_time=TRUE, round_seconds=FALSE),
-               as.POSIXlt("2014-12-29"))
-  expect_equal(excel_numeric_to_date(42002 - 0.0005/86400, include_time=TRUE, round_seconds=TRUE),
-               as.POSIXlt("2014-12-29"))
+  # suppress warning on next two tests, that aspect is identical to preceding call where warning is checked
+  expect_equal(
+    suppressWarnings(
+      excel_numeric_to_date(42002 - 0.0005/86400, include_time=TRUE, round_seconds=FALSE)
+    ),
+    as.POSIXlt("2014-12-29")
+  )
+  expect_equal(
+    suppressWarnings(
+      excel_numeric_to_date(42002 - 0.0005/86400, include_time=TRUE, round_seconds=TRUE)
+    ),
+    as.POSIXlt("2014-12-29")
+  )
   expect_equal(excel_numeric_to_date(42002 - 0.0011/86400, include_time=TRUE, round_seconds=FALSE),
                as.POSIXlt("2014-12-28 23:59:59.998"))
   expect_equal(excel_numeric_to_date(42002 - 0.0011/86400, include_time=TRUE, round_seconds=TRUE),
