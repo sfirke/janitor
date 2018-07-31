@@ -105,13 +105,31 @@
     </div>
 
     <div class="contents">
-    <div id="janitor-1-1-0-2018-07-17" class="section level1">
+    <div id="janitor-1-1-1-2018-07-30" class="section level1">
 <h1 class="page-header">
-<a href="#janitor-1-1-0-2018-07-17" class="anchor"></a>janitor 1.1.0 (2018-07-17)<small> Unreleased </small>
+<a href="#janitor-1-1-1-2018-07-30" class="anchor"></a>janitor 1.1.1 (2018-07-30)<small> Unreleased </small>
 </h1>
 <div id="release-summary" class="section level2">
 <h2 class="hasAnchor">
 <a href="#release-summary" class="anchor"></a>Release summary</h2>
+<p>Patches a bug introduced in version 1.1.0 where <code><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date()</a></code> would fail if given an input vector containing an <code>NA</code> value.</p>
+<div id="bug-fixes" class="section level3">
+<h3 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>Bug fixes</h3>
+<ul>
+<li>
+<code><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date()</a></code> again handles <code>NA</code> correctly, in version 1.1.0 the function would error if any values of the input vector were <code>NA</code>. (<a href='https://github.com/sfirke/janitor/issues/220'>#220</a>).</li>
+</ul>
+</div>
+</div>
+</div>
+    <div id="janitor-1-1-0-2018-07-17" class="section level1">
+<h1 class="page-header">
+<a href="#janitor-1-1-0-2018-07-17" class="anchor"></a>janitor 1.1.0 (2018-07-17)<small> 2018-07-18 </small>
+</h1>
+<div id="release-summary-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#release-summary-1" class="anchor"></a>Release summary</h2>
 <p>This release was requested by CRAN to address some minor package dependency issues. It also contains several updates and additions described below.</p>
 </div>
 <div id="major-features" class="section level2">
@@ -135,9 +153,9 @@
 <h1 class="page-header">
 <a href="#janitor-1-0-0-2018-03-17" class="anchor"></a>janitor 1.0.0 (2018-03-17)<small> 2018-03-22 </small>
 </h1>
-<div id="release-summary-1" class="section level2">
+<div id="release-summary-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#release-summary-1" class="anchor"></a>Release summary</h2>
+<a href="#release-summary-2" class="anchor"></a>Release summary</h2>
 <p>A stable version 1.0.0, with a new <code>tabyl</code> API and with breaking changes to the output of <code><a href="../reference/clean_names.html">clean_names()</a></code>.</p>
 <p>This builds on the original functionality of janitor, with similar-but-improved tools and significantly-changed implementation.</p>
 </div>
@@ -149,7 +167,7 @@
 <a href="#a-fully-overhauled-tabyl" class="anchor"></a>A fully-overhauled <code>tabyl</code>
 </h3>
 <p><code><a href="../reference/tabyl.html">tabyl()</a></code> is now a single function that can count combinations of one, two, or three variables, ala base R’s <code>table()</code>. The resulting <code>tabyl</code> data.frames can be manipulated and formatted using a family of <code>adorn_</code> functions. See the <a href="http://sfirke.github.io/janitor/articles/tabyls.html">tabyls vignette</a> for more.</p>
-<p>The now-redundant legacy functions <code><a href="../reference/crosstab.html">crosstab()</a></code> and <code><a href="../reference/adorn_crosstab.html">adorn_crosstab()</a></code> have been deprecated, but remain in the package for now. Existing code that relies on the version of <code>tabyl</code> present in janitor versions &lt;= 0.3.1 will break if the <code>sort</code> argument was used, as that argument no longer exists in <code>tabyl</code> (use <code><a href="http://dplyr.tidyverse.org/reference/arrange.html">dplyr::arrange()</a></code> instead).</p>
+<p>The now-redundant legacy functions <code><a href="../reference/crosstab.html">crosstab()</a></code> and <code><a href="../reference/adorn_crosstab.html">adorn_crosstab()</a></code> have been deprecated, but remain in the package for now. Existing code that relies on the version of <code>tabyl</code> present in janitor versions &lt;= 0.3.1 will break if the <code>sort</code> argument was used, as that argument no longer exists in <code>tabyl</code> (use <code><a href="http://www.rdocumentation.org/packages/dplyr/topics/arrange">dplyr::arrange()</a></code> instead).</p>
 </div>
 <div id="improvements-to-clean_names" class="section level3">
 <h3 class="hasAnchor">
@@ -188,9 +206,9 @@
 <code><a href="../reference/clean_names.html">clean_names()</a></code> now retains the character <code>#</code> as <code>"number"</code> in the resulting names</li>
 </ul>
 </div>
-<div id="bug-fixes" class="section level2">
+<div id="bug-fixes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-1" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>
 <code><a href="../reference/adorn_totals.html">adorn_totals("row")</a></code> handles quirky variable names in 1st column <a href="https://github.com/sfirke/janitor/issues/118">(<a href='https://github.com/sfirke/janitor/issues/118'>#118</a>)</a>
@@ -206,9 +224,9 @@
 <h1 class="page-header">
 <a href="#janitor-0-3-1-2018-01-04" class="anchor"></a>janitor 0.3.1 (2018-01-04)<small> 2018-01-04 </small>
 </h1>
-<div id="release-summary-2" class="section level2">
+<div id="release-summary-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#release-summary-2" class="anchor"></a>Release summary</h2>
+<a href="#release-summary-3" class="anchor"></a>Release summary</h2>
 <p>This is a bug-fix release with no new functionality or changes. It fixes a bug where <code><a href="../reference/adorn_crosstab.html">adorn_crosstab()</a></code> failed if the <code>tibble</code> package was version &gt; 1.4.</p>
 <p>Major changes to janitor are currently in development on GitHub and will be released soon. This is not that next big release.</p>
 <hr>
@@ -218,9 +236,9 @@
 <h1 class="page-header">
 <a href="#janitor-0-3-0-2017-05-06" class="anchor"></a>janitor 0.3.0 (2017-05-06)<small> 2017-05-06 </small>
 </h1>
-<div id="release-summary-3" class="section level2">
+<div id="release-summary-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#release-summary-3" class="anchor"></a>Release summary</h2>
+<a href="#release-summary-4" class="anchor"></a>Release summary</h2>
 <p>The primary purpose of this release is to maintain accuracy given breaking changes to the dplyr package, upon which janitor is built, in dplyr version &gt;0.6.0. This update also contains a number of minor improvements.</p>
 <p><strong>Critical: if you update the package <code>dplyr</code> to version &gt;0.6.0, you <em>must</em> update janitor to version 0.3.0 to ensure accurate results from janitor’s <code><a href="../reference/tabyl.html">tabyl()</a></code> function.</strong> This is due to a change in the behavior of dplyr’s <code>_join</code> functions (<em>discussed in <a href="https://github.com/sfirke/janitor/issues/111"><a href='https://github.com/sfirke/janitor/issues/111'>#111</a>)</a></em>.</p>
 <p>janitor 0.3.0 is compatible with this new version of dplyr as well as old versions of dplyr back to 0.5.0. That is, updating janitor to 0.3.0 does not necessitate an update to dplyr &gt;0.6.0.</p>
@@ -242,9 +260,9 @@
 <p><strong>Deprecated the following functions:</strong></p>
 <ul>
 <li>
-<code><a href="../reference/use_first_valid_of.html">use_first_valid_of()</a></code> - use <code><a href="http://dplyr.tidyverse.org/reference/coalesce.html">dplyr::coalesce()</a></code> instead</li>
+<code><a href="../reference/use_first_valid_of.html">use_first_valid_of()</a></code> - use <code><a href="http://www.rdocumentation.org/packages/dplyr/topics/coalesce">dplyr::coalesce()</a></code> instead</li>
 <li>
-<code><a href="../reference/convert_to_NA.html">convert_to_NA()</a></code> - use <code><a href="http://dplyr.tidyverse.org/reference/na_if.html">dplyr::na_if()</a></code> instead</li>
+<code><a href="../reference/convert_to_NA.html">convert_to_NA()</a></code> - use <code><a href="http://www.rdocumentation.org/packages/dplyr/topics/na_if">dplyr::na_if()</a></code> instead</li>
 <li>
 <code><a href="../reference/add_totals_row.html">add_totals_row()</a></code> and <code><a href="../reference/add_totals_col.html">add_totals_col()</a></code> - replaced by the single function <code><a href="../reference/adorn_totals.html">adorn_totals()</a></code>
 </li>
@@ -261,9 +279,9 @@
 <code><a href="../reference/adorn_totals.html">adorn_totals("col")</a></code> retains factor class in 1st column if 1st column in the input data.frame was a factor</li>
 </ul>
 </div>
-<div id="bug-fixes-1" class="section level2">
+<div id="bug-fixes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-1" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-2" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>
 <code><a href="../reference/clean_names.html">clean_names()</a></code> now handles leading spaces <a href="https://github.com/sfirke/janitor/issues/85">(<a href='https://github.com/sfirke/janitor/issues/85'>#85</a>)</a>
@@ -286,9 +304,9 @@
 <h1 class="page-header">
 <a href="#janitor-0-2-1-2016-10-30" class="anchor"></a>janitor 0.2.1 (2016-10-30)<small> 2016-10-31 </small>
 </h1>
-<div id="bug-fixes-2" class="section level2">
+<div id="bug-fixes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-2" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-3" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>
 <code><a href="../reference/tabyl.html">tabyl()</a></code> and <code><a href="../reference/crosstab.html">crosstab()</a></code> now appear in the package manual <a href="https://github.com/sfirke/janitor/issues/65">(<a href='https://github.com/sfirke/janitor/issues/65'>#65</a>)</a>
@@ -325,9 +343,9 @@
 </ul>
 </div>
 </div>
-<div id="bug-fixes-3" class="section level2">
+<div id="bug-fixes-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-3" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-4" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Can call tabyl() on the result of a tabyl(), e.g., <code>mtcars %&gt;% tabyl(mpg) %&gt;% tabyl(n)</code> <a href="https://github.com/sfirke/janitor/issues/54">(<a href='https://github.com/sfirke/janitor/issues/54'>#54</a>)</a>
 </li>
@@ -407,6 +425,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#janitor-1-1-1-2018-07-30">1.1.1</a></li>
         <li><a href="#janitor-1-1-0-2018-07-17">1.1.0</a></li>
         <li><a href="#janitor-1-0-0-2018-03-17">1.0.0</a></li>
         <li><a href="#janitor-0-3-1-2018-01-04">0.3.1</a></li>

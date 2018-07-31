@@ -150,17 +150,11 @@ If you're formatting percentages, e.g., the result of adorn_percentages(), use a
 #&gt;   0 0.16 0.21 0.63
 #&gt;   1 0.62 0.23 0.15</div><div class='input'>
 <span class='co'># tolerates non-numeric columns:</span>
-<span class='fu'>library</span>(<span class='no'>dplyr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘dplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:testthat’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    matches</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
+<span class='fu'>library</span>(<span class='no'>dplyr</span>)
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='tabyl.html'>tabyl</a></span>(<span class='no'>am</span>, <span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='adorn_percentages.html'>adorn_percentages</a></span>(<span class='st'>"all"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>dummy</span> <span class='kw'>=</span> <span class='st'>"a"</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='http://www.rdocumentation.org/packages/dplyr/topics/mutate'>mutate</a></span>(<span class='kw'>dummy</span> <span class='kw'>=</span> <span class='st'>"a"</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>adorn_rounding</span>()</div><div class='output co'>#&gt;   am   4   6   8 dummy
 #&gt; 1  0 0.1 0.1 0.4     a
 #&gt; 2  1 0.2 0.1 0.1     a</div></pre>
