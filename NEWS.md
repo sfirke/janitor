@@ -1,4 +1,4 @@
-# janitor 1.1.1 (2018-07-28)
+# janitor 1.1.1 (2018-07-30)
 
 ## Release summary
 

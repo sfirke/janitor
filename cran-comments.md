@@ -1,8 +1,8 @@
 # Submission
-2018-07-29
+2018-07-30
 
 ## Submission summary
-Fixes a bug introduced 11 days ago in the v1.1.0 release of janitor, whereby a function began inappropriately failing if provided NA values.
+Fixes a bug recently introduced in the v1.1.0 release of janitor, whereby a function began inappropriately failing if provided NA values.
 
 ### Test environments
 
@@ -23,6 +23,6 @@ Fixes a bug introduced 11 days ago in the v1.1.0 release of janitor, whereby a f
 0 errors | 0 warnings | 0 notes
 
 ### Downstream dependencies
-This bugfix release fixes one specific bug introduced 11 days ago; it does not affect downstream dependencies.
+This bugfix release fixes one specific bug recently introduced ago; it does not affect downstream dependencies.  If anything, this update would cause code reliant on the buggy function to work again.
 
-I checked 7 reverse dependencies from CRAN: ballr, bomrang, driftR, fivethirtyeight, moderndive, postal, questionr.  I get some unrelated warnings and notes but nothing having to do with the janitor package or this update.
+I checked 7 reverse dependencies from CRAN: ballr, bomrang, driftR, fivethirtyeight, moderndive, postal, questionr.  I get some unrelated notes but nothing having to do with this update.
