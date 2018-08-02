@@ -56,3 +56,9 @@ test_that("deprecated functions remove_empty_cols and remove_empty_rows function
       remove_empty_cols())
   )
 })
+
+test_that("remove_empty leaves matrices as matrices", {
+  mat <- matrix(c(NA, NA, NA, rep(0, 3)), ncol = 2, byrow = TRUE)
+  expect_equal(remove_empty(mat), matrix(c(NA, rep(0, 3)), ncol=2),
+               info="remove_empty with a matrix returns a matrix")
+})

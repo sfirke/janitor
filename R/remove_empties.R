@@ -23,7 +23,7 @@ remove_empty <- function(dat, which = c("rows", "cols")) {
     dat <- dat[rowSums(is.na(dat)) != ncol(dat), ]
   }
   if ("cols" %in% which) {
-    dat <- dat[colSums(!is.na(dat)) > 0]
+    dat <- dat[,colSums(!is.na(dat)) > 0]
   }
   dat
 }

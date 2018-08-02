@@ -1,10 +1,16 @@
+# janitor 1.1.1.9000
+
+## Bug fixes
+
+* `remove_empty()` now works with matrices (returning a matrix).  (#215)  Thanks to **@jsta** for reporting and **@billdenney** for patching.
+
 # janitor 1.1.1 (2018-07-30)
 
 ## Release summary
 
 Patches a bug introduced in version 1.1.0 where `excel_numeric_to_date()` would fail if given an input vector containing an `NA` value.
 
-### Bug fixes
+## Bug fixes
 
 * `excel_numeric_to_date()` again handles `NA` correctly, in version 1.1.0 the function would error if any values of the input vector were `NA`. (#220). Thanks **@emilelatour** for reporting and **@billdenney** for patching.
 
