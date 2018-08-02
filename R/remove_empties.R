@@ -20,10 +20,10 @@ remove_empty <- function(dat, which = c("rows", "cols")) {
     stop("\"which\" must be one of \"rows\", \"cols\", or c(\"rows\", \"cols\")")
   }
   if ("rows" %in% which) {
-    dat <- dat[rowSums(is.na(dat)) != ncol(dat), ]
+    dat <- dat[rowSums(is.na(dat)) != ncol(dat), , drop=FALSE]
   }
   if ("cols" %in% which) {
-    dat <- dat[,colSums(!is.na(dat)) > 0]
+    dat <- dat[,colSums(!is.na(dat)) > 0, drop=FALSE]
   }
   dat
 }

@@ -62,3 +62,26 @@ test_that("remove_empty leaves matrices as matrices", {
   expect_equal(remove_empty(mat), matrix(c(NA, rep(0, 3)), ncol=2),
                info="remove_empty with a matrix returns a matrix")
 })
+
+test_that("remove_empty leaves single-column results as the original class", {
+  mat <- matrix(c(NA, NA, NA, 0), ncol = 2, byrow = FALSE)
+  expect_equal(remove_empty(mat),
+               matrix(0, ncol=1),
+               info="remove_empty with a matrix that should return a single row and column still returns a matrix")
+  df <- data.frame(A=NA, B=c(NA, 0))
+  expect_equal(remove_empty(df),
+               data.frame(B=0, row.names=2L),
+               info="remove_empty with a data.frame that should return a single row and column still returns a data.frame")
+})
+
+test_that("remove_empty single-column input results as the original class", {
+  mat <- matrix(c(NA, NA, NA, 0), ncol = 1, byrow = FALSE)
+  expect_equal(remove_empty(mat),
+               matrix(0, ncol=1),
+               info="remove_empty with a matrix that should return a single row and column still returns a matrix")
+  df <- data.frame(B=c(NA, 0))
+  expect_equal(remove_empty(df),
+               data.frame(B=0, row.names=2L),
+               info="remove_empty with a data.frame that should return a single row and column still returns a data.frame")
+})
+
