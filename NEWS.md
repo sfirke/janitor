@@ -1,3 +1,9 @@
+# janitor 1.1.1.9000
+
+## Minor features
+
+* `excel_numeric_to_date()` now returns a POSIXct object and includes a time zone. (#225, thanks to **@billdenney** for the feature.)
+
 # janitor 1.1.1 (2018-07-30)
 
 ## Release summary
