@@ -17,13 +17,13 @@ test_that("Bad inputs handled appropriately", {
 
 test_that("time handling works correctly", {
   expect_equal(excel_numeric_to_date(42370, include_time=TRUE),
-               as.POSIXlt("2016-01-01"),
+               as.POSIXct("2016-01-01"),
                info="Time inclusion works with an integer date")
   expect_equal(excel_numeric_to_date(42370.521, include_time=TRUE),
-               as.POSIXlt("2016-01-01 12:30:14"),
+               as.POSIXct("2016-01-01 12:30:14"),
                info="Time inclusion works with a fractional date/time and seconds rounded")
   expect_equal(excel_numeric_to_date(42370.521, include_time=TRUE, round_seconds=FALSE),
-               as.POSIXlt("2016-01-01 12:30:14.4"),
+               as.POSIXct("2016-01-01 12:30:14.4"),
                info="Time inclusion works with a fractional date/time and seconds not rounded")
   expect_equal(excel_numeric_to_date(42370.521, include_time=FALSE),
                as.Date("2016-01-01"),
@@ -32,7 +32,7 @@ test_that("time handling works correctly", {
 
 test_that("time handling at the edge of a minute works correctly", {
   expect_equal(excel_numeric_to_date(42001.1, include_time = TRUE),
-               as.POSIXlt("2014-12-28 02:24:00"),
+               as.POSIXct("2014-12-28 02:24:00"),
                info = "60 seconds gets converted to 0 seconds, +1 minute")
 })
 
@@ -44,18 +44,18 @@ test_that("time handling at the edge of the next date works correctly", {
     suppressWarnings(
       excel_numeric_to_date(42002 - 0.0005/86400, include_time=TRUE, round_seconds=FALSE)
     ),
-    as.POSIXlt("2014-12-29")
+    as.POSIXct("2014-12-29")
   )
   expect_equal(
     suppressWarnings(
       excel_numeric_to_date(42002 - 0.0005/86400, include_time=TRUE, round_seconds=TRUE)
     ),
-    as.POSIXlt("2014-12-29")
+    as.POSIXct("2014-12-29")
   )
   expect_equal(excel_numeric_to_date(42002 - 0.0011/86400, include_time=TRUE, round_seconds=FALSE),
-               as.POSIXlt("2014-12-28 23:59:59.998"))
+               as.POSIXct("2014-12-28 23:59:59.998"))
   expect_equal(excel_numeric_to_date(42002 - 0.0011/86400, include_time=TRUE, round_seconds=TRUE),
-               as.POSIXlt("2014-12-29"))
+               as.POSIXct("2014-12-29"))
 })
 
 test_that("excel_numeric_to_date handles NA", {
@@ -63,8 +63,8 @@ test_that("excel_numeric_to_date handles NA", {
                as.Date(NA_character_),
                info="Return NA output of the correct class (Date) for NA input.")
   expect_equal(excel_numeric_to_date(NA, include_time=TRUE),
-               as.POSIXlt(NA_character_),
-               info="Return NA output of the correct class (POSIXlt) for NA input.")
+               as.POSIXct(NA_character_),
+               info="Return NA output of the correct class (POSIXct) for NA input.")
   expect_equal(excel_numeric_to_date(c(43088, NA)),
                as.Date(floor(c(43088, NA)), origin = "1899-12-30"),
                info="Return NA output as part of a vector of inputs correctly")
@@ -72,4 +72,9 @@ test_that("excel_numeric_to_date handles NA", {
                structure(as.POSIXlt(as.Date(floor(c(43088, NA)), origin = "1899-12-30")),
                          tzone=NULL),
                info="Return NA output as part of a vector of inputs correctly")
+})
+
+test_that("excel_numeric_to_date returns a POSIXct object when include_time is requested", {
+  expect_equal(class(excel_numeric_to_date(c(43088, NA), include_time=TRUE)),
+               c("POSIXct", "POSIXt"))
 })
