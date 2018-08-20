@@ -10,13 +10,11 @@
 #' @param date_system the date system, either \code{"modern"} or \code{"mac pre-2011"}.
 #' @param include_time Include the time (hours, minutes, seconds) in the output? (See details)
 #' @param round_seconds Round the seconds to an integer (only has an effect when \code{include_time} is \code{TRUE})?
+#' @param tz Time zone, used when \code{include_time = TRUE}.
 #' @return Returns a vector of class Date if \code{include_time} is \code{FALSE}.  Returns a vector of class POSIXlt if \code{include_time} is \code{TRUE}.
-#' @details When using \code{include_time=TRUE} the returned object will not
-#'   include a time zone since excel does not store dates and times with time
-#'   zones.  When adding time zones, ensure that any conversion done does not
-#'   change the intended time including if the time is or is not in daylight
-#'   savings time.  Also, days with leap seconds will not be accurately handled
-#'   as they do not appear to be accurately handled by Windows (as described in
+#' @details When using \code{include_time=TRUE}, days with leap seconds will not
+#'   be accurately handled as they do not appear to be accurately handled by
+#'   Windows (as described in
 #'   https://support.microsoft.com/en-us/help/2722715/support-for-the-leap-second).
 #' @export
 #' @examples
@@ -29,7 +27,7 @@
 
 # Converts a numeric value like 42414 into a date "2016-02-14"
 
-excel_numeric_to_date <- function(date_num, date_system = "modern", include_time = FALSE, round_seconds = TRUE) {
+excel_numeric_to_date <- function(date_num, date_system = "modern", include_time = FALSE, round_seconds = TRUE, tz = "") {
   if (all(is.na(date_num))) {
     # For NA input, return the expected type of NA output.
     if (include_time) {
@@ -63,19 +61,11 @@ excel_numeric_to_date <- function(date_num, date_system = "modern", include_time
       stop("argument 'created' must be one of 'mac pre-2011' or 'modern'")
     }
   if (include_time) {
-    ret <- as.POSIXlt(ret)
+    ret <- as.POSIXlt(ret, tz = tz)
     ret$sec <- date_num_seconds %% 60
     ret$min <- floor(date_num_seconds/60) %% 60
     ret$hour <- floor(date_num_seconds/3600)
-    # Excel does not store the timezone; remove all ways of storing timezone and
-    # clean related fields (isdst).  Multiple methods are used by R for storing
-    # timezone information in POSIXlt objects
-    # (https://bugs.r-project.org/bugzilla3/show_bug.cgi?id=17437), and an
-    # attempt is made to clear all of them.
-    attr(ret, "tzone") <- NULL
-    ret$isdst <- 0L
-    ret$zone <- NULL
-    ret$gmtoff <- NULL
+    ret <- as.POSIXct(ret, tz = tz)
   }
   ret
 }

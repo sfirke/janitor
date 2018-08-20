@@ -1,5 +1,9 @@
 # janitor 1.1.1.9000
 
+## Minor features
+
+* `excel_numeric_to_date()` now returns a POSIXct object and includes a time zone. (#225, thanks to **@billdenney** for the feature.)
+
 ## Bug fixes
 
 * `remove_empty()` now works with matrices (returning a matrix).  (#215)  Thanks to **@jsta** for reporting and **@billdenney** for patching.
