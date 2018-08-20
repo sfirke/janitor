@@ -5,7 +5,7 @@
 \title{Convert dates encoded as serial numbers to Date class.}
 \usage{
 excel_numeric_to_date(date_num, date_system = "modern",
-  include_time = FALSE, round_seconds = TRUE)
+  include_time = FALSE, round_seconds = TRUE, tz = "")
 }
 \arguments{
 \item{date_num}{numeric vector of serial numbers to convert.}
@@ -15,6 +15,8 @@ excel_numeric_to_date(date_num, date_system = "modern",
 \item{include_time}{Include the time (hours, minutes, seconds) in the output? (See details)}
 
 \item{round_seconds}{Round the seconds to an integer (only has an effect when \code{include_time} is \code{TRUE})?}
+
+\item{tz}{Time zone, used when \code{include_time = TRUE}.}
 }
 \value{
 Returns a vector of class Date if \code{include_time} is \code{FALSE}.  Returns a vector of class POSIXlt if \code{include_time} is \code{TRUE}.
@@ -26,12 +28,9 @@ Defaults to the modern Excel date encoding system. However, Excel for Mac 2008 a
 More on date encoding systems at http://support.office.com/en-us/article/Date-calculations-in-Excel-e7fe7167-48a9-4b96-bb53-5612a800b487.
 }
 \details{
-When using \code{include_time=TRUE} the returned object will not
-  include a time zone since excel does not store dates and times with time
-  zones.  When adding time zones, ensure that any conversion done does not
-  change the intended time including if the time is or is not in daylight
-  savings time.  Also, days with leap seconds will not be accurately handled
-  as they do not appear to be accurately handled by Windows (as described in
+When using \code{include_time=TRUE}, days with leap seconds will not
+  be accurately handled as they do not appear to be accurately handled by
+  Windows (as described in
   https://support.microsoft.com/en-us/help/2722715/support-for-the-leap-second).
 }
 \examples{
