@@ -78,3 +78,16 @@ test_that("excel_numeric_to_date returns a POSIXct object when include_time is r
   expect_equal(class(excel_numeric_to_date(c(43088, NA), include_time=TRUE)),
                c("POSIXct", "POSIXt"))
 })
+
+test_that("time zone setting works", {
+  expect_equal(attr(excel_numeric_to_date(43001.11, include_time = TRUE), "tzone"),
+               "") # blank by default
+  expect_equal(attr(excel_numeric_to_date(43001.11, include_time = TRUE, tz = "America/New_York"), "tzone"),
+               "America/New_York")
+  expect_warning(excel_numeric_to_date(43001.11, include_time = TRUE, tz = "PST"),
+                 "unknown timezone 'PST'")
+  # this test should be written:
+  # providing a bad timezone value defaults to blank tz value "" and throws warning
+  # Then delete prior test as it will fail
+
+})
