@@ -1,11 +1,11 @@
-#' @title Remove empty rows and/or columns from a data.frame.
+#' @title Remove empty rows and/or columns from a data.frame or matrix.
 #'
 #' @description
-#' Removes all rows and/or columns from a data.frame that are composed entirely of \code{NA} values.
+#' Removes all rows and/or columns from a data.frame or matrix that are composed entirely of \code{NA} values.
 #'
-#' @param dat the input data.frame.
+#' @param dat the input data.frame or matrix.
 #' @param which one of "rows", "cols", or \code{c("rows", "cols")}.  Where no value of which is provided, defaults to removing both empty rows and empty columns, declaring the behavior with a printed message.
-#' @return Returns the data.frame without its missing rows or columns.
+#' @return Returns the object without its missing rows or columns.
 #' @export
 #' @examples
 #' # not run:
@@ -20,10 +20,10 @@ remove_empty <- function(dat, which = c("rows", "cols")) {
     stop("\"which\" must be one of \"rows\", \"cols\", or c(\"rows\", \"cols\")")
   }
   if ("rows" %in% which) {
-    dat <- dat[rowSums(is.na(dat)) != ncol(dat), , drop=FALSE]
+    dat <- dat[rowSums(is.na(dat)) != ncol(dat), , drop = FALSE]
   }
   if ("cols" %in% which) {
-    dat <- dat[,colSums(!is.na(dat)) > 0, drop=FALSE]
+    dat <- dat[,colSums(!is.na(dat)) > 0, drop = FALSE]
   }
   dat
 }
