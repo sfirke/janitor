@@ -64,7 +64,8 @@ clean_names <- function(dat, case = c(
     # Parsing option 4 removes underscores around numbers, #153
     snakecase::to_any_case(
       case = case, sep_in = "\\.",
-      transliterations = c("Latin-ASCII"), parsing_option = 4
+      transliterations = c("Latin-ASCII"), parsing_option = 1,
+      numerals = "asis"
     )
 
   # Handle duplicated names - they mess up dplyr pipelines
