@@ -22,7 +22,7 @@ Depends:
 Imports:
     dplyr (>= 0.7.0),
     tidyr (>= 0.7.0),
-    snakecase (>= 0.9.0),
+    snakecase (>= 0.9.2),
     magrittr,
     purrr,
     rlang
