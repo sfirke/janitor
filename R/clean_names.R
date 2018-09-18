@@ -34,7 +34,7 @@
 #'
 #' # not run:
 #' # library(readxl)
-#' # readxl("messy_excel_file.xlsx") %>% clean_names()
+#' # read_excel("messy_excel_file.xlsx") %>% clean_names()
 
 clean_names <- function(dat, case = c(
                         "snake", "lower_camel", "upper_camel", "screaming_snake",

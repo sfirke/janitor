@@ -4,7 +4,8 @@
 \alias{row_to_names}
 \title{Elevate a row to be the column names of a data.frame.}
 \usage{
-row_to_names(dat, row_number, remove_row = TRUE, remove_rows_above = TRUE)
+row_to_names(dat, row_number, remove_row = TRUE,
+  remove_rows_above = TRUE)
 }
 \arguments{
 \item{dat}{The input data.frame}
