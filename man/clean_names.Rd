@@ -5,8 +5,8 @@
 \title{Cleans names of a data.frame.}
 \usage{
 clean_names(dat, case = c("snake", "lower_camel", "upper_camel",
-  "screaming_snake", "lower_upper", "upper_lower", "all_caps", "small_camel",
-  "big_camel", "old_janitor", "parsed", "mixed"))
+  "screaming_snake", "lower_upper", "upper_lower", "all_caps",
+  "small_camel", "big_camel", "old_janitor", "parsed", "mixed"))
 }
 \arguments{
 \item{dat}{the input data.frame.}
@@ -45,5 +45,5 @@ transliterated to ASCII.  For example, an "o" with a German umlaut over it becom
 
 # not run:
 # library(readxl)
-# readxl("messy_excel_file.xlsx") \%>\% clean_names()
+# read_excel("messy_excel_file.xlsx") \%>\% clean_names()
 }
