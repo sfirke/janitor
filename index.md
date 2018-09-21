@@ -63,22 +63,6 @@ You can install:
     devtools::install_github("sfirke/janitor")
     ```
 
-## <i class="fa fa-newspaper-o" aria-hidden="true"></i> What’s New
-
-#### March 2018: Version 1.0.0 Released
-
-The long-term stable janitor version 1.0.0 is now on CRAN\!
-<i class="fa fa-space-shuttle" aria-hidden="true"></i> It has some big
-improvements that also result in breaking changes.
-
-There’s a greatly-enhanced `tabyl()` function - see the [tabyls
-vignette](http://sfirke.github.io/janitor/articles/tabyls.html) - and
-improvements to `clean_names()`. These `clean_names()` improvements may
-cause old code to break, due to better handling of variable names. More
-info is in the [NEWS](http://sfirke.github.io/janitor/news/index.html)
-file; the very quick fix is to supply the argument `case =
-"old_janitor"`.
-
 ## Using janitor
 
 Below are quick examples of how janitor tools are commonly used. A full
@@ -140,22 +124,23 @@ roster
 #> # A tibble: 12 x 8
 #>    first_name   last_name employee_status subject    hire_date  percent_allocated full_time cert          
 #>    <chr>        <chr>     <chr>           <chr>      <date>                 <dbl> <chr>     <chr>         
-#>  1 Jason        Bourne    Teacher         PE         2008-08-30             0.750 Yes       Physical ed   
-#>  2 Jason        Bourne    Teacher         Drafting   2008-08-30             0.250 Yes       Physical ed   
-#>  3 Alicia       Keys      Teacher         Music      2001-08-15             1.00  Yes       Instr. music  
-#>  4 Ada          Lovelace  Teacher         <NA>       1975-05-01             1.00  Yes       PENDING       
-#>  5 Desus        Nice      Administration  Dean       2013-06-06             1.00  Yes       PENDING       
-#>  6 Chien-Shiung Wu        Teacher         Physics    1930-03-20             0.500 Yes       Science 6-12  
-#>  7 Chien-Shiung Wu        Teacher         Chemistry  1930-03-20             0.500 Yes       Science 6-12  
-#>  8 James        Joyce     Teacher         English    1990-05-01             0.500 No        English 6-12  
-#>  9 Hedy         Lamarr    Teacher         Science    1976-06-08             0.500 No        PENDING       
-#> 10 Carlos       Boozer    Coach           Basketball 2015-08-05            NA     No        Physical ed   
-#> 11 Young        Boozer    Coach           <NA>       1995-01-01            NA     No        Political sci.
-#> 12 Micheal      Larsen    Teacher         English    2009-09-15             0.800 No        Vocal music
+#>  1 Jason        Bourne    Teacher         PE         2008-08-30              0.75 Yes       Physical ed   
+#>  2 Jason        Bourne    Teacher         Drafting   2008-08-30              0.25 Yes       Physical ed   
+#>  3 Alicia       Keys      Teacher         Music      2001-08-15              1    Yes       Instr. music  
+#>  4 Ada          Lovelace  Teacher         <NA>       1975-05-01              1    Yes       PENDING       
+#>  5 Desus        Nice      Administration  Dean       2013-06-06              1    Yes       PENDING       
+#>  6 Chien-Shiung Wu        Teacher         Physics    1930-03-20              0.5  Yes       Science 6-12  
+#>  7 Chien-Shiung Wu        Teacher         Chemistry  1930-03-20              0.5  Yes       Science 6-12  
+#>  8 James        Joyce     Teacher         English    1990-05-01              0.5  No        English 6-12  
+#>  9 Hedy         Lamarr    Teacher         Science    1976-06-08              0.5  No        PENDING       
+#> 10 Carlos       Boozer    Coach           Basketball 2015-08-05             NA    No        Physical ed   
+#> 11 Young        Boozer    Coach           <NA>       1995-01-01             NA    No        Political sci.
+#> 12 Micheal      Larsen    Teacher         English    2009-09-15              0.8  No        Vocal music
 ```
 
 The core janitor cleaning function is `clean_names()` - call it whenever
-you load data into R.
+you load data into R. You can similarly clean any vector of names with
+`make_clean_names()`.
 
 ### Examining dirty data
 
@@ -167,12 +152,12 @@ cleaning. Let’s see if any teachers are listed more than once:
 ``` r
 roster %>% get_dupes(first_name, last_name)
 #> # A tibble: 4 x 9
-#>   first_name   last_name dupe_count employee_status subject   hire_date  percent_allocated full_time cert    
-#>   <chr>        <chr>          <int> <chr>           <chr>     <date>                 <dbl> <chr>     <chr>   
-#> 1 Chien-Shiung Wu                 2 Teacher         Physics   1930-03-20             0.500 Yes       Science~
-#> 2 Chien-Shiung Wu                 2 Teacher         Chemistry 1930-03-20             0.500 Yes       Science~
-#> 3 Jason        Bourne             2 Teacher         PE        2008-08-30             0.750 Yes       Physica~
-#> 4 Jason        Bourne             2 Teacher         Drafting  2008-08-30             0.250 Yes       Physica~
+#>   first_name   last_name dupe_count employee_status subject   hire_date  percent_allocat~ full_time cert     
+#>   <chr>        <chr>          <int> <chr>           <chr>     <date>                <dbl> <chr>     <chr>    
+#> 1 Chien-Shiung Wu                 2 Teacher         Physics   1930-03-20             0.5  Yes       Science ~
+#> 2 Chien-Shiung Wu                 2 Teacher         Chemistry 1930-03-20             0.5  Yes       Science ~
+#> 3 Jason        Bourne             2 Teacher         PE        2008-08-30             0.75 Yes       Physical~
+#> 4 Jason        Bourne             2 Teacher         Drafting  2008-08-30             0.25 Yes       Physical~
 ```
 
 Yes, some teachers appear twice. We ought to address this before
