@@ -45,6 +45,6 @@ clean_names <- function(dat, case = c(
                         "lower_upper", "upper_lower", "all_caps", "small_camel",
                         "big_camel", "old_janitor", "parsed", "mixed"
                       )) {
-
+  if(!is.data.frame(dat)){stop( "clean_names() must be called on a data.frame.  Consider janitor::make_clean_names() for other cases of manipulating vectors of names.") }
   stats::setNames(dat, make_clean_names(names(dat), case = case))
 }

@@ -90,3 +90,7 @@ test_that("Tests for cases beyond default snake", {
   expect_equal(names(clean_names(test_df, "big_camel")), names(clean_names(test_df, "upper_camel")))
   expect_equal(names(clean_names(test_df, "small_camel")), names(clean_names(test_df, "lower_camel")))
 })
+
+test_that("errors if not called on a data.frame", {
+  expect_error(clean_names(1:3), "clean_names() must be called on a data.frame.  Consider janitor::make_clean_names() for other cases of manipulating vectors of names.", fixed = TRUE)
+})
