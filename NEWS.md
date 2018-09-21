@@ -1,5 +1,10 @@
 # janitor 1.1.1.9000
 
+## Major features
+The new function `make_clean_names()` takes a character vector and returns the cleaned text, with the same functionality as the existing `clean_names()`, which runs on a data.frame, manipulating its names. (#197, thanks **@tazinho** and everyone who contributed to the discussion).
+
+This new function can be supplied as a value for the `.name_repair` argument of `as_tibble()` in the latest development version of the `tibble` package (on GitHub as of September 2019).  For example: `as_tibble(iris, .name_repair = make_clean_names)`.
+
 ## Minor features
 
 * `excel_numeric_to_date()` now returns a POSIXct object and includes a time zone. (#225, thanks to **@billdenney** for the feature.)

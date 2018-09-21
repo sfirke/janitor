@@ -6,6 +6,10 @@
 #'
 #' Accented characters are
 #' transliterated to ASCII.  For example, an "o" with a German umlaut over it becomes "o", and the Spanish character "enye" becomes "n".
+#' 
+#' This function takes and returns a data.frame, for ease of piping with  \code{`\%>\%`}.  
+#' For the underlying function that works on a character vector of names,
+#' see \code{\link[janitor]{make_clean_names}}. 
 #'
 #' @param dat the input data.frame.
 #' @param case The desired target case (default is \code{"snake"}), indicated by these possible values:

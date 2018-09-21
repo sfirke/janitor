@@ -2,14 +2,14 @@
 % Please edit documentation in R/make_clean_names.R
 \name{make_clean_names}
 \alias{make_clean_names}
-\title{converts a string, possibly containing the names of a data.frame, into a cleaner version.s}
+\title{Cleans a vector of text, typically containing the names of an object.}
 \usage{
 make_clean_names(string, case = c("snake", "lower_camel", "upper_camel",
   "screaming_snake", "lower_upper", "upper_lower", "all_caps",
   "small_camel", "big_camel", "old_janitor", "parsed", "mixed"))
 }
 \arguments{
-\item{string}{A string (for example names of a data frame).}
+\item{string}{A character vector of names to clean.}
 
 \item{case}{The desired target case (default is \code{"snake"}), indicated by these possible values:
 \itemize{
@@ -30,20 +30,24 @@ Returns the "cleaned" character vector.
 Resulting strings are unique and consist only of the \code{_} character, numbers, and letters.
 Capitalization preferences can be specified using the \code{case} parameter.
 
-Accented characters are
-transliterated to ASCII.  For example, an "o" with a German umlaut over it becomes "o", and the Spanish character "enye" becomes "n".
+For use on the names of a data.frame, e.g., in a \code{`\%>\%`} pipeline,
+call the convenience function \code{\link[janitor]{clean_names}}.
+
+Accented characters are transliterated to ASCII.  For example, an "o" 
+with a German umlaut over it becomes "o", and the Spanish character "enye" becomes "n".
 }
 \examples{
+
+# cleaning the names of a vector:
+x <- structure(1:3, names = c("name with space", "TwoWords", "total $ (2009)"))
+x
+names(x) <- make_clean_names(names(x))
+x # now has cleaned names
+# if you prefer camelCase variable names:
+make_clean_names(names(x), "small_camel")
+
+# similar to janitor::clean_names(poorly_named_df):
 # not run:
 # make_clean_names(names(poorly_named_df))
 
-# or pipe in the input data.frame:
-# poorly_named_df \%>\% names() \%>\% make_clean_names()
-
-# if you prefer camelCase variable names:
-# poorly_named_df \%>\% names() \%>\% make_clean_names(., "small_camel")
-
-# not run:
-# library(readxl)
-# read_excel("messy_excel_file.xlsx") \%>\% names() \%>\% make_clean_names()
 }
