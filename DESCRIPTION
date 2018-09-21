@@ -4,7 +4,8 @@ Version: 1.1.1.9000
 Authors@R: c(person("Sam", "Firke", email = "samuel.firke@gmail.com", role = c("aut", "cre")),
     person("Chris", "Haid", email = "chrishaid@gmail.com", role = "ctb"),
     person("Ryan", "Knight", email = "ryangknight@gmail.com", role = "ctb"),
-    person("Bill", "Denney", email = "wdenney@humanpredictions.com", role = "ctb"))
+    person("Bill", "Denney", email = "wdenney@humanpredictions.com", role = "ctb"),
+    person("Malte", "Grosser", email = "malte.grosser@gmail.com", role = "ctb"))
 Description: The main janitor functions can: perfectly format data.frame column
     names; provide quick counts of variable combinations (i.e., frequency
     tables and crosstabs); and isolate duplicate records. Other janitor functions
