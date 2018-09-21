@@ -114,6 +114,15 @@ excel_numeric_to_date(41103.01, include_time = TRUE) # returns POSIXlt object
 excel_numeric_to_date(41103.01, date_system = "mac pre-2011")
 ```
 
+### Manipulate vectors of names with `make_clean_names()`
+
+Like base R's `make.names()`, but with the stylings and case choice of the long-time janitor function `clean_names()`.  While `clean_names()` is still offered for use in  data.frame pipeline with `%>%`, `make_clean_names()` allows for more general usage, e.g., on a vector.
+
+It can also be used as an argument to `.name_repair` in the newest version of `tibble::as_tibble`:
+```{r}
+tibble::as_tibble(iris, .name_repair = janitor::make_clean_names)
+```
+
 ### Elevate column names stored in a data.frame row
 
 If a data.frame has the intended variable names stored in one of its rows, `row_to_names` will elevate the specified row to become the names of the data.frame and optionally (by default) remove the row in which names were stored and/or the rows above it.
