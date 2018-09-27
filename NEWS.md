@@ -12,6 +12,7 @@ This new function can be supplied as a value for the `.name_repair` argument of 
 ## Bug fixes
 
 * `remove_empty()` now works with matrices (returning a matrix).  (#215)  Thanks to **@jsta** for reporting and **@billdenney** for patching.
+* `excel_numeric_to_date()` no longer gives an overflow error for integer input (for dates since 1968).  (#241)  Thanks to **@hideaki** for reporting and **@billdenney** for patching.
 
 # janitor 1.1.1 (2018-07-30)
 

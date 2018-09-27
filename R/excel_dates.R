@@ -39,8 +39,9 @@ excel_numeric_to_date <- function(date_num, date_system = "modern", include_time
     stop("argument `date_num` must be of class numeric")
   }
 
-  # Manage floating point imprecision
-  date_num_days <- (date_num * 86400L + 0.001) %/% 86400L
+  # Manage floating point imprecision; coerce to double to avoid inteter
+  # overflow.
+  date_num_days <- (as.double(date_num) * 86400L + 0.001) %/% 86400L
   date_num_days_no_floating_correction <- date_num %/% 1
   # If the day rolls over due to machine precision, then the seconds should be zero
   mask_day_rollover <- !is.na(date_num) & date_num_days > date_num_days_no_floating_correction

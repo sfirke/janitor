@@ -91,3 +91,8 @@ test_that("time zone setting works", {
   # Then delete prior test as it will fail
 
 })
+
+test_that("integer Excel dates do not overflow (ref issue #241)", {
+  expect_equal(excel_numeric_to_date(42370L),
+               excel_numeric_to_date(42370))
+})
