@@ -5,6 +5,8 @@ The new function `make_clean_names()` takes a character vector and returns the c
 
 This new function can be supplied as a value for the `.name_repair` argument of `as_tibble()` in the latest development version of the `tibble` package (on GitHub as of September 2019).  For example: `as_tibble(iris, .name_repair = make_clean_names)`.
 
+The new function `excel_time_to_numeric()` converts times from Excel that do not have accompanying dates into a number of seconds.  (#245, thanks to **@billdenney** for the feature.)
+
 ## Minor features
 
 * `excel_numeric_to_date()` now returns a POSIXct object and includes a time zone. (#225, thanks to **@billdenney** for the feature.)

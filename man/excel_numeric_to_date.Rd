@@ -41,3 +41,6 @@ excel_numeric_to_date(40000.521, include_time = TRUE) # Time is included
 excel_numeric_to_date(40000.521, include_time = TRUE,
   round_seconds = FALSE) # Time with fractional seconds is included
 }
+\seealso{
+\code{\link{excel_time_to_numeric}}
+}
