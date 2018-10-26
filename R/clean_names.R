@@ -48,3 +48,13 @@ clean_names <- function(dat, case = c(
   if(!is.data.frame(dat)){stop( "clean_names() must be called on a data.frame.  Consider janitor::make_clean_names() for other cases of manipulating vectors of names.") }
   stats::setNames(dat, make_clean_names(names(dat), case = case))
 }
+
+# sf method for clean names
+
+clean_names.sf <- function(x, ...) {
+    ret <- clean_names(x)
+    st_geometry(ret) <- names(ret)[ncol(ret)] # geometry is always last column
+    ret
+}
+
+
