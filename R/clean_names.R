@@ -52,9 +52,12 @@ clean_names <- function(dat, case = c(
 # sf method for clean names
 
 clean_names.sf <- function(x, ...) {
-    ret <- clean_names(x)
-    st_geometry(ret) <- names(ret)[ncol(ret)] # geometry is always last column
-    ret
+  sf_names <- names(x) # get old names
+  n_cols <- length(x)-1 # identify ending column index to clean
+  sf_cleaned <- make_clean_names(sf_names[1:n_cols]) # clean all but last column
+  names(x)[1:n_cols] <- sf_cleaned # rename original df
+  return(x) # return it
 }
+
 
 
