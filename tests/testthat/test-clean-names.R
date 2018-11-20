@@ -94,3 +94,58 @@ test_that("Tests for cases beyond default snake", {
 test_that("errors if not called on a data.frame", {
   expect_error(clean_names(1:3), "clean_names() must be called on a data.frame.  Consider janitor::make_clean_names() for other cases of manipulating vectors of names.", fixed = TRUE)
 })
+
+
+#------------------------------------------------------------------------------# 
+#---------------------------- Tests for sf method -----------------------------#
+#------------------------------------------------------------------------------#
+
+
+library(sf)
+context("clean_names.sf")
+
+test_df <- data.frame(matrix(ncol = 22) %>% as.data.frame())
+
+names(test_df) <- c(
+  "sp ace", "repeated", "a**^@", "%", "*", "!",
+  "d(!)9", "REPEATED", "can\"'t", "hi_`there`", "  leading spaces",
+  "€", "ação", "Farœ", "a b c d e f", "testCamelCase", "!leadingpunct",
+  "average # of days", "jan2009sales", "jan 2009 sales", "long", "lat"
+)
+
+test_df["long"] <- -80
+test_df["lat"] <- 40
+
+test_df <- st_as_sf(test_df, coords = c("long", "lat"))
+names(test_df)[21] <- "Geometry"
+st_geometry(test_df) <- "Geometry"
+
+clean <- clean_names(test_df, "snake")
+
+test_that("Names are cleaned appropriately", {
+  expect_equal(names(clean)[1], "sp_ace") # spaces
+  expect_equal(names(clean)[2], "repeated") # first instance of repeat
+  expect_equal(names(clean)[3], "a") # multiple special chars, trailing special chars
+  expect_equal(names(clean)[4], "percent") # converting % to percent
+  expect_equal(names(clean)[5], "x") # 100% invalid name
+  expect_equal(names(clean)[6], "x_2") # repeat of invalid name
+  expect_equal(names(clean)[7], "d_9") # multiple special characters
+  expect_equal(names(clean)[8], "repeated_2") # uppercase, 2nd instance of repeat
+  expect_equal(names(clean)[9], "cant") # uppercase, 2nd instance of repeat
+  expect_equal(names(clean)[10], "hi_there") # double-underscores to single
+  expect_equal(names(clean)[11], "leading_spaces") # leading spaces
+  expect_equal(names(clean)[12], "x_3") # euro sign, invalid
+  expect_equal(names(clean)[13], "acao") # accented word, transliterated to latin,
+  expect_equal(names(clean)[14], "faroe") # œ character was failing to convert on Windows, should work universally for stringi 1.1.6 or higher
+  # https://github.com/sfirke/janitor/issues/120#issuecomment-303385418
+  expect_equal(names(clean)[15], "a_b_c_d_e_f") # for testing alternating cases below with e.g., case = "upper_lower"
+  expect_equal(names(clean)[16], "test_camel_case") # for testing alternating cases below with e.g., case = "upper_lower"
+  expect_equal(names(clean)[17], "leadingpunct") # for testing alternating cases below with e.g., case = "upper_lower"
+  expect_equal(names(clean)[18], "average_number_of_days") # for testing alternating cases below with e.g., case = "upper_lower"
+  expect_equal(names(clean)[19], "jan2009sales") # no separator around number-word boundary if not existing already
+  expect_equal(names(clean)[20], "jan_2009_sales") # yes separator around number-word boundary if it existed
+})
+
+test_that("Returns a data.frame", {
+  expect_is(clean, "sf")
+})
