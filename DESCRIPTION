@@ -33,6 +33,7 @@ RoxygenNote: 6.1.0
 Suggests:
     testthat,
     knitr,
-    rmarkdown
+    rmarkdown,
+    sf
 VignetteBuilder: knitr
 Encoding: UTF-8
