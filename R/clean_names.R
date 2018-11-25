@@ -84,3 +84,15 @@ clean_names.sf <- function(dat, case = c(
   
   return(dat)
 }
+
+
+#' @export
+# create method for tbl_graph objects
+
+clean_names.tbl_graph <- function(dat, case = c(
+  "snake", "lower_camel", "upper_camel", "screaming_snake",
+  "lower_upper", "upper_lower", "all_caps", "small_camel",
+  "big_camel", "old_janitor", "parsed", "mixed"
+)) {
+  dplyr::rename_all(dat, make_clean_names)
+}
