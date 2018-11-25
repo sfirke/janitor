@@ -146,6 +146,63 @@ test_that("Names are cleaned appropriately", {
   expect_equal(names(clean)[20], "jan_2009_sales") # yes separator around number-word boundary if it existed
 })
 
-test_that("Returns a data.frame", {
+test_that("Returns a sf object", {
   expect_is(clean, "sf")
 })
+
+
+
+#------------------------------------------------------------------------------# 
+#------------------------ Tests for tbl_graph method --------------------------#
+#------------------------------------------------------------------------------#
+
+library(tidygraph)
+context("clean_names.tbl_graph")
+
+# create test graph to test clean_names
+test_graph <- play_erdos_renyi(10, 0.5) %>% 
+  # create nodes wi
+  bind_nodes(test_df) %>% 
+  mutate_all(replace_na, 1)
+
+# create a graph with clean names
+clean_graph <- clean_names(test_graph, case = "snake")
+
+# extract the names from the tbl_graph objevt
+# this was a little difficult stole some lines from print.tbl_graph
+# https://github.com/thomasp85/tidygraph/blob/master/R/tbl_graph.R
+
+arg_list <- list()
+top <- do.call(trunc_mat, modifyList(arg_list, list(x = as_tibble(clean_graph), n = 0)))
+
+# get clean names
+clean <- names(top$mcf)
+
+test_that("Names are cleaned appropriately", {
+  expect_equal(clean[1], "sp_ace") # spaces
+  expect_equal(clean[2], "repeated") # first instance of repeat
+  expect_equal(clean[3], "a") # multiple special chars, trailing special chars
+  expect_equal(clean[4], "percent") # converting % to percent
+  expect_equal(clean[5], "x") # 100% invalid name
+  expect_equal(clean[6], "x_2") # repeat of invalid name
+  expect_equal(clean[7], "d_9") # multiple special characters
+  expect_equal(clean[8], "repeated_2") # uppercase, 2nd instance of repeat
+  expect_equal(clean[9], "cant") # uppercase, 2nd instance of repeat
+  expect_equal(clean[10], "hi_there") # double-underscores to single
+  expect_equal(clean[11], "leading_spaces") # leading spaces
+  expect_equal(clean[12], "x_3") # euro sign, invalid
+  expect_equal(clean[13], "acao") # accented word, transliterated to latin,
+  expect_equal(clean[14], "faroe") # œ character was failing to convert on Windows, should work universally for stringi 1.1.6 or higher
+  # https://github.com/sfirke/janitor/issues/120#issuecomment-303385418
+  expect_equal(clean[15], "a_b_c_d_e_f") # for testing alternating cases below with e.g., case = "upper_lower"
+  expect_equal(clean[16], "test_camel_case") # for testing alternating cases below with e.g., case = "upper_lower"
+  expect_equal(clean[17], "leadingpunct") # for testing alternating cases below with e.g., case = "upper_lower"
+  expect_equal(clean[18], "average_number_of_days") # for testing alternating cases below with e.g., case = "upper_lower"
+  expect_equal(clean[19], "jan2009sales") # no separator around number-word boundary if not existing already
+  expect_equal(clean[20], "jan_2009_sales") # yes separator around number-word boundary if it existed
+})
+
+test_that("Returns a tbl_graph object", {
+  expect_is(clean_graph, "tbl_graph")
+})
+
