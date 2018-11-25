@@ -2,11 +2,15 @@
 % Please edit documentation in R/clean_names.R
 \name{clean_names}
 \alias{clean_names}
+\alias{clean_names.default}
 \title{Cleans names of a data.frame.}
 \usage{
-clean_names(dat, case = c("snake", "lower_camel", "upper_camel",
-  "screaming_snake", "lower_upper", "upper_lower", "all_caps",
-  "small_camel", "big_camel", "old_janitor", "parsed", "mixed"))
+clean_names(dat, case)
+
+\method{clean_names}{default}(dat, case = c("snake", "lower_camel",
+  "upper_camel", "screaming_snake", "lower_upper", "upper_lower",
+  "all_caps", "small_camel", "big_camel", "old_janitor", "parsed",
+  "mixed"))
 }
 \arguments{
 \item{dat}{the input data.frame.}
