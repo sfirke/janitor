@@ -51,7 +51,11 @@ clean_names <- function(dat, case) {
 
 
 # create a default method, Will only dispatch on a dataframe 
-clean_names.default <- function(dat, case = "snake") {
+clean_names.default <- function(dat, case = c(
+  "snake", "lower_camel", "upper_camel", "screaming_snake",
+  "lower_upper", "upper_lower", "all_caps", "small_camel",
+  "big_camel", "old_janitor", "parsed", "mixed"
+)) {
   if(!is.data.frame(dat)){ 
     stop( "clean_names() must be called on a data.frame.  Consider janitor::make_clean_names() for other cases of manipulating vectors of names.") 
   }
@@ -60,7 +64,11 @@ clean_names.default <- function(dat, case = "snake") {
 
 #' @export
 # create method for sf object
-clean_names.sf <- function(dat, case = "snake") {
+clean_names.sf <- function(dat, case = c(
+  "snake", "lower_camel", "upper_camel", "screaming_snake",
+  "lower_upper", "upper_lower", "all_caps", "small_camel",
+  "big_camel", "old_janitor", "parsed", "mixed"
+)) {
   if (!requireNamespace("sf", quietly = TRUE)) {
     stop("Package \"sf\" needed for this function to work. Please install it.",
          call. = FALSE)
