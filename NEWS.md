@@ -9,6 +9,8 @@ This new function can be supplied as a value for the `.name_repair` argument of 
 
 * `excel_numeric_to_date()` now returns a POSIXct object and includes a time zone. (#225, thanks to **@billdenney** for the feature.)
 
+* `clean_names()` can now be called on a *simple features* object from the `sf` package.  (#247, thanks to **@JosiahParry** for suggesting & implementing.)
+
 ## Bug fixes
 
 * `remove_empty()` now works with matrices (returning a matrix).  (#215)  Thanks to **@jsta** for reporting and **@billdenney** for patching.
