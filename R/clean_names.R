@@ -61,6 +61,10 @@ clean_names.default <- function(dat, case = "snake") {
 #' @export
 # create method for sf object
 clean_names.sf <- function(dat, case = "snake") {
+  if (!requireNamespace("sf", quietly = TRUE)) {
+    stop("Package \"sf\" needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
   # get old names
   sf_names <- names(dat) 
   # identify ending column index to clean
