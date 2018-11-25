@@ -18,9 +18,6 @@ addons:
 matrix: # don't test osx + r-devel
   include:
   - os: linux
-    r: oldrel
-    dist: trusty
-  - os: linux
     r: release
     dist: trusty
   - os: linux
