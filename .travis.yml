@@ -9,7 +9,11 @@ before_install:
 addons:
   apt:
     packages:
-      libudunits2-dev
+    - libudunits2-dev
+    - libproj-dev
+    - libgeos-dev
+    - libgdal-dev
+    - libnetcdf-dev
 
 matrix: # don't test osx + r-devel
   include:
