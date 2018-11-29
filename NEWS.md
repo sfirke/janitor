@@ -11,6 +11,8 @@ This new function can be supplied as a value for the `.name_repair` argument of 
 
 * `clean_names()` can now be called on a *simple features* object from the `sf` package.  (#247, thanks to **@JosiahParry** for suggesting & implementing.)
 
+* `clean_names()` can now be called on *tbl_graph* objects from the `tidygraph` package. ([#252](https://github.com/sfirke/janitor/issues/252), thanks to **[@gvdr](https://github.com/gvdr) for bringing up the issue and thanks to *[@Tazinho](https://github.com/Tazinho) for proposing solution).
+
 ## Bug fixes
 
 * `remove_empty()` now works with matrices (returning a matrix).  (#215)  Thanks to **@jsta** for reporting and **@billdenney** for patching.
