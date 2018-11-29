@@ -35,6 +35,7 @@ Suggests:
     knitr,
     rmarkdown,
     sf,
+    tidygraph,
     tibble
 VignetteBuilder: knitr
 Encoding: UTF-8
