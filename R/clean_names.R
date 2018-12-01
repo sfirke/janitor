@@ -1,6 +1,9 @@
 #' @title Cleans names of a data.frame.
 #'
 #' @description
+#' 
+#' \code{clean_names()} takes a \code{data.frame} and alters the column names to adhere to  a specified capitalization preference.
+#' 
 #' Resulting names are unique and consist only of the \code{_} character, numbers, and letters.
 #' Capitalization preferences can be specified using the \code{case} parameter.
 #'
@@ -25,6 +28,10 @@
 #'  }
 #'
 #' @return Returns the data.frame with clean names.
+#' 
+#' @details \code{clean_names()} is intended to be used on \code{data.frames} and \code{data.frame} like objects. For this reason there are methods to support using \code{clean_names()} on \code{sf} and \code{tbl_graph} (from \code{tidygraph}) objects. For cleaning named lists and vectors, consider using \code{make_clean_names()}.
+#' 
+#' 
 #' @export
 #' @examples
 #' # not run:
@@ -94,5 +101,10 @@ clean_names.tbl_graph <- function(dat, case = c(
   "lower_upper", "upper_lower", "all_caps", "small_camel",
   "big_camel", "old_janitor", "parsed", "mixed"
 )) {
+  if (!requireNamespace("tidygraph", quietly = TRUE)) { 
+    stop("Package \"tidygraph\" needed for this function to work. Please install it.", 
+         call. = FALSE) 
+  } 
+  
   dplyr::rename_all(dat, make_clean_names)
 }
