@@ -31,6 +31,8 @@ clean_names(dat, case)
 Returns the data.frame with clean names.
 }
 \description{
+`clean`
+
 Resulting names are unique and consist only of the \code{_} character, numbers, and letters.
 Capitalization preferences can be specified using the \code{case} parameter.
 
@@ -40,6 +42,9 @@ transliterated to ASCII.  For example, an "o" with a German umlaut over it becom
 This function takes and returns a data.frame, for ease of piping with  \code{`\%>\%`}.  
 For the underlying function that works on a character vector of names,
 see \code{\link[janitor]{make_clean_names}}.
+}
+\details{
+\code{clean_names()} is intended to be used on \code{data.frames} and \code{data.frame} like objects. For this reason there are methods to support using \code{clean_names()} on \code{sf} and \code{tbl_graph} (from \code{tidygraph}) objects. For cleaning named lists and vectors, consider using \code{make_clean_names()}.
 }
 \examples{
 # not run:
