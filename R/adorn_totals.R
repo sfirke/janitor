@@ -7,6 +7,7 @@
 #' @param where one of "row", "col", or \code{c("row", "col")}
 #' @param fill if there are multiple non-numeric columns, what string should fill the bottom row of those columns?
 #' @param na.rm should missing values (including NaN) be omitted from the calculations?
+#' @param name name of the totals column or row 
 #' @return Returns a data.frame augmented with a totals row, column, or both.  The data.frame is now also of class \code{tabyl} and stores information about the attached totals and underlying data in the tabyl attributes.
 #' @export
 #' @examples
