@@ -15,7 +15,7 @@
 #'   adorn_totals()
 
 
-adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE) {
+adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "Total") {
   # if input is a list, call purrr::map to recursively apply this function to each data.frame
   if (is.list(dat) && !is.data.frame(dat)) {
     purrr::map(dat, adorn_totals, where, fill, na.rm)
@@ -63,7 +63,7 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE) {
       }
 
       col_totals <- purrr::map_df(dat, col_sum)
-      col_totals[1, 1] <- "Total" # replace first column value with "Total"
+      col_totals[1, 1] <- name # replace first column value with name argument
       dat[(nrow(dat) + 1), ] <- col_totals[1, ] # insert totals_col as last row in dat
     }
 
@@ -75,7 +75,7 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE) {
         dplyr::select_if(is.numeric) %>%
         dplyr::transmute(Total = rowSums(., na.rm = na.rm))
 
-      dat$Total <- row_totals$Total
+      dat[[name]] <- row_totals$Total
     }
 
     dat
