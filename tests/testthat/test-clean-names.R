@@ -100,10 +100,16 @@ test_that("errors if not called on a data.frame", {
 #---------------------------- Tests for sf method -----------------------------#
 #------------------------------------------------------------------------------#
 
-
-library(sf)
 context("clean_names.sf")
 
+nc    <- sf::st_read(system.file("shape/nc.shp", package="sf"))
+clean <- clean_names(nc, "snake")
+
+test_that("Names are cleaned appropriately without attaching sf", {
+  expect_equal(names(clean)[4], "cnty_id")
+})
+
+library(sf)
 test_df <- data.frame(matrix(ncol = 22) %>% as.data.frame())
 
 names(test_df) <- c(
