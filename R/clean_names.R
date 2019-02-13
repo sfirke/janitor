@@ -54,7 +54,7 @@ clean_names <- function(dat, case) {
 clean_names.default <- function(dat, case = c(
   "snake", "lower_camel", "upper_camel", "screaming_snake",
   "lower_upper", "upper_lower", "all_caps", "small_camel",
-  "big_camel", "old_janitor", "parsed", "mixed"
+  "big_camel", "old_janitor", "parsed", "mixed", "none", "internal_parsing"
 )) {
   if(!is.data.frame(dat)){ 
     stop( "clean_names() must be called on a data.frame.  Consider janitor::make_clean_names() for other cases of manipulating vectors of names.") 
@@ -67,7 +67,7 @@ clean_names.default <- function(dat, case = c(
 clean_names.sf <- function(dat, case = c(
   "snake", "lower_camel", "upper_camel", "screaming_snake",
   "lower_upper", "upper_lower", "all_caps", "small_camel",
-  "big_camel", "old_janitor", "parsed", "mixed"
+  "big_camel", "old_janitor", "parsed", "mixed", "none", "internal_parsing"
 )) {
   if (!requireNamespace("sf", quietly = TRUE)) {
     stop("Package \"sf\" needed for this function to work. Please install it.",
