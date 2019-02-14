@@ -264,6 +264,20 @@ test_that("non-data.frame inputs are handled", {
   expect_error(adorn_totals(1:5), "adorn_totals() must be called on a data.frame or list of data.frames", fixed = TRUE)
 })
 
+test_that("row total name is changed", {
+  expect_equal(
+    adorn_totals(ct, name = "NewTitle")[nrow(ct) + 1, 1],
+    "NewTitle"
+  )
+})
+
+test_that("column total name is changed", {
+  expect_equal(
+    colnames(adorn_totals(ct, where = "col", name = "NewTitle"))[(ncol(ct) + 1)],
+    "NewTitle"
+  )
+})
+
 # Kind of superficial given that add_totals_ have been refactored to call adorn_totals() themselves, but might as well keep until deprecated functions are removed
 test_that("deprecated functions adorn_totals_col and adorn_totals_row function as expected", {
   expect_equal(
