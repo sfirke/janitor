@@ -15,6 +15,7 @@ This new function can be supplied as a value for the `.name_repair` argument of 
 
 * `remove_empty()` now works with matrices (returning a matrix).  (#215)  Thanks to **@jsta** for reporting and **@billdenney** for patching.
 * `excel_numeric_to_date()` no longer gives an overflow error for integer input (for dates since 1968).  (#241)  Thanks to **@hideaki** for reporting and **@billdenney** for patching.
+* `clean_names()` and `make_clean_names()` now support 'none' as a case option. (#269) Thanks to **@andrewbarros** for reporting and patching.  
 
 # janitor 1.1.1 (2018-07-30)
 
