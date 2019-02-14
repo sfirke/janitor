@@ -69,10 +69,10 @@ clean_names.sf <- function(dat, case = c(
   "lower_upper", "upper_lower", "all_caps", "small_camel",
   "big_camel", "old_janitor", "parsed", "mixed", "none"
 )) {
-  if (!requireNamespace("sf", quietly = TRUE)) {
+  if (!requireNamespace("sf", quietly = TRUE)) { # nocov start
     stop("Package \"sf\" needed for this function to work. Please install it.",
          call. = FALSE)
-  }
+  } # nocov end
   # get old names
   sf_names <- names(dat) 
   # identify ending column index to clean
