@@ -65,3 +65,69 @@ remove_empty_cols <- function(dat) {
   .Deprecated("remove_empty(\"cols\")")
   remove_empty(dat, which = "cols")
 }
+
+#' Find rows and/or columns that are constant.
+#'
+#' @inheritParams remove_empty
+#' @seealso \code{\link{remove_constant}}, \code{\link{keep_constant}}
+#' @return A list with a "rows" and a "cols" element of logical vectors
+#'   indicating if the rows or columns are constant.  If \code{which} does not
+#'   include one of the list elements then that element is all \code{FALSE} (for
+#'   example if \code{which="cols"}, the return for rows will be all
+#'   \code{FALSE}).
+#' @noRd
+find_constant <- function(dat, which = c("rows", "cols")) 
+  UseMethod("find_constant")
+
+find_constant.data.frame <- function(dat, which = c("rows", "cols")) {
+  which <- match.arg(which, several.ok=TRUE)
+  mask_rows <-
+    if ("rows" %in% which) {
+      sapply(
+        X=seq_len(nrow(dat)),
+        FUN=function(idx) {
+          the_row <- dat[idx,]
+          if (is.list(the_row)) {
+            the_row <- unlist(the_row)
+          }
+          all(the_row %in% dat[idx,1])
+        }
+      )
+    } else {
+      rep(FALSE, nrow(dat))
+    }
+  mask_cols <-
+    if ("cols" %in% which) {
+      sapply(
+        X=seq_len(ncol(dat)),
+        FUN=function(idx) {
+          all(dat[,idx] %in% dat[1,idx])
+        }
+      )
+    } else {
+      rep(FALSE, ncol(dat))
+    }
+  list(
+    rows=mask_rows,
+    cols=mask_cols
+  )
+}
+
+find_constant.matrix <- find_constant.data.frame
+
+#' @describeIn remove_empty Remove constant columns from a data.frame or matrix.
+#' @export
+remove_constant <- function(dat, which = c("rows", "cols")) {
+  masks <- find_constant(dat, which=which)
+  ret <- dat[ , !masks$cols, drop=FALSE]
+  ret[!masks$rows, , drop=FALSE]
+}
+
+#' @describeIn remove_empty Keep only constant columns from a data.frame or
+#'   matrix (often followed by \code{unique()}).
+#' @export
+keep_constant <- function(dat, which = c("rows", "cols")) {
+  masks <- find_constant(dat, which=which)
+  ret <- dat[ , masks$cols, drop=FALSE]
+  ret[masks$rows, , drop=FALSE]
+}

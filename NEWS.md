@@ -5,6 +5,8 @@ The new function `make_clean_names()` takes a character vector and returns the c
 
 This new function can be supplied as a value for the `.name_repair` argument of `as_tibble()` in the `tibble` package.  For example: `as_tibble(iris, .name_repair = make_clean_names)`.
 
+`remove_empty()` now has additional companion functions `remove_constant()` and `keep_constant()` which remove or keep columns and rows that are constants, respectively (#222, thanks to **@billdenney** for suggesting & implementing.)
+
 ## Minor features
 
 * `excel_numeric_to_date()` now returns a POSIXct object and includes a time zone. (#225, thanks to **@billdenney** for the feature.)
