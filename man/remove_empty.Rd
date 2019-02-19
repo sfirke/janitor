@@ -2,9 +2,15 @@
 % Please edit documentation in R/remove_empties.R
 \name{remove_empty}
 \alias{remove_empty}
+\alias{remove_constant}
+\alias{keep_constant}
 \title{Remove empty rows and/or columns from a data.frame or matrix.}
 \usage{
 remove_empty(dat, which = c("rows", "cols"))
+
+remove_constant(dat, which = c("rows", "cols"))
+
+keep_constant(dat, which = c("rows", "cols"))
 }
 \arguments{
 \item{dat}{the input data.frame or matrix.}
@@ -17,6 +23,14 @@ Returns the object without its missing rows or columns.
 \description{
 Removes all rows and/or columns from a data.frame or matrix that are composed entirely of \code{NA} values.
 }
+\section{Functions}{
+\itemize{
+\item \code{remove_constant}: Remove constant columns from a data.frame or matrix.
+
+\item \code{keep_constant}: Keep only constant columns from a data.frame or
+matrix (often followed by \code{unique()}).
+}}
+
 \examples{
 # not run:
 # dat \%>\% remove_empty("rows")
