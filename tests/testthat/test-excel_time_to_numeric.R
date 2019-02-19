@@ -24,6 +24,13 @@ test_that("excel_time_to_numeric POSIX objects ignore the time zone", {
   )
 })
 
+test_that("excel_time_to_numeric POSIXlt works like POSIXct", {
+  expect_equal(
+    excel_time_to_numeric(as.POSIXct("1899-12-31 13:00", tz="EST")),
+    excel_time_to_numeric(as.POSIXlt("1899-12-31 13:00", tz="EST"))
+  )
+})
+
 test_that("excel_time_to_numeric numbers errors when out of range", {
   expect_error(excel_time_to_numeric(1))
   expect_error(excel_time_to_numeric(-0.1))
@@ -139,5 +146,6 @@ test_that("excel_time_to_numeric, invalid character times trigger an error", {
   expect_error(excel_time_to_numeric("25:05:20"))
   expect_error(excel_time_to_numeric("23:65:20"))
   expect_error(excel_time_to_numeric("23:05:90"))
+  expect_error(excel_time_to_numeric(as.POSIXct("1899-12-30 21:05:20")))
 })
 
