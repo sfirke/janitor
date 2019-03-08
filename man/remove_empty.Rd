@@ -3,14 +3,11 @@
 \name{remove_empty}
 \alias{remove_empty}
 \alias{remove_constant}
-\alias{keep_constant}
 \title{Remove empty rows and/or columns from a data.frame or matrix.}
 \usage{
 remove_empty(dat, which = c("rows", "cols"))
 
-remove_constant(dat, which = c("rows", "cols"))
-
-keep_constant(dat, which = c("rows", "cols"))
+remove_constant(dat)
 }
 \arguments{
 \item{dat}{the input data.frame or matrix.}
@@ -26,12 +23,15 @@ Removes all rows and/or columns from a data.frame or matrix that are composed en
 \section{Functions}{
 \itemize{
 \item \code{remove_constant}: Remove constant columns from a data.frame or matrix.
-
-\item \code{keep_constant}: Keep only constant columns from a data.frame or
-matrix (often followed by \code{unique()}).
 }}
 
 \examples{
 # not run:
 # dat \%>\% remove_empty("rows")
+remove_constant(data.frame(A=1, B=1:3))
+
+# To find the columns that are constant
+data.frame(A=1, B=1:3) \%>\%
+  dplyr::select_at(setdiff(names(.), names(remove_constant(.)))) \%>\%
+  unique()
 }

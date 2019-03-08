@@ -66,68 +66,31 @@ remove_empty_cols <- function(dat) {
   remove_empty(dat, which = "cols")
 }
 
-#' Find rows and/or columns that are constant.
-#'
-#' @inheritParams remove_empty
-#' @seealso \code{\link{remove_constant}}, \code{\link{keep_constant}}
-#' @return A list with a "rows" and a "cols" element of logical vectors
-#'   indicating if the rows or columns are constant.  If \code{which} does not
-#'   include one of the list elements then that element is all \code{FALSE} (for
-#'   example if \code{which="cols"}, the return for rows will be all
-#'   \code{FALSE}).
-#' @noRd
-find_constant <- function(dat, which = c("rows", "cols")) 
-  UseMethod("find_constant")
-
-find_constant.data.frame <- function(dat, which = c("rows", "cols")) {
-  which <- match.arg(which, several.ok=TRUE)
-  mask_rows <-
-    if ("rows" %in% which) {
-      sapply(
-        X=seq_len(nrow(dat)),
-        FUN=function(idx) {
-          the_row <- dat[idx,]
-          if (is.list(the_row)) {
-            the_row <- unlist(the_row)
-          }
-          all(the_row %in% dat[idx,1])
-        }
-      )
-    } else {
-      rep(FALSE, nrow(dat))
-    }
-  mask_cols <-
-    if ("cols" %in% which) {
-      sapply(
-        X=seq_len(ncol(dat)),
-        FUN=function(idx) {
-          all(dat[,idx] %in% dat[1,idx])
-        }
-      )
-    } else {
-      rep(FALSE, ncol(dat))
-    }
-  list(
-    rows=mask_rows,
-    cols=mask_cols
-  )
-}
-
-find_constant.matrix <- find_constant.data.frame
-
 #' @describeIn remove_empty Remove constant columns from a data.frame or matrix.
+#' @param na.rm Exclude NA for comparison of being constant?
+#' @examples
+#' remove_constant(data.frame(A=1, B=1:3))
+#' 
+#' # To find the columns that are constant
+#' data.frame(A=1, B=1:3) %>%
+#'   dplyr::select_at(setdiff(names(.), names(remove_constant(.)))) %>%
+#'   unique()
 #' @export
-remove_constant <- function(dat, which = c("rows", "cols")) {
-  masks <- find_constant(dat, which=which)
-  ret <- dat[ , !masks$cols, drop=FALSE]
-  ret[!masks$rows, , drop=FALSE]
-}
-
-#' @describeIn remove_empty Keep only constant columns from a data.frame or
-#'   matrix (often followed by \code{unique()}).
-#' @export
-keep_constant <- function(dat, which = c("rows", "cols")) {
-  masks <- find_constant(dat, which=which)
-  ret <- dat[ , masks$cols, drop=FALSE]
-  ret[masks$rows, , drop=FALSE]
+remove_constant <- function(dat, na.rm=FALSE) {
+  mask <-
+    sapply(
+      X=seq_len(ncol(dat)),
+      FUN=function(idx) {
+        if (na.rm) {
+          all(is.na(dat[, idx])) ||
+            all(
+              is.na(dat[, idx]) |
+                (dat[, idx] %in% na.omit(dat[, idx])[1])
+            )
+        } else {
+          all(dat[, idx] %in% dat[1, idx])
+        }
+      }
+    )
+  dat[ , !mask, drop=FALSE]
 }
