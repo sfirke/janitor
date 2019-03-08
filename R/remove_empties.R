@@ -5,6 +5,7 @@
 #'
 #' @param dat the input data.frame or matrix.
 #' @param which one of "rows", "cols", or \code{c("rows", "cols")}.  Where no value of which is provided, defaults to removing both empty rows and empty columns, declaring the behavior with a printed message.
+#' @param na.rm Exclude NA for comparison of being constant?
 #' @return Returns the object without its missing rows or columns.
 #' @export
 #' @examples
@@ -67,7 +68,6 @@ remove_empty_cols <- function(dat) {
 }
 
 #' @describeIn remove_empty Remove constant columns from a data.frame or matrix.
-#' @param na.rm Exclude NA for comparison of being constant?
 #' @examples
 #' remove_constant(data.frame(A=1, B=1:3))
 #' 
@@ -75,6 +75,7 @@ remove_empty_cols <- function(dat) {
 #' data.frame(A=1, B=1:3) %>%
 #'   dplyr::select_at(setdiff(names(.), names(remove_constant(.)))) %>%
 #'   unique()
+#' @importFrom stats na.omit
 #' @export
 remove_constant <- function(dat, na.rm=FALSE) {
   mask <-
@@ -85,7 +86,7 @@ remove_constant <- function(dat, na.rm=FALSE) {
           all(is.na(dat[, idx])) ||
             all(
               is.na(dat[, idx]) |
-                (dat[, idx] %in% na.omit(dat[, idx])[1])
+                (dat[, idx] %in% stats::na.omit(dat[, idx])[1])
             )
         } else {
           all(dat[, idx] %in% dat[1, idx])
