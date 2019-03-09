@@ -58,9 +58,14 @@ img {
   max-width: 100%;
 }
 
+/* Fix bug in bootstrap (only seen in firefox) */
+summary {
+  display: list-item;
+}
+
 /* Typographic tweaking ---------------------------------*/
 
-.contents h1.page-header {
+.contents .page-header {
   margin-top: calc(-60px + 1em);
 }
 
@@ -94,7 +99,7 @@ a.anchor {
 
 .contents h1, .contents h2, .contents h3, .contents h4 {
   padding-top: 60px;
-  margin-top: -60px;
+  margin-top: -40px;
 }
 
 /* Static header placement on mobile devices */
@@ -134,13 +139,11 @@ a.anchor {
 /* Reference index & topics ----------------------------------------------- */
 
 .ref-index th {font-weight: normal;}
-.ref-index h2 {font-size: 20px;}
 
 .ref-index td {vertical-align: top;}
+.ref-index .icon {width: 40px;}
 .ref-index .alias {width: 40%;}
-.ref-index .title {width: 60%;}
-
-.ref-index .alias {width: 40%;}
+.ref-index-icons .alias {width: calc(40% - 40px);}
 .ref-index .title {width: 60%;}
 
 .ref-arguments th {text-align: right; padding-right: 10px;}
@@ -217,4 +220,17 @@ a.sourceLine:hover {
 
 .hasCopyButton:hover button.btn-copy-ex {
   visibility: visible;
+}
+
+/* mark.js ----------------------------*/
+
+mark {
+  background-color: rgba(255, 255, 51, 0.5);
+  border-bottom: 2px solid rgba(255, 153, 51, 0.3);
+  padding: 1px;
+}
+
+/* vertical spacing after htmlwidgets */
+.html-widget {
+  margin-bottom: 10px;
 }

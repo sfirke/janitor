@@ -112,10 +112,9 @@ test_that("works on smallest tabyls", {
 
 test_that("users can supply own Ns", {
   # make tabyl with thousands, convert to Ks to append
-  set.seed(2)
   big_tabyl <- data.frame(
-    a = sample(c("x", rep("y", 10)), 10000, replace = TRUE),
-    b = sample(c("big", "big", "big", "small", "small"), 10000, replace = TRUE),
+    a = rep(c("x", rep("y", 9)), 999),
+    b = rep(c("big", "big", "big", "small", "small"), 1998),
     stringsAsFactors = FALSE
   ) %>%
     tabyl(a, b)
@@ -134,8 +133,8 @@ test_that("users can supply own Ns", {
       untabyl(),
     data.frame(
       a = c("x", "y"),
-      big = c("8.8% (0.5k)", "91.2% (5.5k)"),
-      small = c("9.3% (0.4k)", "90.7% (3.6k)"),
+      big = c("16.7% (1k)", "83.3% (5k)"),
+      small = c("0.0% (0k)", "100.0% (4k)"),
       stringsAsFactors = FALSE
     )
   )

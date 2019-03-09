@@ -78,6 +78,15 @@ test_that("Tests for cases beyond default snake", {
     )
   )
   expect_equal(
+    names(clean_names(test_df, "none")),
+    c(
+      "sp_ace", "repeated", "a", "percent", "X", "X_2", "d_9", "REPEATED",
+      "cant", "hi_there", "leading_spaces", "X_3", "acao", "Faroe", "a_b_c_d_e_f", 
+      "testCamelCase", "leadingpunct", "average_number_of_days", 
+      "jan2009sales", "jan_2009_sales"
+    )
+  )
+  expect_equal(
     names(clean_names(test_df, "old_janitor")),
     c(
       "sp_ace", "repeated", "a", "percent", "x", "x_2", "d_9", "repeated_2",
@@ -100,10 +109,16 @@ test_that("errors if not called on a data.frame", {
 #---------------------------- Tests for sf method -----------------------------#
 #------------------------------------------------------------------------------#
 
-
-library(sf)
 context("clean_names.sf")
 
+nc    <- sf::st_read(system.file("shape/nc.shp", package="sf"))
+clean <- clean_names(nc, "snake")
+
+test_that("Names are cleaned appropriately without attaching sf", {
+  expect_equal(names(clean)[4], "cnty_id")
+})
+
+library(sf)
 test_df <- data.frame(matrix(ncol = 22) %>% as.data.frame())
 
 names(test_df) <- c(

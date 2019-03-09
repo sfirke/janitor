@@ -75,8 +75,15 @@ tabyl.default <- function(dat, show_na = TRUE, show_missing_levels = TRUE, ...) 
     dat_df <- data.frame(dat, stringsAsFactors = is.factor(dat))
     names(dat_df)[1] <- "dat"
 
-
-    result <- dat_df %>% dplyr::count(dat)
+    # suppress a dplyr-specific warning message related to NA values in factors
+    # the suggestion to use forcats::fct_explicit_na is unnecessary and confusing
+    # source: https://stackoverflow.com/a/16521046/4470365
+    withCallingHandlers({
+      result <- dat_df %>% dplyr::count(dat)
+    }, warning = function(w) {
+      if (endsWith(conditionMessage(w), "fct_explicit_na\`"))
+        invokeRestart("muffleWarning")
+    })
 
     if (is.factor(dat) && show_missing_levels) {
       expanded <- tidyr::expand(result, dat)
