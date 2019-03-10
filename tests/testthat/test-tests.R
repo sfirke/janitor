@@ -9,14 +9,20 @@ tab <- table(mtcars3$am, mtcars3$cyl)
 ttab <- tabyl(mtcars3, am, cyl)
 ow_tab <- tabyl(mtcars3, am)
 
-test_that("one-way tabyl is rejected", {
+test_that("one-way tabyl is rejected by chisq.test and fisher.test", {
   expect_error(chisq.test(ow_tab))
+  expect_error(fisher.test(ow_tab))
 })
 
 test_that("janitor::chisq.test on a table is correct", {
-  tab <- table(mtcars3$am, mtcars3$cyl)
   res <- stats::chisq.test(tab)
   jres <- janitor::chisq.test(tab)
+  expect_equal(jres, res)
+})
+
+test_that("janitor::fisher.test on a table is correct", {
+  res <- stats::fisher.test(tab)
+  jres <- janitor::fisher.test(tab)
   expect_equal(jres, res)
 })
 
@@ -25,6 +31,14 @@ test_that("janitor::chisq.test on a two-way tabyl is identical to stats::chisq.t
   tres <- chisq.test(tab, tabyl_results = FALSE)
   tab <- table(mtcars3$am, mtcars3$cyl)
   res <- chisq.test(tab)
+  expect_equal(tres, res)
+})
+
+test_that("janitor::fisher.test on a two-way tabyl is identical to stats::fisher.test", {
+  tab <- tabyl(mtcars3, am, cyl)
+  tres <- fisher.test(tab)
+  tab <- table(mtcars3$am, mtcars3$cyl)
+  res <- fisher.test(tab)
   expect_equal(tres, res)
 })
 
@@ -51,3 +65,4 @@ test_that("returned tabyls have correct names and attributes", {
   expect_equal(attr(tres$residuals, "var_names"), list(row = "am", col = "cyl"))
   expect_equal(attr(tres$stdres, "var_names"), list(row = "am", col = "cyl"))
 })
+

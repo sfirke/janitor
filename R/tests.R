@@ -93,3 +93,75 @@ chisq.test.tabyl <- function(dat, tabyl_results = TRUE, ...) {
   
   result
 }
+
+
+
+#' @title Apply stats::fisher.test to a two-way tabyl
+#' 
+#' @description
+#' This generic function overrides stats::fisher.test. If the passed table 
+#' is a two-way tabyl, it runs it through janitor::fisher.test.tabyl, otherwise
+#' it just calls stats::fisher.test.
+#' 
+#' @return
+#' The result is the same as the one of stats::fisher.test.
+#' 
+#' @param dat a two-way tabyl
+#' @param ... other parameters passed to stats::fisher.test or other methods
+#'
+#' @examples
+#' tab <- tabyl(mtcars, gear, cyl)
+#' fisher.test(tab)
+#' 
+#' @export
+
+fisher.test <- function(dat, ...) {
+  UseMethod("fisher.test")
+}
+
+
+#' @rdname fisher.test
+#' @method fisher.test default
+#' @export
+
+fisher.test.default <- function(dat, ...) {
+  
+  # keep track of object name to keep `data.name` attribute
+  dname <- deparse(substitute(dat))
+  
+  result <- stats::fisher.test(dat, ...)
+  result$data.name <- dname
+  
+  result
+}
+
+
+#' @rdname fisher.test
+#' @method fisher.test tabyl
+#' @export
+
+fisher.test.tabyl <- function(dat, ...) {
+  
+  # keep track of object name to keep `data.name` attribute
+  dname <- deparse(substitute(dat))
+
+  # check if table is a two-way tabyl
+  if (!(inherits(dat, "tabyl") && attr(dat, "tabyl_type") == "two_way")) {
+    stop("fisher.test.tabyl() must be applied to a two-way tabyl object")
+  }
+  
+  rownames(dat) <- dat[[1]]
+  
+  result <- dat %>%
+    dplyr::select(-1) %>%
+    as.matrix() %>% 
+    as.table() %>% 
+    stats::fisher.test(...)
+  
+  # Replace values and attributes for strict object equality
+  result$data.name <- dname
+
+  result
+}
+
+
