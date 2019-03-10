@@ -2,16 +2,22 @@
 % Please edit documentation in R/tests.R
 \name{chisq.test}
 \alias{chisq.test}
+\alias{chisq.test.default}
+\alias{chisq.test.tabyl}
 \title{Apply stats::chisq.test to a two-way tabyl}
 \usage{
 chisq.test(dat, tabyl_results = TRUE, ...)
+
+\method{chisq.test}{default}(dat, tabyl_results = TRUE, ...)
+
+\method{chisq.test}{tabyl}(dat, tabyl_results = TRUE, ...)
 }
 \arguments{
 \item{dat}{a two-way tabyl}
 
-\item{tabyl_results}{if TRUE, also return `observed`, `expected`, `residuals` and `stdres` as tabyl}
+\item{tabyl_results}{if TRUE and dat is a tabyl object, also return `observed`, `expected`, `residuals` and `stdres` as tabyl}
 
-\item{...}{other parameters passed to stats::chisq.test}
+\item{...}{other parameters passed to stats::chisq.test or other methods}
 }
 \value{
 The result is the same as the one of stats::chisqt.test. If `tabyl_results` 

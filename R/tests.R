@@ -11,8 +11,8 @@
 #' are converted to tabyls.
 #' 
 #' @param dat a two-way tabyl
-#' @param tabyl_results if TRUE, also return `observed`, `expected`, `residuals` and `stdres` as tabyl
-#' @param ... other parameters passed to stats::chisq.test
+#' @param tabyl_results if TRUE and dat is a tabyl object, also return `observed`, `expected`, `residuals` and `stdres` as tabyl
+#' @param ... other parameters passed to stats::chisq.test or other methods
 #'
 #' @examples
 #' tab <- tabyl(mtcars, gear, cyl)
@@ -22,22 +22,19 @@
 #' @export
 
 chisq.test <- function(dat, tabyl_results = TRUE, ...) {
+  UseMethod("chisq.test")
+}
+
+
+#' @rdname chisq.test
+#' @method chisq.test default
+#' @export
+
+chisq.test.default <- function(dat, tabyl_results = TRUE, ...) {
   
   # keep track of object name to keep `data.name` attribute
   dname <- deparse(substitute(dat))
   
-  if (inherits(dat, "tabyl")) {
-    if (attr(dat, "tabyl_type") == "two_way") {
-      # if table is a two way tabyl
-      return(chisq.test.tabyl(dat, dname, tabyl_results, ...))
-    } 
-    else {
-      # error if it is another type of tabyl
-      stop("chisq.test() must be applied to a two-way tabyl object")
-    }
-  }
-  
-  # else, just run chisq.test
   result <- stats::chisq.test(dat, ...)
   result$data.name <- dname
   
@@ -45,9 +42,14 @@ chisq.test <- function(dat, tabyl_results = TRUE, ...) {
 }
 
 
-# Apply stats::chisq.test function to two-way tabyl
+#' @rdname chisq.test
+#' @method chisq.test tabyl
+#' @export
 
-chisq.test.tabyl <- function(dat, dname, tabyl_results = TRUE, ...) {
+chisq.test.tabyl <- function(dat, tabyl_results = TRUE, ...) {
+  
+  # keep track of object name to keep `data.name` attribute
+  dname <- deparse(substitute(dat))
   
   # check if table is a two-way tabyl
   if (!(inherits(dat, "tabyl") && attr(dat, "tabyl_type") == "two_way")) {
