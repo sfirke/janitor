@@ -2,7 +2,7 @@
 #' 
 #' @description
 #' This generic function overrides stats::chisq.test. If the passed table 
-#' is a two-way tabyl, it runs it through janitor::chis.test.tabyl, otherwise
+#' is a two-way tabyl, it runs it through janitor::chisq.test.tabyl, otherwise
 #' it just calls stats::chisq.test.
 #' 
 #' @return
