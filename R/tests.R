@@ -10,8 +10,9 @@
 #' is TRUE, the returned tables `observed`, `expected`, `residuals` and `stdres` 
 #' are converted to tabyls.
 #' 
-#' @param dat a two-way tabyl
-#' @param tabyl_results if TRUE and dat is a tabyl object, also return `observed`, `expected`, `residuals` and `stdres` as tabyl
+#' @param x a two-way tabyl, a numeric vector or a factor
+#' @param y if x is a vector, must be another vector or factor of the same length
+#' @param tabyl_results if TRUE and x is a tabyl object, also return `observed`, `expected`, `residuals` and `stdres` as tabyl
 #' @param ... other parameters passed to stats::chisq.test or other methods
 #'
 #' @examples
@@ -21,7 +22,7 @@
 #' 
 #' @export
 
-chisq.test <- function(dat, tabyl_results = TRUE, ...) {
+chisq.test <- function(x, y = NULL, tabyl_results = TRUE, ...) {
   UseMethod("chisq.test")
 }
 
@@ -30,13 +31,27 @@ chisq.test <- function(dat, tabyl_results = TRUE, ...) {
 #' @method chisq.test default
 #' @export
 
-chisq.test.default <- function(dat, tabyl_results = TRUE, ...) {
+chisq.test.default <- function(x, y = NULL, tabyl_results = TRUE, ...) {
   
-  # keep track of object name to keep `data.name` attribute
-  dname <- deparse(substitute(dat))
+  # keep track of object names to keep `data.name` attribute
+  if (!is.null(y)) {
+    dname_x <- deparse(substitute(x))
+    dname_y <- deparse(substitute(y))
+    dname <- paste(dname_x, "and", dname_y)
+  } else {
+    dname <- deparse(substitute(x))
+  }
   
-  result <- stats::chisq.test(dat, ...)
+  result <- stats::chisq.test(x, y, ...)
+  
+  # Replace object name in result for strict equality with stats::chisq.test
   result$data.name <- dname
+  if (!is.null(y)) {
+    names(attr(result$observed, "dimnames")) <- c(dname_x, dname_y)
+    names(attr(result$expected, "dimnames")) <- c(dname_x, dname_y)
+    names(attr(result$residuals, "dimnames")) <- c(dname_x, dname_y)
+    names(attr(result$stdres, "dimnames")) <- c(dname_x, dname_y)
+  }
   
   result
 }
@@ -46,19 +61,19 @@ chisq.test.default <- function(dat, tabyl_results = TRUE, ...) {
 #' @method chisq.test tabyl
 #' @export
 
-chisq.test.tabyl <- function(dat, tabyl_results = TRUE, ...) {
+chisq.test.tabyl <- function(x, y = NULL, tabyl_results = TRUE, ...) {
   
   # keep track of object name to keep `data.name` attribute
-  dname <- deparse(substitute(dat))
+  dname <- deparse(substitute(x))
   
   # check if table is a two-way tabyl
-  if (!(inherits(dat, "tabyl") && attr(dat, "tabyl_type") == "two_way")) {
+  if (!(inherits(x, "tabyl") && attr(x, "tabyl_type") == "two_way")) {
     stop("chisq.test.tabyl() must be applied to a two-way tabyl object")
   }
   
-  rownames(dat) <- dat[[1]]
+  rownames(x) <- x[[1]]
   
-  result <- dat %>%
+  result <- x %>%
     dplyr::select(-1) %>%
     as.matrix() %>% 
     as.table() %>% 
@@ -75,8 +90,8 @@ chisq.test.tabyl <- function(dat, tabyl_results = TRUE, ...) {
   if (tabyl_results) {
     
     # Keep track of row names column name and var_names attributes
-    rownames_column <- names(dat)[1]
-    var_names <- attr(dat, "var_names")
+    rownames_column <- names(x)[1]
+    var_names <- attr(x, "var_names")
     
     # For each returned table, convert it to a two-way tabyl
     tables <- c("observed", "expected", "residuals", "stdres")
@@ -106,7 +121,8 @@ chisq.test.tabyl <- function(dat, tabyl_results = TRUE, ...) {
 #' @return
 #' The result is the same as the one of stats::fisher.test.
 #' 
-#' @param dat a two-way tabyl
+#' @param x a two-way tabyl, a numeric vector or a factor
+#' @param y if x is a vector, must be another vector or factor of the same length
 #' @param ... other parameters passed to stats::fisher.test or other methods
 #'
 #' @examples
@@ -115,7 +131,7 @@ chisq.test.tabyl <- function(dat, tabyl_results = TRUE, ...) {
 #' 
 #' @export
 
-fisher.test <- function(dat, ...) {
+fisher.test <- function(x, y = NULL, ...) {
   UseMethod("fisher.test")
 }
 
@@ -124,12 +140,18 @@ fisher.test <- function(dat, ...) {
 #' @method fisher.test default
 #' @export
 
-fisher.test.default <- function(dat, ...) {
+fisher.test.default <- function(x, y = NULL, ...) {
   
-  # keep track of object name to keep `data.name` attribute
-  dname <- deparse(substitute(dat))
-  
-  result <- stats::fisher.test(dat, ...)
+  # keep track of object names to keep `data.name` attribute
+  if (!is.null(y)) {
+    dname_x <- deparse(substitute(x))
+    dname_y <- deparse(substitute(y))
+    dname <- paste(dname_x, "and", dname_y)
+  } else {
+    dname <- deparse(substitute(x))
+  }
+
+  result <- stats::fisher.test(x, y, ...)
   result$data.name <- dname
   
   result
@@ -140,19 +162,19 @@ fisher.test.default <- function(dat, ...) {
 #' @method fisher.test tabyl
 #' @export
 
-fisher.test.tabyl <- function(dat, ...) {
+fisher.test.tabyl <- function(x, ...) {
   
   # keep track of object name to keep `data.name` attribute
-  dname <- deparse(substitute(dat))
+  dname <- deparse(substitute(x))
 
   # check if table is a two-way tabyl
-  if (!(inherits(dat, "tabyl") && attr(dat, "tabyl_type") == "two_way")) {
+  if (!(inherits(x, "tabyl") && attr(x, "tabyl_type") == "two_way")) {
     stop("fisher.test.tabyl() must be applied to a two-way tabyl object")
   }
   
-  rownames(dat) <- dat[[1]]
+  rownames(x) <- x[[1]]
   
-  result <- dat %>%
+  result <- x %>%
     dplyr::select(-1) %>%
     as.matrix() %>% 
     as.table() %>% 

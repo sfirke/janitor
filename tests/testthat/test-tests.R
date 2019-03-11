@@ -20,9 +20,43 @@ test_that("janitor::chisq.test on a table is correct", {
   expect_equal(jres, res)
 })
 
+test_that("janitor::chisq.test on a matrix is correct", {
+  mat <- matrix(c(151, 434, 345, 221, 145, 167), ncol=3)
+  res <- stats::chisq.test(mat)
+  jres <- janitor::chisq.test(mat)
+  expect_equal(jres, res)
+})
+
+test_that("janitor::chisq.test on two factors is correct", {
+  res <- stats::chisq.test(mtcars3$am, mtcars3$cyl)
+  jres <- janitor::chisq.test(mtcars3$am, mtcars3$cyl)
+  expect_equal(jres, res)
+})
+
+test_that("janitor::chisq.test with a numeric vector and p is correct", {
+  v1 <- round(runif(10, 200, 1000))
+  v2 <- round(runif(10, 200, 1000))
+  res <- stats::chisq.test(v1, p = v2/sum(v2))
+  jres <- janitor::chisq.test(v1, p = v2/sum(v2))
+  expect_equal(jres, res)
+})
+
 test_that("janitor::fisher.test on a table is correct", {
   res <- stats::fisher.test(tab)
   jres <- janitor::fisher.test(tab)
+  expect_equal(jres, res)
+})
+
+test_that("janitor::fisher.test on a matrix is correct", {
+  mat <- matrix(c(151, 434, 345, 221, 145, 167), ncol=3)
+  res <- stats::fisher.test(mat)
+  jres <- janitor::fisher.test(mat)
+  expect_equal(jres, res)
+})
+
+test_that("janitor::fisher.test on two vectors is correct", {
+  res <- stats::fisher.test(mtcars3$am, mtcars3$cyl)
+  jres <- janitor::fisher.test(mtcars3$am, mtcars3$cyl)
   expect_equal(jres, res)
 })
 
