@@ -6,7 +6,7 @@
 \alias{fisher.test.tabyl}
 \title{Apply stats::fisher.test to a two-way tabyl}
 \usage{
-fisher.test(x, y = NULL, ...)
+fisher.test(x, ...)
 
 \method{fisher.test}{default}(x, y = NULL, ...)
 
@@ -15,9 +15,9 @@ fisher.test(x, y = NULL, ...)
 \arguments{
 \item{x}{a two-way tabyl, a numeric vector or a factor}
 
-\item{y}{if x is a vector, must be another vector or factor of the same length}
+\item{...}{other parameters passed to stats::fisher.test}
 
-\item{...}{other parameters passed to stats::fisher.test or other methods}
+\item{y}{if x is a vector, must be another vector or factor of the same length}
 }
 \value{
 The result is the same as the one of stats::fisher.test.

@@ -11,9 +11,7 @@
 #' are converted to tabyls.
 #' 
 #' @param x a two-way tabyl, a numeric vector or a factor
-#' @param y if x is a vector, must be another vector or factor of the same length
-#' @param tabyl_results if TRUE and x is a tabyl object, also return `observed`, `expected`, `residuals` and `stdres` as tabyl
-#' @param ... other parameters passed to stats::chisq.test or other methods
+#' @param ... other parameters passed to stats::chisq.test
 #'
 #' @examples
 #' tab <- tabyl(mtcars, gear, cyl)
@@ -22,16 +20,17 @@
 #' 
 #' @export
 
-chisq.test <- function(x, y = NULL, tabyl_results = TRUE, ...) {
+chisq.test <- function(x, ...) {
   UseMethod("chisq.test")
 }
 
 
 #' @rdname chisq.test
 #' @method chisq.test default
+#' @param y if x is a vector, must be another vector or factor of the same length
 #' @export
 
-chisq.test.default <- function(x, y = NULL, tabyl_results = TRUE, ...) {
+chisq.test.default <- function(x, y = NULL, ...) {
   
   # keep track of object names to keep `data.name` attribute
   if (!is.null(y)) {
@@ -59,9 +58,10 @@ chisq.test.default <- function(x, y = NULL, tabyl_results = TRUE, ...) {
 
 #' @rdname chisq.test
 #' @method chisq.test tabyl
+#' @param tabyl_results if TRUE and x is a tabyl object, also return `observed`, `expected`, `residuals` and `stdres` as tabyl
 #' @export
 
-chisq.test.tabyl <- function(x, y = NULL, tabyl_results = TRUE, ...) {
+chisq.test.tabyl <- function(x, tabyl_results = TRUE, ...) {
   
   # keep track of object name to keep `data.name` attribute
   dname <- deparse(substitute(x))
@@ -122,8 +122,7 @@ chisq.test.tabyl <- function(x, y = NULL, tabyl_results = TRUE, ...) {
 #' The result is the same as the one of stats::fisher.test.
 #' 
 #' @param x a two-way tabyl, a numeric vector or a factor
-#' @param y if x is a vector, must be another vector or factor of the same length
-#' @param ... other parameters passed to stats::fisher.test or other methods
+#' @param ... other parameters passed to stats::fisher.test
 #'
 #' @examples
 #' tab <- tabyl(mtcars, gear, cyl)
@@ -131,13 +130,14 @@ chisq.test.tabyl <- function(x, y = NULL, tabyl_results = TRUE, ...) {
 #' 
 #' @export
 
-fisher.test <- function(x, y = NULL, ...) {
+fisher.test <- function(x, ...) {
   UseMethod("fisher.test")
 }
 
 
 #' @rdname fisher.test
 #' @method fisher.test default
+#' @param y if x is a vector, must be another vector or factor of the same length
 #' @export
 
 fisher.test.default <- function(x, y = NULL, ...) {

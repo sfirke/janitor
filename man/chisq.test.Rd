@@ -6,20 +6,20 @@
 \alias{chisq.test.tabyl}
 \title{Apply stats::chisq.test to a two-way tabyl}
 \usage{
-chisq.test(x, y = NULL, tabyl_results = TRUE, ...)
+chisq.test(x, ...)
 
-\method{chisq.test}{default}(x, y = NULL, tabyl_results = TRUE, ...)
+\method{chisq.test}{default}(x, y = NULL, ...)
 
-\method{chisq.test}{tabyl}(x, y = NULL, tabyl_results = TRUE, ...)
+\method{chisq.test}{tabyl}(x, tabyl_results = TRUE, ...)
 }
 \arguments{
 \item{x}{a two-way tabyl, a numeric vector or a factor}
 
+\item{...}{other parameters passed to stats::chisq.test}
+
 \item{y}{if x is a vector, must be another vector or factor of the same length}
 
 \item{tabyl_results}{if TRUE and x is a tabyl object, also return `observed`, `expected`, `residuals` and `stdres` as tabyl}
-
-\item{...}{other parameters passed to stats::chisq.test or other methods}
 }
 \value{
 The result is the same as the one of stats::chisqt.test. If `tabyl_results` 
