@@ -129,6 +129,7 @@ However, if feels more natural to call these with `map()` or `lapply()`, that is
     + This can be suppressed if not desired
 + `NA` values can be displayed or suppressed
 + `tabyls` print without displaying row numbers
++ `chisq.test` and `fisher.test` functions are provided to apply these tests on two-way tabyls in the same way as `table` objects
 
 ## The `adorn_*` functions
 

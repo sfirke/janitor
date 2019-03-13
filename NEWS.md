@@ -1,11 +1,14 @@
 # janitor 1.1.1.9000
 
 ## Major features
+
 The new function `make_clean_names()` takes a character vector and returns the cleaned text, with the same functionality as the existing `clean_names()`, which runs on a data.frame, manipulating its names. (#197, thanks **@tazinho** and everyone who contributed to the discussion).
 
 This new function can be supplied as a value for the `.name_repair` argument of `as_tibble()` in the `tibble` package.  For example: `as_tibble(iris, .name_repair = make_clean_names)`.
 
 `remove_empty()` now has a companion function `remove_constant()` which removes columns have a single value, optionally ignoring `NA` (#222, thanks to **@billdenney** for suggesting & implementing).
+
+Two new function `janitor::chisq.test()` and `janitor::fisher.test()` allow to apply their `stats` equivalent to two-way tabyl objects.
 
 ## Minor features
 
