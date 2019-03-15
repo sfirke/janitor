@@ -10,6 +10,8 @@ This new function can be supplied as a value for the `.name_repair` argument of 
 
 Two new function `janitor::chisq.test()` and `janitor::fisher.test()` allow to apply their `stats` equivalent to two-way tabyl objects.
 
+A new function `round_to_fraction()` allows rounding to a fraction (like the nearest 1/7) (#235, thanks to **@billdenney** for suggesting & implementing).
+
 ## Minor features
 
 * `excel_numeric_to_date()` now returns a POSIXct object and includes a time zone. (#225, thanks to **@billdenney** for the feature.)
