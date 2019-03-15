@@ -353,4 +353,9 @@ test_that("the dplyr warning suggesting forcats::fct_explicit_na that is generat
   expect_silent(
     tabyl(factor(c("a", "b", NA)))
   )
+  x <- data.frame(a = factor(c("a", "b", NA)),
+                  b = 1:3)
+  expect_silent(x %>%
+    tabyl(a, b)
+  )
 })

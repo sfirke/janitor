@@ -188,8 +188,15 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
       dplyr::slice(0))
   }
 
-  tabl <- dat %>%
-    dplyr::count(!! var1, !! var2)
+  # Suppress unnecessary dplyr warning - see this same code above
+  # in tabyl.default for more explanation
+  withCallingHandlers({
+    tabl <- dat %>%
+      dplyr::count(!! var1, !! var2)
+  }, warning = function(w) {
+    if (endsWith(conditionMessage(w), "fct_explicit_na\`"))
+      invokeRestart("muffleWarning")
+  })
 
   # Optionally expand missing factor levels.
   if (show_missing_levels) {
