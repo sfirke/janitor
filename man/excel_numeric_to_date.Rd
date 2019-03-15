@@ -10,22 +10,36 @@ excel_numeric_to_date(date_num, date_system = "modern",
 \arguments{
 \item{date_num}{numeric vector of serial numbers to convert.}
 
-\item{date_system}{the date system, either \code{"modern"} or \code{"mac pre-2011"}.}
+\item{date_system}{the date system, either \code{"modern"} or \code{"mac
+pre-2011"}.}
 
-\item{include_time}{Include the time (hours, minutes, seconds) in the output? (See details)}
+\item{include_time}{Include the time (hours, minutes, seconds) in the output?
+(See details)}
 
-\item{round_seconds}{Round the seconds to an integer (only has an effect when \code{include_time} is \code{TRUE})?}
+\item{round_seconds}{Round the seconds to an integer (only has an effect when
+\code{include_time} is \code{TRUE})?}
 
-\item{tz}{Time zone, used when \code{include_time = TRUE}.}
+\item{tz}{Time zone, used when \code{include_time = TRUE} (see details for
+more information on timezones).}
 }
 \value{
-Returns a vector of class Date if \code{include_time} is \code{FALSE}.  Returns a vector of class POSIXlt if \code{include_time} is \code{TRUE}.
+Returns a vector of class Date if \code{include_time} is
+  \code{FALSE}.  Returns a vector of class POSIXlt if \code{include_time} is
+  \code{TRUE}.
 }
 \description{
-Converts numbers like \code{42370} into date values like \code{2016-01-01}.
+Converts numbers like \code{42370} into date values like
+\code{2016-01-01}.
 
-Defaults to the modern Excel date encoding system. However, Excel for Mac 2008 and earlier Mac versions of Excel used a different date system. To determine what platform to specify: if the date 2016-01-01 is represented by the number 42370 in your spreadsheet, it's the modern system.  If it's 40908, it's the old Mac system.
-More on date encoding systems at http://support.office.com/en-us/article/Date-calculations-in-Excel-e7fe7167-48a9-4b96-bb53-5612a800b487.
+Defaults to the modern Excel date encoding system. However, Excel for Mac
+2008 and earlier Mac versions of Excel used a different date system. To
+determine what platform to specify: if the date 2016-01-01 is represented by
+the number 42370 in your spreadsheet, it's the modern system.  If it's 40908,
+it's the old Mac system. More on date encoding systems at
+http://support.office.com/en-us/article/Date-calculations-in-Excel-e7fe7167-48a9-4b96-bb53-5612a800b487.
+
+A list of all timezones is available from \code{base::OlsonNames()}, and the
+current timezone is available from \code{base::Sys.timezone()}.
 }
 \details{
 When using \code{include_time=TRUE}, days with leap seconds will not
