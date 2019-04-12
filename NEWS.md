@@ -10,6 +10,8 @@ This new function can be supplied as a value for the `.name_repair` argument of 
 
 Two new function `janitor::chisq.test()` and `janitor::fisher.test()` allow to apply their `stats` equivalent to two-way tabyl objects.
 
+The new function `compare_df_types()` allows checking if data.frame (or similar object) row binding will succeed and reports on specific columns that will or will not succeed.  A companion function `compare_df_types_success()` gives a TRUE/FALSE result (simplifying testing if the bind will work in code), and `compare_df_types_class_detect()` is a generic that allows overriding defaults if binding will work for specific classes (#50, thanks to **@billdenney** for the feature.)
+
 ## Minor features
 
 * `excel_numeric_to_date()` now returns a POSIXct object and includes a time zone. (#225, thanks to **@billdenney** for the feature.)
