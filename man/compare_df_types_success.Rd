@@ -8,18 +8,19 @@ compare_df_types_success(..., return = "mismatch",
   bind_check = c("rbind", "bind_rows"), verbose = TRUE)
 }
 \arguments{
-\item{...}{data.frames or similar objects.  The values may optionally be
-named arguments; if named, the output column will be the name; if not
-named, the output columne will be the data.frame name (see examples
-section).}
+\item{...}{data.frames or similar objects (such as tibbles), or lists of
+data.frames (or similar objects).  The values may optionally be named
+arguments; if named, the output column will be the name; if not named, the
+output columne will be the data.frame name (see examples section).}
 
-\item{return}{Should a sumary of "all" columns be returned, only return
-"match"ing columns, or only "mismatch"ing columns.}
+\item{return}{Should a summary of "all" columns be returned, only return
+"match"ing columns, or only "mismatch"ing columns?}
 
-\item{bind_check}{What method of binding shoudl be used to determine matches?
+\item{bind_check}{What method of binding should be used to determine matches?
 With "rbind", columns missing from a data.frame would be considered a
-mismatch; with "bind_rows" columns missing from a data.frame would be
-considered a match (as in \code{dplyr::bind_rows()}.}
+mismatch (as in \code{base::rbind()}; with "bind_rows", columns missing
+from a data.frame would be considered a match (as in
+\code{dplyr::bind_rows()}.}
 
 \item{verbose}{Print the mismatching columns if binding will fail.}
 }

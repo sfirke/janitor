@@ -1,6 +1,5 @@
 context("compare_df_types")
 
-
 test_that("data.frame comparison works", {
   # Names are intentionally not pretty to make it easier to see the source.
   # These data.frames are not typically used, and if the input name is needed,
@@ -116,6 +115,32 @@ test_that("data.frame comparison works", {
     ),
     info="bind_rows output skips NA"
   )
+  
+  expect_warning(
+    expect_equal(
+      compare_df_types(data.frame()),
+      data.frame(
+        column_name=character(0),
+        stringsAsFactors=FALSE
+      )
+    ),
+    regexp="data.frame() has zero columns and will not appear in output.",
+    fixed=TRUE,
+    info="empty data.frames by themselves work"
+  )
+  expect_warning(
+    expect_equal(
+      compare_df_types(foo=data.frame(), bar=data.frame(A=1)),
+      data.frame(
+        column_name="A",
+        bar="numeric",
+        stringsAsFactors=FALSE
+      )
+    ),
+    regexp="foo has zero columns and will not appear in output.",
+    fixed=TRUE,
+    info="empty data.frames with other inputs work"
+  )
 })
 
 test_that("class detection works", {
@@ -144,4 +169,113 @@ test_that("boolean df comparison works", {
   expect_output(expect_false(compare_df_types_success(data.frame(A=1), data.frame(B=2))))
   expect_silent(expect_false(compare_df_types_success(data.frame(A=1), data.frame(B=2), verbose=FALSE)))
   expect_true(compare_df_types_success(data.frame(A=1), data.frame(B=2), bind_check="bind_rows"))
+})
+
+test_that("list inputs to compare_df_types give appropriate errors", {
+  expect_error(
+    compare_df_types(list("A")),
+    regexp="List inputs must be lists of data.frames.  List input number 1 is not a list of data.frames.",
+    fixed=TRUE
+  )
+  expect_error(
+    compare_df_types(data.frame(), list("A")),
+    regexp="List inputs must be lists of data.frames.  List input number 2 is not a list of data.frames.",
+    fixed=TRUE
+  )
+  expect_error(
+    compare_df_types(list("A"), list("A")),
+    regexp="List inputs must be lists of data.frames.  List input numbers 1, 2 are not lists of data.frames.",
+    fixed=TRUE
+  )
+  expect_error(
+    compare_df_types(list("A"), list("A"), list("A"), list("A"), list("A"), list("A")),
+    regexp="List inputs must be lists of data.frames.  List input numbers 1, 2, 3, 4, 5, ... are not lists of data.frames.",
+    fixed=TRUE
+  )
+  expect_error(
+    compare_df_types(list(column_name=data.frame())),
+    regexp="None of the input ... argument names or list names may be `column_name`.",
+    fixed=TRUE
+  )
+})
+
+test_that("list inputs to compare_df_types work as expected", {
+  expect_warning(
+    expect_equal(
+      compare_df_types(
+        list(foo=data.frame(), bar=data.frame(A=1, B=2)),
+        baz=data.frame(A=2, C=3)
+      ),
+      data.frame(
+        column_name=c("A", "B", "C"),
+        bar=c("numeric", "numeric", NA_character_),
+        baz=c("numeric", NA_character_, "numeric"),
+        stringsAsFactors=FALSE
+      )
+    ),
+    regexp="foo has zero columns and will not appear in output.",
+    info="empty data.frame with other data.frames"
+  )
+  expect_equal(
+    compare_df_types(
+      list(foo=data.frame(A=1), bar=data.frame(A=1, B=2)),
+      baz=data.frame(A=2, C=3)
+    ),
+    data.frame(
+      column_name=c("A", "B", "C"),
+      foo=c("numeric", NA_character_, NA_character_),
+      bar=c("numeric", "numeric", NA_character_),
+      baz=c("numeric", NA_character_, "numeric"),
+      stringsAsFactors=FALSE
+    )
+  )
+  # Naming complexity
+  expect_equal(
+    compare_df_types(
+      list(data.frame(A=1), bar=data.frame(A=1, B=2)),
+      baz=data.frame(A=2, C=3)
+    ),
+    setNames(
+      data.frame(
+        column_name=c("A", "B", "C"),
+        foo=c("numeric", NA_character_, NA_character_),
+        bar=c("numeric", "numeric", NA_character_),
+        baz=c("numeric", NA_character_, "numeric"),
+        stringsAsFactors=FALSE
+      ),
+      c("column_name", "list(data.frame(A = 1), bar = data.frame(A = 1, B = 2))_1", "bar", "baz")
+    )
+  )
+  expect_equal(
+    compare_df_types(
+      foo=list(data.frame(A=1), bar=data.frame(A=1, B=2)),
+      baz=data.frame(A=2, C=3)
+    ),
+    setNames(
+      data.frame(
+        column_name=c("A", "B", "C"),
+        foo=c("numeric", NA_character_, NA_character_),
+        bar=c("numeric", "numeric", NA_character_),
+        baz=c("numeric", NA_character_, "numeric"),
+        stringsAsFactors=FALSE
+      ),
+      c("column_name", "foo_1", "bar", "baz")
+    )
+  )
+  expect_equal(
+    compare_df_types(
+      foo=list(data.frame(A=1), data.frame(A=1, B=2)),
+      baz=data.frame(A=2, C=3)
+    ),
+    setNames(
+      data.frame(
+        column_name=c("A", "B", "C"),
+        foo=c("numeric", NA_character_, NA_character_),
+        bar=c("numeric", "numeric", NA_character_),
+        baz=c("numeric", NA_character_, "numeric"),
+        stringsAsFactors=FALSE
+      ),
+      c("column_name", "foo_1", "foo_2", "baz")
+    )
+  )
 })
