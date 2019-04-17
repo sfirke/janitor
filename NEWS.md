@@ -10,7 +10,7 @@ This new function can be supplied as a value for the `.name_repair` argument of 
 
 Two new function `janitor::chisq.test()` and `janitor::fisher.test()` allow to apply their `stats` equivalent to two-way tabyl objects.
 
-The new function `compare_df_types()` allows checking if data.frame (or similar object) row binding will succeed and reports on specific columns that will or will not succeed.  A companion function `compare_df_types_success()` gives a TRUE/FALSE result (simplifying testing if the bind will work in code), and `compare_df_types_class_detect()` is a generic that allows overriding defaults if binding will work for specific classes (#50, thanks to **@billdenney** for the feature.)
+The new function `compare_df_cols()` allows checking if a combination of data.frames, tibbles, or lists of data.frames/tibbles have columns with the same classes, and reports on specific columns that are or are not similar.  A companion function `compare_df_cols_same()` gives a TRUE/FALSE result indicating if the columns are the same (and therefore bindable, though FALSE is not definitive that binding will fail), and `describe_class()` describes the class to make differences between data.frames clear at a glance (#50, thanks to **@billdenney** for the feature.)
 
 ## Minor features
 

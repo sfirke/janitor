@@ -1,11 +1,11 @@
-context("compare_df_types")
+context("compare_df_cols")
 
 test_that("data.frame comparison works", {
   # Names are intentionally not pretty to make it easier to see the source.
   # These data.frames are not typically used, and if the input name is needed,
   # it can be a named argument.
   expect_equal(
-    compare_df_types(data.frame(A=1), data.frame(B=2)),
+    compare_df_cols(data.frame(A=1), data.frame(B=2)),
     setNames(
       data.frame(
         column_name=c("A", "B"),
@@ -20,7 +20,7 @@ test_that("data.frame comparison works", {
     info="Names are detected from unnamed input"
   )
   expect_equal(
-    compare_df_types(foo=data.frame(A=1), bar=data.frame(B=2)),
+    compare_df_cols(foo=data.frame(A=1), bar=data.frame(B=2)),
     data.frame(
       column_name=c("A", "B"),
       foo=c("numeric", NA),
@@ -30,7 +30,7 @@ test_that("data.frame comparison works", {
     info="Names can be used from the input"
   )
   expect_equal(
-    compare_df_types(foo=data.frame(A=1), data.frame(B=2)),
+    compare_df_cols(foo=data.frame(A=1), data.frame(B=2)),
     setNames(
       data.frame(
         column_name=c("A", "B"),
@@ -45,7 +45,7 @@ test_that("data.frame comparison works", {
     info="Names are detected from unnamed input and can be mixed with named arguments"
   )
   expect_equal(
-    compare_df_types(foo=data.frame(A=1, B=1), bar=data.frame(B=2)),
+    compare_df_cols(foo=data.frame(A=1, B=1), bar=data.frame(B=2)),
     data.frame(
       column_name=c("A", "B"),
       foo="numeric",
@@ -55,7 +55,7 @@ test_that("data.frame comparison works", {
     info="all output comes through when requested"
   )
   expect_equal(
-    compare_df_types(foo=data.frame(A=1, B=1), bar=data.frame(B=2), return="match"),
+    compare_df_cols(foo=data.frame(A=1, B=1), bar=data.frame(B=2), return="match"),
     data.frame(
       column_name="B",
       foo="numeric",
@@ -65,7 +65,7 @@ test_that("data.frame comparison works", {
     info="only matching output comes through when requested"
   )
   expect_equal(
-    compare_df_types(foo=data.frame(A=1, B=1), bar=data.frame(B=2), return="mismatch"),
+    compare_df_cols(foo=data.frame(A=1, B=1), bar=data.frame(B=2), return="mismatch"),
     data.frame(
       column_name="A",
       foo="numeric",
@@ -76,7 +76,7 @@ test_that("data.frame comparison works", {
   )
   expect_warning(
     expect_equal(
-      compare_df_types(foo=data.frame(A=1, B=1), return="mismatch"),
+      compare_df_cols(foo=data.frame(A=1, B=1), return="mismatch"),
       data.frame(
         column_name=c("A", "B"),
         foo="numeric",
@@ -87,10 +87,25 @@ test_that("data.frame comparison works", {
     info="A single data.frame isn't very meaningful, so the user is warned that they probably didn't do what they meant to do."
   )
   expect_equal(
-    compare_df_types(
+    compare_df_cols(
       foo=data.frame(A=1, B=1, C=factor("A"), D=factor("B")),
       bar=data.frame(B=2, C=factor("A"), D=factor(c("A", "B"))),
       return="mismatch"
+    ),
+    data.frame(
+      column_name="A",
+      foo="numeric",
+      bar=NA_character_,
+      stringsAsFactors=FALSE
+    ),
+    info="only mismatching output comes through when requested (and it works with something a bit more complex than numeric)"
+  )
+  expect_equal(
+    compare_df_cols(
+      foo=data.frame(A=1, B=1, C=factor("A"), D=factor("B")),
+      bar=data.frame(B=2, C=factor("A"), D=factor(c("A", "B"))),
+      return="mismatch",
+      strict_description=TRUE
     ),
     data.frame(
       column_name=c("A", "D"),
@@ -101,11 +116,28 @@ test_that("data.frame comparison works", {
     info="only mismatching output comes through when requested (and it works with something a bit more complex than numeric)"
   )
   expect_equal(
-    compare_df_types(
+    compare_df_cols(
       foo=data.frame(A=1, B=1, C=factor("A"), D=factor("B")),
       bar=data.frame(B=2, C=factor("A"), D=factor(c("A", "B"))),
       return="mismatch",
-      bind_check="bind_rows"
+      bind_method="bind_rows",
+      strict_description=FALSE
+    ),
+    data.frame(
+      column_name="D",
+      foo='factor',
+      bar='factor',
+      stringsAsFactors=FALSE
+    )[-1,],
+    info="bind_rows output skips NA"
+  )
+  expect_equal(
+    compare_df_cols(
+      foo=data.frame(A=1, B=1, C=factor("A"), D=factor("B")),
+      bar=data.frame(B=2, C=factor("A"), D=factor(c("A", "B"))),
+      return="mismatch",
+      bind_method="bind_rows",
+      strict_description=TRUE
     ),
     data.frame(
       column_name="D",
@@ -118,7 +150,7 @@ test_that("data.frame comparison works", {
   
   expect_warning(
     expect_equal(
-      compare_df_types(data.frame()),
+      compare_df_cols(data.frame()),
       data.frame(
         column_name=character(0),
         stringsAsFactors=FALSE
@@ -130,7 +162,7 @@ test_that("data.frame comparison works", {
   )
   expect_warning(
     expect_equal(
-      compare_df_types(foo=data.frame(), bar=data.frame(A=1)),
+      compare_df_cols(foo=data.frame(), bar=data.frame(A=1)),
       data.frame(
         column_name="A",
         bar="numeric",
@@ -144,65 +176,72 @@ test_that("data.frame comparison works", {
 })
 
 test_that("class detection works", {
-  expect_equal(compare_df_types_class_detect(5), "numeric")
-  expect_equal(compare_df_types_class_detect("A"), "character")
+  expect_equal(describe_class(5), "numeric")
+  expect_equal(describe_class("A"), "character")
   expect_equal(
-    compare_df_types_class_detect(as.POSIXct("2019-01-02")), "POSIXct, POSIXt",
+    describe_class(as.POSIXct("2019-01-02")), "POSIXct, POSIXt",
     info="multiple classes work"
   )
   expect_equal(
-    compare_df_types_class_detect(factor("A")),
+    describe_class(factor("A")),
     'factor(levels=c("A"))'
   )
   expect_equal(
-    compare_df_types_class_detect(factor("A", ordered=TRUE)),
+    describe_class(factor("A", ordered=TRUE)),
     'ordered, factor(levels=c("A"))'
   )
   expect_equal(
-    compare_df_types_class_detect(factor(c("A", "B"), ordered=TRUE)),
+    describe_class(factor(c("A", "B"), ordered=TRUE)),
     'ordered, factor(levels=c("A", "B"))'
   )
 })
 
-test_that("boolean df comparison works", {
-  expect_true(compare_df_types_success(data.frame(A=1), data.frame(A=2)))
-  expect_output(expect_false(compare_df_types_success(data.frame(A=1), data.frame(B=2))))
-  expect_silent(expect_false(compare_df_types_success(data.frame(A=1), data.frame(B=2), verbose=FALSE)))
-  expect_true(compare_df_types_success(data.frame(A=1), data.frame(B=2), bind_check="bind_rows"))
+test_that("class description without strict description", {
+  # No change with numeric
+  expect_equal(describe_class(5, strict_description=FALSE), "numeric")
+  # ordered factors don't show "ordered" or the levels
+  expect_equal(describe_class(ordered(c("A", "B")), strict_description=FALSE), "factor")
 })
 
-test_that("list inputs to compare_df_types give appropriate errors", {
+test_that("boolean df comparison works", {
+  expect_true(compare_df_cols_same(data.frame(A=1), data.frame(A=2)))
+  expect_output(expect_false(compare_df_cols_same(data.frame(A=1), data.frame(B=2))))
+  expect_silent(expect_false(compare_df_cols_same(data.frame(A=1), data.frame(B=2), verbose=FALSE)))
+  expect_true(compare_df_cols_same(data.frame(A=1), data.frame(B=2), bind_method="bind_rows"))
+})
+
+test_that("list inputs to compare_df_cols give appropriate errors", {
   expect_error(
-    compare_df_types(list("A")),
+    compare_df_cols(list("A")),
     regexp="List inputs must be lists of data.frames.  List input number 1 is not a list of data.frames.",
     fixed=TRUE
   )
   expect_error(
-    compare_df_types(data.frame(), list("A")),
+    compare_df_cols(data.frame(), list("A")),
     regexp="List inputs must be lists of data.frames.  List input number 2 is not a list of data.frames.",
     fixed=TRUE
   )
   expect_error(
-    compare_df_types(list("A"), list("A")),
+    compare_df_cols(list("A"), list("A")),
     regexp="List inputs must be lists of data.frames.  List input numbers 1, 2 are not lists of data.frames.",
     fixed=TRUE
   )
   expect_error(
-    compare_df_types(list("A"), list("A"), list("A"), list("A"), list("A"), list("A")),
+    compare_df_cols(list("A"), list("A"), list("A"), list("A"), list("A"), list("A")),
     regexp="List inputs must be lists of data.frames.  List input numbers 1, 2, 3, 4, 5, ... are not lists of data.frames.",
     fixed=TRUE
   )
   expect_error(
-    compare_df_types(list(column_name=data.frame())),
+    compare_df_cols(list(column_name=data.frame())),
     regexp="None of the input ... argument names or list names may be `column_name`.",
     fixed=TRUE
   )
 })
 
-test_that("list inputs to compare_df_types work as expected", {
+test_that("list inputs to compare_df_cols work as expected", {
   expect_warning(
     expect_equal(
-      compare_df_types(
+      compare_df_cols(
         list(foo=data.frame(), bar=data.frame(A=1, B=2)),
         baz=data.frame(A=2, C=3)
       ),
@@ -217,7 +256,7 @@ test_that("list inputs to compare_df_types work as expected", {
     info="empty data.frame with other data.frames"
   )
   expect_equal(
-    compare_df_types(
+    compare_df_cols(
       list(foo=data.frame(A=1), bar=data.frame(A=1, B=2)),
       baz=data.frame(A=2, C=3)
     ),
@@ -231,7 +270,7 @@ test_that("list inputs to compare_df_types work as expected", {
   )
   # Naming complexity
   expect_equal(
-    compare_df_types(
+    compare_df_cols(
       list(data.frame(A=1), bar=data.frame(A=1, B=2)),
       baz=data.frame(A=2, C=3)
     ),
@@ -247,7 +286,7 @@ test_that("list inputs to compare_df_types work as expected", {
     )
   )
   expect_equal(
-    compare_df_types(
+    compare_df_cols(
       foo=list(data.frame(A=1), bar=data.frame(A=1, B=2)),
       baz=data.frame(A=2, C=3)
     ),
@@ -263,7 +302,7 @@ test_that("list inputs to compare_df_types work as expected", {
     )
   )
   expect_equal(
-    compare_df_types(
+    compare_df_cols(
       foo=list(data.frame(A=1), data.frame(A=1, B=2)),
       baz=data.frame(A=2, C=3)
     ),
