@@ -18,11 +18,17 @@ Two new function `janitor::chisq.test()` and `janitor::fisher.test()` allow to a
 
 * `adorn_totals()` gains an argument `"name"` that allows the user to specify a value other than "Total" to appear as the name of the added row and/or column.  (#263)  Thanks to **@StephieLaPugh** for suggesting and **@daniel-barnett** for implementing.
 
-## Bug fixes
-
 * `remove_empty()` now works with matrices (returning a matrix).  (#215)  Thanks to **@jsta** for reporting and **@billdenney** for patching.
+
+* If the third variable in a three-way tabyl is a factor, the resulting list is sorted in order of its levels (#250).
+
+## Bug fixes
+ 
+
 * `excel_numeric_to_date()` no longer gives an overflow error for integer input (for dates since 1968).  (#241)  Thanks to **@hideaki** for reporting and **@billdenney** for patching.
+
 * `clean_names()` and `make_clean_names()` now support 'none' as a case option. (#269) Thanks to **@andrewbarros** for reporting and patching.  
+
 
 # janitor 1.1.1 (2018-07-30)
 
@@ -33,6 +39,7 @@ Patches a bug introduced in version 1.1.0 where `excel_numeric_to_date()` would 
 ## Bug fixes
 
 * `excel_numeric_to_date()` again handles `NA` correctly, in version 1.1.0 the function would error if any values of the input vector were `NA`. (#220). Thanks **@emilelatour** for reporting and **@billdenney** for patching.
+
 
 # janitor 1.1.0 (2018-07-17)
 
