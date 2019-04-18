@@ -359,3 +359,14 @@ test_that("the dplyr warning suggesting forcats::fct_explicit_na that is generat
     tabyl(a, b)
   )
 })
+
+test_that("3-way tabyl with 3rd var factor is listed in right order, #250", {
+  z <- mtcars
+  z$cyl <- factor(z$cyl, levels = c(4, 8, 6))
+  expect_equal(names(tabyl(z, am, gear, cyl)), c("4", "8", "6"))
+  z$cyl[32] <- NA
+  expect_equal(names(tabyl(z, am, gear, cyl)), c("4", "8", "6", "NA_"))
+  expect_equal(names(tabyl(z, am, gear, cyl, show_na = FALSE)), c("4", "8", "6"))
+  z <- z %>% dplyr::filter(! cyl %in% "4")
+  expect_equal(names(tabyl(z, am, gear, cyl)), c("8", "6", "NA_"))
+})
