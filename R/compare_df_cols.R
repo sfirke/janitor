@@ -14,7 +14,7 @@
 #'
 #' @param ... A combination of data.frames, tibbles, and lists of
 #'   data.frames/tibbles.  The values may optionally be named arguments; if
-#'   named, the output column will be the name; if not named, the output columne
+#'   named, the output column will be the name; if not named, the output column
 #'   will be the data.frame name (see examples section).
 #' @param return Should a summary of "all" columns be returned, only return
 #'   "match"ing columns, or only "mismatch"ing columns?
