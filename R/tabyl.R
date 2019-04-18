@@ -87,11 +87,12 @@ tabyl.default <- function(dat, show_na = TRUE, show_missing_levels = TRUE, ...) 
 
     if (is.factor(dat) && show_missing_levels) {
       expanded <- tidyr::expand(result, dat)
-      result <- merge(
-        x = expanded, # can't use dplyr::left_join because as of 0.6.0, NAs don't match, and na_matches argument not present < 0.6.0
+      result <- merge( # can't use left_join b/c NA matching changed in 0.6.0
+        x = expanded,
         y = result,
         by = "dat",
-        all.x = TRUE
+        all.x = TRUE,
+        all.y = TRUE
       )
       result <- dplyr::arrange(result, dat) # restore sorting by factor level
     }
