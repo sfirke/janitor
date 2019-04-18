@@ -230,7 +230,7 @@ tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_level
   
   # Keep factor levels for ordering the list at the end
   if(is.factor(dat[[3]])){
-    third_levels <- levels(dat[[3]])
+    third_levels_for_sorting <- levels(dat[[3]])
   }
   dat[[3]] <- as.character(dat[[3]]) # don't want empty factor levels in the result list - they would be empty data.frames
 
@@ -245,6 +245,9 @@ tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_level
   if (show_na && sum(is.na(dat[[3]])) > 0) {
     dat[[3]] <- factor(dat[[3]], levels = c(sort(unique(dat[[3]])), "NA_"))
     dat[[3]][is.na(dat[[3]])] <- "NA_"
+    if(exists("third_levels_for_sorting")){
+      third_levels_for_sorting <- c(third_levels_for_sorting, "NA_")
+    }
   }
 
   if (!show_missing_levels) { # this shows missing factor levels, to make the crosstabs consistent across each data.frame in the list based on values of var3
@@ -264,10 +267,8 @@ tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_level
     purrr::map(reset_1st_col_status, col1_class, col1_levels) # reset class of var in 1st col to its input class, #168
 
   # reorder when var 3 is a factor, per #250
-  if(exists("third_levels")){
-    result <- result[order(third_levels[third_levels %in% unique(dat[[3]])])] 
-  # missing levels will have been dropped at conversion to factor, good
-  #CHECK BEHAVIOR WITH NAs - tough to do until #274 is properly fixed.  NA level should appear if show_na = TRUE
+  if(exists("third_levels_for_sorting")){
+    result <- result[order(third_levels_for_sorting[third_levels_for_sorting %in% unique(dat[[3]])])] 
   }
   
   result

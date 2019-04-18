@@ -20,10 +20,10 @@ Two new function `janitor::chisq.test()` and `janitor::fisher.test()` allow to a
 
 * `remove_empty()` now works with matrices (returning a matrix).  (#215)  Thanks to **@jsta** for reporting and **@billdenney** for patching.
 
-* If the third variable in a three-way tabyl is a factor, the resulting list is sorted in order of its levels (#250).
+* If the third variable in a three-way tabyl is a factor, the resulting list is sorted in order of its levels (#250).  Empty factor levels in the 3rd variable are still omitted regardless of the value of `show_missing_levels`.
 
 ## Bug fixes
- 
+
 
 * `excel_numeric_to_date()` no longer gives an overflow error for integer input (for dates since 1968).  (#241)  Thanks to **@hideaki** for reporting and **@billdenney** for patching.
 
