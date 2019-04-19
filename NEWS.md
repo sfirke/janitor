@@ -4,13 +4,13 @@
 
 The new function `make_clean_names()` takes a character vector and returns the cleaned text, with the same functionality as the existing `clean_names()`, which runs on a data.frame, manipulating its names. (#197, thanks **@tazinho** and everyone who contributed to the discussion).
 
-This new function can be supplied as a value for the `.name_repair` argument of `as_tibble()` in the `tibble` package.  For example: `as_tibble(iris, .name_repair = make_clean_names)`.
+This function can be supplied as a value for the `.name_repair` argument of `as_tibble()` in the `tibble` package.  For example: `as_tibble(iris, .name_repair = make_clean_names)`.
 
 `remove_empty()` now has a companion function `remove_constant()` which removes columns have a single value, optionally ignoring `NA` (#222, thanks to **@billdenney** for suggesting & implementing).
 
-Two new function `janitor::chisq.test()` and `janitor::fisher.test()` allow to apply their `stats` equivalent to two-way tabyl objects.
+Added the functions `janitor::chisq.test()` and `janitor::fisher.test()` to enable running these statistical tests from the base `stats` package on two-way `tabyl` objects.  While the package loading message says the base functions are masked, the base tests still run on `table` objects.
 
-The new function `compare_df_cols()` allows checking if a combination of data.frames, tibbles, or lists of data.frames/tibbles have columns with the same classes, and reports on specific columns that are or are not similar.  A companion function `compare_df_cols_same()` gives a TRUE/FALSE result indicating if the columns are the same (and therefore bindable, though FALSE is not definitive that binding will fail), and `describe_class()` describes the class to make differences between data.frames clear at a glance (#50, thanks to **@billdenney** for the feature.)
+The new function `compare_df_cols()` compares the names and classes of columns in a set of supplied data.frames or tibbles, reporting on the specific columns that are or are not similar.  This is for the common use case where a set of data files should all have the same specifications but, in practice, may not. A companion function `compare_df_cols_same()` gives a `TRUE/FALSE` result indicating if the columns are the same (and therefore bindable, though FALSE is not definitive that binding will fail).  The helper function `describe_class()` describes a variable's class to make differences between data.frames clear at a glance - it is used by developers in extending the `compare_df` functions to custom classes (#50, thanks to **@billdenney** for the feature.)
 
 ## Minor features
 
