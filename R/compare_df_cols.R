@@ -7,7 +7,7 @@
 #'   The \code{strict_description} argument is most typically used to understand
 #'   if factor levels match or are bindable.  Factors are typically bindable,
 #'   but the behavior of what happens when they bind differs based on the
-#'   binding method ("rbind" or "bind_rows").  Even when
+#'   binding method ("bind_rows" or "rbind").  Even when
 #'   \code{strict_description} is \code{FALSE}, data.frames may still bind
 #'   because some classes (like factors and characters) can bind even if they
 #'   appear to differ.
@@ -19,10 +19,10 @@
 #' @param return Should a summary of "all" columns be returned, only return
 #'   "match"ing columns, or only "mismatch"ing columns?
 #' @param bind_method What method of binding should be used to determine
-#'   matches? With "rbind", columns missing from a data.frame would be
-#'   considered a mismatch (as in \code{base::rbind()}; with "bind_rows",
-#'   columns missing from a data.frame would be considered a match (as in
-#'   \code{dplyr::bind_rows()}.
+#'   matches? With "bind_rows", columns missing from a data.frame would be
+#'   considered a match (as in \code{dplyr::bind_rows()}; with "rbind", columns
+#'   missing from a data.frame would be considered a mismatch (as in
+#'   \code{base::rbind()}.
 #' @param strict_description Passed to \code{describe_class}.  Also, see the
 #'   Details section.
 #' @return A data.frame with a column named "column_name" with a value named
@@ -41,7 +41,7 @@
 #' compare_df_cols(listA=list(dfA=data.frame(A=1), dfB=data.frame(B=2)), data.frame(A=3))
 #' @family Data frame type comparison
 #' @export
-compare_df_cols <- function(..., return=c("all", "match", "mismatch"), bind_method=c("rbind", "bind_rows"), strict_description=FALSE) {
+compare_df_cols <- function(..., return=c("all", "match", "mismatch"), bind_method=c("bind_rows", "rbind"), strict_description=FALSE) {
   # Input checking
   return <- match.arg(return)
   bind_method <- match.arg(bind_method)
@@ -206,9 +206,9 @@ compare_df_cols_df_maker.list <- function(x, class_colname="class", strict_descr
 #' compare_df_cols_same(data.frame(A=1), data.frame(A=2))
 #' compare_df_cols_same(data.frame(A=1), data.frame(B=2))
 #' compare_df_cols_same(data.frame(A=1), data.frame(B=2), verbose=FALSE)
-#' compare_df_cols_same(data.frame(A=1), data.frame(B=2), bind_method="bind_rows")
+#' compare_df_cols_same(data.frame(A=1), data.frame(B=2), bind_method="rbind")
 #' @export
-compare_df_cols_same <- function(..., return="mismatch", bind_method=c("rbind", "bind_rows"), verbose=TRUE) {
+compare_df_cols_same <- function(..., return="mismatch", bind_method=c("bind_rows", "rbind"), verbose=TRUE) {
   return <- match.arg(return)
   bind_method <- match.arg(bind_method)
   ret <- compare_df_cols(..., return=return, bind_method=bind_method)
