@@ -6,6 +6,13 @@
 \usage{
 remove_constant(dat, na.rm = FALSE)
 }
+\arguments{
+\item{dat}{the input data.frame or matrix.}
+
+\item{na.rm}{should \code{NA} values be removed when considering whether a 
+column is constant?  The default value of \code{FALSE} will result in a column 
+not being removed if it's a mix of a single value and \code{NA}.}
+}
 \description{
 Remove constant columns from a data.frame or matrix.
 }

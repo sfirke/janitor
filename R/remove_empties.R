@@ -5,7 +5,6 @@
 #'
 #' @param dat the input data.frame or matrix.
 #' @param which one of "rows", "cols", or \code{c("rows", "cols")}.  Where no value of which is provided, defaults to removing both empty rows and empty columns, declaring the behavior with a printed message.
-#' @param na.rm Exclude NA for comparison of being constant?
 #' @return Returns the object without its missing rows or columns.
 #' @family remove functions
 #' @seealso \code{\link[=remove_constant]{remove_constant()}} for removing constant
@@ -36,6 +35,11 @@ remove_empty <- function(dat, which = c("rows", "cols")) {
 
 
 #' @title Remove constant columns from a data.frame or matrix.
+#' @param dat the input data.frame or matrix.
+#' @param na.rm should \code{NA} values be removed when considering whether a 
+#' column is constant?  The default value of \code{FALSE} will result in a column 
+#' not being removed if it's a mix of a single value and \code{NA}.
+#' 
 #' @examples
 #' remove_constant(data.frame(A=1, B=1:3))
 #' 
@@ -48,7 +52,7 @@ remove_empty <- function(dat, which = c("rows", "cols")) {
 #' @seealso \code{\link[=remove_empty]{remove_empty()}} for removing empty 
 #' columns or rows.
 #' @export
-remove_constant <- function(dat, na.rm=FALSE) {
+remove_constant <- function(dat, na.rm = FALSE) {
   mask <-
     sapply(
       X=seq_len(ncol(dat)),
