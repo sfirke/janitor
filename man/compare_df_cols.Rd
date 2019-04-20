@@ -6,22 +6,22 @@
 they will successfully bind together by rows.}
 \usage{
 compare_df_cols(..., return = c("all", "match", "mismatch"),
-  bind_method = c("rbind", "bind_rows"), strict_description = FALSE)
+  bind_method = c("bind_rows", "rbind"), strict_description = FALSE)
 }
 \arguments{
 \item{...}{A combination of data.frames, tibbles, and lists of
 data.frames/tibbles.  The values may optionally be named arguments; if
-named, the output column will be the name; if not named, the output columne
+named, the output column will be the name; if not named, the output column
 will be the data.frame name (see examples section).}
 
 \item{return}{Should a summary of "all" columns be returned, only return
 "match"ing columns, or only "mismatch"ing columns?}
 
 \item{bind_method}{What method of binding should be used to determine
-matches? With "rbind", columns missing from a data.frame would be
-considered a mismatch (as in \code{base::rbind()}; with "bind_rows",
-columns missing from a data.frame would be considered a match (as in
-\code{dplyr::bind_rows()}.}
+matches? With "bind_rows", columns missing from a data.frame would be
+considered a match (as in \code{dplyr::bind_rows()}; with "rbind", columns
+missing from a data.frame would be considered a mismatch (as in
+\code{base::rbind()}.}
 
 \item{strict_description}{Passed to \code{describe_class}.  Also, see the
 Details section.}
@@ -47,7 +47,7 @@ Due to the returned "column_name" column, no input data.frame may be
   The \code{strict_description} argument is most typically used to understand
   if factor levels match or are bindable.  Factors are typically bindable,
   but the behavior of what happens when they bind differs based on the
-  binding method ("rbind" or "bind_rows").  Even when
+  binding method ("bind_rows" or "rbind").  Even when
   \code{strict_description} is \code{FALSE}, data.frames may still bind
   because some classes (like factors and characters) can bind even if they
   appear to differ.

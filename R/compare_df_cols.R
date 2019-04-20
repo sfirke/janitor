@@ -189,14 +189,18 @@ compare_df_cols_df_maker.list <- function(x, class_colname="class", strict_descr
     lapply(
       X=seq_along(x),
       FUN=function(idx) {
-        compare_df_cols_df_maker(x=x[[idx]], class_colname=class_colname[[idx]], strict_description=strict_description)
+        compare_df_cols_df_maker(x=x[[idx]],
+                                 class_colname=class_colname[[idx]],
+                                 strict_description=strict_description)
       }
     )
   Reduce(f=function(x, y) {merge(x, y, by="column_name", all=TRUE)}, x=ret)
 }
 
-#' Are the data.frames the same?
+#' Do the the data.frames have the same columns & types?
 #'
+#' @description Check whether a set of data.frames are row-bindable.  Calls
+#' \code{compare_df_cols()}and returns TRUE if there are no mis-matching rows.  `
 #' @inheritParams compare_df_cols
 #' @param verbose Print the mismatching columns if binding will fail.
 #' @return \code{TRUE} if row binding will succeed or \code{FALSE} if it will
@@ -208,10 +212,9 @@ compare_df_cols_df_maker.list <- function(x, class_colname="class", strict_descr
 #' compare_df_cols_same(data.frame(A=1), data.frame(B=2), verbose=FALSE)
 #' compare_df_cols_same(data.frame(A=1), data.frame(B=2), bind_method="rbind")
 #' @export
-compare_df_cols_same <- function(..., return="mismatch", bind_method=c("bind_rows", "rbind"), verbose=TRUE) {
-  return <- match.arg(return)
+compare_df_cols_same <- function(..., bind_method=c("bind_rows", "rbind"), verbose=TRUE) {
   bind_method <- match.arg(bind_method)
-  ret <- compare_df_cols(..., return=return, bind_method=bind_method)
+  ret <- compare_df_cols(..., return = "mismatch", bind_method = bind_method)
   if (nrow(ret) & verbose) {
     print(ret)
   }
