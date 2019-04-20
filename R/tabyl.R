@@ -274,7 +274,8 @@ tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_level
   
   # Set attributes per #267
   attr(result, "tabyl_type") <- "three_way"
-  attr(result, "var_names") <- list(row = attr_names[[1]], col = attr_names[[2]], index = attr_names[[3]])
+  attr(result, "var_names") <- list(row = attr_names[1], col = attr_names[2], index = attr_names[3])
+  class(result) <- c("tabyl_3way", class(result)) # for print method that prints without attributes
   
   result
 }

@@ -38,11 +38,14 @@ test_that("untabyl warns if called on non-tabyl", {
   )
 })
 
-test_that("untabyl automatically invokes purrr::map when called on a 3-way tabyl", {
+test_that("untabyl automatically invokes purrr::map when called on a 3-way tabyl and strips top-level attrs", {
   three <- tabyl(mtcars, cyl, am, gear)
+  manual_untabyled <- purrr::map(three, untabyl)
+  attr(manual_untabyled, "var_names") <- NULL
+  attr(manual_untabyled, "tabyl_type") <- NULL
   expect_equal(
     untabyl(three), # vanilla call
-    purrr::map(three, untabyl)
+    manual_untabyled
   )
 })
 

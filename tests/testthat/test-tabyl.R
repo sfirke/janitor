@@ -226,7 +226,7 @@ test_that("show_missing_levels parameter works", {
       a = c("hi", "lo"),
       big = c(0, 0),
       small = c(1, 0)
-    ) %>% as_tabyl(2, "a", "b"))
+    ) %>% as_tabyl(2, "a", "b")) %>% untabyl()
   )
   expect_equal(
     z %>% tabyl(a, b, new, show_missing_levels = FALSE) %>% .[[1]],

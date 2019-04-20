@@ -76,6 +76,9 @@ as_tabyl <- function(dat, axes = 2, row_var_name = NULL, col_var_name = NULL) {
 untabyl <- function(dat) {
   # if input is a list, call purrr::map to recursively apply this function to each data.frame
   if (is.list(dat) && !is.data.frame(dat)) {
+    # remove list-level attributes first
+    attr(dat, "tabyl_type") <- NULL
+    attr(dat, "var_names") <- NULL
     purrr::map(dat, untabyl)
   } else {
     if (!"tabyl" %in% class(dat)) {
