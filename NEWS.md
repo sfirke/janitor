@@ -4,11 +4,13 @@
 
 The new function `make_clean_names()` takes a character vector and returns the cleaned text, with the same functionality as the existing `clean_names()`, which runs on a data.frame, manipulating its names. (#197, thanks **@tazinho** and everyone who contributed to the discussion).
 
-This new function can be supplied as a value for the `.name_repair` argument of `as_tibble()` in the `tibble` package.  For example: `as_tibble(iris, .name_repair = make_clean_names)`.
+This function can be supplied as a value for the `.name_repair` argument of `as_tibble()` in the `tibble` package.  For example: `as_tibble(iris, .name_repair = make_clean_names)`.
 
 `remove_empty()` now has a companion function `remove_constant()` which removes columns have a single value, optionally ignoring `NA` (#222, thanks to **@billdenney** for suggesting & implementing).
 
-Two new function `janitor::chisq.test()` and `janitor::fisher.test()` allow to apply their `stats` equivalent to two-way tabyl objects.
+Added the functions `janitor::chisq.test()` and `janitor::fisher.test()` to enable running these statistical tests from the base `stats` package on two-way `tabyl` objects.  While the package loading message says the base functions are masked, the base tests still run on `table` objects.
+
+The new function `compare_df_cols()` compares the names and classes of columns in a set of supplied data.frames or tibbles, reporting on the specific columns that are or are not similar.  This is for the common use case where a set of data files should all have the same specifications but, in practice, may not. A companion function `compare_df_cols_same()` gives a `TRUE/FALSE` result indicating if the columns are the same (and therefore bindable, though FALSE is not definitive that binding will fail).  The helper function `describe_class()` describes a variable's class to make differences between data.frames clear at a glance - it is used by developers in extending the `compare_df` functions to custom classes (#50, thanks to **@billdenney** for the feature.)
 
 ## Minor features
 
@@ -18,11 +20,17 @@ Two new function `janitor::chisq.test()` and `janitor::fisher.test()` allow to a
 
 * `adorn_totals()` gains an argument `"name"` that allows the user to specify a value other than "Total" to appear as the name of the added row and/or column.  (#263)  Thanks to **@StephieLaPugh** for suggesting and **@daniel-barnett** for implementing.
 
+* `remove_empty()` now works with matrices (returning a matrix).  (#215)  Thanks to **@jsta** for reporting and **@billdenney** for patching.
+
+* If the third variable in a three-way tabyl is a factor, the resulting list is sorted in order of its levels (#250).  Empty factor levels in the 3rd variable are still omitted regardless of the value of `show_missing_levels`.
+
 ## Bug fixes
 
-* `remove_empty()` now works with matrices (returning a matrix).  (#215)  Thanks to **@jsta** for reporting and **@billdenney** for patching.
+
 * `excel_numeric_to_date()` no longer gives an overflow error for integer input (for dates since 1968).  (#241)  Thanks to **@hideaki** for reporting and **@billdenney** for patching.
+
 * `clean_names()` and `make_clean_names()` now support 'none' as a case option. (#269) Thanks to **@andrewbarros** for reporting and patching.  
+
 
 # janitor 1.1.1 (2018-07-30)
 
@@ -33,6 +41,7 @@ Patches a bug introduced in version 1.1.0 where `excel_numeric_to_date()` would 
 ## Bug fixes
 
 * `excel_numeric_to_date()` again handles `NA` correctly, in version 1.1.0 the function would error if any values of the input vector were `NA`. (#220). Thanks **@emilelatour** for reporting and **@billdenney** for patching.
+
 
 # janitor 1.1.0 (2018-07-17)
 
