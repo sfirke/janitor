@@ -1,4 +1,4 @@
-# janitor 1.2.0
+# janitor 1.2.0 (2019-04-21)
 
 ## Major features
 
