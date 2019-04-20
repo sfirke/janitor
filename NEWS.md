@@ -24,6 +24,8 @@ The new function `compare_df_cols()` compares the names and classes of columns i
 
 * If the third variable in a three-way tabyl is a factor, the resulting list is sorted in order of its levels (#250).  Empty factor levels in the 3rd variable are still omitted regardless of the value of `show_missing_levels`.
 
+* Three-way tabyl lists now have the names of the input variables stored in the attribute `var_names`, similar to two-way tabyls.  This makes those input names, including that of the third indexing variable, accessible to user-written functions (#267).  Thanks **@dpashouwer** for suggesting.
+
 ## Bug fixes
 
 

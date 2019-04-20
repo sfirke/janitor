@@ -227,6 +227,7 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
 # a list of two-way frequency tables, split into a list on a third variable
 tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_levels = TRUE) {
   dat <- dplyr::select(dat, !! var1, !! var2, !! var3)
+  attr_names <- names(dat)
   
   # Keep factor levels for ordering the list at the end
   if(is.factor(dat[[3]])){
@@ -270,6 +271,10 @@ tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_level
   if(exists("third_levels_for_sorting")){
     result <- result[order(third_levels_for_sorting[third_levels_for_sorting %in% unique(dat[[3]])])] 
   }
+  
+  # Set attributes per #267
+  attr(result, "tabyl_type") <- "three_way"
+  attr(result, "var_names") <- list(row = attr_names[[1]], col = attr_names[[2]], index = attr_names[[3]])
   
   result
 }

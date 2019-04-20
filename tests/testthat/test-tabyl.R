@@ -370,3 +370,11 @@ test_that("3-way tabyl with 3rd var factor is listed in right order, #250", {
   z <- z %>% dplyr::filter(! cyl %in% "4")
   expect_equal(names(tabyl(z, am, gear, cyl)), c("8", "6", "NA_"))
 })
+
+test_that("3-way tabyl has attributes, #267", {
+  ex_3way <- tabyl(mtcars, cyl, gear, am)
+  expect_equal(attr(ex_3way, "tabyl_type"), "three_way")
+  expect_equal(attr(ex_3way, "var_names")$row, "cyl")
+  expect_equal(attr(ex_3way, "var_names")$col, "gear")
+  expect_equal(attr(ex_3way, "var_names")$index, "am")
+})
