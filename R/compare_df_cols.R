@@ -225,7 +225,7 @@ compare_df_cols_same <- function(..., bind_method=c("bind_rows", "rbind"), verbo
 #'
 #' @details For package developers, an S3 generic method can be written for
 #'   \code{describe_class()} for custom classes that may need more definition
-#'   than the default method.
+#'   than the default method.  This function is called by \code{compare_df_cols}.
 #'
 #' @param x The object to describe
 #' @param strict_description Should differing factor levels be treated 
