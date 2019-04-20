@@ -2,17 +2,18 @@
 
 ## Major features
 
-The new function `make_clean_names()` takes a character vector and returns the cleaned text, with the same functionality as the existing `clean_names()`, which runs on a data.frame, manipulating its names. (#197, thanks **@tazinho** and everyone who contributed to the discussion).
+* The new function `make_clean_names()` takes a character vector and returns the cleaned text, with the same functionality as the existing `clean_names()`, which runs on a data.frame, manipulating its names. (#197, thanks **@tazinho** and everyone who contributed to the discussion).
 
 This function can be supplied as a value for the `.name_repair` argument of `as_tibble()` in the `tibble` package.  For example: `as_tibble(iris, .name_repair = make_clean_names)`.
 
-`remove_empty()` now has a companion function `remove_constant()` which removes columns have a single value, optionally ignoring `NA` (#222, thanks to **@billdenney** for suggesting & implementing).
+* The new function `compare_df_cols()` compares the names and classes of columns in a set of supplied data.frames or tibbles, reporting on the specific columns that are or are not similar.  This is for the common use case where a set of data files should all have the same specifications but, in practice, may not. A companion function `compare_df_cols_same()` gives a `TRUE/FALSE` result indicating if the columns are the same (and therefore bindable, though FALSE is not definitive that binding will fail).  The helper function `describe_class()` describes a variable's class to make differences between data.frames clear at a glance - it is used by developers in extending the `compare_df` functions to custom classes (#50, thanks to **@billdenney** for the feature.)
 
-Added the functions `janitor::chisq.test()` and `janitor::fisher.test()` to enable running these statistical tests from the base `stats` package on two-way `tabyl` objects.  While the package loading message says the base functions are masked, the base tests still run on `table` objects.
+* A new function `round_to_fraction()` allows rounding to a fraction (like the nearest 1/7) (#235, thanks to **@billdenney** for suggesting & implementing).
 
-The new function `compare_df_cols()` compares the names and classes of columns in a set of supplied data.frames or tibbles, reporting on the specific columns that are or are not similar.  This is for the common use case where a set of data files should all have the same specifications but, in practice, may not. A companion function `compare_df_cols_same()` gives a `TRUE/FALSE` result indicating if the columns are the same (and therefore bindable, though FALSE is not definitive that binding will fail).  The helper function `describe_class()` describes a variable's class to make differences between data.frames clear at a glance - it is used by developers in extending the `compare_df` functions to custom classes (#50, thanks to **@billdenney** for the feature.)
+* The functions `janitor::chisq.test()` and `janitor::fisher.test()` to enable running these statistical tests from the base `stats` package on two-way `tabyl` objects.  While the package loading message says the base functions are masked, the base tests still run on `table` objects (#255, thanks **@juba** for implementing).
 
-A new function `round_to_fraction()` allows rounding to a fraction (like the nearest 1/7) (#235, thanks to **@billdenney** for suggesting & implementing).
+* `remove_empty()` now has a companion function `remove_constant()` which removes columns have a single value, optionally ignoring `NA` (#222, thanks to **@billdenney** for suggesting & implementing).
+
 
 ## Minor features
 
@@ -27,7 +28,6 @@ A new function `round_to_fraction()` allows rounding to a fraction (like the nea
 * If the third variable in a three-way tabyl is a factor, the resulting list is sorted in order of its levels (#250).  Empty factor levels in the 3rd variable are still omitted regardless of the value of `show_missing_levels`.
 
 ## Bug fixes
-
 
 * `excel_numeric_to_date()` no longer gives an overflow error for integer input (for dates since 1968).  (#241)  Thanks to **@hideaki** for reporting and **@billdenney** for patching.
 

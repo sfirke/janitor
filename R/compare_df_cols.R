@@ -228,7 +228,11 @@ compare_df_cols_same <- function(..., bind_method=c("bind_rows", "rbind"), verbo
 #'   than the default method.
 #'
 #' @param x The object to describe
-#' @param strict_description Should the 
+#' @param strict_description Should differing factor levels be treated 
+#' as differences for the purposes of identifying mismatches? 
+#' \code{strict_description = `TRUE`} is stricter and factors with different 
+#' levels will be treated as different classes.  \code{FALSE} is more 
+#' lenient: for class comparison purposes, the variable is just a "factor".
 #' @return A character scalar describing the class(es) of an object where if the
 #'   scalar will match, columns in a data.frame (or similar object) should bind
 #'   together without issue.
