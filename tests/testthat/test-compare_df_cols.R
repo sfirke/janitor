@@ -55,7 +55,7 @@ test_that("data.frame comparison works", {
     info="all output comes through when requested"
   )
   expect_equal(
-    compare_df_cols(foo=data.frame(A=1, B=1), bar=data.frame(B=2), return="match"),
+    compare_df_cols(foo=data.frame(A=1, B=1), bar=data.frame(B=2), return="match", bind_method = "rbind"),
     data.frame(
       column_name="B",
       foo="numeric",
@@ -65,7 +65,7 @@ test_that("data.frame comparison works", {
     info="only matching output comes through when requested"
   )
   expect_equal(
-    compare_df_cols(foo=data.frame(A=1, B=1), bar=data.frame(B=2), return="mismatch"),
+    compare_df_cols(foo=data.frame(A=1, B=1), bar=data.frame(B=2), return="mismatch", bind_method = "rbind"),
     data.frame(
       column_name="A",
       foo="numeric",
@@ -90,7 +90,8 @@ test_that("data.frame comparison works", {
     compare_df_cols(
       foo=data.frame(A=1, B=1, C=factor("A"), D=factor("B")),
       bar=data.frame(B=2, C=factor("A"), D=factor(c("A", "B"))),
-      return="mismatch"
+      return="mismatch",
+      bind_method = "rbind"
     ),
     data.frame(
       column_name="A",
@@ -105,6 +106,7 @@ test_that("data.frame comparison works", {
       foo=data.frame(A=1, B=1, C=factor("A"), D=factor("B")),
       bar=data.frame(B=2, C=factor("A"), D=factor(c("A", "B"))),
       return="mismatch",
+      bind_method = "rbind",
       strict_description=TRUE
     ),
     data.frame(
@@ -120,7 +122,6 @@ test_that("data.frame comparison works", {
       foo=data.frame(A=1, B=1, C=factor("A"), D=factor("B")),
       bar=data.frame(B=2, C=factor("A"), D=factor(c("A", "B"))),
       return="mismatch",
-      bind_method="bind_rows",
       strict_description=FALSE
     ),
     data.frame(
@@ -205,9 +206,10 @@ test_that("class description without strict description", {
 
 test_that("boolean df comparison works", {
   expect_true(compare_df_cols_same(data.frame(A=1), data.frame(A=2)))
-  expect_output(expect_false(compare_df_cols_same(data.frame(A=1), data.frame(B=2))))
-  expect_silent(expect_false(compare_df_cols_same(data.frame(A=1), data.frame(B=2), verbose=FALSE)))
-  expect_true(compare_df_cols_same(data.frame(A=1), data.frame(B=2), bind_method="bind_rows"))
+  expect_output(expect_false(compare_df_cols_same(data.frame(A=1), data.frame(A="string"))))
+  expect_silent(expect_false(compare_df_cols_same(data.frame(A=1), data.frame(A="string"), verbose=FALSE)))
+  expect_false(compare_df_cols_same(data.frame(A=1L), data.frame(A=1.5), bind_method="bind_rows", verbose = FALSE))
+  expect_false(compare_df_cols_same(data.frame(A=1L), data.frame(A=1.5), bind_method="rbind", verbose = FALSE))
 })
 
 test_that("list inputs to compare_df_cols give appropriate errors", {
