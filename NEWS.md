@@ -12,6 +12,8 @@ Added the functions `janitor::chisq.test()` and `janitor::fisher.test()` to enab
 
 The new function `compare_df_cols()` compares the names and classes of columns in a set of supplied data.frames or tibbles, reporting on the specific columns that are or are not similar.  This is for the common use case where a set of data files should all have the same specifications but, in practice, may not. A companion function `compare_df_cols_same()` gives a `TRUE/FALSE` result indicating if the columns are the same (and therefore bindable, though FALSE is not definitive that binding will fail).  The helper function `describe_class()` describes a variable's class to make differences between data.frames clear at a glance - it is used by developers in extending the `compare_df` functions to custom classes (#50, thanks to **@billdenney** for the feature.)
 
+A new function `round_to_fraction()` allows rounding to a fraction (like the nearest 1/7) (#235, thanks to **@billdenney** for suggesting & implementing).
+
 ## Minor features
 
 * `excel_numeric_to_date()` now returns a POSIXct object and includes a time zone. (#225, thanks to **@billdenney** for the feature.)
