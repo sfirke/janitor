@@ -7,6 +7,8 @@
 #' @param which one of "rows", "cols", or \code{c("rows", "cols")}.  Where no value of which is provided, defaults to removing both empty rows and empty columns, declaring the behavior with a printed message.
 #' @param na.rm Exclude NA for comparison of being constant?
 #' @return Returns the object without its missing rows or columns.
+#' @seealso \code{\link[=remove_constant]{remove_constant()}} for removing constant
+#' columns.
 #' @export
 #' @examples
 #' # not run:
@@ -29,8 +31,41 @@ remove_empty <- function(dat, which = c("rows", "cols")) {
   dat
 }
 
+## Remove constant columns
 
-### Deprecated separate functions
+
+#' @title Remove constant columns from a data.frame or matrix.
+#' @examples
+#' remove_constant(data.frame(A=1, B=1:3))
+#' 
+#' # To find the columns that are constant
+#' data.frame(A=1, B=1:3) %>%
+#'   dplyr::select_at(setdiff(names(.), names(remove_constant(.)))) %>%
+#'   unique()
+#' @importFrom stats na.omit
+#' @seealso \code{\link[=remove_empty]{remove_empty()}} for removing empty 
+#' columns or rows.
+#' @export
+remove_constant <- function(dat, na.rm=FALSE) {
+  mask <-
+    sapply(
+      X=seq_len(ncol(dat)),
+      FUN=function(idx) {
+        if (na.rm) {
+          all(is.na(dat[, idx])) ||
+            all(
+              is.na(dat[, idx]) |
+                (dat[, idx] %in% stats::na.omit(dat[, idx])[1])
+            )
+        } else {
+          all(dat[, idx] %in% dat[1, idx])
+        }
+      }
+    )
+  dat[ , !mask, drop=FALSE]
+}
+
+### Deprecated separate remove row/col functions
 
 #' @title Removes empty rows from a data.frame.
 #'
@@ -65,33 +100,4 @@ remove_empty_rows <- function(dat) {
 remove_empty_cols <- function(dat) {
   .Deprecated("remove_empty(\"cols\")")
   remove_empty(dat, which = "cols")
-}
-
-#' @describeIn remove_empty Remove constant columns from a data.frame or matrix.
-#' @examples
-#' remove_constant(data.frame(A=1, B=1:3))
-#' 
-#' # To find the columns that are constant
-#' data.frame(A=1, B=1:3) %>%
-#'   dplyr::select_at(setdiff(names(.), names(remove_constant(.)))) %>%
-#'   unique()
-#' @importFrom stats na.omit
-#' @export
-remove_constant <- function(dat, na.rm=FALSE) {
-  mask <-
-    sapply(
-      X=seq_len(ncol(dat)),
-      FUN=function(idx) {
-        if (na.rm) {
-          all(is.na(dat[, idx])) ||
-            all(
-              is.na(dat[, idx]) |
-                (dat[, idx] %in% stats::na.omit(dat[, idx])[1])
-            )
-        } else {
-          all(dat[, idx] %in% dat[1, idx])
-        }
-      }
-    )
-  dat[ , !mask, drop=FALSE]
 }

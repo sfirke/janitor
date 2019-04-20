@@ -32,7 +32,7 @@ Describe the class(es) of an object
 \details{
 For package developers, an S3 generic method can be written for
   \code{describe_class()} for custom classes that may need more definition
-  than the default method.
+  than the default method.  This function is called by \code{compare_df_cols}.
 }
 \section{Methods (by class)}{
 \itemize{
