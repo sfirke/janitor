@@ -26,4 +26,7 @@ Removes all rows and/or columns from a data.frame or matrix that are composed en
 \seealso{
 \code{\link[=remove_constant]{remove_constant()}} for removing constant
 columns.
+
+Other remove functions: \code{\link{remove_constant}}
 }
+\concept{remove functions}

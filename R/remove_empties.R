@@ -7,6 +7,7 @@
 #' @param which one of "rows", "cols", or \code{c("rows", "cols")}.  Where no value of which is provided, defaults to removing both empty rows and empty columns, declaring the behavior with a printed message.
 #' @param na.rm Exclude NA for comparison of being constant?
 #' @return Returns the object without its missing rows or columns.
+#' @family remove functions
 #' @seealso \code{\link[=remove_constant]{remove_constant()}} for removing constant
 #' columns.
 #' @export
@@ -43,6 +44,7 @@ remove_empty <- function(dat, which = c("rows", "cols")) {
 #'   dplyr::select_at(setdiff(names(.), names(remove_constant(.)))) %>%
 #'   unique()
 #' @importFrom stats na.omit
+#' @family remove functions
 #' @seealso \code{\link[=remove_empty]{remove_empty()}} for removing empty 
 #' columns or rows.
 #' @export
