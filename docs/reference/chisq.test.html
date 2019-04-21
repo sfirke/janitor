@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert a data.frame of counts to percentages. — adorn_percentages • janitor</title>
+<title>Apply stats::chisq.test to a two-way tabyl — chisq.test • janitor</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -25,9 +25,11 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-<meta property="og:title" content="Convert a data.frame of counts to percentages. — adorn_percentages" />
+<meta property="og:title" content="Apply stats::chisq.test to a two-way tabyl — chisq.test" />
 
-<meta property="og:description" content="This function excludes the first column of the input data.frame, assuming that it contains a descriptive variable.  If the input data.frame is not a tabyl, it will convert to one in order to preserve the underlying values in the core attribute." />
+<meta property="og:description" content="This generic function overrides stats::chisq.test. If the passed table 
+is a two-way tabyl, it runs it through janitor::chisq.test.tabyl, otherwise
+it just calls stats::chisq.test." />
 <meta name="twitter:card" content="summary" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -102,53 +104,64 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert a data.frame of counts to percentages.</h1>
-    <small>Source: <a href='https:/github.com/sfirke/janitor/blob/master/R/adorn_percentages.R'><code>R/adorn_percentages.R</code></a></small>
+    <h1>Apply stats::chisq.test to a two-way tabyl</h1>
+    <small>Source: <a href='https:/github.com/sfirke/janitor/blob/master/R/tests.R'><code>R/tests.R</code></a></small>
     </div>
 
     
-    <p>This function excludes the first column of the input data.frame, assuming that it contains a descriptive variable.  If the input data.frame is not a <code>tabyl</code>, it will convert to one in order to preserve the underlying values in the <code>core</code> attribute.</p>
+    <p>This generic function overrides stats::chisq.test. If the passed table 
+is a two-way tabyl, it runs it through janitor::chisq.test.tabyl, otherwise
+it just calls stats::chisq.test.</p>
     
 
-    <pre class="usage"><span class='fu'>adorn_percentages</span>(<span class='no'>dat</span>, <span class='kw'>denominator</span> <span class='kw'>=</span> <span class='st'>"row"</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>chisq.test</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for default</span>
+<span class='fu'>chisq.test</span>(<span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for tabyl</span>
+<span class='fu'>chisq.test</span>(<span class='no'>x</span>, <span class='kw'>tabyl_results</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dat</th>
-      <td><p>a <code>tabyl</code> or other data.frame with a tabyl-like layout.  If given a list of data.frames, this function will apply itself to each data.frame in the list (designed for 3-way <code>tabyl</code> lists).</p></td>
+      <th>x</th>
+      <td><p>a two-way tabyl, a numeric vector or a factor</p></td>
     </tr>
     <tr>
-      <th>denominator</th>
-      <td><p>the direction to use for calculating percentages.  One of "row", "col", or "all".</p></td>
+      <th>...</th>
+      <td><p>other parameters passed to stats::chisq.test</p></td>
     </tr>
     <tr>
-      <th>na.rm</th>
-      <td><p>should missing values (including NaN) be omitted from the calculations?</p></td>
+      <th>y</th>
+      <td><p>if x is a vector, must be another vector or factor of the same length</p></td>
+    </tr>
+    <tr>
+      <th>tabyl_results</th>
+      <td><p>if TRUE and x is a tabyl object, also return `observed`, `expected`, `residuals` and `stdres` as tabyl</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns a data.frame of percentages, expressed as numeric values between 0 and 1.</p>
+    <p>The result is the same as the one of stats::chisqt.test. If `tabyl_results` 
+is TRUE, the returned tables `observed`, `expected`, `residuals` and `stdres` 
+are converted to tabyls.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='tabyl.html'>tabyl</a></span>(<span class='no'>am</span>, <span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>adorn_percentages</span>(<span class='st'>"col"</span>)</div><div class='output co'>#&gt;  am         4         6         8
-#&gt;   0 0.2727273 0.5714286 0.8571429
-#&gt;   1 0.7272727 0.4285714 0.1428571</div><div class='input'>
-<span class='co'># calculates correctly even with totals column and/or row:</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='tabyl.html'>tabyl</a></span>(<span class='no'>am</span>, <span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='adorn_totals.html'>adorn_totals</a></span>(<span class='st'>"row"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>adorn_percentages</span>()</div><div class='output co'>#&gt;     am         4         6         8
-#&gt;      0 0.1578947 0.2105263 0.6315789
-#&gt;      1 0.6153846 0.2307692 0.1538462
-#&gt;  Total 0.3437500 0.2187500 0.4375000</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>tab</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tabyl.html'>tabyl</a></span>(<span class='no'>mtcars</span>, <span class='no'>gear</span>, <span class='no'>cyl</span>)
+<span class='fu'>chisq.test</span>(<span class='no'>tab</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Chi-squared approximation may be incorrect</span></div><div class='output co'>#&gt; 
+#&gt; 	Pearson's Chi-squared test
+#&gt; 
+#&gt; data:  tab
+#&gt; X-squared = 18.036, df = 4, p-value = 0.001214
+#&gt; </div><div class='input'><span class='fu'>chisq.test</span>(<span class='no'>tab</span>)$<span class='no'>residuals</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Chi-squared approximation may be incorrect</span></div><div class='output co'>#&gt;  gear          4           6          8
+#&gt;     3 -1.8303523 -0.70731720  2.1225827
+#&gt;     4  1.9079181  0.84866842 -2.2912878
+#&gt;     5  0.2145291 -0.08964215 -0.1267731</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -64,7 +64,9 @@ You can install:
 
 ## Using janitor
 
-Below are quick examples of how janitor tools are commonly used.  A full description of each function can be found in janitor's [catalog of functions](http://sfirke.github.io/janitor/articles/janitor.html).  
+A full description of each function, organized by topic, can be found in janitor's [catalog of functions vignette](http://sfirke.github.io/janitor/articles/janitor.html).  There you will find functions not mentioned in this README, like `compare_df_cols()` which provides a summary of differences in column names and types when given a set of data.frames.
+
+Below are quick examples of how janitor tools are commonly used. 
 
 ### Cleaning dirty data
 
