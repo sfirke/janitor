@@ -2,7 +2,7 @@
 2019-04-20
 
 ## Submission summary
-I fixed a test that was failing as a result of the change to `base::sample()`.  Also added new functionality & bug fixes accumulated over the last 9 months since 1.1.1 went to CRAN.
+I fixed a test that was failing as a result of the change to `base::sample()` and am submitting this update per CRAN request.  I've also incorporated new functionality & bug fixes accumulated over the last 9 months since 1.1.1 went to CRAN.
 
 ### Test environments
 
@@ -23,6 +23,6 @@ I fixed a test that was failing as a result of the change to `base::sample()`.  
 0 errors | 0 warnings | 0 notes
 
 ### Downstream dependencies
-The nautre of changes to janitor in 1.2.0 should not introduce breakage for downstream dependencies.
+The nature of changes to janitor in 1.2.0 should not introduce breakage for downstream dependencies.
 
 I checked the 8 reverse dependencies from CRAN: ballr, bomrang, CGPfunctions, congressbr, driftR, fivethirtyeight, moderndive, questionr.  There was an error in congressbr, but it is unrelated to janitor (that package currently has errors in its CRAN check results).
