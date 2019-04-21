@@ -1,4 +1,4 @@
-# janitor 1.2.0 (2019-04-21)
+# janitor 1.2.0 (2019-04-20)
 
 ## Major features
 
@@ -8,15 +8,15 @@ This function can be supplied as a value for the `.name_repair` argument of `as_
 
 * The new function `compare_df_cols()` compares the names and classes of columns in a set of supplied data.frames or tibbles, reporting on the specific columns that are or are not similar.  This is for the common use case where a set of data files should all have the same specifications but, in practice, may not. A companion function `compare_df_cols_same()` gives a `TRUE/FALSE` result indicating if the columns are the same (and therefore bindable, though FALSE is not definitive that binding will fail).
 
-The helper function `describe_class()` is exported for developers.  It describes a variable's class(es) and is used by `compare_df_cols()` to compare and report on variables classes in a data.frame.  Developers can extend `describe_class()` so that the `compare_df_` functions work on their custom classes.
+  * Its helper function `describe_class()` is exported for developers who wish to extend it so that the `compare_df_` functions treat their custom classes appropriately.
 
 This feature (#50) took almost 3 years from conception to implementation.  Major thanks to **@billdenney** for making it happen!
 
-* A new function `round_to_fraction()` allows rounding to a fraction (like the nearest 1/7) (#235, thanks to **@billdenney** for suggesting & implementing).
+* A new function `round_to_fraction()` allows rounding to a fraction with specified denominator, e.g., to the nearest 1/7 (#235, thanks to **@billdenney** for suggesting & implementing).
 
 * The functions `janitor::chisq.test()` and `janitor::fisher.test()` to enable running these statistical tests from the base `stats` package on two-way `tabyl` objects.  While the package loading message says the base functions are masked, the base tests still run on `table` objects (#255, thanks **@juba** for implementing).
 
-* `remove_empty()` now has a companion function `remove_constant()` which removes columns have a single value, optionally ignoring `NA` (#222, thanks to **@billdenney** for suggesting & implementing).
+* `remove_empty()` now has a companion function `remove_constant()` which removes columns containing only a single unique value, optionally ignoring `NA` (#222, thanks to **@billdenney** for suggesting & implementing).
 
 
 ## Minor features
@@ -25,7 +25,7 @@ This feature (#50) took almost 3 years from conception to implementation.  Major
 
 * `clean_names()` can now be called on a *simple features* object from the `sf` package.  (#247, thanks to **@JosiahParry** for suggesting & implementing.)
 
-* `adorn_totals()` gains an argument `"name"` that allows the user to specify a value other than "Total" to appear as the name of the added row and/or column.  (#263)  Thanks to **@StephieLaPugh** for suggesting and **@daniel-barnett** for implementing.
+* `adorn_totals()` gains an argument `"name"` that allows the user to specify a value other than "Total" to appear as the name of the added row and/or column (#263).  Thanks to **@StephieLaPugh** for suggesting and **@daniel-barnett** for implementing.
 
 * `remove_empty()` and `remove_constant()` now work with matrices (returning a matrix).  (#215)  Thanks to **@jsta** for reporting and **@billdenney** for patching.
 
@@ -35,7 +35,7 @@ This feature (#50) took almost 3 years from conception to implementation.  Major
 
 * `excel_numeric_to_date()` no longer gives an overflow error for integer input (for dates since 1968).  (#241)  Thanks to **@hideaki** for reporting and **@billdenney** for patching.
 
-* `clean_names()` and `make_clean_names()` now support 'none' as a case option. (#269) Thanks to **@andrewbarros** for reporting and patching.  
+* `clean_names()` and `make_clean_names()` now support 'none' as a case option, passed through to `snakecase::to_any_case()`. (#269) Thanks to **@andrewbarros** for reporting and patching.  
 
 
 # janitor 1.1.1 (2018-07-30)
