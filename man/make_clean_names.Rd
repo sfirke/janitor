@@ -51,3 +51,6 @@ make_clean_names(names(x), "small_camel")
 # make_clean_names(names(poorly_named_df))
 
 }
+\seealso{
+\code{\link[snakecase]{to_any_case}}
+}
