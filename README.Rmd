@@ -91,19 +91,38 @@ glimpse(roster_raw)
 
 Excel formatting led to an untitled empty column and 5 empty rows at the bottom of the table (only 12 records have any actual data).  Bad column names are preserved.
 
-Clean it with janitor functions:
+Name cleaning comes in two flavors. `make_clean_names()` operates on character vectors and can be used during data import:
+```{r, warning = FALSE, message = FALSE}
+roster_raw_cleaner <- read_excel(here("dirty_data.xlsx"), 
+                                 .name_repair = make_clean_names) 
+# Tells read_excel() how to repair repetitive column names, overriding the
+# default repair setting
+glimpse(roster_raw_cleaner)
+```
+
+This can be further cleaned:
 ```{r}
-roster <- roster_raw %>%
-  clean_names() %>%
+roster <- roster_raw_cleaner %>%
   remove_empty(c("rows", "cols")) %>%
   mutate(hire_date = excel_numeric_to_date(hire_date),
-         cert = coalesce(certification, certification_1)) %>% # from dplyr
-  select(-certification, -certification_1) # drop unwanted columns
+         cert = coalesce(certification, certification_2)) %>% # from dplyr
+  select(-certification, -certification_2) # drop unwanted columns
 
 roster
 ```
 
-The core janitor cleaning function is `clean_names()` - call it whenever you load data into R.
+`clean_names()` is a convenience version that can be used for piped data.frame workflows:
+```{r}
+data("iris")
+head(iris)
+```
+
+```{r}
+iris %>% 
+  clean_names() %>% 
+  head()
+```
+
 
 ### Examining dirty data
 

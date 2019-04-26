@@ -9,7 +9,7 @@ janitor <img src="docs/reference/figures/logo_small.png" align="right" />
 
 ------------------------------------------------------------------------
 
-[![Travis-CI Build Status](https://travis-ci.org/sfirke/janitor.svg?branch=master)](https://travis-ci.org/sfirke/janitor) [![Coverage Status](https://img.shields.io/codecov/c/github/sfirke/janitor/master.svg)](https://codecov.io/github/sfirke/janitor?branch=master) [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable) [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version-ago/janitor)](https://cran.r-project.org/package=janitor) ![!Monthly Downloads](https://cranlogs.r-pkg.org/badges/janitor) ![!Downloads](https://cranlogs.r-pkg.org/badges/grand-total/janitor)
+[![Travis-CI Build Status](https://travis-ci.org/sfirke/janitor.svg?branch=master)](https://travis-ci.org/sfirke/janitor) <!-- [![Coverage Status](https://img.shields.io/codecov/c/github/sfirke/janitor/master.svg)](https://codecov.io/github/sfirke/janitor?branch=master) --> <!-- [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable) --> <!-- [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version-ago/janitor)](https://cran.r-project.org/package=janitor) --> <!-- ![!Monthly Downloads](https://cranlogs.r-pkg.org/badges/janitor) --> <!-- ![!Downloads](https://cranlogs.r-pkg.org/badges/grand-total/janitor) -->
 
 **janitor** has simple functions for examining and cleaning dirty data. It was built with beginning and intermediate R users in mind and is optimized for user-friendliness. Advanced R users can already do everything covered here, but with janitor they can do it faster and save their thinking for the fun stuff.
 
@@ -77,22 +77,44 @@ glimpse(roster_raw)
 #> $ `% Allocated`       <dbl> 0.75, 0.25, 1.00, 1.00, 1.00, 0.50, 0.50, NA, 0.50, 0.50, NA, NA, 0.80
 #> $ `Full time?`        <chr> "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", NA, "No", "No", "No", "No", "N…
 #> $ `do not edit! --->` <lgl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA
-#> $ Certification       <chr> "Physical ed", "Physical ed", "Instr. music", "PENDING", "PENDING", "Science 6-…
-#> $ Certification__1    <chr> "Theater", "Theater", "Vocal music", "Computers", NA, "Physics", "Physics", NA,…
-#> $ Certification__2    <lgl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA
+#> $ Certification...9   <chr> "Physical ed", "Physical ed", "Instr. music", "PENDING", "PENDING", "Science 6-…
+#> $ Certification...10  <chr> "Theater", "Theater", "Vocal music", "Computers", NA, "Physics", "Physics", NA,…
+#> $ Certification...11  <lgl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA
 ```
 
 Excel formatting led to an untitled empty column and 5 empty rows at the bottom of the table (only 12 records have any actual data). Bad column names are preserved.
 
-Clean it with janitor functions:
+Name cleaning comes in two flavors. `make_clean_names()` operates on character vectors and can be used during data import:
 
 ``` r
-roster <- roster_raw %>%
-  clean_names() %>%
+roster_raw_cleaner <- read_excel(here("dirty_data.xlsx"), 
+                                 .name_repair = make_clean_names) 
+# Tells read_excel() how to repair repetitive column names, overriding the
+# default repair setting
+glimpse(roster_raw_cleaner)
+#> Observations: 13
+#> Variables: 11
+#> $ first_name        <chr> "Jason", "Jason", "Alicia", "Ada", "Desus", "Chien-Shiung", "Chien-Shiung", NA, "…
+#> $ last_name         <chr> "Bourne", "Bourne", "Keys", "Lovelace", "Nice", "Wu", "Wu", NA, "Joyce", "Lamarr"…
+#> $ employee_status   <chr> "Teacher", "Teacher", "Teacher", "Teacher", "Administration", "Teacher", "Teacher…
+#> $ subject           <chr> "PE", "Drafting", "Music", NA, "Dean", "Physics", "Chemistry", NA, "English", "Sc…
+#> $ hire_date         <dbl> 39690, 39690, 37118, 27515, 41431, 11037, 11037, NA, 32994, 27919, 42221, 34700, …
+#> $ percent_allocated <dbl> 0.75, 0.25, 1.00, 1.00, 1.00, 0.50, 0.50, NA, 0.50, 0.50, NA, NA, 0.80
+#> $ full_time         <chr> "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", NA, "No", "No", "No", "No", "No"
+#> $ do_not_edit       <lgl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA
+#> $ certification     <chr> "Physical ed", "Physical ed", "Instr. music", "PENDING", "PENDING", "Science 6-12…
+#> $ certification_2   <chr> "Theater", "Theater", "Vocal music", "Computers", NA, "Physics", "Physics", NA, "…
+#> $ certification_3   <lgl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA
+```
+
+This can be further cleaned:
+
+``` r
+roster <- roster_raw_cleaner %>%
   remove_empty(c("rows", "cols")) %>%
   mutate(hire_date = excel_numeric_to_date(hire_date),
-         cert = coalesce(certification, certification_1)) %>% # from dplyr
-  select(-certification, -certification_1) # drop unwanted columns
+         cert = coalesce(certification, certification_2)) %>% # from dplyr
+  select(-certification, -certification_2) # drop unwanted columns
 
 roster
 #> # A tibble: 12 x 8
@@ -112,7 +134,32 @@ roster
 #> 12 Micheal      Larsen    Teacher         English    2009-09-15              0.8  No        Vocal music
 ```
 
-The core janitor cleaning function is `clean_names()` - call it whenever you load data into R. You can similarly clean any vector of names with `make_clean_names()`.
+`clean_names()` is a conveience version that can be used for piped data.frame workflows:
+
+``` r
+data("iris")
+head(iris)
+#>   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+#> 1          5.1         3.5          1.4         0.2  setosa
+#> 2          4.9         3.0          1.4         0.2  setosa
+#> 3          4.7         3.2          1.3         0.2  setosa
+#> 4          4.6         3.1          1.5         0.2  setosa
+#> 5          5.0         3.6          1.4         0.2  setosa
+#> 6          5.4         3.9          1.7         0.4  setosa
+```
+
+``` r
+iris %>% 
+  clean_names() %>% 
+  head()
+#>   sepal_length sepal_width petal_length petal_width species
+#> 1          5.1         3.5          1.4         0.2  setosa
+#> 2          4.9         3.0          1.4         0.2  setosa
+#> 3          4.7         3.2          1.3         0.2  setosa
+#> 4          4.6         3.1          1.5         0.2  setosa
+#> 5          5.0         3.6          1.4         0.2  setosa
+#> 6          5.4         3.9          1.7         0.4  setosa
+```
 
 ### Examining dirty data
 
