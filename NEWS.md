@@ -1,7 +1,12 @@
-# janitor 1.2.0.9000 (unreleased)
+# janitor 1.2.0.9000 (on GitHub now)
 
-...*something to come here*...
+## Major features
 
+## Minor features
+
+## Bug fixes
+
+* `clean_names` called on a grouped tibble now also changes the names of the grouping variable(s), in addition to the column names (#260, thanks **@CerebralMastication** for reporting and **@Tazinho** for suggesting the easy fix).
 
 # janitor 1.2.0 (2019-04-20)
 

@@ -59,7 +59,7 @@ clean_names.default <- function(dat, case = c(
   if(!is.data.frame(dat)){ 
     stop( "clean_names() must be called on a data.frame.  Consider janitor::make_clean_names() for other cases of manipulating vectors of names.") 
   }
-  stats::setNames(dat, make_clean_names(names(dat), case = case))
+  dplyr::rename_all(dat, make_clean_names, case = case)
 }
 
 #' @export
