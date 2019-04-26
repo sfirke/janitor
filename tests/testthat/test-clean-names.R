@@ -493,3 +493,18 @@ test_that("Work around incomplete stringi transliterators (Fix #365)", {
     ""
   )
 })
+
+test_that("groupings are preserved, #260", {
+  df_grouped <- iris %>% dplyr::group_by(Sepal.Length, Sepal.Width) # nonsense for analysis but doesn't matter
+  df_grouped_renamed <- df_grouped %>% clean_names(case = "lower_camel")
+  expect_equal(group_vars(df_grouped_renamed), c("sepalLength", "sepalWidth")) # group got renamed
+  expect_equal(names(df_grouped_renamed), c("sepalLength", "sepalWidth", "petalLength", "petalWidth", "species"))
+  
+  ## Test that it works on this data.frame with terrible names from the janitor vignette:
+  ## Because right off the bat switching to dplyr::rename_all, it doesn't
+  test_df <- as.data.frame(matrix(ncol = 6))
+  names(test_df) <- c("firstName", "ábc@!*", "% successful (2009)",
+                      "REPEAT VALUE", "REPEAT VALUE", "")
+  expect_equal(names(clean_names(test_df)), c("first_name", "abc", "percent_successful_2009", "repeat_value", 
+                                 "repeat_value_2", "x"))
+})
