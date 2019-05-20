@@ -34,49 +34,55 @@
 make_clean_names <- function(string, case = c(
   "snake", "lower_camel", "upper_camel", "screaming_snake",
   "lower_upper", "upper_lower", "all_caps", "small_camel",
-  "big_camel", "old_janitor", "parsed", "mixed", "none"
-)) {
+  "big_camel", "old_janitor", "parsed", "mixed", "none")) {
   
-  # old behavior, to provide easy fix for people whose code breaks with the snakecase integration
+  # Handling "old_janitor" case for backward compatibility
   case <- match.arg(case)
   if (case == "old_janitor") {
     return(old_make_clean_names(string))
   }
   
-  ### new behaviour with snakecase integration
-  # Takes a data.frame, returns the same data frame with cleaned names
-  old_names <- string
-  new_names <- old_names %>%
-    gsub("'", "", .) %>% # remove single quotation marks
-    gsub("\"", "", .) %>% # remove double quotation marks
-    gsub("%", ".percent_", .) %>% # starting with "." as a workaround, to make
-    # ".percent" a valid name. The "." will be replaced in the call to to_any_case
-    # via the preprocess argument anyway.
-    gsub("#", ".number_", .) %>%
-    gsub("^[[:space:][:punct:]]+", "", .) %>% # remove leading spaces & punctuation
-    make.names(.) %>%
-    # Handle dots, multiple underscores, case conversion, string transliteration
-    # Parsing option 4 removes underscores around numbers, #153
-    snakecase::to_any_case(.,
-      case = case, sep_in = "\\.",
-      transliterations = c("Latin-ASCII"), parsing_option = 1,
-      numerals = "asis"
-    )
+  # Replacement of "meaningful" characters
+  string <- gsub("'", "", string) # quotation marks
+  string <- gsub("\"", "", string) # double quotation marks
+  string <- gsub("%", ".percent_", string) # starting with "." as a workaround, to make ".percent" a valid name. The "." will bereplaced in the call to to_any_case via the sep_in argument anyway.
+  string <- gsub("#", ".number_", string)
+  
+  # Ensuring validity of names
+  string <- gsub("^[[:space:][:punct:]]+", "", string) # removes leading spaces & punctuation as otherwise make.names might return improper results
+  string <- make.names(string)
+  
+  # Case conversion
+  to_any_case(
+    string = string, 
+    case = case, 
+    abbreviations = NULL, 
+    sep_in = "[^[:alnum:]]", 
+    parsing_option = 1, 
+    transliterations = "Latin-ASCII", 
+    numerals = "asis", 
+    sep_out = NULL, 
+    unique_sep = NULL,
+    empty_fill = NULL,
+    prefix = "",
+    postfix = ""
+  )
   
   # Handle duplicated names - they mess up dplyr pipelines
   # This appends the column number to repeated instances of duplicate variable names
-  dupe_count <- vapply(seq_along(new_names), function(i) {
-    sum(new_names[i] == new_names[1:i])
+  dupe_count <- vapply(seq_along(string), function(i) {
+    sum(string[i] == new_names[1:i])
   }, integer(1))
   
-  new_names[dupe_count > 1] <- paste(
-    new_names[dupe_count > 1],
+  string[dupe_count > 1] <- paste(
+    string[dupe_count > 1],
     dupe_count[dupe_count > 1],
     sep = "_"
   )
-  new_names
+  
+  # Return
+  string
 }
-
 # copy of clean_names from janitor v0.3 on CRAN, to preserve old behavior
 old_make_clean_names <- function(string) {
   
