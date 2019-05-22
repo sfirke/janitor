@@ -53,7 +53,7 @@ make_clean_names <- function(string, case = c(
   string <- make.names(string)
   
   # Case conversion
-  to_any_case(
+  snakecase::to_any_case(
     string = string, 
     case = case, 
     abbreviations = NULL, 
