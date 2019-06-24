@@ -4,7 +4,7 @@
 \alias{remove_constant}
 \title{Remove constant columns from a data.frame or matrix.}
 \usage{
-remove_constant(dat, na.rm = FALSE)
+remove_constant(dat, na.rm = FALSE, quiet = TRUE)
 }
 \arguments{
 \item{dat}{the input data.frame or matrix.}
