@@ -122,3 +122,38 @@ test_that("remove_constant", {
     info="NA with other values is kept with na.rm"
   )
 })
+
+test_that("Messages are accurate with remove_empty and remove_constant", {
+  expect_message(
+    remove_empty(data.frame(A=NA, B=1), which="cols", quiet=FALSE),
+    regexp="Removing 1 empty columns of 2 columns total (Removed: A).",
+    fixed=TRUE
+  )
+  expect_message(
+    remove_empty(data.frame(A=NA, B=1, C=NA), which="cols", quiet=FALSE),
+    regexp="Removing 2 empty columns of 3 columns total (Removed: A, C).",
+    fixed=TRUE
+  )
+  expect_message(
+    remove_empty(data.frame(A=NA, B=c(1, NA)), which="rows", quiet=FALSE),
+    regexp="Removing 1 empty rows of 2 rows total (50%).",
+    fixed=TRUE
+  )
+  expect_message(
+    remove_empty(matrix(c(NA, NA, 1, NA), nrow=2), which="cols", quiet=FALSE),
+    regexp="Removing 1 empty columns of 2 columns total (50%).",
+    fixed=TRUE
+  )
+  expect_message(
+    remove_constant(matrix(c(NA, NA, 1, NA), nrow=2), quiet=FALSE),
+    regexp="Removing 1 constant columns of 2 columns total (50%).",
+    fixed=TRUE,
+    info="Unnamed, constant columns"
+  )
+  expect_silent(
+    remove_empty(data.frame(A=NA, B=1), which="cols", quiet=TRUE)
+  )
+  expect_silent(
+    remove_empty(data.frame(A=NA, B=c(1, NA)), which="rows", quiet=TRUE)
+  )
+})

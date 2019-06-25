@@ -1,7 +1,8 @@
 # janitor 1.2.0.9000 (unreleased)
 
-...*something to come here*...
+## Minor features
 
+* A `quiet` argument was added to `remove_empty()` and `remove_constant()`  providing more information (when `FALSE`) (#70, thanks to **@jbkunst** for suggesting and **@billdenney** for implementing).
 
 # janitor 1.2.0 (2019-04-20)
 

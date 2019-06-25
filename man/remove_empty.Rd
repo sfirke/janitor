@@ -4,26 +4,32 @@
 \alias{remove_empty}
 \title{Remove empty rows and/or columns from a data.frame or matrix.}
 \usage{
-remove_empty(dat, which = c("rows", "cols"))
+remove_empty(dat, which = c("rows", "cols"), quiet = TRUE)
 }
 \arguments{
 \item{dat}{the input data.frame or matrix.}
 
-\item{which}{one of "rows", "cols", or \code{c("rows", "cols")}.  Where no value of which is provided, defaults to removing both empty rows and empty columns, declaring the behavior with a printed message.}
+\item{which}{one of "rows", "cols", or \code{c("rows", "cols")}.  Where no
+value of which is provided, defaults to removing both empty rows and empty
+columns, declaring the behavior with a printed message.}
+
+\item{quiet}{Should messages be suppressed (\code{TRUE}) or printed
+(\code{FALSE}) indicating the summary of empty columns or rows removed?}
 }
 \value{
 Returns the object without its missing rows or columns.
 }
 \description{
-Removes all rows and/or columns from a data.frame or matrix that are composed entirely of \code{NA} values.
+Removes all rows and/or columns from a data.frame or matrix that
+  are composed entirely of \code{NA} values.
 }
 \examples{
 # not run:
 # dat \%>\% remove_empty("rows")
 }
 \seealso{
-\code{\link[=remove_constant]{remove_constant()}} for removing constant
-columns.
+\code{\link[=remove_constant]{remove_constant()}} for removing
+  constant columns.
 
 Other remove functions: \code{\link{remove_constant}}
 }
