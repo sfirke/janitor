@@ -43,45 +43,15 @@ remove_empty <- function(dat, which = c("rows", "cols"), quiet=TRUE) {
   dat
 }
 
-#' Generate the message describing columns or rows that are being removed.
-#'
-#' @inheritParams remove_empty
-#' @param mask_keep A logical vector of rows or columns to keep (\code{TRUE}) or
-#'   remove (\code{FALSE}).
-#' @param reason The reason that rows are being removed (to be used in the
-#'   message.
-#' @noRd
-remove_message <- function(dat, mask_keep, which=c("columns", "rows"), reason=c("empty", "constant")) {
-  if (all(mask_keep)) {
-    message("No ", reason, " ", which, " to remove.")
-  } else {
-    details <-
-      if (which == "columns") {
-        if (is.null(colnames(dat)) || any(colnames(dat) %in% "")) {
-          sprintf("%0.3g%%", 100*sum(!mask_keep)/length(mask_keep))
-        } else {
-          sprintf("Removed: %s", paste(names(dat)[!mask_keep], collapse=", "))
-        }
-      } else {
-        sprintf("%0.3g%%", 100*sum(!mask_keep)/length(mask_keep))
-      }
-    message(
-      sprintf(
-        "Removing %g %s %s of %g %s total (%s).",
-        sum(!mask_keep), reason, which, length(mask_keep), which, details
-      )
-    )
-  }
-}
-
 ## Remove constant columns
-
 
 #' @title Remove constant columns from a data.frame or matrix.
 #' @param dat the input data.frame or matrix.
 #' @param na.rm should \code{NA} values be removed when considering whether a
 #'   column is constant?  The default value of \code{FALSE} will result in a
 #'   column not being removed if it's a mix of a single value and \code{NA}.
+#' @param quiet Should messages be suppressed (\code{TRUE}) or printed
+#'   (\code{FALSE}) indicating the summary of empty columns or rows removed?
 #'
 #' @examples
 #' remove_constant(data.frame(A=1, B=1:3))
@@ -115,6 +85,38 @@ remove_constant <- function(dat, na.rm = FALSE, quiet=TRUE) {
     remove_message(dat=dat, mask_keep=!mask, which="columns", reason="constant")
   }
   dat[ , !mask, drop=FALSE]
+}
+
+
+#' Generate the message describing columns or rows that are being removed.
+#'
+#' @inheritParams remove_empty
+#' @param mask_keep A logical vector of rows or columns to keep (\code{TRUE}) or
+#'   remove (\code{FALSE}).
+#' @param reason The reason that rows are being removed (to be used in the
+#'   message.
+#' @noRd
+remove_message <- function(dat, mask_keep, which=c("columns", "rows"), reason=c("empty", "constant")) {
+  if (all(mask_keep)) {
+    message("No ", reason, " ", which, " to remove.")
+  } else {
+    details <-
+      if (which == "columns") {
+        if (is.null(colnames(dat)) || any(colnames(dat) %in% "")) {
+          sprintf("%0.3g%%", 100*sum(!mask_keep)/length(mask_keep))
+        } else {
+          sprintf("Removed: %s", paste(names(dat)[!mask_keep], collapse=", "))
+        }
+      } else {
+        sprintf("%0.3g%%", 100*sum(!mask_keep)/length(mask_keep))
+      }
+    message(
+      sprintf(
+        "Removing %g %s %s of %g %s total (%s).",
+        sum(!mask_keep), reason, which, length(mask_keep), which, details
+      )
+    )
+  }
 }
 
 ### Deprecated separate remove row/col functions
