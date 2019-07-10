@@ -255,8 +255,8 @@ test_that("automatically invokes purrr::map when called on a 3-way tabyl", {
 
   # with arguments passing through
   expect_equal(
-    adorn_totals(three, c("row", "col"), fill = "---", na.rm = FALSE),
-    purrr::map(three, adorn_totals, c("row", "col"), fill = "---", FALSE)
+    adorn_totals(three, c("row", "col"), fill = "---", na.rm = FALSE, name = "dummy_name"),
+    purrr::map(three, adorn_totals, c("row", "col"), fill = "---", FALSE, name = "dummy_name")
   )
 })
 

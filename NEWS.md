@@ -4,6 +4,10 @@
 
 * A `quiet` argument was added to `remove_empty()` and `remove_constant()`  providing more information (when `FALSE`) (#70, thanks to **@jbkunst** for suggesting and **@billdenney** for implementing).
 
+## Bug fixes
+
+* The `name` argument to `adorn_totals()` is correctly applied to 3-way tabyls (#306)  Thanks to **@jzadra** for reporting.
+
 # janitor 1.2.0 (2019-04-20)
 
 ## Major features
