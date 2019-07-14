@@ -111,33 +111,35 @@ test_that("errors if not called on a data.frame", {
 
 context("clean_names.sf")
 
-nc    <- sf::st_read(system.file("shape/nc.shp", package="sf"))
-clean <- clean_names(nc, "snake")
-
 test_that("Names are cleaned appropriately without attaching sf", {
+  skip_if_not_installed("sf")
+  nc    <- sf::st_read(system.file("shape/nc.shp", package="sf"))
+  clean <- clean_names(nc, "snake")
+  
   expect_equal(names(clean)[4], "cnty_id")
 })
 
-library(sf)
-test_df <- data.frame(matrix(ncol = 22) %>% as.data.frame())
-
-names(test_df) <- c(
-  "sp ace", "repeated", "a**^@", "%", "*", "!",
-  "d(!)9", "REPEATED", "can\"'t", "hi_`there`", "  leading spaces",
-  "€", "ação", "Farœ", "a b c d e f", "testCamelCase", "!leadingpunct",
-  "average # of days", "jan2009sales", "jan 2009 sales", "long", "lat"
-)
-
-test_df["long"] <- -80
-test_df["lat"] <- 40
-
-test_df <- st_as_sf(test_df, coords = c("long", "lat"))
-names(test_df)[21] <- "Geometry"
-st_geometry(test_df) <- "Geometry"
-
-clean <- clean_names(test_df, "snake")
-
 test_that("Names are cleaned appropriately", {
+  skip_if_not_installed("sf")
+  library(sf)
+  test_df <- data.frame(matrix(ncol = 22) %>% as.data.frame())
+  
+  names(test_df) <- c(
+    "sp ace", "repeated", "a**^@", "%", "*", "!",
+    "d(!)9", "REPEATED", "can\"'t", "hi_`there`", "  leading spaces",
+    "€", "ação", "Farœ", "a b c d e f", "testCamelCase", "!leadingpunct",
+    "average # of days", "jan2009sales", "jan 2009 sales", "long", "lat"
+  )
+  
+  test_df["long"] <- -80
+  test_df["lat"] <- 40
+  
+  test_df <- st_as_sf(test_df, coords = c("long", "lat"))
+  names(test_df)[21] <- "Geometry"
+  st_geometry(test_df) <- "Geometry"
+  
+  clean <- clean_names(test_df, "snake")
+  
   expect_equal(names(clean)[1], "sp_ace") # spaces
   expect_equal(names(clean)[2], "repeated") # first instance of repeat
   expect_equal(names(clean)[3], "a") # multiple special chars, trailing special chars
@@ -159,8 +161,6 @@ test_that("Names are cleaned appropriately", {
   expect_equal(names(clean)[18], "average_number_of_days") # for testing alternating cases below with e.g., case = "upper_lower"
   expect_equal(names(clean)[19], "jan2009sales") # no separator around number-word boundary if not existing already
   expect_equal(names(clean)[20], "jan_2009_sales") # yes separator around number-word boundary if it existed
-})
-
-test_that("Returns a data.frame", {
-  expect_is(clean, "sf")
+  
+  expect_is(clean, "sf", info="Returns a data.frame")
 })
