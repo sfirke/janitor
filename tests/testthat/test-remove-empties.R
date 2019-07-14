@@ -121,6 +121,11 @@ test_that("remove_constant", {
     data.frame(B=c(NA, 1, 2), C=c(1, 2, NA)),
     info="NA with other values is kept with na.rm"
   )
+  expect_equal(
+    remove_constant(tibble(A=NA, B=c(NA, 1, 2), C=1)),
+    tibble(B=c(NA, 1, 2)),
+    info="tibbles are correctly handled"
+  )
 })
 
 test_that("Messages are accurate with remove_empty and remove_constant", {

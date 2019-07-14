@@ -7,6 +7,7 @@
 ## Bug fixes
 
 * The `name` argument to `adorn_totals()` is correctly applied to 3-way tabyls (#306)  Thanks to **@jzadra** for reporting.
+* `remove_constant()` works correctly with tibbles in addition to data.frames and matrices which already worked (thanks to **@billdenney** for implementing).
 
 # janitor 1.2.0 (2019-04-20)
 

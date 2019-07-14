@@ -70,11 +70,17 @@ remove_constant <- function(dat, na.rm = FALSE, quiet=TRUE) {
     sapply(
       X=seq_len(ncol(dat)),
       FUN=function(idx) {
+        column_to_test <-
+          if (is.matrix(dat)) {
+            dat[, idx]
+          } else {
+            dat[[idx]]
+          }
         length(unique(
           if (na.rm) {
-            stats::na.omit(dat[, idx])
+            stats::na.omit(column_to_test)
           } else {
-            dat[, idx]
+            column_to_test
           }
         )) <= 1 # the < is in case all values are NA with na.rm=TRUE
       }
