@@ -22,11 +22,12 @@ Depends:
     R (>= 3.1.2)
 Imports:
     dplyr (>= 0.7.0),
-    tidyr (>= 0.7.0),
-    snakecase (>= 0.9.2),
+    lubridate,
     magrittr,
     purrr,
-    rlang
+    rlang,
+    snakecase (>= 0.9.2),
+    tidyr (>= 0.7.0)
 License: MIT + file LICENSE
 LazyData: true
 RoxygenNote: 6.1.1
