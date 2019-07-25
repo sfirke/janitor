@@ -1,5 +1,9 @@
 # janitor 1.2.0.9000 (unreleased)
 
+## Major features
+
+* The new functions `convert_to_date()` and `convert_to_datetime()` generalize the work done by `excel_numeric_to_date()` allowing conversion to date or datetimes from many forms of input from numeric, to characters that look like numbers, to characters that look like dates or datetimes, to Dates, to date-times (POSIXt) (#310, thanks to **@billdenney* for implementing).
+
 ## Minor features
 
 * A `quiet` argument was added to `remove_empty()` and `remove_constant()`  providing more information (when `FALSE`) (#70, thanks to **@jbkunst** for suggesting and **@billdenney** for implementing).
