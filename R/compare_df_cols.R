@@ -50,7 +50,16 @@ compare_df_cols <- function(..., return=c("all", "match", "mismatch"), bind_meth
   mask_input_list <- sapply(X=args, FUN=is.list) & !mask_input_data_frame
   mask_input_other <- !(mask_input_data_frame | mask_input_list)
   if (any(mask_input_other)) {
-    stop("Input given with `...` must be either a data.frame or a list of data.frames.")
+    stop(
+      "Input given with `...` must be either a data.frame or a list of data.frames. Argument ",
+      # the `collapse` argument is required for msg1 to prevent an ngettext
+      # error; the input must be scalar.
+      ngettext(
+        sum(mask_input_other),
+        msg1=paste("number", which(mask_input_other), "is not.", collapse="\n"),
+        msg2=paste("numbers", paste(which(mask_input_other), collapse=", "), "are not.")
+      )
+    )
   }
   bad_list_inputs <- numeric(0)
   for (idx in which(mask_input_list)) {

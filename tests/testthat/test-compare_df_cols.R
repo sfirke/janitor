@@ -212,6 +212,17 @@ test_that("boolean df comparison works", {
   expect_false(compare_df_cols_same(data.frame(A=1L), data.frame(A=1.5), bind_method="rbind", verbose = FALSE))
 })
 
+test_that("error messages are correct", {
+  expect_error(
+    compare_df_cols("A"),
+    regexp="Input given with.*Argument number 1 is not."
+  )
+  expect_error(
+    compare_df_cols("A", data.frame(A=1), 3),
+    regexp="Input given with.*Argument numbers 1, 3 are not."
+  )
+})
+
 test_that("list inputs to compare_df_cols give appropriate errors", {
   expect_error(
     compare_df_cols(list("A")),
