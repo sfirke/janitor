@@ -4,8 +4,7 @@
 \alias{adorn_totals}
 \title{Append a totals row and/or column to a data.frame.}
 \usage{
-adorn_totals(dat, where = "row", fill = "-", na.rm = TRUE,
-  name = "Total")
+adorn_totals(dat, where = "row", fill = "-", na.rm = TRUE, name = "Total")
 }
 \arguments{
 \item{dat}{an input data.frame with at least one numeric column.  If given a list of data.frames, this function will apply itself to each data.frame in the list (designed for 3-way \code{tabyl} lists).}

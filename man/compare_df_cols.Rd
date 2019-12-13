@@ -5,8 +5,12 @@
 \title{Generate a comparison of data.frames (or similar objects) that indicates if
 they will successfully bind together by rows.}
 \usage{
-compare_df_cols(..., return = c("all", "match", "mismatch"),
-  bind_method = c("bind_rows", "rbind"), strict_description = FALSE)
+compare_df_cols(
+  ...,
+  return = c("all", "match", "mismatch"),
+  bind_method = c("bind_rows", "rbind"),
+  strict_description = FALSE
+)
 }
 \arguments{
 \item{...}{A combination of data.frames, tibbles, and lists of
@@ -60,7 +64,8 @@ compare_df_cols(dfA=data.frame(A=1), dfB=data.frame(B=2))
 compare_df_cols(listA=list(dfA=data.frame(A=1), dfB=data.frame(B=2)), data.frame(A=3))
 }
 \seealso{
-Other Data frame type comparison: \code{\link{compare_df_cols_same}},
-  \code{\link{describe_class}}
+Other Data frame type comparison: 
+\code{\link{compare_df_cols_same}()},
+\code{\link{describe_class}()}
 }
 \concept{Data frame type comparison}
