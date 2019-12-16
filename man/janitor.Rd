@@ -3,7 +3,6 @@
 \docType{package}
 \name{janitor}
 \alias{janitor}
-\alias{janitor-package}
 \title{janitor}
 \description{
 janitor has simple little tools for examining and cleaning dirty data.

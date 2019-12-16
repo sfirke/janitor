@@ -4,8 +4,12 @@
 \alias{adorn_pct_formatting}
 \title{Format a data.frame of decimals as percentages.}
 \usage{
-adorn_pct_formatting(dat, digits = 1, rounding = "half to even",
-  affix_sign = TRUE)
+adorn_pct_formatting(
+  dat,
+  digits = 1,
+  rounding = "half to even",
+  affix_sign = TRUE
+)
 }
 \arguments{
 \item{dat}{a data.frame with decimal values, typically the result of a call to \code{adorn_percentages} on a \code{tabyl}.  If given a list of data.frames, this function will apply itself to each data.frame in the list (designed for 3-way \code{tabyl} lists).}

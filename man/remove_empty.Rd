@@ -31,6 +31,7 @@ Removes all rows and/or columns from a data.frame or matrix that
 \code{\link[=remove_constant]{remove_constant()}} for removing
   constant columns.
 
-Other remove functions: \code{\link{remove_constant}}
+Other remove functions: 
+\code{\link{remove_constant}()}
 }
 \concept{remove functions}

@@ -29,7 +29,7 @@ Imports:
     rlang
 License: MIT + file LICENSE
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 Suggests:
     testthat,
     knitr,
