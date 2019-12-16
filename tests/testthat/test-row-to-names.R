@@ -81,3 +81,10 @@ test_that("row_to_names rows are accurately removed", {
     }
   }
 })
+
+test_that("row_to_names works on matrices (Fix #320)", {
+  expect_equal(
+    row_to_names(matrix(LETTERS[1:4], nrow=2, ncol=2), row_number=1),
+    matrix(c("B", "D"), nrow=1, dimnames=list(NULL, c("A", "C")))
+  )
+})

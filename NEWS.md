@@ -3,6 +3,7 @@
 ## Minor features
 
 * A `quiet` argument was added to `remove_empty()` and `remove_constant()`  providing more information (when `FALSE`) (#70, thanks to **@jbkunst** for suggesting and **@billdenney** for implementing).
+* `row_to_names()` will now work on matrix input (#320, thanks to **@billdenney** for suggesting and implementing).
 
 ## Bug fixes
 
@@ -46,7 +47,7 @@ This feature (#50) took almost 3 years from conception to implementation.  Major
 
 * `excel_numeric_to_date()` no longer gives an overflow error for integer input (for dates since 1968).  (#241)  Thanks to **@hideaki** for reporting and **@billdenney** for patching.
 
-* `clean_names()` and `make_clean_names()` now support 'none' as a case option, passed through to `snakecase::to_any_case()`. (#269) Thanks to **@andrewbarros** for reporting and patching.  
+* `clean_names()` and `make_clean_names()` now support 'none' as a case option, passed through to `snakecase::to_any_case()`. (#269) Thanks to **@andrewbarros** for reporting and patching.
 
 
 # janitor 1.1.1 (2018-07-30)
@@ -108,7 +109,7 @@ No further changes are planned to `clean_names()` and its results should be stab
 
 - `clean_names()` transliterates accented letters, e.g., `çãüœ` becomes `cauoe` [(#120)](https://github.com/sfirke/janitor/issues/120).  Thanks to **@fernandovmacedo**.
 
-- `clean_names()` offers multiple options for variable name styling.  In addition to `snake_case` output you can select `smallCamelCase`, `BigCamelCase`, `ALL_CAPS` and others. [(#131)](https://github.com/sfirke/janitor/issues/131).  
+- `clean_names()` offers multiple options for variable name styling.  In addition to `snake_case` output you can select `smallCamelCase`, `BigCamelCase`, `ALL_CAPS` and others. [(#131)](https://github.com/sfirke/janitor/issues/131).
   - Thanks to **@tazinho**, who wrote the [snakecase](https://github.com/Tazinho/snakecase/) package that janitor depends on to do this, as well as the patch to incorporate it into `clean_names()`.  And thanks to **@maelle** for proposing this feature.
 
 

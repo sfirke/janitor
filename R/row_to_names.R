@@ -8,7 +8,7 @@
 #' @return A data.frame with new names (and some rows removed, if specified)
 #' @examples
 #' x <- data.frame(X_1 = c(NA, "Title", 1:3),
-#'            X_2 = c(NA, "Title2", 4:6))
+#'                 X_2 = c(NA, "Title2", 4:6))
 #' x %>%
 #'   row_to_names(row_number = 2)
 #' @export
@@ -21,7 +21,7 @@ row_to_names <- function(dat, row_number, remove_row = TRUE, remove_rows_above =
   if (any(duplicated(new_names))) {
     warning("Row ", row_number, " does not provide unique names. Consider running clean_names() after row_to_names().")
   }
-  names(dat) <- new_names
+  colnames(dat) <- new_names
   rows_to_remove <- c(
     if (remove_row) {
       row_number
