@@ -6,11 +6,17 @@ cache: packages
 before_install:
   Rscript -e 'update.packages(ask = FALSE)'
 
+addons:
+  apt:
+    packages:
+    - libudunits2-dev
+    - libproj-dev
+    - libgeos-dev
+    - libgdal-dev
+    - libnetcdf-dev
+
 matrix: # don't test osx + r-devel
   include:
-  - os: linux
-    r: oldrel
-    dist: trusty
   - os: linux
     r: release
     dist: trusty
@@ -24,7 +30,7 @@ matrix: # don't test osx + r-devel
 
 r_github_packages:
   - jimhester/covr
-  - tazinho/snakecase
 
 after_success:
   - Rscript -e 'covr::codecov()'
+

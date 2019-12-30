@@ -122,24 +122,15 @@
 <li>
 <p>the latest development version from GitHub with</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"devtools"</span>)
-devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"sfirke/janitor"</span>)</code></pre></div>
+devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"sfirke/janitor"</span>)</code></pre></div>
 </li>
 </ul>
-</div>
-<div id="whats-new" class="section level2">
-<h2 class="hasAnchor">
-<a href="#whats-new" class="anchor"></a><i class="fa fa-newspaper-o" aria-hidden="true"></i> What’s New</h2>
-<div id="march-2018-version-1-0-0-released" class="section level4">
-<h4 class="hasAnchor">
-<a href="#march-2018-version-1-0-0-released" class="anchor"></a>March 2018: Version 1.0.0 Released</h4>
-<p>The long-term stable janitor version 1.0.0 is now on CRAN! <i class="fa fa-space-shuttle" aria-hidden="true"></i> It has some big improvements that also result in breaking changes.</p>
-<p>There’s a greatly-enhanced <code><a href="reference/tabyl.html">tabyl()</a></code> function - see the <a href="http://sfirke.github.io/janitor/articles/tabyls.html">tabyls vignette</a> - and improvements to <code><a href="reference/clean_names.html">clean_names()</a></code>. These <code><a href="reference/clean_names.html">clean_names()</a></code> improvements may cause old code to break, due to better handling of variable names. More info is in the <a href="http://sfirke.github.io/janitor/news/index.html">NEWS</a> file; the very quick fix is to supply the argument <code>case = "old_janitor"</code>.</p>
-</div>
 </div>
 <div id="using-janitor" class="section level2">
 <h2 class="hasAnchor">
 <a href="#using-janitor" class="anchor"></a>Using janitor</h2>
-<p>Below are quick examples of how janitor tools are commonly used. A full description of each function can be found in janitor’s <a href="http://sfirke.github.io/janitor/articles/janitor.html">catalog of functions</a>.</p>
+<p>A full description of each function, organized by topic, can be found in janitor’s <a href="http://sfirke.github.io/janitor/articles/janitor.html">catalog of functions vignette</a>. There you will find functions not mentioned in this README, like <code><a href="reference/compare_df_cols.html">compare_df_cols()</a></code> which provides a summary of differences in column names and types when given a set of data.frames.</p>
+<p>Below are quick examples of how janitor tools are commonly used.</p>
 <div id="cleaning-dirty-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#cleaning-dirty-data" class="anchor"></a>Cleaning dirty data</h3>
@@ -159,16 +150,16 @@ roster_raw &lt;-<span class="st"> </span><span class="kw">read_excel</span>(<spa
 <span class="kw">glimpse</span>(roster_raw)
 <span class="co">#&gt; Observations: 13</span>
 <span class="co">#&gt; Variables: 11</span>
-<span class="co">#&gt; $ `First Name`        &lt;chr&gt; "Jason", "Jason", "Alicia", "Ada", "Desus", "Chien-Shiung", "Chien-Shiung", N...</span>
-<span class="co">#&gt; $ `Last Name`         &lt;chr&gt; "Bourne", "Bourne", "Keys", "Lovelace", "Nice", "Wu", "Wu", NA, "Joyce", "Lam...</span>
-<span class="co">#&gt; $ `Employee Status`   &lt;chr&gt; "Teacher", "Teacher", "Teacher", "Teacher", "Administration", "Teacher", "Tea...</span>
-<span class="co">#&gt; $ Subject             &lt;chr&gt; "PE", "Drafting", "Music", NA, "Dean", "Physics", "Chemistry", NA, "English",...</span>
-<span class="co">#&gt; $ `Hire Date`         &lt;dbl&gt; 39690, 39690, 37118, 27515, 41431, 11037, 11037, NA, 32994, 27919, 42221, 347...</span>
+<span class="co">#&gt; $ `First Name`        &lt;chr&gt; "Jason", "Jason", "Alicia", "Ada", "Desus", "Chien-Shiung", "Chien-Shiung", NA,…</span>
+<span class="co">#&gt; $ `Last Name`         &lt;chr&gt; "Bourne", "Bourne", "Keys", "Lovelace", "Nice", "Wu", "Wu", NA, "Joyce", "Lamar…</span>
+<span class="co">#&gt; $ `Employee Status`   &lt;chr&gt; "Teacher", "Teacher", "Teacher", "Teacher", "Administration", "Teacher", "Teach…</span>
+<span class="co">#&gt; $ Subject             &lt;chr&gt; "PE", "Drafting", "Music", NA, "Dean", "Physics", "Chemistry", NA, "English", "…</span>
+<span class="co">#&gt; $ `Hire Date`         &lt;dbl&gt; 39690, 39690, 37118, 27515, 41431, 11037, 11037, NA, 32994, 27919, 42221, 34700…</span>
 <span class="co">#&gt; $ `% Allocated`       &lt;dbl&gt; 0.75, 0.25, 1.00, 1.00, 1.00, 0.50, 0.50, NA, 0.50, 0.50, NA, NA, 0.80</span>
-<span class="co">#&gt; $ `Full time?`        &lt;chr&gt; "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", NA, "No", "No", "No", "No", ...</span>
+<span class="co">#&gt; $ `Full time?`        &lt;chr&gt; "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", NA, "No", "No", "No", "No", "N…</span>
 <span class="co">#&gt; $ `do not edit! ---&gt;` &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA</span>
-<span class="co">#&gt; $ Certification       &lt;chr&gt; "Physical ed", "Physical ed", "Instr. music", "PENDING", "PENDING", "Science ...</span>
-<span class="co">#&gt; $ Certification__1    &lt;chr&gt; "Theater", "Theater", "Vocal music", "Computers", NA, "Physics", "Physics", N...</span>
+<span class="co">#&gt; $ Certification       &lt;chr&gt; "Physical ed", "Physical ed", "Instr. music", "PENDING", "PENDING", "Science 6-…</span>
+<span class="co">#&gt; $ Certification__1    &lt;chr&gt; "Theater", "Theater", "Vocal music", "Computers", NA, "Physics", "Physics", NA,…</span>
 <span class="co">#&gt; $ Certification__2    &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA</span></code></pre></div>
 <p>Excel formatting led to an untitled empty column and 5 empty rows at the bottom of the table (only 12 records have any actual data). Bad column names are preserved.</p>
 <p>Clean it with janitor functions:</p>
@@ -195,7 +186,7 @@ roster
 <span class="co">#&gt; 10 Carlos       Boozer    Coach           Basketball 2015-08-05             NA    No        Physical ed   </span>
 <span class="co">#&gt; 11 Young        Boozer    Coach           &lt;NA&gt;       1995-01-01             NA    No        Political sci.</span>
 <span class="co">#&gt; 12 Micheal      Larsen    Teacher         English    2009-09-15              0.8  No        Vocal music</span></code></pre></div>
-<p>The core janitor cleaning function is <code><a href="reference/clean_names.html">clean_names()</a></code> - call it whenever you load data into R.</p>
+<p>The core janitor cleaning function is <code><a href="reference/clean_names.html">clean_names()</a></code> - call it whenever you load data into R. You can similarly clean any vector of names with <code><a href="reference/make_clean_names.html">make_clean_names()</a></code>.</p>
 </div>
 <div id="examining-dirty-data" class="section level3">
 <h3 class="hasAnchor">
@@ -206,12 +197,12 @@ roster
 <p>Use <code><a href="reference/get_dupes.html">get_dupes()</a></code> to identify and examine duplicate records during data cleaning. Let’s see if any teachers are listed more than once:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">roster <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/get_dupes.html">get_dupes</a></span>(first_name, last_name)
 <span class="co">#&gt; # A tibble: 4 x 9</span>
-<span class="co">#&gt;   first_name   last_name dupe_count employee_status subject   hire_date  percent_allocat… full_time cert     </span>
-<span class="co">#&gt;   &lt;chr&gt;        &lt;chr&gt;          &lt;int&gt; &lt;chr&gt;           &lt;chr&gt;     &lt;date&gt;                &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;    </span>
-<span class="co">#&gt; 1 Chien-Shiung Wu                 2 Teacher         Physics   1930-03-20             0.5  Yes       Science …</span>
-<span class="co">#&gt; 2 Chien-Shiung Wu                 2 Teacher         Chemistry 1930-03-20             0.5  Yes       Science …</span>
-<span class="co">#&gt; 3 Jason        Bourne             2 Teacher         PE        2008-08-30             0.75 Yes       Physical…</span>
-<span class="co">#&gt; 4 Jason        Bourne             2 Teacher         Drafting  2008-08-30             0.25 Yes       Physical…</span></code></pre></div>
+<span class="co">#&gt;   first_name   last_name dupe_count employee_status subject   hire_date  percent_allocat… full_time cert      </span>
+<span class="co">#&gt;   &lt;chr&gt;        &lt;chr&gt;          &lt;int&gt; &lt;chr&gt;           &lt;chr&gt;     &lt;date&gt;                &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     </span>
+<span class="co">#&gt; 1 Chien-Shiung Wu                 2 Teacher         Physics   1930-03-20             0.5  Yes       Science 6…</span>
+<span class="co">#&gt; 2 Chien-Shiung Wu                 2 Teacher         Chemistry 1930-03-20             0.5  Yes       Science 6…</span>
+<span class="co">#&gt; 3 Jason        Bourne             2 Teacher         PE        2008-08-30             0.75 Yes       Physical …</span>
+<span class="co">#&gt; 4 Jason        Bourne             2 Teacher         Drafting  2008-08-30             0.25 Yes       Physical …</span></code></pre></div>
 <p>Yes, some teachers appear twice. We ought to address this before counting employees.</p>
 </div>
 <div id="tabulating-tools" class="section level4">

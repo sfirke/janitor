@@ -30,7 +30,10 @@
 <meta property="og:description" content="Resulting names are unique and consist only of the _ character, numbers, and letters.
 Capitalization preferences can be specified using the case parameter.
 Accented characters are
-transliterated to ASCII.  For example, an "o" with a German umlaut over it becomes "o", and the Spanish character "enye" becomes "n"." />
+transliterated to ASCII.  For example, an "o" with a German umlaut over it becomes "o", and the Spanish character "enye" becomes "n".
+This function takes and returns a data.frame, for ease of piping with  `%&gt;%`.  
+For the underlying function that works on a character vector of names,
+see make_clean_names." />
 <meta name="twitter:card" content="summary" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -114,11 +117,18 @@ transliterated to ASCII.  For example, an "o" with a German umlaut over it becom
 Capitalization preferences can be specified using the <code>case</code> parameter.</p>
 <p>Accented characters are
 transliterated to ASCII.  For example, an "o" with a German umlaut over it becomes "o", and the Spanish character "enye" becomes "n".</p>
+<p>This function takes and returns a data.frame, for ease of piping with  <code>`%&gt;%`</code>.  
+For the underlying function that works on a character vector of names,
+see <code><a href='make_clean_names.html'>make_clean_names</a></code>.</p>
     
 
-    <pre class="usage"><span class='fu'>clean_names</span>(<span class='no'>dat</span>, <span class='kw'>case</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"snake"</span>, <span class='st'>"lower_camel"</span>, <span class='st'>"upper_camel"</span>,
-  <span class='st'>"screaming_snake"</span>, <span class='st'>"lower_upper"</span>, <span class='st'>"upper_lower"</span>, <span class='st'>"all_caps"</span>,
-  <span class='st'>"small_camel"</span>, <span class='st'>"big_camel"</span>, <span class='st'>"old_janitor"</span>, <span class='st'>"parsed"</span>, <span class='st'>"mixed"</span>))</pre>
+    <pre class="usage"><span class='fu'>clean_names</span>(<span class='no'>dat</span>, <span class='no'>case</span>)
+
+<span class='co'># S3 method for default</span>
+<span class='fu'>clean_names</span>(<span class='no'>dat</span>, <span class='kw'>case</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"snake"</span>, <span class='st'>"lower_camel"</span>,
+  <span class='st'>"upper_camel"</span>, <span class='st'>"screaming_snake"</span>, <span class='st'>"lower_upper"</span>, <span class='st'>"upper_lower"</span>,
+  <span class='st'>"all_caps"</span>, <span class='st'>"small_camel"</span>, <span class='st'>"big_camel"</span>, <span class='st'>"old_janitor"</span>, <span class='st'>"parsed"</span>, <span class='st'>"mixed"</span>,
+  <span class='st'>"none"</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -137,7 +147,7 @@ transliterated to ASCII.  For example, an "o" with a German umlaut over it becom
 <li><p><code>"lower_upper"</code> produces lowerUPPER</p></li>
 <li><p><code>"upper_lower"</code> produces UPPERlower</p></li>
 <li><p><code>old_janitor</code>: legacy compatibility option to preserve behavior of <code>clean_names</code> prior to addition of the "case" argument(janitor versions &lt;= 0.3.1 ).  Provided as a quick fix for old scripts broken by the changes to <code>clean_names</code> in janitor v1.0.</p></li>
-<li><p><code>"parsed"</code>, <code>"mixed"</code>, <code>"none"</code>, <code>"internal_parsing"</code>: less-common cases offered by <code><a href='http://www.rdocumentation.org/packages/snakecase/topics/to_any_case'>snakecase::to_any_case</a></code>.  See <code><a href='http://www.rdocumentation.org/packages/snakecase/topics/to_any_case'>to_any_case</a></code> for details.</p></li>
+<li><p><code>"parsed"</code>, <code>"mixed"</code>, <code>"none"</code>: less-common cases offered by <code><a href='http://www.rdocumentation.org/packages/snakecase/topics/to_any_case'>snakecase::to_any_case</a></code>.  See <code><a href='http://www.rdocumentation.org/packages/snakecase/topics/to_any_case'>to_any_case</a></code> for details.</p></li>
 </ul></td>
     </tr>
     </table>
@@ -159,7 +169,7 @@ transliterated to ASCII.  For example, an "o" with a German umlaut over it becom
 
 # not run:
 # library(readxl)
-# readxl("messy_excel_file.xlsx") %>% clean_names()
+# read_excel("messy_excel_file.xlsx") %>% clean_names()
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

@@ -43,7 +43,9 @@ You can install:
 Using janitor
 -------------
 
-Below are quick examples of how janitor tools are commonly used. A full description of each function can be found in janitor's [catalog of functions vignette](http://sfirke.github.io/janitor/articles/janitor.html).
+A full description of each function, organized by topic, can be found in janitor's [catalog of functions vignette](http://sfirke.github.io/janitor/articles/janitor.html). There you will find functions not mentioned in this README, like `compare_df_cols()` which provides a summary of differences in column names and types when given a set of data.frames.
+
+Below are quick examples of how janitor tools are commonly used.
 
 ### Cleaning dirty data
 
@@ -66,17 +68,17 @@ roster_raw <- read_excel(here("dirty_data.xlsx")) # available at http://github.c
 glimpse(roster_raw)
 #> Observations: 13
 #> Variables: 11
-#> $ `First Name`        <chr> "Jason", "Jason", "Alicia", "Ada", "Desus", "Chien-Shiung", "Chien-Shiung", N...
-#> $ `Last Name`         <chr> "Bourne", "Bourne", "Keys", "Lovelace", "Nice", "Wu", "Wu", NA, "Joyce", "Lam...
-#> $ `Employee Status`   <chr> "Teacher", "Teacher", "Teacher", "Teacher", "Administration", "Teacher", "Tea...
-#> $ Subject             <chr> "PE", "Drafting", "Music", NA, "Dean", "Physics", "Chemistry", NA, "English",...
-#> $ `Hire Date`         <dbl> 39690, 39690, 37118, 27515, 41431, 11037, 11037, NA, 32994, 27919, 42221, 347...
+#> $ `First Name`        <chr> "Jason", "Jason", "Alicia", "Ada", "Desus", "Chien-Shiung", "Chien-Shiung", NA,…
+#> $ `Last Name`         <chr> "Bourne", "Bourne", "Keys", "Lovelace", "Nice", "Wu", "Wu", NA, "Joyce", "Lamar…
+#> $ `Employee Status`   <chr> "Teacher", "Teacher", "Teacher", "Teacher", "Administration", "Teacher", "Teach…
+#> $ Subject             <chr> "PE", "Drafting", "Music", NA, "Dean", "Physics", "Chemistry", NA, "English", "…
+#> $ `Hire Date`         <dbl> 39690, 39690, 37118, 27515, 41431, 11037, 11037, NA, 32994, 27919, 42221, 34700…
 #> $ `% Allocated`       <dbl> 0.75, 0.25, 1.00, 1.00, 1.00, 0.50, 0.50, NA, 0.50, 0.50, NA, NA, 0.80
-#> $ `Full time?`        <chr> "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", NA, "No", "No", "No", "No", ...
+#> $ `Full time?`        <chr> "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", NA, "No", "No", "No", "No", "N…
 #> $ `do not edit! --->` <lgl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA
-#> $ Certification       <chr> "Physical ed", "Physical ed", "Instr. music", "PENDING", "PENDING", "Science ...
-#> $ Certification__1    <chr> "Theater", "Theater", "Vocal music", "Computers", NA, "Physics", "Physics", N...
-#> $ Certification__2    <lgl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA
+#> $ Certification...9   <chr> "Physical ed", "Physical ed", "Instr. music", "PENDING", "PENDING", "Science 6-…
+#> $ Certification...10  <chr> "Theater", "Theater", "Vocal music", "Computers", NA, "Physics", "Physics", NA,…
+#> $ Certification...11  <lgl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA
 ```
 
 Excel formatting led to an untitled empty column and 5 empty rows at the bottom of the table (only 12 records have any actual data). Bad column names are preserved.
@@ -88,28 +90,51 @@ roster <- roster_raw %>%
   clean_names() %>%
   remove_empty(c("rows", "cols")) %>%
   mutate(hire_date = excel_numeric_to_date(hire_date),
-         cert = coalesce(certification, certification_1)) %>% # from dplyr
-  select(-certification, -certification_1) # drop unwanted columns
+         cert = coalesce(certification_9, certification_10)) %>% # from dplyr
+  select(-certification_9, -certification_10) # drop unwanted columns
 
 roster
 #> # A tibble: 12 x 8
 #>    first_name   last_name employee_status subject    hire_date  percent_allocated full_time cert          
 #>    <chr>        <chr>     <chr>           <chr>      <date>                 <dbl> <chr>     <chr>         
-#>  1 Jason        Bourne    Teacher         PE         2008-08-30             0.750 Yes       Physical ed   
-#>  2 Jason        Bourne    Teacher         Drafting   2008-08-30             0.250 Yes       Physical ed   
-#>  3 Alicia       Keys      Teacher         Music      2001-08-15             1.00  Yes       Instr. music  
-#>  4 Ada          Lovelace  Teacher         <NA>       1975-05-01             1.00  Yes       PENDING       
-#>  5 Desus        Nice      Administration  Dean       2013-06-06             1.00  Yes       PENDING       
-#>  6 Chien-Shiung Wu        Teacher         Physics    1930-03-20             0.500 Yes       Science 6-12  
-#>  7 Chien-Shiung Wu        Teacher         Chemistry  1930-03-20             0.500 Yes       Science 6-12  
-#>  8 James        Joyce     Teacher         English    1990-05-01             0.500 No        English 6-12  
-#>  9 Hedy         Lamarr    Teacher         Science    1976-06-08             0.500 No        PENDING       
-#> 10 Carlos       Boozer    Coach           Basketball 2015-08-05            NA     No        Physical ed   
-#> 11 Young        Boozer    Coach           <NA>       1995-01-01            NA     No        Political sci.
-#> 12 Micheal      Larsen    Teacher         English    2009-09-15             0.800 No        Vocal music
+#>  1 Jason        Bourne    Teacher         PE         2008-08-30              0.75 Yes       Physical ed   
+#>  2 Jason        Bourne    Teacher         Drafting   2008-08-30              0.25 Yes       Physical ed   
+#>  3 Alicia       Keys      Teacher         Music      2001-08-15              1    Yes       Instr. music  
+#>  4 Ada          Lovelace  Teacher         <NA>       1975-05-01              1    Yes       PENDING       
+#>  5 Desus        Nice      Administration  Dean       2013-06-06              1    Yes       PENDING       
+#>  6 Chien-Shiung Wu        Teacher         Physics    1930-03-20              0.5  Yes       Science 6-12  
+#>  7 Chien-Shiung Wu        Teacher         Chemistry  1930-03-20              0.5  Yes       Science 6-12  
+#>  8 James        Joyce     Teacher         English    1990-05-01              0.5  No        English 6-12  
+#>  9 Hedy         Lamarr    Teacher         Science    1976-06-08              0.5  No        PENDING       
+#> 10 Carlos       Boozer    Coach           Basketball 2015-08-05             NA    No        Physical ed   
+#> 11 Young        Boozer    Coach           <NA>       1995-01-01             NA    No        Political sci.
+#> 12 Micheal      Larsen    Teacher         English    2009-09-15              0.8  No        Vocal music
 ```
 
-The core janitor cleaning function is `clean_names()` - call it whenever you load data into R.
+Name cleaning comes in two flavors, the main `make_clean_names()` and the convenience version `clean_names()` for piped data.frame workflows. The core janitor cleaning function is `clean_names()` - call it whenever you load data into R as in the example above.
+
+`make_clean_names()` operates on character vectors and can be used during data import. Here's an example of how it can be used:
+
+``` r
+library(pacman) # for loading packages
+p_load(readxl, janitor, dplyr, here)
+
+roster_raw <- read_excel(here("dirty_data.xlsx"), .name_repair = make_clean_names) # available at http://github.com/sfirke/janitor
+glimpse(roster_raw)
+#> Observations: 13
+#> Variables: 11
+#> $ first_name        <chr> "Jason", "Jason", "Alicia", "Ada", "Desus", "Chien-Shiung", "Chien-Shiung", NA, "…
+#> $ last_name         <chr> "Bourne", "Bourne", "Keys", "Lovelace", "Nice", "Wu", "Wu", NA, "Joyce", "Lamarr"…
+#> $ employee_status   <chr> "Teacher", "Teacher", "Teacher", "Teacher", "Administration", "Teacher", "Teacher…
+#> $ subject           <chr> "PE", "Drafting", "Music", NA, "Dean", "Physics", "Chemistry", NA, "English", "Sc…
+#> $ hire_date         <dbl> 39690, 39690, 37118, 27515, 41431, 11037, 11037, NA, 32994, 27919, 42221, 34700, …
+#> $ percent_allocated <dbl> 0.75, 0.25, 1.00, 1.00, 1.00, 0.50, 0.50, NA, 0.50, 0.50, NA, NA, 0.80
+#> $ full_time         <chr> "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", NA, "No", "No", "No", "No", "No"
+#> $ do_not_edit       <lgl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA
+#> $ certification     <chr> "Physical ed", "Physical ed", "Instr. music", "PENDING", "PENDING", "Science 6-12…
+#> $ certification_2   <chr> "Theater", "Theater", "Vocal music", "Computers", NA, "Physics", "Physics", NA, "…
+#> $ certification_3   <lgl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA
+```
 
 ### Examining dirty data
 
@@ -120,12 +145,12 @@ Use `get_dupes()` to identify and examine duplicate records during data cleaning
 ``` r
 roster %>% get_dupes(first_name, last_name)
 #> # A tibble: 4 x 9
-#>   first_name   last_name dupe_count employee_status subject   hire_date  percent_allocated full_time cert    
-#>   <chr>        <chr>          <int> <chr>           <chr>     <date>                 <dbl> <chr>     <chr>   
-#> 1 Chien-Shiung Wu                 2 Teacher         Physics   1930-03-20             0.500 Yes       Science…
-#> 2 Chien-Shiung Wu                 2 Teacher         Chemistry 1930-03-20             0.500 Yes       Science…
-#> 3 Jason        Bourne             2 Teacher         PE        2008-08-30             0.750 Yes       Physica…
-#> 4 Jason        Bourne             2 Teacher         Drafting  2008-08-30             0.250 Yes       Physica…
+#>   first_name   last_name dupe_count employee_status subject   hire_date  percent_allocat… full_time cert      
+#>   <chr>        <chr>          <int> <chr>           <chr>     <date>                <dbl> <chr>     <chr>     
+#> 1 Chien-Shiung Wu                 2 Teacher         Physics   1930-03-20             0.5  Yes       Science 6…
+#> 2 Chien-Shiung Wu                 2 Teacher         Chemistry 1930-03-20             0.5  Yes       Science 6…
+#> 3 Jason        Bourne             2 Teacher         PE        2008-08-30             0.75 Yes       Physical …
+#> 4 Jason        Bourne             2 Teacher         Drafting  2008-08-30             0.25 Yes       Physical …
 ```
 
 Yes, some teachers appear twice. We ought to address this before counting employees.

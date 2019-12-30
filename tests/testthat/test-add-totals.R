@@ -74,7 +74,7 @@ test_that("order doesn't matter when row and col are called together", {
 })
 
 test_that("both functions work with a single column", {
-  single_col <- data_frame(
+  single_col <- tibble(
     a = c(as.Date("2016-01-01"), as.Date("2016-02-03")),
     b = c(1, 2)
   )
@@ -144,10 +144,10 @@ test_that("add_totals respects if input was data.frame", {
   )
 })
 
-test_that("add_totals respects if input was data_frame", {
+test_that("add_totals respects if input was tibble", {
   expect_equal(
-    class(df1 %>% as_data_frame()),
-    class(df1 %>% as_data_frame() %>% adorn_totals() %>% untabyl())
+    class(df1 %>% as_tibble()),
+    class(df1 %>% as_tibble() %>% adorn_totals() %>% untabyl())
   )
 })
 
@@ -255,13 +255,27 @@ test_that("automatically invokes purrr::map when called on a 3-way tabyl", {
 
   # with arguments passing through
   expect_equal(
-    adorn_totals(three, c("row", "col"), fill = "---", na.rm = FALSE),
-    purrr::map(three, adorn_totals, c("row", "col"), fill = "---", FALSE)
+    adorn_totals(three, c("row", "col"), fill = "---", na.rm = FALSE, name = "dummy_name"),
+    purrr::map(three, adorn_totals, c("row", "col"), fill = "---", FALSE, name = "dummy_name")
   )
 })
 
 test_that("non-data.frame inputs are handled", {
   expect_error(adorn_totals(1:5), "adorn_totals() must be called on a data.frame or list of data.frames", fixed = TRUE)
+})
+
+test_that("row total name is changed", {
+  expect_equal(
+    adorn_totals(ct, name = "NewTitle")[nrow(ct) + 1, 1],
+    "NewTitle"
+  )
+})
+
+test_that("column total name is changed", {
+  expect_equal(
+    colnames(adorn_totals(ct, where = "col", name = "NewTitle"))[(ncol(ct) + 1)],
+    "NewTitle"
+  )
 })
 
 # Kind of superficial given that add_totals_ have been refactored to call adorn_totals() themselves, but might as well keep until deprecated functions are removed

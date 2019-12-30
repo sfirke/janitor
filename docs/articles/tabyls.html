@@ -80,7 +80,7 @@
     <div class="page-header toc-ignore">
       <h1>tabyls: a tidy, fully-featured approach to counting things</h1>
             
-            <h4 class="date">2018-08-01</h4>
+            <h4 class="date">2019-04-20</h4>
       
       <small>Source: <a href="https:/github.com/sfirke/janitor/blob/master/vignettes/tabyls.Rmd"><code>vignettes/tabyls.Rmd</code></a></small>
 
@@ -113,12 +113,17 @@
 <p>This vignette demonstrates <code>tabyl</code> in the context of studying humans in the <code>starwars</code> dataset from dplyr:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
 humans &lt;-<span class="st"> </span>starwars <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(species <span class="op">==</span><span class="st"> "Human"</span>)</code></pre></div>
+<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(species <span class="op">==</span><span class="st"> "Human"</span>)</code></pre></div>
 <div id="one-way-tabyl" class="section level2">
 <h2 class="hasAnchor">
 <a href="#one-way-tabyl" class="anchor"></a>One-way tabyl</h2>
 <p>Tabulating a single variable is the simplest kind of tabyl:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(janitor)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'janitor'</span>
+<span class="co">#&gt; The following objects are masked from 'package:stats':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     chisq.test, fisher.test</span>
 
 t1 &lt;-<span class="st"> </span>humans <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw"><a href="../reference/tabyl.html">tabyl</a></span>(eye_color)
@@ -154,7 +159,7 @@ t1
 <div id="two-way-tabyl" class="section level2">
 <h2 class="hasAnchor">
 <a href="#two-way-tabyl" class="anchor"></a>Two-way tabyl</h2>
-<p>This is often called a “crosstab” or “contingency” table. Calling <code>tabyl</code> on two columns of a data.frame produces the same result as the common combination of <code><a href="http://dplyr.tidyverse.org/reference/tally.html">dplyr::count()</a></code>, followed by <code><a href="http://www.rdocumentation.org/packages/tidyr/topics/spread">tidyr::spread()</a></code> to wide form:</p>
+<p>This is often called a “crosstab” or “contingency” table. Calling <code>tabyl</code> on two columns of a data.frame produces the same result as the common combination of <code><a href="https://dplyr.tidyverse.org/reference/tally.html">dplyr::count()</a></code>, followed by <code><a href="https://tidyr.tidyverse.org/reference/spread.html">tidyr::spread()</a></code> to wide form:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t2 &lt;-<span class="st"> </span>humans <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw"><a href="../reference/tabyl.html">tabyl</a></span>(gender, eye_color)
 
@@ -199,7 +204,7 @@ t3
 <span class="co">#&gt;       dark    1    0     0    0   0     0</span>
 <span class="co">#&gt;      hazel    0    1     0    0   0     0</span>
 <span class="co">#&gt;     yellow    0    0     0    1   0     1</span></code></pre></div>
-<p>If the <code>adorn_</code> helper functions are called on a list of data.frames - like the output of a three-way <code>tabyl</code> call - they will call <code><a href="http://www.rdocumentation.org/packages/purrr/topics/map">purrr::map()</a></code> to apply themselves to each data.frame in the list:</p>
+<p>If the <code>adorn_</code> helper functions are called on a list of data.frames - like the output of a three-way <code>tabyl</code> call - they will call <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map()</a></code> to apply themselves to each data.frame in the list:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(purrr)
 humans <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw"><a href="../reference/tabyl.html">tabyl</a></span>(eye_color, skin_color, gender, <span class="dt">show_missing_levels =</span> <span class="ot">FALSE</span>) <span class="op">%&gt;%</span>
@@ -226,8 +231,8 @@ humans <span class="op">%&gt;%</span>
 <span class="co">#&gt;      hazel   0.0% (0)  3.8%  (1)  0.0% (0) 0.0% (0) 0.0% (0) 0.0% (0)</span>
 <span class="co">#&gt;     yellow   0.0% (0)  0.0%  (0)  0.0% (0) 3.8% (1) 0.0% (0) 3.8% (1)</span>
 <span class="co">#&gt;      Total  15.4% (4) 50.0% (13) 19.2% (5) 3.8% (1) 7.7% (2) 3.8% (1)</span></code></pre></div>
-<p>This automatic mapping supports interactive data analysis that switches between combinations of 2 and 3 variables. That way, if a user starts with <code>humans %&gt;% tabyl(eye_color, skin_color)</code>, adds some <code>adorn_</code> calls, then decides to split the tabulation by gender and modifies their first line to <code>humans %&gt;% tabyl(eye_color, skin_color, gender</code>), they don’t have to rewrite the subsequent adornment calls to use <code><a href="http://www.rdocumentation.org/packages/purrr/topics/map">map()</a></code>.</p>
-<p>However, if feels more natural to call these with <code><a href="http://www.rdocumentation.org/packages/purrr/topics/map">map()</a></code> or <code>lapply()</code>, that is still supported. For instance, <code>t3 %&gt;% lapply(adorn_percentages)</code> would produce the same result as <code>t3 %&gt;% adorn_percentages</code>.</p>
+<p>This automatic mapping supports interactive data analysis that switches between combinations of 2 and 3 variables. That way, if a user starts with <code>humans %&gt;% tabyl(eye_color, skin_color)</code>, adds some <code>adorn_</code> calls, then decides to split the tabulation by gender and modifies their first line to <code>humans %&gt;% tabyl(eye_color, skin_color, gender</code>), they don’t have to rewrite the subsequent adornment calls to use <code><a href="https://purrr.tidyverse.org/reference/map.html">map()</a></code>.</p>
+<p>However, if feels more natural to call these with <code><a href="https://purrr.tidyverse.org/reference/map.html">map()</a></code> or <code>lapply()</code>, that is still supported. For instance, <code>t3 %&gt;% lapply(adorn_percentages)</code> would produce the same result as <code>t3 %&gt;% adorn_percentages</code>.</p>
 <div id="other-features-of-tabyls" class="section level3">
 <h3 class="hasAnchor">
 <a href="#other-features-of-tabyls" class="anchor"></a>Other features of tabyls</h3>
@@ -242,6 +247,7 @@ humans <span class="op">%&gt;%</span>
 <li>
 <code>tabyls</code> print without displaying row numbers</li>
 </ul>
+<p>You can call <code><a href="../reference/chisq.test.html">chisq.test()</a></code> and <code><a href="../reference/fisher.test.html">fisher.test()</a></code> on a two-way tabyl to perform those statistical tests, just like on a base R <code>table()</code> object.</p>
 </div>
 </div>
 <div id="the-adorn_-functions" class="section level2">
@@ -335,11 +341,11 @@ humans <span class="op">%&gt;%</span>
 <p>You can also call <code>adorn_</code> functions on other data.frames, not only the results of calls to <code><a href="../reference/tabyl.html">tabyl()</a></code>. E.g., <code>mtcars %&gt;% adorn_totals("col") %&gt;% adorn_percentages("col")</code> performs as expected, despite <code>mtcars</code> not being a <code>tabyl</code>.</p>
 <p>This can be handy when you have a data.frame that is not a simple tabulation generated by <code>tabyl</code> but would still benefit from the <code>adorn_</code> formatting functions.</p>
 <p>A simple example: calculate the proportion of records meeting a certain condition, then format the results.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">percent_above_165_cm &lt;-<span class="st"> </span>humans <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(gender) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span>(<span class="dt">pct_above_165_cm =</span> <span class="kw">mean</span>(height <span class="op">&gt;</span><span class="st"> </span><span class="dv">165</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">percent_above_<span class="dv">165</span>_cm &lt;-<span class="st"> </span>humans <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(gender) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span>(<span class="dt">pct_above_165_cm =</span> <span class="kw">mean</span>(height <span class="op">&gt;</span><span class="st"> </span><span class="dv">165</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))
 
-percent_above_165_cm <span class="op">%&gt;%</span>
+percent_above_<span class="dv">165</span>_cm <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw"><a href="../reference/adorn_pct_formatting.html">adorn_pct_formatting</a></span>()
 <span class="co">#&gt; # A tibble: 2 x 2</span>
 <span class="co">#&gt;   gender pct_above_165_cm</span>
@@ -349,9 +355,9 @@ percent_above_165_cm <span class="op">%&gt;%</span>
 <p>Here’s a more complex example. We’ll create a table containing the mean of a 3rd variable when grouped by two other variables, then use <code>adorn_</code> functions to round the values and append Ns. The first part is pretty straightforward:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyr) <span class="co"># for spread()</span>
 mpg_by_cyl_and_am &lt;-<span class="st"> </span>mtcars <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(cyl, am) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span>(<span class="dt">mpg =</span> <span class="kw">mean</span>(mpg)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/tidyr/topics/spread">spread</a></span>(am, mpg)
+<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(cyl, am) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span>(<span class="dt">mpg =</span> <span class="kw">mean</span>(mpg)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="https://tidyr.tidyverse.org/reference/spread.html">spread</a></span>(am, mpg)
 
 mpg_by_cyl_and_am
 <span class="co">#&gt; # A tibble: 3 x 3</span>

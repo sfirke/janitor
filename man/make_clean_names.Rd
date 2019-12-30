@@ -4,9 +4,12 @@
 \alias{make_clean_names}
 \title{Cleans a vector of text, typically containing the names of an object.}
 \usage{
-make_clean_names(string, case = c("snake", "lower_camel", "upper_camel",
-  "screaming_snake", "lower_upper", "upper_lower", "all_caps",
-  "small_camel", "big_camel", "old_janitor", "parsed", "mixed"))
+make_clean_names(
+  string,
+  case = c("snake", "lower_camel", "upper_camel", "screaming_snake", "lower_upper",
+    "upper_lower", "all_caps", "small_camel", "big_camel", "old_janitor", "parsed",
+    "mixed", "none")
+)
 }
 \arguments{
 \item{string}{A character vector of names to clean.}
@@ -20,7 +23,7 @@ make_clean_names(string, case = c("snake", "lower_camel", "upper_camel",
  \item{\code{"lower_upper"} produces lowerUPPER}
  \item{\code{"upper_lower"} produces UPPERlower}
  \item{\code{old_janitor}: legacy compatibility option to preserve behavior of \code{clean_names} prior to addition of the "case" argument(janitor versions <= 0.3.1 )}.  Provided as a quick fix for old scripts broken by the changes to \code{clean_names} in janitor v1.0.
- \item{\code{"parsed"}, \code{"mixed"}, \code{"none"}, \code{"internal_parsing"}: less-common cases offered by \code{snakecase::to_any_case}.  See \code{\link[snakecase]{to_any_case}} for details.}
+ \item{\code{"parsed"}, \code{"mixed"}, \code{"none"}: less-common cases offered by \code{snakecase::to_any_case}.  See \code{\link[snakecase]{to_any_case}} for details.}
  }}
 }
 \value{
@@ -50,4 +53,7 @@ make_clean_names(names(x), "small_camel")
 # not run:
 # make_clean_names(names(poorly_named_df))
 
+}
+\seealso{
+\code{\link[snakecase]{to_any_case}}
 }

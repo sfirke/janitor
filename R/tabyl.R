@@ -75,16 +75,24 @@ tabyl.default <- function(dat, show_na = TRUE, show_missing_levels = TRUE, ...) 
     dat_df <- data.frame(dat, stringsAsFactors = is.factor(dat))
     names(dat_df)[1] <- "dat"
 
-
-    result <- dat_df %>% dplyr::count(dat)
+    # suppress a dplyr-specific warning message related to NA values in factors
+    # the suggestion to use forcats::fct_explicit_na is unnecessary and confusing
+    # source: https://stackoverflow.com/a/16521046/4470365
+    withCallingHandlers({
+      result <- dat_df %>% dplyr::count(dat)
+    }, warning = function(w) {
+      if (endsWith(conditionMessage(w), "fct_explicit_na\`"))
+        invokeRestart("muffleWarning")
+    })
 
     if (is.factor(dat) && show_missing_levels) {
       expanded <- tidyr::expand(result, dat)
-      result <- merge(
-        x = expanded, # can't use dplyr::left_join because as of 0.6.0, NAs don't match, and na_matches argument not present < 0.6.0
+      result <- merge( # can't use left_join b/c NA matching changed in 0.6.0
+        x = expanded,
         y = result,
         by = "dat",
-        all.x = TRUE
+        all.x = TRUE,
+        all.y = TRUE
       )
       result <- dplyr::arrange(result, dat) # restore sorting by factor level
     }
@@ -181,8 +189,15 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
       dplyr::slice(0))
   }
 
-  tabl <- dat %>%
-    dplyr::count(!! var1, !! var2)
+  # Suppress unnecessary dplyr warning - see this same code above
+  # in tabyl.default for more explanation
+  withCallingHandlers({
+    tabl <- dat %>%
+      dplyr::count(!! var1, !! var2)
+  }, warning = function(w) {
+    if (endsWith(conditionMessage(w), "fct_explicit_na\`"))
+      invokeRestart("muffleWarning")
+  })
 
   # Optionally expand missing factor levels.
   if (show_missing_levels) {
@@ -212,6 +227,11 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
 # a list of two-way frequency tables, split into a list on a third variable
 tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_levels = TRUE) {
   dat <- dplyr::select(dat, !! var1, !! var2, !! var3)
+  
+  # Keep factor levels for ordering the list at the end
+  if(is.factor(dat[[3]])){
+    third_levels_for_sorting <- levels(dat[[3]])
+  }
   dat[[3]] <- as.character(dat[[3]]) # don't want empty factor levels in the result list - they would be empty data.frames
 
   # grab class of 1st variable to restore it later
@@ -225,6 +245,9 @@ tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_level
   if (show_na && sum(is.na(dat[[3]])) > 0) {
     dat[[3]] <- factor(dat[[3]], levels = c(sort(unique(dat[[3]])), "NA_"))
     dat[[3]][is.na(dat[[3]])] <- "NA_"
+    if(exists("third_levels_for_sorting")){
+      third_levels_for_sorting <- c(third_levels_for_sorting, "NA_")
+    }
   }
 
   if (!show_missing_levels) { # this shows missing factor levels, to make the crosstabs consistent across each data.frame in the list based on values of var3
@@ -243,6 +266,11 @@ tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_level
     purrr::map(tabyl_2way, var1, var2, show_na = show_na, show_missing_levels = show_missing_levels) %>%
     purrr::map(reset_1st_col_status, col1_class, col1_levels) # reset class of var in 1st col to its input class, #168
 
+  # reorder when var 3 is a factor, per #250
+  if(exists("third_levels_for_sorting")){
+    result <- result[order(third_levels_for_sorting[third_levels_for_sorting %in% unique(dat[[3]])])] 
+  }
+  
   result
 }
 

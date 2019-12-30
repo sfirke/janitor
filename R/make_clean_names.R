@@ -16,6 +16,7 @@
 #'
 #' @return Returns the "cleaned" character vector.
 #' @export
+#' @seealso \code{\link[snakecase]{to_any_case}}
 #' @examples
 #' 
 #' # cleaning the names of a vector:
@@ -34,7 +35,7 @@
 make_clean_names <- function(string, case = c(
   "snake", "lower_camel", "upper_camel", "screaming_snake",
   "lower_upper", "upper_lower", "all_caps", "small_camel",
-  "big_camel", "old_janitor", "parsed", "mixed"
+  "big_camel", "old_janitor", "parsed", "mixed", "none"
 )) {
   
   # old behavior, to provide easy fix for people whose code breaks with the snakecase integration

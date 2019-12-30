@@ -1,9 +1,35 @@
-# janitor 1.1.1.9000
+# janitor 1.2.0.9000 (unreleased)
+
+## Minor features
+
+* A `quiet` argument was added to `remove_empty()` and `remove_constant()`  providing more information (when `FALSE`) (#70, thanks to **@jbkunst** for suggesting and **@billdenney** for implementing).
+* `row_to_names()` will now work on matrix input (#320, thanks to **@billdenney** for suggesting and implementing).
+
+## Bug fixes
+
+* The `name` argument to `adorn_totals()` is correctly applied to 3-way tabyls (#306)  Thanks to **@jzadra** for reporting.
+* `remove_constant()` works correctly with tibbles in addition to data.frames and matrices which already worked (thanks to **@billdenney** for implementing).
+
+# janitor 1.2.0 (2019-04-20)
 
 ## Major features
-The new function `make_clean_names()` takes a character vector and returns the cleaned text, with the same functionality as the existing `clean_names()`, which runs on a data.frame, manipulating its names. (#197, thanks **@tazinho** and everyone who contributed to the discussion).
 
-This new function can be supplied as a value for the `.name_repair` argument of `as_tibble()` in the latest development version of the `tibble` package (on GitHub as of September 2019).  For example: `as_tibble(iris, .name_repair = make_clean_names)`.
+* The new function `make_clean_names()` takes a character vector and returns the cleaned text, with the same functionality as the existing `clean_names()`, which runs on a data.frame, manipulating its names. (#197, thanks **@tazinho** and everyone who contributed to the discussion).
+
+This function can be supplied as a value for the `.name_repair` argument of `as_tibble()` in the `tibble` package.  For example: `as_tibble(iris, .name_repair = make_clean_names)`.
+
+* The new function `compare_df_cols()` compares the names and classes of columns in a set of supplied data.frames or tibbles, reporting on the specific columns that are or are not similar.  This is for the common use case where a set of data files should all have the same specifications but, in practice, may not. A companion function `compare_df_cols_same()` gives a `TRUE/FALSE` result indicating if the columns are the same (and therefore bindable, though FALSE is not definitive that binding will fail).
+
+  * Its helper function `describe_class()` is exported for developers who wish to extend it so that the `compare_df_` functions treat their custom classes appropriately.
+
+This feature (#50) took almost 3 years from conception to implementation.  Major thanks to **@billdenney** for making it happen!
+
+* A new function `round_to_fraction()` allows rounding to a fraction with specified denominator, e.g., to the nearest 1/7 (#235, thanks to **@billdenney** for suggesting & implementing).
+
+* The functions `janitor::chisq.test()` and `janitor::fisher.test()` to enable running these statistical tests from the base `stats` package on two-way `tabyl` objects.  While the package loading message says the base functions are masked, the base tests still run on `table` objects (#255, thanks **@juba** for implementing).
+
+* `remove_empty()` now has a companion function `remove_constant()` which removes columns containing only a single unique value, optionally ignoring `NA` (#222, thanks to **@billdenney** for suggesting & implementing).
+
 
 The new function `excel_time_to_numeric()` converts times from Excel that do not have accompanying dates into a number of seconds.  (#245, thanks to **@billdenney** for the feature.)
 
@@ -11,10 +37,20 @@ The new function `excel_time_to_numeric()` converts times from Excel that do not
 
 * `excel_numeric_to_date()` now returns a POSIXct object and includes a time zone. (#225, thanks to **@billdenney** for the feature.)
 
+* `clean_names()` can now be called on a *simple features* object from the `sf` package.  (#247, thanks to **@JosiahParry** for suggesting & implementing.)
+
+* `adorn_totals()` gains an argument `"name"` that allows the user to specify a value other than "Total" to appear as the name of the added row and/or column (#263).  Thanks to **@StephieLaPugh** for suggesting and **@daniel-barnett** for implementing.
+
+* `remove_empty()` and `remove_constant()` now work with matrices (returning a matrix).  (#215)  Thanks to **@jsta** for reporting and **@billdenney** for patching.
+
+* If the third variable in a three-way tabyl is a factor, the resulting list is sorted in order of its levels (#250).  Empty factor levels in the 3rd variable are still omitted regardless of the value of `show_missing_levels`.
+
 ## Bug fixes
 
-* `remove_empty()` now works with matrices (returning a matrix).  (#215)  Thanks to **@jsta** for reporting and **@billdenney** for patching.
 * `excel_numeric_to_date()` no longer gives an overflow error for integer input (for dates since 1968).  (#241)  Thanks to **@hideaki** for reporting and **@billdenney** for patching.
+
+* `clean_names()` and `make_clean_names()` now support 'none' as a case option, passed through to `snakecase::to_any_case()`. (#269) Thanks to **@andrewbarros** for reporting and patching.
+
 
 # janitor 1.1.1 (2018-07-30)
 
@@ -25,6 +61,7 @@ Patches a bug introduced in version 1.1.0 where `excel_numeric_to_date()` would 
 ## Bug fixes
 
 * `excel_numeric_to_date()` again handles `NA` correctly, in version 1.1.0 the function would error if any values of the input vector were `NA`. (#220). Thanks **@emilelatour** for reporting and **@billdenney** for patching.
+
 
 # janitor 1.1.0 (2018-07-17)
 
@@ -74,7 +111,7 @@ No further changes are planned to `clean_names()` and its results should be stab
 
 - `clean_names()` transliterates accented letters, e.g., `çãüœ` becomes `cauoe` [(#120)](https://github.com/sfirke/janitor/issues/120).  Thanks to **@fernandovmacedo**.
 
-- `clean_names()` offers multiple options for variable name styling.  In addition to `snake_case` output you can select `smallCamelCase`, `BigCamelCase`, `ALL_CAPS` and others. [(#131)](https://github.com/sfirke/janitor/issues/131).  
+- `clean_names()` offers multiple options for variable name styling.  In addition to `snake_case` output you can select `smallCamelCase`, `BigCamelCase`, `ALL_CAPS` and others. [(#131)](https://github.com/sfirke/janitor/issues/131).
   - Thanks to **@tazinho**, who wrote the [snakecase](https://github.com/Tazinho/snakecase/) package that janitor depends on to do this, as well as the patch to incorporate it into `clean_names()`.  And thanks to **@maelle** for proposing this feature.
 
 

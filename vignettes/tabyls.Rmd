@@ -130,6 +130,8 @@ However, if feels more natural to call these with `map()` or `lapply()`, that is
 + `NA` values can be displayed or suppressed
 + `tabyls` print without displaying row numbers
 
+You can call `chisq.test()` and `fisher.test()` on a two-way tabyl to perform those statistical tests, just like on a base R `table()` object.
+
 ## The `adorn_*` functions
 
 These modular functions build on a `tabyl` to  approximate the functionality of a PivotTable in Microsoft Excel.  They print elegant results for interactive analysis or for sharing in a report, e.g., with `knitr::kable()`.  For example:

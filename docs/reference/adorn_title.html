@@ -149,9 +149,9 @@
 <span class='co'># Adding a title to a non-tabyl</span>
 <span class='fu'>library</span>(<span class='no'>tidyr</span>); <span class='fu'>library</span>(<span class='no'>dplyr</span>)
 <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>gear</span>, <span class='no'>am</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='kw'>avg_mpg</span> <span class='kw'>=</span> <span class='fu'>mean</span>(<span class='no'>mpg</span>)) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='http://www.rdocumentation.org/packages/tidyr/topics/spread'>spread</a></span>(<span class='no'>gear</span>, <span class='no'>avg_mpg</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>gear</span>, <span class='no'>am</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='kw'>avg_mpg</span> <span class='kw'>=</span> <span class='fu'>mean</span>(<span class='no'>mpg</span>)) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/spread.html'>spread</a></span>(<span class='no'>gear</span>, <span class='no'>avg_mpg</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>adorn_title</span>(<span class='st'>"top"</span>, <span class='kw'>row_name</span> <span class='kw'>=</span> <span class='st'>"Gears"</span>, <span class='kw'>col_name</span> <span class='kw'>=</span> <span class='st'>"Cylinders"</span>)</div><div class='output co'>#&gt;                Cylinders             
 #&gt; 1 Gears                3      4     5
 #&gt; 2     0 16.1066666666667  21.05  &lt;NA&gt;

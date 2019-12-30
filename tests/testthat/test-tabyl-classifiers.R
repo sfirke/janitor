@@ -38,6 +38,14 @@ test_that("untabyl warns if called on non-tabyl", {
   )
 })
 
+test_that("untabyl automatically invokes purrr::map when called on a 3-way tabyl", {
+  three <- tabyl(mtcars, cyl, am, gear)
+  expect_equal(
+    untabyl(three), # vanilla call
+    purrr::map(three, untabyl)
+  )
+})
+
 test_that("as_tabyl is okay with non-numeric columns", {
   e <- b %>%
     dplyr::mutate(extra = "val")

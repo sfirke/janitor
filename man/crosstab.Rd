@@ -8,8 +8,7 @@
 \usage{
 crosstab(...)
 
-\method{crosstab}{default}(vec1, vec2, percent = "none",
-  show_na = TRUE, ...)
+\method{crosstab}{default}(vec1, vec2, percent = "none", show_na = TRUE, ...)
 
 \method{crosstab}{data.frame}(.data, ...)
 }

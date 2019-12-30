@@ -7,6 +7,7 @@
 #' @param where one of "row", "col", or \code{c("row", "col")}
 #' @param fill if there are multiple non-numeric columns, what string should fill the bottom row of those columns?
 #' @param na.rm should missing values (including NaN) be omitted from the calculations?
+#' @param name name of the totals column or row 
 #' @return Returns a data.frame augmented with a totals row, column, or both.  The data.frame is now also of class \code{tabyl} and stores information about the attached totals and underlying data in the tabyl attributes.
 #' @export
 #' @examples
@@ -15,10 +16,10 @@
 #'   adorn_totals()
 
 
-adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE) {
+adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "Total") {
   # if input is a list, call purrr::map to recursively apply this function to each data.frame
   if (is.list(dat) && !is.data.frame(dat)) {
-    purrr::map(dat, adorn_totals, where, fill, na.rm)
+    purrr::map(dat, adorn_totals, where, fill, na.rm, name)
   } else {
     if (!is.data.frame(dat)) {
       stop("adorn_totals() must be called on a data.frame or list of data.frames")
@@ -63,7 +64,7 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE) {
       }
 
       col_totals <- purrr::map_df(dat, col_sum)
-      col_totals[1, 1] <- "Total" # replace first column value with "Total"
+      col_totals[1, 1] <- name # replace first column value with name argument
       dat[(nrow(dat) + 1), ] <- col_totals[1, ] # insert totals_col as last row in dat
     }
 
@@ -75,7 +76,7 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE) {
         dplyr::select_if(is.numeric) %>%
         dplyr::transmute(Total = rowSums(., na.rm = na.rm))
 
-      dat$Total <- row_totals$Total
+      dat[[name]] <- row_totals$Total
     }
 
     dat

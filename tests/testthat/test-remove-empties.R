@@ -85,3 +85,80 @@ test_that("remove_empty single-column input results as the original class", {
                info="remove_empty with a data.frame that should return a single row and column still returns a data.frame")
 })
 
+test_that("remove_constant", {
+  expect_equal(
+    remove_constant(data.frame(A=1:2, B=1:2)),
+    data.frame(A=1:2, B=1:2),
+    info="Everything kept."
+  )
+  expect_equal(
+    remove_constant(data.frame(A=c(1, 1), B=c(2, 2))),
+    data.frame(A=1:2)[,-1],
+    info="All rows are kept, all columns are removed."
+  )
+  expect_equal(
+    remove_constant(data.frame(A=c(1, 1), B=c(2, 3))),
+    data.frame(B=2:3),
+    info="One column kept (not accidentally turned into a vector)"
+  )
+  expect_equal(
+    remove_constant(data.frame(A=NA, B=1:2)),
+    data.frame(B=1:2),
+    info="NA is dropped"
+  )
+  expect_equal(
+    remove_constant(data.frame(A=NA, B=c(NA, 1), C=c(1, NA), D=c(1, 1))),
+    data.frame(B=c(NA, 1), C=c(1, NA)),
+    info="NA with other values is kept"
+  )
+  expect_equal(
+    remove_constant(data.frame(A=NA, B=c(NA, 1, 2), C=c(1, 2, NA), D=c(1, 1, 1), E=c(1, NA, NA), F=c(NA, 1, 1), G=c(1, NA, 1)), na.rm=FALSE),
+    data.frame(B=c(NA, 1, 2), C=c(1, 2, NA), E=c(1, NA, NA), F=c(NA, 1, 1), G=c(1, NA, 1)),
+    info="NA with other values is kept without na.rm"
+  )
+  expect_equal(
+    remove_constant(data.frame(A=NA, B=c(NA, 1, 2), C=c(1, 2, NA), D=c(1, 1, 1), E=c(1, NA, NA), F=c(NA, 1, 1), G=c(1, NA, 1)), na.rm=TRUE),
+    data.frame(B=c(NA, 1, 2), C=c(1, 2, NA)),
+    info="NA with other values is kept with na.rm"
+  )
+  expect_equal(
+    remove_constant(tibble(A=NA, B=c(NA, 1, 2), C=1)),
+    tibble(B=c(NA, 1, 2)),
+    info="tibbles are correctly handled"
+  )
+})
+
+test_that("Messages are accurate with remove_empty and remove_constant", {
+  expect_message(
+    remove_empty(data.frame(A=NA, B=1), which="cols", quiet=FALSE),
+    regexp="Removing 1 empty columns of 2 columns total (Removed: A).",
+    fixed=TRUE
+  )
+  expect_message(
+    remove_empty(data.frame(A=NA, B=1, C=NA), which="cols", quiet=FALSE),
+    regexp="Removing 2 empty columns of 3 columns total (Removed: A, C).",
+    fixed=TRUE
+  )
+  expect_message(
+    remove_empty(data.frame(A=NA, B=c(1, NA)), which="rows", quiet=FALSE),
+    regexp="Removing 1 empty rows of 2 rows total (50%).",
+    fixed=TRUE
+  )
+  expect_message(
+    remove_empty(matrix(c(NA, NA, 1, NA), nrow=2), which="cols", quiet=FALSE),
+    regexp="Removing 1 empty columns of 2 columns total (50%).",
+    fixed=TRUE
+  )
+  expect_message(
+    remove_constant(matrix(c(NA, NA, 1, NA), nrow=2), quiet=FALSE),
+    regexp="Removing 1 constant columns of 2 columns total (50%).",
+    fixed=TRUE,
+    info="Unnamed, constant columns"
+  )
+  expect_silent(
+    remove_empty(data.frame(A=NA, B=1), which="cols", quiet=TRUE)
+  )
+  expect_silent(
+    remove_empty(data.frame(A=NA, B=c(1, NA)), which="rows", quiet=TRUE)
+  )
+})

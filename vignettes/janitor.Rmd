@@ -50,6 +50,32 @@ Compare to what base R produces:
 make.names(names(test_df))
 ```
 
+This function is now powered by the underlying exported function **`make_clean_names()`**, which accepts and returns a character vector of names (see below).  This allows for cleaning the names of *any* object, not just a data.frame.  `clean_names()` is retained for its convenience in piped workflows, and can be called on an `sf` simple features object in addition to a data.frame.   
+
+### Are those data.frames actually the same?  Check with `compare_df_cols()`
+
+For cases when you are given a set of data files that *should* be identical, and you wish to read and combine them for analysis.  But then `dplyr::bind_rows()` or `rbind()` fails, because of different columns or because the column classes don't match across data.frames.
+
+`compare_df_cols()` takes unquoted names of data.frames / tibbles, or a list of data.frames, and returns a summary of how they compare.  See what the column types are, which are missing or present in the different inputs, and how column types differ.
+
+```{r}
+df1 <- data.frame(a = 1:2, b = c("big", "small")) # a factor by default
+df2 <- data.frame(a = 10:12, b = c("medium", "small", "big"), c = 0, stringsAsFactors = FALSE)
+df3 <- df1 %>%
+  dplyr::mutate(b = as.character(b))
+
+compare_df_cols(df1, df2, df3)
+
+compare_df_cols(df1, df2, df3, return = "mismatch")
+compare_df_cols(df1, df2, df3, return = "mismatch", bind_method = "rbind") # default is dplyr::bind_rows
+```
+
+`compare_df_cols_same()` returns `TRUE` or `FALSE` indicating if the data.frames can be successfully row-bound with the given binding method:
+```{r}
+compare_df_cols_same(df1, df3)
+compare_df_cols_same(df2, df3)
+```
+
 ## Exploring
 
 ### `tabyl()` - a better version of `table()`
@@ -84,6 +110,15 @@ Smaller functions for use in particular situations.  More human-readable than th
 
 ## Cleaning
 
+### Manipulate vectors of names with `make_clean_names()`
+
+Like base R's `make.names()`, but with the stylings and case choice of the long-time janitor function `clean_names()`.  While `clean_names()` is still offered for use in  data.frame pipeline with `%>%`, `make_clean_names()` allows for more general usage, e.g., on a vector.
+
+It can also be used as an argument to `.name_repair` in the newest version of `tibble::as_tibble`:
+```{r}
+tibble::as_tibble(iris, .name_repair = janitor::make_clean_names)
+```
+
 ### `remove_empty()` rows and columns
 
 Does what it says.  For cases like cleaning Excel files that contain empty rows and columns after being read into R.
@@ -96,6 +131,17 @@ q %>%
 ```
 Just a simple wrapper for one-line functions, but it saves a little thinking for both the code writer and the reader.
 
+### `remove_constant()` columns
+
+Drops columns from a data.frame that contain only a single constant value (with an `na.rm` option to control whether NAs should be considered as different values from the constant).
+
+`remove_constant` and `remove_empty` work on matrices as well as data.frames.
+
+```{r}
+a <- data.frame(good = 1:3, boring = "the same")
+a %>% remove_constant()
+```
+
 ### Directionally-consistent rounding behavior with `round_half_up()`
 
 R uses "banker's rounding", i.e., halves are rounded to the nearest *even* number.  This function, an exact implementation of https://stackoverflow.com/questions/12688717/round-up-from-5/12688836#12688836, will round all halves up.  Compare:
@@ -105,8 +151,15 @@ round(nums)
 round_half_up(nums)
 ```
 
+### Round decimals to precise fractions of a given denominator with `round_to_fraction()`
+
+Say your data should only have values of quarters: 0, 0.25, 0.5, 0.75, 1, etc.  But there are either user-entered bad values like `0.2` or floating-point precision problems like `0.25000000001`.  `round_to_fraction()` will enforce the desired fractional distribution by rounding the values to the nearest value given the specified denominator.
+
+There's also a `digits` argument for optional subsequent rounding.
+
+
 ### Fix dates stored as serial numbers with `excel_numeric_to_date()`
-Ever load data from Excel and see a value like `42223` where a date should be?  This function converts those serial numbers to class `Date`, with options for different Excel date encoding systems and preserving fractions of a date as time (in which case the returned value is of class `POSIXlt`).
+Ever load data from Excel and see a value like `42223` where a date should be?  This function converts those serial numbers to class `Date`, with options for different Excel date encoding systems, preserving fractions of a date as time (in which case the returned value is of class `POSIXlt`), and specifying a time zone.
 ```{r}
 excel_numeric_to_date(41103)
 excel_numeric_to_date(41103.01) # ignores decimal places, returns Date object
@@ -114,14 +167,6 @@ excel_numeric_to_date(41103.01, include_time = TRUE) # returns POSIXlt object
 excel_numeric_to_date(41103.01, date_system = "mac pre-2011")
 ```
 
-### Manipulate vectors of names with `make_clean_names()`
-
-Like base R's `make.names()`, but with the stylings and case choice of the long-time janitor function `clean_names()`.  While `clean_names()` is still offered for use in  data.frame pipeline with `%>%`, `make_clean_names()` allows for more general usage, e.g., on a vector.
-
-It can also be used as an argument to `.name_repair` in the newest version of `tibble::as_tibble`:
-```{r}
-tibble::as_tibble(iris, .name_repair = janitor::make_clean_names)
-```
 
 ### Elevate column names stored in a data.frame row
 

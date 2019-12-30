@@ -18,5 +18,4 @@ This function is deprecated, use \code{remove_empty("cols")} instead.
 \examples{
 # not run:
 # dat \%>\% remove_empty_cols
-
 }

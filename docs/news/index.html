@@ -105,6 +105,48 @@
     </div>
 
     <div class="contents">
+    <div id="janitor-1-2-0-2019-04-20" class="section level1">
+<h1 class="page-header">
+<a href="#janitor-1-2-0-2019-04-20" class="anchor"></a>janitor 1.2.0 (2019-04-20)<small> Unreleased </small>
+</h1>
+<div id="major-features" class="section level2">
+<h2 class="hasAnchor">
+<a href="#major-features" class="anchor"></a>Major features</h2>
+<ul>
+<li>The new function <code><a href="../reference/make_clean_names.html">make_clean_names()</a></code> takes a character vector and returns the cleaned text, with the same functionality as the existing <code><a href="../reference/clean_names.html">clean_names()</a></code>, which runs on a data.frame, manipulating its names. (<a href='https://github.com/sfirke/janitor/issues/197'>#197</a>, thanks <strong><a href='http://github.com/tazinho'>@tazinho</a></strong> and everyone who contributed to the discussion).</li>
+</ul>
+<p>This function can be supplied as a value for the <code>.name_repair</code> argument of <code>as_tibble()</code> in the <code>tibble</code> package. For example: <code>as_tibble(iris, .name_repair = make_clean_names)</code>.</p>
+<ul>
+<li><p>The new function <code><a href="../reference/compare_df_cols.html">compare_df_cols()</a></code> compares the names and classes of columns in a set of supplied data.frames or tibbles, reporting on the specific columns that are or are not similar. This is for the common use case where a set of data files should all have the same specifications but, in practice, may not. A companion function <code><a href="../reference/compare_df_cols_same.html">compare_df_cols_same()</a></code> gives a <code>TRUE/FALSE</code> result indicating if the columns are the same (and therefore bindable, though FALSE is not definitive that binding will fail).</p></li>
+<li><p>Its helper function <code><a href="../reference/describe_class.html">describe_class()</a></code> is exported for developers who wish to extend it so that the <code>compare_df_</code> functions treat their custom classes appropriately.</p></li>
+</ul>
+<p>This feature (<a href='https://github.com/sfirke/janitor/issues/50'>#50</a>) took almost 3 years from conception to implementation. Major thanks to <strong><a href='http://github.com/billdenney'>@billdenney</a></strong> for making it happen!</p>
+<ul>
+<li><p>A new function <code><a href="../reference/round_to_fraction.html">round_to_fraction()</a></code> allows rounding to a fraction with specified denominator, e.g., to the nearest 1/7 (<a href='https://github.com/sfirke/janitor/issues/235'>#235</a>, thanks to <strong><a href='http://github.com/billdenney'>@billdenney</a></strong> for suggesting &amp; implementing).</p></li>
+<li><p>The functions <code><a href="../reference/chisq.test.html">janitor::chisq.test()</a></code> and <code><a href="../reference/fisher.test.html">janitor::fisher.test()</a></code> to enable running these statistical tests from the base <code>stats</code> package on two-way <code>tabyl</code> objects. While the package loading message says the base functions are masked, the base tests still run on <code>table</code> objects (<a href='https://github.com/sfirke/janitor/issues/255'>#255</a>, thanks <strong><a href='http://github.com/juba'>@juba</a></strong> for implementing).</p></li>
+<li><p><code><a href="../reference/remove_empty.html">remove_empty()</a></code> now has a companion function <code><a href="../reference/remove_constant.html">remove_constant()</a></code> which removes columns containing only a single unique value, optionally ignoring <code>NA</code> (<a href='https://github.com/sfirke/janitor/issues/222'>#222</a>, thanks to <strong><a href='http://github.com/billdenney'>@billdenney</a></strong> for suggesting &amp; implementing).</p></li>
+</ul>
+</div>
+<div id="minor-features" class="section level2">
+<h2 class="hasAnchor">
+<a href="#minor-features" class="anchor"></a>Minor features</h2>
+<ul>
+<li><p><code><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date()</a></code> now returns a POSIXct object and includes a time zone. (<a href='https://github.com/sfirke/janitor/issues/225'>#225</a>, thanks to <strong><a href='http://github.com/billdenney'>@billdenney</a></strong> for the feature.)</p></li>
+<li><p><code><a href="../reference/clean_names.html">clean_names()</a></code> can now be called on a <em>simple features</em> object from the <code>sf</code> package. (<a href='https://github.com/sfirke/janitor/issues/247'>#247</a>, thanks to <strong><a href='http://github.com/JosiahParry'>@JosiahParry</a></strong> for suggesting &amp; implementing.)</p></li>
+<li><p><code><a href="../reference/adorn_totals.html">adorn_totals()</a></code> gains an argument <code>"name"</code> that allows the user to specify a value other than “Total” to appear as the name of the added row and/or column (<a href='https://github.com/sfirke/janitor/issues/263'>#263</a>). Thanks to <strong><a href='http://github.com/StephieLaPugh'>@StephieLaPugh</a></strong> for suggesting and <strong><a href='http://github.com/daniel'>@daniel</a>-barnett</strong> for implementing.</p></li>
+<li><p><code><a href="../reference/remove_empty.html">remove_empty()</a></code> and <code><a href="../reference/remove_constant.html">remove_constant()</a></code> now work with matrices (returning a matrix). (<a href='https://github.com/sfirke/janitor/issues/215'>#215</a>) Thanks to <strong><a href='http://github.com/jsta'>@jsta</a></strong> for reporting and <strong><a href='http://github.com/billdenney'>@billdenney</a></strong> for patching.</p></li>
+<li><p>If the third variable in a three-way tabyl is a factor, the resulting list is sorted in order of its levels (<a href='https://github.com/sfirke/janitor/issues/250'>#250</a>). Empty factor levels in the 3rd variable are still omitted regardless of the value of <code>show_missing_levels</code>.</p></li>
+</ul>
+</div>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+<ul>
+<li><p><code><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date()</a></code> no longer gives an overflow error for integer input (for dates since 1968). (<a href='https://github.com/sfirke/janitor/issues/241'>#241</a>) Thanks to <strong><a href='http://github.com/hideaki'>@hideaki</a></strong> for reporting and <strong><a href='http://github.com/billdenney'>@billdenney</a></strong> for patching.</p></li>
+<li><p><code><a href="../reference/clean_names.html">clean_names()</a></code> and <code><a href="../reference/make_clean_names.html">make_clean_names()</a></code> now support ‘none’ as a case option, passed through to <code><a href="http://www.rdocumentation.org/packages/snakecase/topics/to_any_case">snakecase::to_any_case()</a></code>. (<a href='https://github.com/sfirke/janitor/issues/269'>#269</a>) Thanks to <strong><a href='http://github.com/andrewbarros'>@andrewbarros</a></strong> for reporting and patching.</p></li>
+</ul>
+</div>
+</div>
     <div id="janitor-1-1-1-2018-07-30" class="section level1">
 <h1 class="page-header">
 <a href="#janitor-1-1-1-2018-07-30" class="anchor"></a>janitor 1.1.1 (2018-07-30)<small> 2018-07-31 </small>
@@ -113,14 +155,14 @@
 <h2 class="hasAnchor">
 <a href="#release-summary" class="anchor"></a>Release summary</h2>
 <p>Patches a bug introduced in version 1.1.0 where <code><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date()</a></code> would fail if given an input vector containing an <code>NA</code> value.</p>
-<div id="bug-fixes" class="section level3">
-<h3 class="hasAnchor">
-<a href="#bug-fixes" class="anchor"></a>Bug fixes</h3>
+</div>
+<div id="bug-fixes-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes-1" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>
 <code><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date()</a></code> again handles <code>NA</code> correctly, in version 1.1.0 the function would error if any values of the input vector were <code>NA</code>. (<a href='https://github.com/sfirke/janitor/issues/220'>#220</a>). Thanks <strong><a href='http://github.com/emilelatour'>@emilelatour</a></strong> for reporting and <strong><a href='http://github.com/billdenney'>@billdenney</a></strong> for patching.</li>
 </ul>
-</div>
 </div>
 </div>
     <div id="janitor-1-1-0-2018-07-17" class="section level1">
@@ -132,14 +174,14 @@
 <a href="#release-summary-1" class="anchor"></a>Release summary</h2>
 <p>This release was requested by CRAN to address some minor package dependency issues. It also contains several updates and additions described below.</p>
 </div>
-<div id="major-features" class="section level2">
+<div id="major-features-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#major-features" class="anchor"></a>Major Features</h2>
+<a href="#major-features-1" class="anchor"></a>Major Features</h2>
 <p>The new function <code><a href="../reference/row_to_names.html">row_to_names()</a></code> handles the case where a dirty data file is read in with its names stored as a row of the data.frame, rather than in the names. This function sets the names of the data.frame to this row and optionally cleans up the rows above and including where the names were stored. Thanks to <strong><a href='http://github.com/billdenney'>@billdenney</a></strong> for writing this feature.</p>
 </div>
-<div id="minor-features" class="section level2">
+<div id="minor-features-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-features" class="anchor"></a>Minor features</h2>
+<a href="#minor-features-1" class="anchor"></a>Minor features</h2>
 <p><code><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date()</a></code> can now convert fractions of a day to time, e.g., <code><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date(43001.01, include_time = TRUE)</a></code> returns the POSIXlt value <code>"2017-09-23 00:14:24"</code>. Thanks to <strong><a href='http://github.com/billdenney'>@billdenney</a></strong>.</p>
 </div>
 <div id="breaking-changes" class="section level2">
@@ -167,7 +209,7 @@
 <a href="#a-fully-overhauled-tabyl" class="anchor"></a>A fully-overhauled <code>tabyl</code>
 </h3>
 <p><code><a href="../reference/tabyl.html">tabyl()</a></code> is now a single function that can count combinations of one, two, or three variables, ala base R’s <code>table()</code>. The resulting <code>tabyl</code> data.frames can be manipulated and formatted using a family of <code>adorn_</code> functions. See the <a href="http://sfirke.github.io/janitor/articles/tabyls.html">tabyls vignette</a> for more.</p>
-<p>The now-redundant legacy functions <code><a href="../reference/crosstab.html">crosstab()</a></code> and <code><a href="../reference/adorn_crosstab.html">adorn_crosstab()</a></code> have been deprecated, but remain in the package for now. Existing code that relies on the version of <code>tabyl</code> present in janitor versions &lt;= 0.3.1 will break if the <code>sort</code> argument was used, as that argument no longer exists in <code>tabyl</code> (use <code><a href="http://dplyr.tidyverse.org/reference/arrange.html">dplyr::arrange()</a></code> instead).</p>
+<p>The now-redundant legacy functions <code><a href="../reference/crosstab.html">crosstab()</a></code> and <code><a href="../reference/adorn_crosstab.html">adorn_crosstab()</a></code> have been deprecated, but remain in the package for now. Existing code that relies on the version of <code>tabyl</code> present in janitor versions &lt;= 0.3.1 will break if the <code>sort</code> argument was used, as that argument no longer exists in <code>tabyl</code> (use <code><a href="https://dplyr.tidyverse.org/reference/arrange.html">dplyr::arrange()</a></code> instead).</p>
 </div>
 <div id="improvements-to-clean_names" class="section level3">
 <h3 class="hasAnchor">
@@ -179,9 +221,9 @@
 <p>No further changes are planned to <code><a href="../reference/clean_names.html">clean_names()</a></code> and its results should be stable from version 1.0.0 onward.</p>
 </div>
 </div>
-<div id="major-features-1" class="section level2">
+<div id="major-features-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#major-features-1" class="anchor"></a>Major Features</h2>
+<a href="#major-features-2" class="anchor"></a>Major Features</h2>
 <ul>
 <li><p><code><a href="../reference/clean_names.html">clean_names()</a></code> transliterates accented letters, e.g., <code>çãüœ</code> becomes <code>cauoe</code> <a href="https://github.com/sfirke/janitor/issues/120">(<a href='https://github.com/sfirke/janitor/issues/120'>#120</a>)</a>. Thanks to <strong><a href='http://github.com/fernandovmacedo'>@fernandovmacedo</a></strong>.</p></li>
 <li>
@@ -195,9 +237,9 @@
 <li><p>The new <code><a href="../reference/adorn_title.html">adorn_title()</a></code> function adds the name of the 2nd <code>tabyl</code> variable (i.e., the name of the column variable). This un-tidies the data.frame but makes the result clearer to readers <a href="https://github.com/sfirke/janitor/issues/77">(<a href='https://github.com/sfirke/janitor/issues/77'>#77</a>)</a></p></li>
 </ul>
 </div>
-<div id="minor-features-1" class="section level2">
+<div id="minor-features-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-features-1" class="anchor"></a>Minor Features</h2>
+<a href="#minor-features-2" class="anchor"></a>Minor Features</h2>
 <ul>
 <li>The utility function <code><a href="../reference/round_half_up.html">round_half_up()</a></code> is now exported for public use. It’s an exact implementation of <a href="http://stackoverflow.com/questions/12688717/round-up-from-5-in-r/12688836<a href='https://github.com/sfirke/janitor/issues/12688836'>#12688836</a>" class="uri">http://stackoverflow.com/questions/12688717/round-up-from-5-in-r/12688836<a href='https://github.com/sfirke/janitor/issues/12688836'>#12688836</a></a>, written by <strong><a href='http://github.com/mrdwab'>@mrdwab</a></strong>.</li>
 <li>
@@ -206,9 +248,9 @@
 <code><a href="../reference/clean_names.html">clean_names()</a></code> now retains the character <code>#</code> as <code>"number"</code> in the resulting names</li>
 </ul>
 </div>
-<div id="bug-fixes-1" class="section level2">
+<div id="bug-fixes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-1" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-2" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>
 <code><a href="../reference/adorn_totals.html">adorn_totals("row")</a></code> handles quirky variable names in 1st column <a href="https://github.com/sfirke/janitor/issues/118">(<a href='https://github.com/sfirke/janitor/issues/118'>#118</a>)</a>
@@ -251,26 +293,26 @@
 <li>The first argument of <code><a href="../reference/adorn_crosstab.html">adorn_crosstab()</a></code> is now “dat” instead of “crosstab” (indicating that the function can be called on any data.frame, not just a result of <code><a href="../reference/crosstab.html">crosstab()</a></code>)</li>
 </ul>
 </div>
-<div id="major-features-2" class="section level2">
+<div id="major-features-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#major-features-2" class="anchor"></a>Major Features</h2>
+<a href="#major-features-3" class="anchor"></a>Major Features</h2>
 <ul>
 <li>Exported the <code>%&gt;%</code> pipe from magrittr <a href="https://github.com/sfirke/janitor/issues/107">(<a href='https://github.com/sfirke/janitor/issues/107'>#107</a>)</a>.</li>
 </ul>
 <p><strong>Deprecated the following functions:</strong></p>
 <ul>
 <li>
-<code><a href="../reference/use_first_valid_of.html">use_first_valid_of()</a></code> - use <code><a href="http://dplyr.tidyverse.org/reference/coalesce.html">dplyr::coalesce()</a></code> instead</li>
+<code><a href="../reference/use_first_valid_of.html">use_first_valid_of()</a></code> - use <code><a href="https://dplyr.tidyverse.org/reference/coalesce.html">dplyr::coalesce()</a></code> instead</li>
 <li>
-<code><a href="../reference/convert_to_NA.html">convert_to_NA()</a></code> - use <code><a href="http://dplyr.tidyverse.org/reference/na_if.html">dplyr::na_if()</a></code> instead</li>
+<code><a href="../reference/convert_to_NA.html">convert_to_NA()</a></code> - use <code><a href="https://dplyr.tidyverse.org/reference/na_if.html">dplyr::na_if()</a></code> instead</li>
 <li>
 <code><a href="../reference/add_totals_row.html">add_totals_row()</a></code> and <code><a href="../reference/add_totals_col.html">add_totals_col()</a></code> - replaced by the single function <code><a href="../reference/adorn_totals.html">adorn_totals()</a></code>
 </li>
 </ul>
 </div>
-<div id="minor-features-2" class="section level2">
+<div id="minor-features-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-features-2" class="anchor"></a>Minor Features</h2>
+<a href="#minor-features-3" class="anchor"></a>Minor Features</h2>
 <ul>
 <li>
 <code><a href="../reference/adorn_totals.html">adorn_totals()</a></code> and <code>ns_to_percents()</code> can now be called on data.frames that have non-numeric columns beyond the first one (those columns will be ignored) <a href="https://github.com/sfirke/janitor/issues/57">(<a href='https://github.com/sfirke/janitor/issues/57'>#57</a>)</a>
@@ -279,9 +321,9 @@
 <code><a href="../reference/adorn_totals.html">adorn_totals("col")</a></code> retains factor class in 1st column if 1st column in the input data.frame was a factor</li>
 </ul>
 </div>
-<div id="bug-fixes-2" class="section level2">
+<div id="bug-fixes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-2" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-3" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>
 <code><a href="../reference/clean_names.html">clean_names()</a></code> now handles leading spaces <a href="https://github.com/sfirke/janitor/issues/85">(<a href='https://github.com/sfirke/janitor/issues/85'>#85</a>)</a>
@@ -304,9 +346,9 @@
 <h1 class="page-header">
 <a href="#janitor-0-2-1-2016-10-30" class="anchor"></a>janitor 0.2.1 (2016-10-30)<small> 2016-10-31 </small>
 </h1>
-<div id="bug-fixes-3" class="section level2">
+<div id="bug-fixes-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-3" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-4" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>
 <code><a href="../reference/tabyl.html">tabyl()</a></code> and <code><a href="../reference/crosstab.html">crosstab()</a></code> now appear in the package manual <a href="https://github.com/sfirke/janitor/issues/65">(<a href='https://github.com/sfirke/janitor/issues/65'>#65</a>)</a>
@@ -343,9 +385,9 @@
 </ul>
 </div>
 </div>
-<div id="bug-fixes-4" class="section level2">
+<div id="bug-fixes-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-4" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-5" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Can call tabyl() on the result of a tabyl(), e.g., <code>mtcars %&gt;% tabyl(mpg) %&gt;% tabyl(n)</code> <a href="https://github.com/sfirke/janitor/issues/54">(<a href='https://github.com/sfirke/janitor/issues/54'>#54</a>)</a>
 </li>
@@ -425,6 +467,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#janitor-1-2-0-2019-04-20">1.2.0</a></li>
         <li><a href="#janitor-1-1-1-2018-07-30">1.1.1</a></li>
         <li><a href="#janitor-1-1-0-2018-07-17">1.1.0</a></li>
         <li><a href="#janitor-1-0-0-2018-03-17">1.0.0</a></li>

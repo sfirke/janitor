@@ -1,28 +1,28 @@
 # Submission
-2018-07-30
+2019-04-20
 
 ## Submission summary
-Fixes a bug recently introduced in the v1.1.0 release of janitor, whereby a function began inappropriately failing if provided NA values.
+I fixed a test that was failing as a result of the change to `base::sample()` and am submitting this update per CRAN request.  I've also incorporated new functionality & bug fixes accumulated over the last 9 months since 1.1.1 went to CRAN.
 
 ### Test environments
 
 #### Windows
-* win-builder with R Under development (unstable) (2018-07-23 r75001)
+* win-builder with R-release 3.5.3 (2019-03-11)
+* Windows 10 with R-oldrel 3.5.0 (local)
 
 #### Linux
-* ubuntu 16.04.3, R-oldrel 3.4.4 (local)
-* ubuntu 14.04.5, R-oldrel 3.4.4 (Travis CI)
-* ubuntu 14.04.5 R-release 3.5.0 (Travis CI)
-* ubuntu 14.04.5 R-devel R Under development (unstable) (2018-06-20 r74923) (Travis CI)
+* ubuntu 18.04.2, R-oldrel 3.4.4  (local)
+* ubuntu 14.04.5 R-release 3.5.3 (Travis CI)
+* ubuntu 14.04.5 R-devel R  Under development (unstable) (2019-04-20 r76407) (Travis CI)
 
 #### Mac
-* OS X Sierra 10.12.6, R-oldrel 3.4.4 (Travis CI)
-* OS X Sierra 10.12.6, R-release 3.5.0 (Travis CI)
+* OS X High Sierra 10.13.3, R-oldrel 3.4.4 (Travis CI)
+* OS X High Sierra 10.13.3, R-release 3.5.3 (Travis CI)
 
 ### R CMD check results
 0 errors | 0 warnings | 0 notes
 
 ### Downstream dependencies
-This bugfix release fixes one specific bug recently introduced ago; it does not affect downstream dependencies.  If anything, this update would cause code reliant on the buggy function to work again.
+The nature of changes to janitor in 1.2.0 should not introduce breakage for downstream dependencies.
 
-I checked 7 reverse dependencies from CRAN: ballr, bomrang, driftR, fivethirtyeight, moderndive, postal, questionr.  I get some unrelated notes but nothing having to do with this update.
+I checked the 8 reverse dependencies from CRAN: ballr, bomrang, CGPfunctions, congressbr, driftR, fivethirtyeight, moderndive, questionr.  There was an error in congressbr, but it is unrelated to janitor (that package currently has errors in its CRAN check results).
