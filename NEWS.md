@@ -3,7 +3,8 @@
 ## Minor features
 
 * A `quiet` argument was added to `remove_empty()` and `remove_constant()`  providing more information (when `FALSE`) (#70, thanks to **@jbkunst** for suggesting and **@billdenney** for implementing).
-* `row_to_names()` will now work on matrix input (#320, thanks to **@billdenney** for suggesting and implementing).
+* `row_to_names()` will now work on matrix input (#320, thanks to **@billdenney** for suggesting and implementing
+* The new function `signif_half_up()` rounds a numeric vector to the specified number of significant digits with halves rounded up (#314, thanks to **@khueyama** for suggesting and implementing). 
 
 ## Bug fixes
 
