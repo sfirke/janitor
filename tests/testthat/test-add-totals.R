@@ -74,7 +74,7 @@ test_that("order doesn't matter when row and col are called together", {
 })
 
 test_that("both functions work with a single column", {
-  single_col <- data_frame(
+  single_col <- tibble(
     a = c(as.Date("2016-01-01"), as.Date("2016-02-03")),
     b = c(1, 2)
   )
@@ -146,8 +146,8 @@ test_that("add_totals respects if input was data.frame", {
 
 test_that("add_totals respects if input was data_frame", {
   expect_equal(
-    class(df1 %>% as_data_frame()),
-    class(df1 %>% as_data_frame() %>% adorn_totals() %>% untabyl())
+    class(df1 %>% as_tibble()),
+    class(df1 %>% as_tibble() %>% adorn_totals() %>% untabyl())
   )
 })
 

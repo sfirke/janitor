@@ -1,3 +1,10 @@
+# janitor 1.2.1 (2020-01-22)
+
+This is a trivial update that updates tests to match changes to output messages and function names in packages that janitor depends on.  Only tests were changed, no function code was altered, so there is no effect on the user.
+
+Actual updates to come in janitor 1.3.0.
+
+
 # janitor 1.2.0 (2019-04-20)
 
 ## Major features

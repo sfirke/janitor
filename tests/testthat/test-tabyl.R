@@ -183,13 +183,6 @@ test_that("grouped data.frame inputs are handled (#125)", {
   )
 })
 
-
-test_that("if called on non-existent vector, returns useful error message", {
-  expect_error(tabyl(mtcars$moose), "object mtcars\\$moose not found")
-  expect_error(tabyl(moose), "object 'moose' not found")
-  expect_error(mtcars %>% tabyl(moose), "object 'moose' not found")
-})
-
 test_that("if called on data.frame with no or irregular columns specified, returns informative error message", {
   expect_error(tabyl(mtcars), "if calling on a data.frame, specify unquoted column names(s) to tabulate.  Did you mean to call tabyl() on a vector?",
     fixed = TRUE

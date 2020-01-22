@@ -1,6 +1,6 @@
 Package: janitor
 Title: Simple Tools for Examining and Cleaning Dirty Data
-Version: 1.2.0
+Version: 1.2.1
 Authors@R: c(person("Sam", "Firke", email = "samuel.firke@gmail.com", role = c("aut", "cre")),
     person("Bill", "Denney", email = "wdenney@humanpredictions.com", role = "ctb"),
     person("Chris", "Haid", email = "chrishaid@gmail.com", role = "ctb"),
@@ -29,7 +29,7 @@ Imports:
     rlang
 License: MIT + file LICENSE
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 Suggests:
     testthat,
     knitr,
