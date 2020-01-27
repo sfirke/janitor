@@ -37,5 +37,7 @@ Suggests:
     rmarkdown,
     sf,
     tibble
+remotes:
+    r-lib/tidyselect
 VignetteBuilder: knitr
 Encoding: UTF-8
