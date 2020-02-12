@@ -1,3 +1,9 @@
+# janitor 1.4.0
+
+## Major features
+
+* The function `get_dupes()` now uses tidyselect specification, the same as many tidyverse functions such as `dplyr::select()`.  This allows removal of columns to be considered using `-column_name` as well as the matching functions `starts_with()`, `ends_with()`, `contains()`, and `matches()`.
+
 # janitor 1.2.0.9000 (unreleased)
 
 ## Minor features
