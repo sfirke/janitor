@@ -26,7 +26,7 @@ test_that("instances of no dupes throw correct messages, return empty df", {
 })
 
 test_that("incorrect variable names are handled", {
-  expect_error(get_dupes(mtcars, x), "These variables do not match column names in mtcars: x")
+  expect_error(get_dupes(mtcars, x))
 })
 
 test_that("works on variables with irregular names", {
@@ -36,4 +36,10 @@ test_that("works on variables with irregular names", {
     c(10, 13)
   ) # does it return the right-sized result?
   expect_is(badname_df %>% get_dupes(), "data.frame") # test for success, i.e., produces a data.frame (with 0 rows)
+})
+
+test_that("tidyselect specification matches exact specification", {
+  expect_equal(mtcars %>% get_dupes(contains("cy"), mpg), mtcars %>% get_dupes(cyl, mpg))
+  expect_equal(mtcars %>% get_dupes(mpg), mtcars %>% get_dupes(-c(cyl, disp, hp, drat, wt, qsec, vs, am ,gear, carb)))
+  expect_equal(suppressMessages(mtcars %>% select(cyl, wt) %>% get_dupes()), mtcars %>% select(cyl, wt) %>% get_dupes(everything()))
 })
