@@ -1,21 +1,25 @@
-# janitor 1.4.0
+# janitor 1.2.1.9000 (unreleased), will be v 1.3.0
 
 ## Major features
 
 * The function `get_dupes()` now uses tidyselect specification, the same as many tidyverse functions such as `dplyr::select()`.  This allows removal of columns to be considered using `-column_name` as well as the matching functions `starts_with()`, `ends_with()`, `contains()`, and `matches()`.
 
-# janitor 1.2.0.9000 (unreleased)
-
 ## Minor features
 
 * A `quiet` argument was added to `remove_empty()` and `remove_constant()`  providing more information (when `FALSE`) (#70, thanks to **@jbkunst** for suggesting and **@billdenney** for implementing).
+
 * `row_to_names()` will now work on matrix input (#320, thanks to **@billdenney** for suggesting and implementing
+
 * The new function `signif_half_up()` rounds a numeric vector to the specified number of significant digits with halves rounded up (#314, thanks to **@khueyama** for suggesting and implementing). 
 
 ## Bug fixes
 
 * The `name` argument to `adorn_totals()` is correctly applied to 3-way tabyls (#306)  Thanks to **@jzadra** for reporting.
 * `remove_constant()` works correctly with tibbles in addition to data.frames and matrices which already worked (thanks to **@billdenney** for implementing).
+
+# janitor 1.2.1 (2020-01-22)
+
+Adjusted a single test to account for a different error message produced by the `tidyselect` package.  No changes to package functionality.
 
 # janitor 1.2.0 (2019-04-20)
 
