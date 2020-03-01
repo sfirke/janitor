@@ -52,6 +52,7 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
       # to allow binding of "Total" and "-" onto date, factor columns 
       not_numerics <- vapply(dat, function(x) !is.numeric(x), NA)
       dat[not_numerics] <- lapply(dat[not_numerics], as.character)
+      dat[[1]] <- as.character(dat[[1]])
       
       
       # creates the totals row to be appended
