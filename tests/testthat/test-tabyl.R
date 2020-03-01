@@ -225,7 +225,8 @@ test_that("show_missing_levels parameter works", {
     list(lvl1 = data.frame(
       a = c("hi", "lo"),
       big = c(0, 0),
-      small = c(1, 0)
+      small = c(1, 0),
+      stringsAsFactors = TRUE
     ) %>% as_tabyl(2, "a", "b"))
   )
   expect_equal(
