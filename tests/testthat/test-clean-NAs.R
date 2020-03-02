@@ -5,7 +5,8 @@ context("recoding of string NA values into NAs")
 
 test_df <- data.frame(
   v1 = c(1, NA, 3),
-  v_fac = c("a", "a", "b")
+  v_fac = c("a", "a", "b"),
+  stringsAsFactors = TRUE
 )
 test_df$v2 <- c("NA", "#NAME?", "n/a") # this one will be character, not factor
 

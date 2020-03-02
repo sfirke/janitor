@@ -7,7 +7,8 @@ library(dplyr)
 
 dat <- data.frame(
   a = c(rep(c("big", "small", "big"), 3)),
-  b = c(1:3, 1:3, 1, 1, 1)
+  b = c(1:3, 1:3, 1, 1, 1),
+  stringsAsFactors = TRUE
 )
 ct <- dat %>%
   tabyl(a, b)
