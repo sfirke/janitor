@@ -23,6 +23,8 @@ adorn_ns <- function(dat, position = "rear", ns = attr(dat, "core")) {
     purrr::map(dat, adorn_ns, position) # okay not to pass ns and allow for static Ns, b/c one size fits all for each list entry doesn't make sense for Ns.
   } else {
     
+    ns_provided <- !missing(ns)
+    
     # catch bad inputs
     if (!is.data.frame(dat)) {
       stop("adorn_ns() must be called on a data.frame or list of data.frames")
@@ -57,16 +59,27 @@ adorn_ns <- function(dat, position = "rear", ns = attr(dat, "core")) {
 
     if (position == "rear") {
       result <- paste_matrices(dat, ns %>%
-        dplyr::mutate_all(as.character) %>%
-        dplyr::mutate_all(wrap_parens) %>%
-        dplyr::mutate_all(standardize_col_width))
+                                 dplyr::mutate_all(as.character) %>%
+                                 dplyr::mutate_all(wrap_parens) %>%
+                                 dplyr::mutate_all(standardize_col_width))
     } else if (position == "front") {
       result <- paste_matrices(ns, dat %>%
-        dplyr::mutate_all(as.character) %>%
-        dplyr::mutate_all(wrap_parens) %>%
-        dplyr::mutate_all(standardize_col_width))
+                                 dplyr::mutate_all(as.character) %>%
+                                 dplyr::mutate_all(wrap_parens) %>%
+                                 dplyr::mutate_all(standardize_col_width))
     }
     attributes(result) <- attrs
+    
+    # Reset columns that were character in the default core attribute, #195
+    # Eventually this would ideally be supplemented with or replaced by giving users the option to select cols
+    if(!ns_provided){
+      non_numeric_cols <- which(vapply(ns, purrr::negate(is.numeric), logical(1)))
+      non_numeric_cols <- unique(c(1, non_numeric_cols)) # always don't-append first column
+      for(i in non_numeric_cols){
+          result[[i]] <- dat[[i]]
+      }
+    }
+    
     result
   }
 }
@@ -81,8 +94,7 @@ paste_matrices <- function(front, rear) {
   # paste the results together
   pasted <- paste(front_matrix, " ", rear_matrix, sep = "") %>% # paste the matrices
     matrix(., nrow = nrow(front_matrix), dimnames = dimnames(rear_matrix)) %>% # cast as matrix, then data.frame
-    dplyr::as_data_frame()
-  pasted[[1]] <- front[[1]] # undo the pasting in this 1st column
+    dplyr::as_tibble()
   pasted
 }
 
