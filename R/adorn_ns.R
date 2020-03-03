@@ -72,14 +72,16 @@ adorn_ns <- function(dat, position = "rear", ns = attr(dat, "core")) {
     
     # Reset columns that were character in the default core attribute, #195
     # Eventually this would ideally be supplemented with or replaced by giving users the option to select cols
-    if(!ns_provided){
+
+    if(!ns_provided) { # leave character cols untouched if user didn't supply Ns
       non_numeric_cols <- which(vapply(ns, purrr::negate(is.numeric), logical(1)))
+    } else { # if user supplied custom Ns, all columns beyond the first are adjusted.
+      non_numeric_cols <- numeric()
+    }
       non_numeric_cols <- unique(c(1, non_numeric_cols)) # always don't-append first column
       for(i in non_numeric_cols){
           result[[i]] <- dat[[i]]
       }
-    }
-    
     result
   }
 }
