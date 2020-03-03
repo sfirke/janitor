@@ -2,7 +2,10 @@
 
 ## Major features
 
-* The function `get_dupes()` now uses tidyselect specification, the same as many tidyverse functions such as `dplyr::select()`.  This allows removal of columns to be considered using `-column_name` as well as the matching functions `starts_with()`, `ends_with()`, `contains()`, and `matches()`.
+* The variables considered by the function `get_dupes()` can be specified using the select helper functions from `tidyselect`.  This includes `-column_name` to omit a variable as well as the matching functions `starts_with()`, `ends_with()`, `contains()`, and `matches()`.  See `?tidyselect::select_helpers` for more (#326, thanks to **@jzadra** for suggesting and implementing).
+
+
+* The new function `signif_half_up()` rounds a numeric vector to the specified number of significant digits with halves rounded up (#314, thanks to **@khueyama** for suggesting and implementing). 
 
 ## Minor features
 
@@ -10,12 +13,15 @@
 
 * `row_to_names()` will now work on matrix input (#320, thanks to **@billdenney** for suggesting and implementing
 
-* The new function `signif_half_up()` rounds a numeric vector to the specified number of significant digits with halves rounded up (#314, thanks to **@khueyama** for suggesting and implementing). 
 
 ## Bug fixes
 
-* The `name` argument to `adorn_totals()` is correctly applied to 3-way tabyls (#306)  Thanks to **@jzadra** for reporting.
+* `adorn_ns()` doesn't append anything to character columns when called on a data.frame resulting from a call to `adorn_percentages()`.  (#195).
+
+* The `name` argument to `adorn_totals()` is correctly applied to 3-way tabyls (#306) (thanks to **@jzadra** for reporting).
+
 * `remove_constant()` works correctly with tibbles in addition to data.frames and matrices which already worked (thanks to **@billdenney** for implementing).
+
 
 # janitor 1.2.1 (2020-01-22)
 
