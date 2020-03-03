@@ -9,9 +9,11 @@
 #' @export
 #' @examples
 #' get_dupes(mtcars, mpg, hp)
+#' 
 #' # or called with the magrittr pipe %>% :
 #' mtcars %>% get_dupes(wt)
-#' # or using tidyselect:
+#' 
+#' # You can use tidyselect helpers to specify variables:
 #' mtcars %>% get_dupes(weight = wt, starts_with("cy"))
 #'
 
