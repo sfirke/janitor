@@ -5,7 +5,7 @@ context("adorn_ns()")
 
 library(dplyr)
 
-source_an <- data_frame(
+source_an <- tibble(
   x = c(rep("a", 500), "b", "b", "c", "d"),
   y = rep(c(0, 0, 0, 0, 0, 1), 84)
 ) %>%
@@ -158,4 +158,20 @@ test_that("automatically invokes purrr::map when called on a 3-way tabyl", {
 
 test_that("non-data.frame inputs are handled", {
   expect_error(adorn_ns(1:5), "adorn_ns() must be called on a data.frame or list of data.frames", fixed = TRUE)
+})
+
+test_that("multiple character columns in a tabyl are left untouched",{
+  small_with_char <- data.frame(
+    x = letters[1:2],
+    a = 1:2,
+    b = 3:4,
+    text = "text",
+    stringsAsFactors = FALSE
+  )
+ expect_equal(
+   small_with_char %>%
+    adorn_percentages() %>%
+     pull(text),
+   c("text", "text")
+  )
 })
