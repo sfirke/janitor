@@ -3,17 +3,119 @@
 library(janitor)
 context("clean_names")
 
-test_df <- data.frame(matrix(ncol = 20) %>% as.data.frame())
-names(test_df) <- c(
-  "sp ace", "repeated", "a**^@", "%", "*", "!",
-  "d(!)9", "REPEATED", "can\"'t", "hi_`there`", "  leading spaces",
-  "â‚¬", "aÃ§Ã£o", "FarÅ“", "a b c d e f", "testCamelCase", "!leadingpunct",
-  "average # of days", "jan2009sales", "jan 2009 sales"
-)
+testing_vector <-
+  c(
+    "sp ace",
+    "repeated",
+    "a**^@",
+    "%",
+    "*",
+    "!",
+    "d(!)9",
+    "REPEATED",
+    "can\"'t",
+    "hi_`there`",
+    "  leading spaces",
+    "â‚¬",
+    "aÃ§Ã£o",
+    "FarÅ“",
+    "a b c d e f",
+    "testCamelCase",
+    "!leadingpunct",
+    "average # of days",
+    "jan2009sales",
+    "jan 2009 sales",
+    "not_first_unicode_µ",
+    "µ_first_unicode"
+  )
+result_vector_noascii <-
+  c(
+    "sp_ace", # spaces
+    "repeated", # first instance of repeat
+    "a", # multiple special chars, trailing special chars
+    "percent", # converting % to percent
+    "x", # 100% invalid name
+    "x_2", # repeat of invalid name
+    "d_9", # multiple special characters
+    "repeated_2", # uppercase, 2nd instance of repeat
+    "cant", # uppercase, 2nd instance of repeat
+    "hi_there", # double-underscores to single
+    "leading_spaces", # leading spaces
+    "x_3", # euro sign, invalid
+    "acao", # accented word, transliterated to latin,
+    "faroe", # Å“ character was failing to convert on Windows, should work universally for stringi 1.1.6 or higher
+    # https://github.com/sfirke/janitor/issues/120#issuecomment-303385418
+    "a_b_c_d_e_f", # for testing alternating cases below with e.g., case = "upper_lower"
+    "test_camel_case", # for testing alternating cases below with e.g., case = "upper_lower"
+    "leadingpunct", # for testing alternating cases below with e.g., case = "upper_lower"
+    "average_number_of_days", # for testing alternating cases below with e.g., case = "upper_lower"
+    "jan2009sales", # no separator around number-word boundary if not existing already
+    "jan_2009_sales", # yes separator around number-word boundary if it existed
+    "not_first_unicode_µ",
+    "µ_first_unicode"
+  )
 
-clean <- clean_names(test_df, "snake")
+result_vector_ascii <-
+  c(
+    "sp_ace", # spaces
+    "repeated", # first instance of repeat
+    "a", # multiple special chars, trailing special chars
+    "percent", # converting % to percent
+    "x", # 100% invalid name
+    "x_2", # repeat of invalid name
+    "d_9", # multiple special characters
+    "repeated_2", # uppercase, 2nd instance of repeat
+    "cant", # uppercase, 2nd instance of repeat
+    "hi_there", # double-underscores to single
+    "leading_spaces", # leading spaces
+    "ac_a_a", # euro sign, converted
+    "a_a_a_o", # accented word, transliterated to latin,
+    "far_a_a", # Å“ character was failing to convert on Windows, should work universally for stringi 1.1.6 or higher
+    # https://github.com/sfirke/janitor/issues/120#issuecomment-303385418
+    "a_b_c_d_e_f", # for testing alternating cases below with e.g., case = "upper_lower"
+    "test_camel_case", # for testing alternating cases below with e.g., case = "upper_lower"
+    "leadingpunct", # for testing alternating cases below with e.g., case = "upper_lower"
+    "average_number_of_days", # for testing alternating cases below with e.g., case = "upper_lower"
+    "jan2009sales", # no separator around number-word boundary if not existing already
+    "jan_2009_sales", # yes separator around number-word boundary if it existed
+    "not_first_unicode_µ",
+    "µ_first_unicode"
+  )
 
-test_that("Names are cleaned appropriately", {
+# Tests for make_clean_names ####
+
+test_that("make_clean_names are tested appropriately", {
+  expect_equal(
+    make_clean_names(testing_vector, ascii=TRUE),
+    result_vector_ascii
+  )
+  expect_equal(
+    make_clean_names(testing_vector, ascii=FALSE),
+    result_vector_noascii
+  )
+  expect_equal(
+    expect_warning(
+      make_clean_names("µ"),
+      regexp="Names have been converted to ASCII"
+    ),
+    "x"
+  )
+  expect_equal(
+    expect_silent(
+      make_clean_names("µ", ascii=TRUE)
+    ),
+    "x"
+  )
+  expect_equal(
+    expect_silent(
+      make_clean_names("µ", ascii=FALSE)
+    ),
+    "x"
+  )
+  expect_equal(
+    make_clean_names("Ã", ascii=FALSE),
+    "a"
+  )
   expect_equal(names(clean)[1], "sp_ace") # spaces
   expect_equal(names(clean)[2], "repeated") # first instance of repeat
   expect_equal(names(clean)[3], "a") # multiple special chars, trailing special chars
@@ -35,6 +137,16 @@ test_that("Names are cleaned appropriately", {
   expect_equal(names(clean)[18], "average_number_of_days") # for testing alternating cases below with e.g., case = "upper_lower"
   expect_equal(names(clean)[19], "jan2009sales") # no separator around number-word boundary if not existing already
   expect_equal(names(clean)[20], "jan_2009_sales") # yes separator around number-word boundary if it existed
+  expect_equal(names(clean)[21], "not_first_unicode_µ")
+  expect_equal(names(clean)[22], "µ_first_unicode")
+})
+
+test_df <- as.data.frame(matrix(ncol = 22))
+names(test_df) <- testing_vector
+clean <- clean_names(test_df, "snake", ascii=TRUE)
+clean_noascii <- clean_names(test_df, "snake", ascii=FALSE)
+
+test_that("Names are cleaned appropriately", {
 })
 
 test_that("Returns a data.frame", {
@@ -106,7 +218,7 @@ test_that("errors if not called on a data.frame", {
 
 
 #------------------------------------------------------------------------------# 
-#---------------------------- Tests for sf method -----------------------------#
+#---------------------------- Tests for sf method -----------------------------####
 #------------------------------------------------------------------------------#
 
 context("clean_names.sf")

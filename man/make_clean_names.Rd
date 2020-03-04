@@ -8,7 +8,8 @@ make_clean_names(
   string,
   case = c("snake", "lower_camel", "upper_camel", "screaming_snake", "lower_upper",
     "upper_lower", "all_caps", "small_camel", "big_camel", "old_janitor", "parsed",
-    "mixed", "none")
+    "mixed", "none"),
+  ascii
 )
 }
 \arguments{
@@ -25,19 +26,23 @@ make_clean_names(
  \item{\code{old_janitor}: legacy compatibility option to preserve behavior of \code{clean_names} prior to addition of the "case" argument(janitor versions <= 0.3.1 )}.  Provided as a quick fix for old scripts broken by the changes to \code{clean_names} in janitor v1.0.
  \item{\code{"parsed"}, \code{"mixed"}, \code{"none"}: less-common cases offered by \code{snakecase::to_any_case}.  See \code{\link[snakecase]{to_any_case}} for details.}
  }}
+
+\item{ascii}{Convert the names to ASCII (\code{TRUE}) or not (\code{FALSE}).}
 }
 \value{
 Returns the "cleaned" character vector.
 }
 \description{
-Resulting strings are unique and consist only of the \code{_} character, numbers, and letters.
-Capitalization preferences can be specified using the \code{case} parameter.
+Resulting strings are unique and consist only of the \code{_} character,
+numbers, and letters. Capitalization preferences can be specified using the
+\code{case} parameter.
 
 For use on the names of a data.frame, e.g., in a \code{`\%>\%`} pipeline,
 call the convenience function \code{\link[janitor]{clean_names}}.
 
-Accented characters are transliterated to ASCII.  For example, an "o" 
-with a German umlaut over it becomes "o", and the Spanish character "enye" becomes "n".
+Accented characters are transliterated to ASCII.  For example, an "o" with a
+German umlaut over it becomes "o", and the Spanish character "enye" becomes
+"n".
 }
 \examples{
 
@@ -46,6 +51,7 @@ x <- structure(1:3, names = c("name with space", "TwoWords", "total $ (2009)"))
 x
 names(x) <- make_clean_names(names(x))
 x # now has cleaned names
+
 # if you prefer camelCase variable names:
 make_clean_names(names(x), "small_camel")
 
