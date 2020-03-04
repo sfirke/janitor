@@ -13,6 +13,7 @@
 
 * `row_to_names()` will now work on matrix input (#320, thanks to **@billdenney** for suggesting and implementing
 
+* `clean_names()` can now be called on *tbl_graph* objects from the `tidygraph` package. ([#252](https://github.com/sfirke/janitor/issues/252), thanks to **[@gvdr](https://github.com/gvdr) for bringing up the issue and thanks to *[@Tazinho](https://github.com/Tazinho) for proposing solution).
 
 ## Bug fixes
 
@@ -59,6 +60,8 @@ This feature (#50) took almost 3 years from conception to implementation.  Major
 * `remove_empty()` and `remove_constant()` now work with matrices (returning a matrix).  (#215)  Thanks to **@jsta** for reporting and **@billdenney** for patching.
 
 * If the third variable in a three-way tabyl is a factor, the resulting list is sorted in order of its levels (#250).  Empty factor levels in the 3rd variable are still omitted regardless of the value of `show_missing_levels`.
+
+* `clean_names()` can now be called on *tbl_graph* objects from the `tidygraph` package. (#252, thanks to @gvdr for bringing up the issue and thanks to @Tazinho for proposing solution).
 
 ## Bug fixes
 
