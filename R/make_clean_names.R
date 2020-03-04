@@ -2,18 +2,25 @@
 #'
 #' @description
 #' Resulting strings are unique and consist only of the \code{_} character,
-#' numbers, and letters. Capitalization preferences can be specified using the
+#' numbers, and letters. By default, the resulting strings will only consist of
+#' ASCII characters, but non-ASCII (e.g. Unicode) may be allowed by setting
+#' `ascii=FALSE`.  Capitalization preferences can be specified using the
 #' \code{case} parameter.
 #'
 #' For use on the names of a data.frame, e.g., in a \code{`\%>\%`} pipeline,
 #' call the convenience function \code{\link[janitor]{clean_names}}.
 #' 
-#' Accented characters are transliterated to ASCII.  For example, an "o" with a
-#' German umlaut over it becomes "o", and the Spanish character "enye" becomes
-#' "n".
+#' When `ascii=TRUE` (the default), accented characters are transliterated to
+#' ASCII.  For example, an "o" with a German umlaut over it becomes "o", and the
+#' Spanish character "enye" becomes "n".
+#' 
+#' The order of operations is: `replace`, (optional) ASCII conversion, removing
+#' initial spaces and punctuation, apply `base::make.names()`, apply
+#' `snakecase::to_any_case()`, and add numeric suffixes to duplicates.
 #'
 #' @param string A character vector of names to clean.
-#' @param case The desired target case (default is \code{"snake"}), indicated by these possible values:
+#' @param case The desired target case (default is \code{"snake"}), indicated by
+#'   these possible values:
 #' \itemize{
 #'  \item{\code{"snake"} produces snake_case}
 #'  \item{\code{"lower_camel"} or \code{"small_camel"} produces lowerCamel}
@@ -21,9 +28,16 @@
 #'  \item{\code{"screaming_snake"} or \code{"all_caps"} produces ALL_CAPS}
 #'  \item{\code{"lower_upper"} produces lowerUPPER}
 #'  \item{\code{"upper_lower"} produces UPPERlower}
-#'  \item{\code{old_janitor}: legacy compatibility option to preserve behavior of \code{clean_names} prior to addition of the "case" argument(janitor versions <= 0.3.1 )}.  Provided as a quick fix for old scripts broken by the changes to \code{clean_names} in janitor v1.0.
-#'  \item{\code{"parsed"}, \code{"mixed"}, \code{"none"}: less-common cases offered by \code{snakecase::to_any_case}.  See \code{\link[snakecase]{to_any_case}} for details.}
+#'  \item{\code{old_janitor}: legacy compatibility option to preserve behavior
+#'    of \code{clean_names} prior to addition of the "case" argument(janitor
+#'    versions <= 0.3.1 )}.  Provided as a quick fix for old scripts broken by
+#'    the changes to \code{clean_names} in janitor v1.0.
+#'  \item{\code{"parsed"}, \code{"mixed"}, \code{"none"}: less-common cases
+#'    offered by \code{snakecase::to_any_case}.  See
+#'    \code{\link[snakecase]{to_any_case}} for details.}
 #'  }
+#' @param replace A named character vector where the name is replaced by the
+#'   value.
 #' @param ascii Convert the names to ASCII (\code{TRUE}, default) or not
 #'   (\code{FALSE}).
 #'
@@ -44,67 +58,60 @@
 #' # similar to janitor::clean_names(poorly_named_df):
 #' # not run:
 #' # make_clean_names(names(poorly_named_df))
-#' 
+#'
+#' @importFrom stringi stri_trans_general
+#' @importFrom stringr str_replace str_replace_all
 make_clean_names <- function(string,
                              case = c(
                                "snake", "lower_camel", "upper_camel", "screaming_snake",
                                "lower_upper", "upper_lower", "all_caps", "small_camel",
                                "big_camel", "old_janitor", "parsed", "mixed", "none"
                              ),
-                             ascii) {
+                             replace=
+                               c(
+                                 "'"="",
+                                 "\""="",
+                                 "%"=".percent_",
+                                 "#"=".number_"
+                               ),
+                             ascii=TRUE) {
   
   # Handling "old_janitor" case for backward compatibility
   case <- match.arg(case)
   if (case == "old_janitor") {
     return(old_make_clean_names(string))
   }
-  
-  missing_ascii <- FALSE
-  if (missing(ascii)) {
-    ascii <- TRUE
-    missing_ascii <- TRUE
-  }
-  
-  ### new behaviour with snakecase integration
-  # Takes a data.frame, returns the same data frame with cleaned names
-  old_names <- string
-  # Transliterate input to minimize locale differences (Fix #204, #331).
-  if (ascii) {
-    transliterated_names <- iconv(old_names, to="ASCII//TRANSLIT")
-    if (missing_ascii & any(old_names != transliterated_names)) {
-      warning(
-        paste(
-          "Names have been converted to ASCII, to retain non-ASCII",
-          "characters, set the argument `ascii=FALSE`.  To remove",
-          "this warning without changing the output, set `ascii=TRUE`."
-        )
+
+  replaced_names <-
+    stringr::str_replace_all(
+      str=string,
+      pattern=replace
+    )
+  transliterated_names <-
+    if (ascii) {
+      stringi::stri_trans_general(
+        replaced_names,
+        id="Greek-Latin;Latin-ASCII;Accents-Any;Any-ASCII"
       )
+    } else {
+      replaced_names
     }
-  } else {
-    transliterated_names <- old_names
-  }
-  
-  # Remove characters that are less usable
-  new_names <- transliterated_names
-  new_names <- gsub("'", "", new_names) # remove single quotation marks
-  new_names <- gsub("\"", "", new_names) # remove double quotation marks
-  
-  # Convert characters that should have names given
-  # starting with "." as a workaround, to make
-  # ".percent" a valid name. The "." will be replaced in the call to to_any_case
-  # via the preprocess argument anyway.
-  new_names <- gsub("%", ".percent_", new_names)
-  new_names <- gsub("#", ".number_", new_names)
-  
-  # Ensure validity and uniqueness of names
-  new_names <- gsub("^[[:space:][:punct:]]+", "", new_names) # remove leading spaces & punctuation
-  new_names <- make.names(new_names)
+  # Remove starting spaces and punctuation
+  good_start <-
+    stringr::str_replace(
+      str=transliterated_names,
+      pattern="\\A[\\h\\s\\p{Punctuation}\\p{Symbol}\\p{Separator}\\p{Other}]*(.*)$",
+      replacement="\\1"
+    )
+  # make.names() is dependent on the locale and therefore will return different
+  # system-dependent values.
+  made_names <- make.names(good_start)
 
   # Handle dots, multiple underscores, case conversion, string transliteration
   # Parsing option 4 removes underscores around numbers, #153
-  new_names <-
+  cased_names <-
     snakecase::to_any_case(
-      new_names,
+      made_names,
       case = case,
       sep_in = "\\.",
       transliterations = "Latin-ASCII",
@@ -112,23 +119,23 @@ make_clean_names <- function(string,
       numerals = "asis"
     )
   
-  # Handle duplicated names - they mess up dplyr pipelines
-  # This appends the column number to repeated instances of duplicate variable names
+  # Handle duplicated names - they mess up dplyr pipelines.  This appends the
+  # column number to repeated instances of duplicate variable names.
   dupe_count <-
     vapply(
-      seq_along(new_names), function(i) {
-        sum(new_names[i] == new_names[1:i])
+      seq_along(cased_names), function(i) {
+        sum(cased_names[i] == cased_names[1:i])
       },
       1L
     )
   
-  new_names[dupe_count > 1] <-
+  cased_names[dupe_count > 1] <-
     paste(
-      new_names[dupe_count > 1],
+      cased_names[dupe_count > 1],
       dupe_count[dupe_count > 1],
       sep = "_"
     )
-  new_names
+  cased_names
 }
 
 # copy of clean_names from janitor v0.3 on CRAN, to preserve old behavior

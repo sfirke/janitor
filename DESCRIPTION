@@ -28,6 +28,8 @@ Imports:
     magrittr,
     purrr,
     rlang,
+    stringi,
+    stringr,
     tidyselect (>= 1.0.0)
 License: MIT + file LICENSE
 LazyData: true
@@ -37,7 +39,7 @@ Suggests:
     knitr,
     rmarkdown,
     sf,
-    tidygraph,
-    tibble
+    tibble,
+    tidygraph
 VignetteBuilder: knitr
 Encoding: UTF-8

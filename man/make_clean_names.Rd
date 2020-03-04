@@ -9,13 +9,15 @@ make_clean_names(
   case = c("snake", "lower_camel", "upper_camel", "screaming_snake", "lower_upper",
     "upper_lower", "all_caps", "small_camel", "big_camel", "old_janitor", "parsed",
     "mixed", "none"),
-  ascii
+  replace = c(`'` = "", `"` = "", `\%` = ".percent_", `#` = ".number_"),
+  ascii = TRUE
 )
 }
 \arguments{
 \item{string}{A character vector of names to clean.}
 
-\item{case}{The desired target case (default is \code{"snake"}), indicated by these possible values:
+\item{case}{The desired target case (default is \code{"snake"}), indicated by
+  these possible values:
 \itemize{
  \item{\code{"snake"} produces snake_case}
  \item{\code{"lower_camel"} or \code{"small_camel"} produces lowerCamel}
@@ -23,26 +25,41 @@ make_clean_names(
  \item{\code{"screaming_snake"} or \code{"all_caps"} produces ALL_CAPS}
  \item{\code{"lower_upper"} produces lowerUPPER}
  \item{\code{"upper_lower"} produces UPPERlower}
- \item{\code{old_janitor}: legacy compatibility option to preserve behavior of \code{clean_names} prior to addition of the "case" argument(janitor versions <= 0.3.1 )}.  Provided as a quick fix for old scripts broken by the changes to \code{clean_names} in janitor v1.0.
- \item{\code{"parsed"}, \code{"mixed"}, \code{"none"}: less-common cases offered by \code{snakecase::to_any_case}.  See \code{\link[snakecase]{to_any_case}} for details.}
+ \item{\code{old_janitor}: legacy compatibility option to preserve behavior
+   of \code{clean_names} prior to addition of the "case" argument(janitor
+   versions <= 0.3.1 )}.  Provided as a quick fix for old scripts broken by
+   the changes to \code{clean_names} in janitor v1.0.
+ \item{\code{"parsed"}, \code{"mixed"}, \code{"none"}: less-common cases
+   offered by \code{snakecase::to_any_case}.  See
+   \code{\link[snakecase]{to_any_case}} for details.}
  }}
 
-\item{ascii}{Convert the names to ASCII (\code{TRUE}) or not (\code{FALSE}).}
+\item{replace}{A named character vector where the name is replaced by the
+value.}
+
+\item{ascii}{Convert the names to ASCII (\code{TRUE}, default) or not
+(\code{FALSE}).}
 }
 \value{
 Returns the "cleaned" character vector.
 }
 \description{
 Resulting strings are unique and consist only of the \code{_} character,
-numbers, and letters. Capitalization preferences can be specified using the
+numbers, and letters. By default, the resulting strings will only consist of
+ASCII characters, but non-ASCII (e.g. Unicode) may be allowed by setting
+`ascii=FALSE`.  Capitalization preferences can be specified using the
 \code{case} parameter.
 
 For use on the names of a data.frame, e.g., in a \code{`\%>\%`} pipeline,
 call the convenience function \code{\link[janitor]{clean_names}}.
 
-Accented characters are transliterated to ASCII.  For example, an "o" with a
-German umlaut over it becomes "o", and the Spanish character "enye" becomes
-"n".
+When `ascii=TRUE` (the default), accented characters are transliterated to
+ASCII.  For example, an "o" with a German umlaut over it becomes "o", and the
+Spanish character "enye" becomes "n".
+
+The order of operations is: `replace`, (optional) ASCII conversion, removing
+initial spaces and punctuation, apply `base::make.names()`, apply
+`snakecase::to_any_case()`, and add numeric suffixes to duplicates.
 }
 \examples{
 

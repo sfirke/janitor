@@ -1,11 +1,18 @@
 # janitor 1.2.1.9000 (unreleased), will be v 1.3.0
 
+## Breaking Changes
+
+* `clean_names()` and `make_clean_names()` now work significantly harder to be locale-independent, and translation to ASCII is simpler. These changes alter the new names provided by these functions in some cases. (Fix #331, thanks to @billdenney)
+
 ## Major features
+
+* `clean_names()` and `make_clean_names()` have a more generic interface where all arguments from `make_clean_names()` are accessible from `clean_names()` (Fix #339, thanks to @ari-nz and @billdenney).
+
+* `make_clean_names()` now allows the user to specify parts of names to be replaced (Fix #316, thanks to @woodwards for reporting and @woodwards and @billdenney for implementing)
 
 * The variables considered by the function `get_dupes()` can be specified using the select helper functions from `tidyselect`.  This includes `-column_name` to omit a variable as well as the matching functions `starts_with()`, `ends_with()`, `contains()`, and `matches()`.  See `?tidyselect::select_helpers` for more (#326, thanks to **@jzadra** for suggesting and implementing).
 
-
-* The new function `signif_half_up()` rounds a numeric vector to the specified number of significant digits with halves rounded up (#314, thanks to **@khueyama** for suggesting and implementing). 
+* The new function `signif_half_up()` rounds a numeric vector to the specified number of significant digits with halves rounded up (#314, thanks to **@khueyama** for suggesting and implementing).
 
 ## Minor features
 
@@ -13,7 +20,9 @@
 
 * `row_to_names()` will now work on matrix input (#320, thanks to **@billdenney** for suggesting and implementing
 
-* `clean_names()` can now be called on *tbl_graph* objects from the `tidygraph` package. ([#252](https://github.com/sfirke/janitor/issues/252), thanks to **[@gvdr](https://github.com/gvdr) for bringing up the issue and thanks to *[@Tazinho](https://github.com/Tazinho) for proposing solution).
+* `clean_names()` can now be called on *tbl_graph* objects from the `tidygraph` package. (#252), thanks to @gvdr for bringing up the issue and thanks to @Tazinho for proposing solution).
+
+* `make_clean_names()` had a code cleanup ()
 
 ## Bug fixes
 

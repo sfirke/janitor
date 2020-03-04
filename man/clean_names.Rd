@@ -5,7 +5,8 @@
 \alias{clean_names.data.frame}
 \alias{clean_names.default}
 \alias{clean_names.sf}
-\title{Cleans names of a data.frame.}
+\alias{clean_names.tbl_graph}
+\title{Cleans names of an object (usually a data.frame).}
 \usage{
 clean_names(dat, ...)
 
@@ -14,6 +15,8 @@ clean_names(dat, ...)
 \method{clean_names}{default}(dat, ...)
 
 \method{clean_names}{sf}(dat, ...)
+
+\method{clean_names}{tbl_graph}(dat, ...)
 }
 \arguments{
 \item{dat}{the input data.frame.}
@@ -21,7 +24,8 @@ clean_names(dat, ...)
 \item{...}{
   Arguments passed on to \code{\link[=make_clean_names]{make_clean_names}}
   \describe{
-    \item{\code{case}}{The desired target case (default is \code{"snake"}), indicated by these possible values:
+    \item{\code{case}}{The desired target case (default is \code{"snake"}), indicated by
+  these possible values:
 \itemize{
  \item{\code{"snake"} produces snake_case}
  \item{\code{"lower_camel"} or \code{"small_camel"} produces lowerCamel}
@@ -29,30 +33,41 @@ clean_names(dat, ...)
  \item{\code{"screaming_snake"} or \code{"all_caps"} produces ALL_CAPS}
  \item{\code{"lower_upper"} produces lowerUPPER}
  \item{\code{"upper_lower"} produces UPPERlower}
- \item{\code{old_janitor}: legacy compatibility option to preserve behavior of \code{clean_names} prior to addition of the "case" argument(janitor versions <= 0.3.1 )}.  Provided as a quick fix for old scripts broken by the changes to \code{clean_names} in janitor v1.0.
- \item{\code{"parsed"}, \code{"mixed"}, \code{"none"}: less-common cases offered by \code{snakecase::to_any_case}.  See \code{\link[snakecase]{to_any_case}} for details.}
+ \item{\code{old_janitor}: legacy compatibility option to preserve behavior
+   of \code{clean_names} prior to addition of the "case" argument(janitor
+   versions <= 0.3.1 )}.  Provided as a quick fix for old scripts broken by
+   the changes to \code{clean_names} in janitor v1.0.
+ \item{\code{"parsed"}, \code{"mixed"}, \code{"none"}: less-common cases
+   offered by \code{snakecase::to_any_case}.  See
+   \code{\link[snakecase]{to_any_case}} for details.}
  }}
-    \item{\code{ascii}}{Convert the names to ASCII (\code{TRUE}) or not (\code{FALSE}).}
+    \item{\code{replace}}{A named character vector where the name is replaced by the
+value.}
+    \item{\code{ascii}}{Convert the names to ASCII (\code{TRUE}, default) or not
+(\code{FALSE}).}
   }}
 }
 \value{
 Returns the data.frame with clean names.
 }
 \description{
-`clean`
-
 Resulting names are unique and consist only of the \code{_} character, numbers, and letters.
 Capitalization preferences can be specified using the \code{case} parameter.
 
-Accented characters are
-transliterated to ASCII.  For example, an "o" with a German umlaut over it becomes "o", and the Spanish character "enye" becomes "n".
+Accented characters are transliterated to ASCII.  For example, an "o" with a
+German umlaut over it becomes "o", and the Spanish character "enye" becomes
+"n".
 
-This function takes and returns a data.frame, for ease of piping with  \code{`\%>\%`}.  
-For the underlying function that works on a character vector of names,
-see \code{\link[janitor]{make_clean_names}}.
+This function takes and returns a data.frame, for ease of piping with
+\code{`\%>\%`}. For the underlying function that works on a character vector
+of names, see \code{\link[janitor]{make_clean_names}}.
 }
 \details{
-\code{clean_names()} is intended to be used on \code{data.frames} and \code{data.frame} like objects. For this reason there are methods to support using \code{clean_names()} on \code{sf} and \code{tbl_graph} (from \code{tidygraph}) objects. For cleaning named lists and vectors, consider using \code{make_clean_names()}.
+\code{clean_names()} is intended to be used on \code{data.frames}
+  and \code{data.frame} like objects. For this reason there are methods to
+  support using \code{clean_names()} on \code{sf} and \code{tbl_graph} (from
+  \code{tidygraph}) objects. For cleaning named lists and vectors, consider
+  using \code{make_clean_names()}.
 }
 \examples{
 # not run:
