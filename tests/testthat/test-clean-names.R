@@ -305,9 +305,9 @@ test_that("Names are cleaned appropriately", {
   test_df["long"] <- -80
   test_df["lat"] <- 40
   
-  test_df <- st_as_sf(test_df, coords = c("long", "lat"))
+  test_df <- sf::st_as_sf(test_df, coords = c("long", "lat"))
   names(test_df)[21] <- "Geometry"
-  st_geometry(test_df) <- "Geometry"
+  sf::st_geometry(test_df) <- "Geometry"
   
   clean <- clean_names(test_df, "snake")
   
