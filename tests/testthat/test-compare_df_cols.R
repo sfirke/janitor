@@ -212,6 +212,17 @@ test_that("boolean df comparison works", {
   expect_false(compare_df_cols_same(data.frame(A=1L), data.frame(A=1.5), bind_method="rbind", verbose = FALSE))
 })
 
+test_that("error messages are correct", {
+  expect_error(
+    compare_df_cols("A"),
+    regexp="Input given with.*Argument number 1 is not."
+  )
+  expect_error(
+    compare_df_cols("A", data.frame(A=1), 3),
+    regexp="Input given with.*Argument numbers 1, 3 are not."
+  )
+})
+
 test_that("list inputs to compare_df_cols give appropriate errors", {
   expect_error(
     compare_df_cols(list("A")),
@@ -318,5 +329,22 @@ test_that("list inputs to compare_df_cols work as expected", {
       ),
       c("column_name", "foo_1", "foo_2", "baz")
     )
+  )
+})
+test_that("compare_df_cols_df_maker catches bad inputs", {
+  expect_error(
+    compare_df_cols_df_maker(x = mtcars, class_colname = "column_name"),
+    regexp = '`class_colname` cannot be "column_name"',
+    fixed = TRUE
+  )
+  expect_error(
+    compare_df_cols_df_maker(list(x = mtcars, y = iris), class_colname = "class"),
+    regexp = '`x` and `class_colname` must be the same length.',
+    fixed = TRUE
+  )
+  expect_error(
+    compare_df_cols_df_maker(list(x = mtcars), class_colname = c("column_name")),
+    regexp = '`class_colname` cannot be "column_name"',
+    fixed = TRUE
   )
 })

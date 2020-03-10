@@ -4,8 +4,13 @@
 \alias{excel_numeric_to_date}
 \title{Convert dates encoded as serial numbers to Date class.}
 \usage{
-excel_numeric_to_date(date_num, date_system = "modern",
-  include_time = FALSE, round_seconds = TRUE, tz = "")
+excel_numeric_to_date(
+  date_num,
+  date_system = "modern",
+  include_time = FALSE,
+  round_seconds = TRUE,
+  tz = ""
+)
 }
 \arguments{
 \item{date_num}{numeric vector of serial numbers to convert.}

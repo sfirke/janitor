@@ -4,8 +4,12 @@
 \alias{adorn_rounding}
 \title{Round the numeric columns in a data.frame.}
 \usage{
-adorn_rounding(dat, digits = 1, rounding = "half to even",
-  skip_first_col = TRUE)
+adorn_rounding(
+  dat,
+  digits = 1,
+  rounding = "half to even",
+  skip_first_col = TRUE
+)
 }
 \arguments{
 \item{dat}{a data.frame with at least one numeric column}

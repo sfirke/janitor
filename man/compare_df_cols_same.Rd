@@ -4,8 +4,11 @@
 \alias{compare_df_cols_same}
 \title{Do the the data.frames have the same columns & types?}
 \usage{
-compare_df_cols_same(..., bind_method = c("bind_rows", "rbind"),
-  verbose = TRUE)
+compare_df_cols_same(
+  ...,
+  bind_method = c("bind_rows", "rbind"),
+  verbose = TRUE
+)
 }
 \arguments{
 \item{...}{A combination of data.frames, tibbles, and lists of
@@ -36,7 +39,8 @@ compare_df_cols_same(data.frame(A=1), data.frame(B=2), verbose=FALSE)
 compare_df_cols_same(data.frame(A=1), data.frame(B=2), bind_method="rbind")
 }
 \seealso{
-Other Data frame type comparison: \code{\link{compare_df_cols}},
-  \code{\link{describe_class}}
+Other Data frame type comparison: 
+\code{\link{compare_df_cols}()},
+\code{\link{describe_class}()}
 }
 \concept{Data frame type comparison}

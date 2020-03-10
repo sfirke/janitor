@@ -16,6 +16,7 @@
 #'
 #' @return Returns the "cleaned" character vector.
 #' @export
+#' @seealso \code{\link[snakecase]{to_any_case}}
 #' @examples
 #' 
 #' # cleaning the names of a vector:

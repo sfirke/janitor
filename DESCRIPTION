@@ -1,11 +1,12 @@
 Package: janitor
 Title: Simple Tools for Examining and Cleaning Dirty Data
-Version: 1.2.0.9000
+Version: 1.2.1.9000
 Authors@R: c(person("Sam", "Firke", email = "samuel.firke@gmail.com", role = c("aut", "cre")),
     person("Bill", "Denney", email = "wdenney@humanpredictions.com", role = "ctb"),
     person("Chris", "Haid", email = "chrishaid@gmail.com", role = "ctb"),
     person("Ryan", "Knight", email = "ryangknight@gmail.com", role = "ctb"),
-    person("Malte", "Grosser", email = "malte.grosser@gmail.com", role = "ctb"))
+    person("Malte", "Grosser", email = "malte.grosser@gmail.com", role = "ctb"),
+    person("Jonathan", "Zadra", email = "jonathan.zadra@sorensonimpact.com", role = "ctb"))
 Description: The main janitor functions can: perfectly format data.frame column
     names; provide quick counts of variable combinations (i.e., frequency
     tables and crosstabs); and isolate duplicate records. Other janitor functions
@@ -30,7 +31,7 @@ Imports:
     tidyr (>= 0.7.0)
 License: MIT + file LICENSE
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 Suggests:
     testthat,
     knitr,

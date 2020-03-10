@@ -111,33 +111,35 @@ test_that("errors if not called on a data.frame", {
 
 context("clean_names.sf")
 
-nc    <- sf::st_read(system.file("shape/nc.shp", package="sf"))
-clean <- clean_names(nc, "snake")
-
 test_that("Names are cleaned appropriately without attaching sf", {
+  skip_if_not_installed("sf")
+  nc    <- sf::st_read(system.file("shape/nc.shp", package="sf"))
+  clean <- clean_names(nc, "snake")
+  
   expect_equal(names(clean)[4], "cnty_id")
 })
 
-library(sf)
-test_df <- data.frame(matrix(ncol = 22) %>% as.data.frame())
-
-names(test_df) <- c(
-  "sp ace", "repeated", "a**^@", "%", "*", "!",
-  "d(!)9", "REPEATED", "can\"'t", "hi_`there`", "  leading spaces",
-  "€", "ação", "Farœ", "a b c d e f", "testCamelCase", "!leadingpunct",
-  "average # of days", "jan2009sales", "jan 2009 sales", "long", "lat"
-)
-
-test_df["long"] <- -80
-test_df["lat"] <- 40
-
-test_df <- st_as_sf(test_df, coords = c("long", "lat"))
-names(test_df)[21] <- "Geometry"
-st_geometry(test_df) <- "Geometry"
-
-clean <- clean_names(test_df, "snake")
-
 test_that("Names are cleaned appropriately", {
+  skip_if_not_installed("sf")
+  library(sf)
+  test_df <- data.frame(matrix(ncol = 22) %>% as.data.frame())
+  
+  names(test_df) <- c(
+    "sp ace", "repeated", "a**^@", "%", "*", "!",
+    "d(!)9", "REPEATED", "can\"'t", "hi_`there`", "  leading spaces",
+    "€", "ação", "Farœ", "a b c d e f", "testCamelCase", "!leadingpunct",
+    "average # of days", "jan2009sales", "jan 2009 sales", "long", "lat"
+  )
+  
+  test_df["long"] <- -80
+  test_df["lat"] <- 40
+  
+  test_df <- st_as_sf(test_df, coords = c("long", "lat"))
+  names(test_df)[21] <- "Geometry"
+  st_geometry(test_df) <- "Geometry"
+  
+  clean <- clean_names(test_df, "snake")
+  
   expect_equal(names(clean)[1], "sp_ace") # spaces
   expect_equal(names(clean)[2], "repeated") # first instance of repeat
   expect_equal(names(clean)[3], "a") # multiple special chars, trailing special chars
@@ -159,8 +161,82 @@ test_that("Names are cleaned appropriately", {
   expect_equal(names(clean)[18], "average_number_of_days") # for testing alternating cases below with e.g., case = "upper_lower"
   expect_equal(names(clean)[19], "jan2009sales") # no separator around number-word boundary if not existing already
   expect_equal(names(clean)[20], "jan_2009_sales") # yes separator around number-word boundary if it existed
+  
+  expect_is(clean, "sf", info="Returns a sf data.frame")
 })
 
-test_that("Returns a data.frame", {
-  expect_is(clean, "sf")
+
+test_that("Tests for cases beyond default snake for sf objects", {
+  
+  
+  test_df <- data.frame(matrix(ncol = 22) %>% as.data.frame())
+  
+  names(test_df) <- c(
+    "sp ace", "repeated", "a**^@", "%", "*", "!",
+    "d(!)9", "REPEATED", "can\"'t", "hi_`there`", "  leading spaces",
+    "€", "ação", "Farœ", "a b c d e f", "testCamelCase", "!leadingpunct",
+    "average # of days", "jan2009sales", "jan 2009 sales", "long", "lat"
+  )
+  
+  test_df["long"] <- -80
+  test_df["lat"] <- 40
+  
+  test_df <- st_as_sf(test_df, coords = c("long", "lat"))
+  names(test_df)[21] <- "geometry"
+  st_geometry(test_df) <- "geometry"
+  
+  
+  
+  expect_equal(
+    names(clean_names(test_df, "small_camel")),
+    c(
+      "spAce", "repeated", "a", "percent", "x", "x_2", "d9", "repeated_2",
+      "cant", "hiThere", "leadingSpaces", "x_3", "acao", "faroe", "aBCDEF", "testCamelCase", "leadingpunct", "averageNumberOfDays", "jan2009Sales", "jan2009Sales_2", "geometry"
+    )
+  )
+  expect_equal(
+    names(clean_names(test_df, "big_camel")),
+    c(
+      "SpAce", "Repeated", "A", "Percent", "X", "X_2", "D9", "Repeated_2",
+      "Cant", "HiThere", "LeadingSpaces", "X_3", "Acao", "Faroe", "ABCDEF", "TestCamelCase", "Leadingpunct", "AverageNumberOfDays", "Jan2009Sales", "Jan2009Sales_2", "geometry"
+    )
+  )
+  expect_equal(
+    names(clean_names(test_df, "all_caps")),
+    c(
+      "SP_ACE", "REPEATED", "A", "PERCENT", "X", "X_2", "D_9", "REPEATED_2",
+      "CANT", "HI_THERE", "LEADING_SPACES", "X_3", "ACAO", "FAROE", "A_B_C_D_E_F", "TEST_CAMEL_CASE", "LEADINGPUNCT", "AVERAGE_NUMBER_OF_DAYS", "JAN2009SALES", "JAN_2009_SALES", "geometry"
+    )
+  )
+  expect_equal(
+    names(clean_names(test_df, "lower_upper")),
+    c(
+      "spACE", "repeated", "a", "percent", "x", "x_2", "d9", "repeated_2",
+      "cant", "hiTHERE", "leadingSPACES", "x_3", "acao", "faroe", "aBcDeF", "testCAMELcase", "leadingpunct", "averageNUMBERofDAYS", "jan2009SALES", "jan2009SALES_2", "geometry"
+    )
+  )
+  expect_equal(
+    names(clean_names(test_df, "upper_lower")),
+    c(
+      "SPace", "REPEATED", "A", "PERCENT", "X", "X_2", "D9", "REPEATED_2",
+      "CANT", "HIthere", "LEADINGspaces", "X_3", "ACAO", "FAROE", "AbCdEf", "TESTcamelCASE", "LEADINGPUNCT", "AVERAGEnumberOFdays", "JAN2009sales", "JAN2009sales_2", "geometry"
+    )
+  )
+  expect_equal(
+    names(clean_names(test_df, "none")),
+    c(
+      "sp_ace", "repeated", "a", "percent", "X", "X_2", "d_9", "REPEATED",
+      "cant", "hi_there", "leading_spaces", "X_3", "acao", "Faroe", "a_b_c_d_e_f", 
+      "testCamelCase", "leadingpunct", "average_number_of_days", 
+      "jan2009sales", "jan_2009_sales", "geometry"
+    )
+  )
+  expect_equal(
+    names(clean_names(test_df, "old_janitor")),
+    c(
+      "sp_ace", "repeated", "a", "percent", "x", "x_2", "d_9", "repeated_2",
+      "cant", "hi_there", "leading_spaces", "x_3", "ação", "farœ",
+      "a_b_c_d_e_f", "testcamelcase", "x_leadingpunct", "average_of_days", "jan2009sales", "jan_2009_sales", "geometry"
+    )
+  )
 })

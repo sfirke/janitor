@@ -4,9 +4,12 @@
 \alias{make_clean_names}
 \title{Cleans a vector of text, typically containing the names of an object.}
 \usage{
-make_clean_names(string, case = c("snake", "lower_camel", "upper_camel",
-  "screaming_snake", "lower_upper", "upper_lower", "all_caps",
-  "small_camel", "big_camel", "old_janitor", "parsed", "mixed", "none"))
+make_clean_names(
+  string,
+  case = c("snake", "lower_camel", "upper_camel", "screaming_snake", "lower_upper",
+    "upper_lower", "all_caps", "small_camel", "big_camel", "old_janitor", "parsed",
+    "mixed", "none")
+)
 }
 \arguments{
 \item{string}{A character vector of names to clean.}
@@ -50,4 +53,7 @@ make_clean_names(names(x), "small_camel")
 # not run:
 # make_clean_names(names(poorly_named_df))
 
+}
+\seealso{
+\code{\link[snakecase]{to_any_case}}
 }

@@ -78,7 +78,7 @@ clean_names.sf <- function(dat, case = c(
   # identify ending column index to clean
   n_cols <- length(dat)-1 
   # clean all but last column
-  sf_cleaned <- make_clean_names(sf_names[1:n_cols]) 
+  sf_cleaned <- make_clean_names(sf_names[1:n_cols], case) 
   # rename original df
   names(dat)[1:n_cols] <- sf_cleaned 
   

@@ -187,7 +187,7 @@ test_that("grouped data.frame inputs are handled (#125)", {
 test_that("if called on non-existent vector, returns useful error message", {
   expect_error(tabyl(mtcars$moose), "object mtcars\\$moose not found")
   expect_error(tabyl(moose), "object 'moose' not found")
-  expect_error(mtcars %>% tabyl(moose), "object 'moose' not found")
+  expect_error(mtcars %>% tabyl(moose))
 })
 
 test_that("if called on data.frame with no or irregular columns specified, returns informative error message", {
@@ -225,7 +225,8 @@ test_that("show_missing_levels parameter works", {
     list(lvl1 = data.frame(
       a = c("hi", "lo"),
       big = c(0, 0),
-      small = c(1, 0)
+      small = c(1, 0),
+      stringsAsFactors = TRUE
     ) %>% as_tabyl(2, "a", "b"))
   )
   expect_equal(

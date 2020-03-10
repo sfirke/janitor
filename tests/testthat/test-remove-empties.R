@@ -121,6 +121,11 @@ test_that("remove_constant", {
     data.frame(B=c(NA, 1, 2), C=c(1, 2, NA)),
     info="NA with other values is kept with na.rm"
   )
+  expect_equal(
+    remove_constant(tibble(A=NA, B=c(NA, 1, 2), C=1)),
+    tibble(B=c(NA, 1, 2)),
+    info="tibbles are correctly handled"
+  )
 })
 
 test_that("Messages are accurate with remove_empty and remove_constant", {
@@ -155,5 +160,17 @@ test_that("Messages are accurate with remove_empty and remove_constant", {
   )
   expect_silent(
     remove_empty(data.frame(A=NA, B=c(1, NA)), which="rows", quiet=TRUE)
+  )
+  expect_message(
+   remove_constant(mtcars, quiet = FALSE),
+   regexp="No constant columns to remove.",
+   fixed=TRUE,
+   info="No constant columns to remove"
+  )
+  expect_message(
+    remove_empty(mtcars, quiet = FALSE),
+    regexp="No empty columns to remove.",
+    fixed=TRUE,
+    info="No empty columns to remove"
   )
 })
