@@ -6,11 +6,20 @@
 \title{Convert many date and datetime formats as may be received from Microsoft
 Excel}
 \usage{
-convert_to_date(x, ..., character_fun = lubridate::ymd,
-  allow_na_conversion = FALSE)
+convert_to_date(
+  x,
+  ...,
+  character_fun = lubridate::ymd,
+  string_conversion_failure = c("error", "warning")
+)
 
-convert_to_datetime(x, ..., tz = "UTC",
-  character_fun = lubridate::ymd_hms, allow_na_conversion = FALSE)
+convert_to_datetime(
+  x,
+  ...,
+  tz = "UTC",
+  character_fun = lubridate::ymd_hms,
+  string_conversion_failure = c("error", "warning")
+)
 }
 \arguments{
 \item{x}{The object to convert}
@@ -21,8 +30,9 @@ convert_to_datetime(x, ..., tz = "UTC",
 \item{character_fun}{A function to convert non-numeric-looking, non-NA values
 in `x` to POSIXct objects.}
 
-\item{allow_na_conversion}{Can `character_fun(x)` for the
-non-numeric-looking, non-NA values return NA?}
+\item{string_conversion_failure}{If a character value fails to parse into the
+desired class and instead returns `NA`, should the function return the
+result with a warning or throw an error?}
 
 \item{tz}{The timezone for POSIXct output, unless an object is POSIXt
 already.  Ignored for Date output.}
@@ -51,9 +61,16 @@ Character conversion checks if it matches something that looks like
 convert_to_date("2009-07-06")
 convert_to_date(40000)
 convert_to_date("40000.1")
+# Mixed date source data can be provided.
+convert_to_date(c("2020-02-29", "40000.1"))
 convert_to_datetime(c("2009-07-06", "40000.1", "40000", NA), character_fun=lubridate::ymd_h, truncated=1, tz="UTC")
 }
 \seealso{
-Other Date conversion: \code{\link{excel_numeric_to_date}}
+Other If your input data has a mix of Excel numeric dates and actual dates,
+  see the more powerful functions `convert_to_date` and
+  `convert_to_datetime`.: 
+\code{\link{excel_numeric_to_date}()}
 }
-\concept{Date conversion}
+\concept{If your input data has a mix of Excel numeric dates and actual dates,
+  see the more powerful functions `convert_to_date` and
+  `convert_to_datetime`.}

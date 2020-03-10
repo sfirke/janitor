@@ -44,7 +44,7 @@ test_that("convert_date works", {
   )
 })
 
-test_that("convert_date works", {
+test_that("convert_datetime works", {
   expect_equal(
     convert_to_datetime("2009-07-06 12:13:14"),
     as.POSIXct("2009-07-06 12:13:14", tz="UTC")
@@ -109,9 +109,24 @@ test_that("convert_date warnings and errors work", {
     ),
     regexp="All formats failed to parse." # lubridate warning
   )
+  expect_warning(
+    expect_error(
+      convert_to_date(LETTERS),
+      regexp="Not all character strings converted to class Date.*17 other values",
+      info="Confirm the 'other values' when there are many values not converted."
+    ),
+    regexp="All formats failed to parse." # lubridate warning
+  )
+  expect_warning(
+    expect_error(
+      convert_to_date(LETTERS),
+      regexp="Not all character strings converted to class Date."
+    ),
+    regexp="All formats failed to parse." # lubridate warning
+  )
   expect_equal(
     expect_warning(
-      convert_to_date("A", allow_na_conversion=TRUE),
+      convert_to_date("A", string_conversion_failure="warning"),
       regexp="Not all character strings converted to class Date."
     ),
     as.Date(NA)

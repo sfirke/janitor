@@ -61,6 +61,11 @@ excel_numeric_to_date(40000.521, include_time = TRUE,
   round_seconds = FALSE) # Time with fractional seconds is included
 }
 \seealso{
-Other Date conversion: \code{\link{convert_to_date}}
+Other If your input data has a mix of Excel numeric dates and actual dates,
+  see the more powerful functions `convert_to_date` and
+  `convert_to_datetime`.: 
+\code{\link{convert_to_date}()}
 }
-\concept{Date conversion}
+\concept{If your input data has a mix of Excel numeric dates and actual dates,
+  see the more powerful functions `convert_to_date` and
+  `convert_to_datetime`.}

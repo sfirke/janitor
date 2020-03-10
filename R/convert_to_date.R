@@ -14,22 +14,28 @@
 #'   `excel_numeric_to_date()`, `base::as.POXIXct()`, or `base::as.Date()`.
 #' @param character_fun A function to convert non-numeric-looking, non-NA values
 #'   in `x` to POSIXct objects.
-#' @param allow_na_conversion Can `character_fun(x)` for the
-#'   non-numeric-looking, non-NA values return NA?
+#' @param string_conversion_failure If a character value fails to parse into the
+#'   desired class and instead returns `NA`, should the function return the
+#'   result with a warning or throw an error?
 #' @return POSIXct objects for `convert_to_datetime()` or Date objects for
 #'   `convert_to_date()`.
 #' @examples
 #' convert_to_date("2009-07-06")
 #' convert_to_date(40000)
 #' convert_to_date("40000.1")
+#' # Mixed date source data can be provided.
+#' convert_to_date(c("2020-02-29", "40000.1"))
 #' @export
-#' @family Date conversion
+#' @family If your input data has a mix of Excel numeric dates and actual dates,
+#'   see the more powerful functions `convert_to_date` and
+#'   `convert_to_datetime`.
 #' @importFrom lubridate ymd
-convert_to_date <- function(x, ..., character_fun=lubridate::ymd, allow_na_conversion=FALSE) {
+convert_to_date <- function(x, ..., character_fun=lubridate::ymd, string_conversion_failure=c("error", "warning")) {
+  string_conversion_failure <- match.arg(string_conversion_failure)
   convert_to_datetime_helper(
     x, ...,
     character_fun=character_fun,
-    allow_na_conversion=allow_na_conversion,
+    string_conversion_failure=string_conversion_failure,
     out_class="Date"
   )
 }
@@ -39,12 +45,13 @@ convert_to_date <- function(x, ..., character_fun=lubridate::ymd, allow_na_conve
 #' convert_to_datetime(c("2009-07-06", "40000.1", "40000", NA), character_fun=lubridate::ymd_h, truncated=1, tz="UTC")
 #' @export
 #' @importFrom lubridate ymd_hms
-convert_to_datetime <- function(x, ..., tz="UTC", character_fun=lubridate::ymd_hms, allow_na_conversion=FALSE) {
+convert_to_datetime <- function(x, ..., tz="UTC", character_fun=lubridate::ymd_hms, string_conversion_failure=c("error", "warning")) {
+  string_conversion_failure <- match.arg(string_conversion_failure)
   convert_to_datetime_helper(
     x, ...,
     tz=tz,
     character_fun=character_fun,
-    allow_na_conversion=allow_na_conversion,
+    string_conversion_failure=string_conversion_failure,
     out_class="POSIXct"
   )
 }
@@ -102,7 +109,8 @@ convert_to_datetime_helper.Date <- function(x, ..., tz="UTC", out_class=c("POSIX
   ret
 }
 
-convert_to_datetime_helper.character <- function(x, ..., tz="UTC", character_fun=lubridate::ymd_hms, allow_na_conversion=FALSE, out_class=c("POSIXct", "Date")) {
+convert_to_datetime_helper.character <- function(x, ..., tz="UTC", character_fun=lubridate::ymd_hms, string_conversion_failure=c("error", "warning"), out_class=c("POSIXct", "Date")) {
+  string_conversion_failure <- match.arg(string_conversion_failure)
   out_class <- match.arg(out_class)
   mask_na <- is.na(x)
   mask_excel_numeric <- !mask_na & grepl(pattern="^[0-9]{5}(?:\\.[0-9]*)?$", x=x)
@@ -131,13 +139,24 @@ convert_to_datetime_helper.character <- function(x, ..., tz="UTC", character_fun
     ret[mask_character] <- characters_converted
     if (any(is.na(ret[mask_character]))) {
       not_converted_values <- unique(x[mask_character & is.na(ret)])
+      # Don't provide too many error values
+      if (length(not_converted_values) > 10) {
+        not_converted_values <-
+          paste(
+            paste0('"', not_converted_values[1:9], '"', collapse=", "),
+            "... and", length(not_converted_values) - 9, "other values."
+          )
+      } else {
+        not_converted_values <-
+          paste0('"', not_converted_values, '"', collapse=", ")
+      }
       not_converted_message <-
         paste0(
           "Not all character strings converted to class ", out_class,
           ".  Values not converted were: ",
-          paste0('"', not_converted_values, '"', collapse=", ")
+          not_converted_values
         )
-      if (!allow_na_conversion) {
+      if (string_conversion_failure %in% "error") {
         stop(not_converted_message)
       } else {
         warning(not_converted_message)
