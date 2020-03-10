@@ -63,7 +63,10 @@ convert_to_date(40000)
 convert_to_date("40000.1")
 # Mixed date source data can be provided.
 convert_to_date(c("2020-02-29", "40000.1"))
-convert_to_datetime(c("2009-07-06", "40000.1", "40000", NA), character_fun=lubridate::ymd_h, truncated=1, tz="UTC")
+convert_to_datetime(
+  c("2009-07-06", "40000.1", "40000", NA),
+  character_fun=lubridate::ymd_h, truncated=1, tz="UTC"
+)
 }
 \seealso{
 Other If your input data has a mix of Excel numeric dates and actual dates,

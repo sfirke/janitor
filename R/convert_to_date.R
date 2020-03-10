@@ -42,7 +42,10 @@ convert_to_date <- function(x, ..., character_fun=lubridate::ymd, string_convers
 
 #' @describeIn convert_to_date Convert to a date-time (POSIXct)
 #' @examples
-#' convert_to_datetime(c("2009-07-06", "40000.1", "40000", NA), character_fun=lubridate::ymd_h, truncated=1, tz="UTC")
+#' convert_to_datetime(
+#'   c("2009-07-06", "40000.1", "40000", NA),
+#'   character_fun=lubridate::ymd_h, truncated=1, tz="UTC"
+#' )
 #' @export
 #' @importFrom lubridate ymd_hms
 convert_to_datetime <- function(x, ..., tz="UTC", character_fun=lubridate::ymd_hms, string_conversion_failure=c("error", "warning")) {
