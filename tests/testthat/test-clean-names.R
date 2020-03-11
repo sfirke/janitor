@@ -110,6 +110,11 @@ test_that("All scenarios for make_clean_names", {
     "a_per_b",
     info="Custom replacement"
   )
+})
+
+test_that("locale-specific make_clean_names tests", {
+  orig_locale <- Sys.getlocale(category="LC_CTYPE")
+  Sys.setlocale(locale="C")
   expect_equal(
     make_clean_names("介護_看護_女"),
     "x_u_4ecb_u_8b77_u_770b_u_8b77_u_5973",
@@ -123,13 +128,14 @@ test_that("All scenarios for make_clean_names", {
   expect_equal(
     make_clean_names("μ"),
     "m",
-    info="lower-case mu is transliterated to a 'm'"
+    info="lower-case mu is transliterated to an 'm'"
   )
   expect_equal(
-    make_clean_names("μ", ascii=FALSE),
+    make_clean_names("µ", ascii=FALSE, use_make_names=FALSE),
     "µ",
-    info="lower-case mu is transliterated to a 'm'"
+    info="lower-case mu is not transliterated to an 'm' and uses the "
   )
+  Sys.setlocale(locale=orig_locale)
 })
 
 testing_vector <-
