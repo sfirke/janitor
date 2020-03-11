@@ -332,8 +332,6 @@ test_that("Names are cleaned appropriately", {
   expect_equal(names(clean)[18], "average_number_of_days") # for testing alternating cases below with e.g., case = "upper_lower"
   expect_equal(names(clean)[19], "jan2009sales") # no separator around number-word boundary if not existing already
   expect_equal(names(clean)[20], "jan_2009_sales") # yes separator around number-word boundary if it existed
-  
-  expect_is(clean, "sf", info="Returns a sf data.frame")
 })
 
 test_that("Tests for cases beyond default snake for sf objects", {
