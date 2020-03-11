@@ -17,33 +17,30 @@
 #' The order of operations is: `replace`, (optional) ASCII conversion, removing
 #' initial spaces and punctuation, apply `base::make.names()`, apply
 #' `snakecase::to_any_case()`, and add numeric suffixes to duplicates.
+#' 
+#' If `case = "old_janitor"` legacy compatibility option to preserve behavior of
+#' `clean_names()` prior to addition of the "case" argument(janitor versions <=
+#' 0.3.1).  The `"old_janitor"` option is provided as a quick fix for old
+#' scripts broken by the changes to `clean_names()` in janitor v1.0, and it
+#' should not be used for new code.
 #'
 #' @param string A character vector of names to clean.
-#' @param case The desired target case (default is \code{"snake"}), indicated by
-#'   these possible values:
-#' \itemize{
-#'  \item{\code{"snake"} produces snake_case}
-#'  \item{\code{"lower_camel"} or \code{"small_camel"} produces lowerCamel}
-#'  \item{\code{"upper_camel"} or \code{"big_camel"} produces UpperCamel}
-#'  \item{\code{"screaming_snake"} or \code{"all_caps"} produces ALL_CAPS}
-#'  \item{\code{"lower_upper"} produces lowerUPPER}
-#'  \item{\code{"upper_lower"} produces UPPERlower}
-#'  \item{\code{old_janitor}: legacy compatibility option to preserve behavior
-#'    of \code{clean_names} prior to addition of the "case" argument(janitor
-#'    versions <= 0.3.1 )}.  Provided as a quick fix for old scripts broken by
-#'    the changes to \code{clean_names} in janitor v1.0.
-#'  \item{\code{"parsed"}, \code{"mixed"}, \code{"none"}: less-common cases
-#'    offered by \code{snakecase::to_any_case}.  See
-#'    \code{\link[snakecase]{to_any_case}} for details.}
-#'  }
+#' @param case The desired target case (default is \code{"snake"}) will be
+#'   passed to `snakecase::to_any_case()` with the exception of "old_janitor"
+#'   (see details).
 #' @param replace A named character vector where the name is replaced by the
 #'   value.
 #' @param ascii Convert the names to ASCII (\code{TRUE}, default) or not
 #'   (\code{FALSE}).
+#' @param use_make_names Should `make.names()` be applied to ensure that the
+#'   output is usable as a name without quoting?  (Avoiding `make.names()`
+#'   ensures that the output is locale-independent but quoting may be required.)
+#' @inheritParams snakecase::to_any_case
+#' @inheritDotParams snakecase::to_any_case
 #'
 #' @return Returns the "cleaned" character vector.
 #' @export
-#' @seealso \code{\link[snakecase]{to_any_case}}
+#' @seealso \code{\link[snakecase]{to_any_case}()}
 #' @examples
 #' 
 #' # cleaning the names of a vector:
@@ -61,12 +58,9 @@
 #'
 #' @importFrom stringi stri_trans_general
 #' @importFrom stringr str_replace str_replace_all
+#' @importFrom snakecase to_any_case
 make_clean_names <- function(string,
-                             case = c(
-                               "snake", "lower_camel", "upper_camel", "screaming_snake",
-                               "lower_upper", "upper_lower", "all_caps", "small_camel",
-                               "big_camel", "old_janitor", "parsed", "mixed", "none"
-                             ),
+                             case = "snake",
                              replace=
                                c(
                                  "'"="",
@@ -74,10 +68,16 @@ make_clean_names <- function(string,
                                  "%"=".percent_",
                                  "#"=".number_"
                                ),
-                             ascii=TRUE) {
+                             ascii=TRUE,
+                             use_make_names=TRUE,
+                             # default arguments for snake_case::to_any_case
+                             sep_in = "\\.",
+                             transliterations = "Latin-ASCII",
+                             parsing_option = 1,
+                             numerals = "asis",
+                             ...) {
   
   # Handling "old_janitor" case for backward compatibility
-  case <- match.arg(case)
   if (case == "old_janitor") {
     return(old_make_clean_names(string))
   }
@@ -105,7 +105,12 @@ make_clean_names <- function(string,
     )
   # make.names() is dependent on the locale and therefore will return different
   # system-dependent values.
-  made_names <- make.names(good_start)
+  made_names <-
+    if (use_make_names) {
+      make.names(good_start)
+    } else {
+      good_start
+    }
 
   # Handle dots, multiple underscores, case conversion, string transliteration
   # Parsing option 4 removes underscores around numbers, #153
@@ -113,10 +118,11 @@ make_clean_names <- function(string,
     snakecase::to_any_case(
       made_names,
       case = case,
-      sep_in = "\\.",
-      transliterations = "Latin-ASCII",
-      parsing_option = 1,
-      numerals = "asis"
+      sep_in = sep_in,
+      transliterations = transliterations,
+      parsing_option = parsing_option,
+      numerals = numerals,
+      ...
     )
   
   # Handle duplicated names - they mess up dplyr pipelines.  This appends the

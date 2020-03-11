@@ -6,39 +6,79 @@
 \usage{
 make_clean_names(
   string,
-  case = c("snake", "lower_camel", "upper_camel", "screaming_snake", "lower_upper",
-    "upper_lower", "all_caps", "small_camel", "big_camel", "old_janitor", "parsed",
-    "mixed", "none"),
+  case = "snake",
   replace = c(`'` = "", `"` = "", `\%` = ".percent_", `#` = ".number_"),
-  ascii = TRUE
+  ascii = TRUE,
+  use_make_names = TRUE,
+  sep_in = "\\\\.",
+  transliterations = "Latin-ASCII",
+  parsing_option = 1,
+  numerals = "asis",
+  ...
 )
 }
 \arguments{
 \item{string}{A character vector of names to clean.}
 
-\item{case}{The desired target case (default is \code{"snake"}), indicated by
-  these possible values:
-\itemize{
- \item{\code{"snake"} produces snake_case}
- \item{\code{"lower_camel"} or \code{"small_camel"} produces lowerCamel}
- \item{\code{"upper_camel"} or \code{"big_camel"} produces UpperCamel}
- \item{\code{"screaming_snake"} or \code{"all_caps"} produces ALL_CAPS}
- \item{\code{"lower_upper"} produces lowerUPPER}
- \item{\code{"upper_lower"} produces UPPERlower}
- \item{\code{old_janitor}: legacy compatibility option to preserve behavior
-   of \code{clean_names} prior to addition of the "case" argument(janitor
-   versions <= 0.3.1 )}.  Provided as a quick fix for old scripts broken by
-   the changes to \code{clean_names} in janitor v1.0.
- \item{\code{"parsed"}, \code{"mixed"}, \code{"none"}: less-common cases
-   offered by \code{snakecase::to_any_case}.  See
-   \code{\link[snakecase]{to_any_case}} for details.}
- }}
+\item{case}{The desired target case (default is \code{"snake"}) will be
+passed to `snakecase::to_any_case()` with the exception of "old_janitor"
+(see details).}
 
 \item{replace}{A named character vector where the name is replaced by the
 value.}
 
 \item{ascii}{Convert the names to ASCII (\code{TRUE}, default) or not
 (\code{FALSE}).}
+
+\item{use_make_names}{Should `make.names()` be applied to ensure that the
+output is usable as a name without quoting?  (Avoiding `make.names()`
+ensures that the output is locale-independent but quoting may be required.)}
+
+\item{sep_in}{(short for separator input) if character, is interpreted as a
+regular expression (wrapped internally into \code{stringr::regex()}). 
+The default value is a regular expression that matches any sequence of
+non-alphanumeric values. All matches will be replaced by underscores 
+(additionally to \code{"_"} and \code{" "}, for which this is always true, even
+if \code{NULL} is supplied). These underscores are used internally to split
+the strings into substrings and specify the word boundaries.}
+
+\item{transliterations}{A character vector (if not \code{NULL}). The entries of this argument
+need to be elements of \code{stringi::stri_trans_list()} (like "Latin-ASCII", which is often useful) or names of lookup tables (currently only "german" is supported). In the order of the entries the letters of the input
+ string will be transliterated via \code{stringi::stri_trans_general()} or replaced via the 
+ matches of the lookup table. When named character elements are supplied as part of `transliterations`, anything that matches the names is replaced by the corresponding value.
+You should use this feature with care in case of \code{case = "parsed"}, \code{case = "internal_parsing"} and 
+\code{case = "none"}, since for upper case letters, which have transliterations/replacements
+ of length 2, the second letter will be transliterated to lowercase, for example Oe, Ae, Ss, which
+ might not always be what is intended. In this case you can make usage of the option to supply named elements and specify the transliterations yourself.}
+
+\item{parsing_option}{An integer that will determine the parsing_option.
+\itemize{
+ \item{1: \code{"RRRStudio" -> "RRR_Studio"}}
+ \item{2: \code{"RRRStudio" -> "RRRS_tudio"}}
+ \item{3: \code{"RRRStudio" -> "RRRSStudio"}. This will become for example \code{"Rrrstudio"} when we convert to lower camel case.}
+ \item{-1, -2, -3: These \code{parsing_options}'s will suppress the conversion after non-alphanumeric values.}
+ \item{0: no parsing}
+ }}
+
+\item{numerals}{A character specifying the alignment of numerals (\code{"middle"}, \code{left}, \code{right}, \code{asis} or \code{tight}). I.e. \code{numerals = "left"} ensures that no output separator is in front of a digit.}
+
+\item{...}{
+  Arguments passed on to \code{\link[snakecase:to_any_case]{snakecase::to_any_case}}
+  \describe{
+    \item{\code{abbreviations}}{character. (Case insensitive) matched abbreviations are surrounded by underscores. In this way, they can get recognized by the parser. This is useful when e.g. \code{parsing_option} 1 is needed for the use case, but some abbreviations but some substrings would require \code{parsing_option} 2. Furthermore, this argument also specifies the formatting of abbreviations in the output for the cases title, mixed, lower and upper camel. E.g. for upper camel the first letter is always in upper case, but when the abbreviation is supplied in upper case, this will also be visible in the output.
+
+Use this feature with care: One letter abbreviations and abbreviations next to each other are hard to read and also not easy to parse for further processing.}
+    \item{\code{sep_out}}{(short for separator output) String that will be used as separator. The defaults are \code{"_"} 
+and \code{""}, regarding the specified \code{case}. When \code{length(sep_out) > 1}, the last element of \code{sep_out} gets recycled and separators are incorporated per string according to their order.}
+    \item{\code{unique_sep}}{A string. If not \code{NULL}, then duplicated names will get 
+a suffix integer
+in the order of their appearance. The suffix is separated by the supplied string
+ to this argument.}
+    \item{\code{empty_fill}}{A string. If it is supplied, then each entry that matches "" will be replaced
+by the supplied string to this argument.}
+    \item{\code{prefix}}{prefix (string).}
+    \item{\code{postfix}}{postfix (string).}
+  }}
 }
 \value{
 Returns the "cleaned" character vector.
@@ -60,6 +100,12 @@ Spanish character "enye" becomes "n".
 The order of operations is: `replace`, (optional) ASCII conversion, removing
 initial spaces and punctuation, apply `base::make.names()`, apply
 `snakecase::to_any_case()`, and add numeric suffixes to duplicates.
+
+If `case = "old_janitor"` legacy compatibility option to preserve behavior of
+`clean_names()` prior to addition of the "case" argument(janitor versions <=
+0.3.1).  The `"old_janitor"` option is provided as a quick fix for old
+scripts broken by the changes to `clean_names()` in janitor v1.0, and it
+should not be used for new code.
 }
 \examples{
 
@@ -78,5 +124,5 @@ make_clean_names(names(x), "small_camel")
 
 }
 \seealso{
-\code{\link[snakecase]{to_any_case}}
+\code{\link[snakecase]{to_any_case}()}
 }
