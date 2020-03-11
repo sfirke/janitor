@@ -23,14 +23,15 @@ Depends:
     R (>= 3.1.2)
 Imports:
     dplyr (>= 0.7.0),
-    tidyr (>= 0.7.0),
-    snakecase (>= 0.9.2),
+    lubridate,
     magrittr,
     purrr,
     rlang,
     stringi,
     stringr,
-    tidyselect (>= 1.0.0)
+    snakecase (>= 0.9.2),
+    tidyselect (>= 1.0.0),
+    tidyr (>= 0.7.0)
 License: MIT + file LICENSE
 LazyData: true
 RoxygenNote: 7.0.2

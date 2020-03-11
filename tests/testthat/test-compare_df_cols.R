@@ -331,3 +331,20 @@ test_that("list inputs to compare_df_cols work as expected", {
     )
   )
 })
+test_that("compare_df_cols_df_maker catches bad inputs", {
+  expect_error(
+    compare_df_cols_df_maker(x = mtcars, class_colname = "column_name"),
+    regexp = '`class_colname` cannot be "column_name"',
+    fixed = TRUE
+  )
+  expect_error(
+    compare_df_cols_df_maker(list(x = mtcars, y = iris), class_colname = "class"),
+    regexp = '`x` and `class_colname` must be the same length.',
+    fixed = TRUE
+  )
+  expect_error(
+    compare_df_cols_df_maker(list(x = mtcars), class_colname = c("column_name")),
+    regexp = '`class_colname` cannot be "column_name"',
+    fixed = TRUE
+  )
+})

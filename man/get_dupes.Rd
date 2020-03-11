@@ -25,5 +25,4 @@ mtcars \%>\% get_dupes(wt)
 
 # You can use tidyselect helpers to specify variables:
 mtcars \%>\% get_dupes(weight = wt, starts_with("cy"))
-
 }

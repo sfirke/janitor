@@ -161,4 +161,16 @@ test_that("Messages are accurate with remove_empty and remove_constant", {
   expect_silent(
     remove_empty(data.frame(A=NA, B=c(1, NA)), which="rows", quiet=TRUE)
   )
+  expect_message(
+   remove_constant(mtcars, quiet = FALSE),
+   regexp="No constant columns to remove.",
+   fixed=TRUE,
+   info="No constant columns to remove"
+  )
+  expect_message(
+    remove_empty(mtcars, quiet = FALSE),
+    regexp="No empty columns to remove.",
+    fixed=TRUE,
+    info="No empty columns to remove"
+  )
 })

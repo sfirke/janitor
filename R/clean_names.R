@@ -1,7 +1,6 @@
 #' @title Cleans names of an object (usually a data.frame).
 #'
 #' @description
-#' 
 #' Resulting names are unique and consist only of the \code{_} character, numbers, and letters.
 #' Capitalization preferences can be specified using the \code{case} parameter.
 #'

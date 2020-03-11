@@ -14,6 +14,8 @@
 
 * The new function `signif_half_up()` rounds a numeric vector to the specified number of significant digits with halves rounded up (#314, thanks to **@khueyama** for suggesting and implementing).
 
+* The new functions `convert_to_date()` and `convert_to_datetime()` generalize the work done by `excel_numeric_to_date()` allowing conversion to date or datetimes from many forms of input from numeric, to characters that look like numbers, to characters that look like dates or datetimes, to Dates, to date-times (POSIXt) (#310, thanks to **@billdenney* for implementing).
+
 ## Minor features
 
 * A `quiet` argument was added to `remove_empty()` and `remove_constant()`  providing more information (when `FALSE`) (#70, thanks to **@jbkunst** for suggesting and **@billdenney** for implementing).
@@ -21,8 +23,6 @@
 * `row_to_names()` will now work on matrix input (#320, thanks to **@billdenney** for suggesting and implementing
 
 * `clean_names()` can now be called on *tbl_graph* objects from the `tidygraph` package. (#252), thanks to @gvdr for bringing up the issue and thanks to @Tazinho for proposing solution).
-
-* `make_clean_names()` had a code cleanup ()
 
 ## Bug fixes
 
