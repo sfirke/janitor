@@ -2,7 +2,7 @@
 
 ## Breaking Changes
 
-* `clean_names()` and `make_clean_names()` now work significantly harder to be locale-independent, and translation to ASCII is simpler. These changes alter the new names provided by these functions in some cases. (Fix #331, thanks to @billdenney)
+* `clean_names()` and `make_clean_names()` now work significantly harder to be locale-independent, and translation to ASCII is simpler (i.e. in many cases, Unicode is removed and the Greek delta character becomes a "d"). You may also now control how substitutions occur and add your own substitutions (like "%" becoming "percent").  These changes alter the new names provided by these functions in some cases. (Fix #331, thanks to @billdenney)
 
 ## Major features
 
@@ -22,7 +22,7 @@
 
 * `row_to_names()` will now work on matrix input (#320, thanks to **@billdenney** for suggesting and implementing
 
-* `clean_names()` can now be called on *tbl_graph* objects from the `tidygraph` package. (#252), thanks to @gvdr for bringing up the issue and thanks to @Tazinho for proposing solution).
+* `clean_names()` can now be called on *tbl_graph* objects from the `tidygraph` package. (#252, thanks to @gvdr for bringing up the issue and thanks to @Tazinho for proposing solution).
 
 ## Bug fixes
 
@@ -69,8 +69,6 @@ This feature (#50) took almost 3 years from conception to implementation.  Major
 * `remove_empty()` and `remove_constant()` now work with matrices (returning a matrix).  (#215)  Thanks to **@jsta** for reporting and **@billdenney** for patching.
 
 * If the third variable in a three-way tabyl is a factor, the resulting list is sorted in order of its levels (#250).  Empty factor levels in the 3rd variable are still omitted regardless of the value of `show_missing_levels`.
-
-* `clean_names()` can now be called on *tbl_graph* objects from the `tidygraph` package. (#252, thanks to @gvdr for bringing up the issue and thanks to @Tazinho for proposing solution).
 
 ## Bug fixes
 

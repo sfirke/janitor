@@ -65,8 +65,8 @@ make_clean_names <- function(string,
                                c(
                                  "'"="",
                                  "\""="",
-                                 "%"=".percent_",
-                                 "#"=".number_"
+                                 "%"="_percent_",
+                                 "#"="_number_"
                                ),
                              ascii=TRUE,
                              use_make_names=TRUE,
@@ -100,11 +100,18 @@ make_clean_names <- function(string,
   good_start <-
     stringr::str_replace(
       str=transliterated_names,
+      # Description of this regexp:
+      # \A: beginning of the string (rather than beginning of the line as ^ would indicate)
+      # \h: any horizontal whitespace character (spaces, tabs, and anything else that is a Unicode whitespace)
+      # \s: non-unicode whitespace matching (it may overlap with \h)
+      # \p{}: indicates a unicode class of characters, so these will also match punctuation, symbols, separators, and "other" characters
+      # * means all of the above zero or more times (not + so that the capturing part of the regexp works)
+      # (.*)$: captures everything else in the string for the replacement
       pattern="\\A[\\h\\s\\p{Punctuation}\\p{Symbol}\\p{Separator}\\p{Other}]*(.*)$",
       replacement="\\1"
     )
   # make.names() is dependent on the locale and therefore will return different
-  # system-dependent values.
+  # system-dependent values (e.g. as in issue #268 with Japanese characters).
   made_names <-
     if (use_make_names) {
       make.names(good_start)
@@ -112,8 +119,6 @@ make_clean_names <- function(string,
       good_start
     }
 
-  # Handle dots, multiple underscores, case conversion, string transliteration
-  # Parsing option 4 removes underscores around numbers, #153
   cased_names <-
     snakecase::to_any_case(
       made_names,

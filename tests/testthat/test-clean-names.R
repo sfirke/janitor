@@ -20,6 +20,11 @@ test_that("All scenarios for make_clean_names", {
     "percent"
   )
   expect_equal(
+    make_clean_names("%", replace=c("%"="foo")),
+    "foo",
+    info="Verify that `replace` works."
+  )
+  expect_equal(
     make_clean_names("*"),
     "x"
   )
@@ -105,6 +110,26 @@ test_that("All scenarios for make_clean_names", {
     "a_per_b",
     info="Custom replacement"
   )
+  expect_equal(
+    make_clean_names("介護_看護_女"),
+    "x_u_4ecb_u_8b77_u_770b_u_8b77_u_5973",
+    info="Unicode transliteration happens with make.names()"
+  )
+  expect_equal(
+    make_clean_names("介護_看護_女", use_make_names=FALSE),
+    "介護_看護_女",
+    info="Unicode transliteration does not happen without make.names()"
+  )
+  expect_equal(
+    make_clean_names("μ"),
+    "m",
+    info="lower-case mu is transliterated to a 'm'"
+  )
+  expect_equal(
+    make_clean_names("μ", ascii=FALSE),
+    "µ",
+    info="lower-case mu is transliterated to a 'm'"
+  )
 })
 
 testing_vector <-
@@ -129,59 +154,6 @@ testing_vector <-
     "average # of days",
     "jan2009sales",
     "jan 2009 sales",
-    "not_first_unicode_µ",
-    "µ_first_unicode"
-  )
-result_vector_noascii <-
-  c(
-    "sp_ace", # spaces
-    "repeated", # first instance of repeat
-    "a", # multiple special chars, trailing special chars
-    "percent", # converting % to percent
-    "x", # 100% invalid name
-    "x_2", # repeat of invalid name
-    "d_9", # multiple special characters
-    "repeated_2", # uppercase, 2nd instance of repeat
-    "cant", # uppercase, 2nd instance of repeat
-    "hi_there", # double-underscores to single
-    "leading_spaces", # leading spaces
-    "x_3", # euro sign, invalid
-    "acao", # accented word, transliterated to latin,
-    "faroe", # Farœ character was failing to convert on Windows, should work universally for stringi 1.1.6 or higher
-    # https://github.com/sfirke/janitor/issues/120#issuecomment-303385418
-    "a_b_c_d_e_f", # for testing alternating cases below with e.g., case = "upper_lower"
-    "test_camel_case", # for testing alternating cases below with e.g., case = "upper_lower"
-    "leadingpunct", # for testing alternating cases below with e.g., case = "upper_lower"
-    "average_number_of_days", # for testing alternating cases below with e.g., case = "upper_lower"
-    "jan2009sales", # no separator around number-word boundary if not existing already
-    "jan_2009_sales", # yes separator around number-word boundary if it existed
-    "not_first_unicode_µ",
-    "µ_first_unicode"
-  )
-
-result_vector_ascii <-
-  c(
-    "sp_ace", # spaces
-    "repeated", # first instance of repeat
-    "a", # multiple special chars, trailing special chars
-    "percent", # converting % to percent
-    "x", # 100% invalid name
-    "x_2", # repeat of invalid name
-    "d_9", # multiple special characters
-    "repeated_2", # uppercase, 2nd instance of repeat
-    "cant", # uppercase, 2nd instance of repeat
-    "hi_there", # double-underscores to single
-    "leading_spaces", # leading spaces
-    "x", # euro sign, converted
-    "acao", # ação accented word, transliterated to latin,
-    "faroe", # Farœ character was failing to convert on Windows, should work universally for stringi 1.1.6 or higher
-    # https://github.com/sfirke/janitor/issues/120#issuecomment-303385418
-    "a_b_c_d_e_f", # for testing alternating cases below with e.g., case = "upper_lower"
-    "test_camel_case", # for testing alternating cases below with e.g., case = "upper_lower"
-    "leadingpunct", # for testing alternating cases below with e.g., case = "upper_lower"
-    "average_number_of_days", # for testing alternating cases below with e.g., case = "upper_lower"
-    "jan2009sales", # no separator around number-word boundary if not existing already
-    "jan_2009_sales", # yes separator around number-word boundary if it existed
     "not_first_unicode_µ",
     "µ_first_unicode"
   )

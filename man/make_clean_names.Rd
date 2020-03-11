@@ -7,7 +7,7 @@
 make_clean_names(
   string,
   case = "snake",
-  replace = c(`'` = "", `"` = "", `\%` = ".percent_", `#` = ".number_"),
+  replace = c(`'` = "", `"` = "", `\%` = "_percent_", `#` = "_number_"),
   ascii = TRUE,
   use_make_names = TRUE,
   sep_in = "\\\\.",
