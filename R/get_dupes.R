@@ -15,8 +15,8 @@
 #' 
 #' # You can use tidyselect helpers to specify variables:
 #' mtcars %>% get_dupes(weight = wt, starts_with("cy"))
-#'
-
+#' @importFrom tidyselect eval_select
+#' @importFrom rlang expr dots_n syms
 get_dupes <- function(dat, ...) {
   
   expr <- rlang::expr(c(...))
