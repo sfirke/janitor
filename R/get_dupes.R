@@ -65,7 +65,7 @@ get_dupes <- function(dat, ...) {
   }
   
   #Reapply groups if dat was grouped
-  if(is_grouped) dupes <- dupes %>% dplyr::group_by(!!!syms(dat_groups))
+  if(is_grouped) dupes <- dupes %>% dplyr::group_by(!!!rlang::syms(dat_groups))
   
   return(dupes)
 }
