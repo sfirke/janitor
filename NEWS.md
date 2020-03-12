@@ -1,6 +1,14 @@
 # janitor 1.2.1.9000 (unreleased), will be v 1.3.0
 
+## Breaking Changes
+
+* `clean_names()` and `make_clean_names()` now work significantly harder to be locale-independent, and translation to ASCII is simpler (i.e. in many cases, Unicode is removed and the Greek delta character becomes a "d"). You may also now control how substitutions occur and add your own substitutions (like "%" becoming "percent").  These changes alter the new names provided by these functions in some cases. (Fix #331, thanks to @billdenney)
+
 ## Major features
+
+* `clean_names()` and `make_clean_names()` have a more generic interface where all arguments from `make_clean_names()` are accessible from `clean_names()` (Fix #339, thanks to @ari-nz and @billdenney).
+
+* `make_clean_names()` now allows the user to specify parts of names to be replaced (Fix #316, thanks to @woodwards for reporting and @woodwards and @billdenney for implementing)
 
 * The variables considered by the function `get_dupes()` can be specified using the select helper functions from `tidyselect`.  This includes `-column_name` to omit a variable as well as the matching functions `starts_with()`, `ends_with()`, `contains()`, and `matches()`.  See `?tidyselect::select_helpers` for more (#326, thanks to **@jzadra** for suggesting and implementing).
 
@@ -13,6 +21,8 @@
 * A `quiet` argument was added to `remove_empty()` and `remove_constant()`  providing more information (when `FALSE`) (#70, thanks to **@jbkunst** for suggesting and **@billdenney** for implementing).
 
 * `row_to_names()` will now work on matrix input (#320, thanks to **@billdenney** for suggesting and implementing
+
+* `clean_names()` can now be called on *tbl_graph* objects from the `tidygraph` package. (#252, thanks to @gvdr for bringing up the issue and thanks to @Tazinho for proposing solution).
 
 ## Bug fixes
 
