@@ -31,8 +31,8 @@ get_dupes <- function(dat, ...) {
     dat_groups <- dplyr::group_vars(dat)
     dat <- dat %>% dplyr::ungroup()
     if(getOption("get_dupes.grouped_warning",TRUE) & interactive()) {
-      message(paste0("Data is grouped by [", paste(dat_groups, collapse = "|"), "]. Note that get_dupes() is not group aware and does not limit duplicate detection to within-groups, but rather checks over the entire data frame. However grouping structure is preserved.\nThis message is shown once per session and may be disabled by setting options(\"get_dupes.grouped_warning\" = FALSE)."))
-      options("get_dupes.grouped_warning" = FALSE)
+      message(paste0("Data is grouped by [", paste(dat_groups, collapse = "|"), "]. Note that get_dupes() is not group aware and does not limit duplicate detection to within-groups, but rather checks over the entire data frame. However grouping structure is preserved.\nThis message is shown once per session and may be disabled by setting options(\"get_dupes.grouped_warning\" = FALSE).")) #nocov
+      options("get_dupes.grouped_warning" = FALSE) #nocov
     }
   }
   
