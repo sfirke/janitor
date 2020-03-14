@@ -49,4 +49,5 @@ test_that("grouped and ungrouped data is handled correctly", {
                mtcars %>% group_by(carb, cyl) %>% group_vars())
   expect_equal(suppressMessages(mtcars %>% group_by(carb, cyl) %>% get_dupes(mpg, carb) %>% ungroup()),
                mtcars %>% get_dupes(mpg, carb))
+  expect_message(mtcars %>% group_by(carb, cyl) %>% get_dupes())
 })
