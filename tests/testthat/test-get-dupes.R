@@ -43,3 +43,10 @@ test_that("tidyselect specification matches exact specification", {
   expect_equal(mtcars %>% get_dupes(mpg), mtcars %>% get_dupes(-c(cyl, disp, hp, drat, wt, qsec, vs, am ,gear, carb)))
   expect_equal(suppressMessages(mtcars %>% select(cyl, wt) %>% get_dupes()), mtcars %>% select(cyl, wt) %>% get_dupes(everything()))
 })
+
+test_that("grouped and ungrouped data is handled correctly", {
+  expect_equal(suppressMessages(mtcars %>% group_by(carb, cyl) %>% get_dupes(mpg, carb)) %>% group_vars(), 
+               mtcars %>% group_by(carb, cyl) %>% group_vars())
+  expect_equal(suppressMessages(mtcars %>% group_by(carb, cyl) %>% get_dupes(mpg, carb) %>% ungroup()),
+               mtcars %>% get_dupes(mpg, carb))
+})
