@@ -22,6 +22,7 @@
 
 * `remove_constant()` works correctly with tibbles in addition to data.frames and matrices which already worked (thanks to **@billdenney** for implementing).
 
+* `get_dupes()` works when called on a grouped tibble (#329) (thanks to **@jzadra** for fixing).
 
 # janitor 1.2.1 (2020-01-22)
 
