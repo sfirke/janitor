@@ -15,14 +15,26 @@
 #' 
 #' # You can use tidyselect helpers to specify variables:
 #' mtcars %>% get_dupes(weight = wt, starts_with("cy"))
-#'
-
+#' @importFrom tidyselect eval_select
+#' @importFrom rlang expr dots_n syms
 get_dupes <- function(dat, ...) {
   
   expr <- rlang::expr(c(...))
   pos <- tidyselect::eval_select(expr, data = dat)
   
   names(dat)[pos] <- names(pos) #allows for renaming within get_dupes() consistent with select()
+  
+  #Check if dat is grouped and if so, save structure and ungroup temporarily
+  is_grouped <- dplyr::is_grouped_df(dat)
+  
+  if(is_grouped) {
+    dat_groups <- dplyr::group_vars(dat)
+    dat <- dat %>% dplyr::ungroup()
+    if(getOption("get_dupes.grouped_warning",TRUE) & interactive()) {
+      message(paste0("Data is grouped by [", paste(dat_groups, collapse = "|"), "]. Note that get_dupes() is not group aware and does not limit duplicate detection to within-groups, but rather checks over the entire data frame. However grouping structure is preserved.\nThis message is shown once per session and may be disabled by setting options(\"get_dupes.grouped_warning\" = FALSE).")) #nocov
+      options("get_dupes.grouped_warning" = FALSE) #nocov
+    }
+  }
   
   if (rlang::dots_n(...) == 0) { # if no tidyselect variables are specified, check the whole data.frame
     var_names <- names(dat)
@@ -54,7 +66,11 @@ get_dupes <- function(dat, ...) {
   if (nrow(dupes) == 0) {
     message(paste0("No duplicate combinations found of: ", paste(var_names, collapse = ", ")))
   }
-  dupes
+  
+  #Reapply groups if dat was grouped
+  if(is_grouped) dupes <- dupes %>% dplyr::group_by(!!!rlang::syms(dat_groups))
+  
+  return(dupes)
 }
 
 
