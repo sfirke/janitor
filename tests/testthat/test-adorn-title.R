@@ -94,7 +94,7 @@ test_that("bad inputs are caught", {
 
 test_that("works with non-count inputs", {
   source2_base <- data.frame(sector = c("North", "South"), units = 1:2, group = c("a", "b"))
-  source2_tibble <- dplyr::as_data_frame(source2_base)
+  source2_tibble <- dplyr::as_tibble(source2_base)
   expect_equal(
     adorn_title(source2_base, col_name = "Characteristics") %>% names(),
     c("", "Characteristics", "")
