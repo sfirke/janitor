@@ -4,12 +4,7 @@
 \alias{adorn_rounding}
 \title{Round the numeric columns in a data.frame.}
 \usage{
-adorn_rounding(
-  dat,
-  digits = 1,
-  rounding = "half to even",
-  skip_first_col = TRUE
-)
+adorn_rounding(dat, digits = 1, rounding = "half to even", ...)
 }
 \arguments{
 \item{dat}{a data.frame with at least one numeric column}
@@ -18,15 +13,15 @@ adorn_rounding(
 
 \item{rounding}{method to use for rounding - either "half to even", the base R default method, or "half up", where 14.5 rounds up to 15.}
 
-\item{skip_first_col}{should the first column be left unrounded, assuming it contains values of a descriptive variable as in a \code{tabyl}?  Defaults to \code{TRUE}.}
+\item{...}{columns to adorn.  This takes a tidyselect specification.  By default, all numeric columns (besides the initial column, if numeric) are adorned, but this allows you to manually specify which columns should be adorned, for use on a data.frame that does not result from a call to \code{tabyl},}
 }
 \value{
 Returns the data.frame with rounded numeric columns.
 }
 \description{
-Can run on any data.frame with at least one numeric column.  This function defaults to excluding the first column of the input data.frame, assuming that it contains a descriptive variable, but this can be overridden with the argument \code{skip_first_col = FALSE}.
+Can run on any data.frame with at least one numeric column.  This function defaults to excluding the first column of the input data.frame, assuming that it contains a descriptive variable, but this can be overridden by specifying the columns to round in the \code{...} argument.
 
-If you're formatting percentages, e.g., the result of \code{adorn_percentages()}, use \code{adorn_pct_formatting()} instead.  This is a more flexible variant for ad-hoc usage.  Compared to \code{adorn_pct_formatting()}, it can run on the first column and does not multiply by 100 or pad the numbers with spaces for alignment in the results data.frame.   This function retains the class of numeric input columns.
+If you're formatting percentages, e.g., the result of \code{adorn_percentages()}, use \code{adorn_pct_formatting()} instead.  This is a more flexible variant for ad-hoc usage.  Compared to \code{adorn_pct_formatting()}, it does not multiply by 100 or pad the numbers with spaces for alignment in the results data.frame.   This function retains the class of numeric input columns.
 }
 \examples{
 
@@ -42,4 +37,10 @@ mtcars \%>\%
   adorn_percentages("all") \%>\%
   mutate(dummy = "a") \%>\%
   adorn_rounding()
+  
+# control the columns modified using the ... argument:
+mtcars \%>\%
+  tabyl(am, cyl) \%>\%
+  adorn_percentages("row") \%>\%
+  adorn_rounding(digits = 1, rounding = "half up", starts_with("8"))
 }
