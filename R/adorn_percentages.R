@@ -42,18 +42,20 @@ adorn_percentages <- function(dat, denominator = "row", na.rm = TRUE, ...) {
     numeric_cols <- which(vapply(dat, is.numeric, logical(1)))
     non_numeric_cols <- setdiff(1:ncol(dat), numeric_cols)
     numeric_cols <- setdiff(numeric_cols, 1) # assume 1st column should not be included so remove it from numeric_cols. Moved up to this line so that if only 1st col is numeric, the function errors
+    explicitly_exempt_totals <- FALSE
     
     if(rlang::dots_n(...) == 0){
       cols_to_tally <- numeric_cols
     } else {
       expr <- rlang::expr(c(...))
       cols_to_tally <- tidyselect::eval_select(expr, data = dat)
+      explicitly_exempt_totals <- !(ncol(dat) %in% cols_to_tally) # if not present, it's b/c user explicitly exempted it
       if(any(cols_to_tally %in% non_numeric_cols)){
         message("At least one non-numeric column was specified.  All non-numeric columns will be removed from percentage calculations.")
         cols_to_tally <- setdiff(cols_to_tally, non_numeric_cols)
       }
     }
-
+    
     if ("col" %in% attr(dat, "totals")) {
       # if there's a totals col, don't use it to calculate the %s
       cols_to_tally <- setdiff(cols_to_tally, ncol(dat))
@@ -61,7 +63,7 @@ adorn_percentages <- function(dat, denominator = "row", na.rm = TRUE, ...) {
 
     if (denominator == "row") {
       # if row-wise percentages and a totals column, need to exempt totals col and make it all 1s
-      if ("col" %in% attr(dat, "totals")) {
+      if ("col" %in% attr(dat, "totals") & !explicitly_exempt_totals) {
         dat[[ncol(dat)]] <- rep(1, nrow(dat))
       }
       row_sum <- rowSums(dat[cols_to_tally], na.rm = na.rm)

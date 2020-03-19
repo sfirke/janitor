@@ -37,7 +37,6 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
       expr <- rlang::expr(c(...))
       cols_to_total <- tidyselect::eval_select(expr, data = dat)
       if(any(cols_to_total %in% non_numeric_cols)){
-        message("At least one non-numeric column was specified.  All non-numeric columns will be removed from totals calculations.")
         cols_to_total <- setdiff(cols_to_total, non_numeric_cols)
       }
       non_numeric_cols <- setdiff(1:ncol(dat), cols_to_total)
