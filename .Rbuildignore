@@ -18,3 +18,4 @@ map of janitor 1.0 API.docx
 Index.md
 Index.Rmd
 ^revdep$
+.covrignore
