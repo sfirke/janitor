@@ -32,3 +32,4 @@ Returns a data.frame.
 \description{
 This function is deprecated, use the \code{adorn_} family of functions instead.
 }
+\keyword{internal}

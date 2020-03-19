@@ -17,7 +17,8 @@ NULL
 
 
 #' @title Generate a crosstabulation of two vectors.
-#'
+#' @param ... arguments
+#' @keywords internal
 #' @description
 #' This function is deprecated, use \code{tabyl(dat, var1, var2)} instead.
 #' @export
@@ -30,7 +31,6 @@ crosstab <- function(...) {
 }
 
 #' @title Add presentation formatting to a crosstabulation table.
-#'
 #' @description
 #' This function is deprecated, use the \code{adorn_} family of functions instead.
 #' @param dat a data.frame with row names in the first column and numeric values in all other columns.  Usually the piped-in result of a call to  \code{crosstab} that included the argument \code{percent = "none"}.
@@ -40,6 +40,7 @@ crosstab <- function(...) {
 #' @param show_totals display a totals summary? Will be a row, column, or both depending on the value of \code{denom}.
 #' @param rounding method to use for truncating percentages - either "half to even", the base R default method, or "half up", where 14.5 rounds up to 15.
 #' @return Returns a data.frame.
+#' @keywords internal
 #' @export
 
 adorn_crosstab <- function(dat, denom = "row", show_n = TRUE, digits = 1, show_totals = FALSE, rounding = "half to even") {

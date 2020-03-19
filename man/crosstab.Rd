@@ -6,6 +6,10 @@
 \usage{
 crosstab(...)
 }
+\arguments{
+\item{...}{arguments}
+}
 \description{
 This function is deprecated, use \code{tabyl(dat, var1, var2)} instead.
 }
+\keyword{internal}
