@@ -25,7 +25,8 @@ test_that("calculations are accurate", {
 test_that("data.frames with no numeric columns beyond the first cause failure", {
   expect_error(
     adorn_pct_formatting(data.frame(a = 1:2, b = c("hi", "lo"))),
-    "at least one one of columns 2:n must be of class numeric"
+    "at least one targeted column must be of class numeric",
+    fixed = TRUE
   )
 })
 

@@ -1,12 +1,13 @@
 #' @title Format a data.frame of decimals as percentages.
 #'
 #' @description
-#' Numeric columns get multiplied by 100 and formatted as percentages according to user specifications.  This function excludes the first column of the input data.frame, assuming that it contains a descriptive variable.  Other non-numeric columns are also excluded.
+#' Numeric columns get multiplied by 100 and formatted as percentages according to user specifications.  This function defaults to excluding the first column of the input data.frame, assuming that it contains a descriptive variable, but this can be overridden by specifying the columns to adorn in the \code{...} argument.  Non-numeric columns are always excluded.
 #'
 #' @param dat a data.frame with decimal values, typically the result of a call to \code{adorn_percentages} on a \code{tabyl}.  If given a list of data.frames, this function will apply itself to each data.frame in the list (designed for 3-way \code{tabyl} lists).
 #' @param digits how many digits should be displayed after the decimal point?
 #' @param rounding method to use for rounding - either "half to even", the base R default method, or "half up", where 14.5 rounds up to 15.
 #' @param affix_sign should the \% sign be affixed to the end?
+#' @param ... columns to adorn.  This takes a tidyselect specification.  By default, all numeric columns are adorned, but this allows you to manually specify which columns should be adorned, for use on a data.frame that does not result from a call to \code{tabyl}, 
 #'
 #' @return a data.frame with formatted percentages
 #' @export
@@ -17,7 +18,7 @@
 #'   adorn_percentages("col") %>%
 #'   adorn_pct_formatting()
 
-adorn_pct_formatting <- function(dat, digits = 1, rounding = "half to even", affix_sign = TRUE) {
+adorn_pct_formatting <- function(dat, digits = 1, rounding = "half to even", affix_sign = TRUE, ...) {
   # if input is a list, call purrr::map to recursively apply this function to each data.frame
   if (is.list(dat) && !is.data.frame(dat)) {
     purrr::map(dat, adorn_pct_formatting, digits, rounding, affix_sign)
@@ -30,23 +31,38 @@ adorn_pct_formatting <- function(dat, digits = 1, rounding = "half to even", aff
       stop("'rounding' must be one of 'half to even' or 'half up'")
     }
     original <- dat # used below to record original instances of NA and NaN
+
     numeric_cols <- which(vapply(dat, is.numeric, logical(1)))
-    numeric_cols <- setdiff(numeric_cols, 1) # assume 1st column should not be included so remove it from numeric_cols
+    non_numeric_cols <- setdiff(1:ncol(dat), numeric_cols)
+    numeric_cols <- setdiff(numeric_cols, 1) # assume 1st column should not be included so remove it from numeric_cols. Moved up to this line so that if only 1st col is numeric, the function errors
+    
+    if(rlang::dots_n(...) == 0){
+      cols_to_adorn <- numeric_cols
+    } else {
+      expr <- rlang::expr(c(...))
+      cols_to_adorn <- tidyselect::eval_select(expr, data = dat)
+      if(any(cols_to_adorn %in% non_numeric_cols)){
+        message("At least one non-numeric column was specified.  All non-numeric columns will be removed from percentage calculations.")
+        cols_to_adorn <- setdiff(cols_to_adorn, non_numeric_cols)
+      }
+    }
+    
+    
     if ("one_way" %in% attr(dat, "tabyl_type")) {
-      numeric_cols <- setdiff(numeric_cols, 2) # so that it works on a one-way tabyl
+      cols_to_adorn <- setdiff(numeric_cols, 2) # so that it works on a one-way tabyl
     }
 
-    if (sum(unlist(lapply(dat, is.numeric))[-1]) == 0) {
-      stop("at least one one of columns 2:n must be of class numeric")
+    if (length(cols_to_adorn) == 0) {
+      stop("at least one targeted column must be of class numeric")
     }
 
-    dat[numeric_cols] <- lapply(dat[numeric_cols], function(x) x * 100)
-    dat[numeric_cols] <- adorn_rounding(dat[numeric_cols], digits = digits, rounding = rounding, skip_first_col = FALSE)
-    dat[numeric_cols] <- lapply(dat[numeric_cols], function(x) format(x, nsmall = digits, trim = TRUE)) # so that 0% prints as 0.0% or 0.00% etc.
+    dat[cols_to_adorn] <- lapply(dat[cols_to_adorn], function(x) x * 100)
+    dat <- adorn_rounding(dat, digits = digits, rounding = rounding, ...)
+    dat[cols_to_adorn] <- lapply(dat[cols_to_adorn], function(x) format(x, nsmall = digits, trim = TRUE)) # so that 0% prints as 0.0% or 0.00% etc.
     if (affix_sign) {
-      dat[numeric_cols] <- lapply(dat[numeric_cols], function(x) paste0(x, "%"))
+      dat[cols_to_adorn] <- lapply(dat[cols_to_adorn], function(x) paste0(x, "%"))
     }
-    dat[numeric_cols][is.na(original[numeric_cols])] <- "-" # NA and NaN values in the original should be simply "-" for printing of results
+    dat[cols_to_adorn][is.na(original[cols_to_adorn])] <- "-" # NA and NaN values in the original should be simply "-" for printing of results
     dat
   }
 }
