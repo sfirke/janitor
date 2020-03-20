@@ -68,3 +68,19 @@ test_that("bad rounding argument caught", {
     fixed = TRUE
   )
 })
+
+test_that("works when called on a 3-way tabyl", {
+  triple <- mtcars %>%
+    tabyl(am, cyl, vs) %>%
+    adorn_percentages("row")
+  
+  triple_rounded_manual <- triple
+  triple_rounded_manual[[1]] <- adorn_rounding(triple[[1]])
+  triple_rounded_manual[[2]] <- adorn_rounding(triple[[2]])
+  
+  expect_equal(
+    triple %>%
+      adorn_rounding(),
+    triple_rounded_manual
+  )
+})

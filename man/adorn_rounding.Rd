@@ -7,7 +7,7 @@
 adorn_rounding(dat, digits = 1, rounding = "half to even", ...)
 }
 \arguments{
-\item{dat}{a data.frame with at least one numeric column}
+\item{dat}{a \code{tabyl} or other data.frame with similar layout.  If given a list of data.frames, this function will apply itself to each data.frame in the list (designed for 3-way \code{tabyl} lists).}
 
 \item{digits}{how many digits should be displayed after the decimal point?}
 

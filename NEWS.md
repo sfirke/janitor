@@ -1,8 +1,10 @@
-# janitor 1.2.1.9000 (unreleased), will be v 1.3.0
+# janitor 1.2.1.9000 (unreleased), will be v 2.0.0
 
 ## Breaking Changes
 
 * `clean_names()` and `make_clean_names()` now work significantly harder to be locale-independent, and translation to ASCII is simpler (i.e. in many cases, Unicode is removed and the Greek delta character becomes a "d"). You may also now control how substitutions occur and add your own substitutions (like "%" becoming "percent").  These changes alter the new names provided by these functions in some cases. (Fix #331, thanks to @billdenney)
+
+* The `adorn_*` family of functions now allows control of columns to be adorned using the `...` argument.  This causes a small breakage as the `skip_first_col` argument in `adorn_percentages()` was removed.
 
 ## Major features
 
@@ -29,6 +31,8 @@
 * `adorn_ns()` doesn't append anything to character columns when called on a data.frame resulting from a call to `adorn_percentages()`.  (#195).
 
 * The `name` argument to `adorn_totals()` is correctly applied to 3-way tabyls (#306) (thanks to **@jzadra** for reporting).
+
+* `adorn_rounding()` now works when called on a 3-way tabyl.
 
 * `remove_constant()` works correctly with tibbles in addition to data.frames and matrices which already worked (thanks to **@billdenney** for implementing).
 
