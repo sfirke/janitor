@@ -13,7 +13,7 @@ example_data_row_to_names <-
       data.frame(X__1=c(NA, "Title", 1:3),
                  X__2=c(NA, "Title2", 4:6)))
 
-example_data_row_to_names[[3]] <- dplyr::as_data_frame(example_data_row_to_names[[1]])
+example_data_row_to_names[[3]] <- tibble::as_tibble(example_data_row_to_names[[1]])
 names(example_data_row_to_names)[3] <- "tibble"
 
 test_that("row_to_names invalid and semi-valid input checking", {

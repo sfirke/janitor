@@ -315,15 +315,15 @@ test_that("NA levels get moved to the last column in the data.frame, are suppres
 
   # If there is NA, it does appear in split list
   expect_equal(length(starwars %>%
-    tabyl(eye_color, skin_color, gender, show_missing_levels = TRUE)), 5)
+    tabyl(eye_color, skin_color, gender, show_missing_levels = TRUE)), 3)
   expect_equal(length(starwars %>%
-    tabyl(eye_color, skin_color, gender, show_missing_levels = FALSE)), 5)
+    tabyl(eye_color, skin_color, gender, show_missing_levels = FALSE)), 3)
 
   # NA level in the list gets suppressed if show_na = FALSE.  Should have one less level if NA is suppressed.
   expect_equal(length(starwars %>%
-    tabyl(eye_color, skin_color, gender, show_na = TRUE)), 5)
+    tabyl(eye_color, skin_color, gender, show_na = TRUE)), 3)
   expect_equal(length(starwars %>%
-    tabyl(eye_color, skin_color, gender, show_na = FALSE)), 4)
+    tabyl(eye_color, skin_color, gender, show_na = FALSE)), 2)
 })
 
 test_that("zero-row and fully-NA inputs are handled", {
@@ -371,3 +371,4 @@ test_that("3-way tabyl with 3rd var factor is listed in right order, #250", {
   z <- z %>% dplyr::filter(! cyl %in% "4")
   expect_equal(names(tabyl(z, am, gear, cyl)), c("8", "6", "NA_"))
 })
+
