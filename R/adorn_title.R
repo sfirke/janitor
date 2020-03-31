@@ -72,9 +72,7 @@ adorn_title <- function(dat, placement = "top", row_name, col_name) {
       # Can't use mutate_all b/c it strips attributes
       top <- dat[1, ]
       
-      for(i in seq_len(ncol(top))){
-        top[1, i] <- names(top)[i]
-      }
+      top[1, ] <- as.list(names(top))
 
       out <- dplyr::bind_rows(top, dat)
       out <- stats::setNames(out, c("", col_var, rep("", ncol(out) - 2)))
