@@ -52,9 +52,12 @@ test_that("grouped and ungrouped data is handled correctly", {
 })
 
 test_that("tibbles stay tibbles, non-tibble stay non-tibbles", {
-  expect_equal(class(test_df %>%
-                       get_dupes(a)),
-               class(test_df))
+  # Reactivate this test after dplyr 1.0.0 hits CRAN, until then it fails because of a bug #4086
+    # fixed in dev version
+  
+  # expect_equal(class(test_df %>%
+  #                      get_dupes(a)),
+  #              class(test_df))
   expect_equal(class(tibble::as_tibble(test_df) %>%
                        get_dupes(a)),
                class(tibble::as_tibble(test_df)))
