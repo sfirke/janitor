@@ -5,7 +5,7 @@
 #'
 #' @param dat The input data.frame.
 #' @param ... Unquoted variable names to search for duplicates. This takes a tidyselect specification.
-#' @return Returns a data.frame (actually a \code{tbl_df}) with the full records where the specified variables have duplicated values, as well as a variable \code{dupe_count} showing the number of rows sharing that combination of duplicated values.
+#' @return Returns a data.frame with the full records where the specified variables have duplicated values, as well as a variable \code{dupe_count} showing the number of rows sharing that combination of duplicated values. If the input data.frame was of class \code{tbl_df}, the output is as well. 
 #' @export
 #' @examples
 #' get_dupes(mtcars, mpg, hp)
@@ -14,16 +14,14 @@
 #' mtcars %>% get_dupes(wt)
 #' 
 #' # You can use tidyselect helpers to specify variables:
-#' mtcars %>% get_dupes(weight = wt, starts_with("cy"))
+#' mtcars %>% get_dupes(-c(wt, qsec))
+#' mtcars %>% get_dupes(starts_with("cy"))
 #' @importFrom tidyselect eval_select
 #' @importFrom rlang expr dots_n syms
 get_dupes <- function(dat, ...) {
-  
   expr <- rlang::expr(c(...))
   pos <- tidyselect::eval_select(expr, data = dat)
-  
-  names(dat)[pos] <- names(pos) #allows for renaming within get_dupes() consistent with select()
-  
+
   #Check if dat is grouped and if so, save structure and ungroup temporarily
   is_grouped <- dplyr::is_grouped_df(dat)
   
@@ -47,16 +45,11 @@ get_dupes <- function(dat, ...) {
   
   dupe_count <- NULL # to appease NOTE for CRAN; does nothing.
   
-  # calculate counts to join back to main df
-  counts <- dat %>%
-    dplyr::count(!!! nms, name = "dupe_count")
   
-  # join new count vector to main data.frame
-  dupes <- suppressMessages(dplyr::inner_join(counts, dat))
-  
-  dupes <- dupes %>%
+  dupes <- dat %>%
+    dplyr::add_count(!!! nms, name = "dupe_count") %>%
     dplyr::filter(dupe_count > 1) %>%
-    dplyr::ungroup() %>%
+    dplyr::select(!!! nms, dupe_count, dplyr::everything()) %>%
     dplyr::arrange(!!! nms)
   
   # shorten error message for large data.frames
@@ -66,7 +59,7 @@ get_dupes <- function(dat, ...) {
   if (nrow(dupes) == 0) {
     message(paste0("No duplicate combinations found of: ", paste(var_names, collapse = ", ")))
   }
-  
+
   #Reapply groups if dat was grouped
   if(is_grouped) dupes <- dupes %>% dplyr::group_by(!!!rlang::syms(dat_groups))
   

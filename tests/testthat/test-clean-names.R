@@ -313,7 +313,7 @@ test_that("Names are cleaned appropriately", {
 })
 
 test_that("Tests for cases beyond default snake for sf objects", {
-  
+  skip_if_not_installed("sf")
   test_df <- data.frame(matrix(ncol = 22) %>% as.data.frame())
   
   names(test_df) <- c(
