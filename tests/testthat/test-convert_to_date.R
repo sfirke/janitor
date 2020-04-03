@@ -30,7 +30,7 @@ test_that("convert_date works", {
     as.Date("2009-07-06")
   )
   expect_equal(
-    convert_to_date(as.POSIXct("2009-07-06")),
+    convert_to_date(as.POSIXct("2009-07-06", tz = "UTC")),
     as.Date("2009-07-06")
   )
   expect_equal(
