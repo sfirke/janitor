@@ -8,7 +8,7 @@
 #' @param fill if there are non-numeric columns, what string should fill the bottom row of those columns?
 #' @param na.rm should missing values (including NaN) be omitted from the calculations?
 #' @param name name of the totals column or row 
-#' @param ... columns to total.  This takes a tidyselect specification.  By default, all numeric columns (besides the initial column, if numeric) are included in the totals, but this allows you to manually specify which columns should be included, for use on a data.frame that does not result from a call to \code{tabyl}, 
+#' @param ... columns to total.  This takes a tidyselect specification.  By default, all numeric columns (besides the initial column, if numeric) are included in the totals, but this allows you to manually specify which columns should be included, for use on a data.frame that does not result from a call to \code{tabyl}. 
 #' @return Returns a data.frame augmented with a totals row, column, or both.  The data.frame is now also of class \code{tabyl} and stores information about the attached totals and underlying data in the tabyl attributes.
 #' @export
 #' @examples
@@ -39,7 +39,6 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
       if(any(cols_to_total %in% non_numeric_cols)){
         cols_to_total <- setdiff(cols_to_total, non_numeric_cols)
       }
-      non_numeric_cols <- setdiff(1:ncol(dat), cols_to_total)
     }
     
     if (length(cols_to_total) == 0) {
@@ -66,7 +65,7 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
     }
 
     if ("row" %in% where) {
-      # to allow binding of "Total" and "-" onto date, factor columns 
+      # to allow binding of "Total" and "-" onto date & factor columns 
       dat[non_numeric_cols] <- lapply(dat[non_numeric_cols], as.character)
       
       # creates the totals row to be appended
@@ -79,10 +78,11 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
       }
 
       col_totals <- purrr::map_df(dat, col_sum)
+      col_totals[setdiff(1:length(col_totals), cols_to_total)] <- fill # reset numeric columns that weren't to be totaled
       if(! 1 %in% cols_to_total){ # give users the option to total the first column??  Up to them I guess
         col_totals[1, 1] <- name # replace first column value with name argument
       } else {
-        message("Because the first column was specified to be totaled, it does not contain the label 'Total' (or user-specified name)")
+        message("Because the first column was specified to be totaled, it does not contain the label 'Total' (or user-specified name) in the totals row")
       }
       dat[(nrow(dat) + 1), ] <- col_totals[1, ] # insert totals_col as last row in dat
     }

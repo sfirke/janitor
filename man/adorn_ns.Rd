@@ -13,7 +13,7 @@ adorn_ns(dat, position = "rear", ns = attr(dat, "core"), ...)
 
 \item{ns}{the Ns to append.  The default is the "core" attribute of the input tabyl \code{dat}, where the original Ns of a two-way \code{tabyl} are stored.  However, if you need to modify the numbers, e.g., to format \code{4000} as \code{4,000} or \code{4k}, you can do that separately and supply the formatted result here.}
 
-\item{...}{columns to adorn.  This takes a tidyselect specification.  By default, all columns are adorned except for the first column and columns not of class \code{numeric}, but this allows you to manually specify which columns should be adorned, for use on a data.frame that does not result from a call to \code{tabyl},}
+\item{...}{columns to adorn.  This takes a tidyselect specification.  By default, all columns are adorned except for the first column and columns not of class \code{numeric}, but this allows you to manually specify which columns should be adorned, for use on a data.frame that does not result from a call to \code{tabyl}.}
 }
 \value{
 a data.frame with Ns appended

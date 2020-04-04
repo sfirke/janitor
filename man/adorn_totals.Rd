@@ -17,7 +17,7 @@ adorn_totals(dat, where = "row", fill = "-", na.rm = TRUE, name = "Total", ...)
 
 \item{name}{name of the totals column or row}
 
-\item{...}{columns to total.  This takes a tidyselect specification.  By default, all numeric columns (besides the initial column, if numeric) are included in the totals, but this allows you to manually specify which columns should be included, for use on a data.frame that does not result from a call to \code{tabyl},}
+\item{...}{columns to total.  This takes a tidyselect specification.  By default, all numeric columns (besides the initial column, if numeric) are included in the totals, but this allows you to manually specify which columns should be included, for use on a data.frame that does not result from a call to \code{tabyl}.}
 }
 \value{
 Returns a data.frame augmented with a totals row, column, or both.  The data.frame is now also of class \code{tabyl} and stores information about the attached totals and underlying data in the tabyl attributes.

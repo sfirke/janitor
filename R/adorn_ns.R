@@ -6,7 +6,7 @@
 #' @param dat a data.frame of class \code{tabyl} that has had \code{adorn_percentages} and/or \code{adorn_pct_formatting} called on it.  If given a list of data.frames, this function will apply itself to each data.frame in the list (designed for 3-way \code{tabyl} lists).
 #' @param position should the N go in the front, or in the rear, of the percentage?
 #' @param ns the Ns to append.  The default is the "core" attribute of the input tabyl \code{dat}, where the original Ns of a two-way \code{tabyl} are stored.  However, if you need to modify the numbers, e.g., to format \code{4000} as \code{4,000} or \code{4k}, you can do that separately and supply the formatted result here.
-#' @param ... columns to adorn.  This takes a tidyselect specification.  By default, all columns are adorned except for the first column and columns not of class \code{numeric}, but this allows you to manually specify which columns should be adorned, for use on a data.frame that does not result from a call to \code{tabyl}, 
+#' @param ... columns to adorn.  This takes a tidyselect specification.  By default, all columns are adorned except for the first column and columns not of class \code{numeric}, but this allows you to manually specify which columns should be adorned, for use on a data.frame that does not result from a call to \code{tabyl}. 
 #'
 #' @return a data.frame with Ns appended
 #' @export

@@ -161,6 +161,11 @@ test_that("error thrown if no columns past first are numeric", {
     adorn_totals(df2, "col"),
     "at least one targeted column must be of class numeric.  Control target variables with the ... argument. adorn_totals should be called before other adorn_ functions."
   )
+  expect_error(
+    mixed %>%
+      adorn_totals(,,,,d),
+    "at least one targeted column must be of class numeric.  Control target variables with the ... argument. adorn_totals should be called before other adorn_ functions."
+  )
 
   # Add a test where only the first column is numeric
   df3 <- data.frame(
@@ -181,15 +186,15 @@ test_that("bad input to where arg is caught", {
   )
 })
 
-test_that("works with non-numeric columns mixed in; fill character specification", {
-  mixed <- data.frame(
-    a = 1:3,
-    b = c("x", "y", "z"),
-    c = 5:7,
-    d = c("big", "med", "small"),
-    stringsAsFactors = FALSE
-  )
+mixed <- data.frame(
+  a = 1:3,
+  b = c("x", "y", "z"),
+  c = 5:7,
+  d = c("big", "med", "small"),
+  stringsAsFactors = FALSE
+)
 
+test_that("works with non-numeric columns mixed in; fill character specification", {
   expect_equal(
     mixed %>% adorn_totals(where = c("row", "col"), fill = "*") %>% untabyl(),
     data.frame(
@@ -295,3 +300,33 @@ test_that("deprecated functions adorn_totals_col and adorn_totals_row function a
   )
 })
 
+test_that("tidyselecting works", {
+  cyl_gear <- mtcars %>%
+    adorn_totals(c("row", "col"), "-", TRUE, "cylgear", c(cyl, gear))
+  expect_equal(cyl_gear$cylgear, c(mtcars$cyl + mtcars$gear, (sum(mtcars$cyl) + sum(mtcars$gear))))
+  expect_equal(
+    unname(unlist(cyl_gear[33, ])),
+    c("cylgear", "198", rep("-", 7), "118", "-", "316")
+  )
+  
+  # Can override the first column not being included
+  # adorn_totals() still fails if ONLY the first column is numeric, that's fine - it's a nonsensical operation
+  simple <- data.frame(
+    x = 1:2,
+    y = 3:4,
+    z = c("hi", "lo")
+  )
+  
+  expect_message(
+    simple %>%
+      adorn_totals(c("row", "col"), "-", TRUE, "Total", x),
+    "Because the first column was specified to be totaled, it does not contain the label 'Total' (or user-specified name) in the totals row",
+    fixed = TRUE
+  )
+
+  simple_total <- simple %>%
+    adorn_totals(c("row", "col"), "-", TRUE, "Total", x)
+  
+  expect_equal(unname(unlist(simple_total[3, ])), c("3", "-", "-", "3"))
+  expect_equal(simple_total$Total, 1:3)  
+})
