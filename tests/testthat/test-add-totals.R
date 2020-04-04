@@ -163,7 +163,7 @@ test_that("error thrown if no columns past first are numeric", {
   )
   expect_error(
     mixed %>%
-      adorn_totals(,,,,d),
+      adorn_totals("row","-",TRUE,"Totals",d),
     "at least one targeted column must be of class numeric.  Control target variables with the ... argument. adorn_totals should be called before other adorn_ functions."
   )
 
