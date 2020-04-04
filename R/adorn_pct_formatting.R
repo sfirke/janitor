@@ -7,7 +7,7 @@
 #' @param digits how many digits should be displayed after the decimal point?
 #' @param rounding method to use for rounding - either "half to even", the base R default method, or "half up", where 14.5 rounds up to 15.
 #' @param affix_sign should the \% sign be affixed to the end?
-#' @param ... columns to adorn.  This takes a tidyselect specification.  By default, all numeric columns are adorned, but this allows you to manually specify which columns should be adorned, for use on a data.frame that does not result from a call to \code{tabyl}.
+#' @param ... columns to adorn.  This takes a tidyselect specification.  By default, all numeric columns (besides the initial column, if numeric) are adorned, but this allows you to manually specify which columns should be adorned, for use on a data.frame that does not result from a call to \code{tabyl}.
 #'
 #' @return a data.frame with formatted percentages
 #' @export
