@@ -237,6 +237,14 @@ test_that("totals attributes are assigned correctly", {
   expect_equal(class(post_col), c("tabyl", "data.frame"))
   expect_equal(attr(post_col, "tabyl_type"), "two_way")
   expect_equal(attr(post_col, "core"), untabyl(ct))
+  
+  post_sequential_both <- adorn_totals(ct, "col") %>%
+    adorn_totals("row")
+  expect_equivalent(post_sequential_both, post)
+  expect_equal(
+    sort(attr(post, "totals")),
+    sort(attr(post_sequential_both, "totals")),
+  )
 })
 
 
