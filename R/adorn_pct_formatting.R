@@ -42,7 +42,7 @@ adorn_pct_formatting <- function(dat, digits = 1, rounding = "half to even", aff
       expr <- rlang::expr(c(...))
       cols_to_adorn <- tidyselect::eval_select(expr, data = dat)
       if(any(cols_to_adorn %in% non_numeric_cols)){
-        message("At least one non-numeric column was specified.  All non-numeric columns will be removed from percentage calculations.")
+        # don't need to print a message, adorn_rounding will
         cols_to_adorn <- setdiff(cols_to_adorn, non_numeric_cols)
       }
     }
