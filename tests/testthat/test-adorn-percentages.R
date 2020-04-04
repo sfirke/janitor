@@ -8,6 +8,14 @@ library(dplyr)
 source1 <- mtcars %>%
   tabyl(cyl, am)
 
+test_that("bad input to denominator arg is caught", {
+  expect_error(mtcars %>%
+                 adorn_percentages("blargh"),
+               paste0("'denominator' must be one of 'row', 'col', or 'all'"),
+               fixed = TRUE
+  )
+})
+
 test_that("calculations are accurate", {
   expect_equal(
     untabyl(adorn_percentages(source1)), # default parameter is denom = "row"
@@ -154,4 +162,37 @@ test_that("automatically invokes purrr::map when called on a 3-way tabyl", {
 
 test_that("non-data.frame inputs are handled", {
   expect_error(adorn_percentages(1:5), "adorn_percentages() must be called on a data.frame or list of data.frames", fixed = TRUE)
+})
+
+test_that("tidyselecting works", {
+  target <- data.frame(
+    color = c("green", "blue", "red"),
+    first_wave = c(1:3),
+    second_wave = c(4:6),
+    third_wave = c(3, 3, 3),
+    size = c("small", "medium", "large"),
+    stringsAsFactors = FALSE
+  )  
+  two_cols <- target %>%
+    adorn_percentages(,,,first_wave:second_wave)
+  expect_equal(two_cols$first_wave, c(1/5, 2/7, 3/9))
+  expect_equal(two_cols$third_wave, rep(3, 3))
+  
+  expect_message(
+    target %>%
+    adorn_percentages(., "col",,c(first_wave, size)),
+    "At least one non-numeric column was specified.  All non-numeric columns will be removed from percentage calculations."
+  )
+  text_skipped <- target %>%
+    adorn_percentages(., "col",,c(first_wave, size))
+  expect_equal(text_skipped$first_wave, target$first_wave/sum(target$first_wave))
+  expect_equivalent(text_skipped %>% select(-first_wave),
+               target %>% select(-first_wave)
+  )
+  
+  # Check combination of totals and tidyselecting does not modify totals col
+  totaled <- target %>%
+    adorn_totals("col",,,,second_wave:third_wave) %>%
+    adorn_percentages(,,,second_wave:third_wave)
+  expect_equal(totaled$Total, 7:9)
 })

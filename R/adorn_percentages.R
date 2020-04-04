@@ -25,7 +25,7 @@
 adorn_percentages <- function(dat, denominator = "row", na.rm = TRUE, ...) {
   # if input is a list, call purrr::map to recursively apply this function to each data.frame
   if (is.list(dat) && !is.data.frame(dat)) {
-    purrr::map(dat, adorn_percentages, denominator, na.rm)
+    purrr::map(dat, adorn_percentages, denominator, na.rm, ...)
   } else {
     # catch bad inputs
     if (!is.data.frame(dat)) {

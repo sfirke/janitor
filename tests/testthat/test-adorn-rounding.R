@@ -84,3 +84,38 @@ test_that("works when called on a 3-way tabyl", {
     triple_rounded_manual
   )
 })
+
+
+test_that("tidyselecting works", {
+  target <- data.frame(
+    color = c("green", "blue", "red"),
+    first_wave = c(1:3),
+    second_wave = c(4:6),
+    third_wave = c(3, 3, 3),
+    size = c("small", "medium", "large"),
+    stringsAsFactors = FALSE
+  )  %>%
+    adorn_percentages()
+  
+  two_cols <- target %>%
+    adorn_rounding(,"half up",first_wave:second_wave)
+  expect_equal(two_cols$first_wave, c(.1, .2, .3))
+  expect_equal(two_cols$third_wave, c(3/8, 3/10, 3/12))
+  
+  expect_message(
+    target %>%
+      adorn_rounding(,,third_wave:size),
+    "At least one non-numeric column was specified and will not be modified."
+  )
+  text_skipped <- target %>%
+    adorn_rounding(,,c(first_wave, size))
+  expect_equal(text_skipped$first_wave, c(.1, .2, .2))
+  expect_equivalent(text_skipped %>% select(-first_wave),
+                    target %>% select(-first_wave)
+  )
+})
+
+
+test_that("non-data.frame inputs are handled", {
+  expect_error(adorn_rounding(1:5), "adorn_rounding() must be called on a data.frame or list of data.frames", fixed = TRUE)
+})
