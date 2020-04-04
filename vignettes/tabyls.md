@@ -1,6 +1,6 @@
 tabyls: a tidy, fully-featured approach to counting things
 ================
-2019-04-20
+2020-04-04
 
 ## Motivation: why tabyl?
 
@@ -32,6 +32,10 @@ counts as an attribute of the resulting data.frame.
 The result looks like a basic data.frame of counts, but because it’s
 also a `tabyl` containing this metadata, you can use `adorn_` functions
 to add additional information and pretty formatting.
+
+The `adorn_` functions are built to work on `tabyls`, but have been
+adapted to work with similar, non-tabyl data.frames that need
+formatting.
 
 # Examples
 
@@ -99,8 +103,8 @@ t1 %>%
 
 This is often called a “crosstab” or “contingency” table. Calling
 `tabyl` on two columns of a data.frame produces the same result as the
-common combination of `dplyr::count()`, followed by `tidyr::spread()` to
-wide form:
+common combination of `dplyr::count()`, followed by
+`tidyr::pivot_wider()` to wide form:
 
 ``` r
 t2 <- humans %>%
@@ -241,8 +245,7 @@ humans %>%
 
 ### The adorn functions are:
 
-  - **`adorn_totals()`**: Add totals row, column, or both. Replaces the
-    older janitor functions `add_totals_row` and `add_totals_col`
+  - **`adorn_totals()`**: Add totals row, column, or both.
   - **`adorn_percentages()`**: Calculate percentages along either axis
     or over the entire tabyl
   - **`adorn_pct_formatting()`**: Format percentage columns, controlling
@@ -272,10 +275,6 @@ These adornments should be called in a logical order, e.g., you probably
 want to add totals before percentages are calculated. In general, call
 them in the order they appear above.
 
-Users of janitor version \<= 0.3.1 should replace the deprecated
-`adorn_crosstab()` function with combinations of the above `adorn_`
-functions.
-
 ## BYOt (Bring Your Own tabyl)
 
 You can also call `adorn_` functions on other data.frames, not only the
@@ -304,10 +303,56 @@ percent_above_165_cm %>%
 #> 2 male   100.0%
 ```
 
-Here’s a more complex example. We’ll create a table containing the mean
-of a 3rd variable when grouped by two other variables, then use `adorn_`
-functions to round the values and append Ns. The first part is pretty
-straightforward:
+You can control which columns are adorned by using the `...` argument.
+It accepts the [tidyselect
+helpers](https://r4ds.had.co.nz/transform.html#select). That is, you can
+specify columns the same way you would using `dplyr::select()`.
+
+For instance, say you have a numeric column that should not be included
+in percentage formatting and you wish to exempt it. Here, only the
+`count` column is adorned
+
+``` r
+mtcars %>%
+  count(cyl, gear) %>%
+  rename(count = n) %>%
+  adorn_percentages("col", na.rm = TRUE, count) %>%
+  adorn_pct_formatting(,,,count) # commas specify to use the default values of the other arguments
+#>  cyl gear count
+#>    4    3  3.1%
+#>    4    4 25.0%
+#>    4    5  6.2%
+#>    6    3  6.2%
+#>    6    4 12.5%
+#>    6    5  3.1%
+#>    8    3 37.5%
+#>    8    5  6.2%
+```
+
+Here we specify that only two consecutive numeric columns should be
+totaled (`year` is numeric but should not be included):
+
+``` r
+cases <- data.frame(
+  region = c("East, West"),
+  year = 2015,
+  recovered = c(125, 87),
+  died = c(13, 12),
+  stringsAsFactors = FALSE
+)
+
+cases %>%
+    adorn_totals(c("col", "row"), fill = "-", na.rm = TRUE, name = "Total Cases", recovered:died)
+#>       region year recovered died Total Cases
+#>   East, West 2015       125   13         138
+#>   East, West 2015        87   12          99
+#>  Total Cases    -       212   25         237
+```
+
+Here’s a more complex example that uses a data.frame of means, not
+counts. We create a table containing the mean of a 3rd variable when
+grouped by two other variables, then use `adorn_` functions to round the
+values and append Ns. The first part is pretty straightforward:
 
 ``` r
 library(tidyr) # for spread()
