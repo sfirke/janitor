@@ -4,7 +4,7 @@
 \alias{adorn_ns}
 \title{Add underlying Ns to a tabyl displaying percentages.}
 \usage{
-adorn_ns(dat, position = "rear", ns = attr(dat, "core"))
+adorn_ns(dat, position = "rear", ns = attr(dat, "core"), ...)
 }
 \arguments{
 \item{dat}{a data.frame of class \code{tabyl} that has had \code{adorn_percentages} and/or \code{adorn_pct_formatting} called on it.  If given a list of data.frames, this function will apply itself to each data.frame in the list (designed for 3-way \code{tabyl} lists).}
@@ -12,12 +12,14 @@ adorn_ns(dat, position = "rear", ns = attr(dat, "core"))
 \item{position}{should the N go in the front, or in the rear, of the percentage?}
 
 \item{ns}{the Ns to append.  The default is the "core" attribute of the input tabyl \code{dat}, where the original Ns of a two-way \code{tabyl} are stored.  However, if you need to modify the numbers, e.g., to format \code{4000} as \code{4,000} or \code{4k}, you can do that separately and supply the formatted result here.}
+
+\item{...}{columns to adorn.  This takes a tidyselect specification.  By default, all columns are adorned except for the first column and columns not of class \code{numeric}, but this allows you to manually specify which columns should be adorned, for use on a data.frame that does not result from a call to \code{tabyl}.}
 }
 \value{
 a data.frame with Ns appended
 }
 \description{
-This function adds back the underlying Ns to a \code{tabyl} whose percentages were calculated using \code{adorn_percentages()}, to display the Ns and percentages together.  You can also call it on a non-tabyl data.frame with tabyl-like format to which you wish to append Ns.
+This function adds back the underlying Ns to a \code{tabyl} whose percentages were calculated using \code{adorn_percentages()}, to display the Ns and percentages together.  You can also call it on a non-tabyl data.frame to which you wish to append Ns.
 }
 \examples{
 

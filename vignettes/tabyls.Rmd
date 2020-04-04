@@ -31,6 +31,8 @@ On its surface, `tabyl()` produces frequency tables using 1, 2, or 3 variables. 
 
 The result looks like a basic data.frame of counts, but because it's also a `tabyl` containing this metadata, you can use `adorn_` functions to add additional information and pretty formatting.
 
+The `adorn_` functions are built to work on `tabyls`, but have been adapted to work with similar, non-tabyl data.frames that need formatting.
+
 # Examples
 This vignette demonstrates `tabyl` in the context of studying humans in the `starwars` dataset from dplyr:
 ```{r clean_starwars, warning = FALSE, message = FALSE}
@@ -72,7 +74,7 @@ t1 %>%
 
 ## Two-way tabyl
 
-This is often called a "crosstab" or "contingency" table.  Calling `tabyl` on two columns of a data.frame produces the same result as the common combination of `dplyr::count()`, followed by `tidyr::spread()` to wide form:
+This is often called a "crosstab" or "contingency" table.  Calling `tabyl` on two columns of a data.frame produces the same result as the common combination of `dplyr::count()`, followed by `tidyr::pivot_wider()` to wide form:
 
 ```{r two_way}
 t2 <- humans %>%
@@ -150,7 +152,7 @@ humans %>%
 
 ### The adorn functions are:
 
-+ **`adorn_totals()`**: Add totals row, column, or both.  Replaces the older janitor functions `add_totals_row` and `add_totals_col`
++ **`adorn_totals()`**: Add totals row, column, or both.
 + **`adorn_percentages()`**: Calculate percentages along either axis or over the entire tabyl
 + **`adorn_pct_formatting()`**: Format percentage columns, controlling the number of digits to display and whether to append the `%` symbol
 + **`adorn_rounding()`**: Round a data.frame of numbers (usually the result of `adorn_percentages`), either using the base R `round()` function or using janitor's `round_half_up()` to round all ties up ([thanks, StackOverflow](http://stackoverflow.com/a/12688836/4470365)).
@@ -162,8 +164,6 @@ humans %>%
 
 
 These adornments should be called in a logical order, e.g., you probably want to add totals before percentages are calculated.  In general, call them in the order they appear above.
-
-Users of janitor version <= 0.3.1 should replace the deprecated `adorn_crosstab()` function with combinations of the above `adorn_` functions.
 
 ## BYOt (Bring Your Own tabyl)
 
@@ -182,7 +182,35 @@ percent_above_165_cm %>%
   adorn_pct_formatting()
 ```
 
-Here's a more complex example.  We'll create a table containing the mean of a 3rd variable when grouped by two other variables, then use `adorn_` functions to round the values and append Ns.  The first part is pretty straightforward: 
+You can control which columns are adorned by using the `...` argument.  It accepts the [tidyselect helpers](https://r4ds.had.co.nz/transform.html#select).  That is, you can specify columns the same way you would using `dplyr::select()`.
+
+For instance, say you have a numeric column that should not be included in percentage formatting and you wish to exempt it.  Here, only the `count` column is adorned
+
+```{r tidyselect, warning = FALSE, message = FALSE}
+mtcars %>%
+  count(cyl, gear) %>%
+  rename(count = n) %>%
+  adorn_percentages("col", na.rm = TRUE, count) %>%
+  adorn_pct_formatting(,,,count) # commas specify to use the default values of the other arguments
+```
+
+Here we specify that only two consecutive numeric columns should be totaled (`year` is numeric but should not be included):
+
+```{r dont_total, warning = FALSE, message = FALSE}
+cases <- data.frame(
+  region = c("East, West"),
+  year = 2015,
+  recovered = c(125, 87),
+  died = c(13, 12),
+  stringsAsFactors = FALSE
+)
+
+cases %>%
+    adorn_totals(c("col", "row"), fill = "-", na.rm = TRUE, name = "Total Cases", recovered:died)
+```
+
+Here's a more complex example that uses a data.frame of means, not counts.  We create a table containing the mean of a 3rd variable when grouped by two other variables, then use `adorn_` functions to round the values and append Ns.  The first part is pretty straightforward: 
+
 ```{r more_non_tabyls, warning = FALSE, message = FALSE}
 library(tidyr) # for spread()
 mpg_by_cyl_and_am <- mtcars %>%

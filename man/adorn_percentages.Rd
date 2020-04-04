@@ -4,7 +4,7 @@
 \alias{adorn_percentages}
 \title{Convert a data.frame of counts to percentages.}
 \usage{
-adorn_percentages(dat, denominator = "row", na.rm = TRUE)
+adorn_percentages(dat, denominator = "row", na.rm = TRUE, ...)
 }
 \arguments{
 \item{dat}{a \code{tabyl} or other data.frame with a tabyl-like layout.  If given a list of data.frames, this function will apply itself to each data.frame in the list (designed for 3-way \code{tabyl} lists).}
@@ -12,12 +12,14 @@ adorn_percentages(dat, denominator = "row", na.rm = TRUE)
 \item{denominator}{the direction to use for calculating percentages.  One of "row", "col", or "all".}
 
 \item{na.rm}{should missing values (including NaN) be omitted from the calculations?}
+
+\item{...}{columns to adorn.  This takes a tidyselect specification.  By default, all numeric columns (besides the initial column, if numeric) are adorned, but this allows you to manually specify which columns should be adorned, for use on a data.frame that does not result from a call to \code{tabyl}.}
 }
 \value{
 Returns a data.frame of percentages, expressed as numeric values between 0 and 1.
 }
 \description{
-This function excludes the first column of the input data.frame, assuming that it contains a descriptive variable.  If the input data.frame is not a \code{tabyl}, it will convert to one in order to preserve the underlying values in the \code{core} attribute.
+This function defaults to excluding the first column of the input data.frame, assuming that it contains a descriptive variable, but this can be overridden by specifying the columns to adorn in the \code{...} argument.
 }
 \examples{
 

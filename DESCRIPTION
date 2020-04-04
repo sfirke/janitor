@@ -23,6 +23,7 @@ Depends:
     R (>= 3.1.2)
 Imports:
     dplyr (>= 0.7.0),
+    lifecycle,
     lubridate,
     magrittr,
     purrr,

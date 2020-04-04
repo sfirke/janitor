@@ -122,39 +122,3 @@ remove_message <- function(dat, mask_keep, which=c("columns", "rows"), reason=c(
     )
   }
 }
-
-### Deprecated separate remove row/col functions
-
-#' @title Removes empty rows from a data.frame.
-#'
-#' @description
-#' This function is deprecated, use \code{remove_empty("rows")} instead.
-#'
-#' @param dat the input data.frame.
-#' @return Returns the data.frame with no empty rows.
-#' @examples
-#' # not run:
-#' # dat %>% remove_empty_rows
-#' @export
-
-remove_empty_rows <- function(dat) {
-  .Deprecated("remove_empty(\"rows\")")
-  remove_empty(dat, which = "rows")
-}
-
-#' @title Removes empty columns from a data.frame.
-#'
-#' @description
-#' This function is deprecated, use \code{remove_empty("cols")} instead.
-#'
-#' @param dat the input data.frame.
-#' @return Returns the data.frame with no empty columns.
-#' @examples
-#' # not run:
-#' # dat %>% remove_empty_cols
-#' @export
-
-remove_empty_cols <- function(dat) {
-  .Deprecated("remove_empty(\"cols\")")
-  remove_empty(dat, which = "cols")
-}

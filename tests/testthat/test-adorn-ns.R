@@ -175,3 +175,16 @@ test_that("multiple character columns in a tabyl are left untouched",{
    c("text", "text")
   )
 })
+
+test_that("works with tidyselect", {
+  simple_percs <- source_an %>% adorn_percentages()
+  one_adorned <- simple_percs %>% adorn_ns(,,,`1`)
+  expect_equal(
+    simple_percs[, 1:2],
+    one_adorned[, 1:2]
+  )
+  expect_equal(
+    one_adorned[[3]],
+    c("0.166 (83)", "0.000  (0)", "0.000  (0)", "1.000  (1)")
+  )
+})

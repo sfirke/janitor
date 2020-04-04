@@ -1,13 +1,14 @@
 #' @title Append a totals row and/or column to a data.frame.
 #'
 #' @description
-#' This function excludes the first column of the input data.frame, assuming it's a descriptive variable not to be summed.  Non-numeric columns are converted to character class and have a user-specified fill character inserted in the totals row.
+#' This function defaults to excluding the first column of the input data.frame, assuming that it contains a descriptive variable, but this can be overridden by specifying the columns to be totaled in the \code{...} argument.  Non-numeric columns are converted to character class and have a user-specified fill character inserted in the totals row.
 #'
 #' @param dat an input data.frame with at least one numeric column.  If given a list of data.frames, this function will apply itself to each data.frame in the list (designed for 3-way \code{tabyl} lists).
 #' @param where one of "row", "col", or \code{c("row", "col")}
-#' @param fill if there are multiple non-numeric columns, what string should fill the bottom row of those columns?
+#' @param fill if there are non-numeric columns, what string should fill the bottom row of those columns?
 #' @param na.rm should missing values (including NaN) be omitted from the calculations?
 #' @param name name of the totals column or row 
+#' @param ... columns to total.  This takes a tidyselect specification.  By default, all numeric columns (besides the initial column, if numeric) are included in the totals, but this allows you to manually specify which columns should be included, for use on a data.frame that does not result from a call to \code{tabyl}. 
 #' @return Returns a data.frame augmented with a totals row, column, or both.  The data.frame is now also of class \code{tabyl} and stores information about the attached totals and underlying data in the tabyl attributes.
 #' @export
 #' @examples
@@ -16,7 +17,7 @@
 #'   adorn_totals()
 
 
-adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "Total") {
+adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "Total", ...) {
   # if input is a list, call purrr::map to recursively apply this function to each data.frame
   if (is.list(dat) && !is.data.frame(dat)) {
     purrr::map(dat, adorn_totals, where, fill, na.rm, name)
@@ -24,11 +25,26 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
     if (!is.data.frame(dat)) {
       stop("adorn_totals() must be called on a data.frame or list of data.frames")
     }
+    
     numeric_cols <- which(vapply(dat, is.numeric, logical(1)))
-    numeric_cols <- setdiff(numeric_cols, 1) # assume 1st column should not be included so remove it from numeric_cols
-    if (length(numeric_cols) == 0) {
-      stop("at least one one of columns 2:n must be of class numeric.  adorn_totals should be called before other adorn_ functions.")
+    non_numeric_cols <- setdiff(1:ncol(dat), numeric_cols)
+     
+    if(rlang::dots_n(...) == 0){
+      numeric_cols <- setdiff(numeric_cols, 1) # by default 1st column is not totaled so remove it from numeric_cols and add to non_numeric_cols
+      non_numeric_cols <- unique(c(1, non_numeric_cols))
+      cols_to_total <- numeric_cols
+    } else {
+      expr <- rlang::expr(c(...))
+      cols_to_total <- tidyselect::eval_select(expr, data = dat)
+      if(any(cols_to_total %in% non_numeric_cols)){
+        cols_to_total <- setdiff(cols_to_total, non_numeric_cols)
+      }
     }
+    
+    if (length(cols_to_total) == 0) {
+      stop("at least one targeted column must be of class numeric.  Control target variables with the ... argument. adorn_totals should be called before other adorn_ functions.")
+    }
+    
     if (sum(where %in% c("row", "col")) != length(where)) {
       stop("\"where\" must be one of \"row\", \"col\", or c(\"row\", \"col\")")
     }
@@ -49,11 +65,8 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
     }
 
     if ("row" %in% where) {
-      # to allow binding of "Total" and "-" onto date, factor columns 
-      not_numerics <- vapply(dat, function(x) !is.numeric(x), NA)
-      dat[not_numerics] <- lapply(dat[not_numerics], as.character)
-      dat[[1]] <- as.character(dat[[1]])
-      
+      # to allow binding of "Total" and "-" onto date & factor columns 
+      dat[non_numeric_cols] <- lapply(dat[non_numeric_cols], as.character)
       
       # creates the totals row to be appended
       col_sum <- function(a_col, na_rm = na.rm) {
@@ -65,7 +78,12 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
       }
 
       col_totals <- purrr::map_df(dat, col_sum)
-      col_totals[1, 1] <- name # replace first column value with name argument
+      col_totals[setdiff(1:length(col_totals), cols_to_total)] <- fill # reset numeric columns that weren't to be totaled
+      if(! 1 %in% cols_to_total){ # give users the option to total the first column??  Up to them I guess
+        col_totals[1, 1] <- name # replace first column value with name argument
+      } else {
+        message("Because the first column was specified to be totaled, it does not contain the label 'Total' (or user-specified name) in the totals row")
+      }
       dat[(nrow(dat) + 1), ] <- col_totals[1, ] # insert totals_col as last row in dat
     }
 
@@ -73,7 +91,7 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
       # Add totals col
       clean_dat <- clean_names(dat) # bad names will make select_if choke; this may get fixed, see https://github.com/hadley/dplyr/issues/2243 but work around it for now w/ this line
       row_totals <- clean_dat %>%
-        dplyr::select(-1) %>% # don't include the first column, even if numeric
+        dplyr::select(cols_to_total) %>%
         dplyr::select_if(is.numeric) %>%
         dplyr::transmute(Total = rowSums(., na.rm = na.rm))
 
@@ -82,37 +100,4 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
 
     dat
   }
-}
-
-### Deprecated functions -----------------------------
-#' @title Append a totals row to a data.frame.
-#'
-#' @description
-#' This function is deprecated, use \code{adorn_totals} instead.
-#'
-#' @param dat an input data.frame with at least one numeric column.
-#' @param fill if there are more than one non-numeric columns, what string should fill the bottom row of those columns?
-#' @param na.rm should missing values (including NaN) be omitted from the calculations?
-#' @return Returns a data.frame with a totals row, consisting of "Total" in the first column and column sums in the others.
-#' @export
-
-
-add_totals_row <- function(dat, fill = "-", na.rm = TRUE) {
-  .Deprecated("adorn_totals(\"row\")")
-  adorn_totals(dat, where = "row", fill = fill, na.rm = na.rm)
-}
-
-#' @title Append a totals column to a data.frame.
-#'
-#' @description
-#' This function is deprecated, use \code{adorn_totals} instead.
-#'
-#' @param dat an input data.frame with at least one numeric column.
-#' @param na.rm should missing values (including NaN) be omitted from the calculations?
-#' @return Returns a data.frame with a totals column containing row-wise sums.
-#' @export
-
-add_totals_col <- function(dat, na.rm = TRUE) {
-  .Deprecated("adorn_totals(\"col\")")
-  adorn_totals(dat, where = "col", fill = "-", na.rm = na.rm)
 }

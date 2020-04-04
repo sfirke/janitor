@@ -13,6 +13,13 @@ dat <- data.frame(
 ct <- dat %>%
   tabyl(a, b)
 
+mixed <- data.frame(
+  a = 1:3,
+  b = c("x", "y", "z"),
+  c = 5:7,
+  d = c("big", "med", "small"),
+  stringsAsFactors = FALSE
+)
 
 
 test_that("totals row is correct", {
@@ -159,7 +166,12 @@ test_that("error thrown if no columns past first are numeric", {
   )
   expect_error(
     adorn_totals(df2, "col"),
-    "at least one one of columns 2:n must be of class numeric.  adorn_totals should be called before other adorn_ functions."
+    "at least one targeted column must be of class numeric.  Control target variables with the ... argument. adorn_totals should be called before other adorn_ functions."
+  )
+  expect_error(
+    mixed %>%
+      adorn_totals("row","-",TRUE,"Totals",d),
+    "at least one targeted column must be of class numeric.  Control target variables with the ... argument. adorn_totals should be called before other adorn_ functions."
   )
 
   # Add a test where only the first column is numeric
@@ -169,7 +181,7 @@ test_that("error thrown if no columns past first are numeric", {
   )
   expect_error(
     adorn_totals(df3),
-    "at least one one of columns 2:n must be of class numeric.  adorn_totals should be called before other adorn_ functions."
+    "at least one targeted column must be of class numeric.  Control target variables with the ... argument. adorn_totals should be called before other adorn_ functions."
   )
 })
 
@@ -181,15 +193,8 @@ test_that("bad input to where arg is caught", {
   )
 })
 
-test_that("works with non-numeric columns mixed in; fill character specification", {
-  mixed <- data.frame(
-    a = 1:3,
-    b = c("x", "y", "z"),
-    c = 5:7,
-    d = c("big", "med", "small"),
-    stringsAsFactors = FALSE
-  )
 
+test_that("works with non-numeric columns mixed in; fill character specification", {
   expect_equal(
     mixed %>% adorn_totals(where = c("row", "col"), fill = "*") %>% untabyl(),
     data.frame(
@@ -232,6 +237,14 @@ test_that("totals attributes are assigned correctly", {
   expect_equal(class(post_col), c("tabyl", "data.frame"))
   expect_equal(attr(post_col, "tabyl_type"), "two_way")
   expect_equal(attr(post_col, "core"), untabyl(ct))
+  
+  post_sequential_both <- adorn_totals(ct, "col") %>%
+    adorn_totals("row")
+  expect_equivalent(post_sequential_both, post)
+  expect_equal(
+    sort(attr(post, "totals")),
+    sort(attr(post_sequential_both, "totals")),
+  )
 })
 
 
@@ -279,19 +292,33 @@ test_that("column total name is changed", {
   )
 })
 
-# Kind of superficial given that add_totals_ have been refactored to call adorn_totals() themselves, but might as well keep until deprecated functions are removed
-test_that("deprecated functions adorn_totals_col and adorn_totals_row function as expected", {
+test_that("tidyselecting works", {
+  cyl_gear <- mtcars %>%
+    adorn_totals(c("row", "col"), "-", TRUE, "cylgear", c(cyl, gear))
+  expect_equal(cyl_gear$cylgear, c(mtcars$cyl + mtcars$gear, (sum(mtcars$cyl) + sum(mtcars$gear))))
   expect_equal(
-    mtcars %>%
-      adorn_totals(),
-    suppressWarnings(mtcars %>%
-      add_totals_row())
+    unname(unlist(cyl_gear[33, ])),
+    c("cylgear", "198", rep("-", 7), "118", "-", "316")
   )
-  expect_equal(
-    mtcars %>%
-      adorn_totals("col"),
-    suppressWarnings(mtcars %>%
-      add_totals_col())
+  
+  # Can override the first column not being included
+  # adorn_totals() still fails if ONLY the first column is numeric, that's fine - it's a nonsensical operation
+  simple <- data.frame(
+    x = 1:2,
+    y = 3:4,
+    z = c("hi", "lo")
   )
-})
+  
+  expect_message(
+    simple %>%
+      adorn_totals(c("row", "col"), "-", TRUE, "Total", x),
+    "Because the first column was specified to be totaled, it does not contain the label 'Total' (or user-specified name) in the totals row",
+    fixed = TRUE
+  )
 
+  simple_total <- simple %>%
+    adorn_totals(c("row", "col"), "-", TRUE, "Total", x)
+  
+  expect_equal(unname(unlist(simple_total[3, ])), c("3", "-", "-", "3"))
+  expect_equal(simple_total$Total, 1:3)  
+})
