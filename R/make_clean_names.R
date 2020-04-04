@@ -4,25 +4,25 @@
 #' Resulting strings are unique and consist only of the \code{_} character,
 #' numbers, and letters. By default, the resulting strings will only consist of
 #' ASCII characters, but non-ASCII (e.g. Unicode) may be allowed by setting
-#' `ascii=FALSE`.  Capitalization preferences can be specified using the
+#' \code{ascii=FALSE}.  Capitalization preferences can be specified using the
 #' \code{case} parameter.
 #'
 #' For use on the names of a data.frame, e.g., in a \code{`\%>\%`} pipeline,
 #' call the convenience function \code{\link[janitor]{clean_names}}.
 #' 
-#' When `ascii=TRUE` (the default), accented characters are transliterated to
+#' When \code{ascii=TRUE} (the default), accented characters are transliterated to
 #' ASCII.  For example, an "o" with a German umlaut over it becomes "o", and the
 #' Spanish character "enye" becomes "n".
 #' 
-#' The order of operations is: `replace`, (optional) ASCII conversion, removing
-#' initial spaces and punctuation, apply `base::make.names()`, apply
-#' `snakecase::to_any_case()`, and add numeric suffixes to duplicates.
+#' The order of operations is: \code{replace}, (optional) ASCII conversion, removing
+#' initial spaces and punctuation, apply \code{base::make.names()}, apply
+#' \code{\link[snakecase]{to_any_case}}, and add numeric suffixes to duplicates.
 #' 
-#' If `case = "old_janitor"` legacy compatibility option to preserve behavior of
-#' `clean_names()` prior to addition of the "case" argument(janitor versions <=
-#' 0.3.1).  The `"old_janitor"` option is provided as a quick fix for old
-#' scripts broken by the changes to `clean_names()` in janitor v1.0, and it
-#' should not be used for new code.
+#' The option \code{case = "old_janitor"} is for compatability with old code and
+#' preserves the behavior of \code{clean_names()} prior to addition of the "case"
+#' argument(janitor versions <= 0.3.1).  The \code{"old_janitor"} option is provided
+#' as a quick fix for old scripts broken by the changes to \code{clean_names()} in
+#' janitor v1.0, and it should not be used for new code.
 #'
 #' @param string A character vector of names to clean.
 #' @param case The desired target case (default is \code{"snake"}) will be
