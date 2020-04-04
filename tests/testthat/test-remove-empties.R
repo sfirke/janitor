@@ -41,22 +41,6 @@ test_that("missing data.frame input throws its error before messages about 'whic
                fixed = TRUE)
 })
 
-# Kind of superficial given that remove_empty_* have been refactored to call remove_empty() themselves, but might as well keep until deprecated functions are removed
-test_that("deprecated functions remove_empty_cols and remove_empty_rows function as expected", {
-  expect_equal(
-    dat %>%
-      remove_empty("rows"),
-    suppressWarnings(dat %>%
-      remove_empty_rows())
-  )
-  expect_equal(
-    dat %>%
-      remove_empty("cols"),
-    suppressWarnings(dat %>%
-      remove_empty_cols())
-  )
-})
-
 test_that("remove_empty leaves matrices as matrices", {
   mat <- matrix(c(NA, NA, NA, rep(0, 3)), ncol = 2, byrow = TRUE)
   expect_equal(remove_empty(mat), matrix(c(NA, rep(0, 3)), ncol=2),

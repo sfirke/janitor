@@ -292,22 +292,6 @@ test_that("column total name is changed", {
   )
 })
 
-# Kind of superficial given that add_totals_ have been refactored to call adorn_totals() themselves, but might as well keep until deprecated functions are removed
-test_that("deprecated functions adorn_totals_col and adorn_totals_row function as expected", {
-  expect_equal(
-    mtcars %>%
-      adorn_totals(),
-    suppressWarnings(mtcars %>%
-      add_totals_row())
-  )
-  expect_equal(
-    mtcars %>%
-      adorn_totals("col"),
-    suppressWarnings(mtcars %>%
-      add_totals_col())
-  )
-})
-
 test_that("tidyselecting works", {
   cyl_gear <- mtcars %>%
     adorn_totals(c("row", "col"), "-", TRUE, "cylgear", c(cyl, gear))

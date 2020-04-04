@@ -101,36 +101,3 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
     dat
   }
 }
-
-### Deprecated functions -----------------------------
-#' @title Append a totals row to a data.frame.
-#'
-#' @description
-#' This function is deprecated, use \code{adorn_totals} instead.
-#'
-#' @param dat an input data.frame with at least one numeric column.
-#' @param fill if there are more than one non-numeric columns, what string should fill the bottom row of those columns?
-#' @param na.rm should missing values (including NaN) be omitted from the calculations?
-#' @return Returns a data.frame with a totals row, consisting of "Total" in the first column and column sums in the others.
-#' @export
-
-
-add_totals_row <- function(dat, fill = "-", na.rm = TRUE) {
-  .Deprecated("adorn_totals(\"row\")")
-  adorn_totals(dat, where = "row", fill = fill, na.rm = na.rm)
-}
-
-#' @title Append a totals column to a data.frame.
-#'
-#' @description
-#' This function is deprecated, use \code{adorn_totals} instead.
-#'
-#' @param dat an input data.frame with at least one numeric column.
-#' @param na.rm should missing values (including NaN) be omitted from the calculations?
-#' @return Returns a data.frame with a totals column containing row-wise sums.
-#' @export
-
-add_totals_col <- function(dat, na.rm = TRUE) {
-  .Deprecated("adorn_totals(\"col\")")
-  adorn_totals(dat, where = "col", fill = "-", na.rm = na.rm)
-}
