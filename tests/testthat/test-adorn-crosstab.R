@@ -75,7 +75,7 @@ test_that("digits parameter is correct", {
 
 test_that("show_n can suppress Ns, digits parameter is correct", {
   digits3 <- suppressWarnings(mtcars %>% tabyl(carb, gear) %>% adorn_crosstab(denom = "row", digits = 3, show_n = FALSE))
-  expect_equal(digits3, data.frame(
+  expect_equivalent(digits3, data.frame(
     carb = c(1:4, 6, "8"),
     `3` = c("42.857%", "40.000%", "100.000%", "50.000%", "0.000%", "0.000%"),
     `4` = c("57.143%", "40.000%", "0.000%", "40.000%", "0.000%", "0.000%"),
