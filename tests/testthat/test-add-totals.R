@@ -13,6 +13,13 @@ dat <- data.frame(
 ct <- dat %>%
   tabyl(a, b)
 
+mixed <- data.frame(
+  a = 1:3,
+  b = c("x", "y", "z"),
+  c = 5:7,
+  d = c("big", "med", "small"),
+  stringsAsFactors = FALSE
+)
 
 
 test_that("totals row is correct", {
@@ -186,13 +193,6 @@ test_that("bad input to where arg is caught", {
   )
 })
 
-mixed <- data.frame(
-  a = 1:3,
-  b = c("x", "y", "z"),
-  c = 5:7,
-  d = c("big", "med", "small"),
-  stringsAsFactors = FALSE
-)
 
 test_that("works with non-numeric columns mixed in; fill character specification", {
   expect_equal(
