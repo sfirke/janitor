@@ -138,6 +138,14 @@ test_that("locale-specific make_clean_names tests", {
   Sys.setlocale(locale=orig_locale)
 })
 
+test_that("do not create duplicates (fix #251)", {
+  expect_equal(
+    make_clean_names(c("a", "a", "a_2")),
+    c("a", "a_2", "a_2_2")
+  )
+})
+
+# Tests for clean_names ####
 testing_vector <-
   c(
     "sp ace",
@@ -164,7 +172,6 @@ testing_vector <-
     "µ_first_unicode"
   )
 
-# Tests for clean_names ####
 test_df <- as.data.frame(matrix(ncol = 22))
 names(test_df) <- testing_vector
 clean <- clean_names(test_df, "snake", ascii=TRUE)

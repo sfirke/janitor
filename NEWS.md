@@ -14,6 +14,8 @@
 
 * `make_clean_names()` now allows the user to specify parts of names to be replaced (Fix #316, thanks to @woodwards for reporting and @woodwards and @billdenney for implementing)
 
+* `make_clean_names()` will ensure that column names are never duplicated (Fix #251, thanks to @jzadra for reporting and @billdenney for implementing)
+
 * The variables considered by the function `get_dupes()` can be specified using the select helper functions from `tidyselect`.  This includes `-column_name` to omit a variable as well as the matching functions `starts_with()`, `ends_with()`, `contains()`, and `matches()`.  See `?tidyselect::select_helpers` for more (#326, thanks to **@jzadra** for suggesting and implementing).
 
 * The new function `signif_half_up()` rounds a numeric vector to the specified number of significant digits with halves rounded up (#314, thanks to **@khueyama** for suggesting and implementing).
