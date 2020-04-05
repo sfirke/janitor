@@ -387,3 +387,17 @@ test_that("3-way tabyl with 3rd var factor is listed in right order, #250", {
   expect_equal(names(tabyl(z, am, gear, cyl)), c("8", "6", "NA_"))
 })
 
+test_that("factor ordering of columns is correct in 2-way tabyl", {
+  two_factors <- data.frame(
+    x = factor(c("big", "small", "medium", "small"),
+               levels = c("small", "medium", "big")),
+    y = factor(c("hi", "hi", "hi", "lo"),
+               levels = c("lo", "hi"))
+  )
+  expect_equal(
+    two_factors %>%
+      tabyl(x, y) %>%
+      names(),
+    c("x", "lo", "hi")
+  )
+})

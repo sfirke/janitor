@@ -208,8 +208,9 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
   # if this col is a factor, need to add that level to the factor
   if (is.factor(tabl[[2]])) {
     levels(tabl[[2]]) <- c(levels(tabl[[2]]), "NA_")
+  } else {
+    tabl[2] <- as.character(tabl[[2]])
   }
-  tabl[2] <- as.character(tabl[[2]])
   tabl[2][is.na(tabl[2])] <- "NA_"
   result <- tabl %>%
     tidyr::spread(!! var2, "n", fill = 0)
