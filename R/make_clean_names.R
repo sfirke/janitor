@@ -132,20 +132,22 @@ make_clean_names <- function(string,
   
   # Handle duplicated names - they mess up dplyr pipelines.  This appends the
   # column number to repeated instances of duplicate variable names.
-  dupe_count <-
-    vapply(
-      seq_along(cased_names), function(i) {
-        sum(cased_names[i] == cased_names[1:i])
-      },
-      1L
-    )
+  while (any(duplicated(cased_names))) {
+    dupe_count <-
+      vapply(
+        seq_along(cased_names), function(i) {
+          sum(cased_names[i] == cased_names[1:i])
+        },
+        1L
+      )
   
-  cased_names[dupe_count > 1] <-
-    paste(
-      cased_names[dupe_count > 1],
-      dupe_count[dupe_count > 1],
-      sep = "_"
-    )
+    cased_names[dupe_count > 1] <-
+      paste(
+        cased_names[dupe_count > 1],
+        dupe_count[dupe_count > 1],
+        sep = "_"
+      )
+  }
   cased_names
 }
 
