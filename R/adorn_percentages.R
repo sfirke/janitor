@@ -75,6 +75,15 @@ adorn_percentages <- function(dat, denominator = "row", na.rm = TRUE, ...) {
       } else {
         col_sum <- colSums(dat[cols_to_tally], na.rm = na.rm)
       }
+      # add totals col back to be tallied, #357
+      if ("col" %in% attr(dat, "totals") & !explicitly_exempt_totals) {
+        cols_to_tally <- c(cols_to_tally, ncol(dat))
+        if ("row" %in% attr(dat, "totals")) {
+          col_sum <- c(col_sum, sum(dplyr::last(dat)[-nrow(dat)]))
+        } else {
+          col_sum <- c(col_sum, sum(dplyr::last(dat)))
+        }
+      }
       dat[cols_to_tally] <- sweep(dat[cols_to_tally], 2, col_sum, `/`) # from http://stackoverflow.com/questions/9447801/dividing-columns-by-colsums-in-r
     } else if (denominator == "all") {
       # if all-wise percentages, need to exempt any totals col or row
@@ -82,6 +91,10 @@ adorn_percentages <- function(dat, denominator = "row", na.rm = TRUE, ...) {
         complete_n <- sum(dat[-nrow(dat), cols_to_tally], na.rm = TRUE)
       } else {
         complete_n <- sum(dat[, cols_to_tally], na.rm = TRUE)
+      }
+      # add totals col back to be tallied, #357
+      if ("col" %in% attr(dat, "totals") & !explicitly_exempt_totals) {
+        cols_to_tally <- c(cols_to_tally, ncol(dat))
       }
       dat[cols_to_tally] <- dat[cols_to_tally] / complete_n
     }

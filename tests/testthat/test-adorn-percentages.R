@@ -65,6 +65,46 @@ test_that("calculations are correct when totals row/col doesn't match axis of co
   )
 })
 
+test_that("works with totals row/col when denom = col or all, #357", {
+  col_percs <- source1 %>%
+    adorn_totals(where = c("col", "row")) %>%
+    adorn_percentages(denominator = "col")
+  expect_equal(col_percs$Total, c(11, 7, 14, 32)/32)
+  expect_equal(unname(unlist(col_percs[4, ])), c("Total", rep(1, 3)))
+
+  # Same but for denom = all
+  all_percs <- source1 %>%
+    adorn_totals(where = c("col", "row")) %>%
+    adorn_percentages(denominator = "all")
+  expect_equal(all_percs$Total, c(11, 7, 14, 32)/32)
+  expect_equal(unname(unlist(all_percs[4, ])), unname(c("Total", colSums(source1)[2:3]/32, 32/32)))
+
+  # Now with no totals row, same two tests as preceding
+  col_percs_no_row <- source1 %>%
+    adorn_totals(where = c("col")) %>%
+    adorn_percentages(denominator = "col")
+  expect_equal(col_percs_no_row$Total, c(11, 7, 14)/32)
+
+  # Same but for denom = all
+  all_percs_no_row <- source1 %>%
+    adorn_totals(where = c("col")) %>%
+    adorn_percentages(denominator = "all")
+  expect_equal(all_percs_no_row$Total, c(11, 7, 14)/32)
+  
+  # And try one where we exempt the totals col
+  col_percs_exempted <- source1 %>%
+    adorn_totals(where = c("col", "row")) %>%
+    adorn_percentages(denominator = "col",,-Total)
+  expect_equal(col_percs_exempted$Total, c(11, 7, 14, 32))
+  expect_equal(unname(unlist(col_percs_exempted[4, ])), c("Total", 1, 1, 32))
+
+  all_percs_exempted <- source1 %>%
+    adorn_totals(where = c("col", "row")) %>%
+    adorn_percentages(denominator = "all",,-Total)
+  expect_equal(all_percs_exempted$Total, c(11, 7, 14, 32))
+  expect_equal(unname(unlist(all_percs_exempted[4, ])), unname(c("Total", colSums(source1)[2:3]/32, 32)))
+  
+})
 
 source2 <- source1
 source2[2, 2] <- NA
@@ -196,3 +236,4 @@ test_that("tidyselecting works", {
     adorn_percentages(,,,second_wave:third_wave)
   expect_equal(totaled$Total, 7:9)
 })
+  
