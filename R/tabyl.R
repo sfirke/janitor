@@ -207,18 +207,26 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
   # replace NA with string NA_ in vec2 to avoid invalid col name after spreading
   # if this col is a factor, need to add that level to the factor
   if (is.factor(tabl[[2]])) {
-    levels(tabl[[2]]) <- c(levels(tabl[[2]]), "NA_")
+    levels(tabl[[2]]) <- c(levels(tabl[[2]]), "emptystring_", "NA_")
   } else {
     tabl[2] <- as.character(tabl[[2]])
   }
   tabl[2][is.na(tabl[2])] <- "NA_"
+  tabl[2][tabl[2] == ""] <- "emptystring_"
   result <- tabl %>%
     tidyr::spread(!! var2, "n", fill = 0)
-
+  if("emptystring_" %in% names(result)){
+    result <- result[c(setdiff(names(result), "emptystring_"), "emptystring_")]
+    if(getOption("tabyl.emptystring",TRUE) & interactive()) {
+      message("The tabyl's column variable contained the empty string value, \"\". This is not a legal column name and has been converted to \"emptystring_\".\nConsider converting \"\" to NA if appropriate.\nThis message is shown once per session and may be disabled by setting options(\"tabyl.emptystring\" = FALSE).") #nocov
+      options("tabyl.emptystring" = FALSE) #nocov
+    }
+  }
   if ("NA_" %in% names(result)) {
     # move NA_ column to end, from http://stackoverflow.com/a/18339562
     result <- result[c(setdiff(names(result), "NA_"), "NA_")]
   }
+  
 
   result %>%
     data.frame(., check.names = FALSE) %>%
