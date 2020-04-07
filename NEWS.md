@@ -1,4 +1,4 @@
-# janitor 2.0.0 (2020-04-06)
+# janitor 2.0.0 (2020-04-07)
 
 ## Breaking Changes
 

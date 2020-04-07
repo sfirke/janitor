@@ -9,7 +9,7 @@ janitor <img src="docs/reference/figures/logo_small.png" align="right" />
 
 ------------------------------------------------------------------------
 
-[![Travis-CI Build Status](https://travis-ci.org/sfirke/janitor.svg?branch=master)](https://travis-ci.org/sfirke/janitor) <!-- [![Coverage Status](https://img.shields.io/codecov/c/github/sfirke/janitor/master.svg)](https://codecov.io/github/sfirke/janitor?branch=master) --> <!-- [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable) --> <!-- [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version-ago/janitor)](https://cran.r-project.org/package=janitor) --> <!-- ![!Monthly Downloads](https://cranlogs.r-pkg.org/badges/janitor) --> <!-- ![!Downloads](https://cranlogs.r-pkg.org/badges/grand-total/janitor) -->
+[![Travis-CI Build Status](https://travis-ci.org/sfirke/janitor.svg?branch=master)](https://travis-ci.org/sfirke/janitor) [![Coverage Status](https://img.shields.io/codecov/c/github/sfirke/janitor/master.svg)](https://codecov.io/github/sfirke/janitor?branch=master) [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable) [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version-ago/janitor)](https://cran.r-project.org/package=janitor) ![!Monthly Downloads](https://cranlogs.r-pkg.org/badges/janitor) ![!Downloads](https://cranlogs.r-pkg.org/badges/grand-total/janitor)
 
 **janitor** has simple functions for examining and cleaning dirty data. It was built with beginning and intermediate R users in mind and is optimized for user-friendliness. Advanced R users can already do everything covered here, but with janitor they can do it faster and save their thinking for the fun stuff.
 
@@ -21,7 +21,7 @@ The main janitor functions:
 
 The tabulate-and-report functions approximate popular features of SPSS and Microsoft Excel.
 
-janitor is a [\#tidyverse](https://github.com/hadley/tidyverse/blob/master/vignettes/manifesto.Rmd)-oriented package. Specifically, it plays nicely with the `%>%` pipe and is optimized for cleaning data brought in with the [readr](https://github.com/hadley/readr) and [readxl](https://github.com/hadley/readxl) packages.
+janitor is a [\#tidyverse](https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html)-oriented package. Specifically, it plays nicely with the `%>%` pipe and is optimized for cleaning data brought in with the [readr](https://github.com/tidyverse/readr) and [readxl](https://github.com/tidyverse/readxl) packages.
 
 <i class="fa fa-cog" aria-hidden="true"></i> Getting Started
 ------------------------------------------------------------
@@ -40,6 +40,11 @@ You can install:
     install.packages("devtools")
     devtools::install_github("sfirke/janitor")
     ```
+
+<i class="fa fa-rocket" aria-hidden="true"></i> janitor 2.0.0 is out!
+---------------------------------------------------------------------
+
+This marks a major release for janitor, with many new functions and some breaking changes that may affect existing code. Please see the [NEWS page](http://sfirke.github.io/janitor/news/index.html) to learn more about new capabilities.
 
 Using janitor
 -------------
@@ -62,13 +67,12 @@ Dirtiness includes:
 Here's that data after being read in to R:
 
 ``` r
-library(pacman) # for loading packages
-p_load(readxl, janitor, dplyr, here)
+library(readxl); library(janitor); library(dplyr); library(here)
 
 roster_raw <- read_excel(here("dirty_data.xlsx")) # available at http://github.com/sfirke/janitor
 glimpse(roster_raw)
-#> Observations: 13
-#> Variables: 11
+#> Rows: 13
+#> Columns: 11
 #> $ `First Name`        <chr> "Jason", "Jason", "Alicia", "Ada", "Desus", "Chien-Shiung", "Chien-Shiung", NA,…
 #> $ `Last Name`         <chr> "Bourne", "Bourne", "Keys", "Lovelace", "Nice", "Wu", "Wu", NA, "Joyce", "Lamar…
 #> $ `Employee Status`   <chr> "Teacher", "Teacher", "Teacher", "Teacher", "Administration", "Teacher", "Teach…
@@ -92,8 +96,8 @@ roster_raw_cleaner <- read_excel(here("dirty_data.xlsx"),
 # Tells read_excel() how to repair repetitive column names, overriding the
 # default repair setting
 glimpse(roster_raw_cleaner)
-#> Observations: 13
-#> Variables: 11
+#> Rows: 13
+#> Columns: 11
 #> $ first_name        <chr> "Jason", "Jason", "Alicia", "Ada", "Desus", "Chien-Shiung", "Chien-Shiung", NA, "…
 #> $ last_name         <chr> "Bourne", "Bourne", "Keys", "Lovelace", "Nice", "Wu", "Wu", NA, "Joyce", "Lamarr"…
 #> $ employee_status   <chr> "Teacher", "Teacher", "Teacher", "Teacher", "Administration", "Teacher", "Teacher…
@@ -134,31 +138,17 @@ roster
 #> 12 Micheal      Larsen    Teacher         English    2009-09-15              0.8  No        Vocal music
 ```
 
-`clean_names()` is a conveience version that can be used for piped data.frame workflows:
+`clean_names()` is a convenience version that can be used for piped data.frame workflows:
 
 ``` r
 data("iris")
-head(iris)
-#>   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-#> 1          5.1         3.5          1.4         0.2  setosa
-#> 2          4.9         3.0          1.4         0.2  setosa
-#> 3          4.7         3.2          1.3         0.2  setosa
-#> 4          4.6         3.1          1.5         0.2  setosa
-#> 5          5.0         3.6          1.4         0.2  setosa
-#> 6          5.4         3.9          1.7         0.4  setosa
-```
+names(iris) # before cleaning:
+#> [1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width"  "Species"
 
-``` r
 iris %>% 
   clean_names() %>% 
-  head()
-#>   sepal_length sepal_width petal_length petal_width species
-#> 1          5.1         3.5          1.4         0.2  setosa
-#> 2          4.9         3.0          1.4         0.2  setosa
-#> 3          4.7         3.2          1.3         0.2  setosa
-#> 4          4.6         3.1          1.5         0.2  setosa
-#> 5          5.0         3.6          1.4         0.2  setosa
-#> 6          5.4         3.9          1.7         0.4  setosa
+  names() # after cleaning:
+#> [1] "sepal_length" "sepal_width"  "petal_length" "petal_width"  "species"
 ```
 
 ### Examining dirty data
@@ -168,7 +158,7 @@ iris %>%
 Use `get_dupes()` to identify and examine duplicate records during data cleaning. Let's see if any teachers are listed more than once:
 
 ``` r
-roster %>% get_dupes(first_name, last_name)
+roster %>% get_dupes(contains("name"))
 #> # A tibble: 4 x 9
 #>   first_name   last_name dupe_count employee_status subject   hire_date  percent_allocat… full_time cert      
 #>   <chr>        <chr>          <int> <chr>           <chr>     <date>                <dbl> <chr>     <chr>     
@@ -264,7 +254,7 @@ roster %>%
 
 Pipe that right into `knitr::kable()` in your RMarkdown report.
 
-These modular adornments can be layered to reduce R's deficit against Excel and SPSS when it comes to quick, informative counts.
+These modular adornments can be layered to reduce R's deficit against Excel and SPSS when it comes to quick, informative counts. Learn more about `tabyl()` and the `adorn_` functions from the [tabyls vignette](http://sfirke.github.io/janitor/articles/tabyls.html).
 
 <i class="fa fa-bullhorn" aria-hidden="true"></i> Contact Me
 ------------------------------------------------------------
@@ -272,5 +262,5 @@ These modular adornments can be layered to reduce R's deficit against Excel and 
 You are welcome to:
 
 -   submit suggestions and report bugs: <https://github.com/sfirke/janitor/issues>
--   let me know what you think on twitter <a href="https://twitter.com/samfirke">@samfirke</a>
+-   let me know what you think on Mastodon <a href="https://a2mi.social/@samfirke/">@samfirke@a2mi.social</a>
 -   compose a friendly e-mail to: <img src = "http://samfirke.com/wp-content/uploads/2016/07/email_address_whitespace_top.png" alt = "samuel.firke AT gmail" width = "210"/>

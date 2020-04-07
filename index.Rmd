@@ -41,7 +41,7 @@ The main janitor functions:
 
 The tabulate-and-report functions approximate popular features of SPSS and Microsoft Excel.
 
-janitor is a [#tidyverse](https://github.com/hadley/tidyverse/blob/master/vignettes/manifesto.Rmd)-oriented package.  Specifically, it plays nicely with the `%>%` pipe and is optimized for cleaning data brought in with the [readr](https://github.com/hadley/readr) and [readxl](https://github.com/hadley/readxl) packages.
+janitor is a [#tidyverse](https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html)-oriented package.  Specifically, it plays nicely with the `%>%` pipe and is optimized for cleaning data brought in with the [readr](https://github.com/tidyverse/readr) and [readxl](https://github.com/tidyverse/readxl) packages.
 
 
 ## <i class="fa fa-cog" aria-hidden="true"></i> Getting Started
@@ -61,6 +61,10 @@ You can install:
     install.packages("devtools")
     devtools::install_github("sfirke/janitor")
     ```
+
+## <i class="fa fa-rocket" aria-hidden="true"></i> janitor 2.0.0 is out!
+
+This marks a major release for janitor, with many new functions and some breaking changes that may affect existing code.  Please see the [NEWS page](http://sfirke.github.io/janitor/news/index.html) to learn more about new capabilities.
 
 ## Using janitor
 
@@ -82,8 +86,7 @@ Dirtiness includes:
 
 Here's that data after being read in to R:
 ```{r, warning = FALSE, message = FALSE}
-library(pacman) # for loading packages
-p_load(readxl, janitor, dplyr, here)
+library(readxl); library(janitor); library(dplyr); library(here)
 
 roster_raw <- read_excel(here("dirty_data.xlsx")) # available at http://github.com/sfirke/janitor
 glimpse(roster_raw)
@@ -114,13 +117,11 @@ roster
 `clean_names()` is a convenience version that can be used for piped data.frame workflows:
 ```{r}
 data("iris")
-head(iris)
-```
+names(iris) # before cleaning:
 
-```{r}
 iris %>% 
   clean_names() %>% 
-  head()
+  names() # after cleaning:
 ```
 
 
@@ -129,7 +130,7 @@ iris %>%
 #### Finding duplicates
 Use `get_dupes()` to identify and examine duplicate records during data cleaning.  Let's see if any teachers are listed more than once:
 ```{r}
-roster %>% get_dupes(first_name, last_name)
+roster %>% get_dupes(contains("name"))
 ```
 
 Yes, some teachers appear twice.  We ought to address this before counting employees.
@@ -184,12 +185,12 @@ roster %>%
 
 Pipe that right into `knitr::kable()` in your RMarkdown report.
 
-These modular adornments can be layered to reduce R's deficit against Excel and SPSS when it comes to quick, informative counts.
+These modular adornments can be layered to reduce R's deficit against Excel and SPSS when it comes to quick, informative counts.  Learn more about `tabyl()` and the `adorn_` functions from the [tabyls vignette](http://sfirke.github.io/janitor/articles/tabyls.html).
 
 ## <i class="fa fa-bullhorn" aria-hidden="true"></i> Contact Me
 
 You are welcome to:
 
 * submit suggestions and report bugs: https://github.com/sfirke/janitor/issues
-* let me know what you think on twitter <a href="https://twitter.com/samfirke">@samfirke</a>
+* let me know what you think on Mastodon <a href="https://a2mi.social/@samfirke/">@samfirke@a2mi.social</a>
 * compose a friendly e-mail to: <img src = "http://samfirke.com/wp-content/uploads/2016/07/email_address_whitespace_top.png" alt = "samuel.firke AT gmail" width = "210"/>

@@ -62,6 +62,10 @@ You can install:
     devtools::install_github("sfirke/janitor")
     ```
 
+## janitor 2.0.0 is out!
+
+This marks a major release for janitor, with many new functions and some breaking changes that may affect existing code.  Please see the [NEWS page](http://sfirke.github.io/janitor/news/index.html) to learn more about new capabilities.
+
 ## Using janitor
 
 A full description of each function, organized by topic, can be found in janitor's [catalog of functions vignette](http://sfirke.github.io/janitor/articles/janitor.html).  There you will find functions not mentioned in this README, like `compare_df_cols()` which provides a summary of differences in column names and types when given a set of data.frames.
@@ -187,4 +191,5 @@ These modular adornments can be layered to reduce R's deficit against Excel and 
 You are welcome to:
 
 * submit suggestions and report bugs: https://github.com/sfirke/janitor/issues
+* let me know what you think on Mastodon <a href="https://a2mi.social/@samfirke/">@samfirke@a2mi.social</a>
 * compose a friendly e-mail to: <img src = "http://samfirke.com/wp-content/uploads/2016/07/email_address_whitespace_top.png" alt = "samuel.firke AT gmail" width = "210"/>

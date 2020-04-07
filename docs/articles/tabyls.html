@@ -87,7 +87,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>tabyls: a tidy, fully-featured approach to counting things</h1>
             
-            <h4 class="date">2020-04-06</h4>
+            <h4 class="date">2020-04-07</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sfirke/janitor/blob/master/vignettes/tabyls.Rmd"><code>vignettes/tabyls.Rmd</code></a></small>
       <div class="hidden name"><code>tabyls.Rmd</code></div>
@@ -359,21 +359,21 @@
 <span class="co">#&gt; 1 feminine  12.5%           </span>
 <span class="co">#&gt; 2 masculine 100.0%</span></pre></body></html></div>
 <p>You can control which columns are adorned by using the <code>...</code> argument. It accepts the <a href="https://r4ds.had.co.nz/transform.html#select">tidyselect helpers</a>. That is, you can specify columns the same way you would using <code><a href="https://dplyr.tidyverse.org/reference/select.html">dplyr::select()</a></code>.</p>
-<p>For instance, say you have a numeric column that should not be included in percentage formatting and you wish to exempt it. Here, only the <code>count</code> column is adorned</p>
+<p>For instance, say you have a numeric column that should not be included in percentage formatting and you wish to exempt it. Here, only the <code>count</code> column is adorned:</p>
 <div class="sourceCode"><html><body><pre class="r"><span class="no">mtcars</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span>(<span class="no">cyl</span>, <span class="no">gear</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span>(<span class="kw">count</span> <span class="kw">=</span> <span class="no">n</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="../reference/adorn_percentages.html">adorn_percentages</a></span>(<span class="st">"col"</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="no">count</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="../reference/adorn_pct_formatting.html">adorn_pct_formatting</a></span>(,,,<span class="no">count</span>) <span class="co"># commas specify to use the default values of the other arguments</span>
-<span class="co">#&gt;  cyl gear count</span>
-<span class="co">#&gt;    4    3  3.1%</span>
-<span class="co">#&gt;    4    4 25.0%</span>
-<span class="co">#&gt;    4    5  6.2%</span>
-<span class="co">#&gt;    6    3  6.2%</span>
-<span class="co">#&gt;    6    4 12.5%</span>
-<span class="co">#&gt;    6    5  3.1%</span>
-<span class="co">#&gt;    8    3 37.5%</span>
-<span class="co">#&gt;    8    5  6.2%</span></pre></body></html></div>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span>(<span class="kw">proportion</span> <span class="kw">=</span> <span class="no">n</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/adorn_percentages.html">adorn_percentages</a></span>(<span class="st">"col"</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="no">proportion</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/adorn_pct_formatting.html">adorn_pct_formatting</a></span>(,,,<span class="no">proportion</span>) <span class="co"># the commas say to use the default values of the other arguments</span>
+<span class="co">#&gt;  cyl gear proportion</span>
+<span class="co">#&gt;    4    3       3.1%</span>
+<span class="co">#&gt;    4    4      25.0%</span>
+<span class="co">#&gt;    4    5       6.2%</span>
+<span class="co">#&gt;    6    3       6.2%</span>
+<span class="co">#&gt;    6    4      12.5%</span>
+<span class="co">#&gt;    6    5       3.1%</span>
+<span class="co">#&gt;    8    3      37.5%</span>
+<span class="co">#&gt;    8    5       6.2%</span></pre></body></html></div>
 <p>Here we specify that only two consecutive numeric columns should be totaled (<code>year</code> is numeric but should not be included):</p>
 <div class="sourceCode"><html><body><pre class="r"><span class="no">cases</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(
   <span class="kw">region</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"East, West"</span>),
