@@ -18,16 +18,16 @@
 #' initial spaces and punctuation, apply \code{base::make.names()}, apply
 #' \code{\link[snakecase]{to_any_case}}, and add numeric suffixes to duplicates.
 #' 
-#' The option \code{case = "old_janitor"} is for compatability with old code and
-#' preserves the behavior of \code{clean_names()} prior to addition of the "case"
-#' argument(janitor versions <= 0.3.1).  The \code{"old_janitor"} option is provided
-#' as a quick fix for old scripts broken by the changes to \code{clean_names()} in
-#' janitor v1.0, and it should not be used for new code.
-#'
+#' See the documentation for \code{snakecase::to_any_case}` for more about how to control its behavior.
+#' 
 #' @param string A character vector of names to clean.
 #' @param case The desired target case (default is \code{"snake"}) will be
-#'   passed to `snakecase::to_any_case()` with the exception of "old_janitor"
-#'   (see details).
+#'   passed to `snakecase::to_any_case()` with the exception of "old_janitor",
+#'   which exists only to support legacy code (it preserves the behavior of
+#'   \code{clean_names()} prior to addition of the "case" argument (janitor
+#'   versions <= 0.3.1).  "old_janitor" is not intended for new code.
+#'   See \code{\link[snakecase]{to_any_case}} for a wide variety of supported cases,
+#'   including "sentence" and "title" case. 
 #' @param replace A named character vector where the name is replaced by the
 #'   value.
 #' @param ascii Convert the names to ASCII (\code{TRUE}, default) or not

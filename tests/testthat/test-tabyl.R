@@ -401,3 +401,15 @@ test_that("factor ordering of columns is correct in 2-way tabyl", {
     c("x", "lo", "hi")
   )
 })
+
+test_that("empty strings converted to _emptystring", {
+  x <- mtcars
+  x$cyl[1:2] <- c("", NA_character_)
+  expect_equal(
+    x %>%
+      tabyl(am, cyl) %>%
+      names,
+    c("am", "4", "6", "8", "emptystring_", "NA_")
+  )
+})
+
