@@ -37,10 +37,10 @@ License: MIT + file LICENSE
 LazyData: true
 RoxygenNote: 7.1.0
 Suggests:
-    testthat,
     knitr,
     rmarkdown,
     sf,
+    testthat,
     tibble,
     tidygraph
 VignetteBuilder: knitr
