@@ -20,3 +20,5 @@ Index.Rmd
 ^revdep$
 .covrignore
 ^CRAN-RELEASE$
+^doc$
+^Meta$
