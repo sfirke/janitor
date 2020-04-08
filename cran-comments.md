@@ -9,7 +9,6 @@ Timing is a factor: this was sped up to address errors caused by breaking change
 ### Test environments
 
 #### Windows
-****** win-builder with R-release 3.6.3 (2020-04-07)
 * Windows 10 with R-release 3.6.3 (local)
 
 #### Linux
