@@ -19,3 +19,4 @@ Index.md
 Index.Rmd
 ^revdep$
 .covrignore
+^CRAN-RELEASE$
