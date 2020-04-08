@@ -26,9 +26,7 @@
 #' # Mixed date source data can be provided.
 #' convert_to_date(c("2020-02-29", "40000.1"))
 #' @export
-#' @family If your input data has a mix of Excel numeric dates and actual dates,
-#'   see the more powerful functions `convert_to_date` and
-#'   `convert_to_datetime`.
+#' @family Date-time cleaning
 #' @importFrom lubridate ymd
 convert_to_date <- function(x, ..., character_fun=lubridate::ymd, string_conversion_failure=c("error", "warning")) {
   string_conversion_failure <- match.arg(string_conversion_failure)

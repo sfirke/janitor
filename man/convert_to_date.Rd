@@ -69,11 +69,7 @@ convert_to_datetime(
 )
 }
 \seealso{
-Other If your input data has a mix of Excel numeric dates and actual dates,
-  see the more powerful functions `convert_to_date` and
-  `convert_to_datetime`.: 
+Other Date-time cleaning: 
 \code{\link{excel_numeric_to_date}()}
 }
-\concept{If your input data has a mix of Excel numeric dates and actual dates,
-  see the more powerful functions `convert_to_date` and
-  `convert_to_datetime`.}
+\concept{Date-time cleaning}
