@@ -8,13 +8,11 @@
 
 <title>Round a numeric vector; halves will be rounded up, ala Microsoft Excel. — round_half_up • janitor</title>
 
-
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
@@ -38,10 +36,11 @@
 
 
 
-
 <meta property="og:title" content="Round a numeric vector; halves will be rounded up, ala Microsoft Excel. — round_half_up" />
+
 <meta property="og:description" content="In base R round(), halves are rounded to even, e.g., 12.5 and 11.5 are both rounded to 12.  This function rounds 12.5 to 13 (assuming digits = 0).  Negative halves are rounded away from zero, e.g., -0.5 is rounded to -1.
 This may skew subsequent statistical analysis of the data, but may be desirable in certain contexts.  This function is implemented exactly from http://stackoverflow.com/a/12688836; see that question and comments for discussion of this issue." />
+
 
 
 
@@ -107,6 +106,7 @@ This may skew subsequent statistical analysis of the data, but may be desirable 
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
+      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/sfirke/janitor/">
@@ -133,12 +133,14 @@ This may skew subsequent statistical analysis of the data, but may be desirable 
     </div>
 
     <div class="ref-description">
+    
     <p>In base R <code><a href='https://rdrr.io/r/base/Round.html'>round()</a></code>, halves are rounded to even, e.g., 12.5 and 11.5 are both rounded to 12.  This function rounds 12.5 to 13 (assuming <code>digits = 0</code>).  Negative halves are rounded away from zero, e.g., -0.5 is rounded to -1.</p>
 <p>This may skew subsequent statistical analysis of the data, but may be desirable in certain contexts.  This function is implemented exactly from <a href='http://stackoverflow.com/a/12688836'>http://stackoverflow.com/a/12688836</a>; see that question and comments for discussion of this issue.</p>
+    
     </div>
 
     <pre class="usage"><span class='fu'>round_half_up</span>(<span class='no'>x</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>0</span>)</pre>
-
+    
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -151,7 +153,7 @@ This may skew subsequent statistical analysis of the data, but may be desirable 
       <td><p>how many digits should be displayed after the decimal point?</p></td>
     </tr>
     </table>
-
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>round_half_up</span>(<span class='fl'>12.5</span>)</div><div class='output co'>#&gt; [1] 13</div><div class='input'><span class='fu'>round_half_up</span>(<span class='fl'>1.125</span>, <span class='fl'>2</span>)</div><div class='output co'>#&gt; [1] 1.13</div><div class='input'><span class='fu'>round_half_up</span>(<span class='fl'>1.125</span>, <span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] 1.1</div><div class='input'><span class='fu'>round_half_up</span>(-<span class='fl'>0.5</span>, <span class='fl'>0</span>) <span class='co'># negatives get rounded away from zero</span></div><div class='output co'>#&gt; [1] -1</div><div class='input'>
