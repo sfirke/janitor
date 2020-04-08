@@ -8,13 +8,11 @@
 
 <title>Add underlying Ns to a tabyl displaying percentages. — adorn_ns • janitor</title>
 
-
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
@@ -38,9 +36,10 @@
 
 
 
-
 <meta property="og:title" content="Add underlying Ns to a tabyl displaying percentages. — adorn_ns" />
+
 <meta property="og:description" content="This function adds back the underlying Ns to a tabyl whose percentages were calculated using adorn_percentages(), to display the Ns and percentages together.  You can also call it on a non-tabyl data.frame to which you wish to append Ns." />
+
 
 
 
@@ -106,6 +105,7 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
+      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/sfirke/janitor/">
@@ -132,11 +132,13 @@
     </div>
 
     <div class="ref-description">
+    
     <p>This function adds back the underlying Ns to a <code>tabyl</code> whose percentages were calculated using <code><a href='adorn_percentages.html'>adorn_percentages()</a></code>, to display the Ns and percentages together.  You can also call it on a non-tabyl data.frame to which you wish to append Ns.</p>
+    
     </div>
 
     <pre class="usage"><span class='fu'>adorn_ns</span>(<span class='no'>dat</span>, <span class='kw'>position</span> <span class='kw'>=</span> <span class='st'>"rear"</span>, <span class='kw'>ns</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span>(<span class='no'>dat</span>, <span class='st'>"core"</span>), <span class='no'>...</span>)</pre>
-
+    
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -157,10 +159,11 @@
       <td><p>columns to adorn.  This takes a tidyselect specification.  By default, all columns are adorned except for the first column and columns not of class <code>numeric</code>, but this allows you to manually specify which columns should be adorned, for use on a data.frame that does not result from a call to <code>tabyl</code>.</p></td>
     </tr>
     </table>
-
+    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>a data.frame with Ns appended</p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>

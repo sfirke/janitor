@@ -9,13 +9,11 @@
 <title>Convert many date and datetime formats as may be received from Microsoft
 Excel — convert_to_date • janitor</title>
 
-
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
@@ -39,11 +37,12 @@ Excel — convert_to_date • janitor</title>
 
 
 
-
 <meta property="og:title" content="Convert many date and datetime formats as may be received from Microsoft
 Excel — convert_to_date" />
+
 <meta property="og:description" content="Convert many date and datetime formats as may be received from Microsoft
 Excel" />
+
 
 
 
@@ -109,6 +108,7 @@ Excel" />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
+      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/sfirke/janitor/">
@@ -136,8 +136,10 @@ Excel</h1>
     </div>
 
     <div class="ref-description">
+    
     <p>Convert many date and datetime formats as may be received from Microsoft
 Excel</p>
+    
     </div>
 
     <pre class="usage"><span class='fu'>convert_to_date</span>(
@@ -154,7 +156,7 @@ Excel</p>
   <span class='kw'>character_fun</span> <span class='kw'>=</span> <span class='kw pkg'>lubridate</span><span class='kw ns'>::</span><span class='no'><a href='http://lubridate.tidyverse.org/reference/ymd_hms.html'>ymd_hms</a></span>,
   <span class='kw'>string_conversion_failure</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"error"</span>, <span class='st'>"warning"</span>)
 )</pre>
-
+    
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -184,11 +186,12 @@ result with a warning or throw an error?</p></td>
 already.  Ignored for Date output.</p></td>
     </tr>
     </table>
-
+    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>POSIXct objects for `convert_to_datetime()` or Date objects for
   `convert_to_date()`.</p>
+    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Character conversion checks if it matches something that looks like
@@ -196,18 +199,21 @@ already.  Ignored for Date output.</p></td>
   convert_to_datetime_helper() on those numbers.  Then, character to Date or
   POSIXct conversion occurs via `character_fun(x, ...)` or
   `character_fun(x, tz=tz, ...)`, respectively.</p>
+    
     <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
 
     
 <ul>
 <li><p><code>convert_to_datetime</code>: Convert to a date-time (POSIXct)</p></li>
 </ul>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other If your input data has a mix of Excel numeric dates and actual dates,
   see the more powerful functions `convert_to_date` and
   `convert_to_datetime`.: 
 <code><a href='excel_numeric_to_date.html'>excel_numeric_to_date</a>()</code></p></div>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>convert_to_date</span>(<span class='st'>"2009-07-06"</span>)</div><div class='output co'>#&gt; [1] "2009-07-06"</div><div class='input'><span class='fu'>convert_to_date</span>(<span class='fl'>40000</span>)</div><div class='output co'>#&gt; [1] "2009-07-06"</div><div class='input'><span class='fu'>convert_to_date</span>(<span class='st'>"40000.1"</span>)</div><div class='output co'>#&gt; [1] "2009-07-06"</div><div class='input'><span class='co'># Mixed date source data can be provided.</span>
