@@ -8,11 +8,13 @@
 
 <title>Cleans names of an object (usually a data.frame). — clean_names • janitor</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
@@ -36,8 +38,8 @@
 
 
 
-<meta property="og:title" content="Cleans names of an object (usually a data.frame). — clean_names" />
 
+<meta property="og:title" content="Cleans names of an object (usually a data.frame). — clean_names" />
 <meta property="og:description" content="Resulting names are unique and consist only of the _ character, numbers, and letters.
 Capitalization preferences can be specified using the case parameter.
 Accented characters are transliterated to ASCII.  For example, an &quot;o&quot; with a
@@ -46,7 +48,6 @@ German umlaut over it becomes &quot;o&quot;, and the Spanish character &quot;eny
 This function takes and returns a data.frame, for ease of piping with
 `%&amp;gt;%`. For the underlying function that works on a character vector
 of names, see make_clean_names." />
-
 
 
 
@@ -112,7 +113,6 @@ of names, see make_clean_names." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/sfirke/janitor/">
@@ -139,7 +139,6 @@ of names, see make_clean_names." />
     </div>
 
     <div class="ref-description">
-    
     <p>Resulting names are unique and consist only of the <code>_</code> character, numbers, and letters.
 Capitalization preferences can be specified using the <code>case</code> parameter.</p>
 <p>Accented characters are transliterated to ASCII.  For example, an "o" with a
@@ -148,7 +147,6 @@ German umlaut over it becomes "o", and the Spanish character "enye" becomes
 <p>This function takes and returns a data.frame, for ease of piping with
 <code>`%&gt;%`</code>. For the underlying function that works on a character vector
 of names, see <code><a href='make_clean_names.html'>make_clean_names</a></code>.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>clean_names</span>(<span class='no'>dat</span>, <span class='no'>...</span>)
@@ -164,7 +162,7 @@ of names, see <code><a href='make_clean_names.html'>make_clean_names</a></code>.
 
 <span class='co'># S3 method for tbl_graph</span>
 <span class='fu'>clean_names</span>(<span class='no'>dat</span>, <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -217,11 +215,10 @@ You should use this feature with care in case of <code>case = "parsed"</code>, <
 </dl></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Returns the data.frame with clean names.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p><code>clean_names()</code> is intended to be used on <code>data.frames</code>
@@ -229,7 +226,6 @@ You should use this feature with care in case of <code>case = "parsed"</code>, <
   support using <code>clean_names()</code> on <code>sf</code> and <code>tbl_graph</code> (from
   <code>tidygraph</code>) objects. For cleaning named lists and vectors, consider
   using <code><a href='make_clean_names.html'>make_clean_names()</a></code>.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'># not run:

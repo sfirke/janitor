@@ -8,11 +8,13 @@
 
 <title>Do the the data.frames have the same columns &amp; types? — compare_df_cols_same • janitor</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
@@ -36,11 +38,10 @@
 
 
 
-<meta property="og:title" content="Do the the data.frames have the same columns &amp; types? — compare_df_cols_same" />
 
+<meta property="og:title" content="Do the the data.frames have the same columns &amp; types? — compare_df_cols_same" />
 <meta property="og:description" content="Check whether a set of data.frames are row-bindable.  Calls
 compare_df_cols()and returns TRUE if there are no mis-matching rows.  `" />
-
 
 
 
@@ -106,7 +107,6 @@ compare_df_cols()and returns TRUE if there are no mis-matching rows.  `" />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/sfirke/janitor/">
@@ -133,10 +133,8 @@ compare_df_cols()and returns TRUE if there are no mis-matching rows.  `" />
     </div>
 
     <div class="ref-description">
-    
     <p>Check whether a set of data.frames are row-bindable.  Calls
 <code><a href='compare_df_cols.html'>compare_df_cols()</a></code>and returns TRUE if there are no mis-matching rows.  `</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>compare_df_cols_same</span>(
@@ -144,7 +142,7 @@ compare_df_cols()and returns TRUE if there are no mis-matching rows.  `" />
   <span class='kw'>bind_method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"bind_rows"</span>, <span class='st'>"rbind"</span>),
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
 )</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -168,18 +166,16 @@ missing from a data.frame would be considered a mismatch (as in
       <td><p>Print the mismatching columns if binding will fail.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p><code>TRUE</code> if row binding will succeed or <code>FALSE</code> if it will
   fail.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other Data frame type comparison: 
 <code><a href='compare_df_cols.html'>compare_df_cols</a>()</code>,
 <code><a href='describe_class.html'>describe_class</a>()</code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>compare_df_cols_same</span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>A</span><span class='kw'>=</span><span class='fl'>1</span>), <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>A</span><span class='kw'>=</span><span class='fl'>2</span>))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>compare_df_cols_same</span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>A</span><span class='kw'>=</span><span class='fl'>1</span>), <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>B</span><span class='kw'>=</span><span class='fl'>2</span>))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>compare_df_cols_same</span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>A</span><span class='kw'>=</span><span class='fl'>1</span>), <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>B</span><span class='kw'>=</span><span class='fl'>2</span>), <span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>compare_df_cols_same</span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>A</span><span class='kw'>=</span><span class='fl'>1</span>), <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>B</span><span class='kw'>=</span><span class='fl'>2</span>), <span class='kw'>bind_method</span><span class='kw'>=</span><span class='st'>"rbind"</span>)</div><div class='output co'>#&gt;   column_name     ..1     ..2

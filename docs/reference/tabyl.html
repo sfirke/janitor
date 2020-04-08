@@ -8,11 +8,13 @@
 
 <title>Generate a frequency table (1-, 2-, or 3-way). — tabyl • janitor</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
@@ -36,12 +38,11 @@
 
 
 
-<meta property="og:title" content="Generate a frequency table (1-, 2-, or 3-way). — tabyl" />
 
+<meta property="og:title" content="Generate a frequency table (1-, 2-, or 3-way). — tabyl" />
 <meta property="og:description" content="A fully-featured alternative to table().  Results are data.frames and can be formatted and enhanced with janitor's family of adorn_ functions.
 Specify a data.frame and the one, two, or three unquoted column names you want to tabulate.  Three variables generates a list of 2-way tabyls, split by the third variable.
 Alternatively, you can tabulate a single variable that isn't in a data.frame by calling tabyl on a vector, e.g., tabyl(mtcars$gear)." />
-
 
 
 
@@ -107,7 +108,6 @@ Alternatively, you can tabulate a single variable that isn't in a data.frame by 
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/sfirke/janitor/">
@@ -134,11 +134,9 @@ Alternatively, you can tabulate a single variable that isn't in a data.frame by 
     </div>
 
     <div class="ref-description">
-    
     <p>A fully-featured alternative to <code><a href='https://rdrr.io/r/base/table.html'>table()</a></code>.  Results are data.frames and can be formatted and enhanced with janitor's family of <code>adorn_</code> functions.</p>
 <p>Specify a data.frame and the one, two, or three unquoted column names you want to tabulate.  Three variables generates a list of 2-way tabyls, split by the third variable.</p>
 <p>Alternatively, you can tabulate a single variable that isn't in a data.frame by calling <code>tabyl</code> on a vector, e.g., <code>tabyl(mtcars$gear)</code>.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>tabyl</span>(<span class='no'>dat</span>, <span class='no'>...</span>)
@@ -148,7 +146,7 @@ Alternatively, you can tabulate a single variable that isn't in a data.frame by 
 
 <span class='co'># S3 method for data.frame</span>
 <span class='fu'>tabyl</span>(<span class='no'>dat</span>, <span class='no'>var1</span>, <span class='no'>var2</span>, <span class='no'>var3</span>, <span class='kw'>show_na</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show_missing_levels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -181,11 +179,10 @@ Alternatively, you can tabulate a single variable that isn't in a data.frame by 
       <td><p>(optional) the column name of the third variable (the list in a 3-way tabulation).</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Returns a data.frame with frequencies and percentages of the tabulated variable(s).  A 3-way tabulation returns a list of data.frames.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>

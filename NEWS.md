@@ -12,23 +12,24 @@ As part of the improvements to `make_clean_names()` and `clean_names()`, the `..
 
 ## Major features
 
-* `clean_names()` and `make_clean_names()` have a more generic interface where all arguments from `make_clean_names()` are accessible from `clean_names()` (Fix #339, thanks to @ari-nz and @billdenney).
+
+* The new functions `convert_to_date()` and `convert_to_datetime()` generalize the work done by `excel_numeric_to_date()` allowing conversion to date or datetimes from many forms of input from numeric, to characters that look like numbers, to characters that look like dates or datetimes, to Dates, to date-times (POSIXt) (#310, thanks to **@billdenney** for implementing).  For instance, this succeeds: `convert_to_date(c("2020-02-29", "40000.1"))`.
+
+* The new function `signif_half_up()` rounds a numeric vector to the specified number of significant digits with halves rounded up (#314, thanks to **@khueyama** for suggesting and implementing).
 
 * `make_clean_names()` now allows the user to specify parts of names to be replaced (Fix #316, thanks to @woodwards for reporting and @woodwards and @billdenney for implementing)
 
 * `make_clean_names()` will ensure that column names are never duplicated (Fix #251, thanks to @jzadra for reporting and @billdenney for implementing)
 
+* `clean_names()` and `make_clean_names()` have a more generic interface where all arguments from `make_clean_names()` are accessible from `clean_names()` (Fix #339, thanks to @ari-nz and @billdenney).
+
 * The variables considered by the function `get_dupes()` can be specified using the select helper functions from `tidyselect`.  This includes `-column_name` to omit a variable as well as the matching functions `starts_with()`, `ends_with()`, `contains()`, and `matches()`.  See `?tidyselect::select_helpers` for more (#326, thanks to **@jzadra** for suggesting and implementing).
-
-* The new function `signif_half_up()` rounds a numeric vector to the specified number of significant digits with halves rounded up (#314, thanks to **@khueyama** for suggesting and implementing).
-
-* The new functions `convert_to_date()` and `convert_to_datetime()` generalize the work done by `excel_numeric_to_date()` allowing conversion to date or datetimes from many forms of input from numeric, to characters that look like numbers, to characters that look like dates or datetimes, to Dates, to date-times (POSIXt) (#310, thanks to **@billdenney* for implementing).
 
 ## Minor features
 
-* A `quiet` argument was added to `remove_empty()` and `remove_constant()`  providing more information (when `FALSE`) (#70, thanks to **@jbkunst** for suggesting and **@billdenney** for implementing).
+* A `quiet` argument was added to `remove_empty()` and `remove_constant()`  providing more information when `quiet = 'FALSE'` (#70, thanks to **@jbkunst** for suggesting and **@billdenney** for implementing).
 
-* `row_to_names()` will now work on matrix input (#320, thanks to **@billdenney** for suggesting and implementing
+* `row_to_names()` works on matrix input (#320, thanks to **@billdenney** for suggesting and implementing
 
 * `clean_names()` can now be called on *tbl_graph* objects from the `tidygraph` package. (#252, thanks to @gvdr for bringing up the issue and thanks to @Tazinho for proposing solution).
 
@@ -40,11 +41,13 @@ As part of the improvements to `make_clean_names()` and `clean_names()`, the `..
 
 * `adorn_rounding()` now works when called on a 3-way tabyl.
 
-* `remove_constant()` works correctly with tibbles in addition to data.frames and matrices which already worked (thanks to **@billdenney** for implementing).
+* `remove_constant()` works correctly with tibbles (in addition to already working on data.frames and matrices) (thanks to **@billdenney** for implementing).
 
 * `get_dupes()` works when called on a grouped tibble (#329) (thanks to **@jzadra** for fixing).
 
 * When the second variable in a tabyl (the column variable) contains the empty string `""`, it is converted to `"emptystring_` before being spread to the tabyl's column names.  Previously it became the default variable name `V1`. (#203).
+
+* Behind-the-scenes code changes to maintain compatibility with breaking changes to dplyr 1.0.0, tibble 3.0.0, and R 4.0.0.
 
 # janitor 1.2.1 (2020-01-22)
 

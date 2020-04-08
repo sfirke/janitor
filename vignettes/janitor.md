@@ -1,6 +1,40 @@
 Overview of janitor functions
 ================
-2019-04-20
+2020-04-07
+
+  - [Major functions](#major-functions)
+      - [Cleaning](#cleaning)
+          - [Clean data.frame names with
+            `clean_names()`](#clean-data.frame-names-with-clean_names)
+          - [Do those data.frames actually contain the same
+            columns?](#do-those-data.frames-actually-contain-the-same-columns)
+      - [Exploring](#exploring)
+          - [`tabyl()` - a better version of
+            `table()`](#tabyl---a-better-version-of-table)
+          - [Explore records with duplicated values for specific
+            combinations of variables with
+            `get_dupes()`](#explore-records-with-duplicated-values-for-specific-combinations-of-variables-with-get_dupes)
+  - [Minor functions](#minor-functions)
+      - [Cleaning](#cleaning-1)
+          - [Manipulate vectors of names with
+            `make_clean_names()`](#manipulate-vectors-of-names-with-make_clean_names)
+          - [`remove_empty()` rows and
+            columns](#remove_empty-rows-and-columns)
+          - [`remove_constant()` columns](#remove_constant-columns)
+          - [Directionally-consistent rounding behavior with
+            `round_half_up()`](#directionally-consistent-rounding-behavior-with-round_half_up)
+          - [Round decimals to precise fractions of a given denominator
+            with
+            `round_to_fraction()`](#round-decimals-to-precise-fractions-of-a-given-denominator-with-round_to_fraction)
+          - [Fix dates stored as serial numbers with
+            `excel_numeric_to_date()`](#fix-dates-stored-as-serial-numbers-with-excel_numeric_to_date)
+          - [Convert a mix of date and datetime formats to
+            date](#convert-a-mix-of-date-and-datetime-formats-to-date)
+          - [Elevate column names stored in a data.frame
+            row](#elevate-column-names-stored-in-a-data.frame-row)
+      - [Exploring](#exploring-1)
+          - [Count factor levels in groups of high, medium, and low with
+            `top_levels()`](#count-factor-levels-in-groups-of-high-medium-and-low-with-top_levels)
 
 The janitor functions expedite the initial data exploration and cleaning
 that comes with any new data set. This catalog describes the usage for
@@ -55,15 +89,17 @@ make.names(names(test_df))
 #> [4] "REPEAT.VALUE"         "REPEAT.VALUE"         "X"
 ```
 
-This function is now powered by the underlying exported function
+This function is powered by the underlying exported function
 **`make_clean_names()`**, which accepts and returns a character vector
 of names (see below). This allows for cleaning the names of *any*
 object, not just a data.frame. `clean_names()` is retained for its
 convenience in piped workflows, and can be called on an `sf` simple
-features object in addition to a
+features object or a `tbl_graph` tidygraph object in addition to a
 data.frame.
 
-### Are those data.frames actually the same? Check with `compare_df_cols()`
+### Do those data.frames actually contain the same columns?
+
+#### Check with `compare_df_cols()`
 
 For cases when you are given a set of data files that *should* be
 identical, and you wish to read and combine them for analysis. But then
@@ -133,7 +169,7 @@ mtcars %>%
 ```
 
 Learn more in the [tabyls
-vignette](https://github.com/sfirke/janitor/blob/master/vignettes/tabyls.md).
+vignette](http://sfirke.github.io/janitor/articles/tabyls.html).
 
 ### Explore records with duplicated values for specific combinations of variables with `get_dupes()`
 
@@ -145,19 +181,17 @@ repeated for each year, but no duplicated pairs of unique ID & year. Say
 you want to check for and study any such duplicated records.
 
 `get_dupes()` returns the records (and inserts a count of duplicates) so
-you can examine the problematic
-cases:
+you can examine the problematic cases:
 
 ``` r
 get_dupes(mtcars, wt, cyl) # or mtcars %>% get_dupes(wt, cyl) if you prefer to pipe
 #> # A tibble: 4 x 12
-#>      wt   cyl dupe_count   mpg  disp    hp  drat  qsec    vs    am  gear
-#>   <dbl> <dbl>      <int> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-#> 1  3.44     6          2  19.2  168.   123  3.92  18.3     1     0     4
-#> 2  3.44     6          2  17.8  168.   123  3.92  18.9     1     0     4
-#> 3  3.57     8          2  14.3  360    245  3.21  15.8     0     0     3
-#> 4  3.57     8          2  15    301    335  3.54  14.6     0     1     5
-#> # ... with 1 more variable: carb <dbl>
+#>      wt   cyl dupe_count   mpg  disp    hp  drat  qsec    vs    am  gear  carb
+#>   <dbl> <dbl>      <int> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+#> 1  3.44     6          2  19.2  168.   123  3.92  18.3     1     0     4     4
+#> 2  3.44     6          2  17.8  168.   123  3.92  18.9     1     0     4     4
+#> 3  3.57     8          2  14.3  360    245  3.21  15.8     0     0     3     4
+#> 4  3.57     8          2  15    301    335  3.54  14.6     0     1     5     8
 ```
 
 # Minor functions
@@ -179,6 +213,12 @@ version of `tibble::as_tibble`:
 
 ``` r
 tibble::as_tibble(iris, .name_repair = janitor::make_clean_names)
+#> New names:
+#> * Sepal.Length -> sepal_length
+#> * Sepal.Width -> sepal_width
+#> * Petal.Length -> petal_length
+#> * Petal.Width -> petal_width
+#> * Species -> species
 #> # A tibble: 150 x 5
 #>    sepal_length sepal_width petal_length petal_width species
 #>           <dbl>       <dbl>        <dbl>       <dbl> <fct>  
@@ -277,6 +317,21 @@ excel_numeric_to_date(41103.01, date_system = "mac pre-2011")
 #> [1] "2016-07-14"
 ```
 
+### Convert a mix of date and datetime formats to date
+
+Building on `excel_numeric_to_date()`, the new functions
+`convert_to_date()` and `convert_to_datetime()` are more robust to a mix
+of inputs. Handy when reading many spreadsheets that *should* have the
+same column formats, but don’t.
+
+For instance, here a vector with a date and an Excel datetime sees both
+values succcesfully converted to Date class:
+
+``` r
+convert_to_date(c("2020-02-29", "40000.1"))
+#> [1] "2020-02-29" "2009-07-06"
+```
+
 ### Elevate column names stored in a data.frame row
 
 If a data.frame has the intended variable names stored in one of its
@@ -306,8 +361,7 @@ grouped into head/middle/tail groups.
   - Takes a user-specified size for the head/tail groups
   - Automatically calculates a percent column
   - Supports sorting
-  - Can show or hide `NA`
-values.
+  - Can show or hide `NA` values.
 
 <!-- end list -->
 

@@ -8,11 +8,13 @@
 
 <title>Format a data.frame of decimals as percentages. — adorn_pct_formatting • janitor</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
@@ -36,10 +38,9 @@
 
 
 
+
 <meta property="og:title" content="Format a data.frame of decimals as percentages. — adorn_pct_formatting" />
-
 <meta property="og:description" content="Numeric columns get multiplied by 100 and formatted as percentages according to user specifications.  This function defaults to excluding the first column of the input data.frame, assuming that it contains a descriptive variable, but this can be overridden by specifying the columns to adorn in the ... argument.  Non-numeric columns are always excluded." />
-
 
 
 
@@ -105,7 +106,6 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/sfirke/janitor/">
@@ -132,9 +132,7 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Numeric columns get multiplied by 100 and formatted as percentages according to user specifications.  This function defaults to excluding the first column of the input data.frame, assuming that it contains a descriptive variable, but this can be overridden by specifying the columns to adorn in the <code>...</code> argument.  Non-numeric columns are always excluded.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>adorn_pct_formatting</span>(
@@ -144,7 +142,7 @@
   <span class='kw'>affix_sign</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='no'>...</span>
 )</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -169,11 +167,10 @@
       <td><p>columns to adorn.  This takes a tidyselect specification.  By default, all numeric columns (besides the initial column, if numeric) are adorned, but this allows you to manually specify which columns should be adorned, for use on a data.frame that does not result from a call to <code>tabyl</code>.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>a data.frame with formatted percentages</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
