@@ -172,7 +172,7 @@ excel_numeric_to_date(41103.01, date_system = "mac pre-2011")
 
 Building on `excel_numeric_to_date()`, the new functions `convert_to_date()` and `convert_to_datetime()` are more robust to a mix of inputs.  Handy when reading many spreadsheets that *should* have the same column formats, but don't.
 
-For instance, here a vector with a date and an Excel datetime sees both values succcesfully converted to Date class:
+For instance, here a vector with a date and an Excel datetime sees both values successfully converted to Date class:
 ```{r}
 convert_to_date(c("2020-02-29", "40000.1"))
 ```
