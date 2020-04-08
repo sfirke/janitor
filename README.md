@@ -21,7 +21,7 @@ The main janitor functions:
 
 The tabulate-and-report functions approximate popular features of SPSS and Microsoft Excel.
 
-janitor is a [\#tidyverse](https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html)-oriented package. Specifically, it plays nicely with the `%>%` pipe and is optimized for cleaning data brought in with the [readr](https://github.com/tidyverse/readr) and [readxl](https://github.com/tidyverse/readxl) packages.
+janitor is a [\#tidyverse](https://cran.r-project.org/package=tidyverse/vignettes/manifesto.html)-oriented package. Specifically, it plays nicely with the `%>%` pipe and is optimized for cleaning data brought in with the [readr](https://github.com/tidyverse/readr) and [readxl](https://github.com/tidyverse/readxl) packages.
 
 ### Installation
 
@@ -90,8 +90,8 @@ Excel formatting led to an untitled empty column and 5 empty rows at the bottom 
 Name cleaning comes in two flavors. `make_clean_names()` operates on character vectors and can be used during data import:
 
 ``` r
-roster_raw_cleaner <- read_excel(here("dirty_data.xlsx"), 
-                                 .name_repair = make_clean_names) 
+roster_raw_cleaner <- read_excel(here("dirty_data.xlsx"),
+                                 .name_repair = make_clean_names)
 # Tells read_excel() how to repair repetitive column names, overriding the
 # default repair setting
 glimpse(roster_raw_cleaner)
@@ -144,8 +144,8 @@ data("iris")
 names(iris) # before cleaning:
 #> [1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width"  "Species"
 
-iris %>% 
-  clean_names() %>% 
+iris %>%
+  clean_names() %>%
   names() # after cleaning:
 #> [1] "sepal_length" "sepal_width"  "petal_length" "petal_width"  "species"
 ```
@@ -221,11 +221,11 @@ roster %>%
 #> $Administration
 #>  full_time Dean
 #>        Yes    1
-#> 
+#>
 #> $Coach
 #>  full_time Basketball NA_
 #>         No          1   1
-#> 
+#>
 #> $Teacher
 #>  full_time Chemistry Drafting English Music PE Physics Science NA_
 #>         No         0        0       2     0  0       0       1   0
