@@ -192,5 +192,5 @@ These modular adornments can be layered to reduce R's deficit against Excel and 
 You are welcome to:
 
 * submit suggestions and report bugs: https://github.com/sfirke/janitor/issues
-* let me know what you think on Mastodon <a href="https://a2mi.social/@samfirke/">@samfirke@a2mi.social</a>
+* let me know what you think on Mastodon: [&#64;samfirke&#64;a2mi.social](https://a2mi.social/@samfirke)
 * compose a friendly e-mail to: <img src = "http://samfirke.com/wp-content/uploads/2016/07/email_address_whitespace_top.png" alt = "samuel.firke AT gmail" width = "210"/>
