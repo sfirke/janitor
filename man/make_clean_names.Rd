@@ -114,6 +114,10 @@ the case on your system, all available transliterators will be used, and a
 warning will be issued once per session indicating that results may be
 different when run on a different system.  That warning can be disabled with
 `options(janitor_warn_transliterators=FALSE)`.
+
+If the objective of your call to `make_clean_names()` is only to translate to
+ASCII, try the following instead:
+`stringi::stri_trans_general(x, id="Any-Latin;Greek-Latin;Latin-ASCII")`
 }
 \examples{
 

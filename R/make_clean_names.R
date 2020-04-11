@@ -27,6 +27,10 @@
 #' different when run on a different system.  That warning can be disabled with
 #' `options(janitor_warn_transliterators=FALSE)`.
 #' 
+#' If the objective of your call to `make_clean_names()` is only to translate to
+#' ASCII, try the following instead:
+#' `stringi::stri_trans_general(x, id="Any-Latin;Greek-Latin;Latin-ASCII")`
+#'
 #' @param string A character vector of names to clean.
 #' @param case The desired target case (default is \code{"snake"}) will be
 #'   passed to `snakecase::to_any_case()` with the exception of "old_janitor",
