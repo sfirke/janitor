@@ -2,7 +2,9 @@
 
 ## Bug fixes and Breaking changes
 
-* Transliteration of characters within `make_clean_names()` now works on every system independent of differences in `stringi` installations (Fix #365, thanks to @eamoncaddigan for reporting and @billdenney for fixing).  The fix is a breaking change with the way that it worked in 2.0.0 as the transliterations are more generalized and follow a more recommended way for transliterating to ASCII.
+Transliteration of characters within `make_clean_names()` now operates across operating systems, independent of differences in `stringi` installations (Fix #365, thanks to @eamoncaddigan for reporting and @billdenney for fixing).
+
+This bug patch represents a breaking change with the way that `make_clean_names()` worked in janitor versions 1.2.1.9000 and 2.0.0 as the transliterations are now more generalized and follow a more best-practice approach to transliterating to ASCII.
 
 # janitor 2.0.0 (2020-04-07)
 

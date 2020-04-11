@@ -21,7 +21,7 @@ make_clean_names(
 \item{string}{A character vector of names to clean.}
 
 \item{case}{The desired target case (default is \code{"snake"}) will be
-passed to `snakecase::to_any_case()` with the exception of "old_janitor",
+passed to \code{snakecase::to_any_case()} with the exception of "old_janitor",
 which exists only to support legacy code (it preserves the behavior of
 \code{clean_names()} prior to addition of the "case" argument (janitor
 versions <= 0.3.1).  "old_janitor" is not intended for new code. See
@@ -34,8 +34,8 @@ value.}
 \item{ascii}{Convert the names to ASCII (\code{TRUE}, default) or not
 (\code{FALSE}).}
 
-\item{use_make_names}{Should `make.names()` be applied to ensure that the
-output is usable as a name without quoting?  (Avoiding `make.names()`
+\item{use_make_names}{Should \code{make.names()} be applied to ensure that the
+output is usable as a name without quoting?  (Avoiding \code{make.names()}
 ensures that the output is locale-independent but quoting may be required.)}
 
 \item{sep_in}{(short for separator input) if character, is interpreted as a
@@ -106,18 +106,18 @@ removing initial spaces and punctuation, apply \code{base::make.names()},
 apply \code{\link[snakecase]{to_any_case}}, and add numeric suffixes to
 duplicates.
 
-See the documentation for \code{snakecase::to_any_case}` for more about how
+See the documentation for \code{snakecase::to_any_case} for more about how
 to control its behavior.
 
 On some systems, not all transliterators to ASCII are available.  If this is
 the case on your system, all available transliterators will be used, and a
 warning will be issued once per session indicating that results may be
 different when run on a different system.  That warning can be disabled with
-`options(janitor_warn_transliterators=FALSE)`.
+\code{options(janitor_warn_transliterators=FALSE)}.
 
-If the objective of your call to `make_clean_names()` is only to translate to
+If the objective of your call to \code{make_clean_names()} is only to translate to
 ASCII, try the following instead:
-`stringi::stri_trans_general(x, id="Any-Latin;Greek-Latin;Latin-ASCII")`
+\code{stringi::stri_trans_general(x, id="Any-Latin;Greek-Latin;Latin-ASCII")}.
 }
 \examples{
 

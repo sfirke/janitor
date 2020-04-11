@@ -40,7 +40,7 @@ The tabulate-and-report functions approximate popular features of SPSS
 and Microsoft Excel.
 
 janitor is a
-[\#tidyverse](https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html)-oriented
+[\#tidyverse](https://CRAN.R-project.org/package=tidyverse/vignettes/manifesto.html)-oriented
 package. Specifically, it plays nicely with the `%>%` pipe and is
 optimized for cleaning data brought in with the
 [readr](https://github.com/tidyverse/readr) and
