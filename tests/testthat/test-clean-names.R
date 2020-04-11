@@ -1,5 +1,19 @@
 context("clean_names")
 
+# Do not run the tests if not all transliterators are available
+
+options(janitor_warn_transliterators=NULL)
+check_warning_transliterator <-
+  tryCatch(
+    available_transliterators(c("Any-Latin", "Greek-Latin", "Latin-ASCII")),
+    error=function(e) e,
+    warning=function(w) w
+  )
+skip_if_not(
+  is.character(check_warning_transliterator),
+  message="Not all transliterators are available, so some tests will fail.  Skipping `clean_names()` tests."
+)
+
 # Tests for make_clean_names ####
 
 test_that("All scenarios for make_clean_names", {
@@ -117,13 +131,13 @@ test_that("locale-specific make_clean_names tests", {
   Sys.setlocale(locale="C")
   expect_equal(
     make_clean_names("介護_看護_女"),
-    "x_u_4ecb_u_8b77_u_770b_u_8b77_u_5973",
+    "jie_hu_kan_hu_nu",
     info="Unicode transliteration happens with make.names()"
   )
   expect_equal(
-    make_clean_names("介護_看護_女", use_make_names=FALSE),
+    make_clean_names("介護_看護_女", use_make_names=FALSE, ascii=FALSE),
     "介護_看護_女",
-    info="Unicode transliteration does not happen without make.names()"
+    info="Unicode transliteration does not happen without make.names() and without ascii"
   )
   expect_equal(
     make_clean_names("μ"),
@@ -437,4 +451,20 @@ test_that("tbl_graph/tidygraph", {
   expect_equal(clean[18], "average_number_of_days") # for testing alternating cases below with e.g., case = "upper_lower"
   expect_equal(clean[19], "jan2009sales") # no separator around number-word boundary if not existing already
   expect_equal(clean[20], "jan_2009_sales") # yes separator around number-word boundary if it existed
+})
+
+test_that("Work around incomplete stringi transliterators (Fix #365)", {
+  options(janitor_warn_transliterators=NULL)
+  expect_warning(
+    available_transliterators("foo"),
+    regex="Some transliterators to convert characters in names are not available"
+  )
+  # The warning only occurs once per session
+  expect_silent(
+    available_transliterators("foo")
+  )
+  expect_equal(
+    available_transliterators("foo"),
+    ""
+  )
 })
