@@ -1,33 +1,44 @@
 #' @title Cleans a vector of text, typically containing the names of an object.
 #'
-#' @description
-#' Resulting strings are unique and consist only of the \code{_} character,
-#' numbers, and letters. By default, the resulting strings will only consist of
-#' ASCII characters, but non-ASCII (e.g. Unicode) may be allowed by setting
-#' \code{ascii=FALSE}.  Capitalization preferences can be specified using the
-#' \code{case} parameter.
+#' @description Resulting strings are unique and consist only of the \code{_}
+#' character, numbers, and letters. By default, the resulting strings will only
+#' consist of ASCII characters, but non-ASCII (e.g. Unicode) may be allowed by
+#' setting \code{ascii=FALSE}.  Capitalization preferences can be specified
+#' using the \code{case} parameter.
 #'
 #' For use on the names of a data.frame, e.g., in a \code{`\%>\%`} pipeline,
 #' call the convenience function \code{\link[janitor]{clean_names}}.
+#'
+#' When \code{ascii=TRUE} (the default), accented characters are transliterated
+#' to ASCII.  For example, an "o" with a German umlaut over it becomes "o", and
+#' the Spanish character "enye" becomes "n".
+#'
+#' The order of operations is: \code{replace}, (optional) ASCII conversion,
+#' removing initial spaces and punctuation, apply \code{base::make.names()},
+#' apply \code{\link[snakecase]{to_any_case}}, and add numeric suffixes to
+#' duplicates.
+#'
+#' See the documentation for \code{snakecase::to_any_case}` for more about how
+#' to control its behavior.
+#'
+#' On some systems, not all transliterators to ASCII are available.  If this is
+#' the case on your system, all available transliterators will be used, and a
+#' warning will be issued once per session indicating that results may be
+#' different when run on a different system.  That warning can be disabled with
+#' `options(janitor_warn_transliterators=FALSE)`.
 #' 
-#' When \code{ascii=TRUE} (the default), accented characters are transliterated to
-#' ASCII.  For example, an "o" with a German umlaut over it becomes "o", and the
-#' Spanish character "enye" becomes "n".
-#' 
-#' The order of operations is: \code{replace}, (optional) ASCII conversion, removing
-#' initial spaces and punctuation, apply \code{base::make.names()}, apply
-#' \code{\link[snakecase]{to_any_case}}, and add numeric suffixes to duplicates.
-#' 
-#' See the documentation for \code{snakecase::to_any_case}` for more about how to control its behavior.
-#' 
+#' If the objective of your call to `make_clean_names()` is only to translate to
+#' ASCII, try the following instead:
+#' `stringi::stri_trans_general(x, id="Any-Latin;Greek-Latin;Latin-ASCII")`
+#'
 #' @param string A character vector of names to clean.
 #' @param case The desired target case (default is \code{"snake"}) will be
 #'   passed to `snakecase::to_any_case()` with the exception of "old_janitor",
 #'   which exists only to support legacy code (it preserves the behavior of
 #'   \code{clean_names()} prior to addition of the "case" argument (janitor
-#'   versions <= 0.3.1).  "old_janitor" is not intended for new code.
-#'   See \code{\link[snakecase]{to_any_case}} for a wide variety of supported cases,
-#'   including "sentence" and "title" case. 
+#'   versions <= 0.3.1).  "old_janitor" is not intended for new code. See
+#'   \code{\link[snakecase]{to_any_case}} for a wide variety of supported cases,
+#'   including "sentence" and "title" case.
 #' @param replace A named character vector where the name is replaced by the
 #'   value.
 #' @param ascii Convert the names to ASCII (\code{TRUE}, default) or not
@@ -42,7 +53,7 @@
 #' @export
 #' @seealso \code{\link[snakecase]{to_any_case}()}
 #' @examples
-#' 
+#'
 #' # cleaning the names of a vector:
 #' x <- structure(1:3, names = c("name with space", "TwoWords", "total $ (2009)"))
 #' x
@@ -91,7 +102,7 @@ make_clean_names <- function(string,
     if (ascii) {
       stringi::stri_trans_general(
         replaced_names,
-        id="Greek-Latin;Latin-ASCII;Accents-Any;Any-ASCII"
+        id=available_transliterators(c("Any-Latin", "Greek-Latin", "Latin-ASCII"))
       )
     } else {
       replaced_names
@@ -179,4 +190,28 @@ old_make_clean_names <- function(string) {
     sep = "_"
   )
   new_names
+}
+
+#' Detect the available transliterators for stri_trans_general
+#' @param wanted The transliterators desired for translation
+#' @return A semicolon-separated list of the transliterators that are available.
+#' @noRd
+#' @importFrom stringi stri_trans_list
+available_transliterators <- function(wanted) {
+  desired_available <- intersect(wanted, stringi::stri_trans_list())
+  if (!identical(wanted, desired_available) & getOption("janitor_warn_transliterators", default=TRUE)) {
+    warning(
+      "Some transliterators to convert characters in names are not available \n",
+      "on this system.  Results may differ when run on a different system.\n",
+      "The missing transliterators are: ",
+      paste0(setdiff(wanted, desired_available), collapse=", "),
+      "\n\nThis warning will only be shown once per session.\n",
+      "To suppress it use this:\n `options(janitor_warn_transliterators=FALSE)`\n",
+      "To make all transliterators available on your system, reinstall the stringi with:\n",
+      '`install.packages("stringi", type="source", configure.args="--disable-pkg-config")`'
+    )
+    # Only warn once per session
+    options(janitor_warn_transliterators=FALSE)
+  }
+  paste(desired_available, collapse=";")
 }
