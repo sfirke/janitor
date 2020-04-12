@@ -1,3 +1,7 @@
+# janitor 2.0.1.9000 (unreleased)
+
+(changes after the current CRAN version 2.0.1 will go here)
+
 # janitor 2.0.1 (2020-04-12)
 
 ## Bug fixes and Breaking changes
