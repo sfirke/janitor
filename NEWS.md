@@ -1,4 +1,4 @@
-# janitor 2.0.1 (unreleased)
+# janitor 2.0.1 (2020-04-12)
 
 ## Bug fixes and Breaking changes
 

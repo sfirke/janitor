@@ -8,11 +8,13 @@
 
 <title>Cleans names of an object (usually a data.frame). — clean_names • janitor</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
@@ -36,8 +38,8 @@
 
 
 
-<meta property="og:title" content="Cleans names of an object (usually a data.frame). — clean_names" />
 
+<meta property="og:title" content="Cleans names of an object (usually a data.frame). — clean_names" />
 <meta property="og:description" content="Resulting names are unique and consist only of the _ character, numbers, and letters.
 Capitalization preferences can be specified using the case parameter.
 Accented characters are transliterated to ASCII.  For example, an &quot;o&quot; with a
@@ -46,7 +48,6 @@ German umlaut over it becomes &quot;o&quot;, and the Spanish character &quot;eny
 This function takes and returns a data.frame, for ease of piping with
 `%&amp;gt;%`. For the underlying function that works on a character vector
 of names, see make_clean_names." />
-
 
 
 
@@ -78,7 +79,7 @@ of names, see make_clean_names." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">janitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.1</span>
       </span>
     </div>
 
@@ -112,7 +113,6 @@ of names, see make_clean_names." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/sfirke/janitor/">
@@ -139,7 +139,6 @@ of names, see make_clean_names." />
     </div>
 
     <div class="ref-description">
-    
     <p>Resulting names are unique and consist only of the <code>_</code> character, numbers, and letters.
 Capitalization preferences can be specified using the <code>case</code> parameter.</p>
 <p>Accented characters are transliterated to ASCII.  For example, an "o" with a
@@ -148,7 +147,6 @@ German umlaut over it becomes "o", and the Spanish character "enye" becomes
 <p>This function takes and returns a data.frame, for ease of piping with
 <code>`%&gt;%`</code>. For the underlying function that works on a character vector
 of names, see <code><a href='make_clean_names.html'>make_clean_names</a></code>.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>clean_names</span>(<span class='no'>dat</span>, <span class='no'>...</span>)
@@ -164,7 +162,7 @@ of names, see <code><a href='make_clean_names.html'>make_clean_names</a></code>.
 
 <span class='co'># S3 method for tbl_graph</span>
 <span class='fu'>clean_names</span>(<span class='no'>dat</span>, <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -176,18 +174,18 @@ of names, see <code><a href='make_clean_names.html'>make_clean_names</a></code>.
       <th>...</th>
       <td><p>Arguments passed on to <code><a href='make_clean_names.html'>make_clean_names</a></code></p><dl'>
     <dt><code>case</code></dt><dd><p>The desired target case (default is <code>"snake"</code>) will be
-passed to `snakecase::to_any_case()` with the exception of "old_janitor",
+passed to <code><a href='https://rdrr.io/pkg/snakecase/man/to_any_case.html'>snakecase::to_any_case()</a></code> with the exception of "old_janitor",
 which exists only to support legacy code (it preserves the behavior of
 <code>clean_names()</code> prior to addition of the "case" argument (janitor
-versions &lt;= 0.3.1).  "old_janitor" is not intended for new code.
-See <code><a href='https://rdrr.io/pkg/snakecase/man/to_any_case.html'>to_any_case</a></code> for a wide variety of supported cases,
+versions &lt;= 0.3.1).  "old_janitor" is not intended for new code. See
+<code><a href='https://rdrr.io/pkg/snakecase/man/to_any_case.html'>to_any_case</a></code> for a wide variety of supported cases,
 including "sentence" and "title" case.</p></dd>
     <dt><code>replace</code></dt><dd><p>A named character vector where the name is replaced by the
 value.</p></dd>
     <dt><code>ascii</code></dt><dd><p>Convert the names to ASCII (<code>TRUE</code>, default) or not
 (<code>FALSE</code>).</p></dd>
-    <dt><code>use_make_names</code></dt><dd><p>Should `make.names()` be applied to ensure that the
-output is usable as a name without quoting?  (Avoiding `make.names()`
+    <dt><code>use_make_names</code></dt><dd><p>Should <code><a href='https://rdrr.io/r/base/make.names.html'>make.names()</a></code> be applied to ensure that the
+output is usable as a name without quoting?  (Avoiding <code><a href='https://rdrr.io/r/base/make.names.html'>make.names()</a></code>
 ensures that the output is locale-independent but quoting may be required.)</p></dd>
     <dt><code>sep_in</code></dt><dd><p>(short for separator input) if character, is interpreted as a
 regular expression (wrapped internally into <code><a href='https://stringr.tidyverse.org/reference/modifiers.html'>stringr::regex()</a></code>). 
@@ -217,11 +215,10 @@ You should use this feature with care in case of <code>case = "parsed"</code>, <
 </dl></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Returns the data.frame with clean names.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p><code>clean_names()</code> is intended to be used on <code>data.frames</code>
@@ -229,7 +226,6 @@ You should use this feature with care in case of <code>case = "parsed"</code>, <
   support using <code>clean_names()</code> on <code>sf</code> and <code>tbl_graph</code> (from
   <code>tidygraph</code>) objects. For cleaning named lists and vectors, consider
   using <code><a href='make_clean_names.html'>make_clean_names()</a></code>.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'># not run:

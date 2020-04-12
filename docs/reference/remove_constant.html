@@ -8,11 +8,13 @@
 
 <title>Remove constant columns from a data.frame or matrix. — remove_constant • janitor</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
@@ -36,10 +38,9 @@
 
 
 
+
 <meta property="og:title" content="Remove constant columns from a data.frame or matrix. — remove_constant" />
-
 <meta property="og:description" content="Remove constant columns from a data.frame or matrix." />
-
 
 
 
@@ -71,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">janitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.1</span>
       </span>
     </div>
 
@@ -105,7 +106,6 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/sfirke/janitor/">
@@ -132,13 +132,11 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Remove constant columns from a data.frame or matrix.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>remove_constant</span>(<span class='no'>dat</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -158,14 +156,13 @@ column not being removed if it's a mix of a single value and <code>NA</code>.</p
 (<code>FALSE</code>) indicating the summary of empty columns or rows removed?</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='remove_empty.html'>remove_empty()</a></code> for removing empty
   columns or rows.</p>
 <p>Other remove functions: 
 <code><a href='remove_empty.html'>remove_empty</a>()</code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>remove_constant</span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>A</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>B</span><span class='kw'>=</span><span class='fl'>1</span>:<span class='fl'>3</span>))</div><div class='output co'>#&gt;   B
@@ -174,7 +171,7 @@ column not being removed if it's a mix of a single value and <code>NA</code>.</p
 #&gt; 3 3</div><div class='input'>
 <span class='co'># To find the columns that are constant</span>
 <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>A</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>B</span><span class='kw'>=</span><span class='fl'>1</span>:<span class='fl'>3</span>) <span class='kw'>%&gt;%</span>
-  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/dplyr/man/select_all.html'>select_at</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sets.html'>setdiff</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>.</span>), <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='fu'>remove_constant</span>(<span class='no'>.</span>)))) <span class='kw'>%&gt;%</span>
+  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/select_all.html'>select_at</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sets.html'>setdiff</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>.</span>), <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='fu'>remove_constant</span>(<span class='no'>.</span>)))) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>()</div><div class='output co'>#&gt;   A
 #&gt; 1 1</div></pre>
   </div>

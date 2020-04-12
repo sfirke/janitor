@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">janitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.1</span>
       </span>
     </div>
 
@@ -87,7 +87,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Overview of janitor functions</h1>
             
-            <h4 class="date">2020-04-07</h4>
+            <h4 class="date">2020-04-12</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sfirke/janitor/blob/master/vignettes/janitor.Rmd"><code>vignettes/janitor.Rmd</code></a></small>
       <div class="hidden name"><code>janitor.Rmd</code></div>
@@ -109,7 +109,7 @@
 <a href="#clean-data-frame-names-with-clean_names" class="anchor"></a>Clean data.frame names with <code>clean_names()</code>
 </h3>
 <p>Call this function every time you read data.</p>
-<p>It works in a <code><a href="../reference/pipe.html">%&gt;%</a></code> pipeline, and handles problematic variable names, especially those that are so well-preserved by <code><a href="https://readxl.tidyverse.org/reference/read_excel.html">readxl::read_excel()</a></code> and <code><a href="https://readr.tidyverse.org/reference/read_delim.html">readr::read_csv()</a></code>.</p>
+<p>It works in a <code><a href="../reference/pipe.html">%&gt;%</a></code> pipeline, and handles problematic variable names, especially those that are so well-preserved by <code><a href="https://readxl.tidyverse.org/reference/read_excel.html">readxl::read_excel()</a></code> and <code><a href="https://rdrr.io/pkg/readr/man/read_delim.html">readr::read_csv()</a></code>.</p>
 <ul>
 <li>Parses letter cases and separators to a consistent format.
 <ul>
@@ -143,12 +143,12 @@
 <h4 class="hasAnchor">
 <a href="#check-with-compare_df_cols" class="anchor"></a>Check with <code>compare_df_cols()</code>
 </h4>
-<p>For cases when you are given a set of data files that <em>should</em> be identical, and you wish to read and combine them for analysis. But then <code><a href="https://rdrr.io/pkg/dplyr/man/bind.html">dplyr::bind_rows()</a></code> or <code><a href="https://rdrr.io/r/base/cbind.html">rbind()</a></code> fails, because of different columns or because the column classes don’t match across data.frames.</p>
+<p>For cases when you are given a set of data files that <em>should</em> be identical, and you wish to read and combine them for analysis. But then <code><a href="https://dplyr.tidyverse.org/reference/bind.html">dplyr::bind_rows()</a></code> or <code><a href="https://rdrr.io/r/base/cbind.html">rbind()</a></code> fails, because of different columns or because the column classes don’t match across data.frames.</p>
 <p><code><a href="../reference/compare_df_cols.html">compare_df_cols()</a></code> takes unquoted names of data.frames / tibbles, or a list of data.frames, and returns a summary of how they compare. See what the column types are, which are missing or present in the different inputs, and how column types differ.</p>
 <div class="sourceCode"><html><body><pre class="r"><span class="no">df1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">a</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="fl">2</span>, <span class="kw">b</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"big"</span>, <span class="st">"small"</span>)) <span class="co"># a factor by default</span>
 <span class="no">df2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">a</span> <span class="kw">=</span> <span class="fl">10</span>:<span class="fl">12</span>, <span class="kw">b</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"medium"</span>, <span class="st">"small"</span>, <span class="st">"big"</span>), <span class="kw">c</span> <span class="kw">=</span> <span class="fl">0</span>, <span class="kw">stringsAsFactors</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
 <span class="no">df3</span> <span class="kw">&lt;-</span> <span class="no">df1</span> <span class="kw">%&gt;%</span>
-  <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate.html">mutate</a></span>(<span class="kw">b</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span>(<span class="no">b</span>))
+  <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">b</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span>(<span class="no">b</span>))
 
 <span class="fu"><a href="../reference/compare_df_cols.html">compare_df_cols</a></span>(<span class="no">df1</span>, <span class="no">df2</span>, <span class="no">df3</span>)
 <span class="co">#&gt;   column_name     df1       df2       df3</span>
@@ -313,7 +313,7 @@
 <h3 class="hasAnchor">
 <a href="#convert-a-mix-of-date-and-datetime-formats-to-date" class="anchor"></a>Convert a mix of date and datetime formats to date</h3>
 <p>Building on <code><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date()</a></code>, the new functions <code><a href="../reference/convert_to_date.html">convert_to_date()</a></code> and <code><a href="../reference/convert_to_date.html">convert_to_datetime()</a></code> are more robust to a mix of inputs. Handy when reading many spreadsheets that <em>should</em> have the same column formats, but don’t.</p>
-<p>For instance, here a vector with a date and an Excel datetime sees both values succcesfully converted to Date class:</p>
+<p>For instance, here a vector with a date and an Excel datetime sees both values successfully converted to Date class:</p>
 <div class="sourceCode"><html><body><pre class="r"><span class="fu"><a href="../reference/convert_to_date.html">convert_to_date</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"2020-02-29"</span>, <span class="st">"40000.1"</span>))
 <span class="co">#&gt; [1] "2020-02-29" "2009-07-06"</span></pre></body></html></div>
 </div>
@@ -363,6 +363,7 @@
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+
         <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
     </nav>
 </div>

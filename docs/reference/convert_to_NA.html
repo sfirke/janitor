@@ -8,11 +8,13 @@
 
 <title>Convert string values to true <code>NA</code> values. — convert_to_NA • janitor</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
@@ -36,10 +38,9 @@
 
 
 
+
 <meta property="og:title" content="Convert string values to true <code>NA</code> values. — convert_to_NA" />
-
 <meta property="og:description" content="Converts instances of user-specified strings into NA.  Can operate on either a single vector or an entire data.frame." />
-
 
 
 
@@ -71,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">janitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.1</span>
       </span>
     </div>
 
@@ -105,7 +106,6 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/sfirke/janitor/">
@@ -132,13 +132,11 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Converts instances of user-specified strings into <code>NA</code>.  Can operate on either a single vector or an entire data.frame.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>convert_to_NA</span>(<span class='no'>dat</span>, <span class='no'>strings</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -151,19 +149,16 @@
       <td><p>character vector of strings to convert.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Returns a cleaned object.  Can be a vector, data.frame, or <code><a href='https://tibble.tidyverse.org/reference/tbl_df-class.html'>tibble::tbl_df</a></code> depending on the provided input.</p>
-    
     <h2 class="hasAnchor" id="warning"><a class="anchor" href="#warning"></a>Warning</h2>
 
-    <p>Deprecated, do not use in new code. Use <code><a href='https://rdrr.io/pkg/dplyr/man/na_if.html'>dplyr::na_if()</a></code> instead.</p>
-    
+    <p>Deprecated, do not use in new code. Use <code><a href='https://dplyr.tidyverse.org/reference/na_if.html'>dplyr::na_if()</a></code> instead.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>janitor_deprecated</p></div>
-    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

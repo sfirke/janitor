@@ -8,11 +8,13 @@
 
 <title>Returns first non-NA value from a set of vectors. — use_first_valid_of • janitor</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
@@ -36,10 +38,9 @@
 
 
 
+
 <meta property="og:title" content="Returns first non-NA value from a set of vectors. — use_first_valid_of" />
-
 <meta property="og:description" content="At each position of the input vectors, iterates through in order and returns the first non-NA value.  This is a robust replacement of the common ifelse(!is.na(x), x, ifelse(!is.na(y), y, z)).  It's more readable and handles problems like ifelse's inability to work with dates in this way." />
-
 
 
 
@@ -71,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">janitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.1</span>
       </span>
     </div>
 
@@ -105,7 +106,6 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/sfirke/janitor/">
@@ -132,13 +132,11 @@
     </div>
 
     <div class="ref-description">
-    
     <p>At each position of the input vectors, iterates through in order and returns the first non-NA value.  This is a robust replacement of the common <code><a href='https://rdrr.io/r/base/ifelse.html'>ifelse(!is.na(x), x, ifelse(!is.na(y), y, z))</a></code>.  It's more readable and handles problems like <code>ifelse</code>'s inability to work with dates in this way.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>use_first_valid_of</span>(<span class='no'>...</span>, <span class='kw'>if_all_NA</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -151,19 +149,16 @@
       <td><p>what value should be used when all of the vectors return <code>NA</code> for a certain index?  Default is NA.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Returns a single vector with the selected values.</p>
-    
     <h2 class="hasAnchor" id="warning"><a class="anchor" href="#warning"></a>Warning</h2>
 
-    <p>Deprecated, do not use in new code. Use <code><a href='https://rdrr.io/pkg/dplyr/man/coalesce.html'>dplyr::coalesce()</a></code> instead.</p>
-    
+    <p>Deprecated, do not use in new code. Use <code><a href='https://dplyr.tidyverse.org/reference/coalesce.html'>dplyr::coalesce()</a></code> instead.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>janitor_deprecated</p></div>
-    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -8,11 +8,13 @@
 
 <title>Add <code>tabyl</code> attributes to a data.frame. — as_tabyl • janitor</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
@@ -36,8 +38,8 @@
 
 
 
-<meta property="og:title" content="Add <code>tabyl</code> attributes to a data.frame. — as_tabyl" />
 
+<meta property="og:title" content="Add <code>tabyl</code> attributes to a data.frame. — as_tabyl" />
 <meta property="og:description" content="A tabyl is a data.frame containing counts of a variable or co-occurrences of two variables (a.k.a., a contingency table or crosstab).  This specialized kind of data.frame has attributes that enable adorn_ functions to be called for precise formatting and presentation of results.  E.g., display results as a mix of percentages, Ns, add totals rows or columns, rounding options, in the style of Microsoft Excel PivotTable.
 A tabyl can be the result of a call to janitor::tabyl(), in which case these attributes are added automatically.  This function adds tabyl class attributes to a data.frame that isn't the result of a call to tabyl but meets the requirements of a two-way tabyl:
 1) First column contains values of variable 1
@@ -46,7 +48,6 @@ A tabyl can be the result of a call to janitor::tabyl(), in which case these att
 * = this is the ideal form of a tabyl, but janitor's adorn_ functions tolerate and ignore non-numeric columns in positions 2:n.
 For instance, the result of dplyr::count() followed by tidyr::spread() can be treated as a tabyl.
 The result of calling tabyl() on a single variable is a special class of one-way tabyl; this function only pertains to the two-way tabyl." />
-
 
 
 
@@ -78,7 +79,7 @@ The result of calling tabyl() on a single variable is a special class of one-way
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">janitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.1</span>
       </span>
     </div>
 
@@ -112,7 +113,6 @@ The result of calling tabyl() on a single variable is a special class of one-way
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/sfirke/janitor/">
@@ -139,20 +139,18 @@ The result of calling tabyl() on a single variable is a special class of one-way
     </div>
 
     <div class="ref-description">
-    
     <p>A <code>tabyl</code> is a data.frame containing counts of a variable or co-occurrences of two variables (a.k.a., a contingency table or crosstab).  This specialized kind of data.frame has attributes that enable <code>adorn_</code> functions to be called for precise formatting and presentation of results.  E.g., display results as a mix of percentages, Ns, add totals rows or columns, rounding options, in the style of Microsoft Excel PivotTable.</p>
 <p>A <code>tabyl</code> can be the result of a call to <code><a href='tabyl.html'>janitor::tabyl()</a></code>, in which case these attributes are added automatically.  This function adds <code>tabyl</code> class attributes to a data.frame that isn't the result of a call to <code>tabyl</code> but meets the requirements of a two-way tabyl:
 1) First column contains values of variable 1
 2) Column names 2:n are the values of variable 2
 3) Numeric values in columns 2:n are counts of the co-occurrences of the two variables.*</p>
 <p>* = this is the ideal form of a tabyl, but janitor's <code>adorn_</code> functions tolerate and ignore non-numeric columns in positions 2:n.</p>
-<p>For instance, the result of <code><a href='https://rdrr.io/pkg/dplyr/man/count.html'>dplyr::count()</a></code> followed by <code><a href='https://tidyr.tidyverse.org/reference/spread.html'>tidyr::spread()</a></code> can be treated as a <code>tabyl</code>.</p>
+<p>For instance, the result of <code><a href='https://dplyr.tidyverse.org/reference/count.html'>dplyr::count()</a></code> followed by <code><a href='https://tidyr.tidyverse.org/reference/spread.html'>tidyr::spread()</a></code> can be treated as a <code>tabyl</code>.</p>
 <p>The result of calling <code><a href='tabyl.html'>tabyl()</a></code> on a single variable is a special class of one-way tabyl; this function only pertains to the two-way tabyl.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>as_tabyl</span>(<span class='no'>dat</span>, <span class='kw'>axes</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>row_var_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>col_var_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -173,11 +171,10 @@ The result of calling tabyl() on a single variable is a special class of one-way
       <td><p>(optional) the name of the variable in the column dimension; used by <code><a href='adorn_title.html'>adorn_title()</a></code>.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Returns the same data.frame, but with the additional class of "tabyl" and the attribute "core".</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>as_tabyl</span>(<span class='no'>mtcars</span>)</div><div class='output co'>#&gt;   mpg cyl  disp  hp drat    wt  qsec vs am gear carb

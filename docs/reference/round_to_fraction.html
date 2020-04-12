@@ -8,11 +8,13 @@
 
 <title>Round to the nearest fraction of a specified denominator. — round_to_fraction • janitor</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
@@ -36,8 +38,8 @@
 
 
 
-<meta property="og:title" content="Round to the nearest fraction of a specified denominator. — round_to_fraction" />
 
+<meta property="og:title" content="Round to the nearest fraction of a specified denominator. — round_to_fraction" />
 <meta property="og:description" content="Round a decimal to the precise decimal value of a specified
 fractional denominator.  Common use cases include addressing floating point
 imprecision and enforcing that data values fall into a certain set.
@@ -47,7 +49,6 @@ would be rounded to 0.566667, the equivalent of 34/60.  0.56 would also be round
 to 34/60.
 Set denominator = 1 to round to whole numbers.
 The digits argument allows for rounding of the subsequent result." />
-
 
 
 
@@ -79,7 +80,7 @@ The digits argument allows for rounding of the subsequent result." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">janitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.1</span>
       </span>
     </div>
 
@@ -113,7 +114,6 @@ The digits argument allows for rounding of the subsequent result." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/sfirke/janitor/">
@@ -140,7 +140,6 @@ The digits argument allows for rounding of the subsequent result." />
     </div>
 
     <div class="ref-description">
-    
     <p>Round a decimal to the precise decimal value of a specified
 fractional denominator.  Common use cases include addressing floating point
 imprecision and enforcing that data values fall into a certain set.</p>
@@ -150,11 +149,10 @@ would be rounded to 0.566667, the equivalent of 34/60.  0.56 would also be round
 to 34/60.</p>
 <p>Set <code>denominator = 1</code> to round to whole numbers.</p>
 <p>The <code>digits</code> argument allows for rounding of the subsequent result.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>round_to_fraction</span>(<span class='no'>x</span>, <span class='no'>denominator</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>Inf</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -175,20 +173,18 @@ Negative values are allowed (see Details). (<code>Inf</code> indicates no
 subsequent rounding)</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>the input x rounded to a decimal value that has an integer numerator relative
   to <code>denominator</code> (possibly subsequently rounded to a number of decimal
   digits).</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>If <code>digits</code> is <code>Inf</code>, <code>x</code> is rounded to the fraction
   and then kept at full precision.  If <code>digits</code> is <code>"auto"</code>, the
   number of digits is automatically selected as
   <code>ceiling(log10(denominator)) + 1</code>.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>round_to_fraction</span>(<span class='fl'>1.6</span>, <span class='kw'>denominator</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; [1] 1.5</div><div class='input'><span class='fu'>round_to_fraction</span>(<span class='no'>pi</span>, <span class='kw'>denominator</span> <span class='kw'>=</span> <span class='fl'>7</span>) <span class='co'># 22/7</span></div><div class='output co'>#&gt; [1] 3.142857</div><div class='input'><span class='fu'>round_to_fraction</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>8.1</span>, <span class='fl'>9.2</span>), <span class='kw'>denominator</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>7</span>, <span class='fl'>8</span>))</div><div class='output co'>#&gt; [1] 8.142857 9.250000</div><div class='input'><span class='fu'>round_to_fraction</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>8.1</span>, <span class='fl'>9.2</span>), <span class='kw'>denominator</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>7</span>, <span class='fl'>8</span>), <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>3</span>)</div><div class='output co'>#&gt; [1] 8.143 9.250</div><div class='input'><span class='fu'>round_to_fraction</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>8.1</span>, <span class='fl'>9.2</span>, <span class='fl'>10.3</span>), <span class='kw'>denominator</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>7</span>, <span class='fl'>8</span>, <span class='fl'>1001</span>), <span class='kw'>digits</span> <span class='kw'>=</span> <span class='st'>"auto"</span>)</div><div class='output co'>#&gt; [1]  8.1400  9.2500 10.2997</div></pre>

@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">janitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.1</span>
       </span>
     </div>
 
@@ -99,7 +99,7 @@
 </h1></div>
 <blockquote>
 <p>Data scientists, according to interviews and expert estimates, spend from 50 percent to 80 percent of their time mired in this more mundane labor of collecting and preparing unruly digital data, before it can be explored for useful nuggets.</p>
-<p>– <em>“<a href="http://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html">For Big-Data Scientists, ‘Janitor Work’ Is Key Hurdle to Insight</a>” - The New York Times, 2014</em></p>
+<p>– “<a href="http://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html">For Big-Data Scientists, ‘Janitor Work’ Is Key Hurdle to Insight“</a> - <em>The New York Times, 2014</em></p>
 </blockquote>
 <hr>
 <p><a href="https://travis-ci.org/sfirke/janitor"><img src="https://travis-ci.org/sfirke/janitor.svg?branch=master" alt="Travis-CI Build Status"></a> <a href="https://codecov.io/github/sfirke/janitor?branch=master"><img src="https://img.shields.io/codecov/c/github/sfirke/janitor/master.svg" alt="Coverage Status"></a> <a href="https://www.tidyverse.org/lifecycle/#stable"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="lifecycle"></a> <a href="https://cran.r-project.org/package=janitor"><img src="https://www.r-pkg.org/badges/version-ago/janitor" alt="CRAN_Status_Badge"></a> <img src="https://cranlogs.r-pkg.org/badges/janitor" alt="!Monthly Downloads"><img src="https://cranlogs.r-pkg.org/badges/grand-total/janitor" alt="!Downloads"></p>
@@ -124,7 +124,7 @@
 <li>
 <p>the latest development version from GitHub with</p>
 <div class="sourceCode"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)
-<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/devtools/man/reexports.html">install_github</a></span>(<span class="st">"sfirke/janitor"</span>)</pre></div>
+<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"sfirke/janitor"</span>)</pre></div>
 </li>
 </ul>
 </div>
@@ -153,7 +153,7 @@
 <div class="sourceCode"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">readxl</span>); <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">janitor</span>); <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>); <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">here</span>)
 
 <span class="no">roster_raw</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/here/man/here.html">here</a></span>(<span class="st">"dirty_data.xlsx"</span>)) <span class="co"># available at http://github.com/sfirke/janitor</span>
-<span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/reexports.html">glimpse</a></span>(<span class="no">roster_raw</span>)
+<span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">glimpse</a></span>(<span class="no">roster_raw</span>)
 <span class="co">#&gt; Rows: 13</span>
 <span class="co">#&gt; Columns: 11</span>
 <span class="co">#&gt; $ `First Name`        &lt;chr&gt; "Jason", "Jason", "Alicia", "Ada", "Desus", "Chien-Shiung", "Chien-Shiung", NA,…</span>
@@ -173,7 +173,7 @@
                                  <span class="kw">.name_repair</span> <span class="kw">=</span> <span class="no">make_clean_names</span>)
 <span class="co"># Tells read_excel() how to repair repetitive column names, overriding the</span>
 <span class="co"># default repair setting</span>
-<span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/reexports.html">glimpse</a></span>(<span class="no">roster_raw_cleaner</span>)
+<span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">glimpse</a></span>(<span class="no">roster_raw_cleaner</span>)
 <span class="co">#&gt; Rows: 13</span>
 <span class="co">#&gt; Columns: 11</span>
 <span class="co">#&gt; $ first_name        &lt;chr&gt; "Jason", "Jason", "Alicia", "Ada", "Desus", "Chien-Shiung", "Chien-Shiung", NA, "…</span>
@@ -190,9 +190,9 @@
 <p>This can be further cleaned:</p>
 <div class="sourceCode"><pre class="r"><span class="no">roster</span> <span class="kw">&lt;-</span> <span class="no">roster_raw_cleaner</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="reference/remove_empty.html">remove_empty</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"rows"</span>, <span class="st">"cols"</span>)) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate.html">mutate</a></span>(<span class="kw">hire_date</span> <span class="kw">=</span> <span class="fu"><a href="reference/excel_numeric_to_date.html">excel_numeric_to_date</a></span>(<span class="no">hire_date</span>),
-         <span class="kw">cert</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/coalesce.html">coalesce</a></span>(<span class="no">certification</span>, <span class="no">certification_2</span>)) <span class="kw">%&gt;%</span> <span class="co"># from dplyr</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/select.html">select</a></span>(-<span class="no">certification</span>, -<span class="no">certification_2</span>) <span class="co"># drop unwanted columns</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">hire_date</span> <span class="kw">=</span> <span class="fu"><a href="reference/excel_numeric_to_date.html">excel_numeric_to_date</a></span>(<span class="no">hire_date</span>),
+         <span class="kw">cert</span> <span class="kw">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/coalesce.html">coalesce</a></span>(<span class="no">certification</span>, <span class="no">certification_2</span>)) <span class="kw">%&gt;%</span> <span class="co"># from dplyr</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(-<span class="no">certification</span>, -<span class="no">certification_2</span>) <span class="co"># drop unwanted columns</span>
 
 <span class="no">roster</span>
 <span class="co">#&gt; # A tibble: 12 x 8</span>
@@ -227,7 +227,7 @@
 <h4 class="hasAnchor">
 <a href="#finding-duplicates" class="anchor"></a>Finding duplicates</h4>
 <p>Use <code><a href="reference/get_dupes.html">get_dupes()</a></code> to identify and examine duplicate records during data cleaning. Let’s see if any teachers are listed more than once:</p>
-<div class="sourceCode"><pre class="r"><span class="no">roster</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/get_dupes.html">get_dupes</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/reexports.html">contains</a></span>(<span class="st">"name"</span>))
+<div class="sourceCode"><pre class="r"><span class="no">roster</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/get_dupes.html">get_dupes</a></span>(<span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">contains</a></span>(<span class="st">"name"</span>))
 <span class="co">#&gt; # A tibble: 4 x 9</span>
 <span class="co">#&gt;   first_name   last_name dupe_count employee_status subject   hire_date  percent_allocat… full_time cert      </span>
 <span class="co">#&gt;   &lt;chr&gt;        &lt;chr&gt;          &lt;int&gt; &lt;chr&gt;           &lt;chr&gt;     &lt;date&gt;                &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     </span>
@@ -272,7 +272,7 @@
 <span class="co">#&gt;        &lt;NA&gt; 2 0.16666667            NA</span></pre></div>
 <p>Two variables:</p>
 <div class="sourceCode"><pre class="r"><span class="no">roster</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/filter.html">filter</a></span>(<span class="no">hire_date</span> <span class="kw">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span>(<span class="st">"1950-01-01"</span>)) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="no">hire_date</span> <span class="kw">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span>(<span class="st">"1950-01-01"</span>)) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="reference/tabyl.html">tabyl</a></span>(<span class="no">employee_status</span>, <span class="no">full_time</span>)
 <span class="co">#&gt;  employee_status No Yes</span>
 <span class="co">#&gt;   Administration  0   1</span>
@@ -319,7 +319,7 @@
 <ul>
 <li>submit suggestions and report bugs: <a href="https://github.com/sfirke/janitor/issues" class="uri">https://github.com/sfirke/janitor/issues</a>
 </li>
-<li>let me know what you think on Mastodon <a href="https://a2mi.social/@samfirke/">@samfirke@a2mi.social</a>
+<li>let me know what you think on Mastodon: <a href="https://a2mi.social/@samfirke">@samfirke@a2mi.social</a>
 </li>
 <li>compose a friendly e-mail to: <img src="http://samfirke.com/wp-content/uploads/2016/07/email_address_whitespace_top.png" alt="samuel.firke AT gmail" width="210">
 </li>

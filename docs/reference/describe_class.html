@@ -8,11 +8,13 @@
 
 <title>Describe the class(es) of an object — describe_class • janitor</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
@@ -36,10 +38,9 @@
 
 
 
+
 <meta property="og:title" content="Describe the class(es) of an object — describe_class" />
-
 <meta property="og:description" content="Describe the class(es) of an object" />
-
 
 
 
@@ -71,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">janitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.1</span>
       </span>
     </div>
 
@@ -105,7 +106,6 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/sfirke/janitor/">
@@ -132,9 +132,7 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Describe the class(es) of an object</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>describe_class</span>(<span class='no'>x</span>, <span class='kw'>strict_description</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
@@ -144,7 +142,7 @@
 
 <span class='co'># S3 method for default</span>
 <span class='fu'>describe_class</span>(<span class='no'>x</span>, <span class='kw'>strict_description</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -161,19 +159,17 @@ levels will be treated as different classes.  <code>FALSE</code> is more
 lenient: for class comparison purposes, the variable is just a "factor".</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A character scalar describing the class(es) of an object where if the
   scalar will match, columns in a data.frame (or similar object) should bind
   together without issue.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>For package developers, an S3 generic method can be written for
   <code>describe_class()</code> for custom classes that may need more definition
   than the default method.  This function is called by <code>compare_df_cols</code>.</p>
-    
     <h2 class="hasAnchor" id="methods-by-class-"><a class="anchor" href="#methods-by-class-"></a>Methods (by class)</h2>
 
     
@@ -182,13 +178,11 @@ lenient: for class comparison purposes, the variable is just a "factor".</p></td
 and if they are ordered.</p></li>
 <li><p><code>default</code>: List all classes of an object.</p></li>
 </ul>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other Data frame type comparison: 
 <code><a href='compare_df_cols_same.html'>compare_df_cols_same</a>()</code>,
 <code><a href='compare_df_cols.html'>compare_df_cols</a>()</code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>describe_class</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] "numeric"</div><div class='input'><span class='fu'>describe_class</span>(<span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='st'>"A"</span>))</div><div class='output co'>#&gt; [1] "factor(levels=c(\"A\"))"</div><div class='input'><span class='fu'>describe_class</span>(<span class='fu'><a href='https://rdrr.io/r/base/factor.html'>ordered</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"A"</span>, <span class='st'>"B"</span>)))</div><div class='output co'>#&gt; [1] "ordered, factor(levels=c(\"A\", \"B\"))"</div><div class='input'><span class='fu'>describe_class</span>(<span class='fu'><a href='https://rdrr.io/r/base/factor.html'>ordered</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"A"</span>, <span class='st'>"B"</span>)), <span class='kw'>strict_description</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] "factor"</div></pre>
