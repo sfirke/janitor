@@ -18,7 +18,7 @@ test_that("bad input to denominator arg is caught", {
 
 test_that("calculations are accurate", {
   expect_equal(
-    untabyl(adorn_percentages(source1)), # default parameter is denom = "row"
+    untabyl(adorn_percentages(source1)), # default parameter is denominator = "row"
     data.frame(
       cyl = c(4, 6, 8),
       `0` = c(3 / 11, 4 / 7, 12 / 14),
@@ -28,7 +28,7 @@ test_that("calculations are accurate", {
     )
   )
   expect_equal(
-    untabyl(adorn_percentages(source1, denom = "col")),
+    untabyl(adorn_percentages(source1, denominator = "col")),
     data.frame(
       cyl = c(4, 6, 8),
       `0` = c(3 / 19, 4 / 19, 12 / 19),
@@ -38,7 +38,7 @@ test_that("calculations are accurate", {
     )
   )
   expect_equal(
-    untabyl(adorn_percentages(source1, denom = "all")),
+    untabyl(adorn_percentages(source1, denominator = "all")),
     data.frame(
       cyl = c(4, 6, 8),
       `0` = c(3 / 32, 4 / 32, 12 / 32),
@@ -53,7 +53,7 @@ source2 <- source1 %>%
   adorn_totals(c("row", "col"))
 test_that("calculations are correct when totals row/col doesn't match axis of computation", {
   expect_equal(
-    untabyl(adorn_percentages(source2, denom = "row")),
+    untabyl(adorn_percentages(source2, denominator = "row")),
     data.frame(
       cyl = c(4, 6, 8, "Total"),
       `0` = c(3 / 11, 4 / 7, 12 / 14, 19 / 32),
@@ -65,14 +65,14 @@ test_that("calculations are correct when totals row/col doesn't match axis of co
   )
 })
 
-test_that("works with totals row/col when denom = col or all, #357", {
+test_that("works with totals row/col when denominator = col or all, #357", {
   col_percs <- source1 %>%
     adorn_totals(where = c("col", "row")) %>%
     adorn_percentages(denominator = "col")
   expect_equal(col_percs$Total, c(11, 7, 14, 32)/32)
   expect_equal(unname(unlist(col_percs[4, ])), c("Total", rep(1, 3)))
 
-  # Same but for denom = all
+  # Same but for denominator = all
   all_percs <- source1 %>%
     adorn_totals(where = c("col", "row")) %>%
     adorn_percentages(denominator = "all")
@@ -85,7 +85,7 @@ test_that("works with totals row/col when denom = col or all, #357", {
     adorn_percentages(denominator = "col")
   expect_equal(col_percs_no_row$Total, c(11, 7, 14)/32)
 
-  # Same but for denom = all
+  # Same but for denominator = all
   all_percs_no_row <- source1 %>%
     adorn_totals(where = c("col")) %>%
     adorn_percentages(denominator = "all")
@@ -121,7 +121,7 @@ test_that("NAs handled correctly with na.rm = TRUE", {
     )
   )
   expect_equal(
-    untabyl(adorn_percentages(source2, denom = "col")),
+    untabyl(adorn_percentages(source2, denominator = "col")),
     data.frame(
       cyl = c(4, 6, 8),
       `0` = c(3 / 15, NA, 12 / 15),
@@ -144,7 +144,7 @@ test_that("NAs handled correctly with na.rm = FALSE", {
     )
   )
   expect_equal(
-    untabyl(adorn_percentages(source2, denom = "col", na.rm = FALSE)),
+    untabyl(adorn_percentages(source2, denominator = "col", na.rm = FALSE)),
     data.frame(
       cyl = c(4, 6, 8),
       `0` = as.numeric(c(NA, NA, NA)),
