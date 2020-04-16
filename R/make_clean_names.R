@@ -95,7 +95,7 @@ make_clean_names <- function(string,
 
   replaced_names <-
     stringr::str_replace_all(
-      str=string,
+      string=string,
       pattern=replace
     )
   transliterated_names <-
@@ -110,7 +110,7 @@ make_clean_names <- function(string,
   # Remove starting spaces and punctuation
   good_start <-
     stringr::str_replace(
-      str=transliterated_names,
+      string=transliterated_names,
       # Description of this regexp:
       # \A: beginning of the string (rather than beginning of the line as ^ would indicate)
       # \h: any horizontal whitespace character (spaces, tabs, and anything else that is a Unicode whitespace)
