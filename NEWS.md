@@ -1,6 +1,8 @@
 # janitor 2.0.1.9000 (unreleased)
 
-(changes after the current CRAN version 2.0.1 will go here)
+## Bug fixes
+
+* Warnings for incomplete argument names are fixed (fix #367, thanks to @pabecerra for reporting and @billdenney for fixing)
 
 # janitor 2.0.1 (2020-04-12)
 

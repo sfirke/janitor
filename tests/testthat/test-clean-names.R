@@ -457,7 +457,7 @@ test_that("Work around incomplete stringi transliterators (Fix #365)", {
   options(janitor_warn_transliterators=NULL)
   expect_warning(
     available_transliterators("foo"),
-    regex="Some transliterators to convert characters in names are not available"
+    regexp="Some transliterators to convert characters in names are not available"
   )
   # The warning only occurs once per session
   expect_silent(
