@@ -47,7 +47,7 @@ A list of all timezones is available from \code{base::OlsonNames()}, and the
 current timezone is available from \code{base::Sys.timezone()}.
 
 If your input data has a mix of Excel numeric dates and actual dates, see the
-more powerful functions `convert_to_date()` and `convert_to_datetime()`.
+more powerful functions \code{convert_to_date()} and \code{convert_to_datetime()}.
 }
 \details{
 When using \code{include_time=TRUE}, days with leap seconds will not
