@@ -19,7 +19,7 @@ options(width = 110)
 
 > Data scientists, according to interviews and expert estimates, spend from 50 percent to 80 percent of their time mired in this more mundane labor of collecting and preparing unruly digital data, before it can be explored for useful nuggets.
 > 
-> -- "[For Big-Data Scientists, 'Janitor Work' Is Key Hurdle to Insight"](http://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html) - *The New York Times, 2014*
+> -- "[For Big-Data Scientists, 'Janitor Work' Is Key Hurdle to Insight"](http://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html) *(New York Times, 2014)*
 
 
 ***********************
@@ -62,7 +62,7 @@ You can install:
     devtools::install_github("sfirke/janitor")
     ```
 
-## <i class="fa fa-rocket" aria-hidden="true"></i> janitor 2.0.0 is out!
+## <i class="fa fa-rocket" aria-hidden="true"></i> janitor 2.0.0 released April 2020!
 
 This marks a major release for janitor, with many new functions and some breaking changes that may affect existing code.  Please see the [NEWS page](http://sfirke.github.io/janitor/news/index.html) to learn more about new capabilities.
 
