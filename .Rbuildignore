@@ -22,3 +22,6 @@ Index.Rmd
 ^CRAN-RELEASE$
 ^doc$
 ^Meta$
+^_pkgdown\.yml$
+^pkgdown$
+^\.github$
