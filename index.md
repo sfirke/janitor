@@ -65,10 +65,10 @@ You can install:
 
 ## <i class="fa fa-rocket" aria-hidden="true"></i> janitor 2.0.0 released April 2020\!
 
-This marks a major release for janitor, with many new functions and some
-breaking changes that may affect existing code. Please see the [NEWS
-page](http://sfirke.github.io/janitor/news/index.html) to learn more
-about new capabilities.
+This marked a major release for janitor, with many new functions and
+some breaking changes that may affect existing code. Please see the
+[NEWS page](http://sfirke.github.io/janitor/news/index.html) to learn
+more about the new capabilities.
 
 ## Using janitor
 
