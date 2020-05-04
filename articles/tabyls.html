@@ -87,7 +87,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>tabyls: a tidy, fully-featured approach to counting things</h1>
             
-            <h4 class="date">2020-05-01</h4>
+            <h4 class="date">2020-05-04</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sfirke/janitor/blob/master/vignettes/tabyls.Rmd"><code>vignettes/tabyls.Rmd</code></a></small>
       <div class="hidden name"><code>tabyls.Rmd</code></div>
@@ -379,7 +379,7 @@
 <span class="co">#&gt;    8    5       6.2%</span></pre></body></html></div>
 <p>Here we specify that only two consecutive numeric columns should be totaled (<code>year</code> is numeric but should not be included):</p>
 <div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">cases</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(
-  <span class="kw">region</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"East, West"</span>),
+  <span class="kw">region</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"East"</span>, <span class="st">"West"</span>),
   <span class="kw">year</span> <span class="kw">=</span> <span class="fl">2015</span>,
   <span class="kw">recovered</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">125</span>, <span class="fl">87</span>),
   <span class="kw">died</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">13</span>, <span class="fl">12</span>),
@@ -389,8 +389,8 @@
 <span class="no">cases</span> <span class="kw">%&gt;%</span>
     <span class="fu"><a href="../reference/adorn_totals.html">adorn_totals</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"col"</span>, <span class="st">"row"</span>), <span class="kw">fill</span> <span class="kw">=</span> <span class="st">"-"</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">name</span> <span class="kw">=</span> <span class="st">"Total Cases"</span>, <span class="no">recovered</span>:<span class="no">died</span>)
 <span class="co">#&gt;       region year recovered died Total Cases</span>
-<span class="co">#&gt;   East, West 2015       125   13         138</span>
-<span class="co">#&gt;   East, West 2015        87   12          99</span>
+<span class="co">#&gt;         East 2015       125   13         138</span>
+<span class="co">#&gt;         West 2015        87   12          99</span>
 <span class="co">#&gt;  Total Cases    -       212   25         237</span></pre></body></html></div>
 <p>Here’s a more complex example that uses a data.frame of means, not counts. We create a table containing the mean of a 3rd variable when grouped by two other variables, then use <code>adorn_</code> functions to round the values and append Ns. The first part is pretty straightforward:</p>
 <div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidyr</span>) <span class="co"># for spread()</span>
