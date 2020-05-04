@@ -198,7 +198,7 @@ Here we specify that only two consecutive numeric columns should be totaled (`ye
 
 ```{r dont_total, warning = FALSE, message = FALSE}
 cases <- data.frame(
-  region = c("East, West"),
+  region = c("East", "West"),
   year = 2015,
   recovered = c(125, 87),
   died = c(13, 12),
