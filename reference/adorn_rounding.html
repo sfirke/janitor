@@ -182,9 +182,9 @@ If you're formatting percentages, e.g., the result of adorn_percentages(), use a
   <span class='fu'><a href='tabyl.html'>tabyl</a></span>(<span class='no'>am</span>, <span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='adorn_percentages.html'>adorn_percentages</a></span>(<span class='st'>"all"</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>dummy</span> <span class='kw'>=</span> <span class='st'>"a"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>adorn_rounding</span>()</div><div class='output co'>#&gt;   am   4   6   8 dummy
-#&gt; 1  0 0.1 0.1 0.4     a
-#&gt; 2  1 0.2 0.1 0.1     a</div><div class='input'>
+  <span class='fu'>adorn_rounding</span>()</div><div class='output co'>#&gt;  am   4   6   8 dummy
+#&gt;   0 0.1 0.1 0.4     a
+#&gt;   1 0.2 0.1 0.1     a</div><div class='input'>
 <span class='co'># control the columns modified using the ... argument:</span>
 <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='tabyl.html'>tabyl</a></span>(<span class='no'>am</span>, <span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>

@@ -87,7 +87,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Overview of janitor functions</h1>
             
-            <h4 class="date">2020-05-04</h4>
+            <h4 class="date">2020-06-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sfirke/janitor/blob/master/vignettes/janitor.Rmd"><code>vignettes/janitor.Rmd</code></a></small>
       <div class="hidden name"><code>janitor.Rmd</code></div>
@@ -200,13 +200,11 @@
 <p>For example, in a tidy data.frame you might expect to have a unique ID repeated for each year, but no duplicated pairs of unique ID &amp; year. Say you want to check for and study any such duplicated records.</p>
 <p><code><a href="../reference/get_dupes.html">get_dupes()</a></code> returns the records (and inserts a count of duplicates) so you can examine the problematic cases:</p>
 <div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="../reference/get_dupes.html">get_dupes</a></span>(<span class="no">mtcars</span>, <span class="no">wt</span>, <span class="no">cyl</span>) <span class="co"># or mtcars %&gt;% get_dupes(wt, cyl) if you prefer to pipe</span>
-<span class="co">#&gt; # A tibble: 4 x 12</span>
-<span class="co">#&gt;      wt   cyl dupe_count   mpg  disp    hp  drat  qsec    vs    am  gear  carb</span>
-<span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;      &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1  3.44     6          2  19.2  168.   123  3.92  18.3     1     0     4     4</span>
-<span class="co">#&gt; 2  3.44     6          2  17.8  168.   123  3.92  18.9     1     0     4     4</span>
-<span class="co">#&gt; 3  3.57     8          2  14.3  360    245  3.21  15.8     0     0     3     4</span>
-<span class="co">#&gt; 4  3.57     8          2  15    301    335  3.54  14.6     0     1     5     8</span></pre></body></html></div>
+<span class="co">#&gt;     wt cyl dupe_count  mpg  disp  hp drat  qsec vs am gear carb</span>
+<span class="co">#&gt; 1 3.44   6          2 19.2 167.6 123 3.92 18.30  1  0    4    4</span>
+<span class="co">#&gt; 2 3.44   6          2 17.8 167.6 123 3.92 18.90  1  0    4    4</span>
+<span class="co">#&gt; 3 3.57   8          2 14.3 360.0 245 3.21 15.84  0  0    3    4</span>
+<span class="co">#&gt; 4 3.57   8          2 15.0 301.0 335 3.54 14.60  0  1    5    8</span></pre></body></html></div>
 </div>
 </div>
 </div>

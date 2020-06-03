@@ -87,7 +87,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>tabyls: a tidy, fully-featured approach to counting things</h1>
             
-            <h4 class="date">2020-05-04</h4>
+            <h4 class="date">2020-06-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sfirke/janitor/blob/master/vignettes/tabyls.Rmd"><code>vignettes/tabyls.Rmd</code></a></small>
       <div class="hidden name"><code>tabyls.Rmd</code></div>
@@ -167,23 +167,23 @@
 <div id="two-way-tabyl" class="section level2">
 <h2 class="hasAnchor">
 <a href="#two-way-tabyl" class="anchor"></a>Two-way tabyl</h2>
-<p>This is often called a “crosstab” or “contingency” table. Calling <code>tabyl</code> on two columns of a data.frame produces the same result as the common combination of <code><a href="https://dplyr.tidyverse.org/reference/tally.html">dplyr::count()</a></code>, followed by <code><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">tidyr::pivot_wider()</a></code> to wide form:</p>
+<p>This is often called a “crosstab” or “contingency” table. Calling <code>tabyl</code> on two columns of a data.frame produces the same result as the common combination of <code><a href="https://dplyr.tidyverse.org/reference/count.html">dplyr::count()</a></code>, followed by <code><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">tidyr::pivot_wider()</a></code> to wide form:</p>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">t2</span> <span class="kw">&lt;-</span> <span class="no">humans</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/tabyl.html">tabyl</a></span>(<span class="no">gender</span>, <span class="no">eye_color</span>)
 
 <span class="no">t2</span>
-<span class="co">#&gt;  gender blue blue-gray brown dark hazel yellow</span>
-<span class="co">#&gt;  female    3         0     5    0     1      0</span>
-<span class="co">#&gt;    male    9         1    12    1     1      2</span></pre></body></html></div>
+<span class="co">#&gt;     gender blue blue-gray brown dark hazel yellow</span>
+<span class="co">#&gt;   feminine    3         0     5    0     1      0</span>
+<span class="co">#&gt;  masculine    9         1    12    1     1      2</span></pre></body></html></div>
 <p>Since it’s a <code>tabyl</code>, we can enhance it with <code>adorn_</code> helper functions. For instance:</p>
 <div class="sourceCode" id="cb6"><html><body><pre class="r">
 <span class="no">t2</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/adorn_percentages.html">adorn_percentages</a></span>(<span class="st">"row"</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/adorn_pct_formatting.html">adorn_pct_formatting</a></span>(<span class="kw">digits</span> <span class="kw">=</span> <span class="fl">2</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/adorn_ns.html">adorn_ns</a></span>()
-<span class="co">#&gt;  gender       blue blue-gray       brown      dark      hazel    yellow</span>
-<span class="co">#&gt;  female 33.33% (3) 0.00% (0) 55.56%  (5) 0.00% (0) 11.11% (1) 0.00% (0)</span>
-<span class="co">#&gt;    male 34.62% (9) 3.85% (1) 46.15% (12) 3.85% (1)  3.85% (1) 7.69% (2)</span></pre></body></html></div>
+<span class="co">#&gt;     gender       blue blue-gray       brown      dark      hazel    yellow</span>
+<span class="co">#&gt;   feminine 33.33% (3) 0.00% (0) 55.56%  (5) 0.00% (0) 11.11% (1) 0.00% (0)</span>
+<span class="co">#&gt;  masculine 34.62% (9) 3.85% (1) 46.15% (12) 3.85% (1)  3.85% (1) 7.69% (2)</span></pre></body></html></div>
 <p>Adornments have options to control axes, rounding, and other relevant formatting choices (more on that below).</p>
 </div>
 <div id="three-way-tabyl" class="section level2">
@@ -195,7 +195,7 @@
 
 <span class="co"># the result is a tabyl of eye color x skin color, split into a list by gender</span>
 <span class="no">t3</span>
-<span class="co">#&gt; $female</span>
+<span class="co">#&gt; $feminine</span>
 <span class="co">#&gt;  eye_color dark fair light pale tan white</span>
 <span class="co">#&gt;       blue    0    2     1    0   0     0</span>
 <span class="co">#&gt;  blue-gray    0    0     0    0   0     0</span>
@@ -204,7 +204,7 @@
 <span class="co">#&gt;      hazel    0    0     1    0   0     0</span>
 <span class="co">#&gt;     yellow    0    0     0    0   0     0</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; $male</span>
+<span class="co">#&gt; $masculine</span>
 <span class="co">#&gt;  eye_color dark fair light pale tan white</span>
 <span class="co">#&gt;       blue    0    7     2    0   0     0</span>
 <span class="co">#&gt;  blue-gray    0    1     0    0   0     0</span>
@@ -221,7 +221,7 @@
   <span class="fu"><a href="../reference/adorn_pct_formatting.html">adorn_pct_formatting</a></span>(<span class="kw">digits</span> <span class="kw">=</span> <span class="fl">1</span>) <span class="kw">%&gt;%</span>
   <span class="no">adorn_ns</span> <span class="kw">%&gt;%</span>
   <span class="no">adorn_title</span>
-<span class="co">#&gt; $female</span>
+<span class="co">#&gt; $feminine</span>
 <span class="co">#&gt;            skin_color          </span>
 <span class="co">#&gt;  eye_color       fair     light</span>
 <span class="co">#&gt;       blue  22.2% (2) 11.1% (1)</span>
@@ -229,7 +229,7 @@
 <span class="co">#&gt;      hazel   0.0% (0) 11.1% (1)</span>
 <span class="co">#&gt;      Total  33.3% (3) 66.7% (6)</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; $male</span>
+<span class="co">#&gt; $masculine</span>
 <span class="co">#&gt;            skin_color                                                </span>
 <span class="co">#&gt;  eye_color       dark       fair     light     pale      tan    white</span>
 <span class="co">#&gt;       blue   0.0% (0) 26.9%  (7)  7.7% (2) 0.0% (0) 0.0% (0) 0.0% (0)</span>
@@ -283,7 +283,7 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">female</td>
+<td align="left">feminine</td>
 <td align="left">33% (3)</td>
 <td align="left">0% (0)</td>
 <td align="left">56% (5)</td>
@@ -293,7 +293,7 @@
 <td align="left">100% (9)</td>
 </tr>
 <tr class="even">
-<td align="left">male</td>
+<td align="left">masculine</td>
 <td align="left">35% (9)</td>
 <td align="left">4% (1)</td>
 <td align="left">46% (12)</td>
@@ -353,19 +353,20 @@
 <div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">percent_above_165_cm</span> <span class="kw">&lt;-</span> <span class="no">humans</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="no">gender</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span>(<span class="kw">pct_above_165_cm</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">height</span> <span class="kw">&gt;</span> <span class="fl">165</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>))
+<span class="co">#&gt; `summarise()` ungrouping output (override with `.groups` argument)</span>
 
 <span class="no">percent_above_165_cm</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/adorn_pct_formatting.html">adorn_pct_formatting</a></span>()
 <span class="co">#&gt; # A tibble: 2 x 2</span>
-<span class="co">#&gt;   gender pct_above_165_cm</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;           </span>
-<span class="co">#&gt; 1 female 12.5%           </span>
-<span class="co">#&gt; 2 male   100.0%</span></pre></body></html></div>
+<span class="co">#&gt;   gender    pct_above_165_cm</span>
+<span class="co">#&gt;   &lt;chr&gt;     &lt;chr&gt;           </span>
+<span class="co">#&gt; 1 feminine  12.5%           </span>
+<span class="co">#&gt; 2 masculine 100.0%</span></pre></body></html></div>
 <p>You can control which columns are adorned by using the <code>...</code> argument. It accepts the <a href="https://r4ds.had.co.nz/transform.html#select">tidyselect helpers</a>. That is, you can specify columns the same way you would using <code><a href="https://dplyr.tidyverse.org/reference/select.html">dplyr::select()</a></code>.</p>
 <p>For instance, say you have a numeric column that should not be included in percentage formatting and you wish to exempt it. Here, only the <code>count</code> column is adorned:</p>
 <div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">mtcars</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/tally.html">count</a></span>(<span class="no">cyl</span>, <span class="no">gear</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">rename</a></span>(<span class="kw">proportion</span> <span class="kw">=</span> <span class="no">n</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span>(<span class="no">cyl</span>, <span class="no">gear</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span>(<span class="kw">proportion</span> <span class="kw">=</span> <span class="no">n</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/adorn_percentages.html">adorn_percentages</a></span>(<span class="st">"col"</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="no">proportion</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/adorn_pct_formatting.html">adorn_pct_formatting</a></span>(,,,<span class="no">proportion</span>) <span class="co"># the commas say to use the default values of the other arguments</span>
 <span class="co">#&gt;  cyl gear proportion</span>

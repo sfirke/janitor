@@ -228,19 +228,18 @@ You should use this feature with care in case of <code>case = "parsed"</code>, <
   using <code><a href='make_clean_names.html'>make_clean_names()</a></code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'># not run:
-# clean_names(poorly_named_df)
+    <pre class="examples"><div class='input'><span class='co'># not run:</span>
+<span class='co'># clean_names(poorly_named_df)</span>
 
-# or pipe in the input data.frame:
-# poorly_named_df %&gt;% clean_names()
+<span class='co'># or pipe in the input data.frame:</span>
+<span class='co'># poorly_named_df %&gt;% clean_names()</span>
 
-# if you prefer camelCase variable names:
-# poorly_named_df %&gt;% clean_names(., "small_camel")
+<span class='co'># if you prefer camelCase variable names:</span>
+<span class='co'># poorly_named_df %&gt;% clean_names(., "small_camel")</span>
 
-# not run:
-# library(readxl)
-# read_excel("messy_excel_file.xlsx") %&gt;% clean_names()
-</div></pre>
+<span class='co'># not run:</span>
+<span class='co'># library(readxl)</span>
+<span class='co'># read_excel("messy_excel_file.xlsx") %&gt;% clean_names()</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
