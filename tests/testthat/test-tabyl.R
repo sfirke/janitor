@@ -413,3 +413,25 @@ test_that("empty strings converted to _emptystring", {
   )
 })
 
+test_that("3way tabyls with factors in cols 1-2 are arranged correctly, #379", {
+  
+  dat_3wayfactors <- data.frame(
+    gender = c("f", "m", "m", "f", "m"),
+    age_group = c("18-35", "46-55", "46-55", "36-45", ">55"),
+    bmi_group = c("18.5 - 25", "25 - 30", "18.5 - 25", ">30", "<18.5")
+    )
+  
+  levels(dat_3wayfactors$age_group) <- c("18-35", "36-45", "46-55", ">55")
+  levels(dat_3wayfactors$bmi_group) <- c("<18.5", "18.5 - 25", "25-30", ">30")
+  
+  tabyl_3wf <- dat_3wayfactors %>%
+    tabyl(bmi_group, age_group, gender, show_missing_levels = FALSE)
+  
+  expect_equal(names(tabyl_3wf$m), c("bmi_group", "18-35", ">55"))
+  expect_equal(tabyl_3wf$m[[1]],
+               factor(
+                 c("<18.5", "25-30", ">30"),
+                 levels = c("<18.5", "18.5 - 25", "25-30", ">30")
+               )
+  )
+})

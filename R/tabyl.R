@@ -260,16 +260,9 @@ tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_level
     }
   }
 
-  if (!show_missing_levels) { # this shows missing factor levels, to make the crosstabs consistent across each data.frame in the list based on values of var3
-    if (is.factor(dat[[1]])) {
-      dat[[1]] <- as.character(dat[[1]])
-    }
-    if (is.factor(dat[[2]])) {
-      dat[[2]] <- as.character(dat[[2]])
-    }
-  } else {
-    dat[[1]] <- as.factor(dat[[1]])
-    dat[[2]] <- as.factor(dat[[2]])
+  if (show_missing_levels) { # needed to have each crosstab in the list aware of all values in the pre-split variables
+   dat[[1]] <- as.factor(dat[[1]])
+   dat[[2]] <- as.factor(dat[[2]])
   }
 
   result <- split(dat, dat[[rlang::quo_name(var3)]]) %>%
