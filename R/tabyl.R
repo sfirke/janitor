@@ -74,17 +74,8 @@ tabyl.default <- function(dat, show_na = TRUE, show_missing_levels = TRUE, ...) 
     }
     dat_df <- data.frame(dat, stringsAsFactors = is.factor(dat))
     names(dat_df)[1] <- "dat"
-
-    # suppress a dplyr-specific warning message related to NA values in factors
-    # the suggestion to use forcats::fct_explicit_na is unnecessary and confusing
-    # source: https://stackoverflow.com/a/16521046/4470365
-    withCallingHandlers({
-      result <- dat_df %>% dplyr::count(dat)
-    }, warning = function(w) {
-      if (endsWith(conditionMessage(w), "fct_explicit_na\`"))
-        invokeRestart("muffleWarning")
-    })
-
+    result <- dat_df %>% dplyr::count(dat)
+  
     if (is.factor(dat) && show_missing_levels) {
       expanded <- tidyr::expand(result, dat)
       result <- merge( # can't use left_join b/c NA matching changed in 0.6.0
@@ -189,15 +180,8 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
       dplyr::slice(0))
   }
 
-  # Suppress unnecessary dplyr warning - see this same code above
-  # in tabyl.default for more explanation
-  withCallingHandlers({
     tabl <- dat %>%
       dplyr::count(!! var1, !! var2)
-  }, warning = function(w) {
-    if (endsWith(conditionMessage(w), "fct_explicit_na\`"))
-      invokeRestart("muffleWarning")
-  })
 
   # Optionally expand missing factor levels.
   if (show_missing_levels) {
