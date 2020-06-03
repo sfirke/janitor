@@ -4,6 +4,8 @@
 
 * Warnings for incomplete argument names are fixed (fix #367, thanks to @pabecerra for reporting and @billdenney for fixing)
 
+* 3-way tabyls with factors have columns and rows sorted in the correct order, by factor level (#379).
+
 # janitor 2.0.1 (2020-04-12)
 
 ## Bug fixes and Breaking changes

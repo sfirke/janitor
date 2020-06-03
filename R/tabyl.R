@@ -74,17 +74,8 @@ tabyl.default <- function(dat, show_na = TRUE, show_missing_levels = TRUE, ...) 
     }
     dat_df <- data.frame(dat, stringsAsFactors = is.factor(dat))
     names(dat_df)[1] <- "dat"
-
-    # suppress a dplyr-specific warning message related to NA values in factors
-    # the suggestion to use forcats::fct_explicit_na is unnecessary and confusing
-    # source: https://stackoverflow.com/a/16521046/4470365
-    withCallingHandlers({
-      result <- dat_df %>% dplyr::count(dat)
-    }, warning = function(w) {
-      if (endsWith(conditionMessage(w), "fct_explicit_na\`"))
-        invokeRestart("muffleWarning")
-    })
-
+    result <- dat_df %>% dplyr::count(dat)
+  
     if (is.factor(dat) && show_missing_levels) {
       expanded <- tidyr::expand(result, dat)
       result <- merge( # can't use left_join b/c NA matching changed in 0.6.0
@@ -189,15 +180,8 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
       dplyr::slice(0))
   }
 
-  # Suppress unnecessary dplyr warning - see this same code above
-  # in tabyl.default for more explanation
-  withCallingHandlers({
     tabl <- dat %>%
       dplyr::count(!! var1, !! var2)
-  }, warning = function(w) {
-    if (endsWith(conditionMessage(w), "fct_explicit_na\`"))
-      invokeRestart("muffleWarning")
-  })
 
   # Optionally expand missing factor levels.
   if (show_missing_levels) {
@@ -260,16 +244,9 @@ tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_level
     }
   }
 
-  if (!show_missing_levels) { # this shows missing factor levels, to make the crosstabs consistent across each data.frame in the list based on values of var3
-    if (is.factor(dat[[1]])) {
-      dat[[1]] <- as.character(dat[[1]])
-    }
-    if (is.factor(dat[[2]])) {
-      dat[[2]] <- as.character(dat[[2]])
-    }
-  } else {
-    dat[[1]] <- as.factor(dat[[1]])
-    dat[[2]] <- as.factor(dat[[2]])
+  if (show_missing_levels) { # needed to have each crosstab in the list aware of all values in the pre-split variables
+   dat[[1]] <- as.factor(dat[[1]])
+   dat[[2]] <- as.factor(dat[[2]])
   }
 
   result <- split(dat, dat[[rlang::quo_name(var3)]]) %>%
