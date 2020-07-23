@@ -102,7 +102,7 @@ make_clean_names <- function(string,
     if (ascii) {
       stringi::stri_trans_general(
         replaced_names,
-        id=available_transliterators(c("Any-Latin", "Greek-Latin", "nfkd", "nfc", "Latin-ASCII"))
+        id=available_transliterators(c("Any-Latin", "Greek-Latin", "Any-NFKD", "Any-NFC", "Latin-ASCII"))
       )
     } else {
       replaced_names
@@ -198,17 +198,7 @@ old_make_clean_names <- function(string) {
 #' @noRd
 #' @importFrom stringi stri_trans_list
 available_transliterators <- function(wanted) {
-  desired_available <-
-    intersect(
-      wanted,
-      c(
-        stringi::stri_trans_list(),
-        # Add these to the list to work around the fact that they are not listed
-        # in stri_trans_list().  See
-        # https://github.com/gagolews/stringi/issues/389
-        "nfc", "nfd", "nfkc", "nfkd"
-      )
-    )
+  desired_available <- intersect(wanted, stringi::stri_trans_list())
   if (!identical(wanted, desired_available) & getOption("janitor_warn_transliterators", default=TRUE)) {
     warning(
       "Some transliterators to convert characters in names are not available \n",
