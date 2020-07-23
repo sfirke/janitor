@@ -121,13 +121,20 @@ make_clean_names <- function(string,
       pattern="\\A[\\h\\s\\p{Punctuation}\\p{Symbol}\\p{Separator}\\p{Other}]*(.*)$",
       replacement="\\1"
     )
+  # Convert all interior spaces and punctuation to single dots
+  cleaned_within <-
+    stringr::str_replace(
+      string=good_start,
+      pattern="[\\h\\s\\p{Punctuation}\\p{Symbol}\\p{Separator}\\p{Other}]+",
+      replacement="."
+    )
   # make.names() is dependent on the locale and therefore will return different
   # system-dependent values (e.g. as in issue #268 with Japanese characters).
   made_names <-
     if (use_make_names) {
-      make.names(good_start)
+      make.names(cleaned_within)
     } else {
-      good_start
+      cleaned_within
     }
 
   cased_names <-

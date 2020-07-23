@@ -70,6 +70,8 @@ test_that("All scenarios for make_clean_names", {
     make_clean_names("€"),
     "x"
   )
+  # This test will fail for some locales because the ascii translation is
+  # required to make the function locale-independent.
   expect_equal(
     make_clean_names("ação", ascii=FALSE),
     "acao"
