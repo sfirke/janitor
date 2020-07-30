@@ -6,6 +6,8 @@
 
 * 3-way tabyls with factors have columns and rows sorted in the correct order, by factor level (#379).
 
+* Transliteration from extended ASCII (character codes >127) to printable ASCII (character codes <=127) is now better supported (#389, thanks to @dcorynia for reporting and @billdenney for fixing)
+
 # janitor 2.0.1 (2020-04-12)
 
 ## Bug fixes and Breaking changes

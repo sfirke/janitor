@@ -70,6 +70,8 @@ test_that("All scenarios for make_clean_names", {
     make_clean_names("€"),
     "x"
   )
+  # This test will fail for some locales because the ascii translation is
+  # required to make the function locale-independent.
   expect_equal(
     make_clean_names("ação", ascii=FALSE),
     "acao"
@@ -123,6 +125,29 @@ test_that("All scenarios for make_clean_names", {
     make_clean_names("a/b", replace=c("/"="_per_")),
     "a_per_b",
     info="Custom replacement"
+  )
+  
+  expect_equal(
+    make_clean_names("m\xb6"),
+    "m",
+    info="ASCII that is not in the expected range without being replaceable is removed"
+  )
+  
+  # Fix issue #388 (that issue was specific to \xb2)
+  # expect_equal(
+  #   make_clean_names("m\x83\x84\x85\x86\x87\xa1"),
+  #   "mf",
+  #   info="extended ASCII test 1"
+  # )
+  # expect_equal(
+  #   make_clean_names("m\xa9\xaa\xae\xb2\xb3\xb5\xbc\xbd\xbe\xc0"),
+  #   "m_c_a_r_23m1_41_23_4a",
+  #   info="extended ASCII test 2"
+  # )
+  expect_equal(
+    make_clean_names("m\u00b2"),
+    "m2",
+    info="Convert Unicode superscript 2 to regular 2"
   )
 })
 
