@@ -61,14 +61,14 @@ adorn_ns <- function(dat, position = "rear", ns = attr(dat, "core"), ...) {
 
     if (position == "rear") {
       result <- paste_matrices(dat, ns %>%
-                                 dplyr::mutate_at(vars(-group_cols()), as.character) %>%
-                                 dplyr::mutate_at(vars(-group_cols()), wrap_parens) %>%
-                                 dplyr::mutate_at(vars(-group_cols()), standardize_col_width))
+                                 dplyr::mutate_at(dplyr::vars(-dplyr::group_cols()), as.character) %>%
+                                 dplyr::mutate_at(dplyr::vars(-dplyr::group_cols()), wrap_parens) %>%
+                                 dplyr::mutate_at(dplyr::vars(-dplyr::group_cols()), standardize_col_width))
     } else if (position == "front") {
       result <- paste_matrices(ns, dat %>%
-                                 dplyr::mutate_at(vars(-group_cols()), as.character) %>%
-                                 dplyr::mutate_at(vars(-group_cols()), wrap_parens) %>%
-                                 dplyr::mutate_at(vars(-group_cols()), standardize_col_width))
+                                 dplyr::mutate_at(dplyr::vars(-dplyr::group_cols()), as.character) %>%
+                                 dplyr::mutate_at(dplyr::vars(-dplyr::group_cols()), wrap_parens) %>%
+                                 dplyr::mutate_at(dplyr::vars(-dplyr::group_cols()), standardize_col_width))
     }
     attributes(result) <- attrs
     

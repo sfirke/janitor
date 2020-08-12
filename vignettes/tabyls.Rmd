@@ -176,7 +176,7 @@ A simple example: calculate the proportion of records meeting a certain conditio
 ```{r first_non_tabyl}
 percent_above_165_cm <- humans %>%
   group_by(gender) %>%
-  summarise(pct_above_165_cm = mean(height > 165, na.rm = TRUE))
+  summarise(pct_above_165_cm = mean(height > 165, na.rm = TRUE), .groups = "drop")
 
 percent_above_165_cm %>%
   adorn_pct_formatting()
@@ -215,7 +215,7 @@ Here's a more complex example that uses a data.frame of means, not counts.  We c
 library(tidyr) # for spread()
 mpg_by_cyl_and_am <- mtcars %>%
   group_by(cyl, am) %>%
-  summarise(mpg = mean(mpg)) %>%
+  summarise(mpg = mean(mpg), .groups = "drop") %>%
   spread(am, mpg)
 
 mpg_by_cyl_and_am

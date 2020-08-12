@@ -1,6 +1,6 @@
 tabyls: a tidy, fully-featured approach to counting things
 ================
-2020-05-04
+2020-08-12
 
 ## Motivation: why tabyl?
 
@@ -292,7 +292,7 @@ condition, then format the results.
 ``` r
 percent_above_165_cm <- humans %>%
   group_by(gender) %>%
-  summarise(pct_above_165_cm = mean(height > 165, na.rm = TRUE))
+  summarise(pct_above_165_cm = mean(height > 165, na.rm = TRUE), .groups = "drop")
 
 percent_above_165_cm %>%
   adorn_pct_formatting()
@@ -358,12 +358,11 @@ values and append Ns. The first part is pretty straightforward:
 library(tidyr) # for spread()
 mpg_by_cyl_and_am <- mtcars %>%
   group_by(cyl, am) %>%
-  summarise(mpg = mean(mpg)) %>%
+  summarise(mpg = mean(mpg), .groups = "drop") %>%
   spread(am, mpg)
 
 mpg_by_cyl_and_am
 #> # A tibble: 3 x 3
-#> # Groups:   cyl [3]
 #>     cyl   `0`   `1`
 #>   <dbl> <dbl> <dbl>
 #> 1     4  22.9  28.1
