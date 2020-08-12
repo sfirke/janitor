@@ -15,7 +15,7 @@
 -----
 
 [![Travis-CI Build
-Status](https://travis-ci.org/sfirke/janitor.svg?branch=master)](https://travis-ci.org/sfirke/janitor)
+Status](https://travis-ci.com/sfirke/janitor.svg?branch=master)](https://travis-ci.com/github/sfirke/janitor)
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/sfirke/janitor/master.svg)](https://codecov.io/github/sfirke/janitor?branch=master)
 [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
