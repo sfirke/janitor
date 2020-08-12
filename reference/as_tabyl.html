@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add <code>tabyl</code> attributes to a data.frame. — as_tabyl • janitor</title>
+<title>Add tabyl attributes to a data.frame. — as_tabyl • janitor</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Add <code>tabyl</code> attributes to a data.frame. — as_tabyl" />
+<meta property="og:title" content="Add tabyl attributes to a data.frame. — as_tabyl" />
 <meta property="og:description" content="A tabyl is a data.frame containing counts of a variable or co-occurrences of two variables (a.k.a., a contingency table or crosstab).  This specialized kind of data.frame has attributes that enable adorn_ functions to be called for precise formatting and presentation of results.  E.g., display results as a mix of percentages, Ns, add totals rows or columns, rounding options, in the style of Microsoft Excel PivotTable.
 A tabyl can be the result of a call to janitor::tabyl(), in which case these attributes are added automatically.  This function adds tabyl class attributes to a data.frame that isn't the result of a call to tabyl but meets the requirements of a two-way tabyl:
 1) First column contains values of variable 1
@@ -149,7 +149,7 @@ The result of calling tabyl() on a single variable is a special class of one-way
 <p>The result of calling <code><a href='tabyl.html'>tabyl()</a></code> on a single variable is a special class of one-way tabyl; this function only pertains to the two-way tabyl.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>as_tabyl</span>(<span class='no'>dat</span>, <span class='kw'>axes</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>row_var_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>col_var_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>as_tabyl</span>(<span class='kw'>dat</span>, axes = <span class='fl'>2</span>, row_var_name = <span class='kw'>NULL</span>, col_var_name = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -177,7 +177,7 @@ The result of calling tabyl() on a single variable is a special class of one-way
     <p>Returns the same data.frame, but with the additional class of "tabyl" and the attribute "core".</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>as_tabyl</span>(<span class='no'>mtcars</span>)</div><div class='output co'>#&gt;   mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+    <pre class="examples"><div class='input'><span class='fu'>as_tabyl</span>(<span class='kw'>mtcars</span>)</div><div class='output co'>#&gt;   mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt;  21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
 #&gt;  21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
 #&gt;  22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
@@ -209,8 +209,7 @@ The result of calling tabyl() on a single variable is a special class of one-way
 #&gt;  15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
 #&gt;  19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
 #&gt;  15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
-#&gt;  21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</div><div class='input'>
-</div></pre>
+#&gt;  21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</div><div class='input'></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

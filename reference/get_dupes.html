@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get rows of a <code>data.frame</code> with identical values for the specified variables. — get_dupes • janitor</title>
+<title>Get rows of a data.frame with identical values for the specified variables. — get_dupes • janitor</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Get rows of a <code>data.frame</code> with identical values for the specified variables. — get_dupes" />
+<meta property="og:title" content="Get rows of a data.frame with identical values for the specified variables. — get_dupes" />
 <meta property="og:description" content="For hunting duplicate records during data cleaning.  Specify the data.frame and the variable combination to search for duplicates and get back the duplicated rows." />
 
 
@@ -135,7 +135,7 @@
     <p>For hunting duplicate records during data cleaning.  Specify the data.frame and the variable combination to search for duplicates and get back the duplicated rows.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_dupes</span>(<span class='no'>dat</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>get_dupes</span>(<span class='kw'>dat</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -155,20 +155,20 @@
     <p>Returns a data.frame with the full records where the specified variables have duplicated values, as well as a variable <code>dupe_count</code> showing the number of rows sharing that combination of duplicated values. If the input data.frame was of class <code>tbl_df</code>, the output is as well.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>get_dupes</span>(<span class='no'>mtcars</span>, <span class='no'>mpg</span>, <span class='no'>hp</span>)</div><div class='output co'>#&gt;   mpg  hp dupe_count cyl disp drat    wt  qsec vs am gear carb
+    <pre class="examples"><div class='input'><span class='fu'>get_dupes</span>(<span class='kw'>mtcars</span>, <span class='kw'>mpg</span>, <span class='kw'>hp</span>)</div><div class='output co'>#&gt;   mpg  hp dupe_count cyl disp drat    wt  qsec vs am gear carb
 #&gt; 1  21 110          2   6  160  3.9 2.620 16.46  0  1    4    4
 #&gt; 2  21 110          2   6  160  3.9 2.875 17.02  0  1    4    4</div><div class='input'>
 <span class='co'># or called with the magrittr pipe %&gt;% :</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>get_dupes</span>(<span class='no'>wt</span>)</div><div class='output co'>#&gt;     wt dupe_count  mpg cyl  disp  hp drat  qsec vs am gear carb
+<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>get_dupes</span>(<span class='kw'>wt</span>)</div><div class='output co'>#&gt;     wt dupe_count  mpg cyl  disp  hp drat  qsec vs am gear carb
 #&gt; 1 3.44          3 18.7   8 360.0 175 3.15 17.02  0  0    3    2
 #&gt; 2 3.44          3 19.2   6 167.6 123 3.92 18.30  1  0    4    4
 #&gt; 3 3.44          3 17.8   6 167.6 123 3.92 18.90  1  0    4    4
 #&gt; 4 3.57          2 14.3   8 360.0 245 3.21 15.84  0  0    3    4
 #&gt; 5 3.57          2 15.0   8 301.0 335 3.54 14.60  0  1    5    8</div><div class='input'>
 <span class='co'># You can use tidyselect helpers to specify variables:</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>get_dupes</span>(-<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>wt</span>, <span class='no'>qsec</span>))</div><div class='output co'>#&gt;   mpg cyl disp  hp drat vs am gear carb dupe_count    wt  qsec
+<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>get_dupes</span>(<span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>wt</span>, <span class='kw'>qsec</span>))</div><div class='output co'>#&gt;   mpg cyl disp  hp drat vs am gear carb dupe_count    wt  qsec
 #&gt; 1  21   6  160 110  3.9  0  1    4    4          2 2.620 16.46
-#&gt; 2  21   6  160 110  3.9  0  1    4    4          2 2.875 17.02</div><div class='input'><span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>get_dupes</span>(<span class='fu'>starts_with</span>(<span class='st'>"cy"</span>))</div><div class='output co'>#&gt;    cyl dupe_count  mpg  disp  hp drat    wt  qsec vs am gear carb
+#&gt; 2  21   6  160 110  3.9  0  1    4    4          2 2.875 17.02</div><div class='input'><span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>get_dupes</span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span>(<span class='st'>"cy"</span>))</div><div class='output co'>#&gt;    cyl dupe_count  mpg  disp  hp drat    wt  qsec vs am gear carb
 #&gt; 1    4         11 22.8 108.0  93 3.85 2.320 18.61  1  1    4    1
 #&gt; 2    4         11 24.4 146.7  62 3.69 3.190 20.00  1  0    4    2
 #&gt; 3    4         11 22.8 140.8  95 3.92 3.150 22.90  1  0    4    2

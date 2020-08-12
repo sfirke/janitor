@@ -139,13 +139,13 @@ Alternatively, you can tabulate a single variable that isn't in a data.frame by 
 <p>Alternatively, you can tabulate a single variable that isn't in a data.frame by calling <code>tabyl</code> on a vector, e.g., <code>tabyl(mtcars$gear)</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tabyl</span>(<span class='no'>dat</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>tabyl</span>(<span class='kw'>dat</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for default</span>
-<span class='fu'>tabyl</span>(<span class='no'>dat</span>, <span class='kw'>show_na</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show_missing_levels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+<span class='fu'>tabyl</span>(<span class='kw'>dat</span>, show_na = <span class='fl'>TRUE</span>, show_missing_levels = <span class='fl'>TRUE</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>tabyl</span>(<span class='no'>dat</span>, <span class='no'>var1</span>, <span class='no'>var2</span>, <span class='no'>var3</span>, <span class='kw'>show_na</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show_missing_levels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>tabyl</span>(<span class='kw'>dat</span>, <span class='kw'>var1</span>, <span class='kw'>var2</span>, <span class='kw'>var3</span>, show_na = <span class='fl'>TRUE</span>, show_missing_levels = <span class='fl'>TRUE</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -186,13 +186,13 @@ Alternatively, you can tabulate a single variable that isn't in a data.frame by 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'>tabyl</span>(<span class='no'>mtcars</span>, <span class='no'>cyl</span>)</div><div class='output co'>#&gt;  cyl  n percent
+<span class='fu'>tabyl</span>(<span class='kw'>mtcars</span>, <span class='kw'>cyl</span>)</div><div class='output co'>#&gt;  cyl  n percent
 #&gt;    4 11 0.34375
 #&gt;    6  7 0.21875
-#&gt;    8 14 0.43750</div><div class='input'><span class='fu'>tabyl</span>(<span class='no'>mtcars</span>, <span class='no'>cyl</span>, <span class='no'>gear</span>)</div><div class='output co'>#&gt;  cyl  3 4 5
+#&gt;    8 14 0.43750</div><div class='input'><span class='fu'>tabyl</span>(<span class='kw'>mtcars</span>, <span class='kw'>cyl</span>, <span class='kw'>gear</span>)</div><div class='output co'>#&gt;  cyl  3 4 5
 #&gt;    4  1 8 2
 #&gt;    6  2 4 1
-#&gt;    8 12 0 2</div><div class='input'><span class='fu'>tabyl</span>(<span class='no'>mtcars</span>, <span class='no'>cyl</span>, <span class='no'>gear</span>, <span class='no'>am</span>)</div><div class='output co'>#&gt; $`0`
+#&gt;    8 12 0 2</div><div class='input'><span class='fu'>tabyl</span>(<span class='kw'>mtcars</span>, <span class='kw'>cyl</span>, <span class='kw'>gear</span>, <span class='kw'>am</span>)</div><div class='output co'>#&gt; $`0`
 #&gt;  cyl  3 4 5
 #&gt;    4  1 2 0
 #&gt;    6  2 2 0
@@ -205,24 +205,24 @@ Alternatively, you can tabulate a single variable that isn't in a data.frame by 
 #&gt;    8 0 0 2
 #&gt; </div><div class='input'>
 <span class='co'># or using the %&gt;% pipe</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>tabyl</span>(<span class='no'>cyl</span>, <span class='no'>gear</span>)</div><div class='output co'>#&gt;  cyl  3 4 5
+<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>tabyl</span>(<span class='kw'>cyl</span>, <span class='kw'>gear</span>)</div><div class='output co'>#&gt;  cyl  3 4 5
 #&gt;    4  1 8 2
 #&gt;    6  2 4 1
 #&gt;    8 12 0 2</div><div class='input'>
 <span class='co'># illustrating show_na functionality:</span>
-<span class='no'>my_cars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span>(<span class='no'>mtcars</span>, <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>NA</span>, <span class='fl'>11</span>))
-<span class='no'>my_cars</span> <span class='kw'>%&gt;%</span> <span class='fu'>tabyl</span>(<span class='no'>cyl</span>)</div><div class='output co'>#&gt;  cyl  n    percent valid_percent
+<span class='kw'>my_cars</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span>(<span class='kw'>mtcars</span>, <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>NA</span>, <span class='fl'>11</span>))
+<span class='kw'>my_cars</span> <span class='op'>%&gt;%</span> <span class='fu'>tabyl</span>(<span class='kw'>cyl</span>)</div><div class='output co'>#&gt;  cyl  n    percent valid_percent
 #&gt;    4 11 0.33333333       0.34375
 #&gt;    6  7 0.21212121       0.21875
 #&gt;    8 14 0.42424242       0.43750
-#&gt;   NA  1 0.03030303            NA</div><div class='input'><span class='no'>my_cars</span> <span class='kw'>%&gt;%</span> <span class='fu'>tabyl</span>(<span class='no'>cyl</span>, <span class='kw'>show_na</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;  cyl  n percent
+#&gt;   NA  1 0.03030303            NA</div><div class='input'><span class='kw'>my_cars</span> <span class='op'>%&gt;%</span> <span class='fu'>tabyl</span>(<span class='kw'>cyl</span>, show_na = <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;  cyl  n percent
 #&gt;    4 11 0.34375
 #&gt;    6  7 0.21875
 #&gt;    8 14 0.43750</div><div class='input'>
 <span class='co'># Calling on a single vector not in a data.frame:</span>
-<span class='no'>val</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"hi"</span>, <span class='st'>"med"</span>, <span class='st'>"med"</span>, <span class='st'>"lo"</span>)
-<span class='fu'>tabyl</span>(<span class='no'>val</span>)</div><div class='output co'>#&gt;  val n percent
+<span class='kw'>val</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"hi"</span>, <span class='st'>"med"</span>, <span class='st'>"med"</span>, <span class='st'>"lo"</span>)
+<span class='fu'>tabyl</span>(<span class='kw'>val</span>)</div><div class='output co'>#&gt;  val n percent
 #&gt;   hi 1    0.25
 #&gt;   lo 1    0.25
 #&gt;  med 2    0.50</div></pre>

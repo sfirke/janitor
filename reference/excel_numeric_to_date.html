@@ -158,11 +158,11 @@ more powerful functions <code><a href='convert_to_date.html'>convert_to_date()</
     </div>
 
     <pre class="usage"><span class='fu'>excel_numeric_to_date</span>(
-  <span class='no'>date_num</span>,
-  <span class='kw'>date_system</span> <span class='kw'>=</span> <span class='st'>"modern"</span>,
-  <span class='kw'>include_time</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>round_seconds</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>tz</span> <span class='kw'>=</span> <span class='st'>""</span>
+  <span class='kw'>date_num</span>,
+  date_system = <span class='st'>"modern"</span>,
+  include_time = <span class='fl'>FALSE</span>,
+  round_seconds = <span class='fl'>TRUE</span>,
+  tz = <span class='st'>""</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -211,8 +211,8 @@ more information on timezones).</p></td>
 <code><a href='convert_to_date.html'>convert_to_date</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>excel_numeric_to_date</span>(<span class='fl'>40000</span>)</div><div class='output co'>#&gt; [1] "2009-07-06"</div><div class='input'><span class='fu'>excel_numeric_to_date</span>(<span class='fl'>40000.5</span>) <span class='co'># No time is included</span></div><div class='output co'>#&gt; [1] "2009-07-06"</div><div class='input'><span class='fu'>excel_numeric_to_date</span>(<span class='fl'>40000.5</span>, <span class='kw'>include_time</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='co'># Time is included</span></div><div class='output co'>#&gt; [1] "2009-07-06 12:00:00 UTC"</div><div class='input'><span class='fu'>excel_numeric_to_date</span>(<span class='fl'>40000.521</span>, <span class='kw'>include_time</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='co'># Time is included</span></div><div class='output co'>#&gt; [1] "2009-07-06 12:30:14 UTC"</div><div class='input'><span class='fu'>excel_numeric_to_date</span>(<span class='fl'>40000.521</span>, <span class='kw'>include_time</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>round_seconds</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>) <span class='co'># Time with fractional seconds is included</span></div><div class='output co'>#&gt; [1] "2009-07-06 12:30:14 UTC"</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>excel_numeric_to_date</span>(<span class='fl'>40000</span>)</div><div class='output co'>#&gt; [1] "2009-07-06"</div><div class='input'><span class='fu'>excel_numeric_to_date</span>(<span class='fl'>40000.5</span>) <span class='co'># No time is included</span></div><div class='output co'>#&gt; [1] "2009-07-06"</div><div class='input'><span class='fu'>excel_numeric_to_date</span>(<span class='fl'>40000.5</span>, include_time = <span class='fl'>TRUE</span>) <span class='co'># Time is included</span></div><div class='output co'>#&gt; [1] "2009-07-06 12:00:00 UTC"</div><div class='input'><span class='fu'>excel_numeric_to_date</span>(<span class='fl'>40000.521</span>, include_time = <span class='fl'>TRUE</span>) <span class='co'># Time is included</span></div><div class='output co'>#&gt; [1] "2009-07-06 12:30:14 UTC"</div><div class='input'><span class='fu'>excel_numeric_to_date</span>(<span class='fl'>40000.521</span>, include_time = <span class='fl'>TRUE</span>,
+  round_seconds = <span class='fl'>FALSE</span>) <span class='co'># Time with fractional seconds is included</span></div><div class='output co'>#&gt; [1] "2009-07-06 12:30:14 UTC"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

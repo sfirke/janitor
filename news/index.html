@@ -139,6 +139,7 @@
 <ul>
 <li><p>Warnings for incomplete argument names are fixed (fix <a href='https://github.com/sfirke/janitor/issues/367'>#367</a>, thanks to <a href='https://github.com/pabecerra'>@pabecerra</a> for reporting and <a href='https://github.com/billdenney'>@billdenney</a> for fixing)</p></li>
 <li><p>3-way tabyls with factors have columns and rows sorted in the correct order, by factor level (<a href='https://github.com/sfirke/janitor/issues/379'>#379</a>).</p></li>
+<li><p>Transliteration from extended ASCII (character codes &gt;127) to printable ASCII (character codes &lt;=127) is now better supported (<a href='https://github.com/sfirke/janitor/issues/389'>#389</a>, thanks to <a href='https://github.com/dcorynia'>@dcorynia</a> for reporting and <a href='https://github.com/billdenney'>@billdenney</a> for fixing)</p></li>
 </ul>
 </div>
 </div>
@@ -179,7 +180,7 @@
 <li><p><code><a href="../reference/make_clean_names.html">make_clean_names()</a></code> now allows the user to specify parts of names to be replaced (Fix <a href='https://github.com/sfirke/janitor/issues/316'>#316</a>, thanks to <a href='https://github.com/woodwards'>@woodwards</a> for reporting and <a href='https://github.com/woodwards'>@woodwards</a> and <a href='https://github.com/billdenney'>@billdenney</a> for implementing)</p></li>
 <li><p><code><a href="../reference/make_clean_names.html">make_clean_names()</a></code> will ensure that column names are never duplicated (Fix <a href='https://github.com/sfirke/janitor/issues/251'>#251</a>, thanks to <a href='https://github.com/jzadra'>@jzadra</a> for reporting and <a href='https://github.com/billdenney'>@billdenney</a> for implementing)</p></li>
 <li><p><code><a href="../reference/clean_names.html">clean_names()</a></code> and <code><a href="../reference/make_clean_names.html">make_clean_names()</a></code> have a more generic interface where all arguments from <code><a href="../reference/make_clean_names.html">make_clean_names()</a></code> are accessible from <code><a href="../reference/clean_names.html">clean_names()</a></code> (Fix <a href='https://github.com/sfirke/janitor/issues/339'>#339</a>, thanks to <a href='https://github.com/ari-nz'>@ari-nz</a> and <a href='https://github.com/billdenney'>@billdenney</a>).</p></li>
-<li><p>The variables considered by the function <code><a href="../reference/get_dupes.html">get_dupes()</a></code> can be specified using the select helper functions from <code>tidyselect</code>. This includes <code>-column_name</code> to omit a variable as well as the matching functions <code>starts_with()</code>, <code>ends_with()</code>, <code>contains()</code>, and <code>matches()</code>. See <code><a href="https://tidyselect.r-lib.org/reference/language.html">?tidyselect::select_helpers</a></code> for more (<a href='https://github.com/sfirke/janitor/issues/326'>#326</a>, thanks to <strong>@jzadra</strong> for suggesting and implementing).</p></li>
+<li><p>The variables considered by the function <code><a href="../reference/get_dupes.html">get_dupes()</a></code> can be specified using the select helper functions from <code>tidyselect</code>. This includes <code>-column_name</code> to omit a variable as well as the matching functions <code><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with()</a></code>, <code><a href="https://tidyselect.r-lib.org/reference/starts_with.html">ends_with()</a></code>, <code><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains()</a></code>, and <code><a href="https://tidyselect.r-lib.org/reference/starts_with.html">matches()</a></code>. See <code><a href="https://tidyselect.r-lib.org/reference/language.html">?tidyselect::select_helpers</a></code> for more (<a href='https://github.com/sfirke/janitor/issues/326'>#326</a>, thanks to <strong>@jzadra</strong> for suggesting and implementing).</p></li>
 </ul>
 </div>
 <div id="minor-features" class="section level2">
@@ -221,7 +222,7 @@
 <ul>
 <li>The new function <code><a href="../reference/make_clean_names.html">make_clean_names()</a></code> takes a character vector and returns the cleaned text, with the same functionality as the existing <code><a href="../reference/clean_names.html">clean_names()</a></code>, which runs on a data.frame, manipulating its names. (<a href='https://github.com/sfirke/janitor/issues/197'>#197</a>, thanks <strong>@tazinho</strong> and everyone who contributed to the discussion).</li>
 </ul>
-<p>This function can be supplied as a value for the <code>.name_repair</code> argument of <code>as_tibble()</code> in the <code>tibble</code> package. For example: <code>as_tibble(iris, .name_repair = make_clean_names)</code>.</p>
+<p>This function can be supplied as a value for the <code>.name_repair</code> argument of <code><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble()</a></code> in the <code>tibble</code> package. For example: <code><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble(iris, .name_repair = make_clean_names)</a></code>.</p>
 <ul>
 <li>
 <p>The new function <code><a href="../reference/compare_df_cols.html">compare_df_cols()</a></code> compares the names and classes of columns in a set of supplied data.frames or tibbles, reporting on the specific columns that are or are not similar. This is for the common use case where a set of data files should all have the same specifications but, in practice, may not. A companion function <code><a href="../reference/compare_df_cols_same.html">compare_df_cols_same()</a></code> gives a <code>TRUE/FALSE</code> result indicating if the columns are the same (and therefore bindable, though FALSE is not definitive that binding will fail).</p>
@@ -412,7 +413,7 @@
 <h2 class="hasAnchor">
 <a href="#major-features-4" class="anchor"></a>Major features</h2>
 <ul>
-<li>Exported the <code><a href="../reference/pipe.html">%&gt;%</a></code> pipe from magrittr <a href="https://github.com/sfirke/janitor/issues/107">(<a href='https://github.com/sfirke/janitor/issues/107'>#107</a>)</a>.</li>
+<li>Exported the <code><a href="../reference/%&gt;%.html">%&gt;%</a></code> pipe from magrittr <a href="https://github.com/sfirke/janitor/issues/107">(<a href='https://github.com/sfirke/janitor/issues/107'>#107</a>)</a>.</li>
 </ul>
 <p><strong>Deprecated the following functions:</strong></p>
 <ul>
@@ -533,10 +534,10 @@
 <ul>
 <li>Added a function <code><a href="../reference/adorn_crosstab.html">adorn_crosstab()</a></code> that formats the results of a <code><a href="../reference/crosstab.html">crosstab()</a></code> for pretty printing. Shows % and N in the same cell, with the % symbol, user-specified rounding (method and number of digits), and the option to include a totals row and/or column. E.g., <code>mtcars %&gt;% crosstab(cyl, gear) %&gt;% adorn_crosstab()</code>.</li>
 <li>
-<code><a href="../reference/crosstab.html">crosstab()</a></code> can be called in a <code><a href="../reference/pipe.html">%&gt;%</a></code> pipeline, e.g., <code>mtcars %&gt;% crosstab(cyl, gear)</code>. Thanks to <a href="https://github.com/chrishaid">@chrishaid</a> <a href="https://github.com/sfirke/janitor/pull/34">(<a href='https://github.com/sfirke/janitor/issues/34'>#34</a>)</a>
+<code><a href="../reference/crosstab.html">crosstab()</a></code> can be called in a <code><a href="../reference/%&gt;%.html">%&gt;%</a></code> pipeline, e.g., <code>mtcars %&gt;% crosstab(cyl, gear)</code>. Thanks to <a href="https://github.com/chrishaid">@chrishaid</a> <a href="https://github.com/sfirke/janitor/pull/34">(<a href='https://github.com/sfirke/janitor/issues/34'>#34</a>)</a>
 </li>
 <li>
-<code><a href="../reference/tabyl.html">tabyl()</a></code> can also be called in a <code><a href="../reference/pipe.html">%&gt;%</a></code> pipeline, e.g., <code>mtcars %&gt;% tabyl(cyl)</code> <a href="https://github.com/sfirke/janitor/issues/35">(<a href='https://github.com/sfirke/janitor/issues/35'>#35</a>)</a>
+<code><a href="../reference/tabyl.html">tabyl()</a></code> can also be called in a <code><a href="../reference/%&gt;%.html">%&gt;%</a></code> pipeline, e.g., <code>mtcars %&gt;% tabyl(cyl)</code> <a href="https://github.com/sfirke/janitor/issues/35">(<a href='https://github.com/sfirke/janitor/issues/35'>#35</a>)</a>
 </li>
 <li>Added <code><a href="../reference/use_first_valid_of.html">use_first_valid_of()</a></code> function <a href="https://github.com/sfirke/janitor/issues/32">(<a href='https://github.com/sfirke/janitor/issues/32'>#32</a>)</a>
 </li>

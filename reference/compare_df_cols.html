@@ -141,10 +141,10 @@ they will successfully bind together by rows.</p>
     </div>
 
     <pre class="usage"><span class='fu'>compare_df_cols</span>(
-  <span class='no'>...</span>,
-  <span class='kw'>return</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"all"</span>, <span class='st'>"match"</span>, <span class='st'>"mismatch"</span>),
-  <span class='kw'>bind_method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"bind_rows"</span>, <span class='st'>"rbind"</span>),
-  <span class='kw'>strict_description</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+  <span class='kw'>...</span>,
+  return = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"all"</span>, <span class='st'>"match"</span>, <span class='st'>"mismatch"</span>),
+  bind_method = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"bind_rows"</span>, <span class='st'>"rbind"</span>),
+  strict_description = <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -205,13 +205,13 @@ Details section.</p></td>
 <code><a href='describe_class.html'>describe_class</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>compare_df_cols</span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>A</span><span class='kw'>=</span><span class='fl'>1</span>), <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>B</span><span class='kw'>=</span><span class='fl'>2</span>))</div><div class='output co'>#&gt;   column_name data.frame(A = 1) data.frame(B = 2)
+    <pre class="examples"><div class='input'><span class='fu'>compare_df_cols</span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(A=<span class='fl'>1</span>), <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(B=<span class='fl'>2</span>))</div><div class='output co'>#&gt;   column_name data.frame(A = 1) data.frame(B = 2)
 #&gt; 1           A           numeric              &lt;NA&gt;
 #&gt; 2           B              &lt;NA&gt;           numeric</div><div class='input'><span class='co'># user-defined names</span>
-<span class='fu'>compare_df_cols</span>(<span class='kw'>dfA</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>A</span><span class='kw'>=</span><span class='fl'>1</span>), <span class='kw'>dfB</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>B</span><span class='kw'>=</span><span class='fl'>2</span>))</div><div class='output co'>#&gt;   column_name     dfA     dfB
+<span class='fu'>compare_df_cols</span>(dfA=<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(A=<span class='fl'>1</span>), dfB=<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(B=<span class='fl'>2</span>))</div><div class='output co'>#&gt;   column_name     dfA     dfB
 #&gt; 1           A numeric    &lt;NA&gt;
 #&gt; 2           B    &lt;NA&gt; numeric</div><div class='input'><span class='co'># a combination of list and data.frame input</span>
-<span class='fu'>compare_df_cols</span>(<span class='kw'>listA</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>dfA</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>A</span><span class='kw'>=</span><span class='fl'>1</span>), <span class='kw'>dfB</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>B</span><span class='kw'>=</span><span class='fl'>2</span>)), <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>A</span><span class='kw'>=</span><span class='fl'>3</span>))</div><div class='output co'>#&gt;   column_name     dfA     dfB data.frame(A = 3)
+<span class='fu'>compare_df_cols</span>(listA=<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(dfA=<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(A=<span class='fl'>1</span>), dfB=<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(B=<span class='fl'>2</span>)), <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(A=<span class='fl'>3</span>))</div><div class='output co'>#&gt;   column_name     dfA     dfB data.frame(A = 3)
 #&gt; 1           A numeric    &lt;NA&gt;           numeric
 #&gt; 2           B    &lt;NA&gt; numeric              &lt;NA&gt;</div></pre>
   </div>

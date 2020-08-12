@@ -111,7 +111,7 @@
 <li>isolate partially-duplicate records.</li>
 </ul>
 <p>The tabulate-and-report functions approximate popular features of SPSS and Microsoft Excel.</p>
-<p>janitor is a <a href="https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html">#tidyverse</a>-oriented package. Specifically, it plays nicely with the <code><a href="reference/pipe.html">%&gt;%</a></code> pipe and is optimized for cleaning data brought in with the <a href="https://github.com/tidyverse/readr">readr</a> and <a href="https://github.com/tidyverse/readxl">readxl</a> packages.</p>
+<p>janitor is a <a href="https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html">#tidyverse</a>-oriented package. Specifically, it plays nicely with the <code><a href="reference/%&gt;%.html">%&gt;%</a></code> pipe and is optimized for cleaning data brought in with the <a href="https://github.com/tidyverse/readr">readr</a> and <a href="https://github.com/tidyverse/readxl">readxl</a> packages.</p>
 <div id="-getting-started" class="section level2">
 <h2 class="hasAnchor">
 <a href="#-getting-started" class="anchor"></a><i class="fa fa-cog" aria-hidden="true"></i> Getting Started</h2>
@@ -119,12 +119,16 @@
 <ul>
 <li>
 <p>the most recent officially-released version from CRAN with</p>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"janitor"</span>)</pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"janitor"</span>)
+</pre></div>
 </li>
 <li>
 <p>the latest development version from GitHub with</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)
-<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu">install_github</span>(<span class="st">"sfirke/janitor"</span>)</pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)
+<span class="kw">devtools</span>::<span class="fu">install_github</span>(<span class="st">"sfirke/janitor"</span>)
+</pre></div>
 </li>
 </ul>
 </div>
@@ -150,10 +154,11 @@
 <li>Values spread inconsistently over the “Certification” columns</li>
 </ul>
 <p>Here’s that data after being read in to R:</p>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">readxl</span>); <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">janitor</span>); <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>); <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">here</span>)
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">readxl</span>); <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/sfirke/janitor">janitor</a></span>); <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://dplyr.tidyverse.org">dplyr</a></span>); <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">here</span>)
 
-<span class="no">roster_raw</span> <span class="kw">&lt;-</span> <span class="fu">read_excel</span>(<span class="fu">here</span>(<span class="st">"dirty_data.xlsx"</span>)) <span class="co"># available at http://github.com/sfirke/janitor</span>
-<span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">glimpse</a></span>(<span class="no">roster_raw</span>)
+<span class="kw">roster_raw</span> <span class="op">&lt;-</span> <span class="fu">read_excel</span>(<span class="fu">here</span>(<span class="st">"dirty_data.xlsx"</span>)) <span class="co"># available at http://github.com/sfirke/janitor</span>
+<span class="fu"><a href="https://tibble.tidyverse.org/reference/glimpse.html">glimpse</a></span>(<span class="kw">roster_raw</span>)
 <span class="co">#&gt; Rows: 13</span>
 <span class="co">#&gt; Columns: 11</span>
 <span class="co">#&gt; $ `First Name`        &lt;chr&gt; "Jason", "Jason", "Alicia", "Ada", "Desus", "Chien-Shiung", "Chien-Shiung", N...</span>
@@ -166,14 +171,16 @@
 <span class="co">#&gt; $ `do not edit! ---&gt;` &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA</span>
 <span class="co">#&gt; $ Certification...9   &lt;chr&gt; "Physical ed", "Physical ed", "Instr. music", "PENDING", "PENDING", "Science ...</span>
 <span class="co">#&gt; $ Certification...10  &lt;chr&gt; "Theater", "Theater", "Vocal music", "Computers", NA, "Physics", "Physics", N...</span>
-<span class="co">#&gt; $ Certification...11  &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA</span></pre></div>
+<span class="co">#&gt; $ Certification...11  &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA</span>
+</pre></div>
 <p>Excel formatting led to an untitled empty column and 5 empty rows at the bottom of the table (only 12 records have any actual data). Bad column names are preserved.</p>
 <p>Name cleaning comes in two flavors. <code><a href="reference/make_clean_names.html">make_clean_names()</a></code> operates on character vectors and can be used during data import:</p>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="no">roster_raw_cleaner</span> <span class="kw">&lt;-</span> <span class="fu">read_excel</span>(<span class="fu">here</span>(<span class="st">"dirty_data.xlsx"</span>),
-                                 <span class="kw">.name_repair</span> <span class="kw">=</span> <span class="no">make_clean_names</span>)
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="kw">roster_raw_cleaner</span> <span class="op">&lt;-</span> <span class="fu">read_excel</span>(<span class="fu">here</span>(<span class="st">"dirty_data.xlsx"</span>), 
+                                 .name_repair = <span class="kw">make_clean_names</span>) 
 <span class="co"># Tells read_excel() how to repair repetitive column names, overriding the</span>
 <span class="co"># default repair setting</span>
-<span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">glimpse</a></span>(<span class="no">roster_raw_cleaner</span>)
+<span class="fu"><a href="https://tibble.tidyverse.org/reference/glimpse.html">glimpse</a></span>(<span class="kw">roster_raw_cleaner</span>)
 <span class="co">#&gt; Rows: 13</span>
 <span class="co">#&gt; Columns: 11</span>
 <span class="co">#&gt; $ first_name        &lt;chr&gt; "Jason", "Jason", "Alicia", "Ada", "Desus", "Chien-Shiung", "Chien-Shiung", NA,...</span>
@@ -186,15 +193,17 @@
 <span class="co">#&gt; $ do_not_edit       &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA</span>
 <span class="co">#&gt; $ certification     &lt;chr&gt; "Physical ed", "Physical ed", "Instr. music", "PENDING", "PENDING", "Science 6-...</span>
 <span class="co">#&gt; $ certification_2   &lt;chr&gt; "Theater", "Theater", "Vocal music", "Computers", NA, "Physics", "Physics", NA,...</span>
-<span class="co">#&gt; $ certification_3   &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA</span></pre></div>
+<span class="co">#&gt; $ certification_3   &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA</span>
+</pre></div>
 <p>This can be further cleaned:</p>
-<div class="sourceCode" id="cb5"><pre class="r"><span class="no">roster</span> <span class="kw">&lt;-</span> <span class="no">roster_raw_cleaner</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="reference/remove_empty.html">remove_empty</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"rows"</span>, <span class="st">"cols"</span>)) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">hire_date</span> <span class="kw">=</span> <span class="fu"><a href="reference/excel_numeric_to_date.html">excel_numeric_to_date</a></span>(<span class="no">hire_date</span>),
-         <span class="kw">cert</span> <span class="kw">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/coalesce.html">coalesce</a></span>(<span class="no">certification</span>, <span class="no">certification_2</span>)) <span class="kw">%&gt;%</span> <span class="co"># from dplyr</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(-<span class="no">certification</span>, -<span class="no">certification_2</span>) <span class="co"># drop unwanted columns</span>
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="kw">roster</span> <span class="op">&lt;-</span> <span class="kw">roster_raw_cleaner</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/remove_empty.html">remove_empty</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"rows"</span>, <span class="st">"cols"</span>)) <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(hire_date = <span class="fu"><a href="reference/excel_numeric_to_date.html">excel_numeric_to_date</a></span>(<span class="kw">hire_date</span>),
+         cert = <span class="fu"><a href="https://dplyr.tidyverse.org/reference/coalesce.html">coalesce</a></span>(<span class="kw">certification</span>, <span class="kw">certification_2</span>)) <span class="op">%&gt;%</span> <span class="co"># from dplyr</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span><span class="kw">certification</span>, <span class="op">-</span><span class="kw">certification_2</span>) <span class="co"># drop unwanted columns</span>
 
-<span class="no">roster</span>
+<span class="kw">roster</span>
 <span class="co">#&gt; # A tibble: 12 x 8</span>
 <span class="co">#&gt;    first_name   last_name employee_status subject    hire_date  percent_allocated full_time cert          </span>
 <span class="co">#&gt;    &lt;chr&gt;        &lt;chr&gt;     &lt;chr&gt;           &lt;chr&gt;      &lt;date&gt;                 &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;         </span>
@@ -209,16 +218,19 @@
 <span class="co">#&gt;  9 Hedy         Lamarr    Teacher         Science    1976-06-08              0.5  No        PENDING       </span>
 <span class="co">#&gt; 10 Carlos       Boozer    Coach           Basketball 2015-08-05             NA    No        Physical ed   </span>
 <span class="co">#&gt; 11 Young        Boozer    Coach           &lt;NA&gt;       1995-01-01             NA    No        Political sci.</span>
-<span class="co">#&gt; 12 Micheal      Larsen    Teacher         English    2009-09-15              0.8  No        Vocal music</span></pre></div>
+<span class="co">#&gt; 12 Micheal      Larsen    Teacher         English    2009-09-15              0.8  No        Vocal music</span>
+</pre></div>
 <p><code><a href="reference/clean_names.html">clean_names()</a></code> is a convenience version that can be used for piped data.frame workflows:</p>
-<div class="sourceCode" id="cb6"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"iris"</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">iris</span>) <span class="co"># before cleaning:</span>
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"iris"</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="kw">iris</span>) <span class="co"># before cleaning:</span>
 <span class="co">#&gt; [1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width"  "Species"</span>
 
-<span class="no">iris</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="reference/clean_names.html">clean_names</a></span>() <span class="kw">%&gt;%</span>
+<span class="kw">iris</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="reference/clean_names.html">clean_names</a></span>() <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>() <span class="co"># after cleaning:</span>
-<span class="co">#&gt; [1] "sepal_length" "sepal_width"  "petal_length" "petal_width"  "species"</span></pre></div>
+<span class="co">#&gt; [1] "sepal_length" "sepal_width"  "petal_length" "petal_width"  "species"</span>
+</pre></div>
 </div>
 <div id="examining-dirty-data" class="section level3">
 <h3 class="hasAnchor">
@@ -227,14 +239,16 @@
 <h4 class="hasAnchor">
 <a href="#finding-duplicates" class="anchor"></a>Finding duplicates</h4>
 <p>Use <code><a href="reference/get_dupes.html">get_dupes()</a></code> to identify and examine duplicate records during data cleaning. Let’s see if any teachers are listed more than once:</p>
-<div class="sourceCode" id="cb7"><pre class="r"><span class="no">roster</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/get_dupes.html">get_dupes</a></span>(<span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">contains</a></span>(<span class="st">"name"</span>))
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="kw">roster</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/get_dupes.html">get_dupes</a></span>(<span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span>(<span class="st">"name"</span>))
 <span class="co">#&gt; # A tibble: 4 x 9</span>
 <span class="co">#&gt;   first_name   last_name dupe_count employee_status subject   hire_date  percent_allocat~ full_time cert      </span>
 <span class="co">#&gt;   &lt;chr&gt;        &lt;chr&gt;          &lt;int&gt; &lt;chr&gt;           &lt;chr&gt;     &lt;date&gt;                &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     </span>
 <span class="co">#&gt; 1 Chien-Shiung Wu                 2 Teacher         Physics   1930-03-20             0.5  Yes       Science 6~</span>
 <span class="co">#&gt; 2 Chien-Shiung Wu                 2 Teacher         Chemistry 1930-03-20             0.5  Yes       Science 6~</span>
 <span class="co">#&gt; 3 Jason        Bourne             2 Teacher         PE        2008-08-30             0.75 Yes       Physical ~</span>
-<span class="co">#&gt; 4 Jason        Bourne             2 Teacher         Drafting  2008-08-30             0.25 Yes       Physical ~</span></pre></div>
+<span class="co">#&gt; 4 Jason        Bourne             2 Teacher         Drafting  2008-08-30             0.25 Yes       Physical ~</span>
+</pre></div>
 <p>Yes, some teachers appear twice. We ought to address this before counting employees.</p>
 </div>
 <div id="tabulating-tools" class="section level4">
@@ -247,7 +261,7 @@
 </li>
 <li>On a data.frame, specifying 1, 2, or 3 variable names to tabulate : <code>roster %&gt;% tabyl(subject, employee_status)</code>.
 <ul>
-<li>Here the data.frame is passed in with the <code><a href="reference/pipe.html">%&gt;%</a></code> pipe; this allows <code>tabyl</code> to be used in an analysis pipeline</li>
+<li>Here the data.frame is passed in with the <code><a href="reference/%&gt;%.html">%&gt;%</a></code> pipe; this allows <code>tabyl</code> to be used in an analysis pipeline</li>
 </ul>
 </li>
 </ul>
@@ -257,8 +271,9 @@
 <a href="#tabyl" class="anchor"></a>tabyl()</h4>
 <p>Like <code><a href="https://rdrr.io/r/base/table.html">table()</a></code>, but pipe-able, data.frame-based, and fully featured.</p>
 <p>One variable:</p>
-<div class="sourceCode" id="cb8"><pre class="r"><span class="no">roster</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="reference/tabyl.html">tabyl</a></span>(<span class="no">subject</span>)
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="kw">roster</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/tabyl.html">tabyl</a></span>(<span class="kw">subject</span>)
 <span class="co">#&gt;     subject n    percent valid_percent</span>
 <span class="co">#&gt;  Basketball 1 0.08333333           0.1</span>
 <span class="co">#&gt;   Chemistry 1 0.08333333           0.1</span>
@@ -269,18 +284,22 @@
 <span class="co">#&gt;          PE 1 0.08333333           0.1</span>
 <span class="co">#&gt;     Physics 1 0.08333333           0.1</span>
 <span class="co">#&gt;     Science 1 0.08333333           0.1</span>
-<span class="co">#&gt;        &lt;NA&gt; 2 0.16666667            NA</span></pre></div>
+<span class="co">#&gt;        &lt;NA&gt; 2 0.16666667            NA</span>
+</pre></div>
 <p>Two variables:</p>
-<div class="sourceCode" id="cb9"><pre class="r"><span class="no">roster</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="no">hire_date</span> <span class="kw">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span>(<span class="st">"1950-01-01"</span>)) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="reference/tabyl.html">tabyl</a></span>(<span class="no">employee_status</span>, <span class="no">full_time</span>)
+<div class="sourceCode" id="cb9"><pre class="downlit">
+<span class="kw">roster</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="kw">hire_date</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span>(<span class="st">"1950-01-01"</span>)) <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/tabyl.html">tabyl</a></span>(<span class="kw">employee_status</span>, <span class="kw">full_time</span>)
 <span class="co">#&gt;  employee_status No Yes</span>
 <span class="co">#&gt;   Administration  0   1</span>
 <span class="co">#&gt;            Coach  2   0</span>
-<span class="co">#&gt;          Teacher  3   4</span></pre></div>
+<span class="co">#&gt;          Teacher  3   4</span>
+</pre></div>
 <p>Three variables:</p>
-<div class="sourceCode" id="cb10"><pre class="r"><span class="no">roster</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="reference/tabyl.html">tabyl</a></span>(<span class="no">full_time</span>, <span class="no">subject</span>, <span class="no">employee_status</span>, <span class="kw">show_missing_levels</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<div class="sourceCode" id="cb10"><pre class="downlit">
+<span class="kw">roster</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/tabyl.html">tabyl</a></span>(<span class="kw">full_time</span>, <span class="kw">subject</span>, <span class="kw">employee_status</span>, show_missing_levels = <span class="fl">FALSE</span>)
 <span class="co">#&gt; $Administration</span>
 <span class="co">#&gt;  full_time Dean</span>
 <span class="co">#&gt;        Yes    1</span>
@@ -292,21 +311,24 @@
 <span class="co">#&gt; $Teacher</span>
 <span class="co">#&gt;  full_time Chemistry Drafting English Music PE Physics Science NA_</span>
 <span class="co">#&gt;         No         0        0       2     0  0       0       1   0</span>
-<span class="co">#&gt;        Yes         1        1       0     1  1       1       0   1</span></pre></div>
+<span class="co">#&gt;        Yes         1        1       0     1  1       1       0   1</span>
+</pre></div>
 <p><strong>Adorning tabyls</strong></p>
 <p>The <code>adorn_</code> functions dress up the results of these tabulation calls for fast, basic reporting. Here are some of the functions that augment a summary table for reporting:</p>
-<div class="sourceCode" id="cb11"><pre class="r"><span class="no">roster</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="reference/tabyl.html">tabyl</a></span>(<span class="no">employee_status</span>, <span class="no">full_time</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="reference/adorn_totals.html">adorn_totals</a></span>(<span class="st">"row"</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="reference/adorn_percentages.html">adorn_percentages</a></span>(<span class="st">"row"</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="reference/adorn_pct_formatting.html">adorn_pct_formatting</a></span>() <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="reference/adorn_ns.html">adorn_ns</a></span>() <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb11"><pre class="downlit">
+<span class="kw">roster</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/tabyl.html">tabyl</a></span>(<span class="kw">employee_status</span>, <span class="kw">full_time</span>) <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/adorn_totals.html">adorn_totals</a></span>(<span class="st">"row"</span>) <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/adorn_percentages.html">adorn_percentages</a></span>(<span class="st">"row"</span>) <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/adorn_pct_formatting.html">adorn_pct_formatting</a></span>() <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/adorn_ns.html">adorn_ns</a></span>() <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/adorn_title.html">adorn_title</a></span>(<span class="st">"combined"</span>)
 <span class="co">#&gt;  employee_status/full_time         No        Yes</span>
 <span class="co">#&gt;             Administration   0.0% (0) 100.0% (1)</span>
 <span class="co">#&gt;                      Coach 100.0% (2)   0.0% (0)</span>
 <span class="co">#&gt;                    Teacher  33.3% (3)  66.7% (6)</span>
-<span class="co">#&gt;                      Total  41.7% (5)  58.3% (7)</span></pre></div>
+<span class="co">#&gt;                      Total  41.7% (5)  58.3% (7)</span>
+</pre></div>
 <p>Pipe that right into <code><a href="https://rdrr.io/pkg/knitr/man/kable.html">knitr::kable()</a></code> in your RMarkdown report.</p>
 <p>These modular adornments can be layered to reduce R’s deficit against Excel and SPSS when it comes to quick, informative counts. Learn more about <code><a href="reference/tabyl.html">tabyl()</a></code> and the <code>adorn_</code> functions from the <a href="http://sfirke.github.io/janitor/articles/tabyls.html">tabyls vignette</a>.</p>
 </div>

@@ -141,18 +141,18 @@ Excel</p>
     </div>
 
     <pre class="usage"><span class='fu'>convert_to_date</span>(
-  <span class='no'>x</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>character_fun</span> <span class='kw'>=</span> <span class='kw pkg'>lubridate</span><span class='kw ns'>::</span><span class='no'><a href='http://lubridate.tidyverse.org/reference/ymd.html'>ymd</a></span>,
-  <span class='kw'>string_conversion_failure</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"error"</span>, <span class='st'>"warning"</span>)
+  <span class='kw'>x</span>,
+  <span class='kw'>...</span>,
+  character_fun = <span class='kw'>lubridate</span>::<span class='kw'><a href='http://lubridate.tidyverse.org/reference/ymd.html'>ymd</a></span>,
+  string_conversion_failure = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"error"</span>, <span class='st'>"warning"</span>)
 )
 
 <span class='fu'>convert_to_datetime</span>(
-  <span class='no'>x</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>tz</span> <span class='kw'>=</span> <span class='st'>"UTC"</span>,
-  <span class='kw'>character_fun</span> <span class='kw'>=</span> <span class='kw pkg'>lubridate</span><span class='kw ns'>::</span><span class='no'><a href='http://lubridate.tidyverse.org/reference/ymd_hms.html'>ymd_hms</a></span>,
-  <span class='kw'>string_conversion_failure</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"error"</span>, <span class='st'>"warning"</span>)
+  <span class='kw'>x</span>,
+  <span class='kw'>...</span>,
+  tz = <span class='st'>"UTC"</span>,
+  character_fun = <span class='kw'>lubridate</span>::<span class='kw'><a href='http://lubridate.tidyverse.org/reference/ymd_hms.html'>ymd_hms</a></span>,
+  string_conversion_failure = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"error"</span>, <span class='st'>"warning"</span>)
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -211,7 +211,7 @@ already.  Ignored for Date output.</p></td>
     <pre class="examples"><div class='input'><span class='fu'>convert_to_date</span>(<span class='st'>"2009-07-06"</span>)</div><div class='output co'>#&gt; [1] "2009-07-06"</div><div class='input'><span class='fu'>convert_to_date</span>(<span class='fl'>40000</span>)</div><div class='output co'>#&gt; [1] "2009-07-06"</div><div class='input'><span class='fu'>convert_to_date</span>(<span class='st'>"40000.1"</span>)</div><div class='output co'>#&gt; [1] "2009-07-06"</div><div class='input'><span class='co'># Mixed date source data can be provided.</span>
 <span class='fu'>convert_to_date</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"2020-02-29"</span>, <span class='st'>"40000.1"</span>))</div><div class='output co'>#&gt; [1] "2020-02-29" "2009-07-06"</div><div class='input'><span class='fu'>convert_to_datetime</span>(
   <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"2009-07-06"</span>, <span class='st'>"40000.1"</span>, <span class='st'>"40000"</span>, <span class='fl'>NA</span>),
-  <span class='kw'>character_fun</span><span class='kw'>=</span><span class='kw pkg'>lubridate</span><span class='kw ns'>::</span><span class='no'><a href='http://lubridate.tidyverse.org/reference/ymd_hms.html'>ymd_h</a></span>, <span class='kw'>truncated</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>tz</span><span class='kw'>=</span><span class='st'>"UTC"</span>
+  character_fun=<span class='kw'>lubridate</span>::<span class='kw'><a href='http://lubridate.tidyverse.org/reference/ymd_hms.html'>ymd_h</a></span>, truncated=<span class='fl'>1</span>, tz=<span class='st'>"UTC"</span>
 )</div><div class='output co'>#&gt; [1] "2009-07-06 00:00:00 UTC" "2009-07-06 02:24:00 UTC"
 #&gt; [3] "2009-07-06 00:00:00 UTC" NA                       </div></pre>
   </div>

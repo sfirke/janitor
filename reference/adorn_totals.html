@@ -135,7 +135,7 @@
     <p>This function defaults to excluding the first column of the input data.frame, assuming that it contains a descriptive variable, but this can be overridden by specifying the columns to be totaled in the <code>...</code> argument.  Non-numeric columns are converted to character class and have a user-specified fill character inserted in the totals row.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>adorn_totals</span>(<span class='no'>dat</span>, <span class='kw'>where</span> <span class='kw'>=</span> <span class='st'>"row"</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='st'>"-"</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"Total"</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>adorn_totals</span>(<span class='kw'>dat</span>, where = <span class='st'>"row"</span>, fill = <span class='st'>"-"</span>, na.rm = <span class='fl'>TRUE</span>, name = <span class='st'>"Total"</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -171,8 +171,8 @@
     <p>Returns a data.frame augmented with a totals row, column, or both.  The data.frame is now also of class <code>tabyl</code> and stores information about the attached totals and underlying data in the tabyl attributes.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='tabyl.html'>tabyl</a></span>(<span class='no'>am</span>, <span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
+    <pre class="examples"><div class='input'><span class='kw'>mtcars</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='tabyl.html'>tabyl</a></span>(<span class='kw'>am</span>, <span class='kw'>cyl</span>) <span class='op'>%&gt;%</span>
   <span class='fu'>adorn_totals</span>()</div><div class='output co'>#&gt;     am  4 6  8
 #&gt;      0  3 4 12
 #&gt;      1  8 3  2

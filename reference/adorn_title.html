@@ -135,7 +135,7 @@
     <p>This function adds the column variable name to the top of a <code>tabyl</code> for a complete display of information.  This makes the tabyl prettier, but renders the data.frame less useful for further manipulation.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>adorn_title</span>(<span class='no'>dat</span>, <span class='kw'>placement</span> <span class='kw'>=</span> <span class='st'>"top"</span>, <span class='no'>row_name</span>, <span class='no'>col_name</span>)</pre>
+    <pre class="usage"><span class='fu'>adorn_title</span>(<span class='kw'>dat</span>, placement = <span class='st'>"top"</span>, <span class='kw'>row_name</span>, <span class='kw'>col_name</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -164,22 +164,23 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='tabyl.html'>tabyl</a></span>(<span class='no'>am</span>, <span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>adorn_title</span>(<span class='kw'>placement</span> <span class='kw'>=</span> <span class='st'>"top"</span>)</div><div class='output co'>#&gt;     cyl     
+<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='tabyl.html'>tabyl</a></span>(<span class='kw'>am</span>, <span class='kw'>cyl</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'>adorn_title</span>(placement = <span class='st'>"top"</span>)</div><div class='output co'>#&gt;     cyl     
 #&gt;  am   4 6  8
 #&gt;   0   3 4 12
 #&gt;   1   8 3  2</div><div class='input'>
 <span class='co'># Adding a title to a non-tabyl</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>tidyr</span>); <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>gear</span>, <span class='no'>am</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='kw'>avg_mpg</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>mpg</span>)) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/spread.html'>spread</a></span>(<span class='no'>gear</span>, <span class='no'>avg_mpg</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>adorn_title</span>(<span class='st'>"top"</span>, <span class='kw'>row_name</span> <span class='kw'>=</span> <span class='st'>"Gears"</span>, <span class='kw'>col_name</span> <span class='kw'>=</span> <span class='st'>"Cylinders"</span>)</div><div class='output co'>#&gt; <span class='message'>`summarise()` regrouping output by 'gear' (override with `.groups` argument)</span></div><div class='output co'>#&gt;                Cylinders             
-#&gt; 1 Gears                3      4     5
-#&gt; 2     0 16.1066666666667  21.05  &lt;NA&gt;
-#&gt; 3     1             &lt;NA&gt; 26.275 21.38</div></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://tidyr.tidyverse.org'>tidyr</a></span>); <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://dplyr.tidyverse.org'>dplyr</a></span>)
+<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>gear</span>, <span class='kw'>am</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(avg_mpg = <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='kw'>mpg</span>), .groups = <span class='st'>"drop"</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/spread.html'>spread</a></span>(<span class='kw'>gear</span>, <span class='kw'>avg_mpg</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='adorn_rounding.html'>adorn_rounding</a></span>() <span class='op'>%&gt;%</span>
+  <span class='fu'>adorn_title</span>(<span class='st'>"top"</span>, row_name = <span class='st'>"Gears"</span>, col_name = <span class='st'>"Cylinders"</span>)</div><div class='output co'>#&gt;         Cylinders          
+#&gt; 1 Gears         3    4    5
+#&gt; 2     0      16.1   21 &lt;NA&gt;
+#&gt; 3     1      &lt;NA&gt; 26.3 21.4</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
