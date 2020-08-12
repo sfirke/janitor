@@ -61,14 +61,14 @@ adorn_ns <- function(dat, position = "rear", ns = attr(dat, "core"), ...) {
 
     if (position == "rear") {
       result <- paste_matrices(dat, ns %>%
-                                 dplyr::mutate_all(as.character) %>%
-                                 dplyr::mutate_all(wrap_parens) %>%
-                                 dplyr::mutate_all(standardize_col_width))
+                                 dplyr::mutate_at(vars(-group_cols()), as.character) %>%
+                                 dplyr::mutate_at(vars(-group_cols()), wrap_parens) %>%
+                                 dplyr::mutate_at(vars(-group_cols()), standardize_col_width))
     } else if (position == "front") {
       result <- paste_matrices(ns, dat %>%
-                                 dplyr::mutate_all(as.character) %>%
-                                 dplyr::mutate_all(wrap_parens) %>%
-                                 dplyr::mutate_all(standardize_col_width))
+                                 dplyr::mutate_at(vars(-group_cols()), as.character) %>%
+                                 dplyr::mutate_at(vars(-group_cols()), wrap_parens) %>%
+                                 dplyr::mutate_at(vars(-group_cols()), standardize_col_width))
     }
     attributes(result) <- attrs
     
@@ -83,7 +83,7 @@ adorn_ns <- function(dat, position = "rear", ns = attr(dat, "core"), ...) {
       cols_to_adorn <- tidyselect::eval_select(expr, data = dat)
       dont_adorn <- setdiff(1:ncol(dat), cols_to_adorn)
     }
-    
+
     for(i in dont_adorn){
       result[[i]] <- dat[[i]]
     }
