@@ -2,6 +2,8 @@
 
 ## Bug fixes
 
+* Fixed rounding issue in round_half_up() function (#396, thanks to @JJSteph)
+
 * Warnings for incomplete argument names are fixed (fix #367, thanks to @pabecerra for reporting and @billdenney for fixing)
 
 * 3-way tabyls with factors have columns and rows sorted in the correct order, by factor level (#379).
