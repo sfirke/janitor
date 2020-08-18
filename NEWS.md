@@ -8,6 +8,8 @@
 
 * Transliteration from extended ASCII (character codes >127) to printable ASCII (character codes <=127) is now better supported (#389, thanks to @dcorynia for reporting and @billdenney for fixing)
 
+* `clean_names` called on a grouped tibble now also changes the names of the grouping variable(s), in addition to the column names (#260, thanks **@CerebralMastication** for reporting and the tidyverse dev team for fixing).
+
 # janitor 2.0.1 (2020-04-12)
 
 ## Bug fixes and Breaking changes
