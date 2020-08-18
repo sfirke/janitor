@@ -493,3 +493,10 @@ test_that("Work around incomplete stringi transliterators (Fix #365)", {
     ""
   )
 })
+
+test_that("groupings are preserved, #260", {
+  df_grouped <- iris %>% dplyr::group_by(Sepal.Length, Sepal.Width) # nonsense for analysis but doesn't matter
+  df_grouped_renamed <- df_grouped %>% clean_names(case = "lower_camel")
+  expect_equal(group_vars(df_grouped_renamed), c("sepalLength", "sepalWidth")) # group got renamed
+  expect_equal(names(df_grouped_renamed), c("sepalLength", "sepalWidth", "petalLength", "petalWidth", "species"))
+})

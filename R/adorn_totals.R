@@ -89,8 +89,7 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
 
     if ("col" %in% where) {
       # Add totals col
-      clean_dat <- clean_names(dat) # bad names will make select_if choke; this may get fixed, see https://github.com/hadley/dplyr/issues/2243 but work around it for now w/ this line
-      row_totals <- clean_dat %>%
+      row_totals <- dat %>%
         dplyr::select(cols_to_total) %>%
         dplyr::select_if(is.numeric) %>%
         dplyr::transmute(Total = rowSums(., na.rm = na.rm))
