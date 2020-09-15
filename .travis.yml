@@ -19,10 +19,8 @@ matrix: # don't test osx + r-devel
   include:
   - os: linux
     r: release
-    dist: trusty
   - os: linux
     r: devel
-    dist: trusty
   - os: osx
     r: release
   - os: osx
