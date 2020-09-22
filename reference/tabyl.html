@@ -81,12 +81,6 @@ Alternatively, you can tabulate a single variable that isn't in a data.frame by 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../articles/janitor.html">Get started</a>
 </li>
 <li>
@@ -186,13 +180,16 @@ Alternatively, you can tabulate a single variable that isn't in a data.frame by 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'>tabyl</span>(<span class='kw'>mtcars</span>, <span class='kw'>cyl</span>)</div><div class='output co'>#&gt;  cyl  n percent
+<span class='fu'>tabyl</span>(<span class='kw'>mtcars</span>, <span class='kw'>cyl</span>)
+</div><div class='output co'>#&gt;  cyl  n percent
 #&gt;    4 11 0.34375
 #&gt;    6  7 0.21875
-#&gt;    8 14 0.43750</div><div class='input'><span class='fu'>tabyl</span>(<span class='kw'>mtcars</span>, <span class='kw'>cyl</span>, <span class='kw'>gear</span>)</div><div class='output co'>#&gt;  cyl  3 4 5
+#&gt;    8 14 0.43750</div><div class='input'><span class='fu'>tabyl</span>(<span class='kw'>mtcars</span>, <span class='kw'>cyl</span>, <span class='kw'>gear</span>)
+</div><div class='output co'>#&gt;  cyl  3 4 5
 #&gt;    4  1 8 2
 #&gt;    6  2 4 1
-#&gt;    8 12 0 2</div><div class='input'><span class='fu'>tabyl</span>(<span class='kw'>mtcars</span>, <span class='kw'>cyl</span>, <span class='kw'>gear</span>, <span class='kw'>am</span>)</div><div class='output co'>#&gt; $`0`
+#&gt;    8 12 0 2</div><div class='input'><span class='fu'>tabyl</span>(<span class='kw'>mtcars</span>, <span class='kw'>cyl</span>, <span class='kw'>gear</span>, <span class='kw'>am</span>)
+</div><div class='output co'>#&gt; $`0`
 #&gt;  cyl  3 4 5
 #&gt;    4  1 2 0
 #&gt;    6  2 2 0
@@ -206,23 +203,27 @@ Alternatively, you can tabulate a single variable that isn't in a data.frame by 
 #&gt; </div><div class='input'>
 <span class='co'># or using the %&gt;% pipe</span>
 <span class='kw'>mtcars</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>tabyl</span>(<span class='kw'>cyl</span>, <span class='kw'>gear</span>)</div><div class='output co'>#&gt;  cyl  3 4 5
+  <span class='fu'>tabyl</span>(<span class='kw'>cyl</span>, <span class='kw'>gear</span>)
+</div><div class='output co'>#&gt;  cyl  3 4 5
 #&gt;    4  1 8 2
 #&gt;    6  2 4 1
 #&gt;    8 12 0 2</div><div class='input'>
 <span class='co'># illustrating show_na functionality:</span>
 <span class='kw'>my_cars</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span>(<span class='kw'>mtcars</span>, <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>NA</span>, <span class='fl'>11</span>))
-<span class='kw'>my_cars</span> <span class='op'>%&gt;%</span> <span class='fu'>tabyl</span>(<span class='kw'>cyl</span>)</div><div class='output co'>#&gt;  cyl  n    percent valid_percent
+<span class='kw'>my_cars</span> <span class='op'>%&gt;%</span> <span class='fu'>tabyl</span>(<span class='kw'>cyl</span>)
+</div><div class='output co'>#&gt;  cyl  n    percent valid_percent
 #&gt;    4 11 0.33333333       0.34375
 #&gt;    6  7 0.21212121       0.21875
 #&gt;    8 14 0.42424242       0.43750
-#&gt;   NA  1 0.03030303            NA</div><div class='input'><span class='kw'>my_cars</span> <span class='op'>%&gt;%</span> <span class='fu'>tabyl</span>(<span class='kw'>cyl</span>, show_na = <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;  cyl  n percent
+#&gt;   NA  1 0.03030303            NA</div><div class='input'><span class='kw'>my_cars</span> <span class='op'>%&gt;%</span> <span class='fu'>tabyl</span>(<span class='kw'>cyl</span>, show_na = <span class='fl'>FALSE</span>)
+</div><div class='output co'>#&gt;  cyl  n percent
 #&gt;    4 11 0.34375
 #&gt;    6  7 0.21875
 #&gt;    8 14 0.43750</div><div class='input'>
 <span class='co'># Calling on a single vector not in a data.frame:</span>
 <span class='kw'>val</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"hi"</span>, <span class='st'>"med"</span>, <span class='st'>"med"</span>, <span class='st'>"lo"</span>)
-<span class='fu'>tabyl</span>(<span class='kw'>val</span>)</div><div class='output co'>#&gt;  val n percent
+<span class='fu'>tabyl</span>(<span class='kw'>val</span>)
+</div><div class='output co'>#&gt;  val n percent
 #&gt;   hi 1    0.25
 #&gt;   lo 1    0.25
 #&gt;  med 2    0.50</div></pre>
@@ -241,7 +242,7 @@ Alternatively, you can tabulate a single variable that isn't in a data.frame by 
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

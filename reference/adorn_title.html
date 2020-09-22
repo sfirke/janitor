@@ -79,12 +79,6 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../articles/janitor.html">Get started</a>
 </li>
 <li>
@@ -166,7 +160,8 @@
     <pre class="examples"><div class='input'>
 <span class='kw'>mtcars</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='tabyl.html'>tabyl</a></span>(<span class='kw'>am</span>, <span class='kw'>cyl</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'>adorn_title</span>(placement = <span class='st'>"top"</span>)</div><div class='output co'>#&gt;     cyl     
+  <span class='fu'>adorn_title</span>(placement = <span class='st'>"top"</span>)
+</div><div class='output co'>#&gt;     cyl     
 #&gt;  am   4 6  8
 #&gt;   0   3 4 12
 #&gt;   1   8 3  2</div><div class='input'>
@@ -177,7 +172,8 @@
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(avg_mpg = <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='kw'>mpg</span>), .groups = <span class='st'>"drop"</span>) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://tidyr.tidyverse.org/reference/spread.html'>spread</a></span>(<span class='kw'>gear</span>, <span class='kw'>avg_mpg</span>) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='adorn_rounding.html'>adorn_rounding</a></span>() <span class='op'>%&gt;%</span>
-  <span class='fu'>adorn_title</span>(<span class='st'>"top"</span>, row_name = <span class='st'>"Gears"</span>, col_name = <span class='st'>"Cylinders"</span>)</div><div class='output co'>#&gt;         Cylinders          
+  <span class='fu'>adorn_title</span>(<span class='st'>"top"</span>, row_name = <span class='st'>"Gears"</span>, col_name = <span class='st'>"Cylinders"</span>)
+</div><div class='output co'>#&gt;         Cylinders          
 #&gt; 1 Gears         3    4    5
 #&gt; 2     0      16.1   21 &lt;NA&gt;
 #&gt; 3     1      &lt;NA&gt; 26.3 21.4</div></pre>
@@ -196,7 +192,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

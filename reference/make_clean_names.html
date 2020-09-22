@@ -102,12 +102,6 @@ stringi::stri_trans_general(x, id=&quot;Any-Latin;Greek-Latin;Latin-ASCII&quot;)
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../articles/janitor.html">Get started</a>
 </li>
 <li>
@@ -292,15 +286,19 @@ by the supplied string to this argument.</p></dd>
     <pre class="examples"><div class='input'>
 <span class='co'># cleaning the names of a vector:</span>
 <span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/structure.html'>structure</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, names = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"name with space"</span>, <span class='st'>"TwoWords"</span>, <span class='st'>"total $ (2009)"</span>))
-<span class='kw'>x</span></div><div class='output co'>#&gt; name with space        TwoWords  total $ (2009) 
+<span class='kw'>x</span>
+</div><div class='output co'>#&gt; name with space        TwoWords  total $ (2009) 
 #&gt;               1               2               3 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>x</span>) <span class='op'>&lt;-</span> <span class='fu'>make_clean_names</span>(<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>x</span>))
-<span class='kw'>x</span> <span class='co'># now has cleaned names</span></div><div class='output co'>#&gt; name_with_space       two_words      total_2009 
+<span class='kw'>x</span> <span class='co'># now has cleaned names</span>
+</div><div class='output co'>#&gt; name_with_space       two_words      total_2009 
 #&gt;               1               2               3 </div><div class='input'>
 <span class='co'># if you prefer camelCase variable names:</span>
-<span class='fu'>make_clean_names</span>(<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>x</span>), <span class='st'>"small_camel"</span>)</div><div class='output co'>#&gt; [1] "nameWithSpace" "twoWords"      "total2009"    </div><div class='input'>
+<span class='fu'>make_clean_names</span>(<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>x</span>), <span class='st'>"small_camel"</span>)
+</div><div class='output co'>#&gt; [1] "nameWithSpace" "twoWords"      "total2009"    </div><div class='input'>
 <span class='co'># similar to janitor::clean_names(poorly_named_df):</span>
 <span class='co'># not run:</span>
 <span class='co'># make_clean_names(names(poorly_named_df))</span>
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -317,7 +315,7 @@ by the supplied string to this argument.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

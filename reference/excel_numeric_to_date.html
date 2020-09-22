@@ -90,12 +90,6 @@ more powerful functions convert_to_date() and convert_to_datetime()." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../articles/janitor.html">Get started</a>
 </li>
 <li>
@@ -211,8 +205,13 @@ more information on timezones).</p></td>
 <code><a href='convert_to_date.html'>convert_to_date</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>excel_numeric_to_date</span>(<span class='fl'>40000</span>)</div><div class='output co'>#&gt; [1] "2009-07-06"</div><div class='input'><span class='fu'>excel_numeric_to_date</span>(<span class='fl'>40000.5</span>) <span class='co'># No time is included</span></div><div class='output co'>#&gt; [1] "2009-07-06"</div><div class='input'><span class='fu'>excel_numeric_to_date</span>(<span class='fl'>40000.5</span>, include_time = <span class='fl'>TRUE</span>) <span class='co'># Time is included</span></div><div class='output co'>#&gt; [1] "2009-07-06 12:00:00 UTC"</div><div class='input'><span class='fu'>excel_numeric_to_date</span>(<span class='fl'>40000.521</span>, include_time = <span class='fl'>TRUE</span>) <span class='co'># Time is included</span></div><div class='output co'>#&gt; [1] "2009-07-06 12:30:14 UTC"</div><div class='input'><span class='fu'>excel_numeric_to_date</span>(<span class='fl'>40000.521</span>, include_time = <span class='fl'>TRUE</span>,
-  round_seconds = <span class='fl'>FALSE</span>) <span class='co'># Time with fractional seconds is included</span></div><div class='output co'>#&gt; [1] "2009-07-06 12:30:14 UTC"</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>excel_numeric_to_date</span>(<span class='fl'>40000</span>)
+</div><div class='output co'>#&gt; [1] "2009-07-06"</div><div class='input'><span class='fu'>excel_numeric_to_date</span>(<span class='fl'>40000.5</span>) <span class='co'># No time is included</span>
+</div><div class='output co'>#&gt; [1] "2009-07-06"</div><div class='input'><span class='fu'>excel_numeric_to_date</span>(<span class='fl'>40000.5</span>, include_time = <span class='fl'>TRUE</span>) <span class='co'># Time is included</span>
+</div><div class='output co'>#&gt; [1] "2009-07-06 12:00:00 UTC"</div><div class='input'><span class='fu'>excel_numeric_to_date</span>(<span class='fl'>40000.521</span>, include_time = <span class='fl'>TRUE</span>) <span class='co'># Time is included</span>
+</div><div class='output co'>#&gt; [1] "2009-07-06 12:30:14 UTC"</div><div class='input'><span class='fu'>excel_numeric_to_date</span>(<span class='fl'>40000.521</span>, include_time = <span class='fl'>TRUE</span>,
+  round_seconds = <span class='fl'>FALSE</span>) <span class='co'># Time with fractional seconds is included</span>
+</div><div class='output co'>#&gt; [1] "2009-07-06 12:30:14 UTC"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -228,7 +227,7 @@ more information on timezones).</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

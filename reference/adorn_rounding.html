@@ -80,12 +80,6 @@ If you're formatting percentages, e.g., the result of adorn_percentages(), use a
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../articles/janitor.html">Get started</a>
 </li>
 <li>
@@ -169,11 +163,13 @@ If you're formatting percentages, e.g., the result of adorn_percentages(), use a
 <span class='kw'>mtcars</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='tabyl.html'>tabyl</a></span>(<span class='kw'>am</span>, <span class='kw'>cyl</span>) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='adorn_percentages.html'>adorn_percentages</a></span>() <span class='op'>%&gt;%</span>
-  <span class='fu'>adorn_rounding</span>(digits = <span class='fl'>2</span>, rounding = <span class='st'>"half up"</span>)</div><div class='output co'>#&gt;  am    4    6    8
+  <span class='fu'>adorn_rounding</span>(digits = <span class='fl'>2</span>, rounding = <span class='st'>"half up"</span>)
+</div><div class='output co'>#&gt;  am    4    6    8
 #&gt;   0 0.16 0.21 0.63
 #&gt;   1 0.62 0.23 0.15</div><div class='input'>
 <span class='co'># tolerates non-numeric columns:</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://dplyr.tidyverse.org'>dplyr</a></span>)</div><div class='output co'>#&gt; <span class='message'></span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://dplyr.tidyverse.org'>dplyr</a></span>)
+</div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Attaching package: ‘dplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
@@ -182,14 +178,16 @@ If you're formatting percentages, e.g., the result of adorn_percentages(), use a
   <span class='fu'><a href='tabyl.html'>tabyl</a></span>(<span class='kw'>am</span>, <span class='kw'>cyl</span>) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='adorn_percentages.html'>adorn_percentages</a></span>(<span class='st'>"all"</span>) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(dummy = <span class='st'>"a"</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'>adorn_rounding</span>()</div><div class='output co'>#&gt;  am   4   6   8 dummy
+  <span class='fu'>adorn_rounding</span>()
+</div><div class='output co'>#&gt;  am   4   6   8 dummy
 #&gt;   0 0.1 0.1 0.4     a
 #&gt;   1 0.2 0.1 0.1     a</div><div class='input'>  
 <span class='co'># control the columns modified using the ... argument:</span>
 <span class='kw'>mtcars</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='tabyl.html'>tabyl</a></span>(<span class='kw'>am</span>, <span class='kw'>cyl</span>) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='adorn_percentages.html'>adorn_percentages</a></span>(<span class='st'>"row"</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'>adorn_rounding</span>(digits = <span class='fl'>1</span>, rounding = <span class='st'>"half up"</span>, <span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span>(<span class='st'>"8"</span>))</div><div class='output co'>#&gt;  am         4         6   8
+  <span class='fu'>adorn_rounding</span>(digits = <span class='fl'>1</span>, rounding = <span class='st'>"half up"</span>, <span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span>(<span class='st'>"8"</span>))
+</div><div class='output co'>#&gt;  am         4         6   8
 #&gt;   0 0.1578947 0.2105263 0.6
 #&gt;   1 0.6153846 0.2307692 0.2</div></pre>
   </div>
@@ -207,7 +205,7 @@ If you're formatting percentages, e.g., the result of adorn_percentages(), use a
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

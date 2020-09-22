@@ -80,12 +80,6 @@ compare_df_cols()and returns TRUE if there are no mis-matching rows.  `" />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../articles/janitor.html">Get started</a>
 </li>
 <li>
@@ -178,7 +172,11 @@ missing from a data.frame would be considered a mismatch (as in
 <code><a href='describe_class.html'>describe_class</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>compare_df_cols_same</span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(A=<span class='fl'>1</span>), <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(A=<span class='fl'>2</span>))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>compare_df_cols_same</span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(A=<span class='fl'>1</span>), <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(B=<span class='fl'>2</span>))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>compare_df_cols_same</span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(A=<span class='fl'>1</span>), <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(B=<span class='fl'>2</span>), verbose=<span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>compare_df_cols_same</span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(A=<span class='fl'>1</span>), <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(B=<span class='fl'>2</span>), bind_method=<span class='st'>"rbind"</span>)</div><div class='output co'>#&gt;   column_name     ..1     ..2
+    <pre class="examples"><div class='input'><span class='fu'>compare_df_cols_same</span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(A=<span class='fl'>1</span>), <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(A=<span class='fl'>2</span>))
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>compare_df_cols_same</span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(A=<span class='fl'>1</span>), <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(B=<span class='fl'>2</span>))
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>compare_df_cols_same</span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(A=<span class='fl'>1</span>), <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(B=<span class='fl'>2</span>), verbose=<span class='fl'>FALSE</span>)
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>compare_df_cols_same</span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(A=<span class='fl'>1</span>), <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(B=<span class='fl'>2</span>), bind_method=<span class='st'>"rbind"</span>)
+</div><div class='output co'>#&gt;   column_name     ..1     ..2
 #&gt; 1           A numeric    &lt;NA&gt;
 #&gt; 2           B    &lt;NA&gt; numeric</div><div class='output co'>#&gt; [1] FALSE</div></pre>
   </div>
@@ -196,7 +194,7 @@ missing from a data.frame would be considered a mismatch (as in
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>
