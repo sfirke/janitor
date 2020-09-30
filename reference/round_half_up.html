@@ -131,7 +131,7 @@ This may skew subsequent statistical analysis of the data, but may be desirable 
 <p>This may skew subsequent statistical analysis of the data, but may be desirable in certain contexts.  This function is implemented exactly from <a href='http://stackoverflow.com/a/12688836'>http://stackoverflow.com/a/12688836</a>; see that question and comments for discussion of this issue.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>round_half_up</span>(<span class='kw'>x</span>, digits = <span class='fl'>0</span>)</pre>
+    <pre class="usage"><span class='fu'>round_half_up</span><span class='op'>(</span><span class='va'>x</span>, digits <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -148,10 +148,10 @@ This may skew subsequent statistical analysis of the data, but may be desirable 
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>round_half_up</span>(<span class='fl'>12.5</span>)
-</div><div class='output co'>#&gt; [1] 13</div><div class='input'><span class='fu'>round_half_up</span>(<span class='fl'>1.125</span>, <span class='fl'>2</span>)
-</div><div class='output co'>#&gt; [1] 1.13</div><div class='input'><span class='fu'>round_half_up</span>(<span class='fl'>1.125</span>, <span class='fl'>1</span>)
-</div><div class='output co'>#&gt; [1] 1.1</div><div class='input'><span class='fu'>round_half_up</span>(<span class='op'>-</span><span class='fl'>0.5</span>, <span class='fl'>0</span>) <span class='co'># negatives get rounded away from zero</span>
+    <pre class="examples"><div class='input'><span class='fu'>round_half_up</span><span class='op'>(</span><span class='fl'>12.5</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 13</div><div class='input'><span class='fu'>round_half_up</span><span class='op'>(</span><span class='fl'>1.125</span>, <span class='fl'>2</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 1.13</div><div class='input'><span class='fu'>round_half_up</span><span class='op'>(</span><span class='fl'>1.125</span>, <span class='fl'>1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 1.1</div><div class='input'><span class='fu'>round_half_up</span><span class='op'>(</span><span class='op'>-</span><span class='fl'>0.5</span>, <span class='fl'>0</span><span class='op'>)</span> <span class='co'># negatives get rounded away from zero</span>
 </div><div class='output co'>#&gt; [1] -1</div><div class='input'>
 </div></pre>
   </div>

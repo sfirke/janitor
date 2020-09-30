@@ -133,13 +133,13 @@ is a two-way tabyl, it runs it through janitor::fisher.test.tabyl, otherwise
 it just calls stats::fisher.test.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>fisher.test</span>(<span class='kw'>x</span>, <span class='kw'>...</span>)
+    <pre class="usage"><span class='fu'>fisher.test</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for default</span>
-<span class='fu'>fisher.test</span>(<span class='kw'>x</span>, y = <span class='kw'>NULL</span>, <span class='kw'>...</span>)
+<span class='fu'>fisher.test</span><span class='op'>(</span><span class='va'>x</span>, y <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for tabyl</span>
-<span class='fu'>fisher.test</span>(<span class='kw'>x</span>, <span class='kw'>...</span>)</pre>
+<span class='fu'>fisher.test</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -163,8 +163,8 @@ it just calls stats::fisher.test.</p>
     <p>The result is the same as the one of stats::fisher.test.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>tab</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tabyl.html'>tabyl</a></span>(<span class='kw'>mtcars</span>, <span class='kw'>gear</span>, <span class='kw'>cyl</span>)
-<span class='fu'>fisher.test</span>(<span class='kw'>tab</span>)
+    <pre class="examples"><div class='input'><span class='va'>tab</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tabyl.html'>tabyl</a></span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='va'>gear</span>, <span class='va'>cyl</span><span class='op'>)</span>
+<span class='fu'>fisher.test</span><span class='op'>(</span><span class='va'>tab</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 
 #&gt; 	Fisher's Exact Test for Count Data
 #&gt; 

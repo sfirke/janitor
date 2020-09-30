@@ -133,13 +133,13 @@ is a two-way tabyl, it runs it through janitor::chisq.test.tabyl, otherwise
 it just calls stats::chisq.test.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>chisq.test</span>(<span class='kw'>x</span>, <span class='kw'>...</span>)
+    <pre class="usage"><span class='fu'>chisq.test</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for default</span>
-<span class='fu'>chisq.test</span>(<span class='kw'>x</span>, y = <span class='kw'>NULL</span>, <span class='kw'>...</span>)
+<span class='fu'>chisq.test</span><span class='op'>(</span><span class='va'>x</span>, y <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for tabyl</span>
-<span class='fu'>chisq.test</span>(<span class='kw'>x</span>, tabyl_results = <span class='fl'>TRUE</span>, <span class='kw'>...</span>)</pre>
+<span class='fu'>chisq.test</span><span class='op'>(</span><span class='va'>x</span>, tabyl_results <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -169,14 +169,14 @@ is TRUE, the returned tables `observed`, `expected`, `residuals` and `stdres`
 are converted to tabyls.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>tab</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tabyl.html'>tabyl</a></span>(<span class='kw'>mtcars</span>, <span class='kw'>gear</span>, <span class='kw'>cyl</span>)
-<span class='fu'>chisq.test</span>(<span class='kw'>tab</span>)
+    <pre class="examples"><div class='input'><span class='va'>tab</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tabyl.html'>tabyl</a></span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='va'>gear</span>, <span class='va'>cyl</span><span class='op'>)</span>
+<span class='fu'>chisq.test</span><span class='op'>(</span><span class='va'>tab</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='warning'>Warning: Chi-squared approximation may be incorrect</span></div><div class='output co'>#&gt; 
 #&gt; 	Pearson's Chi-squared test
 #&gt; 
 #&gt; data:  tab
 #&gt; X-squared = 18.036, df = 4, p-value = 0.001214
-#&gt; </div><div class='input'><span class='fu'>chisq.test</span>(<span class='kw'>tab</span>)<span class='op'>$</span><span class='kw'>residuals</span>
+#&gt; </div><div class='input'><span class='fu'>chisq.test</span><span class='op'>(</span><span class='va'>tab</span><span class='op'>)</span><span class='op'>$</span><span class='va'>residuals</span>
 </div><div class='output co'>#&gt; <span class='warning'>Warning: Chi-squared approximation may be incorrect</span></div><div class='output co'>#&gt;  gear          4           6          8
 #&gt;     3 -1.8303523 -0.70731720  2.1225827
 #&gt;     4  1.9079181  0.84866842 -2.2912878

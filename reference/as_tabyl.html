@@ -143,7 +143,7 @@ The result of calling tabyl() on a single variable is a special class of one-way
 <p>The result of calling <code><a href='tabyl.html'>tabyl()</a></code> on a single variable is a special class of one-way tabyl; this function only pertains to the two-way tabyl.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>as_tabyl</span>(<span class='kw'>dat</span>, axes = <span class='fl'>2</span>, row_var_name = <span class='kw'>NULL</span>, col_var_name = <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>as_tabyl</span><span class='op'>(</span><span class='va'>dat</span>, axes <span class='op'>=</span> <span class='fl'>2</span>, row_var_name <span class='op'>=</span> <span class='cn'>NULL</span>, col_var_name <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -171,7 +171,7 @@ The result of calling tabyl() on a single variable is a special class of one-way
     <p>Returns the same data.frame, but with the additional class of "tabyl" and the attribute "core".</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>as_tabyl</span>(<span class='kw'>mtcars</span>)
+    <pre class="examples"><div class='input'><span class='fu'>as_tabyl</span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;   mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt;  21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
 #&gt;  21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4

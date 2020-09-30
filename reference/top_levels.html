@@ -129,7 +129,7 @@
     <p>Get a frequency table of a factor variable, grouped into categories by level.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>top_levels</span>(<span class='kw'>input_vec</span>, n = <span class='fl'>2</span>, show_na = <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>top_levels</span><span class='op'>(</span><span class='va'>input_vec</span>, n <span class='op'>=</span> <span class='fl'>2</span>, show_na <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -153,7 +153,7 @@
     <p>Returns a data.frame (actually a <code>tbl_df</code>) with the frequencies of the grouped, tabulated variable.  Includes counts and percentages, and valid percentages (calculated omitting <code>NA</code> values, if present in the vector and <code>show_na = TRUE</code>.)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>top_levels</span>(<span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='kw'>mtcars</span><span class='op'>$</span><span class='kw'>hp</span>), <span class='fl'>2</span>)
+    <pre class="examples"><div class='input'><span class='fu'>top_levels</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>$</span><span class='va'>hp</span><span class='op'>)</span>, <span class='fl'>2</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                  as.factor(mtcars$hp)  n percent
 #&gt;                                52, 62  2  0.0625
 #&gt;  &lt;&lt;&lt; Middle Group (18 categories) &gt;&gt;&gt; 28  0.8750

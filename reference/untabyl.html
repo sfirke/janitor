@@ -129,7 +129,7 @@
     <p>Strips away all <code>tabyl</code>-related attributes from a data.frame.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>untabyl</span>(<span class='kw'>dat</span>)</pre>
+    <pre class="usage"><span class='fu'>untabyl</span><span class='op'>(</span><span class='va'>dat</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -146,10 +146,10 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='tabyl.html'>tabyl</a></span>(<span class='kw'>am</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'>untabyl</span>() <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/attributes.html'>attributes</a></span>() <span class='co'># tabyl-specific attributes are gone</span>
+<span class='va'>mtcars</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='tabyl.html'>tabyl</a></span><span class='op'>(</span><span class='va'>am</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>untabyl</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/attributes.html'>attributes</a></span><span class='op'>(</span><span class='op'>)</span> <span class='co'># tabyl-specific attributes are gone</span>
 </div><div class='output co'>#&gt; $names
 #&gt; [1] "am"      "n"       "percent"
 #&gt; 

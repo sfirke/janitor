@@ -129,7 +129,7 @@
     <p>This function defaults to excluding the first column of the input data.frame, assuming that it contains a descriptive variable, but this can be overridden by specifying the columns to adorn in the <code>...</code> argument.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>adorn_percentages</span>(<span class='kw'>dat</span>, denominator = <span class='st'>"row"</span>, na.rm = <span class='fl'>TRUE</span>, <span class='kw'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>adorn_percentages</span><span class='op'>(</span><span class='va'>dat</span>, denominator <span class='op'>=</span> <span class='st'>"row"</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -158,17 +158,17 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='tabyl.html'>tabyl</a></span>(<span class='kw'>am</span>, <span class='kw'>cyl</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'>adorn_percentages</span>(<span class='st'>"col"</span>)
+<span class='va'>mtcars</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='tabyl.html'>tabyl</a></span><span class='op'>(</span><span class='va'>am</span>, <span class='va'>cyl</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>adorn_percentages</span><span class='op'>(</span><span class='st'>"col"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;  am         4         6         8
 #&gt;   0 0.2727273 0.5714286 0.8571429
 #&gt;   1 0.7272727 0.4285714 0.1428571</div><div class='input'>
 <span class='co'># calculates correctly even with totals column and/or row:</span>
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='tabyl.html'>tabyl</a></span>(<span class='kw'>am</span>, <span class='kw'>cyl</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='adorn_totals.html'>adorn_totals</a></span>(<span class='st'>"row"</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'>adorn_percentages</span>()
+<span class='va'>mtcars</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='tabyl.html'>tabyl</a></span><span class='op'>(</span><span class='va'>am</span>, <span class='va'>cyl</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='adorn_totals.html'>adorn_totals</a></span><span class='op'>(</span><span class='st'>"row"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>adorn_percentages</span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;     am         4         6         8
 #&gt;      0 0.1578947 0.2105263 0.6315789
 #&gt;      1 0.6153846 0.2307692 0.1538462

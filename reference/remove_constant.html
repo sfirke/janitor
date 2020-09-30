@@ -129,7 +129,7 @@
     <p>Remove constant columns from a data.frame or matrix.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>remove_constant</span>(<span class='kw'>dat</span>, na.rm = <span class='fl'>FALSE</span>, quiet = <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>remove_constant</span><span class='op'>(</span><span class='va'>dat</span>, na.rm <span class='op'>=</span> <span class='cn'>FALSE</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -159,15 +159,15 @@ column not being removed if it's a mix of a single value and <code>NA</code>.</p
 <code><a href='remove_empty.html'>remove_empty</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>remove_constant</span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(A=<span class='fl'>1</span>, B=<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>))
+    <pre class="examples"><div class='input'><span class='fu'>remove_constant</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>A<span class='op'>=</span><span class='fl'>1</span>, B<span class='op'>=</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;   B
 #&gt; 1 1
 #&gt; 2 2
 #&gt; 3 3</div><div class='input'>
 <span class='co'># To find the columns that are constant</span>
-<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(A=<span class='fl'>1</span>, B=<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>) <span class='op'>%&gt;%</span>
-  <span class='kw'>dplyr</span>::<span class='fu'><a href='https://dplyr.tidyverse.org/reference/select_all.html'>select_at</a></span>(<span class='fu'><a href='https://rdrr.io/pkg/generics/man/setops.html'>setdiff</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>.</span>), <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='fu'>remove_constant</span>(<span class='kw'>.</span>)))) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>()
+<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>A<span class='op'>=</span><span class='fl'>1</span>, B<span class='op'>=</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/select_all.html'>select_at</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/generics/man/setops.html'>setdiff</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='fu'>remove_constant</span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;   A
 #&gt; 1 1</div></pre>
   </div>

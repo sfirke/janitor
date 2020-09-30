@@ -131,11 +131,11 @@ compare_df_cols()and returns TRUE if there are no mis-matching rows.  `" />
 <code><a href='compare_df_cols.html'>compare_df_cols()</a></code>and returns TRUE if there are no mis-matching rows.  `</p>
     </div>
 
-    <pre class="usage"><span class='fu'>compare_df_cols_same</span>(
-  <span class='kw'>...</span>,
-  bind_method = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"bind_rows"</span>, <span class='st'>"rbind"</span>),
-  verbose = <span class='fl'>TRUE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>compare_df_cols_same</span><span class='op'>(</span>
+  <span class='va'>...</span>,
+  bind_method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"bind_rows"</span>, <span class='st'>"rbind"</span><span class='op'>)</span>,
+  verbose <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -172,10 +172,10 @@ missing from a data.frame would be considered a mismatch (as in
 <code><a href='describe_class.html'>describe_class</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>compare_df_cols_same</span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(A=<span class='fl'>1</span>), <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(A=<span class='fl'>2</span>))
-</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>compare_df_cols_same</span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(A=<span class='fl'>1</span>), <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(B=<span class='fl'>2</span>))
-</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>compare_df_cols_same</span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(A=<span class='fl'>1</span>), <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(B=<span class='fl'>2</span>), verbose=<span class='fl'>FALSE</span>)
-</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>compare_df_cols_same</span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(A=<span class='fl'>1</span>), <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(B=<span class='fl'>2</span>), bind_method=<span class='st'>"rbind"</span>)
+    <pre class="examples"><div class='input'><span class='fu'>compare_df_cols_same</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>A<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>A<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>compare_df_cols_same</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>A<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>B<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>compare_df_cols_same</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>A<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>B<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>, verbose<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>compare_df_cols_same</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>A<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>B<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>, bind_method<span class='op'>=</span><span class='st'>"rbind"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;   column_name     ..1     ..2
 #&gt; 1           A numeric    &lt;NA&gt;
 #&gt; 2           B    &lt;NA&gt; numeric</div><div class='output co'>#&gt; [1] FALSE</div></pre>
