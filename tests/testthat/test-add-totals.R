@@ -70,6 +70,23 @@ test_that("totals row and col produce correct results when called together", {
   )
 })
 
+test_that("totals where='both' produce equivalent results to c('row','col')", {
+  expect_equal(
+    ct %>%
+      adorn_totals("both") %>%
+      untabyl(),
+    data.frame(
+      a = c("big", "small", "Total"),
+      `1` = c(4, 1, 5),
+      `2` = c(0, 2, 2),
+      `3` = c(2, 0, 2),
+      Total = c(6, 3, 9),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  )
+})
+
 test_that("order doesn't matter when row and col are called together", {
   expect_equal(
     ct %>%

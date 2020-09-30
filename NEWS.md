@@ -1,5 +1,10 @@
 # janitor 2.0.1.9000 (unreleased)
 
+## New features
+
+* The `adorn_totals()` function now takes the value of `"both"` for the `where` argument.  That is, `adorn_totals("both")` is a shorter version of `adorn_totals(c("col", "row"))`.  (#362, thanks to **@svgsstats** for implementing and **@sfd99** for suggesting).
+
+
 ## Bug fixes
 
 * Fixed rounding issue in round_half_up() function (#396, thanks to @JJSteph)

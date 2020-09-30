@@ -18,6 +18,9 @@
 
 
 adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "Total", ...) {
+  if(where=="both"){
+    where=c("row","col");
+  }
   # if input is a list, call purrr::map to recursively apply this function to each data.frame
   if (is.list(dat) && !is.data.frame(dat)) {
     purrr::map(dat, adorn_totals, where, fill, na.rm, name)
