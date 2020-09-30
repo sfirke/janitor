@@ -35,7 +35,7 @@ Imports:
     tidyr (>= 0.7.0)
 License: MIT + file LICENSE
 LazyData: true
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Suggests:
     knitr,
     rmarkdown,

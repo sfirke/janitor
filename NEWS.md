@@ -12,6 +12,8 @@
 
 * `clean_names` called on a grouped tibble now also changes the names of the grouping variable(s), in addition to the column names (#260, thanks **@CerebralMastication** for reporting and the tidyverse dev team for fixing).
 
+* Omitting a numeric column of a tibble when using the `...` select in `adorn_totals()` now succeeds (#388)
+
 # janitor 2.0.1 (2020-04-12)
 
 ## Bug fixes and Breaking changes

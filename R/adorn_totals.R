@@ -65,9 +65,6 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
     }
 
     if ("row" %in% where) {
-      # to allow binding of "Total" and "-" onto date & factor columns 
-      dat[non_numeric_cols] <- lapply(dat[non_numeric_cols], as.character)
-      
       # creates the totals row to be appended
       col_sum <- function(a_col, na_rm = na.rm) {
         if (is.numeric(a_col)) { # can't do this with if_else because it doesn't like the sum() of a character vector, even if that clause is not reached
@@ -78,7 +75,10 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
       }
 
       col_totals <- purrr::map_df(dat, col_sum)
-      col_totals[setdiff(1:length(col_totals), cols_to_total)] <- fill # reset numeric columns that weren't to be totaled
+      not_totaled_cols <- setdiff(1:length(col_totals), cols_to_total)
+      col_totals[not_totaled_cols] <- fill # reset numeric columns that weren't to be totaled
+      dat[not_totaled_cols] <- lapply(dat[not_totaled_cols], as.character) # type compatibility for bind_rows
+      
       if(! 1 %in% cols_to_total){ # give users the option to total the first column??  Up to them I guess
         col_totals[1, 1] <- name # replace first column value with name argument
       } else {

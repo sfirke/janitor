@@ -321,4 +321,15 @@ test_that("tidyselecting works", {
   
   expect_equal(unname(unlist(simple_total[3, ])), c("3", "-", "-", "3"))
   expect_equal(simple_total$Total, 1:3)  
+  
+  # test that leaving out a numeric column of a tibble succeeds, #388
+  expect_equal(
+    simple %>%
+      adorn_totals(,,,,y) %>%
+      as.data.frame(),
+    simple %>%
+      tibble::tibble() %>%
+      adorn_totals %>%
+      as.data.frame()
+  )
 })
