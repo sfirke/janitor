@@ -3,8 +3,6 @@
 language: r
 cache: packages
 
-before_install:
-  Rscript -e 'update.packages(ask = FALSE)'
 
 addons:
   apt:
