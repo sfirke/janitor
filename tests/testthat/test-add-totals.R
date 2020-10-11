@@ -350,3 +350,37 @@ test_that("tidyselecting works", {
       as.data.frame()
   )
 })
+
+test_that("supplying NA to fill preserves column types", {
+  
+  test_df <- data.frame(
+    a = c("hi", "low", "med"),
+    b = factor(c("big", "small", "regular")),
+    c = c(as.Date("2000-01-01"), as.Date("2000-01-02"), as.Date("2000-01-03")),
+    d = 1:3,
+    e = 4:6,
+    f = c(TRUE, FALSE, TRUE),
+    g = c(7.2, 8.2, 9.2),
+    stringsAsFactors = FALSE
+  )
+  
+  out <- adorn_totals(test_df, fill = NA)
+  
+  # expect types to be preserved
+  expect_is(out[["a"]], "character") 
+  expect_is(out[["b"]], "factor")
+  expect_is(out[["c"]], "Date")
+  expect_is(out[["f"]], "logical")
+  # expect NAs in total rows for non-numerics
+  expect_true(is.na(out[4,"b"]))
+  expect_true(is.na(out[4,"c"]))
+  expect_true(is.na(out[4,"f"]))
+  # test values of totals
+  expect_equal(out[4,"a"], "Total")
+  expect_equal(out[4,"d"], 6)
+  expect_equal(out[4,"e"], 15)
+  expect_equal(out[4,"g"], 25,6)
+  # expect original df intact
+  expect_equivalent(test_df, out[1:3,])
+  
+})
