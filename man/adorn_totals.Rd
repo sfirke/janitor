@@ -11,7 +11,7 @@ adorn_totals(dat, where = "row", fill = "-", na.rm = TRUE, name = "Total", ...)
 
 \item{where}{one of "row", "col", or \code{c("row", "col")}}
 
-\item{fill}{if there are non-numeric columns, what string should fill the bottom row of those columns?}
+\item{fill}{if there are non-numeric columns, what should fill the bottom row of those columns? If a string, relevant columns will be coerced to character. If `NA` then column types are preserved.}
 
 \item{na.rm}{should missing values (including NaN) be omitted from the calculations?}
 

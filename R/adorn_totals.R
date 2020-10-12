@@ -107,7 +107,7 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
           }
         })
         
-        if(!is.numeric(dat[[1]])) { # convert first col to character so that name can be appended
+        if(!is.character(dat[[1]]) && !1 %in% cols_to_total) { # convert first col to character so that name can be appended
           dat[[1]] <- as.character(dat[[1]])
           col_totals[[1]] <- as.character(col_totals[[1]])
         }
