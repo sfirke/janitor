@@ -371,6 +371,8 @@ test_that("supplying NA to fill preserves column types", {
   expect_is(out[["b"]], "factor")
   expect_is(out[["c"]], "Date")
   expect_is(out[["f"]], "logical")
+  # expect factor levels to be preserved
+  expect_equal(levels(out[["b"]]), levels(test_df[["b"]]))
   # expect NAs in total rows for non-numerics
   expect_true(is.na(out[4,"b"]))
   expect_true(is.na(out[4,"c"]))
