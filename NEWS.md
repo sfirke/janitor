@@ -2,7 +2,9 @@
 
 ## New features
 
-* The `adorn_totals()` function now takes the value of `"both"` for the `where` argument.  That is, `adorn_totals("both")` is a shorter version of `adorn_totals(c("col", "row"))`.  (#362, thanks to **@svgsstats** for implementing and **@sfd99** for suggesting).
+* The `adorn_totals()` function now accepts the special argument `fill = NA`, which will insert a class-appropriate `NA` value into each column that isn't being totaled.  This preserves the class of each column; previously they were all convered to character. (thanks **@hamstr147** for implementing in #404 and **@ymer** for reporting in #298). 
+
+* `adorn_totals()` now takes the value of `"both"` for the `where` argument.  That is, `adorn_totals("both")` is a shorter version of `adorn_totals(c("col", "row"))`.  (#362, thanks to **@svgsstats** for implementing and **@sfd99** for suggesting).
 
 
 ## Bug fixes
