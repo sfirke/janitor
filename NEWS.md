@@ -9,13 +9,13 @@
 
 ## Bug fixes
 
-* Fixed rounding issue in round_half_up() function (#396, thanks to @JJSteph)
+* Fixed rounding issue in round_half_up() function (#396, thanks to **@JJSteph**)
 
-* Warnings for incomplete argument names are fixed (fix #367, thanks to @pabecerra for reporting and @billdenney for fixing)
+* Warnings for incomplete argument names are fixed (fix #367, thanks to **@pabecerra** for reporting and **@billdenney** for fixing)
 
 * 3-way tabyls with factors have columns and rows sorted in the correct order, by factor level (#379).
 
-* Transliteration from extended ASCII (character codes >127) to printable ASCII (character codes <=127) is now better supported (#389, thanks to @dcorynia for reporting and @billdenney for fixing)
+* Transliteration from extended ASCII (character codes >127) to printable ASCII (character codes <=127) is now better supported (#389, thanks to **@dcorynia** for reporting and **@billdenney** for fixing)
 
 * `clean_names` called on a grouped tibble now also changes the names of the grouping variable(s), in addition to the column names (#260, thanks **@CerebralMastication** for reporting and the tidyverse dev team for fixing).
 
@@ -25,7 +25,7 @@
 
 ## Bug fixes and Breaking changes
 
-Transliteration of characters within `make_clean_names()` now operates across operating systems, independent of differences in `stringi` installations (Fix #365, thanks to @eamoncaddigan for reporting and @billdenney for fixing).
+Transliteration of characters within `make_clean_names()` now operates across operating systems, independent of differences in `stringi` installations (Fix #365, thanks to **@eamoncaddigan** for reporting and **@billdenney** for fixing).
 
 This bug patch represents a breaking change with the way that `make_clean_names()` worked in janitor versions 1.2.1.9000 and 2.0.0 as the transliterations are now more generalized and follow a more best-practice approach to transliterating to ASCII.
 
