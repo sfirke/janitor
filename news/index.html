@@ -139,10 +139,10 @@
 <h2 class="hasAnchor">
 <a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
 <ul>
-<li><p>Fixed rounding issue in round_half_up() function (<a href='https://github.com/sfirke/janitor/issues/396'>#396</a>, thanks to <a href='https://github.com/JJSteph'>@JJSteph</a>)</p></li>
-<li><p>Warnings for incomplete argument names are fixed (fix <a href='https://github.com/sfirke/janitor/issues/367'>#367</a>, thanks to <a href='https://github.com/pabecerra'>@pabecerra</a> for reporting and <a href='https://github.com/billdenney'>@billdenney</a> for fixing)</p></li>
+<li><p>Fixed rounding issue in round_half_up() function (<a href='https://github.com/sfirke/janitor/issues/396'>#396</a>, thanks to <strong>@JJSteph</strong>)</p></li>
+<li><p>Warnings for incomplete argument names are fixed (fix <a href='https://github.com/sfirke/janitor/issues/367'>#367</a>, thanks to <strong>@pabecerra</strong> for reporting and <strong>@billdenney</strong> for fixing)</p></li>
 <li><p>3-way tabyls with factors have columns and rows sorted in the correct order, by factor level (<a href='https://github.com/sfirke/janitor/issues/379'>#379</a>).</p></li>
-<li><p>Transliteration from extended ASCII (character codes &gt;127) to printable ASCII (character codes &lt;=127) is now better supported (<a href='https://github.com/sfirke/janitor/issues/389'>#389</a>, thanks to <a href='https://github.com/dcorynia'>@dcorynia</a> for reporting and <a href='https://github.com/billdenney'>@billdenney</a> for fixing)</p></li>
+<li><p>Transliteration from extended ASCII (character codes &gt;127) to printable ASCII (character codes &lt;=127) is now better supported (<a href='https://github.com/sfirke/janitor/issues/389'>#389</a>, thanks to <strong>@dcorynia</strong> for reporting and <strong>@billdenney</strong> for fixing)</p></li>
 <li><p><code>clean_names</code> called on a grouped tibble now also changes the names of the grouping variable(s), in addition to the column names (<a href='https://github.com/sfirke/janitor/issues/260'>#260</a>, thanks <strong>@CerebralMastication</strong> for reporting and the tidyverse dev team for fixing).</p></li>
 <li><p>Omitting a numeric column of a tibble when using the <code>...</code> select in <code><a href="../reference/adorn_totals.html">adorn_totals()</a></code> now succeeds (<a href='https://github.com/sfirke/janitor/issues/388'>#388</a>)</p></li>
 </ul>
@@ -155,7 +155,7 @@
 <div id="bug-fixes-and-breaking-changes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bug-fixes-and-breaking-changes" class="anchor"></a>Bug fixes and Breaking changes</h2>
-<p>Transliteration of characters within <code><a href="../reference/make_clean_names.html">make_clean_names()</a></code> now operates across operating systems, independent of differences in <code>stringi</code> installations (Fix <a href='https://github.com/sfirke/janitor/issues/365'>#365</a>, thanks to <a href='https://github.com/eamoncaddigan'>@eamoncaddigan</a> for reporting and <a href='https://github.com/billdenney'>@billdenney</a> for fixing).</p>
+<p>Transliteration of characters within <code><a href="../reference/make_clean_names.html">make_clean_names()</a></code> now operates across operating systems, independent of differences in <code>stringi</code> installations (Fix <a href='https://github.com/sfirke/janitor/issues/365'>#365</a>, thanks to <strong>@eamoncaddigan</strong> for reporting and <strong>@billdenney</strong> for fixing).</p>
 <p>This bug patch represents a breaking change with the way that <code><a href="../reference/make_clean_names.html">make_clean_names()</a></code> worked in janitor versions 1.2.1.9000 and 2.0.0 as the transliterations are now more generalized and follow a more best-practice approach to transliterating to ASCII.</p>
 </div>
 </div>
