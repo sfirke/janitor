@@ -131,7 +131,8 @@
 <h2 class="hasAnchor">
 <a href="#new-features" class="anchor"></a>New features</h2>
 <ul>
-<li>The <code><a href="../reference/adorn_totals.html">adorn_totals()</a></code> function now takes the value of <code>"both"</code> for the <code>where</code> argument. That is, <code><a href="../reference/adorn_totals.html">adorn_totals("both")</a></code> is a shorter version of <code><a href="../reference/adorn_totals.html">adorn_totals(c("col", "row"))</a></code>. (<a href='https://github.com/sfirke/janitor/issues/362'>#362</a>, thanks to <strong>@svgsstats</strong> for implementing and <strong>@sfd99</strong> for suggesting).</li>
+<li><p>The <code><a href="../reference/adorn_totals.html">adorn_totals()</a></code> function now accepts the special argument <code>fill = NA</code>, which will insert a class-appropriate <code>NA</code> value into each column that isn’t being totaled. This preserves the class of each column; previously they were all convered to character. (thanks <strong>@hamstr147</strong> for implementing in <a href='https://github.com/sfirke/janitor/issues/404'>#404</a> and <strong>@ymer</strong> for reporting in <a href='https://github.com/sfirke/janitor/issues/298'>#298</a>).</p></li>
+<li><p><code><a href="../reference/adorn_totals.html">adorn_totals()</a></code> now takes the value of <code>"both"</code> for the <code>where</code> argument. That is, <code><a href="../reference/adorn_totals.html">adorn_totals("both")</a></code> is a shorter version of <code><a href="../reference/adorn_totals.html">adorn_totals(c("col", "row"))</a></code>. (<a href='https://github.com/sfirke/janitor/issues/362'>#362</a>, thanks to <strong>@svgsstats</strong> for implementing and <strong>@sfd99</strong> for suggesting).</p></li>
 </ul>
 </div>
 <div id="bug-fixes" class="section level2">
