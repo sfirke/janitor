@@ -97,11 +97,13 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
         names(cols_idx) <- names(dat) # name them using dat names
         
         col_totals <- purrr::map_df(cols_idx, function(i) {
-          if(is.numeric(dat[[i]]) && !i %in% cols_to_total) { # check if numeric and not to be totaled
+          if (is.numeric(dat[[i]]) && !i %in% cols_to_total) { # check if numeric and not to be totaled
             switch(typeof(dat[[i]]), # and set to NA
                    "integer" = NA_integer_,
                    "double" = NA_real_,
                    NA)
+          } else if (inherits(dat[[i]], "Date")) { # check for dates
+            as.Date(NA_real_, origin = "1970-01-01")
           } else { # otherwise run col_sum on the rest
             col_sum(dat[[i]])
           }
