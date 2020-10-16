@@ -31,7 +31,7 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
     
     numeric_cols <- which(vapply(dat, is.numeric, logical(1)))
     non_numeric_cols <- setdiff(1:ncol(dat), numeric_cols)
-     
+    
     if(rlang::dots_n(...) == 0){
       numeric_cols <- setdiff(numeric_cols, 1) # by default 1st column is not totaled so remove it from numeric_cols and add to non_numeric_cols
       non_numeric_cols <- unique(c(1, non_numeric_cols))
@@ -51,13 +51,13 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
     if (sum(where %in% c("row", "col")) != length(where)) {
       stop("\"where\" must be one of \"row\", \"col\", or c(\"row\", \"col\")")
     }
-
+    
     # grouped_df causes problems, #97
     if ("grouped_df" %in% class(dat)) {
       dat <- dplyr::ungroup(dat)
     }
     dat <- as_tabyl(dat)
-
+    
     # set totals attribute
     if (sum(where %in% attr(dat, "totals")) > 0) { # if either of the values of "where" are already in totals attribute
       stop("trying to re-add a totals dimension that is already been added")
@@ -66,7 +66,7 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
     } else {
       attr(dat, "totals") <- where
     }
-
+    
     if ("row" %in% where) {
       # creates the totals row to be appended
       col_sum <- function(a_col, na_rm = na.rm) {
@@ -77,7 +77,11 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
             switch(typeof(a_col),
                    "character" = NA_character_,
                    "integer" = NA_integer_,
-                   "double" = NA_real_,
+                   "double" = if(inherits(a_col, "Date")) {
+                     as.Date(NA_real_, origin = "1970-01-01")
+                   } else {
+                     NA_real_
+                   },
                    "complex" = NA_complex_,
                    NA)
           } else {
@@ -102,8 +106,6 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
                    "integer" = NA_integer_,
                    "double" = NA_real_,
                    NA)
-          } else if (inherits(dat[[i]], "Date")) { # check for dates
-            as.Date(NA_real_, origin = "1970-01-01")
           } else { # otherwise run col_sum on the rest
             col_sum(dat[[i]])
           }
@@ -123,17 +125,17 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
       }
       dat[(nrow(dat) + 1), ] <- col_totals[1, ] # insert totals_col as last row in dat
     }
-
+    
     if ("col" %in% where) {
       # Add totals col
       row_totals <- dat %>%
         dplyr::select(cols_to_total) %>%
         dplyr::select_if(is.numeric) %>%
         dplyr::transmute(Total = rowSums(., na.rm = na.rm))
-
+      
       dat[[name]] <- row_totals$Total
     }
-
+    
     dat
   }
 }
