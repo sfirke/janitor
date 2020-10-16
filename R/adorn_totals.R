@@ -77,7 +77,7 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
             switch(typeof(a_col),
                    "character" = NA_character_,
                    "integer" = NA_integer_,
-                   "double" = if(inherits(a_col, "Date")) {
+                   "double" = if(inherits(a_col, "Date") || inherits(a_col, "POSIXt")) {
                      as.Date(NA_real_, origin = "1970-01-01")
                    } else {
                      NA_real_

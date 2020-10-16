@@ -384,7 +384,7 @@ test_that("supplying NA to fill preserves column types", {
   expect_equal(out[4, "a"], "Total")
   expect_equal(out[4, "e"], 6)
   expect_equal(out[4, "f"], 15)
-  expect_equal(out[4, "h"], 24,6)
+  expect_equal(out[4, "h"], 24.6)
   # expect original df intact
   expect_equivalent(test_df, out[1:3,])
   
