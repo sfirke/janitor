@@ -7,7 +7,7 @@
 #' @param where one of "row", "col", or \code{c("row", "col")}
 #' @param fill if there are non-numeric columns, what should fill the bottom row of those columns? If a string, relevant columns will be coerced to character. If `NA` then column types are preserved. 
 #' @param na.rm should missing values (including NaN) be omitted from the calculations?
-#' @param name name of the totals column or row 
+#' @param name name of the totals row and/or column. If both are requested, and \code{name} is a single string, it is applied to both. If both are requested, and \code{name} is a vector of length 2, the first element of the vector will be used as the row name (in column 1), and the second element will be used as the totals column name. Defaults to "Total".
 #' @param ... columns to total.  This takes a tidyselect specification.  By default, all numeric columns (besides the initial column, if numeric) are included in the totals, but this allows you to manually specify which columns should be included, for use on a data.frame that does not result from a call to \code{tabyl}. 
 #' @return Returns a data.frame augmented with a totals row, column, or both.  The data.frame is now also of class \code{tabyl} and stores information about the attached totals and underlying data in the tabyl attributes.
 #' @export
@@ -19,7 +19,7 @@
 
 adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "Total", ...) {
   if("both" %in% where){
-    where <- c("row","col")
+    where <- c("row", "col")
   }
   # if input is a list, call purrr::map to recursively apply this function to each data.frame
   if (is.list(dat) && !is.data.frame(dat)) {
@@ -32,14 +32,14 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
     numeric_cols <- which(vapply(dat, is.numeric, logical(1)))
     non_numeric_cols <- setdiff(1:ncol(dat), numeric_cols)
     
-    if(rlang::dots_n(...) == 0){
+    if (rlang::dots_n(...) == 0) {
       numeric_cols <- setdiff(numeric_cols, 1) # by default 1st column is not totaled so remove it from numeric_cols and add to non_numeric_cols
       non_numeric_cols <- unique(c(1, non_numeric_cols))
       cols_to_total <- numeric_cols
     } else {
       expr <- rlang::expr(c(...))
       cols_to_total <- tidyselect::eval_select(expr, data = dat)
-      if(any(cols_to_total %in% non_numeric_cols)){
+      if (any(cols_to_total %in% non_numeric_cols)) {
         cols_to_total <- setdiff(cols_to_total, non_numeric_cols)
       }
     }
@@ -83,7 +83,7 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
         if (is.numeric(a_col)) { # can't do this with if_else because it doesn't like the sum() of a character vector, even if that clause is not reached
           sum(a_col, na.rm = na_rm)
         } else {
-          if(!is.character(fill)) { #if fill isn't a character string, use NA consistent with data types
+          if (!is.character(fill)) { #if fill isn't a character string, use NA consistent with data types
             switch(typeof(a_col),
                    "character" = NA_character_,
                    "integer" = NA_integer_,
@@ -100,7 +100,7 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
         }
       }
       
-      if(is.character(fill)) { # if fill is a string, keep original implementation
+      if (is.character(fill)) { # if fill is a string, keep original implementation
         col_totals <- purrr::map_df(dat, col_sum)
         not_totaled_cols <- setdiff(1:length(col_totals), cols_to_total)
         col_totals[not_totaled_cols] <- fill # reset numeric columns that weren't to be totaled
@@ -121,14 +121,14 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
           }
         })
         
-        if(!is.character(dat[[1]]) && !1 %in% cols_to_total) { # convert first col to character so that name can be appended
+        if (!is.character(dat[[1]]) && !1 %in% cols_to_total) { # convert first col to character so that name can be appended
           dat[[1]] <- as.character(dat[[1]])
           col_totals[[1]] <- as.character(col_totals[[1]])
         }
         
       }
       
-      if(! 1 %in% cols_to_total){ # give users the option to total the first column??  Up to them I guess
+      if (! 1 %in% cols_to_total) { # give users the option to total the first column??  Up to them I guess
         col_totals[1, 1] <- name[1] # replace first column value with name argument
       } else {
         message("Because the first column was specified to be totaled, it does not contain the label 'Total' (or user-specified name) in the totals row")
