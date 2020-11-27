@@ -13,6 +13,9 @@
 #' A list of all timezones is available from \code{base::OlsonNames()}, and the
 #' current timezone is available from \code{base::Sys.timezone()}.
 #'
+#' If your input data has a mix of Excel numeric dates and actual dates, see the
+#' more powerful functions \code{convert_to_date()} and \code{convert_to_datetime()}.
+#'
 #' @param date_num numeric vector of serial numbers to convert.
 #' @param date_system the date system, either \code{"modern"} or \code{"mac
 #'   pre-2011"}.
@@ -38,9 +41,7 @@
 #' excel_numeric_to_date(40000.521, include_time = TRUE) # Time is included
 #' excel_numeric_to_date(40000.521, include_time = TRUE,
 #'   round_seconds = FALSE) # Time with fractional seconds is included
-#' @family If your input data has a mix of Excel numeric dates and actual dates,
-#'   see the more powerful functions `convert_to_date` and
-#'   `convert_to_datetime`.
+#' @family Date-time cleaning
 
 # Converts a numeric value like 42414 into a date "2016-02-14"
 

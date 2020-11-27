@@ -16,21 +16,20 @@ options(width = 110)
 
 > Data scientists, according to interviews and expert estimates, spend from 50 percent to 80 percent of their time mired in this more mundane labor of collecting and preparing unruly digital data, before it can be explored for useful nuggets.
 > 
-> -- *"[For Big-Data Scientists, 'Janitor Work' Is Key Hurdle to Insight](http://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html)" - The New York Times, 2014*
+> -- ["For Big-Data Scientists, 'Janitor Work' Is Key Hurdle to Insight"](http://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html) *(New York Times, 2014)*
 
 # janitor <img src="man/figures/logo_small.png" align="right" />
 
 ***********************
 
-[![Travis-CI Build Status](https://travis-ci.org/sfirke/janitor.svg?branch=master)](https://travis-ci.org/sfirke/janitor)
+<!-- badges: start -->
+[![R build status](https://github.com/sfirke/janitor/workflows/R-CMD-check/badge.svg)](https://github.com/sfirke/janitor/actions)
 [![Coverage Status](https://img.shields.io/codecov/c/github/sfirke/janitor/master.svg)](https://codecov.io/github/sfirke/janitor?branch=master)
 [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version-ago/janitor)](https://cran.r-project.org/package=janitor)
 ![!Monthly Downloads](https://cranlogs.r-pkg.org/badges/janitor)
 ![!Downloads](https://cranlogs.r-pkg.org/badges/grand-total/janitor)
-
-
-
+<!-- badges: end -->
 
 **janitor** has simple functions for examining and cleaning dirty data.  It was built with beginning and intermediate R users in mind and is optimized for user-friendliness. Advanced R users can already do everything covered here, but with janitor they can do it faster and save their thinking for the fun stuff.
 
@@ -42,7 +41,7 @@ The main janitor functions:
 
 The tabulate-and-report functions approximate popular features of SPSS and Microsoft Excel.
 
-janitor is a [#tidyverse](https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html)-oriented package.  Specifically, it plays nicely with the `%>%` pipe and is optimized for cleaning data brought in with the [readr](https://github.com/tidyverse/readr) and [readxl](https://github.com/tidyverse/readxl) packages.
+janitor is a [#tidyverse]( https://CRAN.R-project.org/package=tidyverse/vignettes/manifesto.html)-oriented package.  Specifically, it plays nicely with the `%>%` pipe and is optimized for cleaning data brought in with the [readr](https://github.com/tidyverse/readr) and [readxl](https://github.com/tidyverse/readxl) packages.
 
 
 ### Installation
@@ -61,6 +60,10 @@ You can install:
     install.packages("devtools")
     devtools::install_github("sfirke/janitor")
     ```
+
+## janitor 2.0.0 is out!
+
+This marks a major release for janitor, with many new functions and some breaking changes that may affect existing code.  Please see the [NEWS page](http://sfirke.github.io/janitor/news/index.html) to learn more about new capabilities.
 
 ## Using janitor
 
@@ -187,4 +190,5 @@ These modular adornments can be layered to reduce R's deficit against Excel and 
 You are welcome to:
 
 * submit suggestions and report bugs: https://github.com/sfirke/janitor/issues
+* let me know what you think on Mastodon: [&#64;samfirke&#64;a2mi.social](https://a2mi.social/@samfirke)
 * compose a friendly e-mail to: <img src = "http://samfirke.com/wp-content/uploads/2016/07/email_address_whitespace_top.png" alt = "samuel.firke AT gmail" width = "210"/>

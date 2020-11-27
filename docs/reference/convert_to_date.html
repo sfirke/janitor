@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add column name to the top of a two-way tabyl. — adorn_title • janitor</title>
+<title>Convert many date and datetime formats as may be received from Microsoft
+Excel — convert_to_date • janitor</title>
 
 
 <!-- jquery -->
@@ -39,8 +40,10 @@
 
 
 
-<meta property="og:title" content="Add column name to the top of a two-way tabyl. — adorn_title" />
-<meta property="og:description" content="This function adds the column variable name to the top of a tabyl for a complete display of information.  This makes the tabyl prettier, but renders the data.frame less useful for further manipulation." />
+<meta property="og:title" content="Convert many date and datetime formats as may be received from Microsoft
+Excel — convert_to_date" />
+<meta property="og:description" content="Convert many date and datetime formats as may be received from Microsoft
+Excel" />
 
 
 
@@ -126,60 +129,91 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Add column name to the top of a two-way tabyl.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/sfirke/janitor/blob/master/R/adorn_title.R'><code>R/adorn_title.R</code></a></small>
-    <div class="hidden name"><code>adorn_title.Rd</code></div>
+    <h1>Convert many date and datetime formats as may be received from Microsoft
+Excel</h1>
+    <small class="dont-index">Source: <a href='https://github.com/sfirke/janitor/blob/master/R/convert_to_date.R'><code>R/convert_to_date.R</code></a></small>
+    <div class="hidden name"><code>convert_to_date.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function adds the column variable name to the top of a <code>tabyl</code> for a complete display of information.  This makes the tabyl prettier, but renders the data.frame less useful for further manipulation.</p>
+    <p>Convert many date and datetime formats as may be received from Microsoft
+Excel</p>
     </div>
 
-    <pre class="usage"><span class='fu'>adorn_title</span>(<span class='no'>dat</span>, <span class='kw'>placement</span> <span class='kw'>=</span> <span class='st'>"top"</span>, <span class='no'>row_name</span>, <span class='no'>col_name</span>)</pre>
+    <pre class="usage"><span class='fu'>convert_to_date</span>(
+  <span class='no'>x</span>,
+  <span class='no'>...</span>,
+  <span class='kw'>character_fun</span> <span class='kw'>=</span> <span class='kw pkg'>lubridate</span><span class='kw ns'>::</span><span class='no'><a href='http://lubridate.tidyverse.org/reference/ymd.html'>ymd</a></span>,
+  <span class='kw'>string_conversion_failure</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"error"</span>, <span class='st'>"warning"</span>)
+)
+
+<span class='fu'>convert_to_datetime</span>(
+  <span class='no'>x</span>,
+  <span class='no'>...</span>,
+  <span class='kw'>tz</span> <span class='kw'>=</span> <span class='st'>"UTC"</span>,
+  <span class='kw'>character_fun</span> <span class='kw'>=</span> <span class='kw pkg'>lubridate</span><span class='kw ns'>::</span><span class='no'><a href='http://lubridate.tidyverse.org/reference/ymd_hms.html'>ymd_hms</a></span>,
+  <span class='kw'>string_conversion_failure</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"error"</span>, <span class='st'>"warning"</span>)
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dat</th>
-      <td><p>a data.frame of class <code>tabyl</code> or other data.frame with a tabyl-like layout.  If given a list of data.frames, this function will apply itself to each data.frame in the list (designed for 3-way <code>tabyl</code> lists).</p></td>
+      <th>x</th>
+      <td><p>The object to convert</p></td>
     </tr>
     <tr>
-      <th>placement</th>
-      <td><p>whether the column name should be added to the top of the tabyl in an otherwise-empty row <code>"top"</code> or appended to the already-present row name variable (<code>"combined"</code>).  The formatting in the <code>"top"</code> option has the look of base R's <code><a href='https://rdrr.io/r/base/table.html'>table()</a></code>; it also wipes out the other column names, making it hard to further use the data.frame besides formatting it for reporting.  The <code>"combined"</code> option is more conservative in this regard.</p></td>
+      <th>...</th>
+      <td><p>Passed to further methods.  Eventually may be passed to
+`excel_numeric_to_date()`, `base::as.POXIXct()`, or `base::as.Date()`.</p></td>
     </tr>
     <tr>
-      <th>row_name</th>
-      <td><p>(optional) default behavior is to pull the row name from the attributes of the input <code>tabyl</code> object.  If you wish to override that text, or if your input is not a <code>tabyl</code>, supply a string here.</p></td>
+      <th>character_fun</th>
+      <td><p>A function to convert non-numeric-looking, non-NA values
+in `x` to POSIXct objects.</p></td>
     </tr>
     <tr>
-      <th>col_name</th>
-      <td><p>(optional) default behavior is to pull the column_name from the attributes of the input <code>tabyl</code> object.  If you wish to override that text, or if your input is not a <code>tabyl</code>, supply a string here.</p></td>
+      <th>string_conversion_failure</th>
+      <td><p>If a character value fails to parse into the
+desired class and instead returns `NA`, should the function return the
+result with a warning or throw an error?</p></td>
+    </tr>
+    <tr>
+      <th>tz</th>
+      <td><p>The timezone for POSIXct output, unless an object is POSIXt
+already.  Ignored for Date output.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>the input tabyl, augmented with the column title.  Non-tabyl inputs that are of class <code>tbl_df</code> are downgraded to basic data.frames so that the title row prints correctly.</p>
+    <p>POSIXct objects for `convert_to_datetime()` or Date objects for
+  `convert_to_date()`.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Character conversion checks if it matches something that looks like
+  a Microsoft Excel numeric date, converts those to numeric, and then runs
+  convert_to_datetime_helper() on those numbers.  Then, character to Date or
+  POSIXct conversion occurs via `character_fun(x, ...)` or
+  `character_fun(x, tz=tz, ...)`, respectively.</p>
+    <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
+
+    
+<ul>
+<li><p><code>convert_to_datetime</code>: Convert to a date-time (POSIXct)</p></li>
+</ul>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other Date-time cleaning: 
+<code><a href='excel_numeric_to_date.html'>excel_numeric_to_date</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='tabyl.html'>tabyl</a></span>(<span class='no'>am</span>, <span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>adorn_title</span>(<span class='kw'>placement</span> <span class='kw'>=</span> <span class='st'>"top"</span>)</div><div class='output co'>#&gt;     cyl     
-#&gt;  am   4 6  8
-#&gt;   0   3 4 12
-#&gt;   1   8 3  2</div><div class='input'>
-<span class='co'># Adding a title to a non-tabyl</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>tidyr</span>); <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>gear</span>, <span class='no'>am</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='kw'>avg_mpg</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>mpg</span>)) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/spread.html'>spread</a></span>(<span class='no'>gear</span>, <span class='no'>avg_mpg</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>adorn_title</span>(<span class='st'>"top"</span>, <span class='kw'>row_name</span> <span class='kw'>=</span> <span class='st'>"Gears"</span>, <span class='kw'>col_name</span> <span class='kw'>=</span> <span class='st'>"Cylinders"</span>)</div><div class='output co'>#&gt;                Cylinders             
-#&gt; 1 Gears                3      4     5
-#&gt; 2     0 16.1066666666667  21.05  &lt;NA&gt;
-#&gt; 3     1             &lt;NA&gt; 26.275 21.38</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>convert_to_date</span>(<span class='st'>"2009-07-06"</span>)</div><div class='output co'>#&gt; [1] "2009-07-06"</div><div class='input'><span class='fu'>convert_to_date</span>(<span class='fl'>40000</span>)</div><div class='output co'>#&gt; [1] "2009-07-06"</div><div class='input'><span class='fu'>convert_to_date</span>(<span class='st'>"40000.1"</span>)</div><div class='output co'>#&gt; [1] "2009-07-06"</div><div class='input'><span class='co'># Mixed date source data can be provided.</span>
+<span class='fu'>convert_to_date</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"2020-02-29"</span>, <span class='st'>"40000.1"</span>))</div><div class='output co'>#&gt; [1] "2020-02-29" "2009-07-06"</div><div class='input'><span class='fu'>convert_to_datetime</span>(
+  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"2009-07-06"</span>, <span class='st'>"40000.1"</span>, <span class='st'>"40000"</span>, <span class='fl'>NA</span>),
+  <span class='kw'>character_fun</span><span class='kw'>=</span><span class='kw pkg'>lubridate</span><span class='kw ns'>::</span><span class='no'><a href='http://lubridate.tidyverse.org/reference/ymd_hms.html'>ymd_h</a></span>, <span class='kw'>truncated</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>tz</span><span class='kw'>=</span><span class='st'>"UTC"</span>
+)</div><div class='output co'>#&gt; [1] "2009-07-06 00:00:00 UTC" "2009-07-06 02:24:00 UTC"
+#&gt; [3] "2009-07-06 00:00:00 UTC" NA                       </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

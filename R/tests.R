@@ -6,7 +6,7 @@
 #' it just calls stats::chisq.test.
 #' 
 #' @return
-#' The result is the same as the one of stats::chisqt.test. If `tabyl_results` 
+#' The result is the same as the one of stats::chisq.test. If `tabyl_results` 
 #' is TRUE, the returned tables `observed`, `expected`, `residuals` and `stdres` 
 #' are converted to tabyls.
 #' 

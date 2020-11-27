@@ -188,3 +188,9 @@ test_that("works with tidyselect", {
     c("0.166 (83)", "0.000  (0)", "0.000  (0)", "1.000  (1)")
   )
 })
+
+test_that("no message thrown on grouped df input", {
+  expect_silent(source_an %>%
+                  adorn_percentages() %>%
+                  adorn_ns())
+})

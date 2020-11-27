@@ -21,8 +21,12 @@ make_clean_names(
 \item{string}{A character vector of names to clean.}
 
 \item{case}{The desired target case (default is \code{"snake"}) will be
-passed to `snakecase::to_any_case()` with the exception of "old_janitor"
-(see details).}
+passed to \code{snakecase::to_any_case()} with the exception of "old_janitor",
+which exists only to support legacy code (it preserves the behavior of
+\code{clean_names()} prior to addition of the "case" argument (janitor
+versions <= 0.3.1).  "old_janitor" is not intended for new code. See
+\code{\link[snakecase]{to_any_case}} for a wide variety of supported cases,
+including "sentence" and "title" case.}
 
 \item{replace}{A named character vector where the name is replaced by the
 value.}
@@ -30,8 +34,8 @@ value.}
 \item{ascii}{Convert the names to ASCII (\code{TRUE}, default) or not
 (\code{FALSE}).}
 
-\item{use_make_names}{Should `make.names()` be applied to ensure that the
-output is usable as a name without quoting?  (Avoiding `make.names()`
+\item{use_make_names}{Should \code{make.names()} be applied to ensure that the
+output is usable as a name without quoting?  (Avoiding \code{make.names()}
 ensures that the output is locale-independent but quoting may be required.)}
 
 \item{sep_in}{(short for separator input) if character, is interpreted as a
@@ -84,28 +88,36 @@ by the supplied string to this argument.}
 Returns the "cleaned" character vector.
 }
 \description{
-Resulting strings are unique and consist only of the \code{_} character,
-numbers, and letters. By default, the resulting strings will only consist of
-ASCII characters, but non-ASCII (e.g. Unicode) may be allowed by setting
-\code{ascii=FALSE}.  Capitalization preferences can be specified using the
-\code{case} parameter.
+Resulting strings are unique and consist only of the \code{_}
+character, numbers, and letters. By default, the resulting strings will only
+consist of ASCII characters, but non-ASCII (e.g. Unicode) may be allowed by
+setting \code{ascii=FALSE}.  Capitalization preferences can be specified
+using the \code{case} parameter.
 
 For use on the names of a data.frame, e.g., in a \code{`\%>\%`} pipeline,
 call the convenience function \code{\link[janitor]{clean_names}}.
 
-When \code{ascii=TRUE} (the default), accented characters are transliterated to
-ASCII.  For example, an "o" with a German umlaut over it becomes "o", and the
-Spanish character "enye" becomes "n".
+When \code{ascii=TRUE} (the default), accented characters are transliterated
+to ASCII.  For example, an "o" with a German umlaut over it becomes "o", and
+the Spanish character "enye" becomes "n".
 
-The order of operations is: \code{replace}, (optional) ASCII conversion, removing
-initial spaces and punctuation, apply \code{base::make.names()}, apply
-\code{\link[snakecase]{to_any_case}}, and add numeric suffixes to duplicates.
+The order of operations is: \code{replace}, (optional) ASCII conversion,
+removing initial spaces and punctuation, apply \code{base::make.names()},
+apply \code{\link[snakecase]{to_any_case}}, and add numeric suffixes to
+duplicates.
 
-The option \code{case = "old_janitor"} is for compatability with old code and
-preserves the behavior of \code{clean_names()} prior to addition of the "case"
-argument(janitor versions <= 0.3.1).  The \code{"old_janitor"} option is provided
-as a quick fix for old scripts broken by the changes to \code{clean_names()} in
-janitor v1.0, and it should not be used for new code.
+See the documentation for \code{snakecase::to_any_case} for more about how
+to control its behavior.
+
+On some systems, not all transliterators to ASCII are available.  If this is
+the case on your system, all available transliterators will be used, and a
+warning will be issued once per session indicating that results may be
+different when run on a different system.  That warning can be disabled with
+\code{options(janitor_warn_transliterators=FALSE)}.
+
+If the objective of your call to \code{make_clean_names()} is only to translate to
+ASCII, try the following instead:
+\code{stringi::stri_trans_general(x, id="Any-Latin;Greek-Latin;Latin-ASCII")}.
 }
 \examples{
 

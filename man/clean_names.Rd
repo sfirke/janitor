@@ -25,14 +25,18 @@ clean_names(dat, ...)
   Arguments passed on to \code{\link[=make_clean_names]{make_clean_names}}
   \describe{
     \item{\code{case}}{The desired target case (default is \code{"snake"}) will be
-passed to `snakecase::to_any_case()` with the exception of "old_janitor"
-(see details).}
+passed to \code{snakecase::to_any_case()} with the exception of "old_janitor",
+which exists only to support legacy code (it preserves the behavior of
+\code{clean_names()} prior to addition of the "case" argument (janitor
+versions <= 0.3.1).  "old_janitor" is not intended for new code. See
+\code{\link[snakecase]{to_any_case}} for a wide variety of supported cases,
+including "sentence" and "title" case.}
     \item{\code{replace}}{A named character vector where the name is replaced by the
 value.}
     \item{\code{ascii}}{Convert the names to ASCII (\code{TRUE}, default) or not
 (\code{FALSE}).}
-    \item{\code{use_make_names}}{Should `make.names()` be applied to ensure that the
-output is usable as a name without quoting?  (Avoiding `make.names()`
+    \item{\code{use_make_names}}{Should \code{make.names()} be applied to ensure that the
+output is usable as a name without quoting?  (Avoiding \code{make.names()}
 ensures that the output is locale-independent but quoting may be required.)}
     \item{\code{sep_in}}{(short for separator input) if character, is interpreted as a
 regular expression (wrapped internally into \code{stringr::regex()}). 

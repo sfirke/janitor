@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add column name to the top of a two-way tabyl. — adorn_title • janitor</title>
+<title>Round a numeric vector to the specified number of significant digits; halves will be rounded up. — signif_half_up • janitor</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,15 @@
 
 
 
-<meta property="og:title" content="Add column name to the top of a two-way tabyl. — adorn_title" />
-<meta property="og:description" content="This function adds the column variable name to the top of a tabyl for a complete display of information.  This makes the tabyl prettier, but renders the data.frame less useful for further manipulation." />
+<meta property="og:title" content="Round a numeric vector to the specified number of significant digits; halves will be rounded up. — signif_half_up" />
+<meta property="og:description" content="In base R signif(), halves are rounded to even, e.g.,
+signif(11.5, 2) and signif(12.5, 2) are both rounded to 12.
+This function rounds 12.5 to 13 (assuming digits = 2). Negative halves
+are rounded away from zero, e.g., signif(-2.5, 1) is rounded to -3.
+This may skew subsequent statistical analysis of the data, but may be
+desirable in certain contexts. This function is implemented from 
+https://stackoverflow.com/a/1581007; see that question and
+comments for discussion of this issue." />
 
 
 
@@ -126,60 +133,41 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Add column name to the top of a two-way tabyl.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/sfirke/janitor/blob/master/R/adorn_title.R'><code>R/adorn_title.R</code></a></small>
-    <div class="hidden name"><code>adorn_title.Rd</code></div>
+    <h1>Round a numeric vector to the specified number of significant digits; halves will be rounded up.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/sfirke/janitor/blob/master/R/round_half_up.R'><code>R/round_half_up.R</code></a></small>
+    <div class="hidden name"><code>signif_half_up.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function adds the column variable name to the top of a <code>tabyl</code> for a complete display of information.  This makes the tabyl prettier, but renders the data.frame less useful for further manipulation.</p>
+    <p>In base R <code><a href='https://rdrr.io/r/base/Round.html'>signif()</a></code>, halves are rounded to even, e.g.,
+<code><a href='https://rdrr.io/r/base/Round.html'>signif(11.5, 2)</a></code> and <code><a href='https://rdrr.io/r/base/Round.html'>signif(12.5, 2)</a></code> are both rounded to 12.
+This function rounds 12.5 to 13 (assuming <code>digits = 2</code>). Negative halves
+are rounded away from zero, e.g., <code><a href='https://rdrr.io/r/base/Round.html'>signif(-2.5, 1)</a></code> is rounded to -3.</p>
+<p>This may skew subsequent statistical analysis of the data, but may be
+desirable in certain contexts. This function is implemented from 
+<a href='https://stackoverflow.com/a/1581007'>https://stackoverflow.com/a/1581007</a>; see that question and
+comments for discussion of this issue.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>adorn_title</span>(<span class='no'>dat</span>, <span class='kw'>placement</span> <span class='kw'>=</span> <span class='st'>"top"</span>, <span class='no'>row_name</span>, <span class='no'>col_name</span>)</pre>
+    <pre class="usage"><span class='fu'>signif_half_up</span>(<span class='no'>x</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>6</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dat</th>
-      <td><p>a data.frame of class <code>tabyl</code> or other data.frame with a tabyl-like layout.  If given a list of data.frames, this function will apply itself to each data.frame in the list (designed for 3-way <code>tabyl</code> lists).</p></td>
+      <th>x</th>
+      <td><p>a numeric vector to round.</p></td>
     </tr>
     <tr>
-      <th>placement</th>
-      <td><p>whether the column name should be added to the top of the tabyl in an otherwise-empty row <code>"top"</code> or appended to the already-present row name variable (<code>"combined"</code>).  The formatting in the <code>"top"</code> option has the look of base R's <code><a href='https://rdrr.io/r/base/table.html'>table()</a></code>; it also wipes out the other column names, making it hard to further use the data.frame besides formatting it for reporting.  The <code>"combined"</code> option is more conservative in this regard.</p></td>
-    </tr>
-    <tr>
-      <th>row_name</th>
-      <td><p>(optional) default behavior is to pull the row name from the attributes of the input <code>tabyl</code> object.  If you wish to override that text, or if your input is not a <code>tabyl</code>, supply a string here.</p></td>
-    </tr>
-    <tr>
-      <th>col_name</th>
-      <td><p>(optional) default behavior is to pull the column_name from the attributes of the input <code>tabyl</code> object.  If you wish to override that text, or if your input is not a <code>tabyl</code>, supply a string here.</p></td>
+      <th>digits</th>
+      <td><p>integer indicating the number of significant digits to be used.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>the input tabyl, augmented with the column title.  Non-tabyl inputs that are of class <code>tbl_df</code> are downgraded to basic data.frames so that the title row prints correctly.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='tabyl.html'>tabyl</a></span>(<span class='no'>am</span>, <span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>adorn_title</span>(<span class='kw'>placement</span> <span class='kw'>=</span> <span class='st'>"top"</span>)</div><div class='output co'>#&gt;     cyl     
-#&gt;  am   4 6  8
-#&gt;   0   3 4 12
-#&gt;   1   8 3  2</div><div class='input'>
-<span class='co'># Adding a title to a non-tabyl</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>tidyr</span>); <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>gear</span>, <span class='no'>am</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='kw'>avg_mpg</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>mpg</span>)) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/spread.html'>spread</a></span>(<span class='no'>gear</span>, <span class='no'>avg_mpg</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>adorn_title</span>(<span class='st'>"top"</span>, <span class='kw'>row_name</span> <span class='kw'>=</span> <span class='st'>"Gears"</span>, <span class='kw'>col_name</span> <span class='kw'>=</span> <span class='st'>"Cylinders"</span>)</div><div class='output co'>#&gt;                Cylinders             
-#&gt; 1 Gears                3      4     5
-#&gt; 2     0 16.1066666666667  21.05  &lt;NA&gt;
-#&gt; 3     1             &lt;NA&gt; 26.275 21.38</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>signif_half_up</span>(<span class='fl'>12.5</span>, <span class='fl'>2</span>)</div><div class='output co'>#&gt; [1] 13</div><div class='input'><span class='fu'>signif_half_up</span>(<span class='fl'>1.125</span>, <span class='fl'>3</span>)</div><div class='output co'>#&gt; [1] 1.13</div><div class='input'><span class='fu'>signif_half_up</span>(-<span class='fl'>2.5</span>, <span class='fl'>1</span>) <span class='co'># negatives get rounded away from zero</span></div><div class='output co'>#&gt; [1] -3</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

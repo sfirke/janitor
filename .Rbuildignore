@@ -19,3 +19,9 @@ Index.md
 Index.Rmd
 ^revdep$
 .covrignore
+^CRAN-RELEASE$
+^doc$
+^Meta$
+^_pkgdown\.yml$
+^pkgdown$
+^\.github$
