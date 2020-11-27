@@ -52,6 +52,16 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
       stop("\"where\" must be one of \"row\", \"col\", or c(\"row\", \"col\")")
     }
     
+    # names to accept a vector of length 2 for row and col #359
+    if (length(name) > length(where)) {
+      name <- name[1:length(where)] # I don't think we actually need this step
+    }
+    
+    # Duplicating single-value name to a vector here means name[1] and/or
+    # name[2] just work in the steps below.
+    # If name already length 2 vector, it works for where = c("row", "col")
+    if (length(name) == 1) name <- c(name, name)
+    
     # grouped_df causes problems, #97
     if ("grouped_df" %in% class(dat)) {
       dat <- dplyr::ungroup(dat)
@@ -119,10 +129,11 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
       }
       
       if(! 1 %in% cols_to_total){ # give users the option to total the first column??  Up to them I guess
-        col_totals[1, 1] <- name # replace first column value with name argument
+        col_totals[1, 1] <- name[1] # replace first column value with name argument
       } else {
         message("Because the first column was specified to be totaled, it does not contain the label 'Total' (or user-specified name) in the totals row")
       }
+      # dat <- dplyr::bind_rows(dat, col_totals) ?
       dat[(nrow(dat) + 1), ] <- col_totals[1, ] # insert totals_col as last row in dat
     }
     
@@ -133,8 +144,27 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
         dplyr::select_if(is.numeric) %>%
         dplyr::transmute(Total = rowSums(., na.rm = na.rm))
       
-      dat[[name]] <- row_totals$Total
+      dat[[name[2]]] <- row_totals$Total
     }
+    
+    # pure dplyr alternative:
+    # if ("col" %in% where) {
+    #   # Add totals col
+    #   dat <- dat %>%
+    #     dplyr::select(cols_to_total) %>%
+    #     dplyr::select_if(is.numeric) %>%
+    #     dplyr::transmute(name[2] = rowSums(., na.rm = na.rm)) %>% 
+    #     dplyr::bind_cols(dat, .)
+    # }
+    
+    # dplyr >= 1.0 version:
+    # if ("col" %in% where) {
+    #   # Add totals col
+    #   dat <- dat %>%
+    #     dplyr::rowwise() %>% 
+    #     dplyr::mutate(name[2] = sum(c_across(all_of(cols_to_total) & where(is.numeric)), na.rm = na.rm)) %>% 
+    #     dplyr::ungroup()
+    # }
     
     dat
   }
