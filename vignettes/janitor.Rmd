@@ -50,9 +50,10 @@ Compare to what base R produces:
 make.names(names(test_df))
 ```
 
-This function is now powered by the underlying exported function **`make_clean_names()`**, which accepts and returns a character vector of names (see below).  This allows for cleaning the names of *any* object, not just a data.frame.  `clean_names()` is retained for its convenience in piped workflows, and can be called on an `sf` simple features object in addition to a data.frame.   
+This function is powered by the underlying exported function **`make_clean_names()`**, which accepts and returns a character vector of names (see below).  This allows for cleaning the names of *any* object, not just a data.frame.  `clean_names()` is retained for its convenience in piped workflows, and can be called on an `sf` simple features object or a `tbl_graph` tidygraph object in addition to a data.frame.   
 
-### Are those data.frames actually the same?  Check with `compare_df_cols()`
+### Do those data.frames actually contain the same columns?
+#### Check with `compare_df_cols()`
 
 For cases when you are given a set of data files that *should* be identical, and you wish to read and combine them for analysis.  But then `dplyr::bind_rows()` or `rbind()` fails, because of different columns or because the column classes don't match across data.frames.
 
@@ -91,7 +92,7 @@ mtcars %>%
   adorn_title()
 ```
 
-Learn more in the [tabyls vignette](https://github.com/sfirke/janitor/blob/master/vignettes/tabyls.md).
+Learn more in the [tabyls vignette](http://sfirke.github.io/janitor/articles/tabyls.html).
 
 ### Explore records with duplicated values for specific combinations of variables with `get_dupes()`
 This is for hunting down and examining duplicate records during data cleaning - usually when there shouldn't be any.
@@ -167,6 +168,14 @@ excel_numeric_to_date(41103.01, include_time = TRUE) # returns POSIXlt object
 excel_numeric_to_date(41103.01, date_system = "mac pre-2011")
 ```
 
+### Convert a mix of date and datetime formats to date
+
+Building on `excel_numeric_to_date()`, the new functions `convert_to_date()` and `convert_to_datetime()` are more robust to a mix of inputs.  Handy when reading many spreadsheets that *should* have the same column formats, but don't.
+
+For instance, here a vector with a date and an Excel datetime sees both values successfully converted to Date class:
+```{r}
+convert_to_date(c("2020-02-29", "40000.1"))
+```
 
 ### Elevate column names stored in a data.frame row
 

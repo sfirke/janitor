@@ -31,7 +31,8 @@ mtcars \%>\%
 library(tidyr); library(dplyr)
 mtcars \%>\%
   group_by(gear, am) \%>\%
-  summarise(avg_mpg = mean(mpg)) \%>\%
+  summarise(avg_mpg = mean(mpg), .groups = "drop") \%>\%
   spread(gear, avg_mpg) \%>\%
+  adorn_rounding() \%>\%
   adorn_title("top", row_name = "Gears", col_name = "Cylinders")
 }

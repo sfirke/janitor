@@ -22,7 +22,7 @@ chisq.test(x, ...)
 \item{tabyl_results}{if TRUE and x is a tabyl object, also return `observed`, `expected`, `residuals` and `stdres` as tabyl}
 }
 \value{
-The result is the same as the one of stats::chisqt.test. If `tabyl_results` 
+The result is the same as the one of stats::chisq.test. If `tabyl_results` 
 is TRUE, the returned tables `observed`, `expected`, `residuals` and `stdres` 
 are converted to tabyls.
 }

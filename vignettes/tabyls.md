@@ -1,6 +1,6 @@
 tabyls: a tidy, fully-featured approach to counting things
 ================
-2020-04-04
+2020-08-12
 
 ## Motivation: why tabyl?
 
@@ -111,9 +111,9 @@ t2 <- humans %>%
   tabyl(gender, eye_color)
 
 t2
-#>  gender blue blue-gray brown dark hazel yellow
-#>  female    3         0     5    0     1      0
-#>    male    9         1    12    1     1      2
+#>     gender blue blue-gray brown dark hazel yellow
+#>   feminine    3         0     5    0     1      0
+#>  masculine    9         1    12    1     1      2
 ```
 
 Since it’s a `tabyl`, we can enhance it with `adorn_` helper functions.
@@ -125,9 +125,9 @@ t2 %>%
   adorn_percentages("row") %>%
   adorn_pct_formatting(digits = 2) %>%
   adorn_ns()
-#>  gender       blue blue-gray       brown      dark      hazel    yellow
-#>  female 33.33% (3) 0.00% (0) 55.56%  (5) 0.00% (0) 11.11% (1) 0.00% (0)
-#>    male 34.62% (9) 3.85% (1) 46.15% (12) 3.85% (1)  3.85% (1) 7.69% (2)
+#>     gender       blue blue-gray       brown      dark      hazel    yellow
+#>   feminine 33.33% (3) 0.00% (0) 55.56%  (5) 0.00% (0) 11.11% (1) 0.00% (0)
+#>  masculine 34.62% (9) 3.85% (1) 46.15% (12) 3.85% (1)  3.85% (1) 7.69% (2)
 ```
 
 Adornments have options to control axes, rounding, and other relevant
@@ -144,7 +144,7 @@ t3 <- humans %>%
 
 # the result is a tabyl of eye color x skin color, split into a list by gender
 t3 
-#> $female
+#> $feminine
 #>  eye_color dark fair light pale tan white
 #>       blue    0    2     1    0   0     0
 #>  blue-gray    0    0     0    0   0     0
@@ -153,7 +153,7 @@ t3
 #>      hazel    0    0     1    0   0     0
 #>     yellow    0    0     0    0   0     0
 #> 
-#> $male
+#> $masculine
 #>  eye_color dark fair light pale tan white
 #>       blue    0    7     2    0   0     0
 #>  blue-gray    0    1     0    0   0     0
@@ -176,7 +176,7 @@ humans %>%
   adorn_pct_formatting(digits = 1) %>%
   adorn_ns %>%
   adorn_title
-#> $female
+#> $feminine
 #>            skin_color          
 #>  eye_color       fair     light
 #>       blue  22.2% (2) 11.1% (1)
@@ -184,7 +184,7 @@ humans %>%
 #>      hazel   0.0% (0) 11.1% (1)
 #>      Total  33.3% (3) 66.7% (6)
 #> 
-#> $male
+#> $masculine
 #>            skin_color                                                
 #>  eye_color       dark       fair     light     pale      tan    white
 #>       blue   0.0% (0) 26.9%  (7)  7.7% (2) 0.0% (0) 0.0% (0) 0.0% (0)
@@ -239,8 +239,8 @@ humans %>%
 
 | gender/eye\_color | blue     | blue-gray | brown    | dark   | hazel   | yellow | Total     |
 | :---------------- | :------- | :-------- | :------- | :----- | :------ | :----- | :-------- |
-| female            | 33% (3)  | 0% (0)    | 56% (5)  | 0% (0) | 11% (1) | 0% (0) | 100% (9)  |
-| male              | 35% (9)  | 4% (1)    | 46% (12) | 4% (1) | 4% (1)  | 8% (2) | 100% (26) |
+| feminine          | 33% (3)  | 0% (0)    | 56% (5)  | 0% (0) | 11% (1) | 0% (0) | 100% (9)  |
+| masculine         | 35% (9)  | 4% (1)    | 46% (12) | 4% (1) | 4% (1)  | 8% (2) | 100% (26) |
 | Total             | 34% (12) | 3% (1)    | 49% (17) | 3% (1) | 6% (2)  | 6% (2) | 100% (35) |
 
 ### The adorn functions are:
@@ -292,15 +292,15 @@ condition, then format the results.
 ``` r
 percent_above_165_cm <- humans %>%
   group_by(gender) %>%
-  summarise(pct_above_165_cm = mean(height > 165, na.rm = TRUE))
+  summarise(pct_above_165_cm = mean(height > 165, na.rm = TRUE), .groups = "drop")
 
 percent_above_165_cm %>%
   adorn_pct_formatting()
 #> # A tibble: 2 x 2
-#>   gender pct_above_165_cm
-#>   <chr>  <chr>           
-#> 1 female 12.5%           
-#> 2 male   100.0%
+#>   gender    pct_above_165_cm
+#>   <chr>     <chr>           
+#> 1 feminine  12.5%           
+#> 2 masculine 100.0%
 ```
 
 You can control which columns are adorned by using the `...` argument.
@@ -310,23 +310,23 @@ specify columns the same way you would using `dplyr::select()`.
 
 For instance, say you have a numeric column that should not be included
 in percentage formatting and you wish to exempt it. Here, only the
-`count` column is adorned
+`count` column is adorned:
 
 ``` r
 mtcars %>%
   count(cyl, gear) %>%
-  rename(count = n) %>%
-  adorn_percentages("col", na.rm = TRUE, count) %>%
-  adorn_pct_formatting(,,,count) # commas specify to use the default values of the other arguments
-#>  cyl gear count
-#>    4    3  3.1%
-#>    4    4 25.0%
-#>    4    5  6.2%
-#>    6    3  6.2%
-#>    6    4 12.5%
-#>    6    5  3.1%
-#>    8    3 37.5%
-#>    8    5  6.2%
+  rename(proportion = n) %>%
+  adorn_percentages("col", na.rm = TRUE, proportion) %>%
+  adorn_pct_formatting(,,,proportion) # the commas say to use the default values of the other arguments
+#>  cyl gear proportion
+#>    4    3       3.1%
+#>    4    4      25.0%
+#>    4    5       6.2%
+#>    6    3       6.2%
+#>    6    4      12.5%
+#>    6    5       3.1%
+#>    8    3      37.5%
+#>    8    5       6.2%
 ```
 
 Here we specify that only two consecutive numeric columns should be
@@ -334,7 +334,7 @@ totaled (`year` is numeric but should not be included):
 
 ``` r
 cases <- data.frame(
-  region = c("East, West"),
+  region = c("East", "West"),
   year = 2015,
   recovered = c(125, 87),
   died = c(13, 12),
@@ -344,8 +344,8 @@ cases <- data.frame(
 cases %>%
     adorn_totals(c("col", "row"), fill = "-", na.rm = TRUE, name = "Total Cases", recovered:died)
 #>       region year recovered died Total Cases
-#>   East, West 2015       125   13         138
-#>   East, West 2015        87   12          99
+#>         East 2015       125   13         138
+#>         West 2015        87   12          99
 #>  Total Cases    -       212   25         237
 ```
 
@@ -358,12 +358,11 @@ values and append Ns. The first part is pretty straightforward:
 library(tidyr) # for spread()
 mpg_by_cyl_and_am <- mtcars %>%
   group_by(cyl, am) %>%
-  summarise(mpg = mean(mpg)) %>%
+  summarise(mpg = mean(mpg), .groups = "drop") %>%
   spread(am, mpg)
 
 mpg_by_cyl_and_am
 #> # A tibble: 3 x 3
-#> # Groups:   cyl [3]
 #>     cyl   `0`   `1`
 #>   <dbl> <dbl> <dbl>
 #> 1     4  22.9  28.1

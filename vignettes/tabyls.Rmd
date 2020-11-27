@@ -176,7 +176,7 @@ A simple example: calculate the proportion of records meeting a certain conditio
 ```{r first_non_tabyl}
 percent_above_165_cm <- humans %>%
   group_by(gender) %>%
-  summarise(pct_above_165_cm = mean(height > 165, na.rm = TRUE))
+  summarise(pct_above_165_cm = mean(height > 165, na.rm = TRUE), .groups = "drop")
 
 percent_above_165_cm %>%
   adorn_pct_formatting()
@@ -184,21 +184,21 @@ percent_above_165_cm %>%
 
 You can control which columns are adorned by using the `...` argument.  It accepts the [tidyselect helpers](https://r4ds.had.co.nz/transform.html#select).  That is, you can specify columns the same way you would using `dplyr::select()`.
 
-For instance, say you have a numeric column that should not be included in percentage formatting and you wish to exempt it.  Here, only the `count` column is adorned
+For instance, say you have a numeric column that should not be included in percentage formatting and you wish to exempt it.  Here, only the `count` column is adorned:
 
 ```{r tidyselect, warning = FALSE, message = FALSE}
 mtcars %>%
   count(cyl, gear) %>%
-  rename(count = n) %>%
-  adorn_percentages("col", na.rm = TRUE, count) %>%
-  adorn_pct_formatting(,,,count) # commas specify to use the default values of the other arguments
+  rename(proportion = n) %>%
+  adorn_percentages("col", na.rm = TRUE, proportion) %>%
+  adorn_pct_formatting(,,,proportion) # the commas say to use the default values of the other arguments
 ```
 
 Here we specify that only two consecutive numeric columns should be totaled (`year` is numeric but should not be included):
 
 ```{r dont_total, warning = FALSE, message = FALSE}
 cases <- data.frame(
-  region = c("East, West"),
+  region = c("East", "West"),
   year = 2015,
   recovered = c(125, 87),
   died = c(13, 12),
@@ -215,7 +215,7 @@ Here's a more complex example that uses a data.frame of means, not counts.  We c
 library(tidyr) # for spread()
 mpg_by_cyl_and_am <- mtcars %>%
   group_by(cyl, am) %>%
-  summarise(mpg = mean(mpg)) %>%
+  summarise(mpg = mean(mpg), .groups = "drop") %>%
   spread(am, mpg)
 
 mpg_by_cyl_and_am

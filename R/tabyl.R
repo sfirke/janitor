@@ -74,17 +74,8 @@ tabyl.default <- function(dat, show_na = TRUE, show_missing_levels = TRUE, ...) 
     }
     dat_df <- data.frame(dat, stringsAsFactors = is.factor(dat))
     names(dat_df)[1] <- "dat"
-
-    # suppress a dplyr-specific warning message related to NA values in factors
-    # the suggestion to use forcats::fct_explicit_na is unnecessary and confusing
-    # source: https://stackoverflow.com/a/16521046/4470365
-    withCallingHandlers({
-      result <- dat_df %>% dplyr::count(dat)
-    }, warning = function(w) {
-      if (endsWith(conditionMessage(w), "fct_explicit_na\`"))
-        invokeRestart("muffleWarning")
-    })
-
+    result <- dat_df %>% dplyr::count(dat)
+  
     if (is.factor(dat) && show_missing_levels) {
       expanded <- tidyr::expand(result, dat)
       result <- merge( # can't use left_join b/c NA matching changed in 0.6.0
@@ -189,15 +180,8 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
       dplyr::slice(0))
   }
 
-  # Suppress unnecessary dplyr warning - see this same code above
-  # in tabyl.default for more explanation
-  withCallingHandlers({
     tabl <- dat %>%
       dplyr::count(!! var1, !! var2)
-  }, warning = function(w) {
-    if (endsWith(conditionMessage(w), "fct_explicit_na\`"))
-      invokeRestart("muffleWarning")
-  })
 
   # Optionally expand missing factor levels.
   if (show_missing_levels) {
@@ -207,18 +191,26 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
   # replace NA with string NA_ in vec2 to avoid invalid col name after spreading
   # if this col is a factor, need to add that level to the factor
   if (is.factor(tabl[[2]])) {
-    levels(tabl[[2]]) <- c(levels(tabl[[2]]), "NA_")
+    levels(tabl[[2]]) <- c(levels(tabl[[2]]), "emptystring_", "NA_")
   } else {
     tabl[2] <- as.character(tabl[[2]])
   }
   tabl[2][is.na(tabl[2])] <- "NA_"
+  tabl[2][tabl[2] == ""] <- "emptystring_"
   result <- tabl %>%
     tidyr::spread(!! var2, "n", fill = 0)
-
+  if("emptystring_" %in% names(result)){
+    result <- result[c(setdiff(names(result), "emptystring_"), "emptystring_")]
+    if(getOption("tabyl.emptystring",TRUE) & interactive()) {
+      message("The tabyl's column variable contained the empty string value, \"\". This is not a legal column name and has been converted to \"emptystring_\".\nConsider converting \"\" to NA if appropriate.\nThis message is shown once per session and may be disabled by setting options(\"tabyl.emptystring\" = FALSE).") #nocov
+      options("tabyl.emptystring" = FALSE) #nocov
+    }
+  }
   if ("NA_" %in% names(result)) {
     # move NA_ column to end, from http://stackoverflow.com/a/18339562
     result <- result[c(setdiff(names(result), "NA_"), "NA_")]
   }
+  
 
   result %>%
     data.frame(., check.names = FALSE) %>%
@@ -252,16 +244,9 @@ tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_level
     }
   }
 
-  if (!show_missing_levels) { # this shows missing factor levels, to make the crosstabs consistent across each data.frame in the list based on values of var3
-    if (is.factor(dat[[1]])) {
-      dat[[1]] <- as.character(dat[[1]])
-    }
-    if (is.factor(dat[[2]])) {
-      dat[[2]] <- as.character(dat[[2]])
-    }
-  } else {
-    dat[[1]] <- as.factor(dat[[1]])
-    dat[[2]] <- as.factor(dat[[2]])
+  if (show_missing_levels) { # needed to have each crosstab in the list aware of all values in the pre-split variables
+   dat[[1]] <- as.factor(dat[[1]])
+   dat[[2]] <- as.factor(dat[[2]])
   }
 
   result <- split(dat, dat[[rlang::quo_name(var3)]]) %>%
