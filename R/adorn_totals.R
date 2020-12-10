@@ -7,7 +7,7 @@
 #' @param where one of "row", "col", or \code{c("row", "col")}
 #' @param fill if there are non-numeric columns, what should fill the bottom row of those columns? If a string, relevant columns will be coerced to character. If `NA` then column types are preserved. 
 #' @param na.rm should missing values (including NaN) be omitted from the calculations?
-#' @param name name of the totals row and/or column. If both are requested, and \code{name} is a single string, it is applied to both. If both are requested, and \code{name} is a vector of length 2, the first element of the vector will be used as the row name (in column 1), and the second element will be used as the totals column name. Defaults to "Total".
+#' @param name name of the totals row and/or column.  If both are created, and \code{name} is a single string, that name is applied to both. If both are created and \code{name} is a vector of length 2, the first element of the vector will be used as the row name (in column 1), and the second element will be used as the totals column name. Defaults to "Total".
 #' @param ... columns to total.  This takes a tidyselect specification.  By default, all numeric columns (besides the initial column, if numeric) are included in the totals, but this allows you to manually specify which columns should be included, for use on a data.frame that does not result from a call to \code{tabyl}. 
 #' @return Returns a data.frame augmented with a totals row, column, or both.  The data.frame is now also of class \code{tabyl} and stores information about the attached totals and underlying data in the tabyl attributes.
 #' @export
@@ -52,15 +52,8 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
       stop("\"where\" must be one of \"row\", \"col\", or c(\"row\", \"col\")")
     }
     
-    # names to accept a vector of length 2 for row and col #359
-    if (length(name) > length(where)) {
-      name <- name[1:length(where)] # I don't think we actually need this step
-    }
-    
-    # Duplicating single-value name to a vector here means name[1] and/or
-    # name[2] just work in the steps below.
-    # If name already length 2 vector, it works for where = c("row", "col")
-    if (length(name) == 1) name <- c(name, name)
+    if (length(name) == 1) name <- rep(name, 2)
+
     
     # grouped_df causes problems, #97
     if ("grouped_df" %in% class(dat)) {
@@ -133,7 +126,6 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
       } else {
         message("Because the first column was specified to be totaled, it does not contain the label 'Total' (or user-specified name) in the totals row")
       }
-      # dat <- dplyr::bind_rows(dat, col_totals) ?
       dat[(nrow(dat) + 1), ] <- col_totals[1, ] # insert totals_col as last row in dat
     }
     
@@ -146,25 +138,6 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
       
       dat[[name[2]]] <- row_totals$Total
     }
-    
-    # pure dplyr alternative:
-    # if ("col" %in% where) {
-    #   # Add totals col
-    #   dat <- dat %>%
-    #     dplyr::select(cols_to_total) %>%
-    #     dplyr::select_if(is.numeric) %>%
-    #     dplyr::transmute(name[2] = rowSums(., na.rm = na.rm)) %>% 
-    #     dplyr::bind_cols(dat, .)
-    # }
-    
-    # dplyr >= 1.0 version:
-    # if ("col" %in% where) {
-    #   # Add totals col
-    #   dat <- dat %>%
-    #     dplyr::rowwise() %>% 
-    #     dplyr::mutate(name[2] = sum(c_across(all_of(cols_to_total) & where(is.numeric)), na.rm = na.rm)) %>% 
-    #     dplyr::ungroup()
-    # }
     
     dat
   }
