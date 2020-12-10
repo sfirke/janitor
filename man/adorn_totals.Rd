@@ -15,7 +15,9 @@ adorn_totals(dat, where = "row", fill = "-", na.rm = TRUE, name = "Total", ...)
 
 \item{na.rm}{should missing values (including NaN) be omitted from the calculations?}
 
+
 \item{name}{name of the totals row and/or column.  If both are created, and \code{name} is a single string, that name is applied to both. If both are created and \code{name} is a vector of length 2, the first element of the vector will be used as the row name (in column 1), and the second element will be used as the totals column name. Defaults to "Total".}
+
 
 \item{...}{columns to total.  This takes a tidyselect specification.  By default, all numeric columns (besides the initial column, if numeric) are included in the totals, but this allows you to manually specify which columns should be included, for use on a data.frame that does not result from a call to \code{tabyl}.}
 }

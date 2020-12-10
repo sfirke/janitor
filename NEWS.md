@@ -9,6 +9,7 @@
 * `adorn_totals()` now optionally accepts separate name values for a totals row and a totals column.  The default remains that a single name, `"Total"`, is applied to both.  But now if a vector of two strings is passed to the `name` parameter, the first one will be used as the row heading (in column 1) and the second will be used as the column heading. (Thanks **@francisbarton** for suggesting in #359 and implementing in #413.)
 
 
+
 ## Bug fixes
 
 * Fixed rounding issue in round_half_up() function (#396, thanks to **@JJSteph**)

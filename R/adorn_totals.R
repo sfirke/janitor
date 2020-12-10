@@ -53,6 +53,7 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
     }
     
     if (length(name) == 1) name <- rep(name, 2)
+
     
     # grouped_df causes problems, #97
     if ("grouped_df" %in% class(dat)) {
@@ -125,7 +126,6 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
       } else {
         message("Because the first column was specified to be totaled, it does not contain the label 'Total' (or user-specified name) in the totals row")
       }
-
       dat[(nrow(dat) + 1), ] <- col_totals[1, ] # insert totals_col as last row in dat
     }
     
