@@ -6,7 +6,7 @@
 
 * `adorn_totals()` now takes the value of `"both"` for the `where` argument.  That is, `adorn_totals("both")` is a shorter version of `adorn_totals(c("col", "row"))`.  (#362, thanks to **@svgsstats** for implementing and **@sfd99** for suggesting).
 
-* `adorn_totals()` can now apply different headings/names for a totals row and a totals column, where both are specified. The default of a single name ("Totals"), applied to both, remains, but now if you pass a vector of two strings to the `name` parameter, the first one will be used as the row heading (in column 1) and the second will be used as the column heading. See #413 for details. (Thanks **@francisbarton** for suggesting in #359 and implementing in #413.)
+* `adorn_totals()` now optionally accepts separate name values for a totals row and a totals column.  The default remains that a single name, `"Total"`, is applied to both.  But now if a vector of two strings is passed to the `name` parameter, the first one will be used as the row heading (in column 1) and the second will be used as the column heading. (Thanks **@francisbarton** for suggesting in #359 and implementing in #413.)
 
 
 ## Bug fixes

@@ -417,3 +417,71 @@ test_that("supplying NA as fill still works with non-character first col and num
   expect_equivalent(test_df[1:3, 2:7], out[1:3,2:7])
   
 })
+
+
+# Tests from #413, different values for row and col names
+test_that("long vectors are trimmed", {
+  
+  expect_equal(
+    mixed %>% 
+      adorn_totals(
+        where = "row",
+        name = c("total", "something_else"),
+        fill = "-") %>% 
+      untabyl(),
+    data.frame(
+      a = c(as.character(1:3), "total"),
+      b = c("x", "y", "z", "-"),
+      c = c(5:7, 18),
+      d = c("big", "med", "small", "-"),
+      stringsAsFactors = FALSE
+    )
+  )
+  
+}
+)
+
+test_that("row and column names are taken correctly from a vector", {
+  
+  expect_equal(
+    mixed %>% 
+      adorn_totals(
+        where = "both",
+        name = c("row_name", "col_name"),
+        fill = "-") %>% 
+      untabyl(),
+    data.frame(
+      a = c(as.character(1:3), "row_name"),
+      b = c("x", "y", "z", "-"),
+      c = c(5, 6, 7, 18),
+      d = c("big", "med", "small", "-"),
+      col_name = c(5, 6, 7, 18),
+      stringsAsFactors = FALSE
+    )
+  )
+  
+}
+)
+
+
+
+test_that("row and column names are taken correctly from a single name", {
+  expect_equal(
+    mixed %>% 
+      adorn_totals(
+        where = "both",
+        name = "totals",
+        fill = "-") %>%
+      untabyl(),
+    data.frame(
+      a = c(as.character(1:3), "totals"),
+      b = c("x", "y", "z", "-"),
+      c = c(5, 6, 7, 18),
+      d = c("big", "med", "small", "-"),
+      totals = c(5, 6, 7, 18),
+      stringsAsFactors = FALSE
+    )
+  )
+  
+}
+)
