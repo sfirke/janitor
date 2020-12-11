@@ -15,6 +15,7 @@
 -----
 
 <!-- badges: start -->
+
 [![R build
 status](https://github.com/sfirke/janitor/workflows/R-CMD-check/badge.svg)](https://github.com/sfirke/janitor/actions)
 [![Coverage
@@ -64,13 +65,6 @@ You can install:
     install.packages("devtools")
     devtools::install_github("sfirke/janitor")
     ```
-
-## janitor 2.0.0 is out\!
-
-This marks a major release for janitor, with many new functions and some
-breaking changes that may affect existing code. Please see the [NEWS
-page](http://sfirke.github.io/janitor/news/index.html) to learn more
-about new capabilities.
 
 ## Using janitor
 
