@@ -62,10 +62,6 @@ You can install:
     devtools::install_github("sfirke/janitor")
     ```
 
-## <i class="fa fa-rocket" aria-hidden="true"></i> janitor 2.0.0 released April 2020!
-
-This marked a major release for janitor, with many new functions and some breaking changes that may affect existing code.  Please see the [NEWS page](http://sfirke.github.io/janitor/news/index.html) to learn more about the new capabilities.
-
 ## Using janitor
 
 A full description of each function, organized by topic, can be found in janitor's [catalog of functions vignette](http://sfirke.github.io/janitor/articles/janitor.html).  There you will find functions not mentioned in this README, like `compare_df_cols()` which provides a summary of differences in column names and types when given a set of data.frames.
