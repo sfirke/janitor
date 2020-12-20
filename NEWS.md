@@ -24,6 +24,8 @@
 
 * Omitting a numeric column of a tibble when using the `...` select in `adorn_totals()` now succeeds (#388)
 
+* A call to make a 3-way `tabyl()` now succeeds when the first variable is of class `ordered` (#386)
+
 # janitor 2.0.1 (2020-04-12)
 
 ## Bug fixes and Breaking changes

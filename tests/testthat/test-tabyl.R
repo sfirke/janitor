@@ -389,6 +389,16 @@ test_that("3-way tabyl with 3rd var factor is listed in right order, #250", {
   expect_equal(names(tabyl(z, am, gear, cyl)), c("8", "6", "NA_"))
 })
 
+test_that("tabyl works with ordered 3rd variable, #386", {
+  mt_ordered <- mtcars
+  mt_ordered$cyl <- ordered(mt_ordered$cyl, levels = c("4", "8", "6"))
+  
+  ordered_3way <- mt_ordered %>%
+    tabyl(cyl, gear, am)
+  expect_equal(class(ordered_3way[[1]]$cyl), c("ordered", "factor")) # 1st col in resulting tabyl
+  expect_equal(class(attr(ordered_3way[[1]], "core")$cyl), c("ordered", "factor")) # 1st col in tabyl core
+})
+
 test_that("factor ordering of columns is correct in 2-way tabyl", {
   two_factors <- data.frame(
     x = factor(c("big", "small", "medium", "small"),
