@@ -389,7 +389,7 @@ test_that("3-way tabyl with 3rd var factor is listed in right order, #250", {
   expect_equal(names(tabyl(z, am, gear, cyl)), c("8", "6", "NA_"))
 })
 
-test_that("tabyl works with ordered 3rd variable, #386", {
+test_that("tabyl works with ordered 1st variable, #386", {
   mt_ordered <- mtcars
   mt_ordered$cyl <- ordered(mt_ordered$cyl, levels = c("4", "8", "6"))
   
