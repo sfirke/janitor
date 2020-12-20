@@ -231,7 +231,7 @@ tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_level
   # grab class of 1st variable to restore it later
   col1_class <- class(dat[[1]])
   col1_levels <- NULL
-  if (col1_class %in% "factor") {
+  if ("factor" %in% col1_class) {
     col1_levels <- levels(dat[[1]])
   }
 
@@ -277,9 +277,13 @@ handle_if_special_names_used <- function(dat) {
 # reset the 1st col's class of a data.frame to a provided class
 # also reset in tabyl's core
 reset_1st_col_status <- function(dat, new_class, lvls) {
-  if (new_class %in% "factor") {
-    dat[[1]] <- factor(dat[[1]], levels = lvls)
-    attr(dat, "core")[[1]] <- factor(attr(dat, "core")[[1]], levels = lvls)
+  if ("factor" %in% new_class) {
+    dat[[1]] <- factor(dat[[1]],
+                       levels = lvls,
+                       ordered = ("ordered" %in% new_class))
+    attr(dat, "core")[[1]] <- factor(attr(dat, "core")[[1]],
+                                     levels = lvls,
+                                     ordered = ("ordered" %in% new_class))
   } else {
     dat[[1]] <- as.character(dat[[1]]) # first do as.character in case eventual class is numeric
     class(dat[[1]]) <- new_class
