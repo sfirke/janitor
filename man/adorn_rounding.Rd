@@ -38,9 +38,17 @@ mtcars \%>\%
   mutate(dummy = "a") \%>\%
   adorn_rounding()
   
-# control the columns modified using the ... argument:
-mtcars \%>\%
-  tabyl(am, cyl) \%>\%
-  adorn_percentages("row") \%>\%
-  adorn_rounding(digits = 1, rounding = "half up", starts_with("8"))
+# Control the columns to be adorned with the ... variable selection argument
+# If using only the ... argument, you can use empty commas as shorthand 
+# to supply the default values to the preceding arguments:
+cases <- data.frame(
+  region = c("East", "West"),
+  year = 2015,
+  recovered = c(125, 87),
+  died = c(13, 12)
+)
+
+cases \%>\%
+  adorn_percentages(,,ends_with("ed")) \%>\%
+  adorn_rounding(,,one_of(c("recovered", "died")))
 }
