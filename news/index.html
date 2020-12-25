@@ -147,6 +147,7 @@
 <li><p><code>clean_names</code> called on a grouped tibble now also changes the names of the grouping variable(s), in addition to the column names (<a href='https://github.com/sfirke/janitor/issues/260'>#260</a>, thanks <strong>@CerebralMastication</strong> for reporting and the tidyverse dev team for fixing).</p></li>
 <li><p>Omitting a numeric column of a tibble when using the <code>...</code> select in <code><a href="../reference/adorn_totals.html">adorn_totals()</a></code> now succeeds (<a href='https://github.com/sfirke/janitor/issues/388'>#388</a>)</p></li>
 <li><p>A call to make a 3-way <code><a href="../reference/tabyl.html">tabyl()</a></code> now succeeds when the first variable is of class <code>ordered</code> (<a href='https://github.com/sfirke/janitor/issues/386'>#386</a>)</p></li>
+<li><p>If a totals row and/or column is present on a tabyl as a result of <code><a href="../reference/adorn_totals.html">adorn_totals()</a></code>, the functions <code><a href="../reference/chisq.test.html">chisq.test()</a></code> and <code><a href="../reference/fisher.test.html">fisher.test()</a></code> drop the totals and print a warning before proceding with the calculations (<a href='https://github.com/sfirke/janitor/issues/385'>#385</a>).</p></li>
 </ul>
 </div>
 </div>
