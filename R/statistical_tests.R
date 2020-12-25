@@ -73,14 +73,12 @@ chisq.test.tabyl <- function(x, tabyl_results = TRUE, ...) {
   
   # check for and remove totals row / column, if present
   if(!is.null(attr(x, "totals"))){
-    print(attr(x, "var_names"))
-    
     if("row" %in% attr(x, "totals")){
       x <- x[-nrow(x), ]
     }
     if("col" %in% attr(x, "totals")){
       # this causes the var_names attribute to become NULL, not sure why
-      x <- x[[-ncol(x)]]
+      x[ncol(x)] <- NULL
     }
     warning("janitor::chisq.test.tabyl() detected a totals row and/or column.  The totals were removed from the tabyl before the test was run.
             If you intend to include the totals row and/or column in the test, first call untabyl() on the data.frame, then proceed from there.")
@@ -193,7 +191,7 @@ fisher.test.tabyl <- function(x, ...) {
       x <- x[-nrow(x), ]
     }
     if("col" %in% attr(x, "totals")){
-      x <- x[, -ncol(x)]
+      x[ncol(x)] <- NULL
     }
     warning("janitor::fisher.test.tabyl() detected a totals row and/or column.  The totals were removed from the tabyl before the test was run.
             If you intend to include the totals row and/or column in the test, first call untabyl() on the data.frame, then proceed from there.")
