@@ -1,6 +1,6 @@
 tabyls: a tidy, fully-featured approach to counting things
 ================
-2020-08-12
+2020-12-25
 
 ## Motivation: why tabyl?
 
@@ -337,8 +337,7 @@ cases <- data.frame(
   region = c("East", "West"),
   year = 2015,
   recovered = c(125, 87),
-  died = c(13, 12),
-  stringsAsFactors = FALSE
+  died = c(13, 12)
 )
 
 cases %>%
