@@ -449,3 +449,20 @@ test_that("3way tabyls with factors in cols 1-2 are arranged correctly, #379", {
                )
   )
 })
+
+test_that("tabyl errors informatively called like tabyl(mtcars$cyl, mtcars$gear), #377", {
+  expect_error(
+    tabyl(mtcars$cyl, mtcars$am),
+    regexp = "Did you try to call tabyl on two vectors"
+  )
+  has_logicals <- data.frame(x = 1:2, y = c(TRUE, FALSE))
+  expect_error(
+    tabyl(has_logicals$x, has_logicals$y),
+    regexp = "Did you try to call tabyl on two vectors"
+  )
+  expect_type(
+    has_logicals %>%
+      tabyl(x, y),
+    "list"
+  )
+})

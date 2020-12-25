@@ -42,7 +42,8 @@ tabyl <- function(dat, ...) UseMethod("tabyl")
 #' @inheritParams tabyl
 #' @export
 #' @rdname tabyl
-# retain this method for calling tabyl() on plain vectors
+# this method runs when tabyl() is called on plain vectors; tabyl_1way
+# also reverts to this method
 
 tabyl.default <- function(dat, show_na = TRUE, show_missing_levels = TRUE, ...) {
   if (is.list(dat) && !"data.frame" %in% class(dat)) {
@@ -65,6 +66,14 @@ tabyl.default <- function(dat, show_na = TRUE, show_missing_levels = TRUE, ...) 
     var_name <- paste(var_name, collapse = "")
   }
 
+  # if show_na is not length-1 logical, error helpfully (#377)
+  if(length(show_na) > 1 || !inherits(show_na, "logical")){
+    stop("The value supplied to the \"show_na\" argument must be TRUE or FALSE.\n\nDid you try to call tabyl on two vectors, like tabyl(data$var1, data$var2) ? To create a two-way tabyl, the two vectors must be in the same data.frame, and the function should be called like this: \n
+         tabyl(data, var1, var2)
+         or
+         data %>% tabyl(var1, var2).  \n\nSee ?tabyl for more.")
+  }
+  
   # calculate initial counts table
   # convert vector to a 1 col data.frame
   if (mode(dat) %in% c("logical", "numeric", "character", "list") && !is.matrix(dat)) {
@@ -159,7 +168,6 @@ tabyl_1way <- function(dat, var1, show_na = TRUE, show_missing_levels = TRUE) {
   arguments$dat <- x[1]
   arguments$show_na <- show_na
   arguments$show_missing_levels <- show_missing_levels
-
   do.call(tabyl.default,
     args = arguments
   )
