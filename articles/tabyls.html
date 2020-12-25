@@ -366,7 +366,7 @@
 <span class="co">#&gt; 1 feminine  12.5%           </span>
 <span class="co">#&gt; 2 masculine 100.0%</span></code></pre></div>
 <p>You can control which columns are adorned by using the <code>...</code> argument. It accepts the <a href="https://r4ds.had.co.nz/transform.html#select">tidyselect helpers</a>. That is, you can specify columns the same way you would using <code><a href="https://dplyr.tidyverse.org/reference/select.html">dplyr::select()</a></code>.</p>
-<p>For instance, say you have a numeric column that should not be included in percentage formatting and you wish to exempt it. Here, only the <code>count</code> column is adorned:</p>
+<p>For instance, say you have a numeric column that should not be included in percentage formatting and you wish to exempt it. Here, only the <code>proportion</code> column is adorned:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mtcars</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span><span class="op">(</span><span class="va">cyl</span>, <span class="va">gear</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -425,7 +425,51 @@
 <span class="co">#&gt; 1                      4 22.9  (3) 28.1 (8)</span>
 <span class="co">#&gt; 2                      6 19.1  (4) 20.6 (3)</span>
 <span class="co">#&gt; 3                      8 15.1 (12) 15.4 (2)</span></code></pre></div>
-<p>If needed, Ns can be manipulated in their own data.frame before they are appended. E.g., if you have a tabyl with values of N in the thousands, you could divide them by 1000, round, and append “k” before inserting them with <code>adorn_ns</code>.</p>
+<p>If needed, Ns can be manipulated in their own data.frame before they are appended. Here a tabyl with values in the thousands has its Ns formatted to include the separating character <code>,</code> as typically seen in American numbers, e.g., <code>3,000</code>.</p>
+<p>First we create the tabyl to adorn:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
+<span class="va">raw_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"m"</span>, <span class="st">"f"</span><span class="op">)</span>, <span class="fl">3000</span><span class="op">)</span>,
+                age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">3000</span>, <span class="fl">1</span>, <span class="fl">102</span><span class="op">)</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span>
+<span class="va">raw_data</span><span class="op">$</span><span class="va">agegroup</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html">cut</a></span><span class="op">(</span><span class="va">raw_data</span><span class="op">$</span><span class="va">age</span>, <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">raw_data</span><span class="op">$</span><span class="va">age</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">/</span><span class="fl">3</span>, <span class="fl">2</span><span class="op">/</span><span class="fl">3</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+
+<span class="va">comparison</span> <span class="op">&lt;-</span> <span class="va">raw_data</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/tabyl.html">tabyl</a></span><span class="op">(</span><span class="va">agegroup</span>, <span class="va">sex</span>, show_missing_levels <span class="op">=</span> <span class="cn">F</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/adorn_totals.html">adorn_totals</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"row"</span>, <span class="st">"col"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/adorn_percentages.html">adorn_percentages</a></span><span class="op">(</span><span class="st">"col"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/adorn_pct_formatting.html">adorn_pct_formatting</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
+
+<span class="va">comparison</span>
+<span class="co">#&gt;  agegroup      f      m  Total</span>
+<span class="co">#&gt;    (1,34]  33.9%  32.3%  33.1%</span>
+<span class="co">#&gt;   (34,68]  33.0%  33.7%  33.4%</span>
+<span class="co">#&gt;  (68,102]  32.7%  33.3%  33.0%</span>
+<span class="co">#&gt;      &lt;NA&gt;   0.4%   0.6%   0.5%</span>
+<span class="co">#&gt;     Total 100.0% 100.0% 100.0%</span></code></pre></div>
+<p>At this point, the Ns are unformatted:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">comparison</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/adorn_ns.html">adorn_ns</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt;  agegroup             f             m         Total</span>
+<span class="co">#&gt;    (1,34]  33.9% (1018)  32.3%  (970)  33.1% (1988)</span>
+<span class="co">#&gt;   (34,68]  33.0%  (990)  33.7% (1012)  33.4% (2002)</span>
+<span class="co">#&gt;  (68,102]  32.7%  (980)  33.3% (1000)  33.0% (1980)</span>
+<span class="co">#&gt;      &lt;NA&gt;   0.4%   (12)   0.6%   (18)   0.5%   (30)</span>
+<span class="co">#&gt;     Total 100.0% (3000) 100.0% (3000) 100.0% (6000)</span></code></pre></div>
+<p>Now we format them to insert the thousands commas. A tabyl’s raw Ns are stored in its <code>"core"</code> attribute. Here we retrieve those with <code><a href="https://rdrr.io/r/base/attr.html">attr()</a></code>, then apply the base R function <code><a href="https://rdrr.io/r/base/format.html">format()</a></code> to all numeric columns. Lastly, we append these Ns using <code><a href="../reference/adorn_ns.html">adorn_ns()</a></code>.</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">formatted_ns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">comparison</span>, <span class="st">"core"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="co"># extract the tabyl's underlying Ns</span>
+  <span class="fu"><a href="../reference/adorn_totals.html">adorn_totals</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"row"</span>, <span class="st">"col"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="co"># to match the data.frame we're appending to</span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_if</a></span><span class="op">(</span><span class="va">is.numeric</span>, <span class="va">format</span>, big.mark <span class="op">=</span> <span class="st">","</span><span class="op">)</span>
+
+<span class="va">comparison</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/adorn_ns.html">adorn_ns</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"rear"</span>, ns <span class="op">=</span> <span class="va">formatted_ns</span><span class="op">)</span>
+<span class="co">#&gt;  agegroup              f              m          Total</span>
+<span class="co">#&gt;    (1,34]  33.9% (1,018)  32.3% (  970)  33.1% (1,988)</span>
+<span class="co">#&gt;   (34,68]  33.0% (  990)  33.7% (1,012)  33.4% (2,002)</span>
+<span class="co">#&gt;  (68,102]  32.7% (  980)  33.3% (1,000)  33.0% (1,980)</span>
+<span class="co">#&gt;      &lt;NA&gt;   0.4% (   12)   0.6% (   18)   0.5% (   30)</span>
+<span class="co">#&gt;     Total 100.0% (3,000) 100.0% (3,000) 100.0% (6,000)</span></code></pre></div>
 <div id="questions-comments" class="section level3">
 <h3 class="hasAnchor">
 <a href="#questions-comments" class="anchor"></a>Questions? Comments?</h3>
