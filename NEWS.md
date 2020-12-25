@@ -26,6 +26,8 @@
 
 * A call to make a 3-way `tabyl()` now succeeds when the first variable is of class `ordered` (#386)
 
+* If a totals row and/or column is present on a tabyl as a result of `adorn_totals()`, the functions `chisq.test()` and `fisher.test()` drop the totals and print a warning before proceding with the calculations (#385).
+
 # janitor 2.0.1 (2020-04-12)
 
 ## Bug fixes and Breaking changes
