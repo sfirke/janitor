@@ -71,6 +71,21 @@ chisq.test.tabyl <- function(x, tabyl_results = TRUE, ...) {
     stop("chisq.test.tabyl() must be applied to a two-way tabyl object")
   }
   
+  # check for and remove totals row / column, if present
+  if(!is.null(attr(x, "totals"))){
+    print(attr(x, "var_names"))
+    
+    if("row" %in% attr(x, "totals")){
+      x <- x[-nrow(x), ]
+    }
+    if("col" %in% attr(x, "totals")){
+      # this causes the var_names attribute to become NULL, not sure why
+      x <- x[[-ncol(x)]]
+    }
+    warning("janitor::chisq.test.tabyl() detected a totals row and/or column.  The totals were removed from the tabyl before the test was run.
+            If you intend to include the totals row and/or column in the test, first call untabyl() on the data.frame, then proceed from there.")
+  }
+  
   rownames(x) <- x[[1]]
   
   result <- x %>%
@@ -170,6 +185,18 @@ fisher.test.tabyl <- function(x, ...) {
   # check if table is a two-way tabyl
   if (!(inherits(x, "tabyl") && attr(x, "tabyl_type") == "two_way")) {
     stop("fisher.test.tabyl() must be applied to a two-way tabyl object")
+  }
+  
+  # check for and remove totals row / column, if present
+  if(!is.null(attr(x, "totals"))){
+    if("row" %in% attr(x, "totals")){
+      x <- x[-nrow(x), ]
+    }
+    if("col" %in% attr(x, "totals")){
+      x <- x[, -ncol(x)]
+    }
+    warning("janitor::fisher.test.tabyl() detected a totals row and/or column.  The totals were removed from the tabyl before the test was run.
+            If you intend to include the totals row and/or column in the test, first call untabyl() on the data.frame, then proceed from there.")
   }
   
   rownames(x) <- x[[1]]
