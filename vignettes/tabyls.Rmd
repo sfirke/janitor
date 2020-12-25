@@ -184,7 +184,7 @@ percent_above_165_cm %>%
 
 You can control which columns are adorned by using the `...` argument.  It accepts the [tidyselect helpers](https://r4ds.had.co.nz/transform.html#select).  That is, you can specify columns the same way you would using `dplyr::select()`.
 
-For instance, say you have a numeric column that should not be included in percentage formatting and you wish to exempt it.  Here, only the `count` column is adorned:
+For instance, say you have a numeric column that should not be included in percentage formatting and you wish to exempt it.  Here, only the `proportion` column is adorned:
 
 ```{r tidyselect, warning = FALSE, message = FALSE}
 mtcars %>%
@@ -231,8 +231,41 @@ mpg_by_cyl_and_am %>%
   adorn_title("combined", row_name = "Cylinders", col_name = "Is Automatic")
 ```
 
+If needed, Ns can be manipulated in their own data.frame before they are appended.  Here a tabyl with values in the thousands has its Ns formatted to include the separating character `,` as typically seen in American numbers, e.g., `3,000`.
 
-If needed, Ns can be manipulated in their own data.frame before they are appended.  E.g., if you have a tabyl with values of N in the thousands, you could divide them by 1000, round, and append "k" before inserting them with `adorn_ns`.
+First we create the tabyl to adorn:
+
+```{r formatted_Ns_thousands_prep}
+set.seed(1)
+raw_data <- data.frame(sex = rep(c("m", "f"), 3000),
+                age = round(runif(3000, 1, 102), 0))
+raw_data$agegroup = cut(raw_data$age, quantile(raw_data$age, c(0, 1/3, 2/3, 1)))
+
+comparison <- raw_data %>%
+  tabyl(agegroup, sex, show_missing_levels = F) %>%
+  adorn_totals(c("row", "col")) %>%
+  adorn_percentages("col") %>%
+  adorn_pct_formatting(digits = 1)
+
+comparison
+```
+
+At this point, the Ns are unformatted:
+```{r adorn_ns_unformatted}
+comparison %>%
+  adorn_ns()
+```
+
+Now we format them to insert the thousands commas.  A tabyl's raw Ns are stored in its `"core"` attribute.  Here we retrieve those with `attr()`, then apply the base R function `format()` to all numeric columns.  Lastly, we append these Ns using `adorn_ns()`.
+
+```{r formatted_Ns_thousands}
+formatted_ns <- attr(comparison, "core") %>% # extract the tabyl's underlying Ns
+  adorn_totals(c("row", "col")) %>% # to match the data.frame we're appending to
+  dplyr::mutate_if(is.numeric, format, big.mark = ",")
+
+comparison %>%
+  adorn_ns(position = "rear", ns = formatted_ns)
+```
 
 ### Questions?  Comments?
 
