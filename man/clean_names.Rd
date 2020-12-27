@@ -77,26 +77,45 @@ German umlaut over it becomes "o", and the Spanish character "enye" becomes
 
 This function takes and returns a data.frame, for ease of piping with
 \code{`\%>\%`}. For the underlying function that works on a character vector
-of names, see \code{\link[janitor]{make_clean_names}}.
+of names, see \code{\link[janitor]{make_clean_names}}.  \code{clean_names} 
+relies on the versatile function \code{\link[snakecase]{to_any_case}}, which 
+accepts many arguments.  See that function's documentation for ideas on getting 
+the most out of \code{clean_names}.  A few examples are included below.
 }
 \details{
 \code{clean_names()} is intended to be used on \code{data.frames}
-  and \code{data.frame} like objects. For this reason there are methods to
+  and \code{data.frame}-like objects. For this reason there are methods to
   support using \code{clean_names()} on \code{sf} and \code{tbl_graph} (from
-  \code{tidygraph}) objects. For cleaning named lists and vectors, consider
-  using \code{make_clean_names()}.
+  \code{tidygraph}) objects. For cleaning other named objects like named lists 
+  and vectors, use \code{make_clean_names()}.
 }
 \examples{
-# not run:
-# clean_names(poorly_named_df)
+
+# --- Simple Usage ---
+x <- data.frame(caseID = 1, DOB = 2, Other = 3)
+clean_names(x)
 
 # or pipe in the input data.frame:
-# poorly_named_df \%>\% clean_names()
+x \%>\%
+  clean_names()
 
 # if you prefer camelCase variable names:
-# poorly_named_df \%>\% clean_names(., "small_camel")
+x \%>\%
+  clean_names(., "lower_camel")
 
-# not run:
+# (not run) run clean_names after reading in a spreadsheet:
 # library(readxl)
-# read_excel("messy_excel_file.xlsx") \%>\% clean_names()
+# read_excel("messy_excel_file.xlsx") \%>\%
+#   clean_names()
+
+# --- Taking advantage of the underlying snakecase::to_any_case arguments ---
+
+# Restore column names to Title Case, e.g., for plotting
+mtcars \%>\%
+  clean_names(case = "title")
+  
+# Tell clean_names to leave certain abbreviations untouched:
+x \%>\%
+  clean_names(case = "upper_camel", abbreviations = c("ID", "DOB")) 
+  
 }
