@@ -102,7 +102,7 @@
 <ul>
 <li>perfectly format data.frame column names;</li>
 <li>create and format frequency tables of one, two, or three variables - think an improved <code><a href="https://rdrr.io/r/base/table.html">table()</a></code>; and</li>
-<li>isolate partially-duplicate records.</li>
+<li>provide other tools for cleaning and examining data.frames.</li>
 </ul>
 <p>The tabulate-and-report functions approximate popular features of SPSS and Microsoft Excel.</p>
 <p>janitor is a <a href="https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html">#tidyverse</a>-oriented package. Specifically, it plays nicely with the <code><a href="reference/%&gt;%.html">%&gt;%</a></code> pipe and is optimized for cleaning data brought in with the <a href="https://github.com/tidyverse/readr">readr</a> and <a href="https://github.com/tidyverse/readxl">readxl</a> packages.</p>
@@ -124,11 +124,6 @@
 </li>
 </ul>
 </div>
-<div id="-janitor-200-released-april-2020" class="section level2">
-<h2 class="hasAnchor">
-<a href="#-janitor-200-released-april-2020" class="anchor"></a><i class="fa fa-rocket" aria-hidden="true"></i> janitor 2.0.0 released April 2020!</h2>
-<p>This marked a major release for janitor, with many new functions and some breaking changes that may affect existing code. Please see the <a href="http://sfirke.github.io/janitor/news/index.html">NEWS page</a> to learn more about the new capabilities.</p>
-</div>
 <div id="using-janitor" class="section level2">
 <h2 class="hasAnchor">
 <a href="#using-janitor" class="anchor"></a>Using janitor</h2>
@@ -140,9 +135,10 @@
 <p>Take this roster of teachers at a fictional American high school, stored in the Microsoft Excel file <a href="https://github.com/sfirke/janitor/blob/master/dirty_data.xlsx">dirty_data.xlsx</a>: <img src="docs/reference/figures/dirty_data.PNG" alt="All kinds of dirty."></p>
 <p>Dirtiness includes:</p>
 <ul>
+<li>A header at the top</li>
 <li>Dreadful column names</li>
 <li>Rows and columns containing Excel formatting but no data</li>
-<li>Dates stored as numbers</li>
+<li>Dates in two different formats in a single column (MM/DD/YYYY and numbers)</li>
 <li>Values spread inconsistently over the “Certification” columns</li>
 </ul>
 <p>Here’s that data after being read in to R:</p>
@@ -151,26 +147,25 @@
 
 <span class="va">roster_raw</span> <span class="op">&lt;-</span> <span class="fu">read_excel</span><span class="op">(</span><span class="fu">here</span><span class="op">(</span><span class="st">"dirty_data.xlsx"</span><span class="op">)</span><span class="op">)</span> <span class="co"># available at http://github.com/sfirke/janitor</span>
 <span class="fu"><a href="https://tibble.tidyverse.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">roster_raw</span><span class="op">)</span>
-<span class="co">#&gt; Rows: 13</span>
+<span class="co">#&gt; Rows: 14</span>
 <span class="co">#&gt; Columns: 11</span>
-<span class="co">#&gt; $ `First Name`        &lt;chr&gt; "Jason", "Jason", "Alicia", "Ada", "Desus", "Chien-Shiung", "Chien-Shiung", N...</span>
-<span class="co">#&gt; $ `Last Name`         &lt;chr&gt; "Bourne", "Bourne", "Keys", "Lovelace", "Nice", "Wu", "Wu", NA, "Joyce", "Lam...</span>
-<span class="co">#&gt; $ `Employee Status`   &lt;chr&gt; "Teacher", "Teacher", "Teacher", "Teacher", "Administration", "Teacher", "Tea...</span>
-<span class="co">#&gt; $ Subject             &lt;chr&gt; "PE", "Drafting", "Music", NA, "Dean", "Physics", "Chemistry", NA, "English",...</span>
-<span class="co">#&gt; $ `Hire Date`         &lt;dbl&gt; 39690, 39690, 37118, 27515, 41431, 11037, 11037, NA, 32994, 27919, 42221, 347...</span>
-<span class="co">#&gt; $ `% Allocated`       &lt;dbl&gt; 0.75, 0.25, 1.00, 1.00, 1.00, 0.50, 0.50, NA, 0.50, 0.50, NA, NA, 0.80</span>
-<span class="co">#&gt; $ `Full time?`        &lt;chr&gt; "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", NA, "No", "No", "No", "No", ...</span>
-<span class="co">#&gt; $ `do not edit! ---&gt;` &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA</span>
-<span class="co">#&gt; $ Certification...9   &lt;chr&gt; "Physical ed", "Physical ed", "Instr. music", "PENDING", "PENDING", "Science ...</span>
-<span class="co">#&gt; $ Certification...10  &lt;chr&gt; "Theater", "Theater", "Vocal music", "Computers", NA, "Physics", "Physics", N...</span>
-<span class="co">#&gt; $ Certification...11  &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA</span></code></pre></div>
-<p>Excel formatting led to an untitled empty column and 5 empty rows at the bottom of the table (only 12 records have any actual data). Bad column names are preserved.</p>
+<span class="co">#&gt; $ `Data most recently refreshed on:` &lt;chr&gt; "First Name", "Jason", "Jason", "Alicia", "Ada", "Desus", "Chi...</span>
+<span class="co">#&gt; $ ...2                               &lt;chr&gt; "Last Name", "Bourne", "Bourne", "Keys", "Lovelace", "Nice", "...</span>
+<span class="co">#&gt; $ ...3                               &lt;chr&gt; "Employee Status", "Teacher", "Teacher", "Teacher", "Teacher",...</span>
+<span class="co">#&gt; $ `Dec-27 2020`                      &lt;chr&gt; "Subject", "PE", "Drafting", "Music", NA, "Dean", "Physics", "...</span>
+<span class="co">#&gt; $ ...5                               &lt;chr&gt; "Hire Date", "39690", "43479", "37118", "38572", "42791", "110...</span>
+<span class="co">#&gt; $ ...6                               &lt;chr&gt; "% Allocated", "0.75", "0.25", "1", "1", "1", "0.5", "0.5", NA...</span>
+<span class="co">#&gt; $ ...7                               &lt;chr&gt; "Full time?", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes",...</span>
+<span class="co">#&gt; $ ...8                               &lt;chr&gt; "do not edit! ---&gt;", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N...</span>
+<span class="co">#&gt; $ ...9                               &lt;chr&gt; "Certification", "Physical ed", "Physical ed", "Instr. music",...</span>
+<span class="co">#&gt; $ ...10                              &lt;chr&gt; "Certification", "Theater", "Theater", "Vocal music", "Compute...</span>
+<span class="co">#&gt; $ ...11                              &lt;chr&gt; "Active?", "YES", "YES", "YES", "YES", "YES", "YES", "YES", NA...</span></code></pre></div>
+<p>Now, to clean it up, starting with the column names.</p>
 <p>Name cleaning comes in two flavors. <code><a href="reference/make_clean_names.html">make_clean_names()</a></code> operates on character vectors and can be used during data import:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">roster_raw_cleaner</span> <span class="op">&lt;-</span> <span class="fu">read_excel</span><span class="op">(</span><span class="fu">here</span><span class="op">(</span><span class="st">"dirty_data.xlsx"</span><span class="op">)</span>, 
-                                 .name_repair <span class="op">=</span> <span class="va">make_clean_names</span><span class="op">)</span> 
-<span class="co"># Tells read_excel() how to repair repetitive column names, overriding the</span>
-<span class="co"># default repair setting</span>
+                                 skip <span class="op">=</span> <span class="fl">1</span>,
+                                 .name_repair <span class="op">=</span> <span class="va">make_clean_names</span><span class="op">)</span>
 <span class="fu"><a href="https://tibble.tidyverse.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">roster_raw_cleaner</span><span class="op">)</span>
 <span class="co">#&gt; Rows: 13</span>
 <span class="co">#&gt; Columns: 11</span>
@@ -178,47 +173,45 @@
 <span class="co">#&gt; $ last_name         &lt;chr&gt; "Bourne", "Bourne", "Keys", "Lovelace", "Nice", "Wu", "Wu", NA, "Joyce", "Lamar...</span>
 <span class="co">#&gt; $ employee_status   &lt;chr&gt; "Teacher", "Teacher", "Teacher", "Teacher", "Administration", "Teacher", "Teach...</span>
 <span class="co">#&gt; $ subject           &lt;chr&gt; "PE", "Drafting", "Music", NA, "Dean", "Physics", "Chemistry", NA, "English", "...</span>
-<span class="co">#&gt; $ hire_date         &lt;dbl&gt; 39690, 39690, 37118, 27515, 41431, 11037, 11037, NA, 32994, 27919, 42221, 34700...</span>
+<span class="co">#&gt; $ hire_date         &lt;dbl&gt; 39690, 43479, 37118, 38572, 42791, 11037, 11037, NA, 36423, 27919, 42221, 34700...</span>
 <span class="co">#&gt; $ percent_allocated &lt;dbl&gt; 0.75, 0.25, 1.00, 1.00, 1.00, 0.50, 0.50, NA, 0.50, 0.50, NA, NA, 0.80</span>
 <span class="co">#&gt; $ full_time         &lt;chr&gt; "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", NA, "No", "No", "No", "No", "No"</span>
 <span class="co">#&gt; $ do_not_edit       &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA</span>
 <span class="co">#&gt; $ certification     &lt;chr&gt; "Physical ed", "Physical ed", "Instr. music", "PENDING", "PENDING", "Science 6-...</span>
 <span class="co">#&gt; $ certification_2   &lt;chr&gt; "Theater", "Theater", "Vocal music", "Computers", NA, "Physics", "Physics", NA,...</span>
-<span class="co">#&gt; $ certification_3   &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA</span></code></pre></div>
-<p>This can be further cleaned:</p>
+<span class="co">#&gt; $ active            &lt;chr&gt; "YES", "YES", "YES", "YES", "YES", "YES", "YES", NA, "YES", "YES", "YES", "YES"...</span></code></pre></div>
+<p><code><a href="reference/clean_names.html">clean_names()</a></code> is a convenience version of <code><a href="reference/make_clean_names.html">make_clean_names()</a></code> that can be used for piped data.frame workflows. The equivalent steps with <code><a href="reference/clean_names.html">clean_names()</a></code> would be:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">roster</span> <span class="op">&lt;-</span> <span class="va">roster_raw_cleaner</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">roster_raw</span> <span class="op">&lt;-</span> <span class="va">roster_raw</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/row_to_names.html">row_to_names</a></span><span class="op">(</span>row_number <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/clean_names.html">clean_names</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p>The data.frame now has clean names. Let’s tidy it up further:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">roster</span> <span class="op">&lt;-</span> <span class="va">roster_raw</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/remove_empty.html">remove_empty</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"rows"</span>, <span class="st">"cols"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>hire_date <span class="op">=</span> <span class="fu"><a href="reference/excel_numeric_to_date.html">excel_numeric_to_date</a></span><span class="op">(</span><span class="va">hire_date</span><span class="op">)</span>,
-         cert <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/coalesce.html">coalesce</a></span><span class="op">(</span><span class="va">certification</span>, <span class="va">certification_2</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="co"># from dplyr</span>
+  <span class="fu"><a href="reference/remove_constant.html">remove_constant</a></span><span class="op">(</span>na.rm <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="co"># remove the column of all "Yes" values </span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>hire_date <span class="op">=</span> <span class="fu"><a href="reference/convert_to_date.html">convert_to_date</a></span><span class="op">(</span><span class="va">hire_date</span>, <span class="co"># handle the mixed-format dates</span>
+                                     character_fun <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="va"><a href="http://lubridate.tidyverse.org/reference/ymd.html">mdy</a></span><span class="op">)</span>,
+         cert <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/coalesce.html">coalesce</a></span><span class="op">(</span><span class="va">certification</span>, <span class="va">certification_2</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">certification</span>, <span class="op">-</span><span class="va">certification_2</span><span class="op">)</span> <span class="co"># drop unwanted columns</span>
+<span class="co">#&gt; Removing 1 constant columns of 10 columns total (Removed: active).</span>
 
 <span class="va">roster</span>
 <span class="co">#&gt; # A tibble: 12 x 8</span>
 <span class="co">#&gt;    first_name   last_name employee_status subject    hire_date  percent_allocated full_time cert          </span>
-<span class="co">#&gt;    &lt;chr&gt;        &lt;chr&gt;     &lt;chr&gt;           &lt;chr&gt;      &lt;date&gt;                 &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;         </span>
-<span class="co">#&gt;  1 Jason        Bourne    Teacher         PE         2008-08-30              0.75 Yes       Physical ed   </span>
-<span class="co">#&gt;  2 Jason        Bourne    Teacher         Drafting   2008-08-30              0.25 Yes       Physical ed   </span>
-<span class="co">#&gt;  3 Alicia       Keys      Teacher         Music      2001-08-15              1    Yes       Instr. music  </span>
-<span class="co">#&gt;  4 Ada          Lovelace  Teacher         &lt;NA&gt;       1975-05-01              1    Yes       PENDING       </span>
-<span class="co">#&gt;  5 Desus        Nice      Administration  Dean       2013-06-06              1    Yes       PENDING       </span>
-<span class="co">#&gt;  6 Chien-Shiung Wu        Teacher         Physics    1930-03-20              0.5  Yes       Science 6-12  </span>
-<span class="co">#&gt;  7 Chien-Shiung Wu        Teacher         Chemistry  1930-03-20              0.5  Yes       Science 6-12  </span>
-<span class="co">#&gt;  8 James        Joyce     Teacher         English    1990-05-01              0.5  No        English 6-12  </span>
-<span class="co">#&gt;  9 Hedy         Lamarr    Teacher         Science    1976-06-08              0.5  No        PENDING       </span>
-<span class="co">#&gt; 10 Carlos       Boozer    Coach           Basketball 2015-08-05             NA    No        Physical ed   </span>
-<span class="co">#&gt; 11 Young        Boozer    Coach           &lt;NA&gt;       1995-01-01             NA    No        Political sci.</span>
-<span class="co">#&gt; 12 Micheal      Larsen    Teacher         English    2009-09-15              0.8  No        Vocal music</span></code></pre></div>
-<p><code><a href="reference/clean_names.html">clean_names()</a></code> is a convenience version that can be used for piped data.frame workflows:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"iris"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span> <span class="co"># before cleaning:</span>
-<span class="co">#&gt; [1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width"  "Species"</span>
-
-<span class="va">iris</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="reference/clean_names.html">clean_names</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># after cleaning:</span>
-<span class="co">#&gt; [1] "sepal_length" "sepal_width"  "petal_length" "petal_width"  "species"</span></code></pre></div>
+<span class="co">#&gt;    &lt;chr&gt;        &lt;chr&gt;     &lt;chr&gt;           &lt;chr&gt;      &lt;date&gt;     &lt;chr&gt;             &lt;chr&gt;     &lt;chr&gt;         </span>
+<span class="co">#&gt;  1 Jason        Bourne    Teacher         PE         2008-08-30 0.75              Yes       Physical ed   </span>
+<span class="co">#&gt;  2 Jason        Bourne    Teacher         Drafting   2019-01-14 0.25              Yes       Physical ed   </span>
+<span class="co">#&gt;  3 Alicia       Keys      Teacher         Music      2001-08-15 1                 Yes       Instr. music  </span>
+<span class="co">#&gt;  4 Ada          Lovelace  Teacher         &lt;NA&gt;       2005-08-08 1                 Yes       PENDING       </span>
+<span class="co">#&gt;  5 Desus        Nice      Administration  Dean       2017-02-25 1                 Yes       PENDING       </span>
+<span class="co">#&gt;  6 Chien-Shiung Wu        Teacher         Physics    1930-03-20 0.5               Yes       Science 6-12  </span>
+<span class="co">#&gt;  7 Chien-Shiung Wu        Teacher         Chemistry  1930-03-20 0.5               Yes       Science 6-12  </span>
+<span class="co">#&gt;  8 James        Joyce     Teacher         English    1999-09-20 0.5               No        English 6-12  </span>
+<span class="co">#&gt;  9 Hedy         Lamarr    Teacher         Science    1976-06-08 0.5               No        PENDING       </span>
+<span class="co">#&gt; 10 Carlos       Boozer    Coach           Basketball 2015-08-05 &lt;NA&gt;              No        Physical ed   </span>
+<span class="co">#&gt; 11 Young        Boozer    Coach           &lt;NA&gt;       1995-01-01 &lt;NA&gt;              No        Political sci.</span>
+<span class="co">#&gt; 12 Micheal      Larsen    Teacher         English    2009-09-15 0.8               No        Vocal music</span></code></pre></div>
 </div>
 <div id="examining-dirty-data" class="section level3">
 <h3 class="hasAnchor">
@@ -231,32 +224,32 @@
 <code class="sourceCode R"><span class="va">roster</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/get_dupes.html">get_dupes</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span><span class="op">(</span><span class="st">"name"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 4 x 9</span>
 <span class="co">#&gt;   first_name   last_name dupe_count employee_status subject   hire_date  percent_allocat~ full_time cert      </span>
-<span class="co">#&gt;   &lt;chr&gt;        &lt;chr&gt;          &lt;int&gt; &lt;chr&gt;           &lt;chr&gt;     &lt;date&gt;                &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     </span>
-<span class="co">#&gt; 1 Chien-Shiung Wu                 2 Teacher         Physics   1930-03-20             0.5  Yes       Science 6~</span>
-<span class="co">#&gt; 2 Chien-Shiung Wu                 2 Teacher         Chemistry 1930-03-20             0.5  Yes       Science 6~</span>
-<span class="co">#&gt; 3 Jason        Bourne             2 Teacher         PE        2008-08-30             0.75 Yes       Physical ~</span>
-<span class="co">#&gt; 4 Jason        Bourne             2 Teacher         Drafting  2008-08-30             0.25 Yes       Physical ~</span></code></pre></div>
+<span class="co">#&gt;   &lt;chr&gt;        &lt;chr&gt;          &lt;int&gt; &lt;chr&gt;           &lt;chr&gt;     &lt;date&gt;     &lt;chr&gt;            &lt;chr&gt;     &lt;chr&gt;     </span>
+<span class="co">#&gt; 1 Chien-Shiung Wu                 2 Teacher         Physics   1930-03-20 0.5              Yes       Science 6~</span>
+<span class="co">#&gt; 2 Chien-Shiung Wu                 2 Teacher         Chemistry 1930-03-20 0.5              Yes       Science 6~</span>
+<span class="co">#&gt; 3 Jason        Bourne             2 Teacher         PE        2008-08-30 0.75             Yes       Physical ~</span>
+<span class="co">#&gt; 4 Jason        Bourne             2 Teacher         Drafting  2019-01-14 0.25             Yes       Physical ~</span></code></pre></div>
 <p>Yes, some teachers appear twice. We ought to address this before counting employees.</p>
 </div>
 <div id="tabulating-tools" class="section level4">
 <h4 class="hasAnchor">
 <a href="#tabulating-tools" class="anchor"></a>Tabulating tools</h4>
 <p>A variable (or combinations of two or three variables) can be tabulated with <code><a href="reference/tabyl.html">tabyl()</a></code>. The resulting data.frame can be tweaked and formatted with the suite of <code>adorn_</code> functions for quick analysis and printing of pretty results in a report. <code>adorn_</code> functions can be helpful with non-tabyls, too.</p>
-<p><code>tabyl</code> can be called two ways:</p>
-<ul>
-<li>On a vector, when tabulating a single variable - e.g., <code><a href="reference/tabyl.html">tabyl(roster$subject)</a></code>
-</li>
-<li>On a data.frame, specifying 1, 2, or 3 variable names to tabulate : <code>roster %&gt;% tabyl(subject, employee_status)</code>.
-<ul>
-<li>Here the data.frame is passed in with the <code><a href="reference/%&gt;%.html">%&gt;%</a></code> pipe; this allows <code>tabyl</code> to be used in an analysis pipeline</li>
-</ul>
-</li>
-</ul>
 </div>
 <div id="tabyl" class="section level4">
 <h4 class="hasAnchor">
 <a href="#tabyl" class="anchor"></a>tabyl()</h4>
 <p>Like <code><a href="https://rdrr.io/r/base/table.html">table()</a></code>, but pipe-able, data.frame-based, and fully featured.</p>
+<p><code>tabyl</code> can be called two ways:</p>
+<ul>
+<li>On a vector, when tabulating a single variable: <code><a href="reference/tabyl.html">tabyl(roster$subject)</a></code>
+</li>
+<li>On a data.frame, specifying 1, 2, or 3 variable names to tabulate: <code>roster %&gt;% tabyl(subject, employee_status)</code>.
+<ul>
+<li>Here the data.frame is passed in with the <code><a href="reference/%&gt;%.html">%&gt;%</a></code> pipe; this allows <code>tabyl</code> to be used in an analysis pipeline</li>
+</ul>
+</li>
+</ul>
 <p>One variable:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">roster</span> <span class="op">%&gt;%</span>
