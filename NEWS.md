@@ -1,4 +1,4 @@
-# janitor 2.0.1.9000 (unreleased)
+# janitor 2.1.0 (2020-12-28)
 
 ## New features
 
@@ -20,7 +20,7 @@
 
 * Transliteration from extended ASCII (character codes >127) to printable ASCII (character codes <=127) is now better supported (#389, thanks to **@dcorynia** for reporting and **@billdenney** for fixing)
 
-* `clean_names` called on a grouped tibble now also changes the names of the grouping variable(s), in addition to the column names (#260, thanks **@CerebralMastication** for reporting and the tidyverse dev team for fixing).
+* `clean_names` called on a grouped tibble now also changes the names of the grouping variable(s), in addition to the column names (#260, thanks **@CerebralMastication** for reporting and the tidyverse team for fixing).
 
 * Omitting a numeric column of a tibble when using the `...` select in `adorn_totals()` now succeeds (#388)
 
@@ -194,7 +194,7 @@ No further changes are planned to `clean_names()` and its results should be stab
   - Thanks to **@tazinho**, who wrote the [snakecase](https://github.com/Tazinho/snakecase/) package that janitor depends on to do this, as well as the patch to incorporate it into `clean_names()`.  And thanks to **@maelle** for proposing this feature.
 
 
-- Launched the janitor documentation website: [http://sfirke.github.io/janitor](http://sfirke.github.io/janitor).  Thanks to the [pkgdown](https://github.com/r-lib/pkgdown) package.
+- Launched the janitor documentation website: [http://sfirke.github.io/janitor](http://sfirke.github.io/janitor/).  Thanks to the [pkgdown](https://github.com/r-lib/pkgdown/) package.
 
 - Deprecated the functions `remove_empty_rows()` and `remove_empty_cols()`, which are replaced by the single function `remove_empty()`. [(#100)](https://github.com/sfirke/janitor/issues/100)
   - To encourage transparency, `remove_empty()` prints a message if no value is supplied for the `which` argument; to suppress this, supply a value to `which`, even if it's the default `c("rows", "cols")`.
@@ -204,7 +204,7 @@ No further changes are planned to `clean_names()` and its results should be stab
 
 ## Minor features
 
-- The utility function `round_half_up()` is now exported for public use.  It's an exact implementation of [http://stackoverflow.com/questions/12688717/round-up-from-5-in-r/12688836#12688836](http://stackoverflow.com/questions/12688717/round-up-from-5-in-r/12688836#12688836), written by **@mrdwab**.
+- The utility function `round_half_up()` is now exported for public use.  It's an exact implementation of [https://stackoverflow.com/questions/12688717/round-up-from-5-in-r/12688836#12688836/](https://stackoverflow.com/questions/12688717/round-up-from-5-in-r/12688836#12688836/), written by **@mrdwab**.
 - `tabyl` objects now print with row numbers suppressed
 - `clean_names()` now retains the character `#` as `"number"` in the resulting names
 

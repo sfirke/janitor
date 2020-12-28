@@ -1,13 +1,12 @@
 tabyls: a tidy, fully-featured approach to counting things
 ================
-2020-12-25
+2020-12-28
 
 ## Motivation: why tabyl?
 
-Analysts do a lot of counting. Indeed, it’s been said that “[data
-science is mostly counting
-things](https://twitter.com/joelgrus/status/833691273873600512).” But
-the base R function for counting, `table()`, leaves much to be desired:
+Analysts do a lot of counting. Indeed, it’s been said that “data science
+is mostly counting things.” But the base R function for counting,
+`table()`, leaves much to be desired:
 
   - It doesn’t accept data.frame inputs (and thus doesn’t play nicely
     with the `%>%` pipe)

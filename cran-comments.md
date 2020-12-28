@@ -1,24 +1,26 @@
 # Submission
-2020-04-11
+2020-12-28
 
 ## Submission summary
-Patch version 2.0.1 to fix failing tests in 2.0.0, problems on some platforms and installations of dependency package "stringi".
+An accumulation of small enhancements and bug fixes.  No breaking changes.
 
 ### Test environments
 
 #### Windows
-* Windows 10 with R-release 3.6.3 (Rhub)
-* Windows 10 with R-devel via win-builder, 2020-04-11
+* Windows 10 with R-release 4.0.3 (local)
+* Windows 10 with R-devel via win-builder, 2020-12-28
 
 #### Linux
-* ubuntu 14.04.5 R-release 3.6.2 (Travis CI)
-* ubuntu 14.04.5 R-devel R Under development (unstable) (2020-03-13 r77948) (Travis CI)
+* ubuntu 20.04 R-release 4.0.3 (Github CI)
+* ubuntu 20.04 R-devel R Under development (unstable) (2020-12-28) (Github CI)
 
 #### Mac
-* Mac OS with R-oldrel and R-release (Travis CI)
+* Mac OS with R-release (Github CI)
 
 ### R CMD check results
 0 errors | 0 warnings | 0 notes
 
 ### Downstream dependencies
-This does not negatively affect downstream dependencies and in fact should resolve any janitor-related failures.
+This does not negatively affect downstream dependencies.
+
+I ran a revdepcheck, it succeeded for 30 of 34 packages and I manually investigated the others to verify that errors were the result of time-outs and that the janitor changes do not affect those packages.

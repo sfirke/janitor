@@ -15,7 +15,7 @@ knitr::opts_chunk$set(collapse = T, comment = "#>")
 
 ## Motivation: why tabyl?
 
-Analysts do a lot of counting.  Indeed, it's been said that "[data science is mostly counting things](https://twitter.com/joelgrus/status/833691273873600512)." But the base R function for counting, `table()`, leaves much to be desired:
+Analysts do a lot of counting.  Indeed, it's been said that "data science is mostly counting things." But the base R function for counting, `table()`, leaves much to be desired:
 
 - It doesn't accept data.frame inputs (and thus doesn't play nicely with the `%>%` pipe)
 - It doesn't output data.frames

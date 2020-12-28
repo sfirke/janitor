@@ -7,7 +7,7 @@
 > be explored for useful nuggets.
 > 
 > – [“For Big-Data Scientists, ‘Janitor Work’ Is Key Hurdle to
-> Insight”](http://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html)
+> Insight”](https://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html)
 > *(New York Times, 2014)*
 
 # janitor <img src="man/figures/logo_small.png" align="right" />

@@ -33,7 +33,7 @@ round_half_up <- function(x, digits = 0) {
 #'
 #' This may skew subsequent statistical analysis of the data, but may be
 #' desirable in certain contexts. This function is implemented from 
-#' \url{https://stackoverflow.com/a/1581007}; see that question and
+#' \url{https://stackoverflow.com/a/1581007/}; see that question and
 #' comments for discussion of this issue.
 #'
 #' @param x a numeric vector to round.
