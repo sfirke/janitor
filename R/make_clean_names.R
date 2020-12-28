@@ -13,13 +13,16 @@
 #' to ASCII.  For example, an "o" with a German umlaut over it becomes "o", and
 #' the Spanish character "enye" becomes "n".
 #'
-#' The order of operations is: \code{replace}, (optional) ASCII conversion,
-#' removing initial spaces and punctuation, apply \code{base::make.names()},
-#' apply \code{\link[snakecase]{to_any_case}}, and add numeric suffixes to
-#' duplicates.
+#' The order of operations is: make replacements, (optional) ASCII conversion,
+#' remove initial spaces and punctuation, apply \code{base::make.names()},
+#' apply \code{snakecase::to_any_case}, and add numeric suffixes 
+#' to resolve any duplicated names.
 #'
-#' See the documentation for \code{snakecase::to_any_case} for more about how
-#' to control its behavior.
+#' This function relies on \code{snakecase::to_any_case} and can take advantage of 
+#' its versatility.  For instance, an abbreviation like "ID" can have its 
+#' capitalization preserved by passing the argument \code{abbreviations = "ID"}. 
+#' See the documentation for \code{\link[snakecase:to_any_case]{snakecase::to_any_case}} 
+#' for more about how to use its features.
 #'
 #' On some systems, not all transliterators to ASCII are available.  If this is
 #' the case on your system, all available transliterators will be used, and a
