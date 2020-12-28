@@ -60,8 +60,8 @@ For cases when you are given a set of data files that *should* be identical, and
 `compare_df_cols()` takes unquoted names of data.frames / tibbles, or a list of data.frames, and returns a summary of how they compare.  See what the column types are, which are missing or present in the different inputs, and how column types differ.
 
 ```{r}
-df1 <- data.frame(a = 1:2, b = c("big", "small")) # a factor by default
-df2 <- data.frame(a = 10:12, b = c("medium", "small", "big"), c = 0, stringsAsFactors = FALSE)
+df1 <- data.frame(a = 1:2, b = c("big", "small"))
+df2 <- data.frame(a = 10:12, b = c("medium", "small", "big"), c = 0, stringsAsFactors = TRUE) # here, column b is a factor
 df3 <- df1 %>%
   dplyr::mutate(b = as.character(b))
 

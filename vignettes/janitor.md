@@ -112,23 +112,24 @@ the column types are, which are missing or present in the different
 inputs, and how column types differ.
 
 ``` r
-df1 <- data.frame(a = 1:2, b = c("big", "small")) # a factor by default
-df2 <- data.frame(a = 10:12, b = c("medium", "small", "big"), c = 0, stringsAsFactors = FALSE)
+df1 <- data.frame(a = 1:2, b = c("big", "small"))
+df2 <- data.frame(a = 10:12, b = c("medium", "small", "big"), c = 0, stringsAsFactors = TRUE) # here, column b is a factor
 df3 <- df1 %>%
   dplyr::mutate(b = as.character(b))
 
 compare_df_cols(df1, df2, df3)
-#>   column_name       df1       df2       df3
-#> 1           a   integer   integer   integer
-#> 2           b character character character
-#> 3           c      <NA>   numeric      <NA>
+#>   column_name       df1     df2       df3
+#> 1           a   integer integer   integer
+#> 2           b character  factor character
+#> 3           c      <NA> numeric      <NA>
 
 compare_df_cols(df1, df2, df3, return = "mismatch")
-#> [1] column_name df1         df2         df3        
-#> <0 rows> (or 0-length row.names)
+#>   column_name       df1    df2       df3
+#> 1           b character factor character
 compare_df_cols(df1, df2, df3, return = "mismatch", bind_method = "rbind") # default is dplyr::bind_rows
-#>   column_name  df1     df2  df3
-#> 1           c <NA> numeric <NA>
+#>   column_name       df1     df2       df3
+#> 1           b character  factor character
+#> 2           c      <NA> numeric      <NA>
 ```
 
 `compare_df_cols_same()` returns `TRUE` or `FALSE` indicating if the
@@ -138,7 +139,9 @@ data.frames can be successfully row-bound with the given binding method:
 compare_df_cols_same(df1, df3)
 #> [1] TRUE
 compare_df_cols_same(df2, df3)
-#> [1] TRUE
+#>   column_name    ..1       ..2
+#> 1           b factor character
+#> [1] FALSE
 ```
 
 ## Exploring
