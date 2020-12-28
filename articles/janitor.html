@@ -143,29 +143,32 @@
 <p>For cases when you are given a set of data files that <em>should</em> be identical, and you wish to read and combine them for analysis. But then <code><a href="https://dplyr.tidyverse.org/reference/bind.html">dplyr::bind_rows()</a></code> or <code><a href="https://rdrr.io/r/base/cbind.html">rbind()</a></code> fails, because of different columns or because the column classes don’t match across data.frames.</p>
 <p><code><a href="../reference/compare_df_cols.html">compare_df_cols()</a></code> takes unquoted names of data.frames / tibbles, or a list of data.frames, and returns a summary of how they compare. See what the column types are, which are missing or present in the different inputs, and how column types differ.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, b <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"big"</span>, <span class="st">"small"</span><span class="op">)</span><span class="op">)</span> <span class="co"># a factor by default</span>
-<span class="va">df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">10</span><span class="op">:</span><span class="fl">12</span>, b <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"medium"</span>, <span class="st">"small"</span>, <span class="st">"big"</span><span class="op">)</span>, c <span class="op">=</span> <span class="fl">0</span>, stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, b <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"big"</span>, <span class="st">"small"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">10</span><span class="op">:</span><span class="fl">12</span>, b <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"medium"</span>, <span class="st">"small"</span>, <span class="st">"big"</span><span class="op">)</span>, c <span class="op">=</span> <span class="fl">0</span>, stringsAsFactors <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># here, column b is a factor</span>
 <span class="va">df3</span> <span class="op">&lt;-</span> <span class="va">df1</span> <span class="op">%&gt;%</span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>b <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">)</span>
 
 <span class="fu"><a href="../reference/compare_df_cols.html">compare_df_cols</a></span><span class="op">(</span><span class="va">df1</span>, <span class="va">df2</span>, <span class="va">df3</span><span class="op">)</span>
-<span class="co">#&gt;   column_name       df1       df2       df3</span>
-<span class="co">#&gt; 1           a   integer   integer   integer</span>
-<span class="co">#&gt; 2           b character character character</span>
-<span class="co">#&gt; 3           c      &lt;NA&gt;   numeric      &lt;NA&gt;</span>
+<span class="co">#&gt;   column_name       df1     df2       df3</span>
+<span class="co">#&gt; 1           a   integer integer   integer</span>
+<span class="co">#&gt; 2           b character  factor character</span>
+<span class="co">#&gt; 3           c      &lt;NA&gt; numeric      &lt;NA&gt;</span>
 
 <span class="fu"><a href="../reference/compare_df_cols.html">compare_df_cols</a></span><span class="op">(</span><span class="va">df1</span>, <span class="va">df2</span>, <span class="va">df3</span>, return <span class="op">=</span> <span class="st">"mismatch"</span><span class="op">)</span>
-<span class="co">#&gt; [1] column_name df1         df2         df3        </span>
-<span class="co">#&gt; &lt;0 rows&gt; (or 0-length row.names)</span>
+<span class="co">#&gt;   column_name       df1    df2       df3</span>
+<span class="co">#&gt; 1           b character factor character</span>
 <span class="fu"><a href="../reference/compare_df_cols.html">compare_df_cols</a></span><span class="op">(</span><span class="va">df1</span>, <span class="va">df2</span>, <span class="va">df3</span>, return <span class="op">=</span> <span class="st">"mismatch"</span>, bind_method <span class="op">=</span> <span class="st">"rbind"</span><span class="op">)</span> <span class="co"># default is dplyr::bind_rows</span>
-<span class="co">#&gt;   column_name  df1     df2  df3</span>
-<span class="co">#&gt; 1           c &lt;NA&gt; numeric &lt;NA&gt;</span></code></pre></div>
+<span class="co">#&gt;   column_name       df1     df2       df3</span>
+<span class="co">#&gt; 1           b character  factor character</span>
+<span class="co">#&gt; 2           c      &lt;NA&gt; numeric      &lt;NA&gt;</span></code></pre></div>
 <p><code><a href="../reference/compare_df_cols_same.html">compare_df_cols_same()</a></code> returns <code>TRUE</code> or <code>FALSE</code> indicating if the data.frames can be successfully row-bound with the given binding method:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/compare_df_cols_same.html">compare_df_cols_same</a></span><span class="op">(</span><span class="va">df1</span>, <span class="va">df3</span><span class="op">)</span>
 <span class="co">#&gt; [1] TRUE</span>
 <span class="fu"><a href="../reference/compare_df_cols_same.html">compare_df_cols_same</a></span><span class="op">(</span><span class="va">df2</span>, <span class="va">df3</span><span class="op">)</span>
-<span class="co">#&gt; [1] TRUE</span></code></pre></div>
+<span class="co">#&gt;   column_name    ..1       ..2</span>
+<span class="co">#&gt; 1           b factor character</span>
+<span class="co">#&gt; [1] FALSE</span></code></pre></div>
 </div>
 </div>
 </div>
