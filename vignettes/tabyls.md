@@ -253,7 +253,7 @@ humans %>%
     result of `adorn_percentages`), either using the base R `round()`
     function or using janitor’s `round_half_up()` to round all ties up
     ([thanks,
-    StackOverflow](http://stackoverflow.com/a/12688836/4470365)).
+    StackOverflow](https://stackoverflow.com/a/12688836/4470365)).
       - e.g., round 10.5 up to 11, consistent with Excel’s tie-breaking
         behavior.
           - This contrasts with rounding 10.5 down to 10 as in base R’s
