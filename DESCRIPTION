@@ -1,6 +1,6 @@
 Package: janitor
 Title: Simple Tools for Examining and Cleaning Dirty Data
-Version: 2.1.0
+Version: 2.1.0.9000
 Authors@R: c(person("Sam", "Firke", email = "samuel.firke@gmail.com", role = c("aut", "cre")),
     person("Bill", "Denney", email = "wdenney@humanpredictions.com", role = "ctb"),
     person("Chris", "Haid", email = "chrishaid@gmail.com", role = "ctb"),
