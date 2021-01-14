@@ -57,7 +57,7 @@ excel_numeric_to_date <- function(date_num, date_system = "modern", include_time
     stop("argument `date_num` must be of class numeric")
   }
 
-  # Manage floating point imprecision; coerce to double to avoid inteter
+  # Manage floating point imprecision; coerce to double to avoid integer
   # overflow.
   date_num_days <- (as.double(date_num) * 86400L + 0.001) %/% 86400L
   date_num_days_no_floating_correction <- date_num %/% 1
