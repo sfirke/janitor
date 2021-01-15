@@ -71,6 +71,10 @@ excel_numeric_to_date <- function(date_num, date_system = "modern", include_time
   if (any(mask_day_rollover)) {
     warning(sum(mask_day_rollover), " date_num values are within 0.001 sec of a later date and were rounded up to the next day.")
   }
+  mask_excel_leap_day_bug <- !is.na(date_num_days) & floor(date_num_days) == 60
+  mask_before_excel_leap_day_bug <- !is.na(date_num_days) & floor(date_num_days) < 60
+  date_num_days[mask_excel_leap_day_bug] <- NA_real_
+  date_num_days[mask_before_excel_leap_day_bug] <- date_num_days[mask_before_excel_leap_day_bug] + 1
   ret <-
     if (date_system == "mac pre-2011") {
       as.Date(floor(date_num_days), origin = "1904-01-01")
@@ -86,8 +90,11 @@ excel_numeric_to_date <- function(date_num, date_system = "modern", include_time
     ret$hour <- floor(date_num_seconds/3600)
     ret <- as.POSIXct(ret, tz = tz)
   }
-  if (any(is.na(ret) & !is.na(date_num))) {
-    warning("NAs introduced by coercion, possible daylight savings time issue with input, consider `tz='UTC'`")
+  if (any(mask_excel_leap_day_bug)) {
+    warning("NAs introduced by coercion, Excel leap day bug detected in `date_num`.  29 February 1900 does not exist.")
+  }
+  if (any(is.na(ret) & !is.na(date_num) & !mask_excel_leap_day_bug)) {
+    warning("NAs introduced by coercion, possible daylight savings time issue with input.  Consider `tz='UTC'`.")
   }
   ret
 }
