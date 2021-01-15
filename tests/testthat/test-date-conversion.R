@@ -101,10 +101,10 @@ test_that("daylight savings time handling (issue #420)", {
   expect_equal(
     expect_warning(
       excel_numeric_to_date(43170.09, include_time=TRUE, tz="America/New_York"),
-      regexp="NAs introduced by coercion, possible daylight savings time issue with input, consider `tz='UTC'`",
+      regexp="NAs introduced by coercion, possible daylight savings time issue with input.  Consider `tz='UTC'`.",
       fixed=TRUE
     ),
-    as.POSIXct(NA_real_)
+    as.POSIXct(NA_real_, tz="America/New_York")
   )
   expect_equal(
     excel_numeric_to_date(43170.09, include_time=TRUE, tz="UTC"),

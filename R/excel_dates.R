@@ -87,7 +87,7 @@ excel_numeric_to_date <- function(date_num, date_system = "modern", include_time
     ret <- as.POSIXct(ret, tz = tz)
   }
   if (any(is.na(ret) & !is.na(date_num))) {
-    warning("NAs introduced by coercion, possible daylight savings time issue with input, consider `tz='UTC'`")
+    warning("NAs introduced by coercion, possible daylight savings time issue with input.  Consider `tz='UTC'`.")
   }
   ret
 }
