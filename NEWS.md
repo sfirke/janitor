@@ -1,6 +1,8 @@
 # janitor 2.1.0.9000 (unreleased, under development)
 
+## Minor features
 
+* `excel_numeric_to_date()` now warns when times are converted to `NA` due to hours that do not exist because of daylight savings time.  (fix #420, thanks **@Geomorph2** for reporting and **@billdenney** for fixing)
 
 # janitor 2.1.0 (2021-01-05)
 

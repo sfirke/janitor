@@ -96,3 +96,19 @@ test_that("integer Excel dates do not overflow (ref issue #241)", {
   expect_equal(excel_numeric_to_date(42370L),
                excel_numeric_to_date(42370))
 })
+
+test_that("daylight savings time handling (issue #420)", {
+  expect_equal(
+    expect_warning(
+      excel_numeric_to_date(43170.09, include_time=TRUE, tz="America/New_York"),
+      regexp="NAs introduced by coercion, possible daylight savings time issue with input, consider `tz='UTC'`",
+      fixed=TRUE
+    ),
+    as.POSIXct(NA_real_)
+  )
+  expect_equal(
+    excel_numeric_to_date(43170.09, include_time=TRUE, tz="UTC"),
+    as.POSIXct("2018-03-11 02:09:36", tz="UTC")
+  )
+})
+
