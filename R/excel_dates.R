@@ -77,7 +77,7 @@ excel_numeric_to_date <- function(date_num, date_system = "modern", include_time
     } else if (date_system == "modern") {
       as.Date(floor(date_num_days), origin = "1899-12-30")
     } else {
-      stop("argument 'created' must be one of 'mac pre-2011' or 'modern'")
+      stop("argument 'date_system' must be one of 'mac pre-2011' or 'modern'")
     }
   if (include_time) {
     ret <- as.POSIXlt(ret, tz = tz)

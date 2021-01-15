@@ -11,8 +11,8 @@ test_that("Serial number dates convert correctly", {
 
 test_that("Bad inputs handled appropriately", {
   expect_error(excel_numeric_to_date("hello"), "argument `date_num` must be of class numeric")
-  expect_error(excel_numeric_to_date(40908, "bad string"), "argument 'created' must be one of 'mac pre-2011' or 'modern'")
-  expect_error(excel_numeric_to_date(40908, 4), "argument 'created' must be one of 'mac pre-2011' or 'modern'")
+  expect_error(excel_numeric_to_date(40908, "bad string"), "argument 'date_system' must be one of 'mac pre-2011' or 'modern'")
+  expect_error(excel_numeric_to_date(40908, 4), "argument 'date_system' must be one of 'mac pre-2011' or 'modern'")
 })
 
 test_that("time handling works correctly", {
@@ -111,4 +111,3 @@ test_that("daylight savings time handling (issue #420)", {
     as.POSIXct("2018-03-11 02:09:36", tz="UTC")
   )
 })
-
