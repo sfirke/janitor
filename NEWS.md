@@ -3,6 +3,7 @@
 ## Breaking changes
 
 * Microsoft Excel incorrectly has a leap day on 29 February 1900 (see https://docs.microsoft.com/en-us/office/troubleshoot/excel/wrongly-assumes-1900-is-leap-year).  `excel_numeric_to_date()` did not account for this error, and now it does (thanks **@billdenney** for fixing).  Dates output from `excel_numeric_to_date()` before 1 March 1900 will now be one day later compared to previous versions (i.e. what was 1 Feb 1900 is now 2 Feb 1900), and dates that Excel presents as 29 Feb 1900 will become `as.POSIXct(NA)`.  (thanks **@billdenney** for fixing)
+* A minor breaking change is the time zone is always set for `excel_numeric_to_date()` and `convert_date()`.  The default timezone is `Sys.timezone()` while before it was an empty string (`""`).
 
 ## Minor features
 

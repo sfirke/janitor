@@ -42,16 +42,14 @@
 #' excel_numeric_to_date(40000.521, include_time = TRUE,
 #'   round_seconds = FALSE) # Time with fractional seconds is included
 #' @family Date-time cleaning
-
-# Converts a numeric value like 42414 into a date "2016-02-14"
-
-excel_numeric_to_date <- function(date_num, date_system = "modern", include_time = FALSE, round_seconds = TRUE, tz = "") {
+#' @importFrom lubridate as_date as_datetime force_tz hour minute second
+excel_numeric_to_date <- function(date_num, date_system = "modern", include_time = FALSE, round_seconds = TRUE, tz = Sys.timezone()) {
   if (all(is.na(date_num))) {
     # For NA input, return the expected type of NA output.
     if (include_time) {
-      return(as.POSIXlt(as.character(date_num)))
+      return(lubridate::as_datetime(date_num, tz=tz))
     } else {
-      return(as.Date(as.character(date_num)))
+      return(lubridate::as_date(date_num))
     }
   } else if (!is.numeric(date_num)) {
     stop("argument `date_num` must be of class numeric")
@@ -77,18 +75,18 @@ excel_numeric_to_date <- function(date_num, date_system = "modern", include_time
   date_num_days[mask_before_excel_leap_day_bug] <- date_num_days[mask_before_excel_leap_day_bug] + 1
   ret <-
     if (date_system == "mac pre-2011") {
-      as.Date(floor(date_num_days), origin = "1904-01-01")
+      lubridate::as_date(floor(date_num_days), origin = "1904-01-01")
     } else if (date_system == "modern") {
-      as.Date(floor(date_num_days), origin = "1899-12-30")
+      lubridate::as_date(floor(date_num_days), origin = "1899-12-30")
     } else {
       stop("argument 'date_system' must be one of 'mac pre-2011' or 'modern'")
     }
   if (include_time) {
-    ret <- as.POSIXlt(ret, tz = tz)
-    ret$sec <- date_num_seconds %% 60
-    ret$min <- floor(date_num_seconds/60) %% 60
-    ret$hour <- floor(date_num_seconds/3600)
-    ret <- as.POSIXct(ret, tz = tz)
+    ret <- lubridate::as_datetime(ret)
+    lubridate::second(ret) <- date_num_seconds %% 60
+    lubridate::minute(ret) <- floor(date_num_seconds/60) %% 60
+    lubridate::hour(ret) <- floor(date_num_seconds/3600)
+    ret <- lubridate::force_tz(ret, tzone=tz)
   }
   if (any(mask_excel_leap_day_bug)) {
     warning("NAs introduced by coercion, Excel leap day bug detected in `date_num`.  29 February 1900 does not exist.")

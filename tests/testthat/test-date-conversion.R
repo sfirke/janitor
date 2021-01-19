@@ -59,12 +59,16 @@ test_that("time handling at the edge of the next date works correctly", {
 })
 
 test_that("excel_numeric_to_date handles NA", {
-  expect_equal(excel_numeric_to_date(NA),
-               as.Date(NA_character_),
-               info="Return NA output of the correct class (Date) for NA input.")
-  expect_equal(excel_numeric_to_date(NA, include_time=TRUE),
-               as.POSIXct(NA_character_),
-               info="Return NA output of the correct class (POSIXct) for NA input.")
+  expect_equal(
+    excel_numeric_to_date(NA),
+    as.Date(NA_character_),
+    info="Return NA output of the correct class (Date) for NA input."
+  )
+  expect_equal(
+    excel_numeric_to_date(NA, include_time=TRUE),
+    as.POSIXct(NA_character_, tz=Sys.timezone()),
+    info="Return NA output of the correct class (POSIXct) for NA input."
+  )
   expect_equal(
     excel_numeric_to_date(c(43088, NA)),
     as.Date(floor(c(43088, NA)), origin = "1899-12-30"),
@@ -86,16 +90,23 @@ test_that("excel_numeric_to_date returns a POSIXct object when include_time is r
 })
 
 test_that("time zone setting works", {
-  expect_equal(attr(excel_numeric_to_date(43001.11, include_time = TRUE), "tzone"),
-               "") # blank by default
-  expect_equal(attr(excel_numeric_to_date(43001.11, include_time = TRUE, tz = "America/New_York"), "tzone"),
-               "America/New_York")
-#  expect_warning(excel_numeric_to_date(43001.11, include_time = TRUE, tz = "nonsense"),
-#                 "unknown timezone 'nonsense'")
-  # this test should be written:
-  # providing a bad timezone value defaults to blank tz value "" and throws warning
-  # Then delete prior test as it will fail
-
+  expect_equal(
+    attr(excel_numeric_to_date(43001.11, include_time = TRUE), "tzone"),
+    Sys.timezone(),
+    info="Defaults to the local timezone"
+  )
+  expect_equal(
+    attr(excel_numeric_to_date(43001.11, include_time = TRUE, tz = "America/New_York"), "tzone"),
+    "America/New_York"
+  )
+  expect_equal(
+    attr(excel_numeric_to_date(43001.11, include_time = TRUE, tz = "Europe/Zurich"), "tzone"),
+    "Europe/Zurich"
+  )
+  expect_error(
+    excel_numeric_to_date(43001.11, include_time = TRUE, tz = "nonsense"),
+    info="Invalid timezone gives an error"
+  )
 })
 
 test_that("integer Excel dates do not overflow (ref issue #241)", {
@@ -110,7 +121,7 @@ test_that("daylight savings time handling (issue #420)", {
       regexp="NAs introduced by coercion, possible daylight savings time issue with input.  Consider `tz='UTC'`.",
       fixed=TRUE
     ),
-    as.POSIXct(NA_real_, tz="America/New_York")
+    as.POSIXct(NA_real_, tz="America/New_York", origin="1900-01-01")
   )
   expect_equal(
     excel_numeric_to_date(43170.09, include_time=TRUE, tz="UTC"),

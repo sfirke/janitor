@@ -9,7 +9,7 @@ excel_numeric_to_date(
   date_system = "modern",
   include_time = FALSE,
   round_seconds = TRUE,
-  tz = ""
+  tz = Sys.timezone()
 )
 }
 \arguments{
