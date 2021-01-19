@@ -11,8 +11,8 @@ test_that("Serial number dates convert correctly", {
 
 test_that("Bad inputs handled appropriately", {
   expect_error(excel_numeric_to_date("hello"), "argument `date_num` must be of class numeric")
-  expect_error(excel_numeric_to_date(40908, "bad string"), "argument 'created' must be one of 'mac pre-2011' or 'modern'")
-  expect_error(excel_numeric_to_date(40908, 4), "argument 'created' must be one of 'mac pre-2011' or 'modern'")
+  expect_error(excel_numeric_to_date(40908, "bad string"), "argument 'date_system' must be one of 'mac pre-2011' or 'modern'")
+  expect_error(excel_numeric_to_date(40908, 4), "argument 'date_system' must be one of 'mac pre-2011' or 'modern'")
 })
 
 test_that("time handling works correctly", {
@@ -59,19 +59,29 @@ test_that("time handling at the edge of the next date works correctly", {
 })
 
 test_that("excel_numeric_to_date handles NA", {
-  expect_equal(excel_numeric_to_date(NA),
-               as.Date(NA_character_),
-               info="Return NA output of the correct class (Date) for NA input.")
-  expect_equal(excel_numeric_to_date(NA, include_time=TRUE),
-               as.POSIXct(NA_character_),
-               info="Return NA output of the correct class (POSIXct) for NA input.")
-  expect_equal(excel_numeric_to_date(c(43088, NA)),
-               as.Date(floor(c(43088, NA)), origin = "1899-12-30"),
-               info="Return NA output as part of a vector of inputs correctly")
-  expect_equal(excel_numeric_to_date(c(43088, NA), include_time=TRUE),
-               structure(as.POSIXlt(as.Date(floor(c(43088, NA)), origin = "1899-12-30")),
-                         tzone=NULL),
-               info="Return NA output as part of a vector of inputs correctly")
+  expect_equal(
+    excel_numeric_to_date(NA),
+    as.Date(NA_character_),
+    info="Return NA output of the correct class (Date) for NA input."
+  )
+  expect_equal(
+    excel_numeric_to_date(NA, include_time=TRUE),
+    as.POSIXct(NA_character_, tz=Sys.timezone()),
+    info="Return NA output of the correct class (POSIXct) for NA input."
+  )
+  expect_equal(
+    excel_numeric_to_date(c(43088, NA)),
+    as.Date(floor(c(43088, NA)), origin = "1899-12-30"),
+    info="Return NA output as part of a vector of inputs correctly"
+  )
+  expect_equal(
+    excel_numeric_to_date(c(43088, NA), include_time=TRUE),
+    structure(
+      as.POSIXlt(as.Date(floor(c(43088, NA)), origin = "1899-12-30")),
+      tzone=NULL
+    ),
+    info="Return NA output as part of a vector of inputs correctly"
+  )
 })
 
 test_that("excel_numeric_to_date returns a POSIXct object when include_time is requested", {
@@ -80,19 +90,52 @@ test_that("excel_numeric_to_date returns a POSIXct object when include_time is r
 })
 
 test_that("time zone setting works", {
-  expect_equal(attr(excel_numeric_to_date(43001.11, include_time = TRUE), "tzone"),
-               "") # blank by default
-  expect_equal(attr(excel_numeric_to_date(43001.11, include_time = TRUE, tz = "America/New_York"), "tzone"),
-               "America/New_York")
-#  expect_warning(excel_numeric_to_date(43001.11, include_time = TRUE, tz = "nonsense"),
-#                 "unknown timezone 'nonsense'")
-  # this test should be written:
-  # providing a bad timezone value defaults to blank tz value "" and throws warning
-  # Then delete prior test as it will fail
-
+  expect_equal(
+    attr(excel_numeric_to_date(43001.11, include_time = TRUE), "tzone"),
+    Sys.timezone(),
+    info="Defaults to the local timezone"
+  )
+  expect_equal(
+    attr(excel_numeric_to_date(43001.11, include_time = TRUE, tz = "America/New_York"), "tzone"),
+    "America/New_York"
+  )
+  expect_equal(
+    attr(excel_numeric_to_date(43001.11, include_time = TRUE, tz = "Europe/Zurich"), "tzone"),
+    "Europe/Zurich"
+  )
+  expect_error(
+    excel_numeric_to_date(43001.11, include_time = TRUE, tz = "nonsense"),
+    info="Invalid timezone gives an error"
+  )
 })
 
 test_that("integer Excel dates do not overflow (ref issue #241)", {
   expect_equal(excel_numeric_to_date(42370L),
                excel_numeric_to_date(42370))
+})
+
+test_that("daylight savings time handling (issue #420)", {
+  expect_equal(
+    expect_warning(
+      excel_numeric_to_date(43170.09, include_time=TRUE, tz="America/New_York"),
+      regexp="NAs introduced by coercion, possible daylight savings time issue with input.  Consider `tz='UTC'`.",
+      fixed=TRUE
+    ),
+    as.POSIXct(NA_real_, tz="America/New_York", origin="1900-01-01")
+  )
+  expect_equal(
+    excel_numeric_to_date(43170.09, include_time=TRUE, tz="UTC"),
+    as.POSIXct("2018-03-11 02:09:36", tz="UTC")
+  )
+})
+
+test_that("Nonexistent 29 Feb 1900 exists in Excel but not in accurate calendars", {
+  expect_equal(
+    expect_warning(
+      excel_numeric_to_date(59:61),
+      regexp="NAs introduced by coercion, Excel leap day bug detected in `date_num`.  29 February 1900 does not exist.",
+      fixed=TRUE
+    ),
+    as.Date(c("1900-02-28", NA, "1900-03-01"))
+  )
 })
