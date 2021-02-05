@@ -26,6 +26,19 @@ Removes all rows and/or columns from a data.frame or matrix that
 \examples{
 # not run:
 # dat \%>\% remove_empty("rows")
+# addressing a common untidy-data scenario where we have a mixture of
+# blank values in some (character) columns and NAs in others:
+library(dplyr)
+dd <- tibble(x=c(LETTERS[1:5],NA,rep("",2)),
+             y=c(1:5,rep(NA,3)))
+# remove_empty() drops row 5 (all NA) but not 6 and 7 (blanks + NAs)
+dd \%>\% remove_empty("rows")
+# solution: preprocess to convert whitespace/empty strings to NA,
+# _then_ remove empty (all-NA) rows
+dd \%>\% mutate(across(is.character,~na_if(trimws(.),""))) \%>\%
+   remove_empty("rows")
+
+
 }
 \seealso{
 \code{\link[=remove_constant]{remove_constant()}} for removing
