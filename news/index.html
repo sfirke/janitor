@@ -133,7 +133,7 @@
 <h2 class="hasAnchor">
 <a href="#breaking-changes" class="anchor"></a>Breaking changes</h2>
 <ul>
-<li>Microsoft Excel incorrectly has a leap day on 29 February 1900 (see <a href="https://docs.microsoft.com/en-us/office/troubleshoot/excel/wrongly-assumes-1900-is-leap-year" class="uri">https://docs.microsoft.com/en-us/office/troubleshoot/excel/wrongly-assumes-1900-is-leap-year</a>). <code><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date()</a></code> did not account for this error, and now it does (thanks <strong>@billdenney</strong> for fixing). Dates output from <code><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date()</a></code> before 1 March 1900 will now be one day later compared to previous versions (i.e. what was 1 Feb 1900 is now 2 Feb 1900), and dates that Excel presents as 29 Feb 1900 will become <code><a href="https://rdrr.io/r/base/as.POSIXlt.html">as.POSIXct(NA)</a></code>. (thanks <strong>@billdenney</strong> for fixing)</li>
+<li>Microsoft Excel incorrectly has a leap day on 29 February 1900 (see https://docs.microsoft.com/en-us/office/troubleshoot/excel/wrongly-assumes-1900-is-leap-year). <code><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date()</a></code> did not account for this error, and now it does (thanks <strong>@billdenney</strong> for fixing). Dates output from <code><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date()</a></code> before 1 March 1900 will now be one day later compared to previous versions (i.e. what was 1 Feb 1900 is now 2 Feb 1900), and dates that Excel presents as 29 Feb 1900 will become <code><a href="https://rdrr.io/r/base/as.POSIXlt.html">as.POSIXct(NA)</a></code>. (thanks <strong>@billdenney</strong> for fixing)</li>
 <li>A minor breaking change is the time zone is always set for <code><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date()</a></code> and <code>convert_date()</code>. The default timezone is <code><a href="https://rdrr.io/r/base/timezones.html">Sys.timezone()</a></code> while before it was an empty string (<code>""</code>).</li>
 </ul>
 </div>
@@ -446,16 +446,7 @@
 <ul>
 <li>Exported the <code><a href="../reference/%&gt;%.html">%&gt;%</a></code> pipe from magrittr <a href="https://github.com/sfirke/janitor/issues/107">(<a href='https://github.com/sfirke/janitor/issues/107'>#107</a>)</a>.</li>
 </ul>
-<p><strong>Deprecated the following functions:</strong></p>
-<ul>
-<li>
-<code><a href="../reference/use_first_valid_of.html">use_first_valid_of()</a></code> - use <code><a href="https://dplyr.tidyverse.org/reference/coalesce.html">dplyr::coalesce()</a></code> instead</li>
-<li>
-<code><a href="../reference/convert_to_NA.html">convert_to_NA()</a></code> - use <code><a href="https://dplyr.tidyverse.org/reference/na_if.html">dplyr::na_if()</a></code> instead</li>
-<li>
-<code><a href="../reference/add_totals_row.html">add_totals_row()</a></code> and <code><a href="../reference/add_totals_col.html">add_totals_col()</a></code> - replaced by the single function <code><a href="../reference/adorn_totals.html">adorn_totals()</a></code>
-</li>
-</ul>
+<p><strong>Deprecated the following functions:</strong> - <code><a href="../reference/use_first_valid_of.html">use_first_valid_of()</a></code> - use <code><a href="https://dplyr.tidyverse.org/reference/coalesce.html">dplyr::coalesce()</a></code> instead - <code><a href="../reference/convert_to_NA.html">convert_to_NA()</a></code> - use <code><a href="https://dplyr.tidyverse.org/reference/na_if.html">dplyr::na_if()</a></code> instead - <code><a href="../reference/add_totals_row.html">add_totals_row()</a></code> and <code><a href="../reference/add_totals_col.html">add_totals_col()</a></code> - replaced by the single function <code><a href="../reference/adorn_totals.html">adorn_totals()</a></code></p>
 </div>
 <div id="minor-features-5" class="section level2">
 <h2 class="hasAnchor">
