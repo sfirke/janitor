@@ -466,3 +466,19 @@ test_that("tabyl errors informatively called like tabyl(mtcars$cyl, mtcars$gear)
     "list"
   )
 })
+
+test_that("2-way tabyl with numeric column names is sorted numerically", {
+  
+  df <- data.frame(var1 = c(1:10), var2 = c(1:10))
+  
+  expect_equal(colnames(df %>% tabyl(var1,var2)), c("var1", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"))
+})
+
+test_that("3-way tabyl with numeric names is sorted numerically", {
+  
+  expect_equal(names(mtcars %>% tabyl(gear,cyl,hp)), 
+               c("52", "62", "65", "66", "91", "93", "95", "97", "105", "109", 
+                 "110", "113", "123", "150", "175", "180", "205", "215", "230", 
+                 "245", "264", "335"))
+  
+})
