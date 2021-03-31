@@ -233,7 +233,7 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
 tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_levels = TRUE) {
   dat <- dplyr::select(dat, !! var1, !! var2, !! var3)
   if(is.numeric(dat[[3]])){
-    third_levels_for_sorting <- unique(ordered(dat[[3]], levels = unique(dat[[3]])))
+    third_levels_for_sorting_num <- unique(ordered(dat[[3]], levels = unique(dat[[3]])))
   }
   
   # Keep factor levels for ordering the list at the end
@@ -272,10 +272,9 @@ tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_level
     result <- result[order(third_levels_for_sorting[third_levels_for_sorting %in% unique(dat[[3]])])] 
   }
   
-  if(all(!is.na(as.numeric(as.character(dat[[3]]))))){
+  if(exists("third_levels_for_sorting_num")){
     result <- result[order(as.numeric(names(result)))]
   }
-  
   
   result
 }
