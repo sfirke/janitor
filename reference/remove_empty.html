@@ -59,9 +59,18 @@
 
 
 
+<!-- dependencies from examples -->
+
+
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -175,16 +184,16 @@ columns, declaring the behavior with a printed message.</p></td>
              y<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>,<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='cn'>NA</span>,<span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'># remove_empty() drops row 5 (all NA) but not 6 and 7 (blanks + NAs)</span>
 <span class='va'>dd</span> <span class='op'>%&gt;%</span> <span class='fu'>remove_empty</span><span class='op'>(</span><span class='st'>"rows"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 7 x 2</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 7 x 2</span><span>
 #&gt;   x         y
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> </span><span style='color: #555555;'>"</span><span>A</span><span style='color: #555555;'>"</span><span>       1
-#&gt; </span><span style='color: #555555;'>2</span><span> </span><span style='color: #555555;'>"</span><span>B</span><span style='color: #555555;'>"</span><span>       2
-#&gt; </span><span style='color: #555555;'>3</span><span> </span><span style='color: #555555;'>"</span><span>C</span><span style='color: #555555;'>"</span><span>       3
-#&gt; </span><span style='color: #555555;'>4</span><span> </span><span style='color: #555555;'>"</span><span>D</span><span style='color: #555555;'>"</span><span>       4
-#&gt; </span><span style='color: #555555;'>5</span><span> </span><span style='color: #555555;'>"</span><span>E</span><span style='color: #555555;'>"</span><span>       5
-#&gt; </span><span style='color: #555555;'>6</span><span> </span><span style='color: #555555;'>""</span><span>       </span><span style='color: #BB0000;'>NA</span><span>
-#&gt; </span><span style='color: #555555;'>7</span><span> </span><span style='color: #555555;'>""</span><span>       </span><span style='color: #BB0000;'>NA</span><span></div><div class='input'><span class='co'># solution: preprocess to convert whitespace/empty strings to NA,</span>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> </span><span style='color: #949494;'>"</span><span>A</span><span style='color: #949494;'>"</span><span>       1
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> </span><span style='color: #949494;'>"</span><span>B</span><span style='color: #949494;'>"</span><span>       2
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> </span><span style='color: #949494;'>"</span><span>C</span><span style='color: #949494;'>"</span><span>       3
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> </span><span style='color: #949494;'>"</span><span>D</span><span style='color: #949494;'>"</span><span>       4
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> </span><span style='color: #949494;'>"</span><span>E</span><span style='color: #949494;'>"</span><span>       5
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span> </span><span style='color: #949494;'>""</span><span>       </span><span style='color: #BB0000;'>NA</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>7</span><span> </span><span style='color: #949494;'>""</span><span>       </span><span style='color: #BB0000;'>NA</span><span></div><div class='input'><span class='co'># solution: preprocess to convert whitespace/empty strings to NA,</span>
 <span class='co'># _then_ remove empty (all-NA) rows</span>
 <span class='va'>dd</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/across.html'>across</a></span><span class='op'>(</span><span class='va'>is.character</span>,<span class='op'>~</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/na_if.html'>na_if</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/trimws.html'>trimws</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span>,<span class='st'>""</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
    <span class='fu'>remove_empty</span><span class='op'>(</span><span class='st'>"rows"</span><span class='op'>)</span>
@@ -197,14 +206,14 @@ columns, declaring the behavior with a printed message.</p></td>
 #&gt; <span class='warning'>  data %&gt;% select(where(is.character))</span>
 #&gt; <span class='warning'></span>
 #&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Please update your code.</span>
-#&gt; <span class='warning'></span><span style='color: #555555;'>This message is displayed once per session.</span><span></span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 5 x 2</span><span>
+#&gt; <span class='warning'></span><span style='color: #555555;'>This message is displayed once per session.</span><span></span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 5 x 2</span><span>
 #&gt;   x         y
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> A         1
-#&gt; </span><span style='color: #555555;'>2</span><span> B         2
-#&gt; </span><span style='color: #555555;'>3</span><span> C         3
-#&gt; </span><span style='color: #555555;'>4</span><span> D         4
-#&gt; </span><span style='color: #555555;'>5</span><span> E         5</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> A         1
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> B         2
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> C         3
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> D         4
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> E         5</div><div class='input'>
 
 </div></span></pre>
   </div>
@@ -218,11 +227,11 @@ columns, declaring the behavior with a printed message.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Sam Firke.</p>
+  <p><p>Developed by Sam Firke.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -230,6 +239,8 @@ columns, declaring the behavior with a printed message.</p></td>
 
   
 
+
+  
 
   </body>
 </html>
