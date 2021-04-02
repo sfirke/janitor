@@ -198,7 +198,7 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
   
   # replace NA with string NA_ in vec2 to avoid invalid col name after spreading
   # if this col is a factor, need to add that level to the factor
-  if (is.numeric(tabl[[2]])){
+  if (is.numeric(tabl[[2]])){ # have numerics treated like factors to not spread alphabetically
     tabl[[2]] <- ordered(tabl[[2]], levels = unique(tabl[[2]]))
   }
   if (is.factor(tabl[[2]])) {
@@ -232,9 +232,7 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
 # a list of two-way frequency tables, split into a list on a third variable
 tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_levels = TRUE) {
   dat <- dplyr::select(dat, !! var1, !! var2, !! var3)
-  if(is.numeric(dat[[3]])){
-    third_levels_for_sorting_num <- unique(ordered(dat[[3]], levels = unique(dat[[3]])))
-  }
+  var3_numeric <- is.numeric(dat[[3]])
   
   # Keep factor levels for ordering the list at the end
   if(is.factor(dat[[3]])){
@@ -272,8 +270,8 @@ tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_level
     result <- result[order(third_levels_for_sorting[third_levels_for_sorting %in% unique(dat[[3]])])] 
   }
   
-  if(exists("third_levels_for_sorting_num")){
-    result <- result[order(as.numeric(names(result)))]
+  if(var3_numeric){
+    result <- result[order(suppressWarnings(as.numeric(names(result))), na.last = TRUE)]
   }
   
   result

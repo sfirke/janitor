@@ -250,13 +250,16 @@ test_that("show_missing_levels parameter works", {
 })
 
 # NA handling - position and removal
+# Putting this outside the following test block for later re-use
+x <- data.frame(
+  a = c(1, 2, 2, 2, 1, 1, 1, NA, NA, 1),
+  b = c(rep("up", 4), rep("down", 4), NA, NA),
+  c = 10,
+  d = c(NA, 10:2),
+  stringsAsFactors = FALSE
+)
+
 test_that("NA levels get moved to the last column in the data.frame, are suppressed properly", {
-  x <- data.frame(
-    a = c(1, 2, 2, 2, 1, 1, 1, NA, NA, 1),
-    b = c(rep("up", 4), rep("down", 4), NA, NA),
-    c = 10,
-    stringsAsFactors = FALSE
-  )
   y <- tabyl(x, a, b) %>%
     untabyl()
   expect_equal(
@@ -371,9 +374,9 @@ test_that("the dplyr warning suggesting forcats::fct_explicit_na that is generat
   expect_silent(
     tabyl(factor(c("a", "b", NA)))
   )
-  x <- data.frame(a = factor(c("a", "b", NA)),
+  xx <- data.frame(a = factor(c("a", "b", NA)),
                   b = 1:3)
-  expect_silent(x %>%
+  expect_silent(xx %>%
     tabyl(a, b)
   )
 })
@@ -415,10 +418,10 @@ test_that("factor ordering of columns is correct in 2-way tabyl", {
 })
 
 test_that("empty strings converted to _emptystring", {
-  x <- mtcars
-  x$cyl[1:2] <- c("", NA_character_)
+  mt_empty <- mtcars
+  mt_empty$cyl[1:2] <- c("", NA_character_)
   expect_equal(
-    x %>%
+    mt_empty %>%
       tabyl(am, cyl) %>%
       names,
     c("am", "4", "6", "8", "emptystring_", "NA_")
@@ -468,17 +471,16 @@ test_that("tabyl errors informatively called like tabyl(mtcars$cyl, mtcars$gear)
 })
 
 test_that("2-way tabyl with numeric column names is sorted numerically", {
-  
-  df <- data.frame(var1 = c(1:10), var2 = c(1:10))
-  
-  expect_equal(colnames(df %>% tabyl(var1,var2)), c("var1", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"))
+  df <- data.frame(var1 = c(1:11), var2 = c(NA, 10:1))
+  expect_equal(colnames(df %>% tabyl(var1, var2)), c("var1", 1:10, "NA_"))
 })
 
 test_that("3-way tabyl with numeric names is sorted numerically", {
+  expect_equal(names(mtcars %>% tabyl(gear, cyl, hp)), 
+               as.character(sort(unique(mtcars$hp))))
   
-  expect_equal(names(mtcars %>% tabyl(gear,cyl,hp)), 
-               c("52", "62", "65", "66", "91", "93", "95", "97", "105", "109", 
-                 "110", "113", "123", "150", "175", "180", "205", "215", "230", 
-                 "245", "264", "335"))
-  
+  # Check putting NA last - data.frame "x" is created way above
+  expect_equal(
+    names(x %>% tabyl(a, c, d)),
+    c(2:10, "NA_"))
 })
