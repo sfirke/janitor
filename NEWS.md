@@ -3,8 +3,8 @@
 ## Breaking changes
 
 * A new `...` argument was inserted before the `remove_row` argument to `row_to_names()`.  If code previously used `remove_row` as an unnamed argument, it will now be an error.  If code previously used the unsupported behavior of passing anything other than `TRUE` or `FALSE` to `remove_row`, unexpected results may occur.
-* Microsoft Excel incorrectly has a leap day on 29 February 1900 (see https://docs.microsoft.com/en-us/office/troubleshoot/excel/wrongly-assumes-1900-is-leap-year).  `excel_numeric_to_date()` did not account for this error, and now it does (thanks **@billdenney** for fixing).  Dates output from `excel_numeric_to_date()` before 1 March 1900 will now be one day later compared to previous versions (i.e. what was 1 Feb 1900 is now 2 Feb 1900), and dates that Excel presents as 29 Feb 1900 will become `as.POSIXct(NA)`.  (thanks **@billdenney** for fixing)
-* A minor breaking change is the time zone is always set for `excel_numeric_to_date()` and `convert_date()`.  The default timezone is `Sys.timezone()` while before it was an empty string (`""`).
+* Microsoft Excel incorrectly has a leap day on 29 February 1900 (see https://docs.microsoft.com/en-us/office/troubleshoot/excel/wrongly-assumes-1900-is-leap-year).  `excel_numeric_to_date()` did not account for this error, and now it does (thanks **@billdenney** for fixing).  Dates returned from `excel_numeric_to_date()` that precede 1 March 1900 will now be one day later compared to previous versions (i.e. what was 1 Feb 1900 is now 2 Feb 1900), and dates that Excel presents as 29 Feb 1900 will become `as.POSIXct(NA)`.  (thanks **@billdenney** for fixing)
+* A minor breaking change is the time zone is now always set for `excel_numeric_to_date()` and `convert_date()`.  The default timezone is `Sys.timezone()`, previously it was an empty string (`""`).
 
 ## New features
 
@@ -12,7 +12,11 @@
 
 ## Minor features
 
-* `excel_numeric_to_date()` now warns when times are converted to `NA` due to hours that do not exist because of daylight savings time.  (fix #420, thanks **@Geomorph2** for reporting and **@billdenney** for fixing)
+* `excel_numeric_to_date()` now warns when times are converted to `NA` due to hours that do not exist because of daylight savings time (fix #420, thanks **@Geomorph2** for reporting and **@billdenney** for fixing).  It also warns when inputs are not positive, since Excel only supports values down to 1 (fix #423).
+
+## Bug fixes
+
+* When a numeric variable is supplied as the 2nd variable (column) or 3rd variable (list) of a `tabyl`, the resulting columns or list are now sorted in numeric order, not alphabetic. (fixed #438, thanks **@daaronr** for reporting and **@mattroumaya** for fixing)
 
 # janitor 2.1.0 (2021-01-05)
 
