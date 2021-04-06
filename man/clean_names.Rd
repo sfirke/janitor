@@ -119,3 +119,9 @@ x \%>\%
   clean_names(case = "upper_camel", abbreviations = c("ID", "DOB")) 
   
 }
+\seealso{
+Other Set names: 
+\code{\link{find_header}()},
+\code{\link{row_to_names}()}
+}
+\concept{Set names}

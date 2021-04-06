@@ -26,6 +26,7 @@
 #'   and vectors, use \code{make_clean_names()}.
 #' 
 #' @export
+#' @family Set names
 #' @examples
 #' 
 #' # --- Simple Usage ---

@@ -4,17 +4,24 @@
 \alias{row_to_names}
 \title{Elevate a row to be the column names of a data.frame.}
 \usage{
-row_to_names(dat, row_number, remove_row = TRUE, remove_rows_above = TRUE)
+row_to_names(dat, row_number, ..., remove_row = TRUE, remove_rows_above = TRUE)
 }
 \arguments{
 \item{dat}{The input data.frame}
 
-\item{row_number}{The row of \code{dat} containing the variable names}
+\item{row_number}{The row of \code{dat} containing the variable names or the
+string \code{"find_header"} to use \code{find_header(dat=dat, ...)} to find
+the row_number.}
 
-\item{remove_row}{Should the row \code{row_number} be removed from the resulting data.frame?}
+\item{...}{Sent to \code{find_header()}, if
+\code{row_number = "find_header"}.  Otherwise, ignored.}
 
-\item{remove_rows_above}{If \code{row_number != 1}, should the rows above \code{row_number} - that is, between
-\code{1:(row_number-1)} - be removed from the resulting data.frame?}
+\item{remove_row}{Should the row \code{row_number} be removed from the
+resulting data.frame?}
+
+\item{remove_rows_above}{If \code{row_number != 1}, should the rows above
+\code{row_number} - that is, between \code{1:(row_number-1)} - be removed
+from the resulting data.frame?}
 }
 \value{
 A data.frame with new names (and some rows removed, if specified)
@@ -27,4 +34,13 @@ x <- data.frame(X_1 = c(NA, "Title", 1:3),
                 X_2 = c(NA, "Title2", 4:6))
 x \%>\%
   row_to_names(row_number = 2)
+
+x \%>\%
+  row_to_names(row_number = "find_header")
 }
+\seealso{
+Other Set names: 
+\code{\link{clean_names}()},
+\code{\link{find_header}()}
+}
+\concept{Set names}
