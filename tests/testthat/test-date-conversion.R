@@ -139,3 +139,14 @@ test_that("Nonexistent 29 Feb 1900 exists in Excel but not in accurate calendars
     as.Date(c("1900-02-28", NA, "1900-03-01"))
   )
 })
+
+test_that("Negative dates are invalid in Excel (issue #423)", {
+  expect_equal(
+    expect_warning(
+      excel_numeric_to_date(-1:1),
+      regexp="Only `date_num` >= 1 are valid in Excel, creating an earlier date than Excel supports.",
+      fixed=TRUE
+    ),
+    as.Date(c("1899-12-30", "1899-12-31", "1900-01-01"))
+  )
+})

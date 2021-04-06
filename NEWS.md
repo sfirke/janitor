@@ -7,7 +7,7 @@
 
 ## Minor features
 
-* `excel_numeric_to_date()` now warns when times are converted to `NA` due to hours that do not exist because of daylight savings time.  (fixed #420, thanks **@Geomorph2** for reporting and **@billdenney** for fixing)
+* `excel_numeric_to_date()` now warns when times are converted to `NA` due to hours that do not exist because of daylight savings time (fix #420, thanks **@Geomorph2** for reporting and **@billdenney** for fixing).  It also warns when inputs are not positive, since Excel only supports values down to 1 (fix #423).
 
 ## Bug fixes
 
