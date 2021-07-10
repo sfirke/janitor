@@ -96,6 +96,7 @@ make_clean_names <- function(string,
     return(old_make_clean_names(string))
   }
 
+  warn_micro_mu(string=string, replace=replace)
   replaced_names <-
     stringr::str_replace_all(
       string=string,
@@ -170,6 +171,83 @@ make_clean_names <- function(string,
       )
   }
   cased_names
+}
+
+#' Warn if micro or mu are going to be replaced with make_clean_names()
+#' 
+#' @inheritParams make_clean_names
+#' @param character Which character should be tested for ("micro" or "mu", or both)?
+#' @return TRUE if a warning was issued or FALSE if no warning was issued
+#' @keywords Internal
+#' @noRd
+warn_micro_mu <- function(string, replace) {
+  # TODO: According to https://www.compart.com/en/unicode/U+03BC reviewed on
+  # 2021-07-10, there are some UTF-32 encoding characters that are also mu or
+  # micro.  This only handles the utf-8 values; to add more characters, just add
+  # to this list.
+  micro_mu <-
+    list(
+      micro="\u00b5",
+      mu=c("\u03bc", "\u3382", "\u338c", "\u338d", "\u3395", "\u339b", "\u33b2", "\u33b6", "\u33bc")
+    )
+  # The vector of characters that exist but are not handled at all
+  warning_characters <- character()
+  # The vector of characters that exist and may be handled by a specific replacement
+  warning_characters_specific <- character()
+  for (current_micro_mu in names(micro_mu)) {
+    for (current_unicode in micro_mu[[current_micro_mu]]) {
+      # Does the character exist in any of the names?
+      has_character <- any(grepl(x=string, pattern=current_unicode, fixed=TRUE))
+      if (has_character) {
+        # Is there a general replacement for any occurrence of the character?
+        has_replacement_general <- any(names(replace) %in% current_unicode)
+        # Is there a specific replacement for some form including the character,
+        # but it may not cover all of replacements?
+        has_replacement_specific <- any(grepl(x=names(replace), pattern=current_unicode, fixed=TRUE))
+        warning_characters <-
+          c(
+            warning_characters,
+            current_unicode[!has_replacement_general & !has_replacement_specific]
+          )
+        warning_characters_specific <-
+          c(
+            warning_characters_specific,
+            current_unicode[!has_replacement_general & has_replacement_specific]
+          )
+      }
+    }
+  }
+  # Issue the consolidated warnings, if needed
+  warning_message_general <- NULL
+  if (length(warning_characters) > 0) {
+    warning_characters_utf <-
+      sprintf("\\u%04x", sapply(X=warning_characters, FUN=utf8ToInt))
+    warning_message_general <-
+      sprintf(
+        "The following characters are in the names to clean but are not replaced: %s",
+        paste(warning_characters_utf, collapse=", ")
+      )
+  }
+  warning_message_specific <- NULL
+  if (length(warning_characters_specific) > 0) {
+    warning_characters_utf <-
+      sprintf("\\u%04x", sapply(X=warning_characters_specific, FUN=utf8ToInt))
+    warning_message_specific <-
+      sprintf(
+        "The following characters are in the names to clean but may not be replaced, check the output names carefully: %s",
+        paste(warning_characters_utf, collapse=", ")
+      )
+  }
+  if (!is.null(warning_message_general) | !is.null(warning_message_specific)) {
+    warning_message <- paste(c(warning_message_general, warning_message_specific), collapse="\n")
+    warning(
+      "Watch out!  ",
+      "The mu or micro symbol is in the input string, and may have been converted to 'm' while 'u' may have been expected.  ",
+      "Consider adding the following to the `replace` argument:\n",
+      warning_message
+    )
+  }
+  length(c(warning_characters, warning_characters_specific)) > 0
 }
 
 # copy of clean_names from janitor v0.3 on CRAN, to preserve old behavior
