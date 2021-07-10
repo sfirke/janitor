@@ -8,6 +8,7 @@
 ## Minor features
 
 * `excel_numeric_to_date()` now warns when times are converted to `NA` due to hours that do not exist because of daylight savings time (fix #420, thanks **@Geomorph2** for reporting and **@billdenney** for fixing).  It also warns when inputs are not positive, since Excel only supports values down to 1 (fix #423).
+* `make_clean_names()` (and therefore `clean_names()`) issues a warning if the mu or micro symbol is in the names and it is not or may not be handled by a `replace` argument value.  (fix #448, thanks **@IndrajeetPatil** for reporting and **@billdenney** for fixing)  The rationale is that standard transliteration would convert "[mu]g" to "mg" when it would be more typically be converted to "ug" for use as a unit.
 
 ## Bug fixes
 
@@ -17,7 +18,7 @@
 
 ## New features
 
-* The `adorn_totals()` function now accepts the special argument `fill = NA`, which will insert a class-appropriate `NA` value into each column that isn't being totaled.  This preserves the class of each column; previously they were all convered to character. (thanks **@hamstr147** for implementing in #404 and **@ymer** for reporting in #298). 
+* The `adorn_totals()` function now accepts the special argument `fill = NA`, which will insert a class-appropriate `NA` value into each column that isn't being totaled.  This preserves the class of each column; previously they were all convered to character. (thanks **@hamstr147** for implementing in #404 and **@ymer** for reporting in #298).
 
 * `adorn_totals()` now takes the value of `"both"` for the `where` argument.  That is, `adorn_totals("both")` is a shorter version of `adorn_totals(c("col", "row"))`.  (#362, thanks to **@svgsstats** for implementing and **@sfd99** for suggesting).
 
