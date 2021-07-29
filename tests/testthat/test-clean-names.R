@@ -108,14 +108,16 @@ test_that("All scenarios for make_clean_names", {
     make_clean_names("jan 2009 sales"),
     "jan_2009_sales"
   )
-  expect_equal(
+  # warning due to unhandled mu
+  expect_warning(expect_equal(
     make_clean_names("not_first_unicode_µ"),
     "not_first_unicode_m"
-  )
-  expect_equal(
+  ))
+  # warning due to unhandled mu
+  expect_warning(expect_equal(
     make_clean_names("µ_first_unicode"),
     "m_first_unicode"
-  )
+  ))
   expect_equal(
     make_clean_names("a/b"),
     "a_b",
@@ -164,16 +166,18 @@ test_that("locale-specific make_clean_names tests", {
     "介護_看護_女",
     info="Unicode transliteration does not happen without make.names() and without ascii"
   )
-  expect_equal(
+  # warning due to unhandled mu
+  expect_warning(expect_equal(
     make_clean_names("μ"),
     "m",
     info="lower-case mu is transliterated to an 'm'"
-  )
-  expect_equal(
+  ))
+  # warning due to unhandled mu
+  expect_warning(expect_equal(
     make_clean_names("µ", ascii=FALSE, use_make_names=FALSE),
     "µ",
     info="lower-case mu is not transliterated to an 'm' and uses the "
-  )
+  ))
   Sys.setlocale(locale=orig_locale)
 })
 
@@ -181,6 +185,70 @@ test_that("do not create duplicates (fix #251)", {
   expect_equal(
     make_clean_names(c("a", "a", "a_2")),
     c("a", "a_2", "a_2_2")
+  )
+})
+
+test_that("warnings are issued when micro/mu are not handled (fix #448)", {
+  # Warning due to partially handled mu
+  expect_warning(expect_equal(
+    make_clean_names(string=c("\u00b5g", "\u03bcg"), replace=c("\u00b5g"="ug")),
+    c("ug", "mg")
+  ))
+  # The warning message should match the output of warn_micro_mu()
+  expect_equal(
+    tryCatch(
+      make_clean_names(string=c("\u00b5g", "\u03bcg"), replace=c("\u00b5g"="ug")),
+      warning=function(w) w$message
+    ),
+    tryCatch(
+      warn_micro_mu(string=c("\u00b5g", "\u03bcg"), replace=c("\u00b5g"="ug")),
+      warning=function(w) w$message
+    )
+  )
+})
+
+# Tests for warn_micro_mu ####
+
+test_that("warn_micro_mu", {
+  # No mu or micro generates no output and returns false
+  expect_false(
+    expect_silent(
+      warn_micro_mu(string=c("a"), replace=character())
+    )
+  )
+  # A micro or mu in the input without a replacement gives a warning and returns
+  # true
+  expect_true(
+    expect_warning(
+      warn_micro_mu(string=c("\u00b5g"), replace=character()),
+      regexp="The following characters are in the names to clean but are not replaced: \\u00b5",
+      fixed=TRUE
+    )
+  )
+  # A micro or mu in the input without a replacement gives a warning with all
+  # the characters and returns true
+  expect_true(
+    expect_warning(
+      warn_micro_mu(string=c("\u00b5g", "\u03bcg"), replace=character()),
+      regexp="The following characters are in the names to clean but are not replaced: \\u00b5, \\u03bc",
+      fixed=TRUE
+    )
+  )
+  # Multiple potential types of problems in a single message (split into two
+  # tests because multiline regular expressions are a pain).
+  expect_true(
+    expect_warning(
+      warn_micro_mu(string=c("\u00b5g", "\u03bcg"), replace=c("\u00b5g"="ug")),
+      regexp="The following characters are in the names to clean but are not replaced: \\u03bc",
+      fixed=TRUE
+    )
+  )
+  expect_true(
+    expect_warning(
+      warn_micro_mu(string=c("\u00b5g", "\u03bcg"), replace=c("\u00b5g"="ug")),
+      regexp="The following characters are in the names to clean but may not be replaced, check the output names carefully: \\u00b5",
+      fixed=TRUE
+    )
   )
 })
 
@@ -213,15 +281,19 @@ testing_vector <-
 
 test_df <- as.data.frame(matrix(ncol = 22))
 names(test_df) <- testing_vector
-clean <- clean_names(test_df, "snake", ascii=TRUE)
-clean_noascii <- clean_names(test_df, "snake", ascii=FALSE)
-
+expect_warning(
+  clean <- clean_names(test_df, "snake", ascii=TRUE)
+)
+expect_warning(
+  clean_noascii <- clean_names(test_df, "snake", ascii=FALSE)
+)
 test_that("Returns a data.frame", {
   expect_is(clean, "data.frame")
 })
 
 test_that("Tests for cases beyond default snake", {
-  expect_equal(
+  # warning due to unhandled mu
+  expect_warning(expect_equal(
     names(clean_names(test_df, "small_camel")),
     c(
       "spAce", "repeated", "a", "percent", "x", "x_2", "d9", "repeated_2",
@@ -229,8 +301,9 @@ test_that("Tests for cases beyond default snake", {
       "testCamelCase", "leadingpunct", "averageNumberOfDays",
       "jan2009Sales", "jan2009Sales_2", "notFirstUnicodeM", "mFirstUnicode"
     )
-  )
-  expect_equal(
+  ))
+  # warning due to unhandled mu
+  expect_warning(expect_equal(
     names(clean_names(test_df, "big_camel")),
     c(
       "SpAce", "Repeated", "A", "Percent", "X", "X_2", "D9", "Repeated_2",
@@ -238,8 +311,9 @@ test_that("Tests for cases beyond default snake", {
       "Leadingpunct", "AverageNumberOfDays", "Jan2009Sales", "Jan2009Sales_2",
       "NotFirstUnicodeM", "MFirstUnicode"
     )
-  )
-  expect_equal(
+  ))
+  # warning due to unhandled mu
+  expect_warning(expect_equal(
     names(clean_names(test_df, "all_caps")),
     c(
       "SP_ACE", "REPEATED", "A", "PERCENT", "X", "X_2", "D_9", "REPEATED_2",
@@ -248,8 +322,9 @@ test_that("Tests for cases beyond default snake", {
       "JAN_2009_SALES",
       "NOT_FIRST_UNICODE_M", "M_FIRST_UNICODE"
     )
-  )
-  expect_equal(
+  ))
+  # warning due to unhandled mu
+  expect_warning(expect_equal(
     names(clean_names(test_df, "lower_upper")),
     c(
       "spACE", "repeated", "a", "percent", "x", "x_2", "d9", "repeated_2",
@@ -257,8 +332,9 @@ test_that("Tests for cases beyond default snake", {
       "testCAMELcase", "leadingpunct", "averageNUMBERofDAYS", "jan2009SALES",
       "jan2009SALES_2", "notFIRSTunicodeM", "mFIRSTunicode"
     )
-  )
-  expect_equal(
+  ))
+  # warning due to unhandled mu
+  expect_warning(expect_equal(
     names(clean_names(test_df, "upper_lower")),
     c(
       "SPace", "REPEATED", "A", "PERCENT", "X", "X_2", "D9", "REPEATED_2",
@@ -266,8 +342,9 @@ test_that("Tests for cases beyond default snake", {
       "TESTcamelCASE", "LEADINGPUNCT", "AVERAGEnumberOFdays", "JAN2009sales",
       "JAN2009sales_2", "NOTfirstUNICODEm", "MfirstUNICODE"
     )
-  )
-  expect_equal(
+  ))
+  # warning due to unhandled mu
+  expect_warning(expect_equal(
     names(clean_names(test_df, "none")),
     c(
       "sp_ace", "repeated", "a", "percent", "X", "X_2", "d_9", "REPEATED",
@@ -275,7 +352,7 @@ test_that("Tests for cases beyond default snake", {
       "testCamelCase", "leadingpunct", "average_number_of_days", 
       "jan2009sales", "jan_2009_sales", "not_first_unicode_m", "m_first_unicode"
     )
-  )
+  ))
   expect_equal(
     names(clean_names(test_df, "old_janitor")),
     c(
@@ -286,9 +363,12 @@ test_that("Tests for cases beyond default snake", {
     )
   )
   # check that alias arguments yield identical outputs
-  expect_equal(names(clean_names(test_df, "screaming_snake")), names(clean_names(test_df, "all_caps")))
-  expect_equal(names(clean_names(test_df, "big_camel")), names(clean_names(test_df, "upper_camel")))
-  expect_equal(names(clean_names(test_df, "small_camel")), names(clean_names(test_df, "lower_camel")))
+  # warning due to unhandled mu
+  expect_warning(expect_equal(names(clean_names(test_df, "screaming_snake")), names(clean_names(test_df, "all_caps"))))
+  # warning due to unhandled mu
+  expect_warning(expect_equal(names(clean_names(test_df, "big_camel")), names(clean_names(test_df, "upper_camel"))))
+  # warning due to unhandled mu
+  expect_warning(expect_equal(names(clean_names(test_df, "small_camel")), names(clean_names(test_df, "lower_camel"))))
 })
 
 test_that("errors if not called on a data.frame", {
@@ -446,7 +526,8 @@ test_that("tbl_graph/tidygraph", {
     tidygraph::mutate_all(tidyr::replace_na, 1)
 
   # create a graph with clean names
-  clean_graph <- clean_names(test_graph, case = "snake")
+  # warning due to unhandled mu
+  expect_warning(clean_graph <- clean_names(test_graph, case = "snake"))
 
   # get clean names
   clean <- names(tibble::as_tibble(clean_graph))

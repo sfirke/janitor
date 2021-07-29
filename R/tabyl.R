@@ -189,7 +189,7 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
   }
   
   tabl <- dat %>%
-    dplyr::count(!! var1, !! var2)
+    dplyr::count(!! var1, !! var2, name = 'tabyl_2way_n')
   
   # Optionally expand missing factor levels.
   if (show_missing_levels) {
@@ -209,7 +209,7 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
   tabl[2][is.na(tabl[2])] <- "NA_"
   tabl[2][tabl[2] == ""] <- "emptystring_"
   result <- tabl %>%
-    tidyr::spread(!! var2, "n", fill = 0)
+    tidyr::spread(!! var2, "tabyl_2way_n", fill = 0)
   if("emptystring_" %in% names(result)){
     result <- result[c(setdiff(names(result), "emptystring_"), "emptystring_")]
     if(getOption("tabyl.emptystring",TRUE) & interactive()) {

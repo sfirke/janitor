@@ -2,9 +2,11 @@
 
 ## Breaking changes
 
-* A new `...` argument was inserted before the `remove_row` argument to `row_to_names()`.  If code previously used `remove_row` as an unnamed argument, it will now be an error.  If code previously used the unsupported behavior of passing anything other than `TRUE` or `FALSE` to `remove_row`, unexpected results may occur.
-* Microsoft Excel incorrectly has a leap day on 29 February 1900 (see https://docs.microsoft.com/en-us/office/troubleshoot/excel/wrongly-assumes-1900-is-leap-year).  `excel_numeric_to_date()` did not account for this error, and now it does (thanks **@billdenney** for fixing).  Dates returned from `excel_numeric_to_date()` that precede 1 March 1900 will now be one day later compared to previous versions (i.e. what was 1 Feb 1900 is now 2 Feb 1900), and dates that Excel presents as 29 Feb 1900 will become `as.POSIXct(NA)`.  (thanks **@billdenney** for fixing)
-* A minor breaking change is the time zone is now always set for `excel_numeric_to_date()` and `convert_date()`.  The default timezone is `Sys.timezone()`, previously it was an empty string (`""`).
+* A new `...` argument was added to `row_to_names()`, preceding the `remove_row` argument, as part of the new `find_header()` functionality.  If code previously used `remove_row` as an unnamed argument, it will now error.  If code previously used the unsupported behavior of passing anything other than `TRUE` or `FALSE` to `remove_row`, unexpected results may occur.
+
+* Microsoft Excel incorrectly has a leap day on 29 February 1900 (see https://docs.microsoft.com/en-us/office/troubleshoot/excel/wrongly-assumes-1900-is-leap-year).  `excel_numeric_to_date()` did not account for this error, and now it does.  Dates returned from `excel_numeric_to_date()` that precede 1 March 1900 will now be one day later compared to previous versions (i.e. what was 1 Feb 1900 is now 2 Feb 1900), and dates that Excel presents as 29 Feb 1900 will become `as.POSIXct(NA)`.  (#423, thanks **@billdenney** for fixing)
+
+* A minor breaking change is that the time zone is now always set for `excel_numeric_to_date()` and `convert_date()`.  The default timezone is `Sys.timezone()`, previously it was an empty string (`""`). (#422, thanks **@billdenney** for fixing)
 
 ## New features
 
@@ -12,17 +14,21 @@
 
 ## Minor features
 
-* `excel_numeric_to_date()` now warns when times are converted to `NA` due to hours that do not exist because of daylight savings time (fix #420, thanks **@Geomorph2** for reporting and **@billdenney** for fixing).  It also warns when inputs are not positive, since Excel only supports values down to 1 (fix #423).
+* `excel_numeric_to_date()` now warns when times are converted to `NA` due to hours that do not exist because of daylight savings time (fix #420, thanks **@Geomorph2** for reporting and **@billdenney** for fixing).  It also warns when inputs are not positive, since Excel only supports values down to 1 (#423).
+
+* `make_clean_names()` (and therefore `clean_names()`) issues a warning if the mu or micro symbol is in the names and it is not or may not be handled by a `replace` argument value.  (#448, thanks **@IndrajeetPatil** for reporting and **@billdenney** for fixing)  The rationale is that standard transliteration would convert "[mu]g" to "mg" when it would be more typically be converted to "ug" for use as a unit.
 
 ## Bug fixes
 
-* When a numeric variable is supplied as the 2nd variable (column) or 3rd variable (list) of a `tabyl`, the resulting columns or list are now sorted in numeric order, not alphabetic. (fixed #438, thanks **@daaronr** for reporting and **@mattroumaya** for fixing)
+* When a numeric variable is supplied as the 2nd variable (column) or 3rd variable (list) of a `tabyl`, the resulting columns or list are now sorted in numeric order, not alphabetic. (#438, thanks **@daaronr** for reporting and **@mattroumaya** for fixing)
+
+* `tabyl()` now succeeds when the second variable is named `"n"` (#445).
 
 # janitor 2.1.0 (2021-01-05)
 
 ## New features
 
-* The `adorn_totals()` function now accepts the special argument `fill = NA`, which will insert a class-appropriate `NA` value into each column that isn't being totaled.  This preserves the class of each column; previously they were all convered to character. (thanks **@hamstr147** for implementing in #404 and **@ymer** for reporting in #298). 
+* The `adorn_totals()` function now accepts the special argument `fill = NA`, which will insert a class-appropriate `NA` value into each column that isn't being totaled.  This preserves the class of each column; previously they were all convered to character. (thanks **@hamstr147** for implementing in #404 and **@ymer** for reporting in #298).
 
 * `adorn_totals()` now takes the value of `"both"` for the `where` argument.  That is, `adorn_totals("both")` is a shorter version of `adorn_totals(c("col", "row"))`.  (#362, thanks to **@svgsstats** for implementing and **@sfd99** for suggesting).
 
