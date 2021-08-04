@@ -2,9 +2,15 @@
 
 ## Breaking changes
 
+* A new `...` argument was added to `row_to_names()`, preceding the `remove_row` argument, as part of the new `find_header()` functionality.  If code previously used `remove_row` as an unnamed argument, it will now error.  If code previously used the unsupported behavior of passing anything other than `TRUE` or `FALSE` to `remove_row`, unexpected results may occur.
+
 * Microsoft Excel incorrectly has a leap day on 29 February 1900 (see https://docs.microsoft.com/en-us/office/troubleshoot/excel/wrongly-assumes-1900-is-leap-year).  `excel_numeric_to_date()` did not account for this error, and now it does.  Dates returned from `excel_numeric_to_date()` that precede 1 March 1900 will now be one day later compared to previous versions (i.e. what was 1 Feb 1900 is now 2 Feb 1900), and dates that Excel presents as 29 Feb 1900 will become `as.POSIXct(NA)`.  (#423, thanks **@billdenney** for fixing)
 
 * A minor breaking change is that the time zone is now always set for `excel_numeric_to_date()` and `convert_date()`.  The default timezone is `Sys.timezone()`, previously it was an empty string (`""`). (#422, thanks **@billdenney** for fixing)
+
+## New features
+
+* `row_to_names()` now has a new helper function, `find_header()` to help find the row that contains the names.  It can be used by passing `row_number="find_header"`, and see the documentation of `row_to_names()` and `find_header()` for more examples. (fix #429)
 
 ## Minor features
 
