@@ -46,7 +46,10 @@ row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_ab
   }
   new_names <- as.character(unlist(dat[row_number, ], use.names = FALSE))
   if (any(duplicated(new_names))) {
-    warning("Row ", row_number, " does not provide unique names. Consider running clean_names() after row_to_names().")
+    rlang::warn(
+      message=paste("Row", row_number, "does not provide unique names. Consider running clean_names() after row_to_names()."),
+      class="janitor_warn_row_to_names_not_unique"
+    )
   }
   colnames(dat) <- new_names
   rows_to_remove <- c(
@@ -120,10 +123,14 @@ find_header <- function(dat, ...) {
         "The string '%s' was not found in column %g", string_to_search, column_to_search
       ))
     } else if (length(ret) > 1) {
-      warning(sprintf(
-        "The string '%s' was found %g times in column %g, using the first row where it was found",
-        string_to_search, length(ret), column_to_search
-      ))
+      rlang::warn(
+        message=
+          sprintf(
+            "The string '%s' was found %g times in column %g, using the first row where it was found",
+            string_to_search, length(ret), column_to_search
+          ),
+        class="janitor_warn_find_header_not_unique"
+      )
       ret <- ret[1]
     }
   } else {
