@@ -24,10 +24,10 @@
 #' @export
 row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_above = TRUE) {
   # Check inputs
-  if (!is.logical(remove_row) & length(remove_row) == 1) {
-    stop("remove_row must be a logical scalar, not ", as.character(remove_row))
-  } else if (!is.logical(remove_rows_above) & length(remove_rows_above) == 1) {
-    stop("remove_rows_above must be a logical scalar, not ", as.character(remove_rows_above))
+  if (!(is.logical(remove_row) & length(remove_row) == 1)) {
+    stop("remove_row must be either TRUE or FALSE, not ", as.character(remove_row))
+  } else if (!(is.logical(remove_rows_above) & length(remove_rows_above) == 1)) {
+    stop("remove_rows_above must be either TRUE or FALSE, not ", as.character(remove_rows_above))
   } else if (length(row_number) != 1) {
     stop("row_number must be a scalar")
   }
@@ -72,11 +72,14 @@ row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_ab
 #' 
 #' @details
 #' If \code{...} is missing, then the first row with no missing values is used.
-#' If \code{...} has a single character argument, then the first column is
-#' searched for that value.  If \code{...} has a named numeric argument, then
-#' the value of the argument is searched for the name (see the examples).  If
-#' more than one row is found matching a value that is searched for, the first
-#' matching row will be returned (with a warning).
+#' 
+#' When searching for a specified value or value within a column, the first row
+#' with a match will be returned, regardless of the completeness of the rest of
+#' that row.  If \code{...} has a single character argument, then the first
+#' column is searched for that value.  If \code{...} has a named numeric
+#' argument, then the value of the argument is searched for the name (see the
+#' examples).  If more than one row is found matching a value that is searched
+#' for, the first matching row will be returned (with a warning).
 #' 
 #' @inheritParams row_to_names
 #' @param ... See details
@@ -89,8 +92,8 @@ row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_ab
 #' find_header(data.frame(A=c(NA, "B")))
 #' # the second row since the first has an empty value
 #' find_header(data.frame(A=c(NA, "B"), B=c("C", "D")))
-#' # The second row because the second column was searched for the text "D"
-#' find_header(data.frame(A=c(NA, "B", "C", "D"), B=c("C", "D", "E", "F")), "D"=2)
+#' # The third row because the second column was searched for the text "E"
+#' find_header(data.frame(A=c(NA, "B", "C", "D"), B=c("C", "D", "E", "F")), "E"=2)
 #' @export
 find_header <- function(dat, ...) {
   extra_args <- list(...)

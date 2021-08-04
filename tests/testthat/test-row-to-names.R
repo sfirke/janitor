@@ -30,12 +30,12 @@ test_that("row_to_names invalid and semi-valid input checking", {
   
   expect_error(
     row_to_names(example_data_row_to_names[[1]], row_number=1, remove_row="A"),
-    regexp="remove_row must be a logical scalar, not A",
+    regexp="remove_row must be either TRUE or FALSE, not A",
     fixed=TRUE
   )
   expect_error(
     row_to_names(example_data_row_to_names[[1]], row_number=1, remove_rows_above="A"),
-    regexp="remove_rows_above must be a logical scalar, not A",
+    regexp="remove_rows_above must be either TRUE or FALSE, not A",
     fixed=TRUE
   )
   
@@ -178,6 +178,11 @@ test_that("find_header works", {
       stringsAsFactors=FALSE
     )
   expect_equal(find_header(multiple_complete), 1)
+  expect_equal(
+    find_header(data.frame(A=c(NA, "B", "C", "D"), B=c("C", "D", "E", "F")), "E"=2),
+    3,
+    info="Use a nontrivial example of finding a row value"
+  )
 })
 
 test_that("find_header works within row_to_names", {
