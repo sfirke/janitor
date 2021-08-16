@@ -48,7 +48,18 @@ test_that("row_to_names invalid and semi-valid input checking", {
       fixed=TRUE
     )
   }
-  
+
+  # This loop is a test of issue 452 silencing the warning
+  for (nm in names(example_data_row_to_names)) {
+    expect_silent(
+      suppressWarnings(
+        example_data_row_to_names[[nm]] %>%
+          row_to_names(row_number=1),
+        classes="janitor_warn_row_to_names_not_unique"
+      )
+    )
+  }
+
   expect_error(
     row_to_names(example_data_row_to_names[[1]], row_number="foo"),
     regexp="row_number must be a numeric value or 'find_header'",
