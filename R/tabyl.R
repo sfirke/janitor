@@ -148,7 +148,7 @@ tabyl.data.frame <- function(dat, var1, var2, var3, show_na = TRUE, show_missing
   
   if (missing(var2) && missing(var3) && !missing(var1)) {
     tabyl_1way(dat, rlang::enquo(var1), show_na = show_na, show_missing_levels = show_missing_levels)
-  } else if (missing(var3) && !missing(var1) && !missing(var1)) {
+  } else if (missing(var3) && !missing(var1) && !missing(var2)) {
     tabyl_2way(dat, rlang::enquo(var1), rlang::enquo(var2), show_na = show_na, show_missing_levels = show_missing_levels)
   } else if (!missing(var1) &&
              !missing(var2) &&
