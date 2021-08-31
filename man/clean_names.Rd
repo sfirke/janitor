@@ -81,6 +81,14 @@ of names, see \code{\link[janitor]{make_clean_names}}.  \code{clean_names}
 relies on the versatile function \code{\link[snakecase]{to_any_case}}, which 
 accepts many arguments.  See that function's documentation for ideas on getting 
 the most out of \code{clean_names}.  A few examples are included below.
+
+A common issue is that the micro/mu symbol is replaced by "m" instead of "u".
+The replacement with "m" is more correct when doing Greek-to-ASCII
+transliteration but less correct when doing scientific data-to-ASCII
+transliteration.  A warning will be generated if the "m" replacement occurs.
+To replace with "u", please add the argument \code{replace=c("\u00b5"="u",
+"\u03bc"="u", "\u3382"="u", "\u338c"="u", "\u338d"="u", "\u3395"="u",
+"\u339b"="u", "\u33b2"="u", "\u33b6"="u", "\u33bc"="u")}.
 }
 \details{
 \code{clean_names()} is intended to be used on \code{data.frames}
