@@ -181,40 +181,30 @@ make_clean_names <- function(string,
 #' @keywords Internal
 #' @noRd
 warn_micro_mu <- function(string, replace) {
-  # TODO: According to https://www.compart.com/en/unicode/U+03BC reviewed on
-  # 2021-07-10, there are some UTF-32 encoding characters that are also mu or
-  # micro.  This only handles the utf-8 values; to add more characters, just add
-  # to this list.
-  micro_mu <-
-    list(
-      micro="\u00b5",
-      mu=c("\u03bc", "\u3382", "\u338c", "\u338d", "\u3395", "\u339b", "\u33b2", "\u33b6", "\u33bc")
-    )
+  micro_mu <- names(janitor:::mu_to_u)
   # The vector of characters that exist but are not handled at all
   warning_characters <- character()
   # The vector of characters that exist and may be handled by a specific replacement
   warning_characters_specific <- character()
-  for (current_micro_mu in names(micro_mu)) {
-    for (current_unicode in micro_mu[[current_micro_mu]]) {
-      # Does the character exist in any of the names?
-      has_character <- any(grepl(x=string, pattern=current_unicode, fixed=TRUE))
-      if (has_character) {
-        # Is there a general replacement for any occurrence of the character?
-        has_replacement_general <- any(names(replace) %in% current_unicode)
-        # Is there a specific replacement for some form including the character,
-        # but it may not cover all of replacements?
-        has_replacement_specific <- any(grepl(x=names(replace), pattern=current_unicode, fixed=TRUE))
-        warning_characters <-
-          c(
-            warning_characters,
-            current_unicode[!has_replacement_general & !has_replacement_specific]
-          )
-        warning_characters_specific <-
-          c(
-            warning_characters_specific,
-            current_unicode[!has_replacement_general & has_replacement_specific]
-          )
-      }
+  for (current_unicode in micro_mu) {
+    # Does the character exist in any of the names?
+    has_character <- any(grepl(x=string, pattern=current_unicode, fixed=TRUE))
+    if (has_character) {
+      # Is there a general replacement for any occurrence of the character?
+      has_replacement_general <- any(names(replace) %in% current_unicode)
+      # Is there a specific replacement for some form including the character,
+      # but it may not cover all of replacements?
+      has_replacement_specific <- any(grepl(x=names(replace), pattern=current_unicode, fixed=TRUE))
+      warning_characters <-
+        c(
+          warning_characters,
+          current_unicode[!has_replacement_general & !has_replacement_specific]
+        )
+      warning_characters_specific <-
+        c(
+          warning_characters_specific,
+          current_unicode[!has_replacement_general & has_replacement_specific]
+        )
     }
   }
   # Issue the consolidated warnings, if needed

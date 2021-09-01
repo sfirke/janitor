@@ -41,6 +41,7 @@ find_header(data.frame(A=c(NA, "B", "C", "D"), B=c("C", "D", "E", "F")), "E"=2)
 \seealso{
 Other Set names: 
 \code{\link{clean_names}()},
+\code{\link{mu_to_u}},
 \code{\link{row_to_names}()}
 }
 \concept{Set names}

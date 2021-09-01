@@ -14,6 +14,14 @@
 #' relies on the versatile function \code{\link[snakecase]{to_any_case}}, which 
 #' accepts many arguments.  See that function's documentation for ideas on getting 
 #' the most out of \code{clean_names}.  A few examples are included below.
+#' 
+#' A common issue is that the micro/mu symbol is replaced by "m" instead of "u".
+#' The replacement with "m" is more correct when doing Greek-to-ASCII
+#' transliteration but less correct when doing scientific data-to-ASCII
+#' transliteration.  A warning will be generated if the "m" replacement occurs.
+#' To replace with "u", please add the argument \code{replace=janitor:::mu_to_u}
+#' which is a character vector mapping all known mu or micro Unicode code points
+#' (characters) to "u".
 #'
 #' @param dat the input data.frame.
 #' @inheritDotParams make_clean_names -string
@@ -108,3 +116,31 @@ clean_names.tbl_graph <- function(dat, ...) {
   } # nocov end
   dplyr::rename_all(dat, .funs=make_clean_names, ...)
 }
+
+# TODO: According to https://www.compart.com/en/unicode/U+03BC reviewed on
+# 2021-07-10, there are some UTF-32 encoding characters that are also mu or
+# micro.  This only handles the utf-8 values; to add more characters, just add
+# to this character vector.
+
+#' Constant to help map from mu to u
+#' 
+#' This is a character vector with names of all known Unicode code points that
+#' look like the Greek mu or the micro symbol and values of "u".  This is
+#' intended to simplify mapping from mu or micro in Unicode to the character "u"
+#' with \code{clean_names()} and \code{make_clean_names()}.
+#' 
+#' See the help in \code{clean_names()} for how to use this.
+#'
+#' @family Set names
+mu_to_u <-
+  # setNames is used instead of setting the names directly because it prevents a
+  # warning like "unable to translate '<U+3382>' to native encoding" for several
+  # of the items.
+  setNames(
+    rep("u", 10),
+    nm=
+      c(
+        "\u00b5", "\u03bc", "\u3382", "\u338c", "\u338d",
+        "\u3395", "\u339b", "\u33b2", "\u33b6", "\u33bc"
+      )
+  )

@@ -41,6 +41,7 @@ x \%>\%
 \seealso{
 Other Set names: 
 \code{\link{clean_names}()},
-\code{\link{find_header}()}
+\code{\link{find_header}()},
+\code{\link{mu_to_u}}
 }
 \concept{Set names}
