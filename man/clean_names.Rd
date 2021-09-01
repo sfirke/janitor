@@ -86,9 +86,9 @@ A common issue is that the micro/mu symbol is replaced by "m" instead of "u".
 The replacement with "m" is more correct when doing Greek-to-ASCII
 transliteration but less correct when doing scientific data-to-ASCII
 transliteration.  A warning will be generated if the "m" replacement occurs.
-To replace with "u", please add the argument \code{replace=c("\u00b5"="u",
-"\u03bc"="u", "\u3382"="u", "\u338c"="u", "\u338d"="u", "\u3395"="u",
-"\u339b"="u", "\u33b2"="u", "\u33b6"="u", "\u33bc"="u")}.
+To replace with "u", please add the argument \code{replace=janitor:::mu_to_u}
+which is a character vector mapping all known mu or micro Unicode code points
+(characters) to "u".
 }
 \details{
 \code{clean_names()} is intended to be used on \code{data.frames}
@@ -130,6 +130,7 @@ x \%>\%
 \seealso{
 Other Set names: 
 \code{\link{find_header}()},
+\code{\link{mu_to_u}},
 \code{\link{row_to_names}()}
 }
 \concept{Set names}
