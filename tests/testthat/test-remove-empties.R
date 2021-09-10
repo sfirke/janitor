@@ -110,7 +110,24 @@ test_that("remove_constant", {
     tibble(B=c(NA, 1, 2)),
     info="tibbles are correctly handled"
   )
+  
+  expect_equal(
+    remove_constant2(data.frame(A=c(1, 1), B=c(2, 2)), columns = c("A")),
+    data.frame(B=c(2, 2)),
+    info="Only columns specified in the argument are checked."
+  )
+  expect_equal(
+    remove_constant2(data.frame(A=c(1, 1), B=c(2, 2)), columns = c(1)),
+    data.frame(B=c(2, 2)),
+    info="Only columns specified in the argument are checked."
+  )
+  expect_equal(
+    remove_constant2(data.frame(A=c(1, 1), B=c(2, 2)), columns = 1),
+    data.frame(B=c(2, 2)),
+    info="Only columns specified in the argument are checked."
+  )
 })
+
 
 test_that("Messages are accurate with remove_empty and remove_constant", {
   expect_message(
