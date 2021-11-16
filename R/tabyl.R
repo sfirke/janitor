@@ -119,7 +119,7 @@ tabyl.default <- function(dat, show_na = TRUE, show_missing_levels = TRUE, ...) 
     result$valid_percent[is.na(result[[1]])] <- NA
   } else { # don't show NA values, which necessitates adjusting the %s
     result <- result %>%
-      dplyr::filter(!is.na(.[1])) %>%
+      dplyr::filter(!is.na(.[,1])) %>%
       dplyr::mutate(percent = n / sum(n, na.rm = TRUE)) # recalculate % without NAs
   }
   
