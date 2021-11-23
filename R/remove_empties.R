@@ -80,30 +80,41 @@ remove_empty <- function(dat, which = c("rows", "cols"), quiet=TRUE) {
 #' @seealso \code{\link[=remove_empty]{remove_empty()}} for removing empty
 #'   columns or rows.
 #' @export
-remove_constant <- function(dat, na.rm = FALSE, quiet=TRUE) {
-  mask <-
-    sapply(
-      X=seq_len(ncol(dat)),
-      FUN=function(idx) {
-        column_to_test <-
-          if (is.matrix(dat)) {
-            dat[, idx]
-          } else {
-            dat[[idx]]
-          }
-        length(unique(
-          if (na.rm) {
-            stats::na.omit(column_to_test)
-          } else {
-            column_to_test
-          }
-        )) <= 1 # the < is in case all values are NA with na.rm=TRUE
+remove_constant <- function (dat, na.rm = FALSE, quiet = TRUE, columns = c())
+{
+  mask <- sapply(
+    X = seq_len(ncol(dat)),
+    FUN = function(idx) {
+      column_to_test <- if (is.matrix(dat)) {
+        dat[, idx]
       }
-    )
+      else {
+        dat[[idx]]
+      }
+      length(unique(if (na.rm) {
+        stats::na.omit(column_to_test)
+      } else {
+        column_to_test
+      })) <= 1
+    }
+  )
   if (!quiet) {
-    remove_message(dat=dat, mask_keep=!mask, which="columns", reason="constant")
+    remove_message(
+      dat = dat,
+      mask_keep = !mask,
+      which = "columns",
+      reason = "constant"
+    )
   }
-  dat[ , !mask, drop=FALSE]
+  if (length(columns) == 0) {
+    dat[, !mask, drop = FALSE]  
+  } else if (is.character(columns)) {
+    dat[, !mask | (!names(dat) %in% columns), drop = FALSE]
+  } else if (is.numeric(columns)) {
+    dat[, !mask | (!seq_len(ncol(dat)) %in% columns), drop = FALSE]
+  } else {
+    stop("xxx")
+  }
 }
 
 
