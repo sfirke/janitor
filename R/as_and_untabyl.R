@@ -25,9 +25,6 @@
 #'
 
 as_tabyl <- function(dat, axes = 2, row_var_name = NULL, col_var_name = NULL) {
-  if ("tabyl" %in% class(dat)) {
-    return(dat)
-  }
   if (!axes %in% 1:2) {
     stop("axes must be either 1 or 2")
   }
