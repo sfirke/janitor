@@ -12,6 +12,8 @@
 
 * `row_to_names()` now has a new helper function, `find_header()` to help find the row that contains the names.  It can be used by passing `row_number="find_header"`, and see the documentation of `row_to_names()` and `find_header()` for more examples. (fix #429)
 
+* If a `tabyl()` or similar data.frame is sorted (e.g., with `dplyr::arrange()`), then has `adorn_totals()` and/or `adorn_percentages()` called on it, followed by `adorn_ns()`, the Ns will be sorted correctly to match the tabyl they're being adorned on. (fix #407)
+
 ## Minor features
 
 * Some warning messages now have classes so that they can be specifically suppressed with suppressWarnings(..., class="the_class_to_suppress").  To find the class of a warning you typically must look at the code where the error is occurring.  (#452, thanks to **@mgacc0** for suggesting and **@billdenney** for fixing)

@@ -39,7 +39,10 @@ as_tabyl <- function(dat, axes = 2, row_var_name = NULL, col_var_name = NULL) {
   
   # assign core attribute and classes
   if("tabyl" %in% class(dat)){
-    attr(dat, "core") <- untabyl(dat)
+    # if already a tabyl, may have totals row.  Safest play is to simply reorder the core rows to match the dat rows
+    attr(dat, "core") <- attr(dat, "core")[order(match(attr(dat, "core")[, 1],
+                                                       dat[, 1])), ]
+    row.names(attr(dat, "core")) <- 1:nrow(attr(dat, "core")) # if they're sorted in the prior step above, this resets
   } else {
     attr(dat, "core") <- as.data.frame(dat) # core goes first so dat does not yet have attributes attached to it
   }

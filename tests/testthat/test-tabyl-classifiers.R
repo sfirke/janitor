@@ -77,3 +77,42 @@ test_that("bad inputs are caught", {
     "variable names are only meaningful for two-way tabyls"
   )
 })
+
+test_that("adorn_totals and adorn_percentages reset the tabyl's core to reflect sorting, #407", {
+  unsorted <- mtcars %>% tabyl(am, cyl)
+  sorted <- arrange(unsorted, desc(`4`))
+  expect_equal(
+    sorted %>%
+      adorn_totals() %>%
+      attr(., "core"),
+    sorted %>%
+      untabyl
+  )
+  expect_equal(
+    sorted %>%
+      adorn_percentages() %>%
+      attr(., "core"),
+    sorted %>%
+      untabyl
+  )
+  # both:
+  expect_equal(
+    sorted %>%
+      adorn_totals() %>%
+      adorn_percentages() %>%
+      attr(., "core"),
+    sorted %>%
+      untabyl
+  )
+  # Ns with "Total" row sorted to top - the Total N should be up there too:
+  expect_equal(
+    sorted %>%
+      adorn_totals() %>%
+      adorn_percentages("col") %>%
+      arrange(desc(`4`)) %>%
+      adorn_ns() %>%
+      pull(`4`) %>%
+      first,
+    "1.0000000 (11)"
+  )
+})
