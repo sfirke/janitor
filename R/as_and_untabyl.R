@@ -38,12 +38,17 @@ as_tabyl <- function(dat, axes = 2, row_var_name = NULL, col_var_name = NULL) {
   }
   
   # assign core attribute and classes
-  attr(dat, "core") <- as.data.frame(dat) # core goes first so dat does not yet have attributes attached to it
+  if("tabyl" %in% class(dat)){
+    attr(dat, "core") <- untabyl(dat)
+  } else {
+    attr(dat, "core") <- as.data.frame(dat) # core goes first so dat does not yet have attributes attached to it
+  }
+  
   attr(dat, "tabyl_type") <- dplyr::case_when(
     axes == 1 ~ "one_way",
     axes == 2 ~ "two_way"
   )
-  class(dat) <- c("tabyl", class(dat))
+  class(dat) <- c("tabyl", setdiff(class(dat), "tabyl"))
   
   if (!missing(row_var_name) | !missing(col_var_name)) {
     if (axes != 2) {
