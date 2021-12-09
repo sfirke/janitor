@@ -49,9 +49,7 @@ adorn_percentages <- function(dat, denominator = "row", na.rm = TRUE, ...) {
       stop("'denominator' must be one of 'row', 'col', or 'all'")
     }
     
-    if (!"tabyl" %in% class(dat)) {
-      dat <- as_tabyl(dat)
-    }
+    dat <- as_tabyl(dat)
 
     numeric_cols <- which(vapply(dat, is.numeric, logical(1)))
     non_numeric_cols <- setdiff(1:ncol(dat), numeric_cols)

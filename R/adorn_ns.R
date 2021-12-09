@@ -72,6 +72,7 @@ adorn_ns <- function(dat, position = "rear", ns = attr(dat, "core"), ...) {
     if (!custom_ns_supplied) {
       if (!is.null(attr(dat, "totals"))) { # add totals row/col to core for pasting, if applicable
         ns <- adorn_totals(ns, attr(dat, "totals"))
+        ns <- ns[order(match(ns[, 1], dat[, 1])), ] # from #407 - in rare event Totals row has been sorted off the bottom, sort to match
       }
     }
 
