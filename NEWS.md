@@ -14,6 +14,8 @@
 
 * If a `tabyl()` or similar data.frame is sorted (e.g., with `dplyr::arrange()`), then has `adorn_totals()` and/or `adorn_percentages()` called on it, followed by `adorn_ns()`, the Ns will be sorted correctly to match the tabyl they're being adorned on. (fix #407)
 
+* `remove_empty()` has a new argument, `cutoff` which allows rows or columns to be removed if more than the `cutoff` fraction of the data are missing.  (fix #446, thanks to **@jzadra** for suggesting the feature and **@billdenney** for fixing)
+
 ## Minor features
 
 * Some warning messages now have classes so that they can be specifically suppressed with suppressWarnings(..., class="the_class_to_suppress").  To find the class of a warning you typically must look at the code where the error is occurring.  (#452, thanks to **@mgacc0** for suggesting and **@billdenney** for fixing)

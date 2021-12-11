@@ -7,6 +7,8 @@
 #' @param which one of "rows", "cols", or \code{c("rows", "cols")}.  Where no
 #'   value of which is provided, defaults to removing both empty rows and empty
 #'   columns, declaring the behavior with a printed message.
+#' @param cutoff What fraction (>0 to <=1) of rows or columns must be empty to
+#'   be removed?
 #' @param quiet Should messages be suppressed (\code{TRUE}) or printed
 #'   (\code{FALSE}) indicating the summary of empty columns or rows removed?
 #' @return Returns the object without its missing rows or columns.
@@ -27,13 +29,8 @@
 #' # _then_ remove empty (all-NA) rows
 #' dd %>% mutate(across(is.character,~na_if(trimws(.),""))) %>%
 #'    remove_empty("rows")
-
-
-#' 
-#' 
 #' @export
-
-remove_empty <- function(dat, which = c("rows", "cols"), quiet=TRUE) {
+remove_empty <- function(dat, which = c("rows", "cols"), cutoff=1, quiet=TRUE) {
   if (missing(which) && !missing(dat)) {
     message("value for \"which\" not specified, defaulting to c(\"rows\", \"cols\")")
     which <- c("rows", "cols")
@@ -41,15 +38,34 @@ remove_empty <- function(dat, which = c("rows", "cols"), quiet=TRUE) {
   if ((sum(which %in% c("rows", "cols")) != length(which)) && !missing(dat)) {
     stop("\"which\" must be one of \"rows\", \"cols\", or c(\"rows\", \"cols\")")
   }
+  if (length(cutoff) != 1) {
+    stop("cutoff must be a single value")
+  } else if (!is.numeric(cutoff)) {
+    stop("cutoff must be numeric")
+  } else if (cutoff <= 0 | cutoff > 1) {
+    stop("cutoff must be >0 and <= 1")
+  } else if (length(which) > 1 & cutoff != 1) {
+    stop("cutoff must be used with only one of which = 'rows' or 'cols', not both")
+  }
   if ("rows" %in% which) {
-    mask_keep <- rowSums(is.na(dat)) != ncol(dat)
+    mask_keep <-
+      if (cutoff == 1) {
+        rowSums(is.na(dat)) != ncol(dat)
+      } else {
+        (rowSums(is.na(dat))/ncol(dat)) < cutoff
+      }
     if (!quiet) {
       remove_message(dat=dat, mask_keep=mask_keep, which="rows", reason="empty")
     }
     dat <- dat[mask_keep, , drop = FALSE]
   }
   if ("cols" %in% which) {
-    mask_keep <- colSums(!is.na(dat)) > 0
+    mask_keep <-
+      if (cutoff == 1) {
+        colSums(is.na(dat)) != nrow(dat)
+      } else {
+        (colSums(is.na(dat))/nrow(dat)) < cutoff
+      }
     if (!quiet) {
       remove_message(dat=dat, mask_keep=mask_keep, which="columns", reason="empty")
     }
