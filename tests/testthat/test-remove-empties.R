@@ -163,9 +163,11 @@ test_that("Messages are accurate with remove_empty and remove_constant", {
 test_that("remove_empty cutoff tests", {
   dat <-
     data.frame(
-      A=rep(NA, 100),
-      B=c(1, rep(NA, 99)),
-      C=c(rep(1, 99), NA)
+      A=rep(NA, 10),
+      B=c(1, 1, rep(NA, 8)),
+      C=c(rep(1, 8), NA, NA),
+      D=c(rep(1, 9), NA),
+      E=1
     )
   # Implicit cutoff is 1
   expect_equal(
@@ -174,27 +176,31 @@ test_that("remove_empty cutoff tests", {
   )
   expect_equal(
     remove_empty(dat, cutoff=1, which="rows"),
-    dat[1:99, ]
+    dat
   )
   expect_equal(
-    remove_empty(dat, cutoff=0.34, which="rows"),
-    dat[1, ]
-  )
-  expect_equal(
-    remove_empty(dat, cutoff=0.33, which="rows"),
+    remove_empty(dat, cutoff=0.8, which="rows"),
     dat[c(), ]
   )
   expect_equal(
+    remove_empty(dat, cutoff=0.79, which="rows"),
+    dat[1:2, ]
+  )
+  expect_equal(
+    remove_empty(dat, cutoff=0.2, which="rows"),
+    dat[1:9, ]
+  )
+  expect_equal(
     remove_empty(dat, cutoff=1, which="cols"),
-    dat[, c("B", "C")]
+    dat[, c("B", "C", "D", "E")]
   )
   expect_equal(
-    remove_empty(dat, cutoff=0.99, which="cols"),
-    dat[, "C", drop=FALSE]
+    remove_empty(dat, cutoff=0.9, which="cols"),
+    dat[, "E", drop=FALSE]
   )
   expect_equal(
-    remove_empty(dat, cutoff=0.01, which="cols"),
-    dat[, c(), drop=FALSE]
+    remove_empty(dat, cutoff=0.2, which="cols"),
+    dat[, c("C", "D", "E"), drop=FALSE]
   )
 })
 

@@ -48,11 +48,13 @@ remove_empty <- function(dat, which = c("rows", "cols"), cutoff=1, quiet=TRUE) {
     stop("cutoff must be used with only one of which = 'rows' or 'cols', not both")
   }
   if ("rows" %in% which) {
+    # Using different code with cutoff = 1 vs cutoff != 1 to avoid possible
+    # floating point errors.
     mask_keep <-
       if (cutoff == 1) {
         rowSums(is.na(dat)) != ncol(dat)
       } else {
-        (rowSums(is.na(dat))/ncol(dat)) < cutoff
+        (rowSums(!is.na(dat))/ncol(dat)) > cutoff
       }
     if (!quiet) {
       remove_message(dat=dat, mask_keep=mask_keep, which="rows", reason="empty")
@@ -60,11 +62,13 @@ remove_empty <- function(dat, which = c("rows", "cols"), cutoff=1, quiet=TRUE) {
     dat <- dat[mask_keep, , drop = FALSE]
   }
   if ("cols" %in% which) {
+    # Using different code with cutoff = 1 vs cutoff != 1 to avoid possible
+    # floating point errors.
     mask_keep <-
       if (cutoff == 1) {
         colSums(is.na(dat)) != nrow(dat)
       } else {
-        (colSums(is.na(dat))/nrow(dat)) < cutoff
+        (colSums(!is.na(dat))/nrow(dat)) > cutoff
       }
     if (!quiet) {
       remove_message(dat=dat, mask_keep=mask_keep, which="columns", reason="empty")
