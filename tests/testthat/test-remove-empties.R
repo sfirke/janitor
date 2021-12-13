@@ -106,8 +106,8 @@ test_that("remove_constant", {
     info="NA with other values is kept with na.rm"
   )
   expect_equal(
-    remove_constant(tibble(A=NA, B=c(NA, 1, 2), C=1)),
-    tibble(B=c(NA, 1, 2)),
+    remove_constant(tibble::tibble(A=NA, B=c(NA, 1, 2), C=1)),
+    tibble::tibble(B=c(NA, 1, 2)),
     info="tibbles are correctly handled"
   )
 })
@@ -156,5 +156,79 @@ test_that("Messages are accurate with remove_empty and remove_constant", {
     regexp="No empty columns to remove.",
     fixed=TRUE,
     info="No empty columns to remove"
+  )
+})
+
+
+test_that("remove_empty cutoff tests", {
+  dat <-
+    data.frame(
+      A=rep(NA, 10),
+      B=c(1, 1, rep(NA, 8)),
+      C=c(rep(1, 8), NA, NA),
+      D=c(rep(1, 9), NA),
+      E=1
+    )
+  # Implicit cutoff is 1
+  expect_equal(
+    remove_empty(dat),
+    remove_empty(dat, cutoff=1)
+  )
+  expect_equal(
+    remove_empty(dat, cutoff=1, which="rows"),
+    dat
+  )
+  expect_equal(
+    remove_empty(dat, cutoff=0.8, which="rows"),
+    dat[c(), ]
+  )
+  expect_equal(
+    remove_empty(dat, cutoff=0.79, which="rows"),
+    dat[1:2, ]
+  )
+  expect_equal(
+    remove_empty(dat, cutoff=0.2, which="rows"),
+    dat[1:9, ]
+  )
+  expect_equal(
+    remove_empty(dat, cutoff=1, which="cols"),
+    dat[, c("B", "C", "D", "E")]
+  )
+  expect_equal(
+    remove_empty(dat, cutoff=0.9, which="cols"),
+    dat[, "E", drop=FALSE]
+  )
+  expect_equal(
+    remove_empty(dat, cutoff=0.2, which="cols"),
+    dat[, c("C", "D", "E"), drop=FALSE]
+  )
+})
+
+test_that("remove_empty cutoff errors", {
+  expect_error(
+    remove_empty(cutoff=c(0.1, 0.2)),
+    regexp="cutoff must be a single value"
+  )
+  expect_error(
+    remove_empty(cutoff="A"),
+    regexp="cutoff must be numeric"
+  )
+  expect_error(
+    remove_empty(cutoff=0),
+    regexp="cutoff must be >0 and <= 1"
+  )
+  expect_error(
+    remove_empty(cutoff=1.1),
+    regexp="cutoff must be >0 and <= 1"
+  )
+  # Implicit `which` argument
+  expect_error(
+    remove_empty(cutoff=0.9),
+    regexp="cutoff must be used with only one of which = 'rows' or 'cols', not both"
+  )
+  # Explicit `which` argument
+  expect_error(
+    remove_empty(cutoff=0.9, which=c("rows", "cols")),
+    regexp="cutoff must be used with only one of which = 'rows' or 'cols', not both"
   )
 })

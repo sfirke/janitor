@@ -4,7 +4,7 @@
 \alias{remove_empty}
 \title{Remove empty rows and/or columns from a data.frame or matrix.}
 \usage{
-remove_empty(dat, which = c("rows", "cols"), quiet = TRUE)
+remove_empty(dat, which = c("rows", "cols"), cutoff = 1, quiet = TRUE)
 }
 \arguments{
 \item{dat}{the input data.frame or matrix.}
@@ -12,6 +12,9 @@ remove_empty(dat, which = c("rows", "cols"), quiet = TRUE)
 \item{which}{one of "rows", "cols", or \code{c("rows", "cols")}.  Where no
 value of which is provided, defaults to removing both empty rows and empty
 columns, declaring the behavior with a printed message.}
+
+\item{cutoff}{What fraction (>0 to <=1) of rows or columns must be empty to
+be removed?}
 
 \item{quiet}{Should messages be suppressed (\code{TRUE}) or printed
 (\code{FALSE}) indicating the summary of empty columns or rows removed?}
@@ -37,8 +40,6 @@ dd \%>\% remove_empty("rows")
 # _then_ remove empty (all-NA) rows
 dd \%>\% mutate(across(is.character,~na_if(trimws(.),""))) \%>\%
    remove_empty("rows")
-
-
 }
 \seealso{
 \code{\link[=remove_constant]{remove_constant()}} for removing
