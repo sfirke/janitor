@@ -75,7 +75,7 @@ adorn_ns <- function(dat, position = "rear", ns = attr(dat, "core"), ...) {
         ns <- ns[order(match(ns[, 1], dat[, 1])), ] # from #407 - in rare event Totals row has been sorted off the bottom, sort to match
       }
     }
-
+    
     if (position == "rear") {
       result <- paste_matrices(dat, ns %>%
                                  dplyr::mutate_at(dplyr::vars(-dplyr::group_cols()), as.character) %>%
@@ -89,7 +89,7 @@ adorn_ns <- function(dat, position = "rear", ns = attr(dat, "core"), ...) {
     }
     attributes(result) <- attrs
     
-    if(custom_ns_supplied){
+    if(custom_ns_supplied & rlang::dots_n(...) == 0){
       dont_adorn <- 1L
     } else if(rlang::dots_n(...) == 0){
       cols_to_adorn <- which(vapply(ns, is.numeric, logical(1))) # numeric cols
