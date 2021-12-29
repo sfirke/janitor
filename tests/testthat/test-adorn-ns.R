@@ -198,8 +198,9 @@ test_that("no message thrown on grouped df input", {
 test_that("adorn_ns works on single column data.frame with custom Ns if tidyselect is used, #456", {
   adorned_single <- mtcars %>%
     tabyl(am, cyl) %>%
-    adorn_percentages() %>%
+    adorn_percentages()
+  adorned_single <- adorned_single %>%
     select(a = `4`) %>%
-    adorn_ns(ns = select(attr(x, "core"), a = `4`),,,, a)
+    adorn_ns(ns = select(attr(adorned_single, "core"), a = `4`),,,, a)
   expect_equal(stringr::str_sub(adorned_single$a, -4, -1), c(" (3)", " (8)"))
 })
