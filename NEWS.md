@@ -29,6 +29,8 @@
 
 * `tabyl()` now succeeds when the second variable is named `"n"` (#445).
 
+* `adorn_ns()` can act on a single-column data.frame input with custom Ns supplied if the variable to adorn is specified with `...` (#456).
+
 # janitor 2.1.0 (2021-01-05)
 
 ## New features
