@@ -11,7 +11,7 @@
 #' @param tz The timezone for POSIXct output, unless an object is POSIXt
 #'   already.  Ignored for Date output.
 #' @param ... Passed to further methods.  Eventually may be passed to
-#'   `excel_numeric_to_date()`, `base::as.POXIXct()`, or `base::as.Date()`.
+#'   `excel_numeric_to_date()`, `base::as.POSIXct()`, or `base::as.Date()`.
 #' @param character_fun A function to convert non-numeric-looking, non-NA values
 #'   in `x` to POSIXct objects.
 #' @param string_conversion_failure If a character value fails to parse into the

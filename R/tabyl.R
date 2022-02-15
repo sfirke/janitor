@@ -39,7 +39,7 @@
 tabyl <- function(dat, ...) UseMethod("tabyl")
 
 
-#' @inheritParams tabyl
+
 #' @export
 #' @rdname tabyl
 # this method runs when tabyl() is called on plain vectors; tabyl_1way
@@ -134,7 +134,7 @@ tabyl.default <- function(dat, show_na = TRUE, show_missing_levels = TRUE, ...) 
 }
 
 
-#' @inheritParams tabyl
+
 #' @export
 #' @rdname tabyl
 # Main dispatching function to underlying functions depending on whether "..." contains 1, 2, or 3 variables
