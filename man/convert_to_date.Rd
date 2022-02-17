@@ -25,7 +25,7 @@ convert_to_datetime(
 \item{x}{The object to convert}
 
 \item{...}{Passed to further methods.  Eventually may be passed to
-`excel_numeric_to_date()`, `base::as.POXIXct()`, or `base::as.Date()`.}
+`excel_numeric_to_date()`, `base::as.POSIXct()`, or `base::as.Date()`.}
 
 \item{character_fun}{A function to convert non-numeric-looking, non-NA values
 in `x` to POSIXct objects.}

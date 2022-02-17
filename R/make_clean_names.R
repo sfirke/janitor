@@ -181,7 +181,7 @@ make_clean_names <- function(string,
 #' @keywords Internal
 #' @noRd
 warn_micro_mu <- function(string, replace) {
-  micro_mu <- names(janitor:::mu_to_u)
+  micro_mu <- names(mu_to_u)
   # The vector of characters that exist but are not handled at all
   warning_characters <- character()
   # The vector of characters that exist and may be handled by a specific replacement
