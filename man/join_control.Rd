@@ -23,11 +23,11 @@ join_control(
   ...
 )
 
-join_many_to_one(x, y)
+join_many_to_one(x, y, ...)
 
-join_one_to_many(x, y)
+join_one_to_many(x, y, ...)
 
-join_one_to_one(x, y)
+join_one_to_one(x, y, ...)
 }
 \arguments{
 \item{x, y}{tbls to join}
@@ -48,7 +48,8 @@ the return value must overlap (i.e. have rows from both) \code{x} and
 \code{y}?  Fractions are converted to row counts by rounding up to the
 nearest integer.}
 
-\item{...}{Passed to \code{join_fun()}}
+\item{...}{Passed to \code{join_fun()} for \code{join_control()} and passed
+to \code{join_control()} for the other functions.}
 }
 \value{
 A joined tbl

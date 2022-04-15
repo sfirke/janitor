@@ -65,6 +65,18 @@ test_that("join_control works as expected", {
     ),
     dplyr::left_join(two_row_df, one_row_df)
   )
+  
+  # the `by` argument is respected
+  x <- data.frame(A=1:4, B=rep(1:2, each=2))
+  y <- data.frame(A=1:4, B=5:8)
+  expect_error(
+    join_one_to_one(x=x, y=y),
+    regexp="All rows were are not in the new dataset"
+  )
+  expect_equal(
+    join_one_to_one(x=x, y=y, by="A"),
+    data.frame(A=1:4, B.x=rep(1:2, each=2), B.y=5:8)
+  )
 })
 
 test_that("join_control row counts in output are maintained", {
@@ -307,5 +319,30 @@ test_that("join_one_to_one and join_one_to_many work", {
   expect_error(
     join_one_to_one(x, y),
     regexp="Rows are not unique in the new dataset"
+  )
+})
+
+test_that("join_control expected errors", {
+  x <- data.frame(A=rep(1:2, 2), B=1:4)
+  y <- data.frame(A=rep(1:2, 2), C=1:4)
+  expect_error(
+    join_control(x, y, x_control=c("missing", "nomissing")),
+    regexp="Both 'missing' and 'nomissing' may not be provided at the same time for `x_control`",
+    fixed=TRUE
+  )
+  expect_error(
+    join_control(x, y, y_control=c("missing", "nomissing")),
+    regexp="Both 'missing' and 'nomissing' may not be provided at the same time for `y_control`",
+    fixed=TRUE
+  )
+  expect_error(
+    join_control(x, y, y_control=c("missing"), join_fun=dplyr::left_join),
+    regexp="No rows are missing in the new dataset"
+  )
+  z <- data.frame(A=1:10, C=1:10)
+  expect_error(
+    join_control(x, y=z, y_fraction=0.5, join_fun=dplyr::left_join),
+    regexp="Not enough rows from `y` are in the returned value (5 expected and 4 found)",
+    fixed=TRUE
   )
 })

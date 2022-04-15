@@ -32,7 +32,8 @@
 #'   the return value must overlap (i.e. have rows from both) \code{x} and
 #'   \code{y}?  Fractions are converted to row counts by rounding up to the
 #'   nearest integer.
-#' @param ... Passed to \code{join_fun()}
+#' @param ... Passed to \code{join_fun()} for \code{join_control()} and passed
+#'   to \code{join_control()} for the other functions.
 #' @return A joined tbl
 #' @keywords Internal
 #' @family Join control
@@ -220,12 +221,13 @@ join_control_check_count_fraction <- function(fraction, count, data, value_name)
 #' join_many_to_one(x, y_missing)
 #' }
 #' @export
-join_many_to_one <- function(x, y) {
+join_many_to_one <- function(x, y, ...) {
   join_control(
     x, y,
     join_fun=dplyr::left_join,
     x_control=c("all", "unique", "nomissing"),
-    y_control="nomissing"
+    y_control="nomissing",
+    ...
   )
 }
 
@@ -234,12 +236,13 @@ join_many_to_one <- function(x, y) {
 #' @importFrom dplyr left_join
 #' @family Join control
 #' @export
-join_one_to_many <- function(x, y) {
+join_one_to_many <- function(x, y, ...) {
   join_control(
     x, y,
     join_fun=dplyr::left_join,
     x_control="nomissing",
-    y_control=c("all", "unique", "nomissing")
+    y_control=c("all", "unique", "nomissing"),
+    ...
   )
 }
 
@@ -257,11 +260,12 @@ join_one_to_many <- function(x, y) {
 #' join_one_to_one(x, y)
 #' }
 #' @export
-join_one_to_one <- function(x, y) {
+join_one_to_one <- function(x, y, ...) {
   join_control(
     x, y,
     join_fun=dplyr::left_join,
     x_control=c("all", "unique", "nomissing"),
-    y_control=c("all", "unique", "nomissing")
+    y_control=c("all", "unique", "nomissing"),
+    ...
   )
 }
