@@ -18,6 +18,12 @@
 
 * A new function `sas_numeric_to_date()` has been added to convert SAS dates, times, and datetimes to R objects (fix #475, thanks to **@billdenney** for suggesting and implementing)
 
+* A new set of functions for controlling joins have been added: `join_one_to_one()`, `join_many_to_one()`, and `join_one_to_many()` (fix #427, thanks to **@billdenney** for suggesting and implementing).
+    * These new functions ensure that a join includes the expected type of merge where:
+    * `join_one_to_one()`: each row for both data.frames are in the joined data.frame exactly once;
+    * `join_many_to_one()`: each row in the `x` data.frame is in the joined data.frame exactly once, and each of the `x` rows matches exactly 1 row in the `y` data.frame; and
+    * `join_one_to_many()`: the same as `join_many_to_one()` but with `x` and `y` flipped.
+
 ## Minor features
 
 * Some warning messages now have classes so that they can be specifically suppressed with suppressWarnings(..., class="the_class_to_suppress").  To find the class of a warning you typically must look at the code where the error is occurring.  (#452, thanks to **@mgacc0** for suggesting and **@billdenney** for fixing)
