@@ -1,28 +1,26 @@
 # Submission
-2019-04-20
+2020-12-28
 
 ## Submission summary
-I fixed a test that was failing as a result of the change to `base::sample()` and am submitting this update per CRAN request.  I've also incorporated new functionality & bug fixes accumulated over the last 9 months since 1.1.1 went to CRAN.
+An accumulation of small enhancements and bug fixes.  No breaking changes.
 
 ### Test environments
 
 #### Windows
-* win-builder with R-release 3.5.3 (2019-03-11)
-* Windows 10 with R-oldrel 3.5.0 (local)
+* Windows 10 with R-release 4.0.3 (local)
+* Windows 10 with R Under development (unstable) (2020-12-19 r79650) via win-builder, checked 2020-12-28
 
 #### Linux
-* ubuntu 18.04.2, R-oldrel 3.4.4  (local)
-* ubuntu 14.04.5 R-release 3.5.3 (Travis CI)
-* ubuntu 14.04.5 R-devel R  Under development (unstable) (2019-04-20 r76407) (Travis CI)
+* ubuntu 20.04 R-release 4.0.3 (Github CI)
+* ubuntu 20.04 R-devel R Under development (unstable) (2020-12-28) (Github CI)
 
 #### Mac
-* OS X High Sierra 10.13.3, R-oldrel 3.4.4 (Travis CI)
-* OS X High Sierra 10.13.3, R-release 3.5.3 (Travis CI)
+* Mac OS with R-release (Github CI)
 
 ### R CMD check results
 0 errors | 0 warnings | 0 notes
 
 ### Downstream dependencies
-The nature of changes to janitor in 1.2.0 should not introduce breakage for downstream dependencies.
+This does not negatively affect downstream dependencies.
 
-I checked the 8 reverse dependencies from CRAN: ballr, bomrang, CGPfunctions, congressbr, driftR, fivethirtyeight, moderndive, questionr.  There was an error in congressbr, but it is unrelated to janitor (that package currently has errors in its CRAN check results).
+I ran a revdepcheck, it succeeded for 30 packages and I manually investigated the others to verify that errors were the result of time-outs and that the janitor changes do not affect those packages.

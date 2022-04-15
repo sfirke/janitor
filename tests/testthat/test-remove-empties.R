@@ -41,22 +41,6 @@ test_that("missing data.frame input throws its error before messages about 'whic
                fixed = TRUE)
 })
 
-# Kind of superficial given that remove_empty_* have been refactored to call remove_empty() themselves, but might as well keep until deprecated functions are removed
-test_that("deprecated functions remove_empty_cols and remove_empty_rows function as expected", {
-  expect_equal(
-    dat %>%
-      remove_empty("rows"),
-    suppressWarnings(dat %>%
-      remove_empty_rows())
-  )
-  expect_equal(
-    dat %>%
-      remove_empty("cols"),
-    suppressWarnings(dat %>%
-      remove_empty_cols())
-  )
-})
-
 test_that("remove_empty leaves matrices as matrices", {
   mat <- matrix(c(NA, NA, NA, rep(0, 3)), ncol = 2, byrow = TRUE)
   expect_equal(remove_empty(mat), matrix(c(NA, rep(0, 3)), ncol=2),
@@ -122,8 +106,8 @@ test_that("remove_constant", {
     info="NA with other values is kept with na.rm"
   )
   expect_equal(
-    remove_constant(tibble(A=NA, B=c(NA, 1, 2), C=1)),
-    tibble(B=c(NA, 1, 2)),
+    remove_constant(tibble::tibble(A=NA, B=c(NA, 1, 2), C=1)),
+    tibble::tibble(B=c(NA, 1, 2)),
     info="tibbles are correctly handled"
   )
 })
@@ -160,5 +144,91 @@ test_that("Messages are accurate with remove_empty and remove_constant", {
   )
   expect_silent(
     remove_empty(data.frame(A=NA, B=c(1, NA)), which="rows", quiet=TRUE)
+  )
+  expect_message(
+   remove_constant(mtcars, quiet = FALSE),
+   regexp="No constant columns to remove.",
+   fixed=TRUE,
+   info="No constant columns to remove"
+  )
+  expect_message(
+    remove_empty(mtcars, quiet = FALSE),
+    regexp="No empty columns to remove.",
+    fixed=TRUE,
+    info="No empty columns to remove"
+  )
+})
+
+
+test_that("remove_empty cutoff tests", {
+  dat <-
+    data.frame(
+      A=rep(NA, 10),
+      B=c(1, 1, rep(NA, 8)),
+      C=c(rep(1, 8), NA, NA),
+      D=c(rep(1, 9), NA),
+      E=1
+    )
+  # Implicit cutoff is 1
+  expect_equal(
+    remove_empty(dat),
+    remove_empty(dat, cutoff=1)
+  )
+  expect_equal(
+    remove_empty(dat, cutoff=1, which="rows"),
+    dat
+  )
+  expect_equal(
+    remove_empty(dat, cutoff=0.8, which="rows"),
+    dat[c(), ]
+  )
+  expect_equal(
+    remove_empty(dat, cutoff=0.79, which="rows"),
+    dat[1:2, ]
+  )
+  expect_equal(
+    remove_empty(dat, cutoff=0.2, which="rows"),
+    dat[1:9, ]
+  )
+  expect_equal(
+    remove_empty(dat, cutoff=1, which="cols"),
+    dat[, c("B", "C", "D", "E")]
+  )
+  expect_equal(
+    remove_empty(dat, cutoff=0.9, which="cols"),
+    dat[, "E", drop=FALSE]
+  )
+  expect_equal(
+    remove_empty(dat, cutoff=0.2, which="cols"),
+    dat[, c("C", "D", "E"), drop=FALSE]
+  )
+})
+
+test_that("remove_empty cutoff errors", {
+  expect_error(
+    remove_empty(cutoff=c(0.1, 0.2)),
+    regexp="cutoff must be a single value"
+  )
+  expect_error(
+    remove_empty(cutoff="A"),
+    regexp="cutoff must be numeric"
+  )
+  expect_error(
+    remove_empty(cutoff=0),
+    regexp="cutoff must be >0 and <= 1"
+  )
+  expect_error(
+    remove_empty(cutoff=1.1),
+    regexp="cutoff must be >0 and <= 1"
+  )
+  # Implicit `which` argument
+  expect_error(
+    remove_empty(cutoff=0.9),
+    regexp="cutoff must be used with only one of which = 'rows' or 'cols', not both"
+  )
+  # Explicit `which` argument
+  expect_error(
+    remove_empty(cutoff=0.9, which=c("rows", "cols")),
+    regexp="cutoff must be used with only one of which = 'rows' or 'cols', not both"
   )
 })

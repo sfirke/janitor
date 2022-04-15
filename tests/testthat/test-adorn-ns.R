@@ -5,7 +5,7 @@ context("adorn_ns()")
 
 library(dplyr)
 
-source_an <- data_frame(
+source_an <- tibble(
   x = c(rep("a", 500), "b", "b", "c", "d"),
   y = rep(c(0, 0, 0, 0, 0, 1), 84)
 ) %>%
@@ -158,4 +158,49 @@ test_that("automatically invokes purrr::map when called on a 3-way tabyl", {
 
 test_that("non-data.frame inputs are handled", {
   expect_error(adorn_ns(1:5), "adorn_ns() must be called on a data.frame or list of data.frames", fixed = TRUE)
+})
+
+test_that("multiple character columns in a tabyl are left untouched",{
+  small_with_char <- data.frame(
+    x = letters[1:2],
+    a = 1:2,
+    b = 3:4,
+    text = "text",
+    stringsAsFactors = FALSE
+  )
+ expect_equal(
+   small_with_char %>%
+    adorn_percentages() %>%
+     pull(text),
+   c("text", "text")
+  )
+})
+
+test_that("works with tidyselect", {
+  simple_percs <- source_an %>% adorn_percentages()
+  one_adorned <- simple_percs %>% adorn_ns(,,,`1`)
+  expect_equal(
+    simple_percs[, 1:2],
+    one_adorned[, 1:2]
+  )
+  expect_equal(
+    one_adorned[[3]],
+    c("0.166 (83)", "0.000  (0)", "0.000  (0)", "1.000  (1)")
+  )
+})
+
+test_that("no message thrown on grouped df input", {
+  expect_silent(source_an %>%
+                  adorn_percentages() %>%
+                  adorn_ns())
+})
+
+test_that("adorn_ns works on single column data.frame with custom Ns if tidyselect is used, #456", {
+  adorned_single <- mtcars %>%
+    tabyl(am, cyl) %>%
+    adorn_percentages()
+  adorned_single <- adorned_single %>%
+    select(a = `4`) %>%
+    adorn_ns(ns = select(attr(adorned_single, "core"), a = `4`),,,, a)
+  expect_equal(stringr::str_sub(adorned_single$a, -4, -1), c(" (3)", " (8)"))
 })

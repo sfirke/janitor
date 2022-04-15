@@ -1,14 +1,130 @@
-# janitor 1.2.0.9000 (unreleased)
+# janitor 2.1.0.9000 (unreleased, under development)
+
+## Breaking changes
+
+* A new `...` argument was added to `row_to_names()`, preceding the `remove_row` argument, as part of the new `find_header()` functionality.  If code previously used `remove_row` as an unnamed argument, it will now error.  If code previously used the unsupported behavior of passing anything other than `TRUE` or `FALSE` to `remove_row`, unexpected results may occur.
+
+* Microsoft Excel incorrectly has a leap day on 29 February 1900 (see https://docs.microsoft.com/en-us/office/troubleshoot/excel/wrongly-assumes-1900-is-leap-year).  `excel_numeric_to_date()` did not account for this error, and now it does.  Dates returned from `excel_numeric_to_date()` that precede 1 March 1900 will now be one day later compared to previous versions (i.e. what was 1 Feb 1900 is now 2 Feb 1900), and dates that Excel presents as 29 Feb 1900 will become `as.POSIXct(NA)`.  (#423, thanks **@billdenney** for fixing)
+
+* A minor breaking change is that the time zone is now always set for `excel_numeric_to_date()` and `convert_date()`.  The default timezone is `Sys.timezone()`, previously it was an empty string (`""`). (#422, thanks **@billdenney** for fixing)
+
+## New features
+
+* `row_to_names()` now has a new helper function, `find_header()` to help find the row that contains the names.  It can be used by passing `row_number="find_header"`, and see the documentation of `row_to_names()` and `find_header()` for more examples. (fix #429)
+
+* If a `tabyl()` or similar data.frame is sorted (e.g., with `dplyr::arrange()`), then has `adorn_totals()` and/or `adorn_percentages()` called on it, followed by `adorn_ns()`, the Ns will be sorted correctly to match the tabyl they're being adorned on. (fix #407)
+
+* `remove_empty()` has a new argument, `cutoff` which allows rows or columns to be removed if at least the `cutoff` fraction of the data are missing.  (fix #446, thanks to **@jzadra** for suggesting the feature and **@billdenney** for fixing)
+
+* A new function `sas_numeric_to_date()` has been added to convert SAS dates, times, and datetimes to R objects (fix #475, thanks to **@billdenney** for suggesting and implementing)
 
 ## Minor features
 
-* A `quiet` argument was added to `remove_empty()` and `remove_constant()`  providing more information (when `FALSE`) (#70, thanks to **@jbkunst** for suggesting and **@billdenney** for implementing).
-* `row_to_names()` will now work on matrix input (#320, thanks to **@billdenney** for suggesting and implementing).
+* Some warning messages now have classes so that they can be specifically suppressed with suppressWarnings(..., class="the_class_to_suppress").  To find the class of a warning you typically must look at the code where the error is occurring.  (#452, thanks to **@mgacc0** for suggesting and **@billdenney** for fixing)
+* `excel_numeric_to_date()` now warns when times are converted to `NA` due to hours that do not exist because of daylight savings time (fix #420, thanks **@Geomorph2** for reporting and **@billdenney** for fixing).  It also warns when inputs are not positive, since Excel only supports values down to 1 (#423).
+
+* `make_clean_names()` (and therefore `clean_names()`) issues a warning if the mu or micro symbol is in the names and it is not or may not be handled by a `replace` argument value.  (#448, thanks **@IndrajeetPatil** for reporting and **@billdenney** for fixing)  The rationale is that standard transliteration would convert "[mu]g" to "mg" when it would be more typically be converted to "ug" for use as a unit.  A new, unexported constant (janitor:::mu_to_u) was added to help with mu to "u" replacements.
 
 ## Bug fixes
 
-* The `name` argument to `adorn_totals()` is correctly applied to 3-way tabyls (#306)  Thanks to **@jzadra** for reporting.
-* `remove_constant()` works correctly with tibbles in addition to data.frames and matrices which already worked (thanks to **@billdenney** for implementing).
+* When a numeric variable is supplied as the 2nd variable (column) or 3rd variable (list) of a `tabyl`, the resulting columns or list are now sorted in numeric order, not alphabetic. (#438, thanks **@daaronr** for reporting and **@mattroumaya** for fixing)
+
+* `tabyl()` now succeeds when the second variable is named `"n"` (#445).
+
+* `adorn_ns()` can act on a single-column data.frame input with custom Ns supplied if the variable to adorn is specified with `...` (#456).
+
+# janitor 2.1.0 (2021-01-05)
+
+## New features
+
+* The `adorn_totals()` function now accepts the special argument `fill = NA`, which will insert a class-appropriate `NA` value into each column that isn't being totaled.  This preserves the class of each column; previously they were all convered to character. (thanks **@hamstr147** for implementing in #404 and **@ymer** for reporting in #298).
+
+* `adorn_totals()` now takes the value of `"both"` for the `where` argument.  That is, `adorn_totals("both")` is a shorter version of `adorn_totals(c("col", "row"))`.  (#362, thanks to **@svgsstats** for implementing and **@sfd99** for suggesting).
+
+* `adorn_totals()` now optionally accepts separate name values for a totals row and a totals column.  The default remains that a single name, `"Total"`, is applied to both.  But now if a vector of two strings is passed to the `name` parameter, the first one will be used as the row heading (in column 1) and the second will be used as the column heading. (Thanks **@francisbarton** for suggesting in #359 and implementing in #413.)
+
+
+
+## Bug fixes
+
+* Fixed rounding issue in round_half_up() function (#396, thanks to **@JJSteph**)
+
+* Warnings for incomplete argument names are fixed (fix #367, thanks to **@pabecerra** for reporting and **@billdenney** for fixing)
+
+* 3-way tabyls with factors have columns and rows sorted in the correct order, by factor level (#379).
+
+* Transliteration from extended ASCII (character codes >127) to printable ASCII (character codes <=127) is now better supported (#389, thanks to **@dcorynia** for reporting and **@billdenney** for fixing)
+
+* `clean_names` called on a grouped tibble now also changes the names of the grouping variable(s), in addition to the column names (#260, thanks **@CerebralMastication** for reporting and the tidyverse team for fixing).
+
+* Omitting a numeric column of a tibble when using the `...` select in `adorn_totals()` now succeeds (#388)
+
+* A call to make a 3-way `tabyl()` now succeeds when the first variable is of class `ordered` (#386)
+
+* If a totals row and/or column is present on a tabyl as a result of `adorn_totals()`, the functions `chisq.test()` and `fisher.test()` drop the totals and print a warning before proceding with the calculations (#385).
+
+# janitor 2.0.1 (2020-04-12)
+
+## Bug fixes and Breaking changes
+
+Transliteration of characters within `make_clean_names()` now operates across operating systems, independent of differences in `stringi` installations (Fix #365, thanks to **@eamoncaddigan** for reporting and **@billdenney** for fixing).
+
+This bug patch represents a breaking change with the way that `make_clean_names()` worked in janitor versions 1.2.1.9000 and 2.0.0 as the transliterations are now more generalized and follow a more best-practice approach to transliterating to ASCII.
+
+# janitor 2.0.0 (2020-04-07)
+
+## Breaking changes
+
+* `clean_names()` and `make_clean_names()` are now more locale-independent and translation to ASCII is simpler (in many cases, Unicode is removed, e.g., the Greek character "delta" becomes a "d"). You may also now control how substitutions occur and add your own substitutions (like "%" becoming "percent").  As a result of these changes, the clean names generated by these functions may break with what was produced in prior versions of janitor. (Fix #331, thanks to @billdenney)
+
+As part of the improvements to `make_clean_names()` and `clean_names()`, the `...` argument was added, allowing the user to pass additional information to the underlying transformation function from the `snakecase` package, `to_any_case()`.  This allows for greater user control of `clean_names()` / `make_clean_names()` and for new functionality like specifying `case = "title"` for transforming variable names back to title case for making plots.
+
+* The `adorn_*` family of functions now allows control of columns to be adorned using the `...` argument.  This often-requested feature results in a small breakage as the now-redundant argument `skip_first_col` in `adorn_percentages()` was removed.
+
+* Obsolete functions were deprecated: `crosstab`, `adorn_crosstab`, `use_first_valid_of`, `convert_to_NA`, `remove_empty_cols`, `remove_empty_rows`, `add_totals_col`, `add_totals_row`.
+
+## Major features
+
+
+* The new functions `convert_to_date()` and `convert_to_datetime()` generalize the work done by `excel_numeric_to_date()` allowing conversion to date or datetimes from many forms of input from numeric, to characters that look like numbers, to characters that look like dates or datetimes, to Dates, to date-times (POSIXt) (#310, thanks to **@billdenney** for implementing).  For instance, this succeeds: `convert_to_date(c("2020-02-29", "40000.1"))`.
+
+* The new function `signif_half_up()` rounds a numeric vector to the specified number of significant digits with halves rounded up (#314, thanks to **@khueyama** for suggesting and implementing).
+
+* `make_clean_names()` now allows the user to specify parts of names to be replaced (Fix #316, thanks to @woodwards for reporting and @woodwards and @billdenney for implementing)
+
+* `make_clean_names()` will ensure that column names are never duplicated (Fix #251, thanks to @jzadra for reporting and @billdenney for implementing)
+
+* `clean_names()` and `make_clean_names()` have a more generic interface where all arguments from `make_clean_names()` are accessible from `clean_names()` (Fix #339, thanks to @ari-nz and @billdenney).
+
+* The variables considered by the function `get_dupes()` can be specified using the select helper functions from `tidyselect`.  This includes `-column_name` to omit a variable as well as the matching functions `starts_with()`, `ends_with()`, `contains()`, and `matches()`.  See `?tidyselect::select_helpers` for more (#326, thanks to **@jzadra** for suggesting and implementing).
+
+## Minor features
+
+* A `quiet` argument was added to `remove_empty()` and `remove_constant()`  providing more information when `quiet = 'FALSE'` (#70, thanks to **@jbkunst** for suggesting and **@billdenney** for implementing).
+
+* `row_to_names()` works on matrix input (#320, thanks to **@billdenney** for suggesting and implementing
+
+* `clean_names()` can now be called on *tbl_graph* objects from the `tidygraph` package. (#252, thanks to @gvdr for bringing up the issue and thanks to @Tazinho for proposing solution).
+
+## Bug fixes
+
+* `adorn_ns()` doesn't append anything to character columns when called on a data.frame resulting from a call to `adorn_percentages()`.  (#195).
+
+* The `name` argument to `adorn_totals()` is correctly applied to 3-way tabyls (#306) (thanks to **@jzadra** for reporting).
+
+* `adorn_rounding()` now works when called on a 3-way tabyl.
+
+* `remove_constant()` works correctly with tibbles (in addition to already working on data.frames and matrices) (thanks to **@billdenney** for implementing).
+
+* `get_dupes()` works when called on a grouped tibble (#329) (thanks to **@jzadra** for fixing).
+
+* When the second variable in a tabyl (the column variable) contains the empty string `""`, it is converted to `"emptystring_` before being spread to the tabyl's column names.  Previously it became the default variable name `V1`. (#203).
+
+* Behind-the-scenes code changes to maintain compatibility with breaking changes to dplyr 1.0.0, tibble 3.0.0, and R 4.0.0.
+
+# janitor 1.2.1 (2020-01-22)
+
+Adjusted a single test to account for a different error message produced by the `tidyselect` package.  No changes to package functionality.
 
 # janitor 1.2.0 (2019-04-20)
 
@@ -68,7 +184,7 @@ Patches a bug introduced in version 1.1.0 where `excel_numeric_to_date()` would 
 ## Release summary
 This release was requested by CRAN to address some minor package dependency issues.  It also contains several updates and additions described below.
 
-## Major Features
+## Major features
 
 The new function `row_to_names()` handles the case where a dirty data file is read in with its names stored as a row of the data.frame, rather than in the names.  This function sets the names of the data.frame to this row and optionally cleans up the rows above and including where the names were stored.  Thanks to **@billdenney** for writing this feature.
 
@@ -107,7 +223,7 @@ To minimize this inconvenience, there's a quick fix for compatibility: you can f
 
 No further changes are planned to `clean_names()` and its results should be stable from version 1.0.0 onward.
 
-## Major Features
+## Major features
 
 - `clean_names()` transliterates accented letters, e.g., `çãüœ` becomes `cauoe` [(#120)](https://github.com/sfirke/janitor/issues/120).  Thanks to **@fernandovmacedo**.
 
@@ -115,7 +231,7 @@ No further changes are planned to `clean_names()` and its results should be stab
   - Thanks to **@tazinho**, who wrote the [snakecase](https://github.com/Tazinho/snakecase/) package that janitor depends on to do this, as well as the patch to incorporate it into `clean_names()`.  And thanks to **@maelle** for proposing this feature.
 
 
-- Launched the janitor documentation website: [http://sfirke.github.io/janitor](http://sfirke.github.io/janitor).  Thanks to the [pkgdown](https://github.com/r-lib/pkgdown) package.
+- Launched the janitor documentation website: [http://sfirke.github.io/janitor](http://sfirke.github.io/janitor/).  Thanks to the [pkgdown](https://github.com/r-lib/pkgdown/) package.
 
 - Deprecated the functions `remove_empty_rows()` and `remove_empty_cols()`, which are replaced by the single function `remove_empty()`. [(#100)](https://github.com/sfirke/janitor/issues/100)
   - To encourage transparency, `remove_empty()` prints a message if no value is supplied for the `which` argument; to suppress this, supply a value to `which`, even if it's the default `c("rows", "cols")`.
@@ -123,9 +239,9 @@ No further changes are planned to `clean_names()` and its results should be stab
 
 - The new `adorn_title()` function adds the name of the 2nd `tabyl` variable (i.e., the name of the column variable).  This un-tidies the data.frame but makes the result clearer to readers [(#77)](https://github.com/sfirke/janitor/issues/77)
 
-## Minor Features
+## Minor features
 
-- The utility function `round_half_up()` is now exported for public use.  It's an exact implementation of [http://stackoverflow.com/questions/12688717/round-up-from-5-in-r/12688836#12688836](http://stackoverflow.com/questions/12688717/round-up-from-5-in-r/12688836#12688836), written by **@mrdwab**.
+- The utility function `round_half_up()` is now exported for public use.  It's an exact implementation of [https://stackoverflow.com/questions/12688717/round-up-from-5-in-r/12688836#12688836/](https://stackoverflow.com/questions/12688717/round-up-from-5-in-r/12688836#12688836/), written by **@mrdwab**.
 - `tabyl` objects now print with row numbers suppressed
 - `clean_names()` now retains the character `#` as `"number"` in the resulting names
 
@@ -160,7 +276,7 @@ janitor 0.3.0 is compatible with this new version of dplyr as well as old versio
 - The functions `add_totals_row` and `add_totals_col` were combined into a single function, `adorn_totals()`. [(#57)](https://github.com/sfirke/janitor/issues/57).  The `add_totals_` functions are now deprecated and should not be used.
 - The first argument of `adorn_crosstab()` is now "dat" instead of "crosstab" (indicating that the function can be called on any data.frame, not just a result of `crosstab()`)
 
-## Major Features
+## Major features
 
 - Exported the `%>%` pipe from magrittr [(#107)](https://github.com/sfirke/janitor/issues/107).
 
@@ -169,7 +285,7 @@ janitor 0.3.0 is compatible with this new version of dplyr as well as old versio
 - `convert_to_NA()` - use `dplyr::na_if()` instead
 - `add_totals_row()` and `add_totals_col()` - replaced by the single function `adorn_totals()`
 
-## Minor Features
+## Minor features
 - `adorn_totals()` and `ns_to_percents()` can now be called on data.frames that have non-numeric columns beyond the first one (those columns will be ignored) [(#57)](https://github.com/sfirke/janitor/issues/57)
 - `adorn_totals("col")` retains factor class in 1st column if 1st column in the input data.frame was a factor
 

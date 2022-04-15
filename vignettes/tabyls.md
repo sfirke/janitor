@@ -1,13 +1,12 @@
 tabyls: a tidy, fully-featured approach to counting things
 ================
-2019-04-20
+2020-12-28
 
 ## Motivation: why tabyl?
 
-Analysts do a lot of counting. Indeed, it’s been said that “[data
-science is mostly counting
-things](https://twitter.com/joelgrus/status/833691273873600512).” But
-the base R function for counting, `table()`, leaves much to be desired:
+Analysts do a lot of counting. Indeed, it’s been said that “data science
+is mostly counting things.” But the base R function for counting,
+`table()`, leaves much to be desired:
 
   - It doesn’t accept data.frame inputs (and thus doesn’t play nicely
     with the `%>%` pipe)
@@ -32,6 +31,10 @@ counts as an attribute of the resulting data.frame.
 The result looks like a basic data.frame of counts, but because it’s
 also a `tabyl` containing this metadata, you can use `adorn_` functions
 to add additional information and pretty formatting.
+
+The `adorn_` functions are built to work on `tabyls`, but have been
+adapted to work with similar, non-tabyl data.frames that need
+formatting.
 
 # Examples
 
@@ -99,17 +102,17 @@ t1 %>%
 
 This is often called a “crosstab” or “contingency” table. Calling
 `tabyl` on two columns of a data.frame produces the same result as the
-common combination of `dplyr::count()`, followed by `tidyr::spread()` to
-wide form:
+common combination of `dplyr::count()`, followed by
+`tidyr::pivot_wider()` to wide form:
 
 ``` r
 t2 <- humans %>%
   tabyl(gender, eye_color)
 
 t2
-#>  gender blue blue-gray brown dark hazel yellow
-#>  female    3         0     5    0     1      0
-#>    male    9         1    12    1     1      2
+#>     gender blue blue-gray brown dark hazel yellow
+#>   feminine    3         0     5    0     1      0
+#>  masculine    9         1    12    1     1      2
 ```
 
 Since it’s a `tabyl`, we can enhance it with `adorn_` helper functions.
@@ -121,9 +124,9 @@ t2 %>%
   adorn_percentages("row") %>%
   adorn_pct_formatting(digits = 2) %>%
   adorn_ns()
-#>  gender       blue blue-gray       brown      dark      hazel    yellow
-#>  female 33.33% (3) 0.00% (0) 55.56%  (5) 0.00% (0) 11.11% (1) 0.00% (0)
-#>    male 34.62% (9) 3.85% (1) 46.15% (12) 3.85% (1)  3.85% (1) 7.69% (2)
+#>     gender       blue blue-gray       brown      dark      hazel    yellow
+#>   feminine 33.33% (3) 0.00% (0) 55.56%  (5) 0.00% (0) 11.11% (1) 0.00% (0)
+#>  masculine 34.62% (9) 3.85% (1) 46.15% (12) 3.85% (1)  3.85% (1) 7.69% (2)
 ```
 
 Adornments have options to control axes, rounding, and other relevant
@@ -140,7 +143,7 @@ t3 <- humans %>%
 
 # the result is a tabyl of eye color x skin color, split into a list by gender
 t3 
-#> $female
+#> $feminine
 #>  eye_color dark fair light pale tan white
 #>       blue    0    2     1    0   0     0
 #>  blue-gray    0    0     0    0   0     0
@@ -149,7 +152,7 @@ t3
 #>      hazel    0    0     1    0   0     0
 #>     yellow    0    0     0    0   0     0
 #> 
-#> $male
+#> $masculine
 #>  eye_color dark fair light pale tan white
 #>       blue    0    7     2    0   0     0
 #>  blue-gray    0    1     0    0   0     0
@@ -172,7 +175,7 @@ humans %>%
   adorn_pct_formatting(digits = 1) %>%
   adorn_ns %>%
   adorn_title
-#> $female
+#> $feminine
 #>            skin_color          
 #>  eye_color       fair     light
 #>       blue  22.2% (2) 11.1% (1)
@@ -180,7 +183,7 @@ humans %>%
 #>      hazel   0.0% (0) 11.1% (1)
 #>      Total  33.3% (3) 66.7% (6)
 #> 
-#> $male
+#> $masculine
 #>            skin_color                                                
 #>  eye_color       dark       fair     light     pale      tan    white
 #>       blue   0.0% (0) 26.9%  (7)  7.7% (2) 0.0% (0) 0.0% (0) 0.0% (0)
@@ -235,14 +238,13 @@ humans %>%
 
 | gender/eye\_color | blue     | blue-gray | brown    | dark   | hazel   | yellow | Total     |
 | :---------------- | :------- | :-------- | :------- | :----- | :------ | :----- | :-------- |
-| female            | 33% (3)  | 0% (0)    | 56% (5)  | 0% (0) | 11% (1) | 0% (0) | 100% (9)  |
-| male              | 35% (9)  | 4% (1)    | 46% (12) | 4% (1) | 4% (1)  | 8% (2) | 100% (26) |
+| feminine          | 33% (3)  | 0% (0)    | 56% (5)  | 0% (0) | 11% (1) | 0% (0) | 100% (9)  |
+| masculine         | 35% (9)  | 4% (1)    | 46% (12) | 4% (1) | 4% (1)  | 8% (2) | 100% (26) |
 | Total             | 34% (12) | 3% (1)    | 49% (17) | 3% (1) | 6% (2)  | 6% (2) | 100% (35) |
 
 ### The adorn functions are:
 
-  - **`adorn_totals()`**: Add totals row, column, or both. Replaces the
-    older janitor functions `add_totals_row` and `add_totals_col`
+  - **`adorn_totals()`**: Add totals row, column, or both.
   - **`adorn_percentages()`**: Calculate percentages along either axis
     or over the entire tabyl
   - **`adorn_pct_formatting()`**: Format percentage columns, controlling
@@ -251,7 +253,7 @@ humans %>%
     result of `adorn_percentages`), either using the base R `round()`
     function or using janitor’s `round_half_up()` to round all ties up
     ([thanks,
-    StackOverflow](http://stackoverflow.com/a/12688836/4470365)).
+    StackOverflow](https://stackoverflow.com/a/12688836/4470365)).
       - e.g., round 10.5 up to 11, consistent with Excel’s tie-breaking
         behavior.
           - This contrasts with rounding 10.5 down to 10 as in base R’s
@@ -272,10 +274,6 @@ These adornments should be called in a logical order, e.g., you probably
 want to add totals before percentages are calculated. In general, call
 them in the order they appear above.
 
-Users of janitor version \<= 0.3.1 should replace the deprecated
-`adorn_crosstab()` function with combinations of the above `adorn_`
-functions.
-
 ## BYOt (Bring Your Own tabyl)
 
 You can also call `adorn_` functions on other data.frames, not only the
@@ -293,32 +291,76 @@ condition, then format the results.
 ``` r
 percent_above_165_cm <- humans %>%
   group_by(gender) %>%
-  summarise(pct_above_165_cm = mean(height > 165, na.rm = TRUE))
+  summarise(pct_above_165_cm = mean(height > 165, na.rm = TRUE), .groups = "drop")
 
 percent_above_165_cm %>%
   adorn_pct_formatting()
 #> # A tibble: 2 x 2
-#>   gender pct_above_165_cm
-#>   <chr>  <chr>           
-#> 1 female 12.5%           
-#> 2 male   100.0%
+#>   gender    pct_above_165_cm
+#>   <chr>     <chr>           
+#> 1 feminine  12.5%           
+#> 2 masculine 100.0%
 ```
 
-Here’s a more complex example. We’ll create a table containing the mean
-of a 3rd variable when grouped by two other variables, then use `adorn_`
-functions to round the values and append Ns. The first part is pretty
-straightforward:
+You can control which columns are adorned by using the `...` argument.
+It accepts the [tidyselect
+helpers](https://r4ds.had.co.nz/transform.html#select). That is, you can
+specify columns the same way you would using `dplyr::select()`.
+
+For instance, say you have a numeric column that should not be included
+in percentage formatting and you wish to exempt it. Here, only the
+`proportion` column is adorned:
+
+``` r
+mtcars %>%
+  count(cyl, gear) %>%
+  rename(proportion = n) %>%
+  adorn_percentages("col", na.rm = TRUE, proportion) %>%
+  adorn_pct_formatting(,,,proportion) # the commas say to use the default values of the other arguments
+#>  cyl gear proportion
+#>    4    3       3.1%
+#>    4    4      25.0%
+#>    4    5       6.2%
+#>    6    3       6.2%
+#>    6    4      12.5%
+#>    6    5       3.1%
+#>    8    3      37.5%
+#>    8    5       6.2%
+```
+
+Here we specify that only two consecutive numeric columns should be
+totaled (`year` is numeric but should not be included):
+
+``` r
+cases <- data.frame(
+  region = c("East", "West"),
+  year = 2015,
+  recovered = c(125, 87),
+  died = c(13, 12)
+)
+
+cases %>%
+    adorn_totals(c("col", "row"), fill = "-", na.rm = TRUE, name = "Total Cases", recovered:died)
+#>       region year recovered died Total Cases
+#>         East 2015       125   13         138
+#>         West 2015        87   12          99
+#>  Total Cases    -       212   25         237
+```
+
+Here’s a more complex example that uses a data.frame of means, not
+counts. We create a table containing the mean of a 3rd variable when
+grouped by two other variables, then use `adorn_` functions to round the
+values and append Ns. The first part is pretty straightforward:
 
 ``` r
 library(tidyr) # for spread()
 mpg_by_cyl_and_am <- mtcars %>%
   group_by(cyl, am) %>%
-  summarise(mpg = mean(mpg)) %>%
+  summarise(mpg = mean(mpg), .groups = "drop") %>%
   spread(am, mpg)
 
 mpg_by_cyl_and_am
 #> # A tibble: 3 x 3
-#> # Groups:   cyl [3]
 #>     cyl   `0`   `1`
 #>   <dbl> <dbl> <dbl>
 #> 1     4  22.9  28.1
@@ -345,9 +387,65 @@ mpg_by_cyl_and_am %>%
 ```
 
 If needed, Ns can be manipulated in their own data.frame before they are
-appended. E.g., if you have a tabyl with values of N in the thousands,
-you could divide them by 1000, round, and append “k” before inserting
-them with `adorn_ns`.
+appended. Here a tabyl with values in the thousands has its Ns formatted
+to include the separating character `,` as typically seen in American
+numbers, e.g., `3,000`.
+
+First we create the tabyl to adorn:
+
+``` r
+set.seed(1)
+raw_data <- data.frame(sex = rep(c("m", "f"), 3000),
+                age = round(runif(3000, 1, 102), 0))
+raw_data$agegroup = cut(raw_data$age, quantile(raw_data$age, c(0, 1/3, 2/3, 1)))
+
+comparison <- raw_data %>%
+  tabyl(agegroup, sex, show_missing_levels = F) %>%
+  adorn_totals(c("row", "col")) %>%
+  adorn_percentages("col") %>%
+  adorn_pct_formatting(digits = 1)
+
+comparison
+#>  agegroup      f      m  Total
+#>    (1,34]  33.9%  32.3%  33.1%
+#>   (34,68]  33.0%  33.7%  33.4%
+#>  (68,102]  32.7%  33.3%  33.0%
+#>      <NA>   0.4%   0.6%   0.5%
+#>     Total 100.0% 100.0% 100.0%
+```
+
+At this point, the Ns are unformatted:
+
+``` r
+comparison %>%
+  adorn_ns()
+#>  agegroup             f             m         Total
+#>    (1,34]  33.9% (1018)  32.3%  (970)  33.1% (1988)
+#>   (34,68]  33.0%  (990)  33.7% (1012)  33.4% (2002)
+#>  (68,102]  32.7%  (980)  33.3% (1000)  33.0% (1980)
+#>      <NA>   0.4%   (12)   0.6%   (18)   0.5%   (30)
+#>     Total 100.0% (3000) 100.0% (3000) 100.0% (6000)
+```
+
+Now we format them to insert the thousands commas. A tabyl’s raw Ns are
+stored in its `"core"` attribute. Here we retrieve those with `attr()`,
+then apply the base R function `format()` to all numeric columns.
+Lastly, we append these Ns using `adorn_ns()`.
+
+``` r
+formatted_ns <- attr(comparison, "core") %>% # extract the tabyl's underlying Ns
+  adorn_totals(c("row", "col")) %>% # to match the data.frame we're appending to
+  dplyr::mutate_if(is.numeric, format, big.mark = ",")
+
+comparison %>%
+  adorn_ns(position = "rear", ns = formatted_ns)
+#>  agegroup              f              m          Total
+#>    (1,34]  33.9% (1,018)  32.3% (  970)  33.1% (1,988)
+#>   (34,68]  33.0% (  990)  33.7% (1,012)  33.4% (2,002)
+#>  (68,102]  32.7% (  980)  33.3% (1,000)  33.0% (1,980)
+#>      <NA>   0.4% (   12)   0.6% (   18)   0.5% (   30)
+#>     Total 100.0% (3,000) 100.0% (3,000) 100.0% (6,000)
+```
 
 ### Questions? Comments?
 

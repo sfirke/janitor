@@ -7,11 +7,19 @@ library(dplyr)
 
 dat <- data.frame(
   a = c(rep(c("big", "small", "big"), 3)),
-  b = c(1:3, 1:3, 1, 1, 1)
+  b = c(1:3, 1:3, 1, 1, 1),
+  stringsAsFactors = TRUE
 )
 ct <- dat %>%
   tabyl(a, b)
 
+mixed <- data.frame(
+  a = 1:3,
+  b = c("x", "y", "z"),
+  c = 5:7,
+  d = c("big", "med", "small"),
+  stringsAsFactors = FALSE
+)
 
 
 test_that("totals row is correct", {
@@ -49,6 +57,23 @@ test_that("totals row and col produce correct results when called together", {
   expect_equal(
     ct %>%
       adorn_totals(c("row", "col")) %>%
+      untabyl(),
+    data.frame(
+      a = c("big", "small", "Total"),
+      `1` = c(4, 1, 5),
+      `2` = c(0, 2, 2),
+      `3` = c(2, 0, 2),
+      Total = c(6, 3, 9),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  )
+})
+
+test_that("totals where='both' produce equivalent results to c('row','col')", {
+  expect_equal(
+    ct %>%
+      adorn_totals("both") %>%
       untabyl(),
     data.frame(
       a = c("big", "small", "Total"),
@@ -158,7 +183,12 @@ test_that("error thrown if no columns past first are numeric", {
   )
   expect_error(
     adorn_totals(df2, "col"),
-    "at least one one of columns 2:n must be of class numeric.  adorn_totals should be called before other adorn_ functions."
+    "at least one targeted column must be of class numeric.  Control target variables with the ... argument. adorn_totals should be called before other adorn_ functions."
+  )
+  expect_error(
+    mixed %>%
+      adorn_totals("row","-",TRUE,"Totals",d),
+    "at least one targeted column must be of class numeric.  Control target variables with the ... argument. adorn_totals should be called before other adorn_ functions."
   )
 
   # Add a test where only the first column is numeric
@@ -168,7 +198,7 @@ test_that("error thrown if no columns past first are numeric", {
   )
   expect_error(
     adorn_totals(df3),
-    "at least one one of columns 2:n must be of class numeric.  adorn_totals should be called before other adorn_ functions."
+    "at least one targeted column must be of class numeric.  Control target variables with the ... argument. adorn_totals should be called before other adorn_ functions."
   )
 })
 
@@ -180,15 +210,8 @@ test_that("bad input to where arg is caught", {
   )
 })
 
-test_that("works with non-numeric columns mixed in; fill character specification", {
-  mixed <- data.frame(
-    a = 1:3,
-    b = c("x", "y", "z"),
-    c = 5:7,
-    d = c("big", "med", "small"),
-    stringsAsFactors = FALSE
-  )
 
+test_that("works with non-numeric columns mixed in; fill character specification", {
   expect_equal(
     mixed %>% adorn_totals(where = c("row", "col"), fill = "*") %>% untabyl(),
     data.frame(
@@ -231,6 +254,14 @@ test_that("totals attributes are assigned correctly", {
   expect_equal(class(post_col), c("tabyl", "data.frame"))
   expect_equal(attr(post_col, "tabyl_type"), "two_way")
   expect_equal(attr(post_col, "core"), untabyl(ct))
+  
+  post_sequential_both <- adorn_totals(ct, "col") %>%
+    adorn_totals("row")
+  expect_equivalent(post_sequential_both, post)
+  expect_equal(
+    sort(attr(post, "totals")),
+    sort(attr(post_sequential_both, "totals")),
+  )
 })
 
 
@@ -278,19 +309,179 @@ test_that("column total name is changed", {
   )
 })
 
-# Kind of superficial given that add_totals_ have been refactored to call adorn_totals() themselves, but might as well keep until deprecated functions are removed
-test_that("deprecated functions adorn_totals_col and adorn_totals_row function as expected", {
+test_that("tidyselecting works", {
+  cyl_gear <- mtcars %>%
+    adorn_totals(c("row", "col"), "-", TRUE, "cylgear", c(cyl, gear))
+  expect_equal(cyl_gear$cylgear, c(mtcars$cyl + mtcars$gear, (sum(mtcars$cyl) + sum(mtcars$gear))))
   expect_equal(
-    mtcars %>%
-      adorn_totals(),
-    suppressWarnings(mtcars %>%
-      add_totals_row())
+    unname(unlist(cyl_gear[33, ])),
+    c("cylgear", "198", rep("-", 7), "118", "-", "316")
   )
+  
+  # Can override the first column not being included
+  # adorn_totals() still fails if ONLY the first column is numeric, that's fine - it's a nonsensical operation
+  simple <- data.frame(
+    x = 1:2,
+    y = 3:4,
+    z = c("hi", "lo")
+  )
+  
+  expect_message(
+    simple %>%
+      adorn_totals(c("row", "col"), "-", TRUE, "Total", x),
+    "Because the first column was specified to be totaled, it does not contain the label 'Total' (or user-specified name) in the totals row",
+    fixed = TRUE
+  )
+
+  simple_total <- simple %>%
+    adorn_totals(c("row", "col"), "-", TRUE, "Total", x)
+  
+  expect_equal(unname(unlist(simple_total[3, ])), c("3", "-", "-", "3"))
+  expect_equal(simple_total$Total, 1:3)  
+  
+  # test that leaving out a numeric column of a tibble succeeds, #388
   expect_equal(
-    mtcars %>%
-      adorn_totals("col"),
-    suppressWarnings(mtcars %>%
-      add_totals_col())
+    simple %>%
+      adorn_totals(,,,,y) %>%
+      as.data.frame(),
+    simple %>%
+      tibble::tibble() %>%
+      adorn_totals %>%
+      as.data.frame()
   )
 })
 
+test_that("supplying NA to fill preserves column types", {
+  
+  test_df <- data.frame(
+    a = c("hi", "low", "med"),
+    b = factor(c("big", "small", "regular")),
+    c = c(as.Date("2000-01-01"), as.Date("2000-01-02"), as.Date("2000-01-03")),
+    d = c(as.POSIXct("2000-01-01", tz = "ROK"), as.POSIXct("2000-01-02"), as.POSIXct("2000-01-03")),
+    e = 1:3,
+    f = 4:6,
+    g = c(TRUE, FALSE, TRUE),
+    h = c(7.2, 8.2, 9.2),
+    stringsAsFactors = FALSE
+  )
+  
+  out <- adorn_totals(test_df, fill = NA)
+  
+  # expect types to be preserved
+  expect_is(out[["a"]], "character") 
+  expect_is(out[["b"]], "factor")
+  expect_is(out[["c"]], "Date")
+  expect_is(out[["d"]], "POSIXct")
+  expect_is(out[["g"]], "logical")
+  # expect factor levels to be preserved
+  expect_equal(levels(out[["b"]]), levels(test_df[["b"]]))
+  # expect NAs in total rows for non-numerics
+  expect_true(is.na(out[4, "b"]))
+  expect_true(is.na(out[4, "c"]))
+  expect_true(is.na(out[4, "d"]))
+  expect_true(is.na(out[4, "g"]))
+  # test values of totals
+  expect_equal(out[4, "a"], "Total")
+  expect_equal(out[4, "e"], 6)
+  expect_equal(out[4, "f"], 15)
+  expect_equal(out[4, "h"], 24.6)
+  # expect original df intact
+  expect_equivalent(test_df, out[1:3,])
+  
+})
+
+test_that("supplying NA as fill still works with non-character first col and numeric non-totaled cols", {
+  
+  test_df <- data.frame(
+    a = factor(c("hi", "low", "med")),
+    b = factor(c("big", "small", "regular")),
+    c = c(as.Date("2000-01-01"), as.Date("2000-01-02"), as.Date("2000-01-03")),
+    d = 1:3,
+    e = 4:6,
+    f = c(TRUE, FALSE, TRUE),
+    g = c(7.2, 8.2, 9.2),
+    stringsAsFactors = FALSE
+  )
+  
+  out <- adorn_totals(test_df, 
+                      where = "row", 
+                      fill = NA,
+                      na.rm = TRUE,
+                      name = "Total",
+                      d, e)
+  
+  expect_equal(out[["a"]], c("hi", "low", "med", "Total"))
+  expect_equal(out[["g"]], c(7.2, 8.2, 9.2, NA_real_))
+  expect_equal(out[4,"d"], 6)
+  expect_equal(out[4,"e"], 15)
+  expect_equivalent(test_df[1:3, 2:7], out[1:3,2:7])
+  
+})
+
+
+# Tests from #413, different values for row and col names
+test_that("long vectors are trimmed", {
+  
+  expect_equal(
+    mixed %>% 
+      adorn_totals(
+        where = "row",
+        name = c("total", "something_else"),
+        fill = "-") %>% 
+      untabyl(),
+    data.frame(
+      a = c(as.character(1:3), "total"),
+      b = c("x", "y", "z", "-"),
+      c = c(5:7, 18),
+      d = c("big", "med", "small", "-"),
+      stringsAsFactors = FALSE
+    )
+  )
+  
+}
+)
+
+test_that("row and column names are taken correctly from a vector", {
+  
+  expect_equal(
+    mixed %>% 
+      adorn_totals(
+        where = "both",
+        name = c("row_name", "col_name"),
+        fill = "-") %>% 
+      untabyl(),
+    data.frame(
+      a = c(as.character(1:3), "row_name"),
+      b = c("x", "y", "z", "-"),
+      c = c(5, 6, 7, 18),
+      d = c("big", "med", "small", "-"),
+      col_name = c(5, 6, 7, 18),
+      stringsAsFactors = FALSE
+    )
+  )
+  
+}
+)
+
+
+
+test_that("row and column names are taken correctly from a single name", {
+  expect_equal(
+    mixed %>% 
+      adorn_totals(
+        where = "both",
+        name = "totals",
+        fill = "-") %>%
+      untabyl(),
+    data.frame(
+      a = c(as.character(1:3), "totals"),
+      b = c("x", "y", "z", "-"),
+      c = c(5, 6, 7, 18),
+      d = c("big", "med", "small", "-"),
+      totals = c(5, 6, 7, 18),
+      stringsAsFactors = FALSE
+    )
+  )
+  
+}
+)

@@ -9,7 +9,7 @@ excel_numeric_to_date(
   date_system = "modern",
   include_time = FALSE,
   round_seconds = TRUE,
-  tz = ""
+  tz = Sys.timezone()
 )
 }
 \arguments{
@@ -45,6 +45,9 @@ http://support.office.com/en-us/article/Date-calculations-in-Excel-e7fe7167-48a9
 
 A list of all timezones is available from \code{base::OlsonNames()}, and the
 current timezone is available from \code{base::Sys.timezone()}.
+
+If your input data has a mix of Excel numeric dates and actual dates, see the
+more powerful functions \code{convert_to_date()} and \code{convert_to_datetime()}.
 }
 \details{
 When using \code{include_time=TRUE}, days with leap seconds will not
@@ -60,6 +63,10 @@ excel_numeric_to_date(40000.521, include_time = TRUE) # Time is included
 excel_numeric_to_date(40000.521, include_time = TRUE,
   round_seconds = FALSE) # Time with fractional seconds is included
 }
+\concept{Date-time cleaning}
 \seealso{
+Other Date-time cleaning: 
+\code{\link{convert_to_date}()},
+\code{\link{sas_numeric_to_date}()}
 \code{\link{excel_time_to_numeric}}
 }

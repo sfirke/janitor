@@ -100,3 +100,26 @@ test_that("returned tabyls have correct names and attributes", {
   expect_equal(attr(tres$stdres, "var_names"), list(row = "am", col = "cyl"))
 })
 
+test_that("totals are excluded from the statistical tests, #385", {
+  # Chi-Square
+  cx <- chisq.test(ttab)
+  cx_totals <- suppressWarnings(chisq.test(adorn_totals(ttab, "both")))
+  cx_totals$data.name <- "ttab" # otherwise the test shows a mismatch, as the inputs had different names
+  expect_equal(
+    cx,
+    cx_totals
+  )
+  expect_warning(chisq.test(ttab %>% adorn_totals()),
+                 "detected a totals row")
+  
+  # Fisher
+  fisher <- fisher.test(ttab)
+  fisher_totals <- suppressWarnings(fisher.test(adorn_totals(ttab, "both")))
+  fisher_totals$data.name <- "ttab" # otherwise the test shows a mismatch, as the inputs had different names
+  expect_equal(
+    fisher,
+    fisher_totals
+  )
+  expect_warning(fisher.test(ttab %>% adorn_totals()),
+                 "detected a totals row")
+})

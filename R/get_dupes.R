@@ -3,47 +3,55 @@
 #' @description
 #' For hunting duplicate records during data cleaning.  Specify the data.frame and the variable combination to search for duplicates and get back the duplicated rows.
 #'
-#' @param dat the input data.frame.
-#' @param ... unquoted variable names to search for duplicates.
-#' @return Returns a data.frame (actually a \code{tbl_df}) with the full records where the specified variables have duplicated values, as well as a variable \code{dupe_count} showing the number of rows sharing that combination of duplicated values.
+#' @param dat The input data.frame.
+#' @param ... Unquoted variable names to search for duplicates. This takes a tidyselect specification.
+#' @return Returns a data.frame with the full records where the specified variables have duplicated values, as well as a variable \code{dupe_count} showing the number of rows sharing that combination of duplicated values. If the input data.frame was of class \code{tbl_df}, the output is as well. 
 #' @export
 #' @examples
 #' get_dupes(mtcars, mpg, hp)
+#' 
 #' # or called with the magrittr pipe %>% :
 #' mtcars %>% get_dupes(wt)
-#'
-
+#' 
+#' # You can use tidyselect helpers to specify variables:
+#' mtcars %>% get_dupes(-c(wt, qsec))
+#' mtcars %>% get_dupes(starts_with("cy"))
+#' @importFrom tidyselect eval_select
+#' @importFrom rlang expr dots_n syms
 get_dupes <- function(dat, ...) {
-  uq_names <- as.list(substitute(list(...)))[-1L] # unquoted names for NSE calls, need quoted names separately for messages + warnings
-  df_name <- deparse(substitute(dat))
+  expr <- rlang::expr(c(...))
+  pos <- tidyselect::eval_select(expr, data = dat)
 
-  if (length(uq_names) == 0) { # if called on an entire data.frame with no specified variable names
+  #Check if dat is grouped and if so, save structure and ungroup temporarily
+  is_grouped <- dplyr::is_grouped_df(dat)
+  
+  if(is_grouped) {
+    dat_groups <- dplyr::group_vars(dat)
+    dat <- dat %>% dplyr::ungroup()
+    if(getOption("get_dupes.grouped_warning",TRUE) & interactive()) {
+      message(paste0("Data is grouped by [", paste(dat_groups, collapse = "|"), "]. Note that get_dupes() is not group aware and does not limit duplicate detection to within-groups, but rather checks over the entire data frame. However grouping structure is preserved.\nThis message is shown once per session and may be disabled by setting options(\"get_dupes.grouped_warning\" = FALSE).")) #nocov
+      options("get_dupes.grouped_warning" = FALSE) #nocov
+    }
+  }
+  
+  if (rlang::dots_n(...) == 0) { # if no tidyselect variables are specified, check the whole data.frame
     var_names <- names(dat)
     nms <- rlang::syms(var_names)
     message("No variable names specified - using all columns.\n")
   } else {
-    nms <- rlang::quos(...) %>%
-      rlang::quos_auto_name()
-    var_names <- names(nms)
+    var_names <- names(pos)
+    nms <- rlang::syms(var_names)
   }
-
-  # check that each variable name provided is present in names(dat); if not, throw error
-  check_vars_in_df(dat, df_name, var_names)
+  
   dupe_count <- NULL # to appease NOTE for CRAN; does nothing.
-
-  # calculate counts to join back to main df
-  counts <- dat %>%
-    dplyr::count(!!! nms)
-
-  names(counts)[ncol(counts)] <- "dupe_count"
-  # join new count vector to main data.frame
-  dupes <- suppressMessages(dplyr::inner_join(counts, dat))
-
-  dupes <- dupes %>%
+  
+  
+  dupes <- dat %>%
+    dplyr::add_count(!!! nms, name = "dupe_count") %>%
     dplyr::filter(dupe_count > 1) %>%
-    dplyr::ungroup() %>%
+    dplyr::select(!!! nms, dupe_count, dplyr::everything()) %>%
     dplyr::arrange(!!! nms)
-
+  
   # shorten error message for large data.frames
   if (length(var_names) > 10) {
     var_names <- c(var_names[1:9], paste("... and", length(var_names) - 9, "other variables"))
@@ -51,16 +59,11 @@ get_dupes <- function(dat, ...) {
   if (nrow(dupes) == 0) {
     message(paste0("No duplicate combinations found of: ", paste(var_names, collapse = ", ")))
   }
-  dupes
+
+  #Reapply groups if dat was grouped
+  if(is_grouped) dupes <- dupes %>% dplyr::group_by(!!!rlang::syms(dat_groups))
+  
+  return(dupes)
 }
 
-# takes a data.frame and vector of variable names, confirms that all var names match data.frame names
-check_vars_in_df <- function(dat, dat_name, names_vec) {
-  in_df <- unlist(lapply(names_vec, function(x) x %in% names(dat)))
-  if (sum(in_df) != length(in_df)) {
-    stop(paste0(
-      paste0("These variables do not match column names in ", dat_name, ": "),
-      paste(names_vec[!in_df], collapse = ", ")
-    ))
-  }
-}
+

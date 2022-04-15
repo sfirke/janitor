@@ -4,12 +4,17 @@
 \alias{janitor_deprecated}
 \title{Deprecated Functions in Package janitor}
 \description{
-These functions are provided for compatibility with older versions of
-\code{janitor} only, and may be defunct as soon as the next release.
+These functions have already become defunct or may be defunct as soon as the next release.
 }
 \details{
 \itemize{
+  \item \code{\link{adorn_crosstab}}
+  \item \code{\link{crosstab}}
   \item \code{\link{use_first_valid_of}}
   \item \code{\link{convert_to_NA}}
+  \item \code{\link{add_totals_col}}
+  \item \code{\link{add_totals_row}}
+  \item \code{\link{remove_empty_rows}}
+  \item \code{\link{remove_empty_cols}}
 }
 }
