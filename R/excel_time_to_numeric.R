@@ -60,7 +60,8 @@ excel_time_to_numeric.POSIXct <- function(time_value, round_seconds=TRUE) {
       seconds <- round(seconds)
     }
   } else {
-    stop(sum(!mask_good_seconds), " `time_value`s were not at or above 0 and below 86400.")
+    # This should be impossible except for leap seconds
+    stop(sum(!mask_good_seconds), " `time_value`s were not at or above 0 and below 86400.") # nocov
   }
   seconds
 }
