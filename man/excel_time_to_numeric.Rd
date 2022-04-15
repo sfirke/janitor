@@ -35,4 +35,10 @@ Microsoft Excel to a numeric number of seconds within a day.
 }
 \seealso{
 \code{\link{excel_numeric_to_date}}
+
+Other Date-time cleaning: 
+\code{\link{convert_to_date}()},
+\code{\link{excel_numeric_to_date}()},
+\code{\link{sas_numeric_to_date}()}
 }
+\concept{Date-time cleaning}

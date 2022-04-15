@@ -71,6 +71,7 @@ convert_to_datetime(
 \seealso{
 Other Date-time cleaning: 
 \code{\link{excel_numeric_to_date}()},
+\code{\link{excel_time_to_numeric}()},
 \code{\link{sas_numeric_to_date}()}
 }
 \concept{Date-time cleaning}

@@ -18,6 +18,8 @@
 
 * A new function `sas_numeric_to_date()` has been added to convert SAS dates, times, and datetimes to R objects (fix #475, thanks to **@billdenney** for suggesting and implementing)
 
+* The new function `excel_time_to_numeric()` converts times from Excel that do not have accompanying dates into a number of seconds.  (#245, thanks to **@billdenney** for the feature.)
+
 ## Minor features
 
 * Some warning messages now have classes so that they can be specifically suppressed with suppressWarnings(..., class="the_class_to_suppress").  To find the class of a warning you typically must look at the code where the error is occurring.  (#452, thanks to **@mgacc0** for suggesting and **@billdenney** for fixing)
@@ -145,9 +147,6 @@ This feature (#50) took almost 3 years from conception to implementation.  Major
 * The functions `janitor::chisq.test()` and `janitor::fisher.test()` to enable running these statistical tests from the base `stats` package on two-way `tabyl` objects.  While the package loading message says the base functions are masked, the base tests still run on `table` objects (#255, thanks **@juba** for implementing).
 
 * `remove_empty()` now has a companion function `remove_constant()` which removes columns containing only a single unique value, optionally ignoring `NA` (#222, thanks to **@billdenney** for suggesting & implementing).
-
-
-The new function `excel_time_to_numeric()` converts times from Excel that do not have accompanying dates into a number of seconds.  (#245, thanks to **@billdenney** for the feature.)
 
 ## Minor features
 

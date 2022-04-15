@@ -63,10 +63,12 @@ excel_numeric_to_date(40000.521, include_time = TRUE) # Time is included
 excel_numeric_to_date(40000.521, include_time = TRUE,
   round_seconds = FALSE) # Time with fractional seconds is included
 }
-\concept{Date-time cleaning}
 \seealso{
+\code{\link{excel_time_to_numeric}}
+
 Other Date-time cleaning: 
 \code{\link{convert_to_date}()},
+\code{\link{excel_time_to_numeric}()},
 \code{\link{sas_numeric_to_date}()}
-\code{\link{excel_time_to_numeric}}
 }
+\concept{Date-time cleaning}
