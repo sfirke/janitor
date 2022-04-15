@@ -26,6 +26,7 @@ excel_time_to_numeric <- function(time_value, round_seconds=TRUE) {
   UseMethod("excel_time_to_numeric")
 }
 
+#' @export
 excel_time_to_numeric.logical <- function(time_value, round_seconds=TRUE) {
   if (all(is.na(time_value))) {
     rep(NA_real_, length(time_value))
@@ -34,6 +35,7 @@ excel_time_to_numeric.logical <- function(time_value, round_seconds=TRUE) {
   }
 }
 
+#' @export
 excel_time_to_numeric.numeric <- function(time_value, round_seconds=TRUE) {
   if (all(is.na(time_value) |
           time_value >= 0 &
@@ -48,6 +50,7 @@ excel_time_to_numeric.numeric <- function(time_value, round_seconds=TRUE) {
   seconds
 }
 
+#' @export
 excel_time_to_numeric.POSIXct <- function(time_value, round_seconds=TRUE) {
   # using trunc removes timezone inconsistency.  Timezones aren't used in Excel.
   seconds <- as.numeric(time_value) - as.numeric(trunc(time_value, units="days"))
@@ -57,11 +60,12 @@ excel_time_to_numeric.POSIXct <- function(time_value, round_seconds=TRUE) {
       seconds <- round(seconds)
     }
   } else {
-    stop(sum(!mask_good_seconds), " `time_value`s were not on the date 1899-12-31.")
+    stop(sum(!mask_good_seconds), " `time_value`s were not at or above 0 and below 86400.")
   }
   seconds
 }
 
+#' @export
 excel_time_to_numeric.POSIXlt <- function(time_value, round_seconds=TRUE) {
   excel_time_to_numeric.POSIXct(
     as.POSIXct(time_value),
@@ -69,6 +73,7 @@ excel_time_to_numeric.POSIXlt <- function(time_value, round_seconds=TRUE) {
   )
 }
 
+#' @export
 excel_time_to_numeric.character <- function(time_value, round_seconds=TRUE) {
   ret <- rep(NA_real_, length(time_value))
   patterns <-

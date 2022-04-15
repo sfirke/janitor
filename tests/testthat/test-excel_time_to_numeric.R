@@ -130,7 +130,9 @@ test_that("excel_time_to_numeric, POSIX times ignore extra text (which is hopefu
   expect_equal(excel_time_to_numeric("1899-12-31 21:05:20 foo"), 21*3600 + 5*60 + 20)
 })
 
-test_that("excel_time_to_numeric, POSIX times treat no time as midnight but only if there is a space indicating a well-formed date-time object.", {
+test_that("excel_time_to_numeric, POSIX times treat no time as midnight but only if there is a space indicating a mostly-well-formed date-time object.", {
+  # the just-a-space requirement is there because some time formatting puts the
+  # date then a space then the time zone.
   expect_equal(excel_time_to_numeric("1899-12-31 foo"), 0)
   expect_error(excel_time_to_numeric("1899-12-31foo"))
 })
@@ -146,6 +148,6 @@ test_that("excel_time_to_numeric, invalid character times trigger an error", {
   expect_error(excel_time_to_numeric("25:05:20"))
   expect_error(excel_time_to_numeric("23:65:20"))
   expect_error(excel_time_to_numeric("23:05:90"))
-  expect_error(excel_time_to_numeric(as.POSIXct("1899-12-30 21:05:20")))
+  expect_error(excel_time_to_numeric("1899-12-30 21:05:20"))
 })
 
