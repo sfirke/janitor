@@ -94,6 +94,16 @@ test_that("join_control row counts in output are maintained", {
   )
   expect_error(
     join_control(
+      x=two_row_df, y=one_row_df,
+      join_fun=dplyr::right_join,
+      x_control="all", y_control="unique",
+      x_fraction=0.75, y_fraction=1
+    ),
+    regexp="Not enough rows from `x` are in the returned value (2 expected and 1 found)",
+    fixed=TRUE
+  )
+  expect_error(
+    join_control(
       x=one_row_df, y=two_row_df,
       join_fun=dplyr::left_join,
       x_control="all", y_control="unique",
