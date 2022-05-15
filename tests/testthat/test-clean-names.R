@@ -392,6 +392,15 @@ test_that("Tests for clean_names.default() on lists and vectors", {
   )
 })
 
+test_that("Tests for clean_names.default() on arrays", {
+  x = array(NA, dim = c(2, 2, 2), dimnames = list(c("A", "B"), c("C", "D"), c("E", "F")))
+  clean = clean_names(x)
+  test = unlist(dimnames(x))
+  expect_false(isTRUE(all.equal(test, tolower(test))))
+  test_clean = unlist(dimnames(clean))
+  expect_true(isTRUE(all.equal(test_clean, tolower(test_clean))))
+})
+
 
 #------------------------------------------------------------------------------# 
 #---------------------------- Tests for sf method -----------------------------####
