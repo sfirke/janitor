@@ -79,8 +79,7 @@ clean_names.default <- function(dat, ...) {
     return(dat)
   }
   if(is.null(names(dat))) {
-    colnames(dat) <- make_clean_names(colnames(dat), ...)
-    rownames(dat) <- make_clean_names(rownames(dat), ...)
+    dimnames(dat) <- lapply(dimnames(dat), make_clean_names, ...)
   } else {
     names(dat) <- make_clean_names(names(dat), ...)
   }
