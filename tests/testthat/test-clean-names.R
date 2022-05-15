@@ -371,10 +371,23 @@ test_that("Tests for cases beyond default snake", {
   expect_warning(expect_equal(names(clean_names(test_df, "small_camel")), names(clean_names(test_df, "lower_camel"))))
 })
 
-test_that("errors if not called on a data.frame", {
+test_that("Tests for clean_names.default() on lists and vectors", {
+  test_v <- seq_along(testing_vector)
+  names(test_v) <- testing_vector
+  test_list <- as.list(test_v)
+  
+  # Warnings due to partially handled mu
+  clean_v <- suppressWarnings(clean_names(test_v))
+  clean_l <- suppressWarnings(clean_names(test_list))
+  expect_equal(names(clean_v)[1], "sp_ace")
+  expect_equal(names(clean_l)[1], "sp_ace")
+  expect_type(clean_v, "integer")
+  expect_type(clean_l, "list")
+  
+  unnamed <- seq_along(testing_vector)
   expect_error(
-    clean_names(1:3),
-    regexp="No `clean_names()` method exists for the class integer",
+    clean_names(unnamed),
+    regexp="requires that either names or dimnames be non-null.",
     fixed=TRUE
   )
 })

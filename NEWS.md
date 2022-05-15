@@ -25,6 +25,8 @@
 
 * `make_clean_names()` (and therefore `clean_names()`) issues a warning if the mu or micro symbol is in the names and it is not or may not be handled by a `replace` argument value.  (#448, thanks **@IndrajeetPatil** for reporting and **@billdenney** for fixing)  The rationale is that standard transliteration would convert "[mu]g" to "mg" when it would be more typically be converted to "ug" for use as a unit.  A new, unexported constant (janitor:::mu_to_u) was added to help with mu to "u" replacements.
 
+* `clean_names()` now supports all object types that have either names or dimnames (#481, @DanChaltiel).
+
 ## Bug fixes
 
 * When a numeric variable is supplied as the 2nd variable (column) or 3rd variable (list) of a `tabyl`, the resulting columns or list are now sorted in numeric order, not alphabetic. (#438, thanks **@daaronr** for reporting and **@mattroumaya** for fixing)
