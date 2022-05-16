@@ -76,7 +76,6 @@ clean_names.default <- function(dat, ...) {
       "`clean_names()` requires that either names or dimnames be non-null.",
       call. = FALSE
     )
-    return(dat)
   }
   if(is.null(names(dat))) {
     dimnames(dat) <- lapply(dimnames(dat), make_clean_names, ...)

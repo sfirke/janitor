@@ -377,8 +377,8 @@ test_that("Tests for clean_names.default() on lists and vectors", {
   test_list <- as.list(test_v)
   
   # Warnings due to partially handled mu
-  clean_v <- suppressWarnings(clean_names(test_v))
-  clean_l <- suppressWarnings(clean_names(test_list))
+  clean_v <- expect_warning(clean_names(test_v), regexp="mu or micro symbol")
+  clean_l <- expect_warning(clean_names(test_list), regexp="mu or micro symbol")
   expect_equal(names(clean_v)[1], "sp_ace")
   expect_equal(names(clean_l)[1], "sp_ace")
   expect_type(clean_v, "integer")
