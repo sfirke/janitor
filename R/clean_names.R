@@ -70,17 +70,19 @@ clean_names <- function(dat, ...) {
 
 #' @rdname clean_names
 #' @export
-clean_names.data.frame <- function(dat, ...) {
-  stats::setNames(dat, make_clean_names(names(dat), ...))
-}
-
-#' @rdname clean_names
-#' @export
 clean_names.default <- function(dat, ...) {
-  stop(
-    "No `clean_names()` method exists for the class ", paste(class(dat), collapse=", "),
-    "\nConsider janitor::make_clean_names() for other cases of manipulating vectors of names."
-  )
+  if(is.null(names(dat)) && is.null(dimnames(dat))) {
+    stop(
+      "`clean_names()` requires that either names or dimnames be non-null.",
+      call. = FALSE
+    )
+  }
+  if(is.null(names(dat))) {
+    dimnames(dat) <- lapply(dimnames(dat), make_clean_names, ...)
+  } else {
+    names(dat) <- make_clean_names(names(dat), ...)
+  }
+  dat
 }
 
 #' @rdname clean_names

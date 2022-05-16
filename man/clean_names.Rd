@@ -2,15 +2,12 @@
 % Please edit documentation in R/clean_names.R
 \name{clean_names}
 \alias{clean_names}
-\alias{clean_names.data.frame}
 \alias{clean_names.default}
 \alias{clean_names.sf}
 \alias{clean_names.tbl_graph}
 \title{Cleans names of an object (usually a data.frame).}
 \usage{
 clean_names(dat, ...)
-
-\method{clean_names}{data.frame}(dat, ...)
 
 \method{clean_names}{default}(dat, ...)
 
