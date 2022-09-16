@@ -15,7 +15,7 @@ options(width = 110)
 ```
 
 
-# janitor <img src="reference/figures/logo_small.png" align="right" />
+# janitor <img src="man/figures/logo_small.png" align="right" />
 
 > Data scientists, according to interviews and expert estimates, spend from 50 percent to 80 percent of their time mired in this more mundane labor of collecting and preparing unruly digital data, before it can be explored for useful nuggets.
 > 
