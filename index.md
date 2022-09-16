@@ -1,27 +1,27 @@
 
 <!-- index.md is generated from index.Rmd. Please edit that file -->
 
-# janitor <img src="docs/reference/figures/logo_small.png" align="right" />
+# janitor <img src="man/figures/logo_small.png" align="right" />
 
 > Data scientists, according to interviews and expert estimates, spend
 > from 50 percent to 80 percent of their time mired in this more mundane
 > labor of collecting and preparing unruly digital data, before it can
 > be explored for useful nuggets.
-> 
-> – "[For Big-Data Scientists, ‘Janitor Work’ Is Key Hurdle to
-> Insight"](https://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html)
+>
+> – “[For Big-Data Scientists, ‘Janitor Work’ Is Key Hurdle to
+> Insight”](https://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html)
 > *(New York Times, 2014)*
 
------
+------------------------------------------------------------------------
 
 [![Travis-CI Build
 Status](https://travis-ci.org/sfirke/janitor.svg?branch=master)](https://travis-ci.org/sfirke/janitor)
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/sfirke/janitor/master.svg)](https://codecov.io/github/sfirke/janitor?branch=master)
 [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
-[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version-ago/janitor)](https://cran.r-project.org/package=janitor)
-![\!Monthly Downloads](https://cranlogs.r-pkg.org/badges/janitor)
-![\!Downloads](https://cranlogs.r-pkg.org/badges/grand-total/janitor)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version-ago/janitor)](https://cran.r-project.org/package=janitor)
+![!Monthly Downloads](https://cranlogs.r-pkg.org/badges/janitor)
+![!Downloads](https://cranlogs.r-pkg.org/badges/grand-total/janitor)
 
 **janitor** has simple functions for examining and cleaning dirty data.
 It was built with beginning and intermediate R users in mind and is
@@ -31,10 +31,10 @@ their thinking for the fun stuff.
 
 The main janitor functions:
 
-  - perfectly format data.frame column names;
-  - create and format frequency tables of one, two, or three variables -
+-   perfectly format data.frame column names;
+-   create and format frequency tables of one, two, or three variables -
     think an improved `table()`; and
-  - provide other tools for cleaning and examining data.frames.
+-   provide other tools for cleaning and examining data.frames.
 
 The tabulate-and-report functions approximate popular features of SPSS
 and Microsoft Excel.
@@ -50,14 +50,14 @@ optimized for cleaning data brought in with the
 
 You can install:
 
-  - the most recent officially-released version from CRAN with
-    
+-   the most recent officially-released version from CRAN with
+
     ``` r
     install.packages("janitor")
     ```
 
-  - the latest development version from GitHub with
-    
+-   the latest development version from GitHub with
+
     ``` r
     install.packages("devtools")
     devtools::install_github("sfirke/janitor")
@@ -78,17 +78,17 @@ Below are quick examples of how janitor tools are commonly used.
 
 Take this roster of teachers at a fictional American high school, stored
 in the Microsoft Excel file
-[dirty\_data.xlsx](https://github.com/sfirke/janitor/blob/master/dirty_data.xlsx):
+[dirty_data.xlsx](https://github.com/sfirke/janitor/blob/master/dirty_data.xlsx):
 ![All kinds of dirty.](docs/reference/figures/dirty_data.PNG)
 
 Dirtiness includes:
 
-  - A header at the top
-  - Dreadful column names
-  - Rows and columns containing Excel formatting but no data
-  - Dates in two different formats in a single column (MM/DD/YYYY and
+-   A header at the top
+-   Dreadful column names
+-   Rows and columns containing Excel formatting but no data
+-   Dates in two different formats in a single column (MM/DD/YYYY and
     numbers)
-  - Values spread inconsistently over the “Certification” columns
+-   Values spread inconsistently over the “Certification” columns
 
 Here’s that data after being read in to R:
 
@@ -99,17 +99,17 @@ roster_raw <- read_excel(here("dirty_data.xlsx")) # available at http://github.c
 glimpse(roster_raw)
 #> Rows: 14
 #> Columns: 11
-#> $ `Data most recently refreshed on:` <chr> "First Name", "Jason", "Jason", "Alicia", "Ada", "Desus", "Chi...
-#> $ ...2                               <chr> "Last Name", "Bourne", "Bourne", "Keys", "Lovelace", "Nice", "...
-#> $ ...3                               <chr> "Employee Status", "Teacher", "Teacher", "Teacher", "Teacher",...
-#> $ `Dec-27 2020`                      <chr> "Subject", "PE", "Drafting", "Music", NA, "Dean", "Physics", "...
-#> $ ...5                               <chr> "Hire Date", "39690", "43479", "37118", "38572", "42791", "110...
-#> $ ...6                               <chr> "% Allocated", "0.75", "0.25", "1", "1", "1", "0.5", "0.5", NA...
-#> $ ...7                               <chr> "Full time?", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes",...
-#> $ ...8                               <chr> "do not edit! --->", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N...
-#> $ ...9                               <chr> "Certification", "Physical ed", "Physical ed", "Instr. music",...
-#> $ ...10                              <chr> "Certification", "Theater", "Theater", "Vocal music", "Compute...
-#> $ ...11                              <chr> "Active?", "YES", "YES", "YES", "YES", "YES", "YES", "YES", NA...
+#> $ `Data most recently refreshed on:` <chr> "First Name", "Jason", "Jason", "Alicia", "Ada", "Desus", "Chien-…
+#> $ ...2                               <chr> "Last Name", "Bourne", "Bourne", "Keys", "Lovelace", "Nice", "Wu"…
+#> $ ...3                               <chr> "Employee Status", "Teacher", "Teacher", "Teacher", "Teacher", "A…
+#> $ `Dec-27 2020`                      <chr> "Subject", "PE", "Drafting", "Music", NA, "Dean", "Physics", "Che…
+#> $ ...5                               <chr> "Hire Date", "39690", "43479", "37118", "38572", "42791", "11037"…
+#> $ ...6                               <chr> "% Allocated", "0.75", "0.25", "1", "1", "1", "0.5", "0.5", NA, "…
+#> $ ...7                               <chr> "Full time?", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", NA…
+#> $ ...8                               <chr> "do not edit! --->", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ ...9                               <chr> "Certification", "Physical ed", "Physical ed", "Instr. music", "P…
+#> $ ...10                              <chr> "Certification", "Theater", "Theater", "Vocal music", "Computers"…
+#> $ ...11                              <chr> "Active?", "YES", "YES", "YES", "YES", "YES", "YES", "YES", NA, "…
 ```
 
 Now, to clean it up, starting with the column names.
@@ -124,17 +124,17 @@ roster_raw_cleaner <- read_excel(here("dirty_data.xlsx"),
 glimpse(roster_raw_cleaner)
 #> Rows: 13
 #> Columns: 11
-#> $ first_name        <chr> "Jason", "Jason", "Alicia", "Ada", "Desus", "Chien-Shiung", "Chien-Shiung", NA,...
-#> $ last_name         <chr> "Bourne", "Bourne", "Keys", "Lovelace", "Nice", "Wu", "Wu", NA, "Joyce", "Lamar...
-#> $ employee_status   <chr> "Teacher", "Teacher", "Teacher", "Teacher", "Administration", "Teacher", "Teach...
-#> $ subject           <chr> "PE", "Drafting", "Music", NA, "Dean", "Physics", "Chemistry", NA, "English", "...
-#> $ hire_date         <dbl> 39690, 43479, 37118, 38572, 42791, 11037, 11037, NA, 36423, 27919, 42221, 34700...
+#> $ first_name        <chr> "Jason", "Jason", "Alicia", "Ada", "Desus", "Chien-Shiung", "Chien-Shiung", NA, "J…
+#> $ last_name         <chr> "Bourne", "Bourne", "Keys", "Lovelace", "Nice", "Wu", "Wu", NA, "Joyce", "Lamarr",…
+#> $ employee_status   <chr> "Teacher", "Teacher", "Teacher", "Teacher", "Administration", "Teacher", "Teacher"…
+#> $ subject           <chr> "PE", "Drafting", "Music", NA, "Dean", "Physics", "Chemistry", NA, "English", "Sci…
+#> $ hire_date         <dbl> 39690, 43479, 37118, 38572, 42791, 11037, 11037, NA, 36423, 27919, 42221, 34700, 4…
 #> $ percent_allocated <dbl> 0.75, 0.25, 1.00, 1.00, 1.00, 0.50, 0.50, NA, 0.50, 0.50, NA, NA, 0.80
 #> $ full_time         <chr> "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", NA, "No", "No", "No", "No", "No"
 #> $ do_not_edit       <lgl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA
-#> $ certification     <chr> "Physical ed", "Physical ed", "Instr. music", "PENDING", "PENDING", "Science 6-...
-#> $ certification_2   <chr> "Theater", "Theater", "Vocal music", "Computers", NA, "Physics", "Physics", NA,...
-#> $ active            <chr> "YES", "YES", "YES", "YES", "YES", "YES", "YES", NA, "YES", "YES", "YES", "YES"...
+#> $ certification     <chr> "Physical ed", "Physical ed", "Instr. music", "PENDING", "PENDING", "Science 6-12"…
+#> $ certification_2   <chr> "Theater", "Theater", "Vocal music", "Computers", NA, "Physics", "Physics", NA, "E…
+#> $ active            <chr> "YES", "YES", "YES", "YES", "YES", "YES", "YES", NA, "YES", "YES", "YES", "YES", "…
 ```
 
 `clean_names()` is a convenience version of `make_clean_names()` that
@@ -160,7 +160,7 @@ roster <- roster_raw %>%
 #> Removing 1 constant columns of 10 columns total (Removed: active).
 
 roster
-#> # A tibble: 12 x 8
+#> # A tibble: 12 × 8
 #>    first_name   last_name employee_status subject    hire_date  percent_allocated full_time cert          
 #>    <chr>        <chr>     <chr>           <chr>      <date>     <chr>             <chr>     <chr>         
 #>  1 Jason        Bourne    Teacher         PE         2008-08-30 0.75              Yes       Physical ed   
@@ -186,13 +186,13 @@ cleaning. Let’s see if any teachers are listed more than once:
 
 ``` r
 roster %>% get_dupes(contains("name"))
-#> # A tibble: 4 x 9
-#>   first_name   last_name dupe_count employee_status subject   hire_date  percent_allocat~ full_time cert      
-#>   <chr>        <chr>          <int> <chr>           <chr>     <date>     <chr>            <chr>     <chr>     
-#> 1 Chien-Shiung Wu                 2 Teacher         Physics   1930-03-20 0.5              Yes       Science 6~
-#> 2 Chien-Shiung Wu                 2 Teacher         Chemistry 1930-03-20 0.5              Yes       Science 6~
-#> 3 Jason        Bourne             2 Teacher         PE        2008-08-30 0.75             Yes       Physical ~
-#> 4 Jason        Bourne             2 Teacher         Drafting  2019-01-14 0.25             Yes       Physical ~
+#> # A tibble: 4 × 9
+#>   first_name   last_name dupe_count employee_status subject   hire_date  percent_allocated full_time cert     
+#>   <chr>        <chr>          <int> <chr>           <chr>     <date>     <chr>             <chr>     <chr>    
+#> 1 Chien-Shiung Wu                 2 Teacher         Physics   1930-03-20 0.5               Yes       Science …
+#> 2 Chien-Shiung Wu                 2 Teacher         Chemistry 1930-03-20 0.5               Yes       Science …
+#> 3 Jason        Bourne             2 Teacher         PE        2008-08-30 0.75              Yes       Physical…
+#> 4 Jason        Bourne             2 Teacher         Drafting  2019-01-14 0.25              Yes       Physical…
 ```
 
 Yes, some teachers appear twice. We ought to address this before
@@ -212,11 +212,11 @@ Like `table()`, but pipe-able, data.frame-based, and fully featured.
 
 `tabyl` can be called two ways:
 
-  - On a vector, when tabulating a single variable:
+-   On a vector, when tabulating a single variable:
     `tabyl(roster$subject)`
-  - On a data.frame, specifying 1, 2, or 3 variable names to tabulate:
+-   On a data.frame, specifying 1, 2, or 3 variable names to tabulate:
     `roster %>% tabyl(subject, employee_status)`.
-      - Here the data.frame is passed in with the `%>%` pipe; this
+    -   Here the data.frame is passed in with the `%>%` pipe; this
         allows `tabyl` to be used in an analysis pipeline
 
 One variable:
@@ -300,9 +300,9 @@ vignette](http://sfirke.github.io/janitor/articles/tabyls.html).
 
 You are welcome to:
 
-  - submit suggestions and report bugs:
+-   submit suggestions and report bugs:
     <https://github.com/sfirke/janitor/issues>
-  - let me know what you think on Mastodon:
+-   let me know what you think on Mastodon:
     [@samfirke@a2mi.social](https://a2mi.social/@samfirke)
-  - compose a friendly e-mail to:
+-   compose a friendly e-mail to:
     <img src = "http://samfirke.com/wp-content/uploads/2016/07/email_address_whitespace_top.png" alt = "samuel.firke AT gmail" width = "210"/>
