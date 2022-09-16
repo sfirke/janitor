@@ -4,14 +4,23 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content='The main janitor functions can: perfectly format data.frame column
+    names; provide quick counts of variable combinations (i.e., frequency
+    tables and crosstabs); and isolate duplicate records. Other janitor functions
+    nicely format the tabulation results. These tabulate-and-report functions
+    approximate popular features of SPSS and Microsoft Excel. This package
+    follows the principles of the "tidyverse" and works well with the pipe function
+    %&gt;%. janitor was built with beginning-to-intermediate R users in mind and is
+    optimized for user-friendliness. Advanced R users can already do everything
+    covered here, but with janitor they can do it faster and save their thinking for
+    the fun stuff.'>
 <title>Simple Tools for Examining and Cleaning Dirty Data • janitor</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
-<script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Simple Tools for Examining and Cleaning Dirty Data">
+<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Simple Tools for Examining and Cleaning Dirty Data">
 <meta property="og:description" content='The main janitor functions can: perfectly format data.frame column
     names; provide quick counts of variable combinations (i.e., frequency
     tables and crosstabs); and isolate duplicate records. Other janitor functions
@@ -27,75 +36,63 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body data-spy="scroll" data-target="#toc">
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <div class="container template-home">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">janitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.1.0.9000</span>
-      </span>
-    </div>
+    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
+    
+    <a class="navbar-brand me-2" href="index.html">janitor</a>
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li>
-  <a href="articles/janitor.html">Get started</a>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.0.9000</small>
+
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-3">
+      <ul class="navbar-nav me-auto">
+<li class="nav-item">
+  <a class="nav-link" href="articles/janitor.html">Get started</a>
 </li>
-<li>
-  <a href="reference/index.html">Reference</a>
+<li class="nav-item">
+  <a class="nav-link" href="reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="articles/tabyls.html">tabyls: a tidy, fully-featured approach to counting things</a>
-    </li>
-  </ul>
-</li>
-<li>
-  <a href="news/index.html">Changelog</a>
-</li>
-      </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/sfirke/janitor/">
-    <span class="fab fa-github fa-lg"></span>
-     
-  </a>
-</li>
-      </ul>
-</div>
-<!--/.nav-collapse -->
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="articles/tabyls.html">tabyls: a tidy, fully-featured approach to counting things</a>
   </div>
-<!--/.container -->
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="news/index.html">Changelog</a>
+</li>
+      </ul>
+<form class="form-inline my-2 my-lg-0" role="search">
+        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off">
+</form>
+
+      <ul class="navbar-nav">
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/sfirke/janitor/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
-<!--/.navbar -->
 
-      
-
-      </header><div class="row">
-  <div class="contents col-md-9">
-<div id="janitor-" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#janitor-" class="anchor"></a>janitor <img src="docs/reference/figures/logo_small.png" align="right">
+    
+  </div>
+</nav><div class="container template-home">
+<div class="row">
+  <main id="main" class="col-md-9"><div class="section level1">
+<div class="page-header"><h1 id="janitor-">janitor <img src="docs/reference/figures/logo_small.png" align="right"><a class="anchor" aria-label="anchor" href="#janitor-"></a>
 </h1></div>
 <blockquote>
 <p>Data scientists, according to interviews and expert estimates, spend from 50 percent to 80 percent of their time mired in this more mundane labor of collecting and preparing unruly digital data, before it can be explored for useful nuggets.</p>
-<p>– "<a href="https://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html" class="external-link">For Big-Data Scientists, ‘Janitor Work’ Is Key Hurdle to Insight"</a> <em>(New York Times, 2014)</em></p>
+<p>– “<a href="https://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html" class="external-link">For Big-Data Scientists, ‘Janitor Work’ Is Key Hurdle to Insight”</a> <em>(New York Times, 2014)</em></p>
 </blockquote>
 <hr>
 <p><a href="https://travis-ci.org/sfirke/janitor" class="external-link"><img src="https://travis-ci.org/sfirke/janitor.svg?branch=master" alt="Travis-CI Build Status"></a> <a href="https://codecov.io/github/sfirke/janitor?branch=master" class="external-link"><img src="https://img.shields.io/codecov/c/github/sfirke/janitor/master.svg" alt="Coverage Status"></a> <a href="https://www.tidyverse.org/lifecycle/#stable" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="lifecycle"></a> <a href="https://cran.r-project.org/package=janitor" class="external-link"><img src="https://www.r-pkg.org/badges/version-ago/janitor" alt="CRAN_Status_Badge"></a> <img src="https://cranlogs.r-pkg.org/badges/janitor" alt="!Monthly Downloads"><img src="https://cranlogs.r-pkg.org/badges/grand-total/janitor" alt="!Downloads"></p>
@@ -107,33 +104,34 @@
 <li>provide other tools for cleaning and examining data.frames.</li>
 </ul>
 <p>The tabulate-and-report functions approximate popular features of SPSS and Microsoft Excel.</p>
-<p>janitor is a <a href="https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html" class="external-link">#tidyverse</a>-oriented package. Specifically, it plays nicely with the <code><a href="reference/pipe.html">%&gt;%</a></code> pipe and is optimized for cleaning data brought in with the <a href="https://github.com/tidyverse/readr" class="external-link">readr</a> and <a href="https://github.com/tidyverse/readxl" class="external-link">readxl</a> packages.</p>
-<div id="-getting-started" class="section level2">
-<h2 class="hasAnchor">
-<a href="#-getting-started" class="anchor"></a><i class="fa fa-cog" aria-hidden="true"></i> Getting Started</h2>
+<p>janitor is a <a href="https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html" class="external-link">#tidyverse</a>-oriented package. Specifically, it plays nicely with the <code>%&gt;%</code> pipe and is optimized for cleaning data brought in with the <a href="https://github.com/tidyverse/readr" class="external-link">readr</a> and <a href="https://github.com/tidyverse/readxl" class="external-link">readxl</a> packages.</p>
+<div class="section level2">
+<h2 id="-getting-started">
+<i class="fa fa-cog" aria-hidden="true"></i> Getting Started<a class="anchor" aria-label="anchor" href="#-getting-started"></a>
+</h2>
 <p>You can install:</p>
 <ul>
 <li>
 <p>the most recent officially-released version from CRAN with</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"janitor"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"janitor"</span><span class="op">)</span></span></code></pre></div>
 </li>
 <li>
 <p>the latest development version from GitHub with</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"sfirke/janitor"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"sfirke/janitor"</span><span class="op">)</span></span></code></pre></div>
 </li>
 </ul>
 </div>
-<div id="using-janitor" class="section level2">
-<h2 class="hasAnchor">
-<a href="#using-janitor" class="anchor"></a>Using janitor</h2>
-<p>A full description of each function, organized by topic, can be found in janitor’s <a href="http://sfirke.github.io/janitor/articles/janitor.html" class="external-link">catalog of functions vignette</a>. There you will find functions not mentioned in this README, like <code><a href="reference/compare_df_cols.html">compare_df_cols()</a></code> which provides a summary of differences in column names and types when given a set of data.frames.</p>
+<div class="section level2">
+<h2 id="using-janitor">Using janitor<a class="anchor" aria-label="anchor" href="#using-janitor"></a>
+</h2>
+<p>A full description of each function, organized by topic, can be found in janitor’s <a href="http://sfirke.github.io/janitor/articles/janitor.html">catalog of functions vignette</a>. There you will find functions not mentioned in this README, like <code><a href="reference/compare_df_cols.html">compare_df_cols()</a></code> which provides a summary of differences in column names and types when given a set of data.frames.</p>
 <p>Below are quick examples of how janitor tools are commonly used.</p>
-<div id="cleaning-dirty-data" class="section level3">
-<h3 class="hasAnchor">
-<a href="#cleaning-dirty-data" class="anchor"></a>Cleaning dirty data</h3>
+<div class="section level3">
+<h3 id="cleaning-dirty-data">Cleaning dirty data<a class="anchor" aria-label="anchor" href="#cleaning-dirty-data"></a>
+</h3>
 <p>Take this roster of teachers at a fictional American high school, stored in the Microsoft Excel file <a href="https://github.com/sfirke/janitor/blob/master/dirty_data.xlsx" class="external-link">dirty_data.xlsx</a>: <img src="docs/reference/figures/dirty_data.PNG" alt="All kinds of dirty."></p>
 <p>Dirtiness includes:</p>
 <ul>
@@ -145,176 +143,174 @@
 </ul>
 <p>Here’s that data after being read in to R:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">readxl</span><span class="op">)</span>; <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sfirke/janitor" class="external-link">janitor</a></span><span class="op">)</span>; <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>; <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">here</span><span class="op">)</span>
-
-<span class="va">roster_raw</span> <span class="op">&lt;-</span> <span class="fu">read_excel</span><span class="op">(</span><span class="fu">here</span><span class="op">(</span><span class="st">"dirty_data.xlsx"</span><span class="op">)</span><span class="op">)</span> <span class="co"># available at http://github.com/sfirke/janitor</span>
-<span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">roster_raw</span><span class="op">)</span>
-<span class="co">#&gt; Rows: 14</span>
-<span class="co">#&gt; Columns: 11</span>
-<span class="co">#&gt; $ `Data most recently refreshed on:` &lt;chr&gt; "First Name", "Jason", "Jason", "Alicia", "Ada", "Desus", "Chi...</span>
-<span class="co">#&gt; $ ...2                               &lt;chr&gt; "Last Name", "Bourne", "Bourne", "Keys", "Lovelace", "Nice", "...</span>
-<span class="co">#&gt; $ ...3                               &lt;chr&gt; "Employee Status", "Teacher", "Teacher", "Teacher", "Teacher",...</span>
-<span class="co">#&gt; $ `Dec-27 2020`                      &lt;chr&gt; "Subject", "PE", "Drafting", "Music", NA, "Dean", "Physics", "...</span>
-<span class="co">#&gt; $ ...5                               &lt;chr&gt; "Hire Date", "39690", "43479", "37118", "38572", "42791", "110...</span>
-<span class="co">#&gt; $ ...6                               &lt;chr&gt; "% Allocated", "0.75", "0.25", "1", "1", "1", "0.5", "0.5", NA...</span>
-<span class="co">#&gt; $ ...7                               &lt;chr&gt; "Full time?", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes",...</span>
-<span class="co">#&gt; $ ...8                               &lt;chr&gt; "do not edit! ---&gt;", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N...</span>
-<span class="co">#&gt; $ ...9                               &lt;chr&gt; "Certification", "Physical ed", "Physical ed", "Instr. music",...</span>
-<span class="co">#&gt; $ ...10                              &lt;chr&gt; "Certification", "Theater", "Theater", "Vocal music", "Compute...</span>
-<span class="co">#&gt; $ ...11                              &lt;chr&gt; "Active?", "YES", "YES", "YES", "YES", "YES", "YES", "YES", NA...</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org" class="external-link">readxl</a></span><span class="op">)</span>; <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sfirke/janitor" class="external-link">janitor</a></span><span class="op">)</span>; <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>; <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://here.r-lib.org/" class="external-link">here</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">roster_raw</span> <span class="op">&lt;-</span> <span class="fu">read_excel</span><span class="op">(</span><span class="fu">here</span><span class="op">(</span><span class="st">"dirty_data.xlsx"</span><span class="op">)</span><span class="op">)</span> <span class="co"># available at http://github.com/sfirke/janitor</span></span>
+<span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">roster_raw</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Rows: 14</span></span>
+<span><span class="co">#&gt; Columns: 11</span></span>
+<span><span class="co">#&gt; $ `Data most recently refreshed on:` &lt;chr&gt; "First Name", "Jason", "Jason", "Alicia", "Ada", "Desus", "Chi...</span></span>
+<span><span class="co">#&gt; $ ...2                               &lt;chr&gt; "Last Name", "Bourne", "Bourne", "Keys", "Lovelace", "Nice", "...</span></span>
+<span><span class="co">#&gt; $ ...3                               &lt;chr&gt; "Employee Status", "Teacher", "Teacher", "Teacher", "Teacher",...</span></span>
+<span><span class="co">#&gt; $ `Dec-27 2020`                      &lt;chr&gt; "Subject", "PE", "Drafting", "Music", NA, "Dean", "Physics", "...</span></span>
+<span><span class="co">#&gt; $ ...5                               &lt;chr&gt; "Hire Date", "39690", "43479", "37118", "38572", "42791", "110...</span></span>
+<span><span class="co">#&gt; $ ...6                               &lt;chr&gt; "% Allocated", "0.75", "0.25", "1", "1", "1", "0.5", "0.5", NA...</span></span>
+<span><span class="co">#&gt; $ ...7                               &lt;chr&gt; "Full time?", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes",...</span></span>
+<span><span class="co">#&gt; $ ...8                               &lt;chr&gt; "do not edit! ---&gt;", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N...</span></span>
+<span><span class="co">#&gt; $ ...9                               &lt;chr&gt; "Certification", "Physical ed", "Physical ed", "Instr. music",...</span></span>
+<span><span class="co">#&gt; $ ...10                              &lt;chr&gt; "Certification", "Theater", "Theater", "Vocal music", "Compute...</span></span>
+<span><span class="co">#&gt; $ ...11                              &lt;chr&gt; "Active?", "YES", "YES", "YES", "YES", "YES", "YES", "YES", NA...</span></span></code></pre></div>
 <p>Now, to clean it up, starting with the column names.</p>
 <p>Name cleaning comes in two flavors. <code><a href="reference/make_clean_names.html">make_clean_names()</a></code> operates on character vectors and can be used during data import:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">roster_raw_cleaner</span> <span class="op">&lt;-</span> <span class="fu">read_excel</span><span class="op">(</span><span class="fu">here</span><span class="op">(</span><span class="st">"dirty_data.xlsx"</span><span class="op">)</span>, 
-                                 skip <span class="op">=</span> <span class="fl">1</span>,
-                                 .name_repair <span class="op">=</span> <span class="va">make_clean_names</span><span class="op">)</span>
-<span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">roster_raw_cleaner</span><span class="op">)</span>
-<span class="co">#&gt; Rows: 13</span>
-<span class="co">#&gt; Columns: 11</span>
-<span class="co">#&gt; $ first_name        &lt;chr&gt; "Jason", "Jason", "Alicia", "Ada", "Desus", "Chien-Shiung", "Chien-Shiung", NA,...</span>
-<span class="co">#&gt; $ last_name         &lt;chr&gt; "Bourne", "Bourne", "Keys", "Lovelace", "Nice", "Wu", "Wu", NA, "Joyce", "Lamar...</span>
-<span class="co">#&gt; $ employee_status   &lt;chr&gt; "Teacher", "Teacher", "Teacher", "Teacher", "Administration", "Teacher", "Teach...</span>
-<span class="co">#&gt; $ subject           &lt;chr&gt; "PE", "Drafting", "Music", NA, "Dean", "Physics", "Chemistry", NA, "English", "...</span>
-<span class="co">#&gt; $ hire_date         &lt;dbl&gt; 39690, 43479, 37118, 38572, 42791, 11037, 11037, NA, 36423, 27919, 42221, 34700...</span>
-<span class="co">#&gt; $ percent_allocated &lt;dbl&gt; 0.75, 0.25, 1.00, 1.00, 1.00, 0.50, 0.50, NA, 0.50, 0.50, NA, NA, 0.80</span>
-<span class="co">#&gt; $ full_time         &lt;chr&gt; "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", NA, "No", "No", "No", "No", "No"</span>
-<span class="co">#&gt; $ do_not_edit       &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA</span>
-<span class="co">#&gt; $ certification     &lt;chr&gt; "Physical ed", "Physical ed", "Instr. music", "PENDING", "PENDING", "Science 6-...</span>
-<span class="co">#&gt; $ certification_2   &lt;chr&gt; "Theater", "Theater", "Vocal music", "Computers", NA, "Physics", "Physics", NA,...</span>
-<span class="co">#&gt; $ active            &lt;chr&gt; "YES", "YES", "YES", "YES", "YES", "YES", "YES", NA, "YES", "YES", "YES", "YES"...</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">roster_raw_cleaner</span> <span class="op">&lt;-</span> <span class="fu">read_excel</span><span class="op">(</span><span class="fu">here</span><span class="op">(</span><span class="st">"dirty_data.xlsx"</span><span class="op">)</span>, </span>
+<span>                                 skip <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>                                 .name_repair <span class="op">=</span> <span class="va">make_clean_names</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">roster_raw_cleaner</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Rows: 13</span></span>
+<span><span class="co">#&gt; Columns: 11</span></span>
+<span><span class="co">#&gt; $ first_name        &lt;chr&gt; "Jason", "Jason", "Alicia", "Ada", "Desus", "Chien-Shiung", "Chien-Shiung", NA,...</span></span>
+<span><span class="co">#&gt; $ last_name         &lt;chr&gt; "Bourne", "Bourne", "Keys", "Lovelace", "Nice", "Wu", "Wu", NA, "Joyce", "Lamar...</span></span>
+<span><span class="co">#&gt; $ employee_status   &lt;chr&gt; "Teacher", "Teacher", "Teacher", "Teacher", "Administration", "Teacher", "Teach...</span></span>
+<span><span class="co">#&gt; $ subject           &lt;chr&gt; "PE", "Drafting", "Music", NA, "Dean", "Physics", "Chemistry", NA, "English", "...</span></span>
+<span><span class="co">#&gt; $ hire_date         &lt;dbl&gt; 39690, 43479, 37118, 38572, 42791, 11037, 11037, NA, 36423, 27919, 42221, 34700...</span></span>
+<span><span class="co">#&gt; $ percent_allocated &lt;dbl&gt; 0.75, 0.25, 1.00, 1.00, 1.00, 0.50, 0.50, NA, 0.50, 0.50, NA, NA, 0.80</span></span>
+<span><span class="co">#&gt; $ full_time         &lt;chr&gt; "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", NA, "No", "No", "No", "No", "No"</span></span>
+<span><span class="co">#&gt; $ do_not_edit       &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA</span></span>
+<span><span class="co">#&gt; $ certification     &lt;chr&gt; "Physical ed", "Physical ed", "Instr. music", "PENDING", "PENDING", "Science 6-...</span></span>
+<span><span class="co">#&gt; $ certification_2   &lt;chr&gt; "Theater", "Theater", "Vocal music", "Computers", NA, "Physics", "Physics", NA,...</span></span>
+<span><span class="co">#&gt; $ active            &lt;chr&gt; "YES", "YES", "YES", "YES", "YES", "YES", "YES", NA, "YES", "YES", "YES", "YES"...</span></span></code></pre></div>
 <p><code><a href="reference/clean_names.html">clean_names()</a></code> is a convenience version of <code><a href="reference/make_clean_names.html">make_clean_names()</a></code> that can be used for piped data.frame workflows. The equivalent steps with <code><a href="reference/clean_names.html">clean_names()</a></code> would be:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">roster_raw</span> <span class="op">&lt;-</span> <span class="va">roster_raw</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/row_to_names.html">row_to_names</a></span><span class="op">(</span>row_number <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/clean_names.html">clean_names</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">roster_raw</span> <span class="op">&lt;-</span> <span class="va">roster_raw</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="reference/row_to_names.html">row_to_names</a></span><span class="op">(</span>row_number <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="reference/clean_names.html">clean_names</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>The data.frame now has clean names. Let’s tidy it up further:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">roster</span> <span class="op">&lt;-</span> <span class="va">roster_raw</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/remove_empty.html">remove_empty</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rows"</span>, <span class="st">"cols"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/remove_constant.html">remove_constant</a></span><span class="op">(</span>na.rm <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="co"># remove the column of all "Yes" values </span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>hire_date <span class="op">=</span> <span class="fu"><a href="reference/convert_to_date.html">convert_to_date</a></span><span class="op">(</span><span class="va">hire_date</span>, <span class="co"># handle the mixed-format dates</span>
-                                     character_fun <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="va"><a href="http://lubridate.tidyverse.org/reference/ymd.html" class="external-link">mdy</a></span><span class="op">)</span>,
-         cert <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/coalesce.html" class="external-link">coalesce</a></span><span class="op">(</span><span class="va">certification</span>, <span class="va">certification_2</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">certification</span>, <span class="op">-</span><span class="va">certification_2</span><span class="op">)</span> <span class="co"># drop unwanted columns</span>
-<span class="co">#&gt; Removing 1 constant columns of 10 columns total (Removed: active).</span>
-
-<span class="va">roster</span>
-<span class="co">#&gt; # A tibble: 12 x 8</span>
-<span class="co">#&gt;    first_name   last_name employee_status subject    hire_date  percent_allocated full_time cert          </span>
-<span class="co">#&gt;    &lt;chr&gt;        &lt;chr&gt;     &lt;chr&gt;           &lt;chr&gt;      &lt;date&gt;     &lt;chr&gt;             &lt;chr&gt;     &lt;chr&gt;         </span>
-<span class="co">#&gt;  1 Jason        Bourne    Teacher         PE         2008-08-30 0.75              Yes       Physical ed   </span>
-<span class="co">#&gt;  2 Jason        Bourne    Teacher         Drafting   2019-01-14 0.25              Yes       Physical ed   </span>
-<span class="co">#&gt;  3 Alicia       Keys      Teacher         Music      2001-08-15 1                 Yes       Instr. music  </span>
-<span class="co">#&gt;  4 Ada          Lovelace  Teacher         &lt;NA&gt;       2005-08-08 1                 Yes       PENDING       </span>
-<span class="co">#&gt;  5 Desus        Nice      Administration  Dean       2017-02-25 1                 Yes       PENDING       </span>
-<span class="co">#&gt;  6 Chien-Shiung Wu        Teacher         Physics    1930-03-20 0.5               Yes       Science 6-12  </span>
-<span class="co">#&gt;  7 Chien-Shiung Wu        Teacher         Chemistry  1930-03-20 0.5               Yes       Science 6-12  </span>
-<span class="co">#&gt;  8 James        Joyce     Teacher         English    1999-09-20 0.5               No        English 6-12  </span>
-<span class="co">#&gt;  9 Hedy         Lamarr    Teacher         Science    1976-06-08 0.5               No        PENDING       </span>
-<span class="co">#&gt; 10 Carlos       Boozer    Coach           Basketball 2015-08-05 &lt;NA&gt;              No        Physical ed   </span>
-<span class="co">#&gt; 11 Young        Boozer    Coach           &lt;NA&gt;       1995-01-01 &lt;NA&gt;              No        Political sci.</span>
-<span class="co">#&gt; 12 Micheal      Larsen    Teacher         English    2009-09-15 0.8               No        Vocal music</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">roster</span> <span class="op">&lt;-</span> <span class="va">roster_raw</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="reference/remove_empty.html">remove_empty</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rows"</span>, <span class="st">"cols"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="reference/remove_constant.html">remove_constant</a></span><span class="op">(</span>na.rm <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="co"># remove the column of all "Yes" values </span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>hire_date <span class="op">=</span> <span class="fu"><a href="reference/convert_to_date.html">convert_to_date</a></span><span class="op">(</span><span class="va">hire_date</span>, <span class="co"># handle the mixed-format dates</span></span>
+<span>                                     character_fun <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="va"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">mdy</a></span><span class="op">)</span>,</span>
+<span>         cert <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/coalesce.html" class="external-link">coalesce</a></span><span class="op">(</span><span class="va">certification</span>, <span class="va">certification_2</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">certification</span>, <span class="op">-</span><span class="va">certification_2</span><span class="op">)</span> <span class="co"># drop unwanted columns</span></span>
+<span><span class="co">#&gt; Removing 1 constant columns of 10 columns total (Removed: active).</span></span>
+<span></span>
+<span><span class="va">roster</span></span>
+<span><span class="co">#&gt; # A tibble: 12 x 8</span></span>
+<span><span class="co">#&gt;    first_name   last_name employee_status subject    hire_date  percent_allocated full_time cert          </span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;        &lt;chr&gt;     &lt;chr&gt;           &lt;chr&gt;      &lt;date&gt;     &lt;chr&gt;             &lt;chr&gt;     &lt;chr&gt;         </span></span>
+<span><span class="co">#&gt;  1 Jason        Bourne    Teacher         PE         2008-08-30 0.75              Yes       Physical ed   </span></span>
+<span><span class="co">#&gt;  2 Jason        Bourne    Teacher         Drafting   2019-01-14 0.25              Yes       Physical ed   </span></span>
+<span><span class="co">#&gt;  3 Alicia       Keys      Teacher         Music      2001-08-15 1                 Yes       Instr. music  </span></span>
+<span><span class="co">#&gt;  4 Ada          Lovelace  Teacher         &lt;NA&gt;       2005-08-08 1                 Yes       PENDING       </span></span>
+<span><span class="co">#&gt;  5 Desus        Nice      Administration  Dean       2017-02-25 1                 Yes       PENDING       </span></span>
+<span><span class="co">#&gt;  6 Chien-Shiung Wu        Teacher         Physics    1930-03-20 0.5               Yes       Science 6-12  </span></span>
+<span><span class="co">#&gt;  7 Chien-Shiung Wu        Teacher         Chemistry  1930-03-20 0.5               Yes       Science 6-12  </span></span>
+<span><span class="co">#&gt;  8 James        Joyce     Teacher         English    1999-09-20 0.5               No        English 6-12  </span></span>
+<span><span class="co">#&gt;  9 Hedy         Lamarr    Teacher         Science    1976-06-08 0.5               No        PENDING       </span></span>
+<span><span class="co">#&gt; 10 Carlos       Boozer    Coach           Basketball 2015-08-05 &lt;NA&gt;              No        Physical ed   </span></span>
+<span><span class="co">#&gt; 11 Young        Boozer    Coach           &lt;NA&gt;       1995-01-01 &lt;NA&gt;              No        Political sci.</span></span>
+<span><span class="co">#&gt; 12 Micheal      Larsen    Teacher         English    2009-09-15 0.8               No        Vocal music</span></span></code></pre></div>
 </div>
-<div id="examining-dirty-data" class="section level3">
-<h3 class="hasAnchor">
-<a href="#examining-dirty-data" class="anchor"></a>Examining dirty data</h3>
-<div id="finding-duplicates" class="section level4">
-<h4 class="hasAnchor">
-<a href="#finding-duplicates" class="anchor"></a>Finding duplicates</h4>
+<div class="section level3">
+<h3 id="examining-dirty-data">Examining dirty data<a class="anchor" aria-label="anchor" href="#examining-dirty-data"></a>
+</h3>
+<div class="section level4">
+<h4 id="finding-duplicates">Finding duplicates<a class="anchor" aria-label="anchor" href="#finding-duplicates"></a>
+</h4>
 <p>Use <code><a href="reference/get_dupes.html">get_dupes()</a></code> to identify and examine duplicate records during data cleaning. Let’s see if any teachers are listed more than once:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">roster</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/get_dupes.html">get_dupes</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">contains</a></span><span class="op">(</span><span class="st">"name"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 4 x 9</span>
-<span class="co">#&gt;   first_name   last_name dupe_count employee_status subject   hire_date  percent_allocat~ full_time cert      </span>
-<span class="co">#&gt;   &lt;chr&gt;        &lt;chr&gt;          &lt;int&gt; &lt;chr&gt;           &lt;chr&gt;     &lt;date&gt;     &lt;chr&gt;            &lt;chr&gt;     &lt;chr&gt;     </span>
-<span class="co">#&gt; 1 Chien-Shiung Wu                 2 Teacher         Physics   1930-03-20 0.5              Yes       Science 6~</span>
-<span class="co">#&gt; 2 Chien-Shiung Wu                 2 Teacher         Chemistry 1930-03-20 0.5              Yes       Science 6~</span>
-<span class="co">#&gt; 3 Jason        Bourne             2 Teacher         PE        2008-08-30 0.75             Yes       Physical ~</span>
-<span class="co">#&gt; 4 Jason        Bourne             2 Teacher         Drafting  2019-01-14 0.25             Yes       Physical ~</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">roster</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/get_dupes.html">get_dupes</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">contains</a></span><span class="op">(</span><span class="st">"name"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 4 x 9</span></span>
+<span><span class="co">#&gt;   first_name   last_name dupe_count employee_status subject   hire_date  percent_allocat~ full_time cert      </span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;        &lt;chr&gt;          &lt;int&gt; &lt;chr&gt;           &lt;chr&gt;     &lt;date&gt;     &lt;chr&gt;            &lt;chr&gt;     &lt;chr&gt;     </span></span>
+<span><span class="co">#&gt; 1 Chien-Shiung Wu                 2 Teacher         Physics   1930-03-20 0.5              Yes       Science 6~</span></span>
+<span><span class="co">#&gt; 2 Chien-Shiung Wu                 2 Teacher         Chemistry 1930-03-20 0.5              Yes       Science 6~</span></span>
+<span><span class="co">#&gt; 3 Jason        Bourne             2 Teacher         PE        2008-08-30 0.75             Yes       Physical ~</span></span>
+<span><span class="co">#&gt; 4 Jason        Bourne             2 Teacher         Drafting  2019-01-14 0.25             Yes       Physical ~</span></span></code></pre></div>
 <p>Yes, some teachers appear twice. We ought to address this before counting employees.</p>
 </div>
-<div id="tabulating-tools" class="section level4">
-<h4 class="hasAnchor">
-<a href="#tabulating-tools" class="anchor"></a>Tabulating tools</h4>
+<div class="section level4">
+<h4 id="tabulating-tools">Tabulating tools<a class="anchor" aria-label="anchor" href="#tabulating-tools"></a>
+</h4>
 <p>A variable (or combinations of two or three variables) can be tabulated with <code><a href="reference/tabyl.html">tabyl()</a></code>. The resulting data.frame can be tweaked and formatted with the suite of <code>adorn_</code> functions for quick analysis and printing of pretty results in a report. <code>adorn_</code> functions can be helpful with non-tabyls, too.</p>
 </div>
-<div id="tabyl" class="section level4">
-<h4 class="hasAnchor">
-<a href="#tabyl" class="anchor"></a>tabyl()</h4>
+<div class="section level4">
+<h4 id="tabyl">tabyl()<a class="anchor" aria-label="anchor" href="#tabyl"></a>
+</h4>
 <p>Like <code><a href="https://rdrr.io/r/base/table.html" class="external-link">table()</a></code>, but pipe-able, data.frame-based, and fully featured.</p>
 <p><code>tabyl</code> can be called two ways:</p>
 <ul>
-<li>On a vector, when tabulating a single variable: <code><a href="reference/tabyl.html">tabyl(roster$subject)</a></code>
+<li>On a vector, when tabulating a single variable: <code>tabyl(roster$subject)</code>
 </li>
-<li>On a data.frame, specifying 1, 2, or 3 variable names to tabulate: <code>roster %&gt;% tabyl(subject, employee_status)</code>.
-<ul>
-<li>Here the data.frame is passed in with the <code><a href="reference/pipe.html">%&gt;%</a></code> pipe; this allows <code>tabyl</code> to be used in an analysis pipeline</li>
-</ul>
+<li>On a data.frame, specifying 1, 2, or 3 variable names to tabulate: <code>roster %&gt;% tabyl(subject, employee_status)</code>.<ul><li>Here the data.frame is passed in with the <code>%&gt;%</code> pipe; this allows <code>tabyl</code> to be used in an analysis pipeline</li></ul>
 </li>
 </ul>
 <p>One variable:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">roster</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/tabyl.html">tabyl</a></span><span class="op">(</span><span class="va">subject</span><span class="op">)</span>
-<span class="co">#&gt;     subject n    percent valid_percent</span>
-<span class="co">#&gt;  Basketball 1 0.08333333           0.1</span>
-<span class="co">#&gt;   Chemistry 1 0.08333333           0.1</span>
-<span class="co">#&gt;        Dean 1 0.08333333           0.1</span>
-<span class="co">#&gt;    Drafting 1 0.08333333           0.1</span>
-<span class="co">#&gt;     English 2 0.16666667           0.2</span>
-<span class="co">#&gt;       Music 1 0.08333333           0.1</span>
-<span class="co">#&gt;          PE 1 0.08333333           0.1</span>
-<span class="co">#&gt;     Physics 1 0.08333333           0.1</span>
-<span class="co">#&gt;     Science 1 0.08333333           0.1</span>
-<span class="co">#&gt;        &lt;NA&gt; 2 0.16666667            NA</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">roster</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="reference/tabyl.html">tabyl</a></span><span class="op">(</span><span class="va">subject</span><span class="op">)</span></span>
+<span><span class="co">#&gt;     subject n    percent valid_percent</span></span>
+<span><span class="co">#&gt;  Basketball 1 0.08333333           0.1</span></span>
+<span><span class="co">#&gt;   Chemistry 1 0.08333333           0.1</span></span>
+<span><span class="co">#&gt;        Dean 1 0.08333333           0.1</span></span>
+<span><span class="co">#&gt;    Drafting 1 0.08333333           0.1</span></span>
+<span><span class="co">#&gt;     English 2 0.16666667           0.2</span></span>
+<span><span class="co">#&gt;       Music 1 0.08333333           0.1</span></span>
+<span><span class="co">#&gt;          PE 1 0.08333333           0.1</span></span>
+<span><span class="co">#&gt;     Physics 1 0.08333333           0.1</span></span>
+<span><span class="co">#&gt;     Science 1 0.08333333           0.1</span></span>
+<span><span class="co">#&gt;        &lt;NA&gt; 2 0.16666667            NA</span></span></code></pre></div>
 <p>Two variables:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">roster</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">hire_date</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"1950-01-01"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/tabyl.html">tabyl</a></span><span class="op">(</span><span class="va">employee_status</span>, <span class="va">full_time</span><span class="op">)</span>
-<span class="co">#&gt;  employee_status No Yes</span>
-<span class="co">#&gt;   Administration  0   1</span>
-<span class="co">#&gt;            Coach  2   0</span>
-<span class="co">#&gt;          Teacher  3   4</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">roster</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">hire_date</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"1950-01-01"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="reference/tabyl.html">tabyl</a></span><span class="op">(</span><span class="va">employee_status</span>, <span class="va">full_time</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  employee_status No Yes</span></span>
+<span><span class="co">#&gt;   Administration  0   1</span></span>
+<span><span class="co">#&gt;            Coach  2   0</span></span>
+<span><span class="co">#&gt;          Teacher  3   4</span></span></code></pre></div>
 <p>Three variables:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">roster</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/tabyl.html">tabyl</a></span><span class="op">(</span><span class="va">full_time</span>, <span class="va">subject</span>, <span class="va">employee_status</span>, show_missing_levels <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="co">#&gt; $Administration</span>
-<span class="co">#&gt;  full_time Dean</span>
-<span class="co">#&gt;        Yes    1</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $Coach</span>
-<span class="co">#&gt;  full_time Basketball NA_</span>
-<span class="co">#&gt;         No          1   1</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $Teacher</span>
-<span class="co">#&gt;  full_time Chemistry Drafting English Music PE Physics Science NA_</span>
-<span class="co">#&gt;         No         0        0       2     0  0       0       1   0</span>
-<span class="co">#&gt;        Yes         1        1       0     1  1       1       0   1</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">roster</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="reference/tabyl.html">tabyl</a></span><span class="op">(</span><span class="va">full_time</span>, <span class="va">subject</span>, <span class="va">employee_status</span>, show_missing_levels <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $Administration</span></span>
+<span><span class="co">#&gt;  full_time Dean</span></span>
+<span><span class="co">#&gt;        Yes    1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $Coach</span></span>
+<span><span class="co">#&gt;  full_time Basketball NA_</span></span>
+<span><span class="co">#&gt;         No          1   1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $Teacher</span></span>
+<span><span class="co">#&gt;  full_time Chemistry Drafting English Music PE Physics Science NA_</span></span>
+<span><span class="co">#&gt;         No         0        0       2     0  0       0       1   0</span></span>
+<span><span class="co">#&gt;        Yes         1        1       0     1  1       1       0   1</span></span></code></pre></div>
 <p><strong>Adorning tabyls</strong></p>
 <p>The <code>adorn_</code> functions dress up the results of these tabulation calls for fast, basic reporting. Here are some of the functions that augment a summary table for reporting:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">roster</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/tabyl.html">tabyl</a></span><span class="op">(</span><span class="va">employee_status</span>, <span class="va">full_time</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/adorn_totals.html">adorn_totals</a></span><span class="op">(</span><span class="st">"row"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/adorn_percentages.html">adorn_percentages</a></span><span class="op">(</span><span class="st">"row"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/adorn_pct_formatting.html">adorn_pct_formatting</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/adorn_ns.html">adorn_ns</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/adorn_title.html">adorn_title</a></span><span class="op">(</span><span class="st">"combined"</span><span class="op">)</span>
-<span class="co">#&gt;  employee_status/full_time         No        Yes</span>
-<span class="co">#&gt;             Administration   0.0% (0) 100.0% (1)</span>
-<span class="co">#&gt;                      Coach 100.0% (2)   0.0% (0)</span>
-<span class="co">#&gt;                    Teacher  33.3% (3)  66.7% (6)</span>
-<span class="co">#&gt;                      Total  41.7% (5)  58.3% (7)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">roster</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="reference/tabyl.html">tabyl</a></span><span class="op">(</span><span class="va">employee_status</span>, <span class="va">full_time</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="reference/adorn_totals.html">adorn_totals</a></span><span class="op">(</span><span class="st">"row"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="reference/adorn_percentages.html">adorn_percentages</a></span><span class="op">(</span><span class="st">"row"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="reference/adorn_pct_formatting.html">adorn_pct_formatting</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="reference/adorn_ns.html">adorn_ns</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="reference/adorn_title.html">adorn_title</a></span><span class="op">(</span><span class="st">"combined"</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  employee_status/full_time         No        Yes</span></span>
+<span><span class="co">#&gt;             Administration   0.0% (0) 100.0% (1)</span></span>
+<span><span class="co">#&gt;                      Coach 100.0% (2)   0.0% (0)</span></span>
+<span><span class="co">#&gt;                    Teacher  33.3% (3)  66.7% (6)</span></span>
+<span><span class="co">#&gt;                      Total  41.7% (5)  58.3% (7)</span></span></code></pre></div>
 <p>Pipe that right into <code><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">knitr::kable()</a></code> in your RMarkdown report.</p>
-<p>These modular adornments can be layered to reduce R’s deficit against Excel and SPSS when it comes to quick, informative counts. Learn more about <code><a href="reference/tabyl.html">tabyl()</a></code> and the <code>adorn_</code> functions from the <a href="http://sfirke.github.io/janitor/articles/tabyls.html" class="external-link">tabyls vignette</a>.</p>
+<p>These modular adornments can be layered to reduce R’s deficit against Excel and SPSS when it comes to quick, informative counts. Learn more about <code><a href="reference/tabyl.html">tabyl()</a></code> and the <code>adorn_</code> functions from the <a href="http://sfirke.github.io/janitor/articles/tabyls.html">tabyls vignette</a>.</p>
 </div>
 </div>
 </div>
-<div id="-contact-me" class="section level2">
-<h2 class="hasAnchor">
-<a href="#-contact-me" class="anchor"></a><i class="fa fa-bullhorn" aria-hidden="true"></i> Contact Me</h2>
+<div class="section level2">
+<h2 id="-contact-me">
+<i class="fa fa-bullhorn" aria-hidden="true"></i> Contact Me<a class="anchor" aria-label="anchor" href="#-contact-me"></a>
+</h2>
 <p>You are welcome to:</p>
 <ul>
 <li>submit suggestions and report bugs: <a href="https://github.com/sfirke/janitor/issues" class="external-link uri">https://github.com/sfirke/janitor/issues</a>
@@ -326,18 +322,12 @@
 </ul>
 </div>
 </div>
-  </div>
-
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <div class="links">
+  </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=janitor">https://​cloud.r-project.org/​package=janitor</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/sfirke/janitor/">https://​github.com/​sfirke/​janitor/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/sfirke/janitor/issues">https://​github.com/​sfirke/​janitor/​issues</a>
-</li>
+<li><a href="https://cloud.r-project.org/package=janitor" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/sfirke/janitor/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/sfirke/janitor/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -345,7 +335,7 @@
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
 
@@ -356,35 +346,41 @@
 </ul>
 </div>
 
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing janitor</a></li>
+</ul>
+</div>
+
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Sam Firke <br><small class="roles"> Author, maintainer </small>  </li>
-<li><a href="authors.html">More on authors...</a></li>
+<li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
 
 
 
-  </div>
+  </aside>
 </div>
 
 
-      <footer><div class="copyright">
+    <footer><div class="pkgdown-footer-left">
   <p></p>
 <p>Developed by Sam Firke.</p>
 </div>
 
-<div class="pkgdown">
+<div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
-      </footer>
+    </footer>
 </div>
 
   
-
 
   
 
