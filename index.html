@@ -88,7 +88,7 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="janitor-">janitor <img src="docs/reference/figures/logo_small.png" align="right"><a class="anchor" aria-label="anchor" href="#janitor-"></a>
+<div class="page-header"><h1 id="janitor-">janitor <img src="reference/figures/logo_small.png" align="right"><a class="anchor" aria-label="anchor" href="#janitor-"></a>
 </h1></div>
 <blockquote>
 <p>Data scientists, according to interviews and expert estimates, spend from 50 percent to 80 percent of their time mired in this more mundane labor of collecting and preparing unruly digital data, before it can be explored for useful nuggets.</p>
@@ -149,17 +149,17 @@
 <span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">roster_raw</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 14</span></span>
 <span><span class="co">#&gt; Columns: 11</span></span>
-<span><span class="co">#&gt; $ `Data most recently refreshed on:` &lt;chr&gt; "First Name", "Jason", "Jason", "Alicia", "Ada", "Desus", "Chi...</span></span>
-<span><span class="co">#&gt; $ ...2                               &lt;chr&gt; "Last Name", "Bourne", "Bourne", "Keys", "Lovelace", "Nice", "...</span></span>
-<span><span class="co">#&gt; $ ...3                               &lt;chr&gt; "Employee Status", "Teacher", "Teacher", "Teacher", "Teacher",...</span></span>
-<span><span class="co">#&gt; $ `Dec-27 2020`                      &lt;chr&gt; "Subject", "PE", "Drafting", "Music", NA, "Dean", "Physics", "...</span></span>
-<span><span class="co">#&gt; $ ...5                               &lt;chr&gt; "Hire Date", "39690", "43479", "37118", "38572", "42791", "110...</span></span>
-<span><span class="co">#&gt; $ ...6                               &lt;chr&gt; "% Allocated", "0.75", "0.25", "1", "1", "1", "0.5", "0.5", NA...</span></span>
-<span><span class="co">#&gt; $ ...7                               &lt;chr&gt; "Full time?", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes",...</span></span>
-<span><span class="co">#&gt; $ ...8                               &lt;chr&gt; "do not edit! ---&gt;", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N...</span></span>
-<span><span class="co">#&gt; $ ...9                               &lt;chr&gt; "Certification", "Physical ed", "Physical ed", "Instr. music",...</span></span>
-<span><span class="co">#&gt; $ ...10                              &lt;chr&gt; "Certification", "Theater", "Theater", "Vocal music", "Compute...</span></span>
-<span><span class="co">#&gt; $ ...11                              &lt;chr&gt; "Active?", "YES", "YES", "YES", "YES", "YES", "YES", "YES", NA...</span></span></code></pre></div>
+<span><span class="co">#&gt; $ `Data most recently refreshed on:` &lt;chr&gt; "First Name", "Jason", "Jason", "Alicia", "Ada", "Desus", "Chien-…</span></span>
+<span><span class="co">#&gt; $ ...2                               &lt;chr&gt; "Last Name", "Bourne", "Bourne", "Keys", "Lovelace", "Nice", "Wu"…</span></span>
+<span><span class="co">#&gt; $ ...3                               &lt;chr&gt; "Employee Status", "Teacher", "Teacher", "Teacher", "Teacher", "A…</span></span>
+<span><span class="co">#&gt; $ `Dec-27 2020`                      &lt;chr&gt; "Subject", "PE", "Drafting", "Music", NA, "Dean", "Physics", "Che…</span></span>
+<span><span class="co">#&gt; $ ...5                               &lt;chr&gt; "Hire Date", "39690", "43479", "37118", "38572", "42791", "11037"…</span></span>
+<span><span class="co">#&gt; $ ...6                               &lt;chr&gt; "% Allocated", "0.75", "0.25", "1", "1", "1", "0.5", "0.5", NA, "…</span></span>
+<span><span class="co">#&gt; $ ...7                               &lt;chr&gt; "Full time?", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", NA…</span></span>
+<span><span class="co">#&gt; $ ...8                               &lt;chr&gt; "do not edit! ---&gt;", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
+<span><span class="co">#&gt; $ ...9                               &lt;chr&gt; "Certification", "Physical ed", "Physical ed", "Instr. music", "P…</span></span>
+<span><span class="co">#&gt; $ ...10                              &lt;chr&gt; "Certification", "Theater", "Theater", "Vocal music", "Computers"…</span></span>
+<span><span class="co">#&gt; $ ...11                              &lt;chr&gt; "Active?", "YES", "YES", "YES", "YES", "YES", "YES", "YES", NA, "…</span></span></code></pre></div>
 <p>Now, to clean it up, starting with the column names.</p>
 <p>Name cleaning comes in two flavors. <code><a href="reference/make_clean_names.html">make_clean_names()</a></code> operates on character vectors and can be used during data import:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -169,17 +169,17 @@
 <span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">roster_raw_cleaner</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 13</span></span>
 <span><span class="co">#&gt; Columns: 11</span></span>
-<span><span class="co">#&gt; $ first_name        &lt;chr&gt; "Jason", "Jason", "Alicia", "Ada", "Desus", "Chien-Shiung", "Chien-Shiung", NA,...</span></span>
-<span><span class="co">#&gt; $ last_name         &lt;chr&gt; "Bourne", "Bourne", "Keys", "Lovelace", "Nice", "Wu", "Wu", NA, "Joyce", "Lamar...</span></span>
-<span><span class="co">#&gt; $ employee_status   &lt;chr&gt; "Teacher", "Teacher", "Teacher", "Teacher", "Administration", "Teacher", "Teach...</span></span>
-<span><span class="co">#&gt; $ subject           &lt;chr&gt; "PE", "Drafting", "Music", NA, "Dean", "Physics", "Chemistry", NA, "English", "...</span></span>
-<span><span class="co">#&gt; $ hire_date         &lt;dbl&gt; 39690, 43479, 37118, 38572, 42791, 11037, 11037, NA, 36423, 27919, 42221, 34700...</span></span>
+<span><span class="co">#&gt; $ first_name        &lt;chr&gt; "Jason", "Jason", "Alicia", "Ada", "Desus", "Chien-Shiung", "Chien-Shiung", NA, "J…</span></span>
+<span><span class="co">#&gt; $ last_name         &lt;chr&gt; "Bourne", "Bourne", "Keys", "Lovelace", "Nice", "Wu", "Wu", NA, "Joyce", "Lamarr",…</span></span>
+<span><span class="co">#&gt; $ employee_status   &lt;chr&gt; "Teacher", "Teacher", "Teacher", "Teacher", "Administration", "Teacher", "Teacher"…</span></span>
+<span><span class="co">#&gt; $ subject           &lt;chr&gt; "PE", "Drafting", "Music", NA, "Dean", "Physics", "Chemistry", NA, "English", "Sci…</span></span>
+<span><span class="co">#&gt; $ hire_date         &lt;dbl&gt; 39690, 43479, 37118, 38572, 42791, 11037, 11037, NA, 36423, 27919, 42221, 34700, 4…</span></span>
 <span><span class="co">#&gt; $ percent_allocated &lt;dbl&gt; 0.75, 0.25, 1.00, 1.00, 1.00, 0.50, 0.50, NA, 0.50, 0.50, NA, NA, 0.80</span></span>
 <span><span class="co">#&gt; $ full_time         &lt;chr&gt; "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", NA, "No", "No", "No", "No", "No"</span></span>
 <span><span class="co">#&gt; $ do_not_edit       &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA</span></span>
-<span><span class="co">#&gt; $ certification     &lt;chr&gt; "Physical ed", "Physical ed", "Instr. music", "PENDING", "PENDING", "Science 6-...</span></span>
-<span><span class="co">#&gt; $ certification_2   &lt;chr&gt; "Theater", "Theater", "Vocal music", "Computers", NA, "Physics", "Physics", NA,...</span></span>
-<span><span class="co">#&gt; $ active            &lt;chr&gt; "YES", "YES", "YES", "YES", "YES", "YES", "YES", NA, "YES", "YES", "YES", "YES"...</span></span></code></pre></div>
+<span><span class="co">#&gt; $ certification     &lt;chr&gt; "Physical ed", "Physical ed", "Instr. music", "PENDING", "PENDING", "Science 6-12"…</span></span>
+<span><span class="co">#&gt; $ certification_2   &lt;chr&gt; "Theater", "Theater", "Vocal music", "Computers", NA, "Physics", "Physics", NA, "E…</span></span>
+<span><span class="co">#&gt; $ active            &lt;chr&gt; "YES", "YES", "YES", "YES", "YES", "YES", "YES", NA, "YES", "YES", "YES", "YES", "…</span></span></code></pre></div>
 <p><code><a href="reference/clean_names.html">clean_names()</a></code> is a convenience version of <code><a href="reference/make_clean_names.html">make_clean_names()</a></code> that can be used for piped data.frame workflows. The equivalent steps with <code><a href="reference/clean_names.html">clean_names()</a></code> would be:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">roster_raw</span> <span class="op">&lt;-</span> <span class="va">roster_raw</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
@@ -197,7 +197,7 @@
 <span><span class="co">#&gt; Removing 1 constant columns of 10 columns total (Removed: active).</span></span>
 <span></span>
 <span><span class="va">roster</span></span>
-<span><span class="co">#&gt; # A tibble: 12 x 8</span></span>
+<span><span class="co">#&gt; # A tibble: 12 × 8</span></span>
 <span><span class="co">#&gt;    first_name   last_name employee_status subject    hire_date  percent_allocated full_time cert          </span></span>
 <span><span class="co">#&gt;    &lt;chr&gt;        &lt;chr&gt;     &lt;chr&gt;           &lt;chr&gt;      &lt;date&gt;     &lt;chr&gt;             &lt;chr&gt;     &lt;chr&gt;         </span></span>
 <span><span class="co">#&gt;  1 Jason        Bourne    Teacher         PE         2008-08-30 0.75              Yes       Physical ed   </span></span>
@@ -222,13 +222,13 @@
 <p>Use <code><a href="reference/get_dupes.html">get_dupes()</a></code> to identify and examine duplicate records during data cleaning. Let’s see if any teachers are listed more than once:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">roster</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/get_dupes.html">get_dupes</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">contains</a></span><span class="op">(</span><span class="st">"name"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 4 x 9</span></span>
-<span><span class="co">#&gt;   first_name   last_name dupe_count employee_status subject   hire_date  percent_allocat~ full_time cert      </span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;        &lt;chr&gt;          &lt;int&gt; &lt;chr&gt;           &lt;chr&gt;     &lt;date&gt;     &lt;chr&gt;            &lt;chr&gt;     &lt;chr&gt;     </span></span>
-<span><span class="co">#&gt; 1 Chien-Shiung Wu                 2 Teacher         Physics   1930-03-20 0.5              Yes       Science 6~</span></span>
-<span><span class="co">#&gt; 2 Chien-Shiung Wu                 2 Teacher         Chemistry 1930-03-20 0.5              Yes       Science 6~</span></span>
-<span><span class="co">#&gt; 3 Jason        Bourne             2 Teacher         PE        2008-08-30 0.75             Yes       Physical ~</span></span>
-<span><span class="co">#&gt; 4 Jason        Bourne             2 Teacher         Drafting  2019-01-14 0.25             Yes       Physical ~</span></span></code></pre></div>
+<span><span class="co">#&gt; # A tibble: 4 × 9</span></span>
+<span><span class="co">#&gt;   first_name   last_name dupe_count employee_status subject   hire_date  percent_allocated full_time cert     </span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;        &lt;chr&gt;          &lt;int&gt; &lt;chr&gt;           &lt;chr&gt;     &lt;date&gt;     &lt;chr&gt;             &lt;chr&gt;     &lt;chr&gt;    </span></span>
+<span><span class="co">#&gt; 1 Chien-Shiung Wu                 2 Teacher         Physics   1930-03-20 0.5               Yes       Science …</span></span>
+<span><span class="co">#&gt; 2 Chien-Shiung Wu                 2 Teacher         Chemistry 1930-03-20 0.5               Yes       Science …</span></span>
+<span><span class="co">#&gt; 3 Jason        Bourne             2 Teacher         PE        2008-08-30 0.75              Yes       Physical…</span></span>
+<span><span class="co">#&gt; 4 Jason        Bourne             2 Teacher         Drafting  2019-01-14 0.25              Yes       Physical…</span></span></code></pre></div>
 <p>Yes, some teachers appear twice. We ought to address this before counting employees.</p>
 </div>
 <div class="section level4">
