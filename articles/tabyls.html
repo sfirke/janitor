@@ -76,7 +76,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>tabyls: a tidy, fully-featured approach to counting things</h1>
             
-            <h4 data-toc-skip class="date">2022-09-20</h4>
+            <h4 data-toc-skip class="date">2022-10-21</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sfirke/janitor/blob/HEAD/vignettes/tabyls.Rmd" class="external-link"><code>vignettes/tabyls.Rmd</code></a></small>
       <div class="d-none name"><code>tabyls.Rmd</code></div>
@@ -209,7 +209,7 @@
 <span><span class="co">#&gt;     yellow    0    0     0    1   0     1</span></span></code></pre></div>
 <p>If the <code>adorn_</code> helper functions are called on a list of data.frames - like the output of a three-way <code>tabyl</code> call - they will call <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::map()</a></code> to apply themselves to each data.frame in the list:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://purrr.tidyverse.org" class="external-link">purrr</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/" class="external-link">purrr</a></span><span class="op">)</span></span>
 <span><span class="va">humans</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/tabyl.html">tabyl</a></span><span class="op">(</span><span class="va">eye_color</span>, <span class="va">skin_color</span>, <span class="va">gender</span>, show_missing_levels <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/adorn_totals.html">adorn_totals</a></span><span class="op">(</span><span class="st">"row"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>

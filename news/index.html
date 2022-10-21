@@ -77,7 +77,8 @@
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-2-1-0-9000">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-2-1-0-9000"></a></h3>
-<ul><li><p>When a numeric variable is supplied as the 2nd variable (column) or 3rd variable (list) of a <code>tabyl</code>, the resulting columns or list are now sorted in numeric order, not alphabetic. (<a href="https://github.com/sfirke/janitor/issues/438" class="external-link">#438</a>, thanks <strong>@daaronr</strong> for reporting and <strong>@mattroumaya</strong> for fixing)</p></li>
+<ul><li><p><code><a href="../reference/adorn_percentages.html">adorn_percentages()</a></code> was refactored for compatibility with <code>dplyr</code> package versions &gt; 1.0.99 (<a href="https://github.com/sfirke/janitor/issues/490" class="external-link">#490</a>)</p></li>
+<li><p>When a numeric variable is supplied as the 2nd variable (column) or 3rd variable (list) of a <code>tabyl</code>, the resulting columns or list are now sorted in numeric order, not alphabetic. (<a href="https://github.com/sfirke/janitor/issues/438" class="external-link">#438</a>, thanks <strong>@daaronr</strong> for reporting and <strong>@mattroumaya</strong> for fixing)</p></li>
 <li><p><code><a href="../reference/tabyl.html">tabyl()</a></code> now succeeds when the second variable is named <code>"n"</code> (<a href="https://github.com/sfirke/janitor/issues/445" class="external-link">#445</a>).</p></li>
 <li><p><code><a href="../reference/adorn_ns.html">adorn_ns()</a></code> can act on a single-column data.frame input with custom Ns supplied if the variable to adorn is specified with <code>...</code> (<a href="https://github.com/sfirke/janitor/issues/456" class="external-link">#456</a>).</p></li>
 </ul></div>
