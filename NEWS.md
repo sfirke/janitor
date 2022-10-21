@@ -29,6 +29,8 @@
 
 ## Bug fixes
 
+* `adorn_percentages()` was refactored for compatibility with `dplyr` package versions > 1.0.99 (#490)
+
 * When a numeric variable is supplied as the 2nd variable (column) or 3rd variable (list) of a `tabyl`, the resulting columns or list are now sorted in numeric order, not alphabetic. (#438, thanks **@daaronr** for reporting and **@mattroumaya** for fixing)
 
 * `tabyl()` now succeeds when the second variable is named `"n"` (#445).
