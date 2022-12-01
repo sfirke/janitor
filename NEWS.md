@@ -27,6 +27,9 @@
 
 * `clean_names()` now supports all object types that have either names or dimnames (#481, @DanChaltiel).
 
+* `make_clean_names()` now allows duplicate names to be returned with the `allow_dupes = TRUE`
+argument (#495, @JasonAizkalns).
+
 ## Bug fixes
 
 * `adorn_percentages()` was refactored for compatibility with `dplyr` package versions > 1.0.99 (#490)

@@ -188,6 +188,13 @@ test_that("do not create duplicates (fix #251)", {
   )
 })
 
+test_that("allow for duplicates (fix #495)", {
+  expect_equal(
+    make_clean_names(c("a", "a", "a_2"), allow_dupes = TRUE),
+    c("a", "a", "a_2")
+  )
+})
+
 test_that("warnings are issued when micro/mu are not handled (fix #448)", {
   # Warning due to partially handled mu
   expect_warning(expect_equal(

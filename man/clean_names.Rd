@@ -35,6 +35,8 @@ value.}
     \item{\code{use_make_names}}{Should \code{make.names()} be applied to ensure that the
 output is usable as a name without quoting?  (Avoiding \code{make.names()}
 ensures that the output is locale-independent but quoting may be required.)}
+    \item{\code{allow_dupes}}{Allow duplicates \code{TRUE} in the returned names or
+not (\code{FALSE}, default).}
     \item{\code{sep_in}}{(short for separator input) if character, is interpreted as a
 regular expression (wrapped internally into \code{stringr::regex()}). 
 The default value is a regular expression that matches any sequence of
@@ -42,14 +44,6 @@ non-alphanumeric values. All matches will be replaced by underscores
 (additionally to \code{"_"} and \code{" "}, for which this is always true, even
 if \code{NULL} is supplied). These underscores are used internally to split
 the strings into substrings and specify the word boundaries.}
-    \item{\code{transliterations}}{A character vector (if not \code{NULL}). The entries of this argument
-need to be elements of \code{stringi::stri_trans_list()} (like "Latin-ASCII", which is often useful) or names of lookup tables (currently only "german" is supported). In the order of the entries the letters of the input
- string will be transliterated via \code{stringi::stri_trans_general()} or replaced via the 
- matches of the lookup table. When named character elements are supplied as part of `transliterations`, anything that matches the names is replaced by the corresponding value.
-You should use this feature with care in case of \code{case = "parsed"}, \code{case = "internal_parsing"} and 
-\code{case = "none"}, since for upper case letters, which have transliterations/replacements
- of length 2, the second letter will be transliterated to lowercase, for example Oe, Ae, Ss, which
- might not always be what is intended. In this case you can make usage of the option to supply named elements and specify the transliterations yourself.}
     \item{\code{parsing_option}}{An integer that will determine the parsing_option.
 \itemize{
  \item{1: \code{"RRRStudio" -> "RRR_Studio"}}
@@ -58,6 +52,14 @@ You should use this feature with care in case of \code{case = "parsed"}, \code{c
  \item{-1, -2, -3: These \code{parsing_options}'s will suppress the conversion after non-alphanumeric values.}
  \item{0: no parsing}
  }}
+    \item{\code{transliterations}}{A character vector (if not \code{NULL}). The entries of this argument
+need to be elements of \code{stringi::stri_trans_list()} (like "Latin-ASCII", which is often useful) or names of lookup tables (currently only "german" is supported). In the order of the entries the letters of the input
+ string will be transliterated via \code{stringi::stri_trans_general()} or replaced via the 
+ matches of the lookup table. When named character elements are supplied as part of `transliterations`, anything that matches the names is replaced by the corresponding value.
+You should use this feature with care in case of \code{case = "parsed"}, \code{case = "internal_parsing"} and 
+\code{case = "none"}, since for upper case letters, which have transliterations/replacements
+ of length 2, the second letter will be transliterated to lowercase, for example Oe, Ae, Ss, which
+ might not always be what is intended. In this case you can make usage of the option to supply named elements and specify the transliterations yourself.}
     \item{\code{numerals}}{A character specifying the alignment of numerals (\code{"middle"}, \code{left}, \code{right}, \code{asis} or \code{tight}). I.e. \code{numerals = "left"} ensures that no output separator is in front of a digit.}
   }}
 }

@@ -10,6 +10,7 @@ make_clean_names(
   replace = c(`'` = "", `"` = "", `\%` = "_percent_", `#` = "_number_"),
   ascii = TRUE,
   use_make_names = TRUE,
+  allow_dupes = FALSE,
   sep_in = "\\\\.",
   transliterations = "Latin-ASCII",
   parsing_option = 1,
@@ -37,6 +38,9 @@ value.}
 \item{use_make_names}{Should \code{make.names()} be applied to ensure that the
 output is usable as a name without quoting?  (Avoiding \code{make.names()}
 ensures that the output is locale-independent but quoting may be required.)}
+
+\item{allow_dupes}{Allow duplicates \code{TRUE} in the returned names or
+not (\code{FALSE}, default).}
 
 \item{sep_in}{(short for separator input) if character, is interpreted as a
 regular expression (wrapped internally into \code{stringr::regex()}). 
