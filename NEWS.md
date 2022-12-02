@@ -8,6 +8,8 @@
 
 * A minor breaking change is that the time zone is now always set for `excel_numeric_to_date()` and `convert_date()`.  The default timezone is `Sys.timezone()`, previously it was an empty string (`""`). (#422, thanks **@billdenney** for fixing)
 
+* A minor breaking change effects `make_clean_names()` (and therefore `clean_names()`). `make_clean_names()` now uses the `unique_sep` argument from `snakecase::make_any_case()` to handle de-duplication of names. The incremental suffix counter is now one less than in the past (i.e., a de-duplicated variable with a suffix of `_2` becomes `_1`, `_3` becomes `_2`, etc.). This change also results in a new feature and the ability to allow for duplicate names by setting `unique_sep = NULL`. (#495, thanks **@JasonAizkalns** for fixing and **@billdenney** and **@sfrike** for the guidance)
+
 ## New features
 
 * `row_to_names()` now has a new helper function, `find_header()` to help find the row that contains the names.  It can be used by passing `row_number="find_header"`, and see the documentation of `row_to_names()` and `find_header()` for more examples. (fix #429)

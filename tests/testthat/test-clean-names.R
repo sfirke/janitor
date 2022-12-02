@@ -23,7 +23,7 @@ test_that("All scenarios for make_clean_names", {
   )
   expect_equal(
     make_clean_names(c("repeated", "repeated", "REPEATED")),
-    paste0("repeated", c("", "_2", "_3"))
+    paste0("repeated", c("", "_1", "_2"))
   )
   expect_equal(
     make_clean_names("a**^@"),
@@ -48,7 +48,7 @@ test_that("All scenarios for make_clean_names", {
   )
   expect_equal(
     make_clean_names(c("*", "!")),
-    c("x", "x_2")
+    c("x", "x_1")
   )
   expect_equal(
     make_clean_names("d(!)9"),
@@ -184,14 +184,21 @@ test_that("locale-specific make_clean_names tests", {
 test_that("do not create duplicates (fix #251)", {
   expect_equal(
     make_clean_names(c("a", "a", "a_2")),
-    c("a", "a_2", "a_2_2")
+    c("a", "a_1", "a_2")
   )
 })
 
-test_that("allow for duplicates (fix #495)", {
+test_that("allow duplicates with unique_sep = NULL (fix #495)", {
   expect_equal(
-    make_clean_names(c("a", "a", "a_2"), allow_dupes = TRUE),
-    c("a", "a", "a_2")
+    make_clean_names(c("a", "a 2", "a 2", "a_2"), unique_sep = NULL),
+    c("a", "a_2", "a_2", "a_2")
+  )
+})
+
+test_that("unique_sep with non-default argument does not create duplicates", {
+  expect_equal(
+    make_clean_names(c("a", "a 2", "a 2", "a_2"), unique_sep = ""),
+    c("a", "a_2", "a_21", "a_22")
   )
 })
 
@@ -303,19 +310,19 @@ test_that("Tests for cases beyond default snake", {
   expect_warning(expect_equal(
     names(clean_names(test_df, "small_camel")),
     c(
-      "spAce", "repeated", "a", "percent", "x", "x_2", "d9", "repeated_2",
-      "cant", "hiThere", "leadingSpaces", "x_3", "acao", "faroe", "aBCDEF",
+      "spAce", "repeated", "a", "percent", "x", "x_1", "d9", "repeated_1",
+      "cant", "hiThere", "leadingSpaces", "x_2", "acao", "faroe", "aBCDEF",
       "testCamelCase", "leadingpunct", "averageNumberOfDays",
-      "jan2009Sales", "jan2009Sales_2", "notFirstUnicodeM", "mFirstUnicode"
+      "jan2009Sales", "jan2009Sales_1", "notFirstUnicodeM", "mFirstUnicode"
     )
   ))
   # warning due to unhandled mu
   expect_warning(expect_equal(
     names(clean_names(test_df, "big_camel")),
     c(
-      "SpAce", "Repeated", "A", "Percent", "X", "X_2", "D9", "Repeated_2",
-      "Cant", "HiThere", "LeadingSpaces", "X_3", "Acao", "Faroe", "ABCDEF", "TestCamelCase",
-      "Leadingpunct", "AverageNumberOfDays", "Jan2009Sales", "Jan2009Sales_2",
+      "SpAce", "Repeated", "A", "Percent", "X", "X_1", "D9", "Repeated_1",
+      "Cant", "HiThere", "LeadingSpaces", "X_2", "Acao", "Faroe", "ABCDEF", "TestCamelCase",
+      "Leadingpunct", "AverageNumberOfDays", "Jan2009Sales", "Jan2009Sales_1",
       "NotFirstUnicodeM", "MFirstUnicode"
     )
   ))
@@ -323,8 +330,8 @@ test_that("Tests for cases beyond default snake", {
   expect_warning(expect_equal(
     names(clean_names(test_df, "all_caps")),
     c(
-      "SP_ACE", "REPEATED", "A", "PERCENT", "X", "X_2", "D_9", "REPEATED_2",
-      "CANT", "HI_THERE", "LEADING_SPACES", "X_3", "ACAO", "FAROE", "A_B_C_D_E_F",
+      "SP_ACE", "REPEATED", "A", "PERCENT", "X", "X_1", "D_9", "REPEATED_1",
+      "CANT", "HI_THERE", "LEADING_SPACES", "X_2", "ACAO", "FAROE", "A_B_C_D_E_F",
       "TEST_CAMEL_CASE", "LEADINGPUNCT", "AVERAGE_NUMBER_OF_DAYS", "JAN2009SALES",
       "JAN_2009_SALES",
       "NOT_FIRST_UNICODE_M", "M_FIRST_UNICODE"
@@ -334,28 +341,28 @@ test_that("Tests for cases beyond default snake", {
   expect_warning(expect_equal(
     names(clean_names(test_df, "lower_upper")),
     c(
-      "spACE", "repeated", "a", "percent", "x", "x_2", "d9", "repeated_2",
-      "cant", "hiTHERE", "leadingSPACES", "x_3", "acao", "faroe", "aBcDeF",
+      "spACE", "repeated", "a", "percent", "x", "x_1", "d9", "repeated_1",
+      "cant", "hiTHERE", "leadingSPACES", "x_2", "acao", "faroe", "aBcDeF",
       "testCAMELcase", "leadingpunct", "averageNUMBERofDAYS", "jan2009SALES",
-      "jan2009SALES_2", "notFIRSTunicodeM", "mFIRSTunicode"
+      "jan2009SALES_1", "notFIRSTunicodeM", "mFIRSTunicode"
     )
   ))
   # warning due to unhandled mu
   expect_warning(expect_equal(
     names(clean_names(test_df, "upper_lower")),
     c(
-      "SPace", "REPEATED", "A", "PERCENT", "X", "X_2", "D9", "REPEATED_2",
-      "CANT", "HIthere", "LEADINGspaces", "X_3", "ACAO", "FAROE", "AbCdEf",
+      "SPace", "REPEATED", "A", "PERCENT", "X", "X_1", "D9", "REPEATED_1",
+      "CANT", "HIthere", "LEADINGspaces", "X_2", "ACAO", "FAROE", "AbCdEf",
       "TESTcamelCASE", "LEADINGPUNCT", "AVERAGEnumberOFdays", "JAN2009sales",
-      "JAN2009sales_2", "NOTfirstUNICODEm", "MfirstUNICODE"
+      "JAN2009sales_1", "NOTfirstUNICODEm", "MfirstUNICODE"
     )
   ))
   # warning due to unhandled mu
   expect_warning(expect_equal(
     names(clean_names(test_df, "none")),
     c(
-      "sp_ace", "repeated", "a", "percent", "X", "X_2", "d_9", "REPEATED",
-      "cant", "hi_there", "leading_spaces", "X_3", "acao", "Faroe", "a_b_c_d_e_f", 
+      "sp_ace", "repeated", "a", "percent", "X", "X_1", "d_9", "REPEATED",
+      "cant", "hi_there", "leading_spaces", "X_2", "acao", "Faroe", "a_b_c_d_e_f", 
       "testCamelCase", "leadingpunct", "average_number_of_days", 
       "jan2009sales", "jan_2009_sales", "not_first_unicode_m", "m_first_unicode"
     )
@@ -449,13 +456,13 @@ test_that("Names are cleaned appropriately", {
   expect_equal(names(clean)[3], "a") # multiple special chars, trailing special chars
   expect_equal(names(clean)[4], "percent") # converting % to percent
   expect_equal(names(clean)[5], "x") # 100% invalid name
-  expect_equal(names(clean)[6], "x_2") # repeat of invalid name
+  expect_equal(names(clean)[6], "x_1") # repeat of invalid name
   expect_equal(names(clean)[7], "d_9") # multiple special characters
-  expect_equal(names(clean)[8], "repeated_2") # uppercase, 2nd instance of repeat
+  expect_equal(names(clean)[8], "repeated_1") # uppercase, 2nd instance of repeat
   expect_equal(names(clean)[9], "cant") # uppercase, 2nd instance of repeat
   expect_equal(names(clean)[10], "hi_there") # double-underscores to single
   expect_equal(names(clean)[11], "leading_spaces") # leading spaces
-  expect_equal(names(clean)[12], "x_3") # euro sign, invalid
+  expect_equal(names(clean)[12], "x_2") # euro sign, invalid
   expect_equal(names(clean)[13], "acao") # accented word, transliterated to latin,
   expect_equal(names(clean)[14], "faroe") # œ character was failing to convert on Windows, should work universally for stringi 1.1.6 or higher
   # https://github.com/sfirke/janitor/issues/120#issuecomment-303385418
@@ -488,43 +495,43 @@ test_that("Tests for cases beyond default snake for sf objects", {
   expect_equal(
     names(clean_names(test_df, "small_camel")),
     c(
-      "spAce", "repeated", "a", "percent", "x", "x_2", "d9", "repeated_2",
-      "cant", "hiThere", "leadingSpaces", "x_3", "acao", "faroe", "aBCDEF", "testCamelCase", "leadingpunct", "averageNumberOfDays", "jan2009Sales", "jan2009Sales_2", "geometry"
+      "spAce", "repeated", "a", "percent", "x", "x_1", "d9", "repeated_1",
+      "cant", "hiThere", "leadingSpaces", "x_2", "acao", "faroe", "aBCDEF", "testCamelCase", "leadingpunct", "averageNumberOfDays", "jan2009Sales", "jan2009Sales_1", "geometry"
     )
   )
   expect_equal(
     names(clean_names(test_df, "big_camel")),
     c(
-      "SpAce", "Repeated", "A", "Percent", "X", "X_2", "D9", "Repeated_2",
-      "Cant", "HiThere", "LeadingSpaces", "X_3", "Acao", "Faroe", "ABCDEF", "TestCamelCase", "Leadingpunct", "AverageNumberOfDays", "Jan2009Sales", "Jan2009Sales_2", "geometry"
+      "SpAce", "Repeated", "A", "Percent", "X", "X_1", "D9", "Repeated_1",
+      "Cant", "HiThere", "LeadingSpaces", "X_2", "Acao", "Faroe", "ABCDEF", "TestCamelCase", "Leadingpunct", "AverageNumberOfDays", "Jan2009Sales", "Jan2009Sales_1", "geometry"
     )
   )
   expect_equal(
     names(clean_names(test_df, "all_caps")),
     c(
-      "SP_ACE", "REPEATED", "A", "PERCENT", "X", "X_2", "D_9", "REPEATED_2",
-      "CANT", "HI_THERE", "LEADING_SPACES", "X_3", "ACAO", "FAROE", "A_B_C_D_E_F", "TEST_CAMEL_CASE", "LEADINGPUNCT", "AVERAGE_NUMBER_OF_DAYS", "JAN2009SALES", "JAN_2009_SALES", "geometry"
+      "SP_ACE", "REPEATED", "A", "PERCENT", "X", "X_1", "D_9", "REPEATED_1",
+      "CANT", "HI_THERE", "LEADING_SPACES", "X_2", "ACAO", "FAROE", "A_B_C_D_E_F", "TEST_CAMEL_CASE", "LEADINGPUNCT", "AVERAGE_NUMBER_OF_DAYS", "JAN2009SALES", "JAN_2009_SALES", "geometry"
     )
   )
   expect_equal(
     names(clean_names(test_df, "lower_upper")),
     c(
-      "spACE", "repeated", "a", "percent", "x", "x_2", "d9", "repeated_2",
-      "cant", "hiTHERE", "leadingSPACES", "x_3", "acao", "faroe", "aBcDeF", "testCAMELcase", "leadingpunct", "averageNUMBERofDAYS", "jan2009SALES", "jan2009SALES_2", "geometry"
+      "spACE", "repeated", "a", "percent", "x", "x_1", "d9", "repeated_1",
+      "cant", "hiTHERE", "leadingSPACES", "x_2", "acao", "faroe", "aBcDeF", "testCAMELcase", "leadingpunct", "averageNUMBERofDAYS", "jan2009SALES", "jan2009SALES_1", "geometry"
     )
   )
   expect_equal(
     names(clean_names(test_df, "upper_lower")),
     c(
-      "SPace", "REPEATED", "A", "PERCENT", "X", "X_2", "D9", "REPEATED_2",
-      "CANT", "HIthere", "LEADINGspaces", "X_3", "ACAO", "FAROE", "AbCdEf", "TESTcamelCASE", "LEADINGPUNCT", "AVERAGEnumberOFdays", "JAN2009sales", "JAN2009sales_2", "geometry"
+      "SPace", "REPEATED", "A", "PERCENT", "X", "X_1", "D9", "REPEATED_1",
+      "CANT", "HIthere", "LEADINGspaces", "X_2", "ACAO", "FAROE", "AbCdEf", "TESTcamelCASE", "LEADINGPUNCT", "AVERAGEnumberOFdays", "JAN2009sales", "JAN2009sales_1", "geometry"
     )
   )
   expect_equal(
     names(clean_names(test_df, "none")),
     c(
-      "sp_ace", "repeated", "a", "percent", "X", "X_2", "d_9", "REPEATED",
-      "cant", "hi_there", "leading_spaces", "X_3", "acao", "Faroe", "a_b_c_d_e_f", 
+      "sp_ace", "repeated", "a", "percent", "X", "X_1", "d_9", "REPEATED",
+      "cant", "hi_there", "leading_spaces", "X_2", "acao", "Faroe", "a_b_c_d_e_f", 
       "testCamelCase", "leadingpunct", "average_number_of_days", 
       "jan2009sales", "jan_2009_sales", "geometry"
     )
@@ -570,13 +577,13 @@ test_that("tbl_graph/tidygraph", {
   expect_equal(clean[3], "a") # multiple special chars, trailing special chars
   expect_equal(clean[4], "percent") # converting % to percent
   expect_equal(clean[5], "x") # 100% invalid name
-  expect_equal(clean[6], "x_2") # repeat of invalid name
+  expect_equal(clean[6], "x_1") # repeat of invalid name
   expect_equal(clean[7], "d_9") # multiple special characters
-  expect_equal(clean[8], "repeated_2") # uppercase, 2nd instance of repeat
+  expect_equal(clean[8], "repeated_1") # uppercase, 2nd instance of repeat
   expect_equal(clean[9], "cant") # uppercase, 2nd instance of repeat
   expect_equal(clean[10], "hi_there") # double-underscores to single
   expect_equal(clean[11], "leading_spaces") # leading spaces
-  expect_equal(clean[12], "x_3") # euro sign, invalid
+  expect_equal(clean[12], "x_2") # euro sign, invalid
   expect_equal(clean[13], "acao") # accented word, transliterated to latin,
   expect_equal(clean[14], "faroe") # œ character was failing to convert on Windows, should work universally for stringi 1.1.6 or higher
   # https://github.com/sfirke/janitor/issues/120#issuecomment-303385418
