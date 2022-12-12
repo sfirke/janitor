@@ -1,9 +1,3 @@
-# Tests for Excel date cleaning function
-
-library(janitor)
-context("duplicate identification")
-
-library(dplyr)
 test_df <- data.frame(a = c(1, 3, 3, 3, 5), b = c("a", "c", "c", "e", "c"), stringsAsFactors = FALSE)
 
 test_that("Correct combinations of duplicates are found", {
@@ -35,7 +29,7 @@ test_that("works on variables with irregular names", {
     badname_df %>% get_dupes(`bad name!`, cyl) %>% dim(),
     c(10, 13)
   ) # does it return the right-sized result?
-  expect_is(badname_df %>% get_dupes(), "data.frame") # test for success, i.e., produces a data.frame (with 0 rows)
+  expect_s3_class(badname_df %>% get_dupes(), "data.frame") # test for success, i.e., produces a data.frame (with 0 rows)
 })
 
 test_that("tidyselect specification matches exact specification", {
@@ -45,7 +39,7 @@ test_that("tidyselect specification matches exact specification", {
 })
 
 test_that("grouped and ungrouped data is handled correctly", {
-  expect_equal(mtcars %>% group_by(carb, cyl) %>% get_dupes(mpg, carb) %>% group_vars(), 
+  expect_equal(mtcars %>% group_by(carb, cyl) %>% get_dupes(mpg, carb) %>% group_vars(),
                mtcars %>% group_by(carb, cyl) %>% group_vars())
   expect_equal(mtcars %>% group_by(carb, cyl) %>% get_dupes(mpg, carb) %>% ungroup(),
                mtcars %>% tibble::as_tibble() %>% get_dupes(mpg, carb))
@@ -54,7 +48,7 @@ test_that("grouped and ungrouped data is handled correctly", {
 test_that("tibbles stay tibbles, non-tibble stay non-tibbles", {
   # Reactivate this test after dplyr 1.0.0 hits CRAN, until then it fails because of a bug #4086
     # fixed in dev version
-  
+
   # expect_equal(class(test_df %>%
   #                      get_dupes(a)),
   #              class(test_df))

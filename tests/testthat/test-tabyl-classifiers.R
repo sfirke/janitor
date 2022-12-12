@@ -1,9 +1,5 @@
 # Tests tabyl class functions
 
-library(janitor)
-library(testthat)
-context("as_tabyl() and untabyl()")
-
 a <- mtcars %>%
   tabyl(cyl, carb)
 

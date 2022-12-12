@@ -1,8 +1,5 @@
 # Tests for removing fully-NA rows or columns
 
-library(janitor)
-context("remove empty rows or columns")
-
 dat <- data.frame(
   a = c(NA, NA, 1),
   b = c(NA, 1, NA),

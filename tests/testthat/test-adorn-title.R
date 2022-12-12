@@ -1,10 +1,3 @@
-# Test adorn_title function
-
-context("adorn_title")
-library(janitor)
-library(dplyr)
-library(tidyr)
-
 source1 <- mtcars %>%
   tabyl(gear, cyl)
 
@@ -103,7 +96,7 @@ test_that("works with non-count inputs", {
     adorn_title(source2_base, col_name = "Characteristics"),
     adorn_title(source2_tibble, col_name = "Characteristics")
   )
-  
+
 })
 
 test_that("for printing purposes: tabyl class stays tabyl, data.frame stays data.frame, tibble is downgraded to data.frame", {

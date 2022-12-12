@@ -42,8 +42,9 @@ Suggests:
     knitr,
     rmarkdown,
     sf,
-    testthat,
+    testthat (>= 3.0.0),
     tibble,
     tidygraph
 VignetteBuilder: knitr
 Encoding: UTF-8
+Config/testthat/edition: 3

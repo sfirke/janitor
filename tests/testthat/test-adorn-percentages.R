@@ -1,10 +1,3 @@
-# Tests the adorn_percentages() function
-
-library(janitor)
-context("adorn_percentages()")
-
-library(dplyr)
-
 source1 <- mtcars %>%
   tabyl(cyl, am)
 
@@ -90,7 +83,7 @@ test_that("works with totals row/col when denominator = col or all, #357", {
     adorn_totals(where = c("col")) %>%
     adorn_percentages(denominator = "all")
   expect_equal(all_percs_no_row$Total, c(11, 7, 14)/32)
-  
+
   # And try one where we exempt the totals col
   col_percs_exempted <- source1 %>%
     adorn_totals(where = c("col", "row")) %>%
@@ -103,7 +96,7 @@ test_that("works with totals row/col when denominator = col or all, #357", {
     adorn_percentages(denominator = "all",,-Total)
   expect_equal(all_percs_exempted$Total, c(11, 7, 14, 32))
   expect_equal(unname(unlist(all_percs_exempted[4, ])), unname(c("Total", colSums(source1)[2:3]/32, 32)))
-  
+
 })
 
 source2 <- source1
@@ -212,12 +205,12 @@ test_that("tidyselecting works", {
     third_wave = c(3, 3, 3),
     size = c("small", "medium", "large"),
     stringsAsFactors = FALSE
-  )  
+  )
   two_cols <- target %>%
     adorn_percentages(,,,first_wave:second_wave)
   expect_equal(two_cols$first_wave, c(1/5, 2/7, 3/9))
   expect_equal(two_cols$third_wave, rep(3, 3))
-  
+
   expect_message(
     target %>%
     adorn_percentages(., "col",,c(first_wave, size)),
@@ -229,11 +222,11 @@ test_that("tidyselecting works", {
   expect_equivalent(text_skipped %>% select(-first_wave),
                target %>% select(-first_wave)
   )
-  
+
   # Check combination of totals and tidyselecting does not modify totals col
   totaled <- target %>%
     adorn_totals("col",,,,second_wave:third_wave) %>%
     adorn_percentages(,,,second_wave:third_wave)
   expect_equal(totaled$Total, 7:9)
 })
-  
+

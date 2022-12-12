@@ -1,10 +1,3 @@
-# Tests the adorn_ns() function
-
-library(janitor)
-context("adorn_ns()")
-
-library(dplyr)
-
 source_an <- tibble(
   x = c(rep("a", 500), "b", "b", "c", "d"),
   y = rep(c(0, 0, 0, 0, 0, 1), 84)

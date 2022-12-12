@@ -1,8 +1,3 @@
-
-library(dplyr)
-library(janitor)
-library(testthat)
-
 dat <- data.frame(
   a = c(rep(c("big", "small", "big"), 3)),
   b = c(1:3, 1:3, 1, 1, 1),
@@ -19,15 +14,13 @@ mixed <- data.frame(
   stringsAsFactors = FALSE
 )
 
-
 test_that("long vectors are trimmed", {
-  
   expect_equal(
-    mixed %>% 
+    mixed %>%
       adorn_totals(
         where = "row",
         name = c("total", "row_total"),
-        fill = "-") %>% 
+        fill = "-") %>%
       untabyl(),
     data.frame(
       a = c(as.character(1:3), "total"),
@@ -37,19 +30,15 @@ test_that("long vectors are trimmed", {
       stringsAsFactors = FALSE
     )
   )
-
-  }
-)
-
+})
 
 test_that("row and column names are taken correctly from a vector", {
-
   expect_equal(
-    mixed %>% 
+    mixed %>%
       adorn_totals(
         where = "both",
         name = c("column_totals", "row_totals"),
-        fill = "-") %>% 
+        fill = "-") %>%
       untabyl(),
     data.frame(
       a = c(as.character(1:3), "column_totals"),
@@ -60,16 +49,11 @@ test_that("row and column names are taken correctly from a vector", {
       stringsAsFactors = FALSE
     )
   )
-  
-  }
-)
-
-
+})
 
 test_that("row and column names are taken correctly from a single name", {
-  
   expect_equal(
-    mixed %>% 
+    mixed %>%
       adorn_totals(
         where = "both",
         name = "totals",
@@ -84,7 +68,4 @@ test_that("row and column names are taken correctly from a single name", {
       stringsAsFactors = FALSE
     )
   )
-  
-}
-)
-
+})

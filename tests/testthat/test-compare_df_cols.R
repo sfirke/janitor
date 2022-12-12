@@ -1,5 +1,3 @@
-context("compare_df_cols")
-
 test_that("data.frame comparison works", {
   # Names are intentionally not pretty to make it easier to see the source.
   # These data.frames are not typically used, and if the input name is needed,
@@ -148,7 +146,7 @@ test_that("data.frame comparison works", {
     ),
     info="bind_rows output skips NA"
   )
-  
+
   expect_warning(
     expect_equal(
       compare_df_cols(data.frame()),
@@ -331,6 +329,7 @@ test_that("list inputs to compare_df_cols work as expected", {
     )
   )
 })
+
 test_that("compare_df_cols_df_maker catches bad inputs", {
   expect_error(
     compare_df_cols_df_maker(x = mtcars, class_colname = "column_name"),

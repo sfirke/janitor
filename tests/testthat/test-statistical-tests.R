@@ -1,8 +1,5 @@
 # Tests for two-way statistical tests
 
-library(janitor)
-context("tests")
-
 # Duplicate mtcars rows to avoid chis.test warnings
 mtcars3 <- rbind(mtcars, mtcars, mtcars)
 tab <- table(mtcars3$am, mtcars3$cyl)
@@ -89,7 +86,7 @@ test_that("returned tabyls have correct names and attributes", {
   expect_named(tres$observed, c("am", "4", "6", "8"))
   expect_named(tres$expected, c("am", "4", "6", "8"))
   expect_named(tres$residuals, c("am", "4", "6", "8"))
-  expect_named(tres$stdres, c("am", "4", "6", "8"))  
+  expect_named(tres$stdres, c("am", "4", "6", "8"))
   expect_equal(tres$observed[[1]], c("0", "1"))
   expect_equal(tres$expected[[1]], c("0", "1"))
   expect_equal(tres$residuals[[1]], c("0", "1"))
@@ -111,7 +108,7 @@ test_that("totals are excluded from the statistical tests, #385", {
   )
   expect_warning(chisq.test(ttab %>% adorn_totals()),
                  "detected a totals row")
-  
+
   # Fisher
   fisher <- fisher.test(ttab)
   fisher_totals <- suppressWarnings(fisher.test(adorn_totals(ttab, "both")))
