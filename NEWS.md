@@ -18,6 +18,8 @@
 
 * A new function `sas_numeric_to_date()` has been added to convert SAS dates, times, and datetimes to R objects (fix #475, thanks to **@billdenney** for suggesting and implementing)
 
+* A new function `get_one_to_one()` has been added to find columns that map 1:1 to each other, even if the values within the columns differ (fix #291, **@billdenney**)
+
 ## Minor features
 
 * Some warning messages now have classes so that they can be specifically suppressed with suppressWarnings(..., class="the_class_to_suppress").  To find the class of a warning you typically must look at the code where the error is occurring.  (#452, thanks to **@mgacc0** for suggesting and **@billdenney** for fixing)
