@@ -76,7 +76,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Overview of janitor functions</h1>
             
-            <h4 data-toc-skip class="date">2022-10-21</h4>
+            <h4 data-toc-skip class="date">2022-12-12</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sfirke/janitor/blob/HEAD/vignettes/janitor.Rmd" class="external-link"><code>vignettes/janitor.Rmd</code></a></small>
       <div class="d-none name"><code>janitor.Rmd</code></div>
@@ -84,7 +84,9 @@
 
     
     
-<p>The janitor functions expedite the initial data exploration and cleaning that comes with any new data set. This catalog describes the usage for each function.</p>
+<p>The janitor functions expedite the initial data exploration and
+cleaning that comes with any new data set. This catalog describes the
+usage for each function.</p>
 <div class="section level2">
 <h2 id="major-functions">Major functions<a class="anchor" aria-label="anchor" href="#major-functions"></a>
 </h2>
@@ -96,14 +98,19 @@
 <h4 id="clean-data-frame-names-with-clean_names">Clean data.frame names with <code>clean_names()</code><a class="anchor" aria-label="anchor" href="#clean-data-frame-names-with-clean_names"></a>
 </h4>
 <p>Call this function every time you read data.</p>
-<p>It works in a <code>%&gt;%</code> pipeline, and handles problematic variable names, especially those that are so well-preserved by <code>readxl::read_excel()</code> and <code>readr::read_csv()</code>.</p>
+<p>It works in a <code>%&gt;%</code> pipeline, and handles problematic
+variable names, especially those that are so well-preserved by
+<code>readxl::read_excel()</code> and
+<code>readr::read_csv()</code>.</p>
 <ul>
 <li>Parses letter cases and separators to a consistent format.
 <ul>
-<li>Default is to snake_case, but other cases like camelCase are available</li>
+<li>Default is to snake_case, but other cases like camelCase are
+available</li>
 </ul>
 </li>
-<li>Handles special characters and spaces, including transliterating characters like <code>œ</code> to <code>oe</code>.</li>
+<li>Handles special characters and spaces, including transliterating
+characters like <code>œ</code> to <code>oe</code>.</li>
 <li>Appends numbers to duplicated names</li>
 <li>Converts “%” to “percent” and “#” to “number” to retain meaning</li>
 <li>Spacing (or lack thereof) around numbers is preserved</li>
@@ -124,7 +131,14 @@
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">test_df</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "firstName"            "ábc..."               "X..successful..2009."</span></span>
 <span><span class="co">#&gt; [4] "REPEAT.VALUE"         "REPEAT.VALUE"         "X"</span></span></code></pre></div>
-<p>This function is powered by the underlying exported function <strong><code><a href="../reference/make_clean_names.html">make_clean_names()</a></code></strong>, which accepts and returns a character vector of names (see below). This allows for cleaning the names of <em>any</em> object, not just a data.frame. <code><a href="../reference/clean_names.html">clean_names()</a></code> is retained for its convenience in piped workflows, and can be called on an <code>sf</code> simple features object or a <code>tbl_graph</code> tidygraph object in addition to a data.frame.</p>
+<p>This function is powered by the underlying exported function
+<strong><code><a href="../reference/make_clean_names.html">make_clean_names()</a></code></strong>, which accepts and
+returns a character vector of names (see below). This allows for
+cleaning the names of <em>any</em> object, not just a data.frame.
+<code><a href="../reference/clean_names.html">clean_names()</a></code> is retained for its convenience in piped
+workflows, and can be called on an <code>sf</code> simple features
+object or a <code>tbl_graph</code> tidygraph object in addition to a
+data.frame.</p>
 </div>
 <div class="section level4">
 <h4 id="do-those-data-frames-actually-contain-the-same-columns">Do those data.frames actually contain the same columns?<a class="anchor" aria-label="anchor" href="#do-those-data-frames-actually-contain-the-same-columns"></a>
@@ -132,8 +146,15 @@
 <div class="section level5">
 <h5 id="check-with-compare_df_cols">Check with <code>compare_df_cols()</code><a class="anchor" aria-label="anchor" href="#check-with-compare_df_cols"></a>
 </h5>
-<p>For cases when you are given a set of data files that <em>should</em> be identical, and you wish to read and combine them for analysis. But then <code><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">dplyr::bind_rows()</a></code> or <code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind()</a></code> fails, because of different columns or because the column classes don’t match across data.frames.</p>
-<p><code><a href="../reference/compare_df_cols.html">compare_df_cols()</a></code> takes unquoted names of data.frames / tibbles, or a list of data.frames, and returns a summary of how they compare. See what the column types are, which are missing or present in the different inputs, and how column types differ.</p>
+<p>For cases when you are given a set of data files that <em>should</em>
+be identical, and you wish to read and combine them for analysis. But
+then <code><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">dplyr::bind_rows()</a></code> or <code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind()</a></code> fails,
+because of different columns or because the column classes don’t match
+across data.frames.</p>
+<p><code><a href="../reference/compare_df_cols.html">compare_df_cols()</a></code> takes unquoted names of data.frames /
+tibbles, or a list of data.frames, and returns a summary of how they
+compare. See what the column types are, which are missing or present in
+the different inputs, and how column types differ.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, b <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"big"</span>, <span class="st">"small"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">10</span><span class="op">:</span><span class="fl">12</span>, b <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"medium"</span>, <span class="st">"small"</span>, <span class="st">"big"</span><span class="op">)</span>, c <span class="op">=</span> <span class="fl">0</span>, stringsAsFactors <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># here, column b is a factor</span></span>
@@ -153,7 +174,9 @@
 <span><span class="co">#&gt;   column_name       df1     df2       df3</span></span>
 <span><span class="co">#&gt; 1           b character  factor character</span></span>
 <span><span class="co">#&gt; 2           c      &lt;NA&gt; numeric      &lt;NA&gt;</span></span></code></pre></div>
-<p><code><a href="../reference/compare_df_cols_same.html">compare_df_cols_same()</a></code> returns <code>TRUE</code> or <code>FALSE</code> indicating if the data.frames can be successfully row-bound with the given binding method:</p>
+<p><code><a href="../reference/compare_df_cols_same.html">compare_df_cols_same()</a></code> returns <code>TRUE</code> or
+<code>FALSE</code> indicating if the data.frames can be successfully
+row-bound with the given binding method:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/compare_df_cols_same.html">compare_df_cols_same</a></span><span class="op">(</span><span class="va">df1</span>, <span class="va">df3</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span>
@@ -171,7 +194,11 @@
 <h4 id="tabyl---a-better-version-of-table">
 <code>tabyl()</code> - a better version of <code>table()</code><a class="anchor" aria-label="anchor" href="#tabyl---a-better-version-of-table"></a>
 </h4>
-<p><code><a href="../reference/tabyl.html">tabyl()</a></code> is a tidyverse-oriented replacement for <code><a href="https://rdrr.io/r/base/table.html" class="external-link">table()</a></code>. It counts combinations of one, two, or three variables, and then can be formatted with a suite of <code>adorn_*</code> functions to look just how you want. For instance:</p>
+<p><code><a href="../reference/tabyl.html">tabyl()</a></code> is a tidyverse-oriented replacement for
+<code><a href="https://rdrr.io/r/base/table.html" class="external-link">table()</a></code>. It counts combinations of one, two, or three
+variables, and then can be formatted with a suite of
+<code>adorn_*</code> functions to look just how you want. For
+instance:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtcars</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/tabyl.html">tabyl</a></span><span class="op">(</span><span class="va">gear</span>, <span class="va">cyl</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -185,14 +212,21 @@
 <span><span class="co">#&gt;     3  6.67% (1) 13.33% (2) 80.00% (12) 100.00% (15)</span></span>
 <span><span class="co">#&gt;     4 66.67% (8) 33.33% (4)  0.00%  (0) 100.00% (12)</span></span>
 <span><span class="co">#&gt;     5 40.00% (2) 20.00% (1) 40.00%  (2) 100.00%  (5)</span></span></code></pre></div>
-<p>Learn more in the <a href="http://sfirke.github.io/janitor/articles/tabyls.html">tabyls vignette</a>.</p>
+<p>Learn more in the <a href="http://sfirke.github.io/janitor/articles/tabyls.html">tabyls
+vignette</a>.</p>
 </div>
 <div class="section level4">
-<h4 id="explore-records-with-duplicated-values-for-specific-combinations-of-variables-with-get_dupes">Explore records with duplicated values for specific combinations of variables with <code>get_dupes()</code><a class="anchor" aria-label="anchor" href="#explore-records-with-duplicated-values-for-specific-combinations-of-variables-with-get_dupes"></a>
+<h4 id="explore-records-with-duplicated-values-for-specific-combinations-of-variables-with-get_dupes">Explore records with duplicated values for specific combinations of
+variables with <code>get_dupes()</code><a class="anchor" aria-label="anchor" href="#explore-records-with-duplicated-values-for-specific-combinations-of-variables-with-get_dupes"></a>
 </h4>
-<p>This is for hunting down and examining duplicate records during data cleaning - usually when there shouldn’t be any.</p>
-<p>For example, in a tidy data.frame you might expect to have a unique ID repeated for each year, but no duplicated pairs of unique ID &amp; year. Say you want to check for and study any such duplicated records.</p>
-<p><code><a href="../reference/get_dupes.html">get_dupes()</a></code> returns the records (and inserts a count of duplicates) so you can examine the problematic cases:</p>
+<p>This is for hunting down and examining duplicate records during data
+cleaning - usually when there shouldn’t be any.</p>
+<p>For example, in a tidy data.frame you might expect to have a unique
+ID repeated for each year, but no duplicated pairs of unique ID &amp;
+year. Say you want to check for and study any such duplicated
+records.</p>
+<p><code><a href="../reference/get_dupes.html">get_dupes()</a></code> returns the records (and inserts a count of
+duplicates) so you can examine the problematic cases:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_dupes.html">get_dupes</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">wt</span>, <span class="va">cyl</span><span class="op">)</span> <span class="co"># or mtcars %&gt;% get_dupes(wt, cyl) if you prefer to pipe</span></span>
 <span><span class="co">#&gt;     wt cyl dupe_count  mpg  disp  hp drat  qsec vs am gear carb</span></span>
@@ -206,15 +240,23 @@
 <div class="section level2">
 <h2 id="minor-functions">Minor functions<a class="anchor" aria-label="anchor" href="#minor-functions"></a>
 </h2>
-<p>Smaller functions for use in particular situations. More human-readable than the equivalent code they replace.</p>
+<p>Smaller functions for use in particular situations. More
+human-readable than the equivalent code they replace.</p>
 <div class="section level3">
 <h3 id="cleaning-1">Cleaning<a class="anchor" aria-label="anchor" href="#cleaning-1"></a>
 </h3>
 <div class="section level4">
-<h4 id="manipulate-vectors-of-names-with-make_clean_names">Manipulate vectors of names with <code>make_clean_names()</code><a class="anchor" aria-label="anchor" href="#manipulate-vectors-of-names-with-make_clean_names"></a>
+<h4 id="manipulate-vectors-of-names-with-make_clean_names">Manipulate vectors of names with
+<code>make_clean_names()</code><a class="anchor" aria-label="anchor" href="#manipulate-vectors-of-names-with-make_clean_names"></a>
 </h4>
-<p>Like base R’s <code><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names()</a></code>, but with the stylings and case choice of the long-time janitor function <code><a href="../reference/clean_names.html">clean_names()</a></code>. While <code><a href="../reference/clean_names.html">clean_names()</a></code> is still offered for use in data.frame pipeline with <code>%&gt;%</code>, <code><a href="../reference/make_clean_names.html">make_clean_names()</a></code> allows for more general usage, e.g., on a vector.</p>
-<p>It can also be used as an argument to <code>.name_repair</code> in the newest version of <code><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">tibble::as_tibble</a></code>:</p>
+<p>Like base R’s <code><a href="https://rdrr.io/r/base/make.names.html" class="external-link">make.names()</a></code>, but with the stylings and
+case choice of the long-time janitor function
+<code><a href="../reference/clean_names.html">clean_names()</a></code>. While <code><a href="../reference/clean_names.html">clean_names()</a></code> is still
+offered for use in data.frame pipeline with <code>%&gt;%</code>,
+<code><a href="../reference/make_clean_names.html">make_clean_names()</a></code> allows for more general usage, e.g., on
+a vector.</p>
+<p>It can also be used as an argument to <code>.name_repair</code> in
+the newest version of <code><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">tibble::as_tibble</a></code>:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="va">iris</span>, .name_repair <span class="op">=</span> <span class="fu">janitor</span><span class="fu">::</span><span class="va"><a href="../reference/make_clean_names.html">make_clean_names</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 150 × 5</span></span></span>
@@ -236,7 +278,8 @@
 <h4 id="remove_empty-rows-and-columns">
 <code>remove_empty()</code> rows and columns<a class="anchor" aria-label="anchor" href="#remove_empty-rows-and-columns"></a>
 </h4>
-<p>Does what it says. For cases like cleaning Excel files that contain empty rows and columns after being read into R.</p>
+<p>Does what it says. For cases like cleaning Excel files that contain
+empty rows and columns after being read into R.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">q</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>v1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="cn">NA</span>, <span class="fl">3</span><span class="op">)</span>,</span>
 <span>                v2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span><span class="op">)</span>,</span>
@@ -246,14 +289,18 @@
 <span><span class="co">#&gt;   v1 v3</span></span>
 <span><span class="co">#&gt; 1  1  a</span></span>
 <span><span class="co">#&gt; 3  3  b</span></span></code></pre></div>
-<p>Just a simple wrapper for one-line functions, but it saves a little thinking for both the code writer and the reader.</p>
+<p>Just a simple wrapper for one-line functions, but it saves a little
+thinking for both the code writer and the reader.</p>
 </div>
 <div class="section level4">
 <h4 id="remove_constant-columns">
 <code>remove_constant()</code> columns<a class="anchor" aria-label="anchor" href="#remove_constant-columns"></a>
 </h4>
-<p>Drops columns from a data.frame that contain only a single constant value (with an <code>na.rm</code> option to control whether NAs should be considered as different values from the constant).</p>
-<p><code>remove_constant</code> and <code>remove_empty</code> work on matrices as well as data.frames.</p>
+<p>Drops columns from a data.frame that contain only a single constant
+value (with an <code>na.rm</code> option to control whether NAs should
+be considered as different values from the constant).</p>
+<p><code>remove_constant</code> and <code>remove_empty</code> work on
+matrices as well as data.frames.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>good <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, boring <span class="op">=</span> <span class="st">"the same"</span><span class="op">)</span></span>
 <span><span class="va">a</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/remove_constant.html">remove_constant</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -263,9 +310,12 @@
 <span><span class="co">#&gt; 3    3</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="directionally-consistent-rounding-behavior-with-round_half_up">Directionally-consistent rounding behavior with <code>round_half_up()</code><a class="anchor" aria-label="anchor" href="#directionally-consistent-rounding-behavior-with-round_half_up"></a>
+<h4 id="directionally-consistent-rounding-behavior-with-round_half_up">Directionally-consistent rounding behavior with
+<code>round_half_up()</code><a class="anchor" aria-label="anchor" href="#directionally-consistent-rounding-behavior-with-round_half_up"></a>
 </h4>
-<p>R uses “banker’s rounding”, i.e., halves are rounded to the nearest <em>even</em> number. This function, an exact implementation of <a href="https://stackoverflow.com/questions/12688717/round-up-from-5/12688836#12688836" class="external-link uri">https://stackoverflow.com/questions/12688717/round-up-from-5/12688836#12688836</a>, will round all halves up. Compare:</p>
+<p>R uses “banker’s rounding”, i.e., halves are rounded to the nearest
+<em>even</em> number. This function, an exact implementation of <a href="https://stackoverflow.com/questions/12688717/round-up-from-5/12688836#12688836" class="external-link uri">https://stackoverflow.com/questions/12688717/round-up-from-5/12688836#12688836</a>,
+will round all halves up. Compare:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">nums</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2.5</span>, <span class="fl">3.5</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">nums</span><span class="op">)</span></span>
@@ -274,15 +324,28 @@
 <span><span class="co">#&gt; [1] 3 4</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="round-decimals-to-precise-fractions-of-a-given-denominator-with-round_to_fraction">Round decimals to precise fractions of a given denominator with <code>round_to_fraction()</code><a class="anchor" aria-label="anchor" href="#round-decimals-to-precise-fractions-of-a-given-denominator-with-round_to_fraction"></a>
+<h4 id="round-decimals-to-precise-fractions-of-a-given-denominator-with-round_to_fraction">Round decimals to precise fractions of a given denominator with
+<code>round_to_fraction()</code><a class="anchor" aria-label="anchor" href="#round-decimals-to-precise-fractions-of-a-given-denominator-with-round_to_fraction"></a>
 </h4>
-<p>Say your data should only have values of quarters: 0, 0.25, 0.5, 0.75, 1, etc. But there are either user-entered bad values like <code>0.2</code> or floating-point precision problems like <code>0.25000000001</code>. <code><a href="../reference/round_to_fraction.html">round_to_fraction()</a></code> will enforce the desired fractional distribution by rounding the values to the nearest value given the specified denominator.</p>
-<p>There’s also a <code>digits</code> argument for optional subsequent rounding.</p>
+<p>Say your data should only have values of quarters: 0, 0.25, 0.5,
+0.75, 1, etc. But there are either user-entered bad values like
+<code>0.2</code> or floating-point precision problems like
+<code>0.25000000001</code>. <code><a href="../reference/round_to_fraction.html">round_to_fraction()</a></code> will
+enforce the desired fractional distribution by rounding the values to
+the nearest value given the specified denominator.</p>
+<p>There’s also a <code>digits</code> argument for optional subsequent
+rounding.</p>
 </div>
 <div class="section level4">
-<h4 id="fix-dates-stored-as-serial-numbers-with-excel_numeric_to_date">Fix dates stored as serial numbers with <code>excel_numeric_to_date()</code><a class="anchor" aria-label="anchor" href="#fix-dates-stored-as-serial-numbers-with-excel_numeric_to_date"></a>
+<h4 id="fix-dates-stored-as-serial-numbers-with-excel_numeric_to_date">Fix dates stored as serial numbers with
+<code>excel_numeric_to_date()</code><a class="anchor" aria-label="anchor" href="#fix-dates-stored-as-serial-numbers-with-excel_numeric_to_date"></a>
 </h4>
-<p>Ever load data from Excel and see a value like <code>42223</code> where a date should be? This function converts those serial numbers to class <code>Date</code>, with options for different Excel date encoding systems, preserving fractions of a date as time (in which case the returned value is of class <code>POSIXlt</code>), and specifying a time zone.</p>
+<p>Ever load data from Excel and see a value like <code>42223</code>
+where a date should be? This function converts those serial numbers to
+class <code>Date</code>, with options for different Excel date encoding
+systems, preserving fractions of a date as time (in which case the
+returned value is of class <code>POSIXlt</code>), and specifying a time
+zone.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date</a></span><span class="op">(</span><span class="fl">41103</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "2012-07-13"</span></span>
@@ -296,8 +359,12 @@
 <div class="section level4">
 <h4 id="convert-a-mix-of-date-and-datetime-formats-to-date">Convert a mix of date and datetime formats to date<a class="anchor" aria-label="anchor" href="#convert-a-mix-of-date-and-datetime-formats-to-date"></a>
 </h4>
-<p>Building on <code><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date()</a></code>, the new functions <code><a href="../reference/convert_to_date.html">convert_to_date()</a></code> and <code><a href="../reference/convert_to_date.html">convert_to_datetime()</a></code> are more robust to a mix of inputs. Handy when reading many spreadsheets that <em>should</em> have the same column formats, but don’t.</p>
-<p>For instance, here a vector with a date and an Excel datetime sees both values successfully converted to Date class:</p>
+<p>Building on <code><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date()</a></code>, the new functions
+<code><a href="../reference/convert_to_date.html">convert_to_date()</a></code> and <code><a href="../reference/convert_to_date.html">convert_to_datetime()</a></code>
+are more robust to a mix of inputs. Handy when reading many spreadsheets
+that <em>should</em> have the same column formats, but don’t.</p>
+<p>For instance, here a vector with a date and an Excel datetime sees
+both values successfully converted to Date class:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/convert_to_date.html">convert_to_date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2020-02-29"</span>, <span class="st">"40000.1"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "2020-02-29" "2009-07-06"</span></span></code></pre></div>
@@ -305,7 +372,10 @@
 <div class="section level4">
 <h4 id="elevate-column-names-stored-in-a-data-frame-row">Elevate column names stored in a data.frame row<a class="anchor" aria-label="anchor" href="#elevate-column-names-stored-in-a-data-frame-row"></a>
 </h4>
-<p>If a data.frame has the intended variable names stored in one of its rows, <code>row_to_names</code> will elevate the specified row to become the names of the data.frame and optionally (by default) remove the row in which names were stored and/or the rows above it.</p>
+<p>If a data.frame has the intended variable names stored in one of its
+rows, <code>row_to_names</code> will elevate the specified row to become
+the names of the data.frame and optionally (by default) remove the row
+in which names were stored and/or the rows above it.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dirt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>X_1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="st">"ID"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>,</span>
 <span>           X_2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="st">"Value"</span>, <span class="fl">4</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span><span class="op">)</span></span>
@@ -321,9 +391,12 @@
 <h3 id="exploring-1">Exploring<a class="anchor" aria-label="anchor" href="#exploring-1"></a>
 </h3>
 <div class="section level4">
-<h4 id="count-factor-levels-in-groups-of-high-medium-and-low-with-top_levels">Count factor levels in groups of high, medium, and low with <code>top_levels()</code><a class="anchor" aria-label="anchor" href="#count-factor-levels-in-groups-of-high-medium-and-low-with-top_levels"></a>
+<h4 id="count-factor-levels-in-groups-of-high-medium-and-low-with-top_levels">Count factor levels in groups of high, medium, and low with
+<code>top_levels()</code><a class="anchor" aria-label="anchor" href="#count-factor-levels-in-groups-of-high-medium-and-low-with-top_levels"></a>
 </h4>
-<p>Originally designed for use with Likert survey data stored as factors. Returns a <code>tbl_df</code> frequency table with appropriately-named rows, grouped into head/middle/tail groups.</p>
+<p>Originally designed for use with Likert survey data stored as
+factors. Returns a <code>tbl_df</code> frequency table with
+appropriately-named rows, grouped into head/middle/tail groups.</p>
 <ul>
 <li>Takes a user-specified size for the head/tail groups</li>
 <li>Automatically calculates a percent column</li>

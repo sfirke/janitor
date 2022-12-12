@@ -76,7 +76,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>tabyls: a tidy, fully-featured approach to counting things</h1>
             
-            <h4 data-toc-skip class="date">2022-10-21</h4>
+            <h4 data-toc-skip class="date">2022-12-12</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sfirke/janitor/blob/HEAD/vignettes/tabyls.Rmd" class="external-link"><code>vignettes/tabyls.Rmd</code></a></small>
       <div class="d-none name"><code>tabyls.Rmd</code></div>
@@ -87,26 +87,43 @@
 <div class="section level3">
 <h3 id="motivation-why-tabyl">Motivation: why tabyl?<a class="anchor" aria-label="anchor" href="#motivation-why-tabyl"></a>
 </h3>
-<p>Analysts do a lot of counting. Indeed, it’s been said that “data science is mostly counting things.” But the base R function for counting, <code><a href="https://rdrr.io/r/base/table.html" class="external-link">table()</a></code>, leaves much to be desired:</p>
+<p>Analysts do a lot of counting. Indeed, it’s been said that “data
+science is mostly counting things.” But the base R function for
+counting, <code><a href="https://rdrr.io/r/base/table.html" class="external-link">table()</a></code>, leaves much to be desired:</p>
 <ul>
-<li>It doesn’t accept data.frame inputs (and thus doesn’t play nicely with the <code>%&gt;%</code> pipe)</li>
+<li>It doesn’t accept data.frame inputs (and thus doesn’t play nicely
+with the <code>%&gt;%</code> pipe)</li>
 <li>It doesn’t output data.frames</li>
-<li>Its results are hard to format. Compare the look and formatting choices of an R table to a Microsoft Excel PivotTable or even the table formatting provided by SPSS.</li>
+<li>Its results are hard to format. Compare the look and formatting
+choices of an R table to a Microsoft Excel PivotTable or even the table
+formatting provided by SPSS.</li>
 </ul>
-<p><code><a href="../reference/tabyl.html">tabyl()</a></code> is an approach to tabulating variables that addresses these shortcomings. It’s part of the janitor package because counting is such a fundamental part of data cleaning and exploration.</p>
-<p><code><a href="../reference/tabyl.html">tabyl()</a></code> is tidyverse-aligned and is primarily built upon the dplyr and tidyr packages.</p>
+<p><code><a href="../reference/tabyl.html">tabyl()</a></code> is an approach to tabulating variables that
+addresses these shortcomings. It’s part of the janitor package because
+counting is such a fundamental part of data cleaning and
+exploration.</p>
+<p><code><a href="../reference/tabyl.html">tabyl()</a></code> is tidyverse-aligned and is primarily built upon
+the dplyr and tidyr packages.</p>
 </div>
 <div class="section level3">
 <h3 id="how-it-works">How it works<a class="anchor" aria-label="anchor" href="#how-it-works"></a>
 </h3>
-<p>On its surface, <code><a href="../reference/tabyl.html">tabyl()</a></code> produces frequency tables using 1, 2, or 3 variables. Under the hood, <code><a href="../reference/tabyl.html">tabyl()</a></code> also attaches a copy of these counts as an attribute of the resulting data.frame.</p>
-<p>The result looks like a basic data.frame of counts, but because it’s also a <code>tabyl</code> containing this metadata, you can use <code>adorn_</code> functions to add additional information and pretty formatting.</p>
-<p>The <code>adorn_</code> functions are built to work on <code>tabyls</code>, but have been adapted to work with similar, non-tabyl data.frames that need formatting.</p>
+<p>On its surface, <code><a href="../reference/tabyl.html">tabyl()</a></code> produces frequency tables using
+1, 2, or 3 variables. Under the hood, <code><a href="../reference/tabyl.html">tabyl()</a></code> also attaches
+a copy of these counts as an attribute of the resulting data.frame.</p>
+<p>The result looks like a basic data.frame of counts, but because it’s
+also a <code>tabyl</code> containing this metadata, you can use
+<code>adorn_</code> functions to add additional information and pretty
+formatting.</p>
+<p>The <code>adorn_</code> functions are built to work on
+<code>tabyls</code>, but have been adapted to work with similar,
+non-tabyl data.frames that need formatting.</p>
 </div>
 <div class="section level2">
 <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
 </h2>
-<p>This vignette demonstrates <code>tabyl</code> in the context of studying humans in the <code>starwars</code> dataset from dplyr:</p>
+<p>This vignette demonstrates <code>tabyl</code> in the context of
+studying humans in the <code>starwars</code> dataset from dplyr:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="va">humans</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -134,7 +151,11 @@
 <span><span class="co">#&gt;       dark  1 0.02857143</span></span>
 <span><span class="co">#&gt;      hazel  2 0.05714286</span></span>
 <span><span class="co">#&gt;     yellow  2 0.05714286</span></span></code></pre></div>
-<p>When <code>NA</code> values are present, <code><a href="../reference/tabyl.html">tabyl()</a></code> also displays “valid” percentages, i.e., with missing values removed from the denominator. And while <code><a href="../reference/tabyl.html">tabyl()</a></code> is built to take a data.frame and column names, you can also produce a one-way tabyl by calling it directly on a vector:</p>
+<p>When <code>NA</code> values are present, <code><a href="../reference/tabyl.html">tabyl()</a></code> also
+displays “valid” percentages, i.e., with missing values removed from the
+denominator. And while <code><a href="../reference/tabyl.html">tabyl()</a></code> is built to take a
+data.frame and column names, you can also produce a one-way tabyl by
+calling it directly on a vector:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"big"</span>, <span class="st">"big"</span>, <span class="st">"small"</span>, <span class="st">"small"</span>, <span class="st">"small"</span>, <span class="cn">NA</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/tabyl.html">tabyl</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
@@ -142,7 +163,8 @@
 <span><span class="co">#&gt;    big 2 0.3333333           0.4</span></span>
 <span><span class="co">#&gt;  small 3 0.5000000           0.6</span></span>
 <span><span class="co">#&gt;   &lt;NA&gt; 1 0.1666667            NA</span></span></code></pre></div>
-<p>Most <code>adorn_</code> helper functions are built for 2-way tabyls, but those that make sense for a 1-way tabyl do work:</p>
+<p>Most <code>adorn_</code> helper functions are built for 2-way tabyls,
+but those that make sense for a 1-way tabyl do work:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">t1</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/adorn_totals.html">adorn_totals</a></span><span class="op">(</span><span class="st">"row"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -159,7 +181,10 @@
 <div class="section level3">
 <h3 id="two-way-tabyl">Two-way tabyl<a class="anchor" aria-label="anchor" href="#two-way-tabyl"></a>
 </h3>
-<p>This is often called a “crosstab” or “contingency” table. Calling <code>tabyl</code> on two columns of a data.frame produces the same result as the common combination of <code><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">dplyr::count()</a></code>, followed by <code><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">tidyr::pivot_wider()</a></code> to wide form:</p>
+<p>This is often called a “crosstab” or “contingency” table. Calling
+<code>tabyl</code> on two columns of a data.frame produces the same
+result as the common combination of <code><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">dplyr::count()</a></code>,
+followed by <code><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">tidyr::pivot_wider()</a></code> to wide form:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">t2</span> <span class="op">&lt;-</span> <span class="va">humans</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/tabyl.html">tabyl</a></span><span class="op">(</span><span class="va">gender</span>, <span class="va">eye_color</span><span class="op">)</span></span>
@@ -168,7 +193,8 @@
 <span><span class="co">#&gt;     gender blue blue-gray brown dark hazel yellow</span></span>
 <span><span class="co">#&gt;   feminine    3         0     5    0     1      0</span></span>
 <span><span class="co">#&gt;  masculine    9         1    12    1     1      2</span></span></code></pre></div>
-<p>Since it’s a <code>tabyl</code>, we can enhance it with <code>adorn_</code> helper functions. For instance:</p>
+<p>Since it’s a <code>tabyl</code>, we can enhance it with
+<code>adorn_</code> helper functions. For instance:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">t2</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -178,12 +204,14 @@
 <span><span class="co">#&gt;     gender       blue blue-gray       brown      dark      hazel    yellow</span></span>
 <span><span class="co">#&gt;   feminine 33.33% (3) 0.00% (0) 55.56%  (5) 0.00% (0) 11.11% (1) 0.00% (0)</span></span>
 <span><span class="co">#&gt;  masculine 34.62% (9) 3.85% (1) 46.15% (12) 3.85% (1)  3.85% (1) 7.69% (2)</span></span></code></pre></div>
-<p>Adornments have options to control axes, rounding, and other relevant formatting choices (more on that below).</p>
+<p>Adornments have options to control axes, rounding, and other relevant
+formatting choices (more on that below).</p>
 </div>
 <div class="section level3">
 <h3 id="three-way-tabyl">Three-way tabyl<a class="anchor" aria-label="anchor" href="#three-way-tabyl"></a>
 </h3>
-<p>Just as <code><a href="https://rdrr.io/r/base/table.html" class="external-link">table()</a></code> accepts three variables, so does <code><a href="../reference/tabyl.html">tabyl()</a></code>, producing a list of tabyls:</p>
+<p>Just as <code><a href="https://rdrr.io/r/base/table.html" class="external-link">table()</a></code> accepts three variables, so does
+<code><a href="../reference/tabyl.html">tabyl()</a></code>, producing a list of tabyls:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">t3</span> <span class="op">&lt;-</span> <span class="va">humans</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/tabyl.html">tabyl</a></span><span class="op">(</span><span class="va">eye_color</span>, <span class="va">skin_color</span>, <span class="va">gender</span><span class="op">)</span></span>
@@ -207,7 +235,10 @@
 <span><span class="co">#&gt;       dark    1    0     0    0   0     0</span></span>
 <span><span class="co">#&gt;      hazel    0    1     0    0   0     0</span></span>
 <span><span class="co">#&gt;     yellow    0    0     0    1   0     1</span></span></code></pre></div>
-<p>If the <code>adorn_</code> helper functions are called on a list of data.frames - like the output of a three-way <code>tabyl</code> call - they will call <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::map()</a></code> to apply themselves to each data.frame in the list:</p>
+<p>If the <code>adorn_</code> helper functions are called on a list of
+data.frames - like the output of a three-way <code>tabyl</code> call -
+they will call <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::map()</a></code> to apply themselves to each
+data.frame in the list:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/" class="external-link">purrr</a></span><span class="op">)</span></span>
 <span><span class="va">humans</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -235,13 +266,24 @@
 <span><span class="co">#&gt;      hazel   0.0% (0)  3.8%  (1)  0.0% (0) 0.0% (0) 0.0% (0) 0.0% (0)</span></span>
 <span><span class="co">#&gt;     yellow   0.0% (0)  0.0%  (0)  0.0% (0) 3.8% (1) 0.0% (0) 3.8% (1)</span></span>
 <span><span class="co">#&gt;      Total  15.4% (4) 50.0% (13) 19.2% (5) 3.8% (1) 7.7% (2) 3.8% (1)</span></span></code></pre></div>
-<p>This automatic mapping supports interactive data analysis that switches between combinations of 2 and 3 variables. That way, if a user starts with <code>humans %&gt;% tabyl(eye_color, skin_color)</code>, adds some <code>adorn_</code> calls, then decides to split the tabulation by gender and modifies their first line to <code>humans %&gt;% tabyl(eye_color, skin_color, gender</code>), they don’t have to rewrite the subsequent adornment calls to use <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map()</a></code>.</p>
-<p>However, if feels more natural to call these with <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map()</a></code> or <code><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply()</a></code>, that is still supported. For instance, <code>t3 %&gt;% lapply(adorn_percentages)</code> would produce the same result as <code>t3 %&gt;% adorn_percentages</code>.</p>
+<p>This automatic mapping supports interactive data analysis that
+switches between combinations of 2 and 3 variables. That way, if a user
+starts with <code>humans %&gt;% tabyl(eye_color, skin_color)</code>,
+adds some <code>adorn_</code> calls, then decides to split the
+tabulation by gender and modifies their first line to
+<code>humans %&gt;% tabyl(eye_color, skin_color, gender</code>), they
+don’t have to rewrite the subsequent adornment calls to use
+<code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map()</a></code>.</p>
+<p>However, if feels more natural to call these with <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map()</a></code>
+or <code><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply()</a></code>, that is still supported. For instance,
+<code>t3 %&gt;% lapply(adorn_percentages)</code> would produce the same
+result as <code>t3 %&gt;% adorn_percentages</code>.</p>
 <div class="section level4">
 <h4 id="other-features-of-tabyls">Other features of tabyls<a class="anchor" aria-label="anchor" href="#other-features-of-tabyls"></a>
 </h4>
 <ul>
-<li>When called on a factor, <code>tabyl</code> will show missing levels (levels not present in the data) in the result
+<li>When called on a factor, <code>tabyl</code> will show missing levels
+(levels not present in the data) in the result
 <ul>
 <li>This can be suppressed if not desired</li>
 </ul>
@@ -251,13 +293,18 @@
 <li>
 <code>tabyls</code> print without displaying row numbers</li>
 </ul>
-<p>You can call <code><a href="../reference/chisq.test.html">chisq.test()</a></code> and <code><a href="../reference/fisher.test.html">fisher.test()</a></code> on a two-way tabyl to perform those statistical tests, just like on a base R <code><a href="https://rdrr.io/r/base/table.html" class="external-link">table()</a></code> object.</p>
+<p>You can call <code><a href="../reference/chisq.test.html">chisq.test()</a></code> and <code><a href="../reference/fisher.test.html">fisher.test()</a></code>
+on a two-way tabyl to perform those statistical tests, just like on a
+base R <code><a href="https://rdrr.io/r/base/table.html" class="external-link">table()</a></code> object.</p>
 </div>
 </div>
 <div class="section level3">
 <h3 id="the-adorn_-functions">The <code>adorn_*</code> functions<a class="anchor" aria-label="anchor" href="#the-adorn_-functions"></a>
 </h3>
-<p>These modular functions build on a <code>tabyl</code> to approximate the functionality of a PivotTable in Microsoft Excel. They print elegant results for interactive analysis or for sharing in a report, e.g., with <code><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">knitr::kable()</a></code>. For example:</p>
+<p>These modular functions build on a <code>tabyl</code> to approximate
+the functionality of a PivotTable in Microsoft Excel. They print elegant
+results for interactive analysis or for sharing in a report, e.g., with
+<code><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">knitr::kable()</a></code>. For example:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">humans</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/tabyl.html">tabyl</a></span><span class="op">(</span><span class="va">gender</span>, <span class="va">eye_color</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -268,6 +315,16 @@
 <span>  <span class="fu"><a href="../reference/adorn_title.html">adorn_title</a></span><span class="op">(</span><span class="st">"combined"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
+<colgroup>
+<col width="22%">
+<col width="11%">
+<col width="12%">
+<col width="11%">
+<col width="9%">
+<col width="10%">
+<col width="9%">
+<col width="12%">
+</colgroup>
 <thead><tr class="header">
 <th align="left">gender/eye_color</th>
 <th align="left">blue</th>
@@ -316,37 +373,64 @@
 </h4>
 <ul>
 <li>
-<strong><code><a href="../reference/adorn_totals.html">adorn_totals()</a></code></strong>: Add totals row, column, or both.</li>
+<strong><code><a href="../reference/adorn_totals.html">adorn_totals()</a></code></strong>: Add totals row,
+column, or both.</li>
 <li>
-<strong><code><a href="../reference/adorn_percentages.html">adorn_percentages()</a></code></strong>: Calculate percentages along either axis or over the entire tabyl</li>
+<strong><code><a href="../reference/adorn_percentages.html">adorn_percentages()</a></code></strong>: Calculate
+percentages along either axis or over the entire tabyl</li>
 <li>
-<strong><code><a href="../reference/adorn_pct_formatting.html">adorn_pct_formatting()</a></code></strong>: Format percentage columns, controlling the number of digits to display and whether to append the <code>%</code> symbol</li>
+<strong><code><a href="../reference/adorn_pct_formatting.html">adorn_pct_formatting()</a></code></strong>: Format
+percentage columns, controlling the number of digits to display and
+whether to append the <code>%</code> symbol</li>
 <li>
-<strong><code><a href="../reference/adorn_rounding.html">adorn_rounding()</a></code></strong>: Round a data.frame of numbers (usually the result of <code>adorn_percentages</code>), either using the base R <code><a href="https://rdrr.io/r/base/Round.html" class="external-link">round()</a></code> function or using janitor’s <code><a href="../reference/round_half_up.html">round_half_up()</a></code> to round all ties up (<a href="https://stackoverflow.com/a/12688836/4470365" class="external-link">thanks, StackOverflow</a>).
+<strong><code><a href="../reference/adorn_rounding.html">adorn_rounding()</a></code></strong>: Round a data.frame
+of numbers (usually the result of <code>adorn_percentages</code>),
+either using the base R <code><a href="https://rdrr.io/r/base/Round.html" class="external-link">round()</a></code> function or using janitor’s
+<code><a href="../reference/round_half_up.html">round_half_up()</a></code> to round all ties up (<a href="https://stackoverflow.com/a/12688836/4470365" class="external-link">thanks,
+StackOverflow</a>).
 <ul>
-<li>e.g., round 10.5 up to 11, consistent with Excel’s tie-breaking behavior.
+<li>e.g., round 10.5 up to 11, consistent with Excel’s tie-breaking
+behavior.
 <ul>
-<li>This contrasts with rounding 10.5 down to 10 as in base R’s <code>round(10.5)</code>.</li>
+<li>This contrasts with rounding 10.5 down to 10 as in base R’s
+<code>round(10.5)</code>.</li>
 </ul>
 </li>
 <li>
-<code><a href="../reference/adorn_rounding.html">adorn_rounding()</a></code> returns columns of class <code>numeric</code>, allowing for graphing, sorting, etc. It’s a less-aggressive substitute for <code><a href="../reference/adorn_pct_formatting.html">adorn_pct_formatting()</a></code>; these two functions should not be called together.</li>
+<code><a href="../reference/adorn_rounding.html">adorn_rounding()</a></code> returns columns of class
+<code>numeric</code>, allowing for graphing, sorting, etc. It’s a
+less-aggressive substitute for <code><a href="../reference/adorn_pct_formatting.html">adorn_pct_formatting()</a></code>;
+these two functions should not be called together.</li>
 </ul>
 </li>
 <li>
-<strong><code><a href="../reference/adorn_ns.html">adorn_ns()</a></code></strong>: add Ns to a tabyl. These can be drawn from the tabyl’s underlying counts, which are attached to the tabyl as metadata, or they can be supplied by the user.</li>
+<strong><code><a href="../reference/adorn_ns.html">adorn_ns()</a></code></strong>: add Ns to a tabyl. These
+can be drawn from the tabyl’s underlying counts, which are attached to
+the tabyl as metadata, or they can be supplied by the user.</li>
 <li>
-<strong><code><a href="../reference/adorn_title.html">adorn_title()</a></code></strong>: add a title to a tabyl (or other data.frame). Options include putting the column title in a new row on top of the data.frame or combining the row and column titles in the data.frame’s first name slot.</li>
+<strong><code><a href="../reference/adorn_title.html">adorn_title()</a></code></strong>: add a title to a tabyl
+(or other data.frame). Options include putting the column title in a new
+row on top of the data.frame or combining the row and column titles in
+the data.frame’s first name slot.</li>
 </ul>
-<p>These adornments should be called in a logical order, e.g., you probably want to add totals before percentages are calculated. In general, call them in the order they appear above.</p>
+<p>These adornments should be called in a logical order, e.g., you
+probably want to add totals before percentages are calculated. In
+general, call them in the order they appear above.</p>
 </div>
 </div>
 <div class="section level3">
 <h3 id="byot-bring-your-own-tabyl">BYOt (Bring Your Own tabyl)<a class="anchor" aria-label="anchor" href="#byot-bring-your-own-tabyl"></a>
 </h3>
-<p>You can also call <code>adorn_</code> functions on other data.frames, not only the results of calls to <code><a href="../reference/tabyl.html">tabyl()</a></code>. E.g., <code>mtcars %&gt;% adorn_totals("col") %&gt;% adorn_percentages("col")</code> performs as expected, despite <code>mtcars</code> not being a <code>tabyl</code>.</p>
-<p>This can be handy when you have a data.frame that is not a simple tabulation generated by <code>tabyl</code> but would still benefit from the <code>adorn_</code> formatting functions.</p>
-<p>A simple example: calculate the proportion of records meeting a certain condition, then format the results.</p>
+<p>You can also call <code>adorn_</code> functions on other data.frames,
+not only the results of calls to <code><a href="../reference/tabyl.html">tabyl()</a></code>. E.g.,
+<code>mtcars %&gt;% adorn_totals("col") %&gt;% adorn_percentages("col")</code>
+performs as expected, despite <code>mtcars</code> not being a
+<code>tabyl</code>.</p>
+<p>This can be handy when you have a data.frame that is not a simple
+tabulation generated by <code>tabyl</code> but would still benefit from
+the <code>adorn_</code> formatting functions.</p>
+<p>A simple example: calculate the proportion of records meeting a
+certain condition, then format the results.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">percent_above_165_cm</span> <span class="op">&lt;-</span> <span class="va">humans</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">gender</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -359,8 +443,13 @@
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> feminine  12.5%           </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> masculine 100.0%</span></span></code></pre></div>
-<p>You can control which columns are adorned by using the <code>...</code> argument. It accepts the <a href="https://r4ds.had.co.nz/transform.html#select" class="external-link">tidyselect helpers</a>. That is, you can specify columns the same way you would using <code><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">dplyr::select()</a></code>.</p>
-<p>For instance, say you have a numeric column that should not be included in percentage formatting and you wish to exempt it. Here, only the <code>proportion</code> column is adorned:</p>
+<p>You can control which columns are adorned by using the
+<code>...</code> argument. It accepts the <a href="https://r4ds.had.co.nz/transform.html#select" class="external-link">tidyselect
+helpers</a>. That is, you can specify columns the same way you would
+using <code><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">dplyr::select()</a></code>.</p>
+<p>For instance, say you have a numeric column that should not be
+included in percentage formatting and you wish to exempt it. Here, only
+the <code>proportion</code> column is adorned:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtcars</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">cyl</span>, <span class="va">gear</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -376,7 +465,8 @@
 <span><span class="co">#&gt;    6    5       3.1%</span></span>
 <span><span class="co">#&gt;    8    3      37.5%</span></span>
 <span><span class="co">#&gt;    8    5       6.2%</span></span></code></pre></div>
-<p>Here we specify that only two consecutive numeric columns should be totaled (<code>year</code> is numeric but should not be included):</p>
+<p>Here we specify that only two consecutive numeric columns should be
+totaled (<code>year</code> is numeric but should not be included):</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cases</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  region <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"East"</span>, <span class="st">"West"</span><span class="op">)</span>,</span>
@@ -391,7 +481,11 @@
 <span><span class="co">#&gt;         East 2015       125   13         138</span></span>
 <span><span class="co">#&gt;         West 2015        87   12          99</span></span>
 <span><span class="co">#&gt;  Total Cases    -       212   25         237</span></span></code></pre></div>
-<p>Here’s a more complex example that uses a data.frame of means, not counts. We create a table containing the mean of a 3rd variable when grouped by two other variables, then use <code>adorn_</code> functions to round the values and append Ns. The first part is pretty straightforward:</p>
+<p>Here’s a more complex example that uses a data.frame of means, not
+counts. We create a table containing the mean of a 3rd variable when
+grouped by two other variables, then use <code>adorn_</code> functions
+to round the values and append Ns. The first part is pretty
+straightforward:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span> <span class="co"># for spread()</span></span>
 <span><span class="va">mpg_by_cyl_and_am</span> <span class="op">&lt;-</span> <span class="va">mtcars</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -406,7 +500,9 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     4  22.9  28.1</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     6  19.1  20.6</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     8  15.0  15.4</span></span></code></pre></div>
-<p>Now to <code>adorn_</code> it. Since this is not the result of a <code><a href="../reference/tabyl.html">tabyl()</a></code> call, it doesn’t have the underlying Ns stored in the <code>core</code> attribute, so we’ll have to supply them:</p>
+<p>Now to <code>adorn_</code> it. Since this is not the result of a
+<code><a href="../reference/tabyl.html">tabyl()</a></code> call, it doesn’t have the underlying Ns stored in
+the <code>core</code> attribute, so we’ll have to supply them:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mpg_by_cyl_and_am</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/adorn_rounding.html">adorn_rounding</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -419,7 +515,10 @@
 <span><span class="co">#&gt; 1                      4 22.9  (3) 28.1 (8)</span></span>
 <span><span class="co">#&gt; 2                      6 19.1  (4) 20.6 (3)</span></span>
 <span><span class="co">#&gt; 3                      8 15.1 (12) 15.4 (2)</span></span></code></pre></div>
-<p>If needed, Ns can be manipulated in their own data.frame before they are appended. Here a tabyl with values in the thousands has its Ns formatted to include the separating character <code>,</code> as typically seen in American numbers, e.g., <code>3,000</code>.</p>
+<p>If needed, Ns can be manipulated in their own data.frame before they
+are appended. Here a tabyl with values in the thousands has its Ns
+formatted to include the separating character <code>,</code> as
+typically seen in American numbers, e.g., <code>3,000</code>.</p>
 <p>First we create the tabyl to adorn:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
@@ -450,7 +549,11 @@
 <span><span class="co">#&gt;  (68,102]  32.7%  (980)  33.3% (1000)  33.0% (1980)</span></span>
 <span><span class="co">#&gt;      &lt;NA&gt;   0.4%   (12)   0.6%   (18)   0.5%   (30)</span></span>
 <span><span class="co">#&gt;     Total 100.0% (3000) 100.0% (3000) 100.0% (6000)</span></span></code></pre></div>
-<p>Now we format them to insert the thousands commas. A tabyl’s raw Ns are stored in its <code>"core"</code> attribute. Here we retrieve those with <code><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr()</a></code>, then apply the base R function <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code> to all numeric columns. Lastly, we append these Ns using <code><a href="../reference/adorn_ns.html">adorn_ns()</a></code>.</p>
+<p>Now we format them to insert the thousands commas. A tabyl’s raw Ns
+are stored in its <code>"core"</code> attribute. Here we retrieve those
+with <code><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr()</a></code>, then apply the base R function
+<code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code> to all numeric columns. Lastly, we append these Ns
+using <code><a href="../reference/adorn_ns.html">adorn_ns()</a></code>.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">formatted_ns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">comparison</span>, <span class="st">"core"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="co"># extract the tabyl's underlying Ns</span></span>
 <span>  <span class="fu"><a href="../reference/adorn_totals.html">adorn_totals</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"row"</span>, <span class="st">"col"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="co"># to match the data.frame we're appending to</span></span>
@@ -467,7 +570,10 @@
 <div class="section level4">
 <h4 id="questions-comments">Questions? Comments?<a class="anchor" aria-label="anchor" href="#questions-comments"></a>
 </h4>
-<p>File <a href="https://github.com/sfirke/janitor/issues" class="external-link">an issue on GitHub</a> if you have suggestions related to <code><a href="../reference/tabyl.html">tabyl()</a></code> and its <code>adorn_</code> helpers or encounter problems while using them.</p>
+<p>File <a href="https://github.com/sfirke/janitor/issues" class="external-link">an issue on
+GitHub</a> if you have suggestions related to <code><a href="../reference/tabyl.html">tabyl()</a></code> and
+its <code>adorn_</code> helpers or encounter problems while using
+them.</p>
 </div>
 </div>
 </div>
