@@ -102,8 +102,11 @@ test_that("tidyselecting works", {
       adorn_rounding(,,third_wave:size),
     "At least one non-numeric column was specified and will not be modified."
   )
-  text_skipped <- target %>%
-    adorn_rounding(,,c(first_wave, size))
+  expect_message(
+    text_skipped <- target %>%
+      adorn_rounding(,,c(first_wave, size)),
+    "At least one non-numeric column was specified and will not be modified."
+  )
   expect_equal(text_skipped$first_wave, c(.1, .2, .2))
   expect_equal(
     text_skipped %>% dplyr::select(-first_wave),
@@ -111,7 +114,6 @@ test_that("tidyselecting works", {
     ignore_attr = TRUE
   )
 })
-
 
 test_that("non-data.frame inputs are handled", {
   expect_error(adorn_rounding(1:5), "adorn_rounding() must be called on a data.frame or list of data.frames", fixed = TRUE)

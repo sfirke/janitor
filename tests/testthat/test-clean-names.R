@@ -427,7 +427,11 @@ test_that("Tests for clean_names.default() on arrays", {
 
 test_that("Names are cleaned appropriately without attaching sf", {
   skip_if_not_installed("sf")
-  nc    <- sf::st_read(system.file("shape/nc.shp", package="sf"))
+  # capture.output is used to hide internal messages from the sf package on
+  # loading
+  capture.output(
+    nc <- sf::st_read(system.file("shape/nc.shp", package="sf"))
+  )
   clean <- clean_names(nc, "snake")
 
   expect_equal(names(clean)[4], "cnty_id")

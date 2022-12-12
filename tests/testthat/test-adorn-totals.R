@@ -326,8 +326,12 @@ test_that("tidyselecting works", {
     fixed = TRUE
   )
 
-  simple_total <- simple %>%
-    adorn_totals(c("row", "col"), "-", TRUE, "Total", x)
+  expect_message(
+    simple_total <- simple %>%
+      adorn_totals(c("row", "col"), "-", TRUE, "Total", x),
+    regexp = "Because the first column was specified to be totaled, it does not contain the label 'Total' (or user-specified name) in the totals row",
+    fixed = TRUE
+  )
 
   expect_equal(unname(unlist(simple_total[3, ])), c("3", "-", "-", "3"))
   expect_equal(simple_total$Total, 1:3)
@@ -345,7 +349,6 @@ test_that("tidyselecting works", {
 })
 
 test_that("supplying NA to fill preserves column types", {
-
   test_df <- data.frame(
     a = c("hi", "low", "med"),
     b = factor(c("big", "small", "regular")),

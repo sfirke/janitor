@@ -171,8 +171,11 @@ test_that("tidyselecting works", {
     "At least one non-numeric column was specified and will not be modified."
   )
   # correct behavior occurs when text columns are skipped
-  text_skipped <- target %>%
-    adorn_pct_formatting(.,,,,c(first_wave, size))
+  expect_message(
+    text_skipped <- target %>%
+      adorn_pct_formatting(.,,,,c(first_wave, size)),
+    "At least one non-numeric column was specified and will not be modified."
+  )
 
   expect_equal(text_skipped$first_wave, c("12.5%", "20.0%", "25.0%"))
   expect_equal(

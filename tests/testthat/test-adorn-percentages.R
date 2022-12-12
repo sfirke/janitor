@@ -85,18 +85,23 @@ test_that("works with totals row/col when denominator = col or all, #357", {
   expect_equal(all_percs_no_row$Total, c(11, 7, 14)/32)
 
   # And try one where we exempt the totals col
-  col_percs_exempted <- source1 %>%
-    adorn_totals(where = c("col", "row")) %>%
-    adorn_percentages(denominator = "col",,-Total)
+  expect_message(
+    col_percs_exempted <- source1 %>%
+      adorn_totals(where = c("col", "row")) %>%
+      adorn_percentages(denominator = "col",,-Total),
+    regexp = "At least one non-numeric column was specified.  All non-numeric columns will be removed from percentage calculations."
+  )
   expect_equal(col_percs_exempted$Total, c(11, 7, 14, 32))
   expect_equal(unname(unlist(col_percs_exempted[4, ])), c("Total", 1, 1, 32))
 
-  all_percs_exempted <- source1 %>%
-    adorn_totals(where = c("col", "row")) %>%
-    adorn_percentages(denominator = "all",,-Total)
+  expect_message(
+    all_percs_exempted <- source1 %>%
+      adorn_totals(where = c("col", "row")) %>%
+      adorn_percentages(denominator = "all",,-Total),
+    regexp = "At least one non-numeric column was specified.  All non-numeric columns will be removed from percentage calculations."
+  )
   expect_equal(all_percs_exempted$Total, c(11, 7, 14, 32))
   expect_equal(unname(unlist(all_percs_exempted[4, ])), unname(c("Total", colSums(source1)[2:3]/32, 32)))
-
 })
 
 source2 <- source1
@@ -216,8 +221,11 @@ test_that("tidyselecting works", {
     adorn_percentages(., "col",,c(first_wave, size)),
     "At least one non-numeric column was specified.  All non-numeric columns will be removed from percentage calculations."
   )
-  text_skipped <- target %>%
-    adorn_percentages(., "col",,c(first_wave, size))
+  expect_message(
+    text_skipped <- target %>%
+      adorn_percentages(., "col",,c(first_wave, size)),
+    regexp = "At least one non-numeric column was specified.  All non-numeric columns will be removed from percentage calculations."
+  )
   expect_equal(text_skipped$first_wave, target$first_wave/sum(target$first_wave))
   expect_equal(
     text_skipped %>% dplyr::select(-first_wave),
@@ -231,4 +239,3 @@ test_that("tidyselecting works", {
     adorn_percentages(,,,second_wave:third_wave)
   expect_equal(totaled$Total, 7:9)
 })
-

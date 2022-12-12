@@ -6,24 +6,37 @@ test_that("Correct combinations of duplicates are found", {
 })
 
 test_that("calling with no specified variable names uses all variable names", {
-  expect_equal(get_dupes(test_df), get_dupes(test_df, a, b))
-  expect_message(get_dupes(mtcars), "No variable names specified - using all columns.")
+  expect_message(
+    expect_equal(get_dupes(test_df), get_dupes(test_df, a, b)),
+    "No variable names specified - using all columns."
+  )
+  expect_message(expect_message(
+    get_dupes(mtcars),
+    "No variable names specified - using all columns."),
+    "No duplicate combinations found of: mpg, cyl.*and 2 other variables"
+  )
 })
 
 no_dupes <- data.frame(a = 1, stringsAsFactors = FALSE)
 
 test_that("instances of no dupes throw correct messages, return empty df", {
   expect_message(no_dupes %>% get_dupes(a), "No duplicate combinations found of: a")
+  expect_message(
+    no_dup_a <- no_dupes %>% get_dupes(a),
+    "No duplicate combinations found of: a"
+  )
   expect_equal(
-    suppressWarnings(no_dupes %>% get_dupes(a)),
+    no_dup_a,
     data.frame(a = double(0), dupe_count = integer(0))
   )
-  expect_message(
+  expect_message(expect_message(
     mtcars %>% dplyr::select(-1) %>% get_dupes(),
+    "No variable names specified - using all columns."),
     "No duplicate combinations found of: cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb"
   )
-  expect_message(
+  expect_message(expect_message(
     mtcars %>% get_dupes(),
+    "No variable names specified - using all columns."),
     "No duplicate combinations found of: mpg, cyl, disp, hp, drat, wt, qsec, vs, am, ... and 2 other variables"
   )
 })
@@ -38,7 +51,12 @@ test_that("works on variables with irregular names", {
     badname_df %>% get_dupes(`bad name!`, cyl) %>% dim(),
     c(10, 13)
   ) # does it return the right-sized result?
-  expect_s3_class(badname_df %>% get_dupes(), "data.frame") # test for success, i.e., produces a data.frame (with 0 rows)
+  expect_message(expect_message(
+    badname_df_dup <- badname_df %>% get_dupes(),
+    "No variable names specified - using all columns"),
+    "No duplicate combinations found of: mpg, cyl, disp, hp, drat, wt, qsec, vs, am, ... and 3 other variables"
+  )
+  expect_s3_class(badname_df_dup, "data.frame") # test for success, i.e., produces a data.frame (with 0 rows)
 })
 
 test_that("tidyselect specification matches exact specification", {
@@ -62,13 +80,12 @@ test_that("grouped and ungrouped data is handled correctly", {
 })
 
 test_that("tibbles stay tibbles, non-tibble stay non-tibbles", {
-  # Reactivate this test after dplyr 1.0.0 hits CRAN, until then it fails because of a bug #4086
-    # fixed in dev version
-
-  # expect_equal(class(test_df %>%
-  #                      get_dupes(a)),
-  #              class(test_df))
-  expect_equal(class(tibble::as_tibble(test_df) %>%
-                       get_dupes(a)),
-               class(tibble::as_tibble(test_df)))
+  expect_equal(
+    class(test_df %>% get_dupes(a)),
+    class(test_df)
+  )
+  expect_equal(
+    class(tibble::as_tibble(test_df) %>% get_dupes(a)),
+    class(tibble::as_tibble(test_df))
+  )
 })
