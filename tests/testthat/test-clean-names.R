@@ -188,6 +188,13 @@ test_that("do not create duplicates (fix #251)", {
   )
 })
 
+test_that("do not create duplicates; force collision (fix #251)", {
+  expect_equal(
+    make_clean_names(c("a", "a", "a_1")),
+    c("a", "a_2", "a_1")
+  )
+})
+
 test_that("allow duplicates with unique_sep = NULL (fix #495)", {
   expect_equal(
     make_clean_names(c("a", "a 2", "a 2", "a_2"), unique_sep = NULL),
