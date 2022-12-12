@@ -14,16 +14,19 @@ test_that("time handling works correctly", {
   expect_equal(
     excel_numeric_to_date(42370, include_time=TRUE),
     as.POSIXct("2016-01-01"),
+    ignore_attr = TRUE, # ignore timezone
     info="Time inclusion works with an integer date"
   )
   expect_equal(
     excel_numeric_to_date(42370.521, include_time=TRUE),
     as.POSIXct("2016-01-01 12:30:14"),
+    ignore_attr = TRUE, # ignore timezone
     info="Time inclusion works with a fractional date/time and seconds rounded"
   )
   expect_equal(
     excel_numeric_to_date(42370.521, include_time=TRUE, round_seconds=FALSE),
     as.POSIXct("2016-01-01 12:30:14.4"),
+    ignore_attr = TRUE, # ignore timezone
     info="Time inclusion works with a fractional date/time and seconds not rounded"
   )
   expect_equal(
@@ -37,6 +40,7 @@ test_that("time handling at the edge of a minute works correctly", {
   expect_equal(
     excel_numeric_to_date(42001.1, include_time = TRUE),
     as.POSIXct("2014-12-28 02:24:00"),
+    ignore_attr = TRUE, # ignore timezone
     info = "60 seconds gets converted to 0 seconds, +1 minute"
   )
 })
@@ -49,21 +53,25 @@ test_that("time handling at the edge of the next date works correctly", {
     suppressWarnings(
       excel_numeric_to_date(42002 - 0.0005/86400, include_time=TRUE, round_seconds=FALSE)
     ),
-    as.POSIXct("2014-12-29")
+    as.POSIXct("2014-12-29"),
+    ignore_attr = TRUE # ignore timezone
   )
   expect_equal(
     suppressWarnings(
       excel_numeric_to_date(42002 - 0.0005/86400, include_time=TRUE, round_seconds=TRUE)
     ),
-    as.POSIXct("2014-12-29")
+    as.POSIXct("2014-12-29"),
+    ignore_attr = TRUE # ignore timezone
   )
   expect_equal(
     excel_numeric_to_date(42002 - 0.0011/86400, include_time=TRUE, round_seconds=FALSE),
-    as.POSIXct("2014-12-28 23:59:59.998")
+    as.POSIXct("2014-12-28 23:59:59.998"),
+    ignore_attr = TRUE # ignore timezone
   )
   expect_equal(
     excel_numeric_to_date(42002 - 0.0011/86400, include_time=TRUE, round_seconds=TRUE),
-    as.POSIXct("2014-12-29")
+    as.POSIXct("2014-12-29"),
+    ignore_attr = TRUE # ignore timezone
   )
 })
 
@@ -84,11 +92,9 @@ test_that("excel_numeric_to_date handles NA", {
     info="Return NA output as part of a vector of inputs correctly"
   )
   expect_equal(
-    excel_numeric_to_date(c(43088, NA), include_time=TRUE),
-    structure(
-      as.POSIXct(as.Date(floor(c(43088, NA)), origin = "1899-12-30")),
-      tzone=NULL
-    ),
+    excel_numeric_to_date(c(43088, NA), include_time=TRUE, tz = "UTC"),
+    as.POSIXct(as.Date(floor(c(43088, NA)), origin = "1899-12-30", tz = "UTC")),
+    ignore_attr = TRUE, # ignore timezone
     info="Return NA output as part of a vector of inputs correctly"
   )
 })
