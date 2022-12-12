@@ -89,7 +89,7 @@ test_that("order doesn't matter when row and col are called together", {
 })
 
 test_that("both functions work with a single column", {
-  single_col <- tibble(
+  single_col <- tibble::tibble(
     a = c(as.Date("2016-01-01"), as.Date("2016-02-03")),
     b = c(1, 2)
   )
@@ -126,14 +126,22 @@ test_that("numeric first column is ignored", {
 })
 
 # create input tables for subsequent testing
-ct_2 <- mtcars %>% group_by(cyl, gear) %>% tally() %>% tidyr::spread(gear, n)
+ct_2 <-
+  mtcars %>%
+  dplyr::group_by(cyl, gear) %>%
+  dplyr::tally() %>%
+  tidyr::spread(gear, n)
 df1 <- data.frame(x = c(1, 2), y = c(NA, 4))
 
 test_that("grouped_df gets ungrouped and succeeds", {
-  ct_2 <- mtcars %>% group_by(cyl, gear) %>% tally() %>% tidyr::spread(gear, n)
+  ct_2 <-
+    mtcars %>%
+    dplyr::group_by(cyl, gear) %>%
+    dplyr::tally() %>%
+    tidyr::spread(gear, n)
   expect_equal(
     ct_2 %>% adorn_totals(),
-    ct_2 %>% ungroup() %>% adorn_totals()
+    ct_2 %>% dplyr::ungroup() %>% adorn_totals()
   )
 })
 
@@ -158,8 +166,8 @@ test_that("add_totals respects if input was data.frame", {
 
 test_that("add_totals respects if input was tibble", {
   expect_equal(
-    class(df1 %>% as_tibble()),
-    class(df1 %>% as_tibble() %>% adorn_totals() %>% untabyl())
+    class(df1 %>% tibble::as_tibble()),
+    class(df1 %>% tibble::as_tibble() %>% adorn_totals() %>% untabyl())
   )
 })
 
@@ -244,10 +252,10 @@ test_that("totals attributes are assigned correctly", {
 
   post_sequential_both <- adorn_totals(ct, "col") %>%
     adorn_totals("row")
-  expect_equivalent(post_sequential_both, post)
+  expect_equal(post_sequential_both, post, ignore_attr = TRUE)
   expect_equal(
     sort(attr(post, "totals")),
-    sort(attr(post_sequential_both, "totals")),
+    sort(attr(post_sequential_both, "totals"))
   )
 })
 
@@ -353,11 +361,11 @@ test_that("supplying NA to fill preserves column types", {
   out <- adorn_totals(test_df, fill = NA)
 
   # expect types to be preserved
-  expect_is(out[["a"]], "character")
-  expect_is(out[["b"]], "factor")
-  expect_is(out[["c"]], "Date")
-  expect_is(out[["d"]], "POSIXct")
-  expect_is(out[["g"]], "logical")
+  expect_type(out[["a"]], "character")
+  expect_s3_class(out[["b"]], "factor")
+  expect_s3_class(out[["c"]], "Date")
+  expect_s3_class(out[["d"]], "POSIXct")
+  expect_type(out[["g"]], "logical")
   # expect factor levels to be preserved
   expect_equal(levels(out[["b"]]), levels(test_df[["b"]]))
   # expect NAs in total rows for non-numerics
@@ -371,7 +379,7 @@ test_that("supplying NA to fill preserves column types", {
   expect_equal(out[4, "f"], 15)
   expect_equal(out[4, "h"], 24.6)
   # expect original df intact
-  expect_equivalent(test_df, out[1:3,])
+  expect_equal(test_df, out[1:3,], ignore_attr = TRUE)
 })
 
 test_that("supplying NA as fill still works with non-character first col and numeric non-totaled cols", {
@@ -397,7 +405,7 @@ test_that("supplying NA as fill still works with non-character first col and num
   expect_equal(out[["g"]], c(7.2, 8.2, 9.2, NA_real_))
   expect_equal(out[4,"d"], 6)
   expect_equal(out[4,"e"], 15)
-  expect_equivalent(test_df[1:3, 2:7], out[1:3,2:7])
+  expect_equal(test_df[1:3, 2:7], out[1:3,2:7], ignore_attr = TRUE)
 })
 
 # Tests from #413, different values for row and col names

@@ -219,8 +219,10 @@ test_that("tidyselecting works", {
   text_skipped <- target %>%
     adorn_percentages(., "col",,c(first_wave, size))
   expect_equal(text_skipped$first_wave, target$first_wave/sum(target$first_wave))
-  expect_equivalent(text_skipped %>% select(-first_wave),
-               target %>% select(-first_wave)
+  expect_equal(
+    text_skipped %>% dplyr::select(-first_wave),
+    target %>% dplyr::select(-first_wave),
+    ignore_attr = TRUE
   )
 
   # Check combination of totals and tidyselecting does not modify totals col

@@ -76,7 +76,7 @@ test_that("bad inputs are caught", {
 
 test_that("adorn_totals and adorn_percentages reset the tabyl's core to reflect sorting, #407", {
   unsorted <- mtcars %>% tabyl(am, cyl)
-  sorted <- arrange(unsorted, desc(`4`))
+  sorted <- dplyr::arrange(unsorted, desc(`4`))
   expect_equal(
     sorted %>%
       adorn_totals() %>%
@@ -105,10 +105,10 @@ test_that("adorn_totals and adorn_percentages reset the tabyl's core to reflect 
     sorted %>%
       adorn_totals() %>%
       adorn_percentages("col") %>%
-      arrange(desc(`4`)) %>%
+      dplyr::arrange(desc(`4`)) %>%
       adorn_ns() %>%
-      pull(`4`) %>%
-      first,
+      dplyr::pull(`4`) %>%
+      dplyr::first(),
     "1.0000000 (11)"
   )
 })

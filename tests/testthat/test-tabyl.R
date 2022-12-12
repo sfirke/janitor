@@ -120,10 +120,10 @@ test_that("failure occurs when passed unsupported types", {
 
 test_that("bad input variable name is preserved", {
   expect_equal(
-    mtcars %>% mutate(`bad name` = cyl) %>% tabyl(`bad name`) %>% names() %>% .[[1]],
+    mtcars %>% dplyr::mutate(`bad name` = cyl) %>% tabyl(`bad name`) %>% names() %>% .[[1]],
     "bad name"
   )
-  k <- mtcars %>% mutate(`bad name` = cyl)
+  k <- mtcars %>% dplyr::mutate(`bad name` = cyl)
   expect_equal(
     tabyl(k$`bad name`) %>% names() %>% .[[1]],
     "k$`bad name`"
@@ -174,7 +174,7 @@ test_that("bizarre combination of %>%, quotes, and spaces in names is handled", 
 
 test_that("grouped data.frame inputs are handled (#125)", {
   expect_equal(
-    mtcars %>% group_by(cyl) %>% tabyl(carb, gear),
+    mtcars %>% dplyr::group_by(cyl) %>% tabyl(carb, gear),
     mtcars %>% tabyl(carb, gear)
   )
 })
@@ -296,7 +296,7 @@ test_that("NA levels get moved to the last column in the data.frame, are suppres
   expect_equal(names(y), c("down", "up", "NA_"))
   expect_equal(
     y[["NA_"]], # column c remains numeric
-    x %>% filter(is.na(b)) %>% tabyl(c, a)
+    x %>% dplyr::filter(is.na(b)) %>% tabyl(c, a)
   )
 
   y_with_missing <- x %>% tabyl(c, a, b, show_missing_levels = TRUE)
@@ -308,34 +308,34 @@ test_that("NA levels get moved to the last column in the data.frame, are suppres
   )
 
   # If no NA in 3rd variable, it doesn't appear in split list
-  expect_equal(length(starwars %>%
-    filter(species == "Human") %>%
+  expect_equal(length(dplyr::starwars %>%
+    dplyr::filter(species == "Human") %>%
     tabyl(eye_color, skin_color, gender, show_missing_levels = TRUE)), 2)
 
   # The starwars data set changed in dplyr v 1.0.0 so have two blocks of tests:
   if(packageVersion("dplyr") > package_version("0.8.5")){
     # If there is NA, it does appear in split list
-    expect_equal(length(starwars %>%
+    expect_equal(length(dplyr::starwars %>%
                           tabyl(eye_color, skin_color, gender, show_missing_levels = TRUE)), 3)
-    expect_equal(length(starwars %>%
+    expect_equal(length(dplyr::starwars %>%
                           tabyl(eye_color, skin_color, gender, show_missing_levels = FALSE)), 3)
 
     # NA level in the list gets suppressed if show_na = FALSE.  Should have one less level if NA is suppressed.
-    expect_equal(length(starwars %>%
+    expect_equal(length(dplyr::starwars %>%
                           tabyl(eye_color, skin_color, gender, show_na = TRUE)), 3)
-    expect_equal(length(starwars %>%
+    expect_equal(length(dplyr::starwars %>%
                           tabyl(eye_color, skin_color, gender, show_na = FALSE)), 2)
   } else {
     # If there is NA, it does appear in split list
-    expect_equal(length(starwars %>%
+    expect_equal(length(dplyr::starwars %>%
                           tabyl(eye_color, skin_color, gender, show_missing_levels = TRUE)), 5)
-    expect_equal(length(starwars %>%
+    expect_equal(length(dplyr::starwars %>%
                           tabyl(eye_color, skin_color, gender, show_missing_levels = FALSE)), 5)
 
     # NA level in the list gets suppressed if show_na = FALSE.  Should have one less level if NA is suppressed.
-    expect_equal(length(starwars %>%
+    expect_equal(length(dplyr::starwars %>%
                           tabyl(eye_color, skin_color, gender, show_na = TRUE)), 5)
-    expect_equal(length(starwars %>%
+    expect_equal(length(dplyr::starwars %>%
                           tabyl(eye_color, skin_color, gender, show_na = FALSE)), 4)
   }
 })

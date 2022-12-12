@@ -106,8 +106,8 @@ test_that("tidyselecting works", {
     adorn_rounding(,,c(first_wave, size))
   expect_equal(text_skipped$first_wave, c(.1, .2, .2))
   expect_equal(
-    text_skipped %>% select(-first_wave),
-    target %>% select(-first_wave),
+    text_skipped %>% dplyr::select(-first_wave),
+    target %>% dplyr::select(-first_wave),
     ignore_attr = TRUE
   )
 })

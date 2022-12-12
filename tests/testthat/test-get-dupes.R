@@ -14,9 +14,18 @@ no_dupes <- data.frame(a = 1, stringsAsFactors = FALSE)
 
 test_that("instances of no dupes throw correct messages, return empty df", {
   expect_message(no_dupes %>% get_dupes(a), "No duplicate combinations found of: a")
-  expect_equal(suppressWarnings(no_dupes %>% get_dupes(a)), data.frame(a = double(0), dupe_count = integer(0), stringsAsFactors = FALSE))
-  expect_message(mtcars %>% select(-1) %>% get_dupes(), "No duplicate combinations found of: cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb")
-  expect_message(mtcars %>% get_dupes(), "No duplicate combinations found of: mpg, cyl, disp, hp, drat, wt, qsec, vs, am, ... and 2 other variables")
+  expect_equal(
+    suppressWarnings(no_dupes %>% get_dupes(a)),
+    data.frame(a = double(0), dupe_count = integer(0))
+  )
+  expect_message(
+    mtcars %>% dplyr::select(-1) %>% get_dupes(),
+    "No duplicate combinations found of: cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb"
+  )
+  expect_message(
+    mtcars %>% get_dupes(),
+    "No duplicate combinations found of: mpg, cyl, disp, hp, drat, wt, qsec, vs, am, ... and 2 other variables"
+  )
 })
 
 test_that("incorrect variable names are handled", {
@@ -24,7 +33,7 @@ test_that("incorrect variable names are handled", {
 })
 
 test_that("works on variables with irregular names", {
-  badname_df <- mtcars %>% mutate(`bad name!` = mpg * 1000)
+  badname_df <- mtcars %>% dplyr::mutate(`bad name!` = mpg * 1000)
   expect_equal(
     badname_df %>% get_dupes(`bad name!`, cyl) %>% dim(),
     c(10, 13)
@@ -35,14 +44,21 @@ test_that("works on variables with irregular names", {
 test_that("tidyselect specification matches exact specification", {
   expect_equal(mtcars %>% get_dupes(contains("cy"), mpg), mtcars %>% get_dupes(cyl, mpg))
   expect_equal(mtcars %>% get_dupes(mpg), mtcars %>% get_dupes(-c(cyl, disp, hp, drat, wt, qsec, vs, am ,gear, carb)))
-  expect_equal(suppressMessages(mtcars %>% select(cyl, wt) %>% get_dupes()), mtcars %>% select(cyl, wt) %>% get_dupes(everything()))
+  expect_equal(
+    suppressMessages(mtcars %>% dplyr::select(cyl, wt) %>% get_dupes()),
+    mtcars %>% dplyr::select(cyl, wt) %>% get_dupes(dplyr::everything())
+  )
 })
 
 test_that("grouped and ungrouped data is handled correctly", {
-  expect_equal(mtcars %>% group_by(carb, cyl) %>% get_dupes(mpg, carb) %>% group_vars(),
-               mtcars %>% group_by(carb, cyl) %>% group_vars())
-  expect_equal(mtcars %>% group_by(carb, cyl) %>% get_dupes(mpg, carb) %>% ungroup(),
-               mtcars %>% tibble::as_tibble() %>% get_dupes(mpg, carb))
+  expect_equal(
+    mtcars %>% dplyr::group_by(carb, cyl) %>% get_dupes(mpg, carb) %>% dplyr::group_vars(),
+    mtcars %>% dplyr::group_by(carb, cyl) %>% dplyr::group_vars()
+  )
+  expect_equal(
+    mtcars %>% dplyr::group_by(carb, cyl) %>% get_dupes(mpg, carb) %>% dplyr::ungroup(),
+    mtcars %>% tibble::as_tibble() %>% get_dupes(mpg, carb)
+  )
 })
 
 test_that("tibbles stay tibbles, non-tibble stay non-tibbles", {

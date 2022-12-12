@@ -176,8 +176,8 @@ test_that("tidyselecting works", {
 
   expect_equal(text_skipped$first_wave, c("12.5%", "20.0%", "25.0%"))
   expect_equal(
-    text_skipped %>% select(-first_wave),
-    target %>% select(-first_wave),
+    text_skipped %>% dplyr::select(-first_wave),
+    target %>% dplyr::select(-first_wave),
     ignore_attr = TRUE
   )
 })
