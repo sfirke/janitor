@@ -76,7 +76,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Overview of janitor functions</h1>
             
-            <h4 data-toc-skip class="date">2022-12-12</h4>
+            <h4 data-toc-skip class="date">2022-12-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sfirke/janitor/blob/HEAD/vignettes/janitor.Rmd" class="external-link"><code>vignettes/janitor.Rmd</code></a></small>
       <div class="d-none name"><code>janitor.Rmd</code></div>
@@ -124,7 +124,7 @@ characters like <code>œ</code> to <code>oe</code>.</li>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">test_df</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/clean_names.html">clean_names</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   first_name abc percent_successful_2009 repeat_value repeat_value_2  x</span></span>
+<span><span class="co">#&gt;   first_name abc percent_successful_2009 repeat_value repeat_value_1  x</span></span>
 <span><span class="co">#&gt; 1         NA  NA                      NA           NA             NA NA</span></span></code></pre></div>
 <p>Compare to what base R produces:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
