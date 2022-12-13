@@ -8,6 +8,8 @@
 
 * A minor breaking change is that the time zone is now always set for `excel_numeric_to_date()` and `convert_date()`.  The default timezone is `Sys.timezone()`, previously it was an empty string (`""`). (#422, thanks **@billdenney** for fixing)
 
+* A minor breaking change affects `make_clean_names()` (and therefore `clean_names()`). `make_clean_names()` now uses the `unique_sep` argument from `snakecase::to_any_case()` to handle de-duplication of names. The incremental suffix counter is now one less than in the past (i.e., a de-duplicated variable with a suffix of `_2` becomes `_1`, `_3` becomes `_2`, etc.). This change also results in a new feature and the ability to allow for duplicate names by setting `unique_sep = NULL`. (#495, thanks **@JasonAizkalns** for fixing and **@billdenney** and **@sfrike** for the guidance)
+
 ## New features
 
 * `row_to_names()` now has a new helper function, `find_header()` to help find the row that contains the names.  It can be used by passing `row_number="find_header"`, and see the documentation of `row_to_names()` and `find_header()` for more examples. (fix #429)
@@ -26,6 +28,8 @@
 * `make_clean_names()` (and therefore `clean_names()`) issues a warning if the mu or micro symbol is in the names and it is not or may not be handled by a `replace` argument value.  (#448, thanks **@IndrajeetPatil** for reporting and **@billdenney** for fixing)  The rationale is that standard transliteration would convert "[mu]g" to "mg" when it would be more typically be converted to "ug" for use as a unit.  A new, unexported constant (janitor:::mu_to_u) was added to help with mu to "u" replacements.
 
 * `clean_names()` now supports all object types that have either names or dimnames (#481, @DanChaltiel).
+
+* `make_clean_names()` allows duplicate names to be returned by specifying `unique_sep = NULL` (#495, @JasonAizkalns).
 
 ## Bug fixes
 
