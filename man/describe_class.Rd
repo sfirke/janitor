@@ -36,12 +36,12 @@ For package developers, an S3 generic method can be written for
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{factor}: Describe factors with their levels
+\item \code{describe_class(factor)}: Describe factors with their levels
 and if they are ordered.
 
-\item \code{default}: List all classes of an object.
-}}
+\item \code{describe_class(default)}: List all classes of an object.
 
+}}
 \examples{
 describe_class(1)
 describe_class(factor("A"))

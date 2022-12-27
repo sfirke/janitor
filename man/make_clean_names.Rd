@@ -10,6 +10,7 @@ make_clean_names(
   replace = c(`'` = "", `"` = "", `\%` = "_percent_", `#` = "_number_"),
   ascii = TRUE,
   use_make_names = TRUE,
+  unique_sep = "_",
   sep_in = "\\\\.",
   transliterations = "Latin-ASCII",
   parsing_option = 1,
@@ -37,6 +38,10 @@ value.}
 \item{use_make_names}{Should \code{make.names()} be applied to ensure that the
 output is usable as a name without quoting?  (Avoiding \code{make.names()}
 ensures that the output is locale-independent but quoting may be required.)}
+
+\item{unique_sep}{When provided a character (\code{"_"}, default), an incremental
+counter is appended to repeated instances of duplicate variable names. If 
+duplicate names are desired, use \code{unique_sep = NULL}.}
 
 \item{sep_in}{(short for separator input) if character, is interpreted as a
 regular expression (wrapped internally into \code{stringr::regex()}). 
@@ -74,10 +79,6 @@ You should use this feature with care in case of \code{case = "parsed"}, \code{c
 Use this feature with care: One letter abbreviations and abbreviations next to each other are hard to read and also not easy to parse for further processing.}
     \item{\code{sep_out}}{(short for separator output) String that will be used as separator. The defaults are \code{"_"} 
 and \code{""}, regarding the specified \code{case}. When \code{length(sep_out) > 1}, the last element of \code{sep_out} gets recycled and separators are incorporated per string according to their order.}
-    \item{\code{unique_sep}}{A string. If not \code{NULL}, then duplicated names will get 
-a suffix integer
-in the order of their appearance. The suffix is separated by the supplied string
- to this argument.}
     \item{\code{empty_fill}}{A string. If it is supplied, then each entry that matches "" will be replaced
 by the supplied string to this argument.}
     \item{\code{prefix}}{prefix (string).}
