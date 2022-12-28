@@ -38,8 +38,8 @@ get_one_to_one <- function(dat) {
 get_one_to_one_value_order <- function(x) {
   if (any(is.na(x))) {
     new_value <- as.integer(factor(x))
-    # Assign a value that is one higher than the last for NA values
-    new_value[is.na(new_value)] <- max(new_value, na.rm = TRUE) + 1L
+    # Factor ordering starts at 1, so assign -1 to be a unique value for NA
+    new_value[is.na(new_value)] <- -1L
     # redo the conversion so that NA values are in the same order as other
     # values
     ulevels <- unique(new_value)
