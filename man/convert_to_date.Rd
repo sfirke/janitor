@@ -54,9 +54,9 @@ Character conversion checks if it matches something that looks like
 }
 \section{Functions}{
 \itemize{
-\item \code{convert_to_datetime}: Convert to a date-time (POSIXct)
-}}
+\item \code{convert_to_datetime()}: Convert to a date-time (POSIXct)
 
+}}
 \examples{
 convert_to_date("2009-07-06")
 convert_to_date(40000)
