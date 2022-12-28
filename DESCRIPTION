@@ -37,10 +37,12 @@ Imports:
     tidyr (>= 0.7.0)
 License: MIT + file LICENSE
 LazyData: true
-RoxygenNote: 7.2.2
+RoxygenNote: 7.2.3
 Suggests:
+    dbplyr,
     knitr,
     rmarkdown,
+    RMySQL,
     sf,
     testthat (>= 3.0.0),
     tibble,

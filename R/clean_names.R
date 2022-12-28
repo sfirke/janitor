@@ -30,7 +30,8 @@
 #' @details \code{clean_names()} is intended to be used on \code{data.frames}
 #'   and \code{data.frame}-like objects. For this reason there are methods to
 #'   support using \code{clean_names()} on \code{sf} and \code{tbl_graph} (from
-#'   \code{tidygraph}) objects. For cleaning other named objects like named lists 
+#'   \code{tidygraph}) objects as well as on database connections through
+#'   \code{dbplyr}. For cleaning other named objects like named lists 
 #'   and vectors, use \code{make_clean_names()}.
 #' 
 #' @export
@@ -118,6 +119,20 @@ clean_names.tbl_graph <- function(dat, ...) {
   } # nocov end
   dplyr::rename_all(dat, .funs=make_clean_names, ...)
 }
+
+#' @rdname clean_names
+#' @export
+#' @importFrom dplyr rename_with
+clean_names.tbl_lazy <- function(dat, ...) {
+  if (!requireNamespace("dbplyr", quietly = TRUE)) { # nocov start
+    stop(
+      "Package 'dbplyr' needed for this function to work. Please install it.", 
+      call. = FALSE
+    )
+  } # nocov end
+  dplyr::rename_with(dat, janitor::make_clean_names, .cols = everything(), ...)
+}
+
 
 # TODO: According to https://www.compart.com/en/unicode/U+03BC reviewed on
 # 2021-07-10, there are some UTF-32 encoding characters that are also mu or

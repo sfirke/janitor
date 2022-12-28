@@ -5,6 +5,7 @@
 \alias{clean_names.default}
 \alias{clean_names.sf}
 \alias{clean_names.tbl_graph}
+\alias{clean_names.tbl_lazy}
 \title{Cleans names of an object (usually a data.frame).}
 \usage{
 clean_names(dat, ...)
@@ -14,6 +15,8 @@ clean_names(dat, ...)
 \method{clean_names}{sf}(dat, ...)
 
 \method{clean_names}{tbl_graph}(dat, ...)
+
+\method{clean_names}{tbl_lazy}(dat, ...)
 }
 \arguments{
 \item{dat}{the input data.frame.}
@@ -94,7 +97,8 @@ which is a character vector mapping all known mu or micro Unicode code points
 \code{clean_names()} is intended to be used on \code{data.frames}
   and \code{data.frame}-like objects. For this reason there are methods to
   support using \code{clean_names()} on \code{sf} and \code{tbl_graph} (from
-  \code{tidygraph}) objects. For cleaning other named objects like named lists 
+  \code{tidygraph}) objects as well as on database connections through
+  \code{dbplyr}. For cleaning other named objects like named lists 
   and vectors, use \code{make_clean_names()}.
 }
 \examples{
