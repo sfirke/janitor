@@ -42,9 +42,11 @@ get_one_to_one_value_order <- function(x) {
     new_value[is.na(new_value)] <- max(new_value, na.rm = TRUE) + 1L
     # redo the conversion so that NA values are in the same order as other
     # values
-    new_value <- as.integer(forcats::fct_inorder(as.character(new_value)))
+    ulevels <- unique(new_value)
+    new_value <- as.integer(factor(new_value, levels = ulevels))
   } else {
-    new_value <- as.integer(forcats::fct_inorder(as.character(x)))
+    ulevels <- unique(x)
+    new_value <- as.integer(factor(x, levels = ulevels))
   }
   new_value
 }
