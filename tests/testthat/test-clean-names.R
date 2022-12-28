@@ -1,5 +1,3 @@
-context("clean_names")
-
 # Do not run the tests if not all transliterators are available
 
 options(janitor_warn_transliterators=NULL)
@@ -128,13 +126,13 @@ test_that("All scenarios for make_clean_names", {
     "a_per_b",
     info="Custom replacement"
   )
-  
+
   expect_equal(
     make_clean_names("m\xb6"),
     "m",
     info="ASCII that is not in the expected range without being replaceable is removed"
   )
-  
+
   # Fix issue #388 (that issue was specific to \xb2)
   # expect_equal(
   #   make_clean_names("m\x83\x84\x85\x86\x87\xa1"),
@@ -239,37 +237,37 @@ test_that("warn_micro_mu", {
   )
   # A micro or mu in the input without a replacement gives a warning and returns
   # true
-  expect_true(
-    expect_warning(
-      warn_micro_mu(string=c("\u00b5g"), replace=character()),
-      regexp="The following characters are in the names to clean but are not replaced: \\u00b5",
-      fixed=TRUE
-    )
+  expect_warning(
+    expect_true(
+      warn_micro_mu(string=c("\u00b5g"), replace=character())
+    ),
+    regexp="The following characters are in the names to clean but are not replaced: \\u00b5",
+    fixed=TRUE
   )
   # A micro or mu in the input without a replacement gives a warning with all
   # the characters and returns true
-  expect_true(
-    expect_warning(
-      warn_micro_mu(string=c("\u00b5g", "\u03bcg"), replace=character()),
-      regexp="The following characters are in the names to clean but are not replaced: \\u00b5, \\u03bc",
-      fixed=TRUE
-    )
+  expect_warning(
+    expect_true(
+      warn_micro_mu(string=c("\u00b5g", "\u03bcg"), replace=character())
+    ),
+    regexp="The following characters are in the names to clean but are not replaced: \\u00b5, \\u03bc",
+    fixed=TRUE
   )
   # Multiple potential types of problems in a single message (split into two
   # tests because multiline regular expressions are a pain).
-  expect_true(
-    expect_warning(
-      warn_micro_mu(string=c("\u00b5g", "\u03bcg"), replace=c("\u00b5g"="ug")),
-      regexp="The following characters are in the names to clean but are not replaced: \\u03bc",
-      fixed=TRUE
-    )
+  expect_warning(
+    expect_true(
+      warn_micro_mu(string=c("\u00b5g", "\u03bcg"), replace=c("\u00b5g"="ug"))
+    ),
+    regexp="The following characters are in the names to clean but are not replaced: \\u03bc",
+    fixed=TRUE
   )
-  expect_true(
-    expect_warning(
-      warn_micro_mu(string=c("\u00b5g", "\u03bcg"), replace=c("\u00b5g"="ug")),
-      regexp="The following characters are in the names to clean but may not be replaced, check the output names carefully: \\u00b5",
-      fixed=TRUE
-    )
+  expect_warning(
+    expect_true(
+      warn_micro_mu(string=c("\u00b5g", "\u03bcg"), replace=c("\u00b5g"="ug"))
+    ),
+    regexp="The following characters are in the names to clean but may not be replaced, check the output names carefully: \\u00b5",
+    fixed=TRUE
   )
 })
 
@@ -302,14 +300,14 @@ testing_vector <-
 
 test_df <- as.data.frame(matrix(ncol = 22))
 names(test_df) <- testing_vector
-expect_warning(
-  clean <- clean_names(test_df, "snake", ascii=TRUE)
-)
-expect_warning(
-  clean_noascii <- clean_names(test_df, "snake", ascii=FALSE)
-)
-test_that("Returns a data.frame", {
-  expect_is(clean, "data.frame")
+test_that("clean_names returns a data.frame", {
+  expect_warning(
+    clean <- clean_names(test_df, "snake", ascii=TRUE)
+  )
+  expect_warning(
+    clean_noascii <- clean_names(test_df, "snake", ascii=FALSE)
+  )
+  expect_s3_class(clean, "data.frame")
 })
 
 test_that("Tests for cases beyond default snake", {
@@ -369,8 +367,8 @@ test_that("Tests for cases beyond default snake", {
     names(clean_names(test_df, "none")),
     c(
       "sp_ace", "repeated", "a", "percent", "X", "X_1", "d_9", "REPEATED",
-      "cant", "hi_there", "leading_spaces", "X_2", "acao", "Faroe", "a_b_c_d_e_f", 
-      "testCamelCase", "leadingpunct", "average_number_of_days", 
+      "cant", "hi_there", "leading_spaces", "X_2", "acao", "Faroe", "a_b_c_d_e_f",
+      "testCamelCase", "leadingpunct", "average_number_of_days",
       "jan2009sales", "jan_2009_sales", "not_first_unicode_m", "m_first_unicode"
     )
   ))
@@ -385,26 +383,47 @@ test_that("Tests for cases beyond default snake", {
   )
   # check that alias arguments yield identical outputs
   # warning due to unhandled mu
-  expect_warning(expect_equal(names(clean_names(test_df, "screaming_snake")), names(clean_names(test_df, "all_caps"))))
+  expect_warning(expect_warning(
+    expect_equal(
+      names(clean_names(test_df, "screaming_snake")),
+      names(clean_names(test_df, "all_caps"))
+    )
+  ))
   # warning due to unhandled mu
-  expect_warning(expect_equal(names(clean_names(test_df, "big_camel")), names(clean_names(test_df, "upper_camel"))))
+  expect_warning(expect_warning(
+    expect_equal(
+      names(clean_names(test_df, "big_camel")),
+      names(clean_names(test_df, "upper_camel"))
+    )
+  ))
   # warning due to unhandled mu
-  expect_warning(expect_equal(names(clean_names(test_df, "small_camel")), names(clean_names(test_df, "lower_camel"))))
+  expect_warning(expect_warning(
+    expect_equal(
+      names(clean_names(test_df, "small_camel")),
+      names(clean_names(test_df, "lower_camel"))
+    )
+  ))
 })
 
 test_that("Tests for clean_names.default() on lists and vectors", {
   test_v <- seq_along(testing_vector)
   names(test_v) <- testing_vector
   test_list <- as.list(test_v)
-  
+
   # Warnings due to partially handled mu
-  clean_v <- expect_warning(clean_names(test_v), regexp="mu or micro symbol")
-  clean_l <- expect_warning(clean_names(test_list), regexp="mu or micro symbol")
+  expect_warning(
+    clean_v <- clean_names(test_v),
+    regexp="mu or micro symbol"
+  )
+  expect_warning(
+    clean_l <- clean_names(test_list),
+    regexp="mu or micro symbol"
+  )
   expect_equal(names(clean_v)[1], "sp_ace")
   expect_equal(names(clean_l)[1], "sp_ace")
   expect_type(clean_v, "integer")
   expect_type(clean_l, "list")
-  
+
   unnamed <- seq_along(testing_vector)
   expect_error(
     clean_names(unnamed),
@@ -423,41 +442,43 @@ test_that("Tests for clean_names.default() on arrays", {
 })
 
 
-#------------------------------------------------------------------------------# 
+#------------------------------------------------------------------------------#
 #---------------------------- Tests for sf method -----------------------------####
 #------------------------------------------------------------------------------#
 
-context("clean_names.sf")
-
 test_that("Names are cleaned appropriately without attaching sf", {
   skip_if_not_installed("sf")
-  nc    <- sf::st_read(system.file("shape/nc.shp", package="sf"))
+  # capture.output is used to hide internal messages from the sf package on
+  # loading
+  capture.output(
+    nc <- sf::st_read(system.file("shape/nc.shp", package="sf"))
+  )
   clean <- clean_names(nc, "snake")
-  
+
   expect_equal(names(clean)[4], "cnty_id")
-  expect_is(clean, "sf")
+  expect_s3_class(clean, "sf")
 })
 
 test_that("Names are cleaned appropriately", {
   skip_if_not_installed("sf")
   test_df <- data.frame(matrix(ncol = 22) %>% as.data.frame())
-  
+
   names(test_df) <- c(
     "sp ace", "repeated", "a**^@", "%", "*", "!",
     "d(!)9", "REPEATED", "can\"'t", "hi_`there`", "  leading spaces",
     "€", "ação", "Farœ", "a b c d e f", "testCamelCase", "!leadingpunct",
     "average # of days", "jan2009sales", "jan 2009 sales", "long", "lat"
   )
-  
+
   test_df["long"] <- -80
   test_df["lat"] <- 40
-  
+
   test_df <- sf::st_as_sf(test_df, coords = c("long", "lat"))
   names(test_df)[21] <- "Geometry"
   sf::st_geometry(test_df) <- "Geometry"
-  
+
   clean <- clean_names(test_df, "snake")
-  
+
   expect_equal(names(clean)[1], "sp_ace") # spaces
   expect_equal(names(clean)[2], "repeated") # first instance of repeat
   expect_equal(names(clean)[3], "a") # multiple special chars, trailing special chars
@@ -484,21 +505,21 @@ test_that("Names are cleaned appropriately", {
 test_that("Tests for cases beyond default snake for sf objects", {
   skip_if_not_installed("sf")
   test_df <- data.frame(matrix(ncol = 22) %>% as.data.frame())
-  
+
   names(test_df) <- c(
     "sp ace", "repeated", "a**^@", "%", "*", "!",
     "d(!)9", "REPEATED", "can\"'t", "hi_`there`", "  leading spaces",
     "€", "ação", "Farœ", "a b c d e f", "testCamelCase", "!leadingpunct",
     "average # of days", "jan2009sales", "jan 2009 sales", "long", "lat"
   )
-  
+
   test_df["long"] <- -80
   test_df["lat"] <- 40
-  
+
   test_df <- sf::st_as_sf(test_df, coords = c("long", "lat"))
   names(test_df)[21] <- "geometry"
   sf::st_geometry(test_df) <- "geometry"
-  
+
   expect_equal(
     names(clean_names(test_df, "small_camel")),
     c(
@@ -538,8 +559,8 @@ test_that("Tests for cases beyond default snake for sf objects", {
     names(clean_names(test_df, "none")),
     c(
       "sp_ace", "repeated", "a", "percent", "X", "X_1", "d_9", "REPEATED",
-      "cant", "hi_there", "leading_spaces", "X_2", "acao", "Faroe", "a_b_c_d_e_f", 
-      "testCamelCase", "leadingpunct", "average_number_of_days", 
+      "cant", "hi_there", "leading_spaces", "X_2", "acao", "Faroe", "a_b_c_d_e_f",
+      "testCamelCase", "leadingpunct", "average_number_of_days",
       "jan2009sales", "jan_2009_sales", "geometry"
     )
   )
@@ -553,19 +574,17 @@ test_that("Tests for cases beyond default snake for sf objects", {
   )
 })
 
-#------------------------------------------------------------------------------# 
+#------------------------------------------------------------------------------#
 #------------------------ Tests for tbl_graph method --------------------------#####
 #------------------------------------------------------------------------------#
-
-context("clean_names.tbl_graph")
 
 test_that("tbl_graph/tidygraph", {
   skip_if_not_installed("tidygraph")
   # create test graph to test clean_names
   test_graph <-
-    tidygraph::play_erdos_renyi(10, 0.5) %>% 
+    tidygraph::play_erdos_renyi(10, 0.5) %>%
     # create nodes wi
-    tidygraph::bind_nodes(test_df) %>% 
+    tidygraph::bind_nodes(test_df) %>%
     tidygraph::mutate_all(tidyr::replace_na, 1)
 
   # create a graph with clean names
@@ -574,10 +593,7 @@ test_that("tbl_graph/tidygraph", {
 
   # get clean names
   clean <- names(tibble::as_tibble(clean_graph))
-  expect_is(
-    clean_graph, "tbl_graph",
-    info="Returns a tbl_graph object"
-  )
+  expect_s3_class(clean_graph, "tbl_graph")
 
   expect_equal(clean[1], "sp_ace") # spaces
   expect_equal(clean[2], "repeated") # first instance of repeat
@@ -621,6 +637,6 @@ test_that("Work around incomplete stringi transliterators (Fix #365)", {
 test_that("groupings are preserved, #260", {
   df_grouped <- iris %>% dplyr::group_by(Sepal.Length, Sepal.Width) # nonsense for analysis but doesn't matter
   df_grouped_renamed <- df_grouped %>% clean_names(case = "lower_camel")
-  expect_equal(group_vars(df_grouped_renamed), c("sepalLength", "sepalWidth")) # group got renamed
+  expect_equal(dplyr::group_vars(df_grouped_renamed), c("sepalLength", "sepalWidth")) # group got renamed
   expect_equal(names(df_grouped_renamed), c("sepalLength", "sepalWidth", "petalLength", "petalWidth", "species"))
 })

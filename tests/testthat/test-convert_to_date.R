@@ -1,5 +1,3 @@
-context("convert_to_date")
-
 test_that("convert_date works", {
   expect_equal(
     convert_to_date("2009-07-06"),
@@ -124,12 +122,15 @@ test_that("convert_date warnings and errors work", {
     ),
     regexp="All formats failed to parse." # lubridate warning
   )
-  expect_equal(
+  expect_warning(
     expect_warning(
-      convert_to_date("A", string_conversion_failure="warning"),
-      regexp="Not all character strings converted to class Date."
+      expect_equal(
+        convert_to_date("A", string_conversion_failure="warning"),
+        as.Date(NA)
+      ),
+      regexp = "All formats failed to parse. No formats found."
     ),
-    as.Date(NA)
+    regexp="Not all character strings converted to class Date."
   )
   expect_error(
     convert_to_date("A", character_fun=function(x) 1),
