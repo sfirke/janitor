@@ -1,5 +1,3 @@
-context("round_to_fraction")
-
 test_that("round_to_fraction input requirements (confirm errors)", {
   expect_error(
     round_to_fraction(x="A", denominator=1),
@@ -53,7 +51,7 @@ test_that("round_to_fraction results are as expected", {
     round_to_fraction(x=1.1, denominator=7, digits="auto"),
     round(8/7, digits=2)
   )
-  
+
   # vectors
   expect_equal(
     round_to_fraction(x=c(1.1, 2.05), denominator=7, digits=Inf),

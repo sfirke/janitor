@@ -1,7 +1,3 @@
-context("row_to_names()")
-
-library(dplyr)
-
 example_data_row_to_names <-
   list(
     non_factor_data.frame=
@@ -27,7 +23,7 @@ test_that("row_to_names invalid and semi-valid input checking", {
       row_to_names(row_number = 1:2),
     regexp="row_number must be a scalar"
   )
-  
+
   expect_error(
     row_to_names(example_data_row_to_names[[1]], row_number=1, remove_row="A"),
     regexp="remove_row must be either TRUE or FALSE, not A",
@@ -38,7 +34,7 @@ test_that("row_to_names invalid and semi-valid input checking", {
     regexp="remove_rows_above must be either TRUE or FALSE, not A",
     fixed=TRUE
   )
-  
+
   for (nm in names(example_data_row_to_names)) {
     expect_warning(
       example_data_row_to_names[[nm]] %>%
@@ -65,7 +61,7 @@ test_that("row_to_names invalid and semi-valid input checking", {
     regexp="row_number must be a numeric value or 'find_header'",
     fixed=TRUE
   )
-  
+
   expect_error(
     row_to_names(
       example_data_row_to_names[[1]],
@@ -175,12 +171,12 @@ test_that("find_header works", {
     regexp="The string 'C' was not found in column 1",
     fixed=TRUE
   )
-  expect_equal(
-    expect_warning(
+  expect_warning(
+    expect_equal(
       find_header(single_complete, "B"=2),
-      regexp="The string 'B' was found 2 times in column 2, using the first row where it was found"
+      1
     ),
-    1
+    regexp="The string 'B' was found 2 times in column 2, using the first row where it was found"
   )
   multiple_complete <-
     data.frame(
