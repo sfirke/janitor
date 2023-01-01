@@ -10,8 +10,6 @@ test_that("get_one_to_one", {
     get_one_to_one(foo),
     list(
       c("Lab_Test_Long", "Lab_Test_Short", "LOINC"),
-      "Lab_Test_Short",
-      "LOINC",
       "Person"
     )
   )
@@ -27,8 +25,6 @@ test_that("get_one_to_one", {
     get_one_to_one(foo),
     list(
       c("Lab_Test_Long", "Lab_Test_Short", "LOINC"),
-      "Lab_Test_Short",
-      "LOINC",
       "Person"
     )
   )
@@ -39,5 +35,26 @@ test_that("get_one_to_one: columns are only described once", {
     !any(duplicated(unlist(
       get_one_to_one(mtcars[1:3,])
     )))
+  )
+  expect_equal(
+    get_one_to_one(mtcars[1:3,]),
+    list(
+      c("mpg", "cyl", "disp", "hp", "drat", "vs", "carb"),
+      c("wt", "qsec"),
+      c("am", "gear")
+    )
+  )
+  # Ensure that single column outputs are not dropped
+  expect_equal(
+    get_one_to_one(mtcars[1:5,]),
+    list(
+      c("mpg", "disp", "drat"),
+      c("cyl", "hp"),
+      "wt",
+      "qsec",
+      "vs",
+      c("am", "gear"),
+      "carb"
+    )
   )
 })
