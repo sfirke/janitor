@@ -33,3 +33,11 @@ test_that("get_one_to_one", {
     )
   )
 })
+
+test_that("get_one_to_one: columns are only described once", {
+  expect_true(
+    !any(duplicated(unlist(
+      get_one_to_one(mtcars[1:3,])
+    )))
+  )
+})

@@ -22,9 +22,10 @@ get_one_to_one <- function(dat) {
   }
   remaining_cols <- names(dat_alt)
   ret <- list()
-  for (nm1 in remaining_cols) {
+  while (length(remaining_cols) > 0) {
+    nm1 <- remaining_cols[1]
+    remaining_cols <- remaining_cols[-1]
     ret[[length(ret) + 1]] <- nm1
-    remaining_cols <- setdiff(remaining_cols, nm1)
     for (nm2 in remaining_cols) {
       if (identical(dat_alt[[nm1]], dat_alt[[nm2]])) {
         ret[[length(ret)]] <- c(ret[[length(ret)]], nm2)
