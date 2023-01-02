@@ -635,8 +635,8 @@ test_that("tbl_lazy/dbplyr", {
     # switching in other column names whose output will match the testing vector
     test_db <- dbplyr::memdb_frame(test_df %>%
                                      dplyr::select(-"*", -REPEATED)) %>% # these two cases break the db
-      mutate(repeated_1 = repeated, x = NA) %>%
-      select(c(testing_vector[1:4],
+      dplyr::mutate(repeated_1 = repeated, x = NA) %>%
+      dplyr::select(c(testing_vector[1:4],
                "x",
                testing_vector[6:7],
                "repeated_1",
