@@ -9,8 +9,7 @@ test_that("get_one_to_one", {
   expect_equal(
     get_one_to_one(foo),
     list(
-      c("Lab_Test_Long", "Lab_Test_Short", "LOINC"),
-      "Person"
+      c("Lab_Test_Long", "Lab_Test_Short", "LOINC")
     )
   )
   # NA is respected as though it were any other value
@@ -24,8 +23,7 @@ test_that("get_one_to_one", {
   expect_equal(
     get_one_to_one(foo),
     list(
-      c("Lab_Test_Long", "Lab_Test_Short", "LOINC"),
-      "Person"
+      c("Lab_Test_Long", "Lab_Test_Short", "LOINC")
     )
   )
 })
@@ -44,17 +42,20 @@ test_that("get_one_to_one: columns are only described once", {
       c("am", "gear")
     )
   )
-  # Ensure that single column outputs are not dropped
+  # Ensure that single column outputs are dropped
   expect_equal(
     get_one_to_one(mtcars[1:5,]),
     list(
       c("mpg", "disp", "drat"),
       c("cyl", "hp"),
-      "wt",
-      "qsec",
-      "vs",
-      c("am", "gear"),
-      "carb"
+      c("am", "gear")
     )
+  )
+  expect_message(
+    expect_equal(
+      get_one_to_one(mtcars),
+      list()
+    ),
+    regexp = "No columns in `mtcars` map to each other"
   )
 })

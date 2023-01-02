@@ -25,13 +25,19 @@ get_one_to_one <- function(dat) {
   while (length(remaining_cols) > 0) {
     nm1 <- remaining_cols[1]
     remaining_cols <- remaining_cols[-1]
-    ret[[length(ret) + 1]] <- nm1
+    current_ret <- nm1
     for (nm2 in remaining_cols) {
       if (identical(dat_alt[[nm1]], dat_alt[[nm2]])) {
-        ret[[length(ret)]] <- c(ret[[length(ret)]], nm2)
+        current_ret <- c(current_ret, nm2)
         remaining_cols <- setdiff(remaining_cols, nm2)
       }
     }
+    if (length(current_ret) > 1) {
+      ret[[length(ret) + 1]] <- current_ret
+    }
+  }
+  if (length(ret) == 0) {
+    message("No columns in `", deparse(substitute(dat)), "` map to each other")
   }
   ret
 }
