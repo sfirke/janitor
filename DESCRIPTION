@@ -42,7 +42,6 @@ Suggests:
     dbplyr,
     knitr,
     rmarkdown,
-    RMySQL,
     RSQLite,
     sf,
     testthat (>= 3.0.0),
