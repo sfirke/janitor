@@ -631,8 +631,16 @@ test_that("tbl_graph/tidygraph", {
 test_that("tbl_lazy/dbplyr", {
   skip_if_not_installed("dbplyr")
   skip_if_not_installed("RMySQL")
+    # can't have column names "*" or a true repeat in the db names.  Work around this by
+    # switching in other column names whose output will match the testing vector
     test_db <- dbplyr::memdb_frame(test_df %>%
-                                     dplyr::select(-"*", -REPEATED)) # these two cases break the db
+                                     dplyr::select(-"*", -REPEATED)) %>% # these two cases break the db
+      mutate(repeated_1 = repeated, x = NA) %>%
+      select(c(testing_vector[1:4],
+               "x",
+               testing_vector[6:7],
+               "repeated_1",
+               testing_vector[9:22]))
     
     # create a graph with clean names
     # warning due to unhandled mu
@@ -640,7 +648,7 @@ test_that("tbl_lazy/dbplyr", {
     clean_db_names <- colnames(clean_db)
     expect_equal(
       clean_db_names,
-      snake_case_vector[!testing_vector %in% c("*", 'REPEATED')]
+      snake_case_vector
     )
 })
 
