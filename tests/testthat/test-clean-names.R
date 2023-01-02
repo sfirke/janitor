@@ -298,6 +298,10 @@ testing_vector <-
     "µ_first_unicode"
   )
 
+# These are individually checked above.  Here create an "answer key" vector
+# for use below, e.g., in testing clean_names.tbl_lazy
+expect_warning(snake_case_vector <- make_clean_names(testing_vector))
+
 test_df <- as.data.frame(matrix(ncol = 22))
 names(test_df) <- testing_vector
 test_that("clean_names returns a data.frame", {
@@ -617,6 +621,37 @@ test_that("tbl_graph/tidygraph", {
   expect_equal(clean[19], "jan2009sales") # no separator around number-word boundary if not existing already
   expect_equal(clean[20], "jan_2009_sales") # yes separator around number-word boundary if it existed
 })
+
+
+#-----------------------------------------------------------------------------#
+#------------------------ Tests for tbl_lazy method --------------------------#####
+#-----------------------------------------------------------------------------#
+
+
+test_that("tbl_lazy/dbplyr", {
+  skip_if_not_installed("dbplyr")
+  skip_if_not_installed("RSQLite")
+    # can't have column names "*" or a true repeat in the db names.  Work around this by
+    # switching in other column names whose output will match the testing vector
+    test_db <- dbplyr::memdb_frame(test_df %>%
+                                     dplyr::select(-"*", -REPEATED)) %>% # these two cases break the db
+      dplyr::mutate(repeated_1 = repeated, x = NA) %>%
+      dplyr::select(c(testing_vector[1:4],
+               "x",
+               testing_vector[6:7],
+               "repeated_1",
+               testing_vector[9:22]))
+    
+    # create a database object with clean names
+    # warning due to unhandled mu
+    expect_warning(clean_db <- clean_names(test_db, case = "snake"))
+    clean_db_names <- colnames(clean_db)
+    expect_equal(
+      clean_db_names,
+      snake_case_vector
+    )
+})
+
 
 test_that("Work around incomplete stringi transliterators (Fix #365)", {
   options(janitor_warn_transliterators=NULL)
