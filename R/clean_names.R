@@ -109,7 +109,6 @@ clean_names.sf <- function(dat, ...) {
 
 #' @rdname clean_names
 #' @export
-#' @importFrom dplyr rename_all
 clean_names.tbl_graph <- function(dat, ...) {
   if (!requireNamespace("tidygraph", quietly = TRUE)) { # nocov start
     stop(
@@ -122,7 +121,6 @@ clean_names.tbl_graph <- function(dat, ...) {
 
 #' @rdname clean_names
 #' @export
-#' @importFrom dplyr rename_with
 clean_names.tbl_lazy <- function(dat, ...) {
   if (!requireNamespace("dbplyr", quietly = TRUE)) { # nocov start
     stop(
@@ -130,7 +128,7 @@ clean_names.tbl_lazy <- function(dat, ...) {
       call. = FALSE
     )
   } # nocov end
-  dplyr::rename_with(dat, janitor::make_clean_names, .cols = everything(), ...)
+  dplyr::rename_with(dat, janitor::make_clean_names, .cols = dplyr::everything(), ...)
 }
 
 
