@@ -49,6 +49,9 @@
 #' @param use_make_names Should \code{make.names()} be applied to ensure that the
 #'   output is usable as a name without quoting?  (Avoiding \code{make.names()}
 #'   ensures that the output is locale-independent but quoting may be required.)
+#' @param unique_sep When provided a character (\code{"_"}, default), an incremental
+#'   counter is appended to repeated instances of duplicate variable names. If 
+#'   duplicate names are desired, use \code{unique_sep = NULL}.
 #' @inheritParams snakecase::to_any_case
 #' @inheritDotParams snakecase::to_any_case
 #'
@@ -84,6 +87,7 @@ make_clean_names <- function(string,
                                ),
                              ascii=TRUE,
                              use_make_names=TRUE,
+                             unique_sep="_",
                              # default arguments for snake_case::to_any_case
                              sep_in = "\\.",
                              transliterations = "Latin-ASCII",
@@ -149,27 +153,10 @@ make_clean_names <- function(string,
       transliterations = transliterations,
       parsing_option = parsing_option,
       numerals = numerals,
+      unique_sep = unique_sep,
       ...
     )
   
-  # Handle duplicated names - they mess up dplyr pipelines.  This appends the
-  # column number to repeated instances of duplicate variable names.
-  while (any(duplicated(cased_names))) {
-    dupe_count <-
-      vapply(
-        seq_along(cased_names), function(i) {
-          sum(cased_names[i] == cased_names[1:i])
-        },
-        1L
-      )
-  
-    cased_names[dupe_count > 1] <-
-      paste(
-        cased_names[dupe_count > 1],
-        dupe_count[dupe_count > 1],
-        sep = "_"
-      )
-  }
   cased_names
 }
 

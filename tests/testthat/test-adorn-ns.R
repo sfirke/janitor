@@ -1,11 +1,4 @@
-# Tests the adorn_ns() function
-
-library(janitor)
-context("adorn_ns()")
-
-library(dplyr)
-
-source_an <- tibble(
+source_an <- tibble::tibble(
   x = c(rep("a", 500), "b", "b", "c", "d"),
   y = rep(c(0, 0, 0, 0, 0, 1), 84)
 ) %>%
@@ -95,9 +88,9 @@ test_that("attributes make it through unaltered", {
 test_that("works on smallest tabyls", {
   expect_equal(
     mtcars %>%
-      slice(1) %>%
+      dplyr::slice(1) %>%
       tabyl(am, cyl) %>%
-      rename(new_var_name = `6`) %>%
+      dplyr::rename(new_var_name = `6`) %>%
       adorn_percentages() %>%
       adorn_pct_formatting() %>%
       adorn_ns() %>%
@@ -120,7 +113,7 @@ test_that("users can supply own Ns", {
     tabyl(a, b)
 
   custom_Ns <- big_tabyl %>%
-    mutate(
+    dplyr::mutate(
       big = paste0(round(big / 1000, 1), "k"),
       small = paste0(round(small / 1000, 1), "k")
     )
@@ -170,8 +163,8 @@ test_that("multiple character columns in a tabyl are left untouched",{
   )
  expect_equal(
    small_with_char %>%
-    adorn_percentages() %>%
-     pull(text),
+     adorn_percentages() %>%
+     dplyr::pull(text),
    c("text", "text")
   )
 })
@@ -199,8 +192,9 @@ test_that("adorn_ns works on single column data.frame with custom Ns if tidysele
   adorned_single <- mtcars %>%
     tabyl(am, cyl) %>%
     adorn_percentages()
-  adorned_single <- adorned_single %>%
-    select(a = `4`) %>%
-    adorn_ns(ns = select(attr(adorned_single, "core"), a = `4`),,,, a)
+  adorned_single <-
+    adorned_single %>%
+    dplyr::select(a = `4`) %>%
+    adorn_ns(ns = dplyr::select(attr(adorned_single, "core"), a = `4`),,,, a)
   expect_equal(stringr::str_sub(adorned_single$a, -4, -1), c(" (3)", " (8)"))
 })

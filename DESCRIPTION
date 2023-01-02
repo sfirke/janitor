@@ -37,13 +37,16 @@ Imports:
     tidyr (>= 0.7.0)
 License: MIT + file LICENSE
 LazyData: true
-RoxygenNote: 7.2.2
+RoxygenNote: 7.2.3
 Suggests:
+    dbplyr,
     knitr,
     rmarkdown,
+    RSQLite,
     sf,
-    testthat,
+    testthat (>= 3.0.0),
     tibble,
     tidygraph
 VignetteBuilder: knitr
 Encoding: UTF-8
+Config/testthat/edition: 3
