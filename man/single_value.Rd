@@ -25,5 +25,29 @@ Missing values are replaced with the single value, and if all values are
 missing, the first value in \code{missing} is used throughout.
 }
 \examples{
+# A simple use case with vectors of input
+
 single_value(c(NA, 1))
+# Multiple, different values of missing can be given
+single_value(c(NA, "a"), missing = c(NA, "a"))
+
+# A typical use case with a grouped data.frame used for input and the output
+# (`B` is guaranteed to have a single value and only one row, in this case)
+data.frame(A = rep(1:3, each = 2),
+           B = c(rep(4:6, each = 2))) \%>\%
+  dplyr::group_by(A) \%>\%
+  dplyr::summarize(
+    B = single_value(B)
+  )
+
+try(
+# info is useful to give when multiple values may be found to see what
+# grouping variable or what calculation is causing the error
+data.frame(A = rep(1:3, each = 2),
+           B = c(rep(1:2, each = 2), 1:2)) \%>\%
+  dplyr::group_by(A) \%>\%
+  dplyr::mutate(
+    C = single_value(B, info = paste("Calculating C for group A=", A))
+  )
+)
 }
