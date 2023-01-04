@@ -18,10 +18,11 @@
 
 * A new function `sas_numeric_to_date()` has been added to convert SAS dates, times, and datetimes to R objects (fix #475, thanks to **@billdenney** for suggesting and implementing)
 
+* A new function `single_value()` has been added to ensure that only a single value or missing values are present in a vector (fix #428)
+
 * A new function `get_one_to_one()` has been added to find columns that map 1:1 to each other, even if the values within the columns differ (fix #291, **@billdenney**)
 
 * `clean_names()` can now be called on database connection in a dbplyr code pipeline (#467)
-
 
 ## Minor features
 
