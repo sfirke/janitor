@@ -184,3 +184,13 @@ test_that("tidyselecting works", {
     ignore_attr = TRUE
   )
 })
+
+test_that("decimal.mark works", {
+  locale_decimal_sep <- getOption("OutDec") # not sure if it's necessary to save and restore this,
+  # but seems safe for locale-independent testing processes 
+  options(OutDec= ",") 
+  expect_true(
+    all(grepl(",", unlist(adorn_pct_formatting(source1)[2])))
+  )
+  options(OutDec= locale_decimal_sep)
+})

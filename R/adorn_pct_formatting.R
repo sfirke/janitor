@@ -2,6 +2,8 @@
 #'
 #' @description
 #' Numeric columns get multiplied by 100 and formatted as percentages according to user specifications.  This function defaults to excluding the first column of the input data.frame, assuming that it contains a descriptive variable, but this can be overridden by specifying the columns to adorn in the \code{...} argument.  Non-numeric columns are always excluded.
+#' 
+#' The decimal separator character is the result of \code{getOption("OutDec")}, which based on the user's locale.  If this isn't desired, change this value ahead of calling the function.
 #'
 #' @param dat a data.frame with decimal values, typically the result of a call to \code{adorn_percentages} on a \code{tabyl}.  If given a list of data.frames, this function will apply itself to each data.frame in the list (designed for 3-way \code{tabyl} lists).
 #' @param digits how many digits should be displayed after the decimal point?
@@ -73,7 +75,10 @@ adorn_pct_formatting <- function(dat, digits = 1, rounding = "half to even", aff
 
     dat[cols_to_adorn] <- lapply(dat[cols_to_adorn], function(x) x * 100)
     dat <- adorn_rounding(dat, digits = digits, rounding = rounding, ...)
-    dat[cols_to_adorn] <- lapply(dat[cols_to_adorn], function(x) format(x, nsmall = digits, trim = TRUE)) # so that 0% prints as 0.0% or 0.00% etc.
+    dat[cols_to_adorn] <- lapply(dat[cols_to_adorn], function(x) format(x,
+                                                                        nsmall = digits,
+                                                                        decimal.mark = getOption("OutDec"),
+                                                                        trim = TRUE)) # so that 0% prints as 0.0% or 0.00% etc.
     if (affix_sign) {
       dat[cols_to_adorn] <- lapply(dat[cols_to_adorn], function(x) paste0(x, "%"))
     }
