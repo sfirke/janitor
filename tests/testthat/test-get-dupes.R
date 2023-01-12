@@ -89,3 +89,12 @@ test_that("tibbles stay tibbles, non-tibble stay non-tibbles", {
     class(tibble::as_tibble(test_df))
   )
 })
+
+test_that("result is sorted by dupe_count descending, #493", {
+  test_sort <- data.frame(
+    a = c("x", "x", "y", "y", "y", "a", "a"),
+    b = 1:7
+  )
+  res <- get_dupes(test_sort, a)
+  expect_equal(unique(res$a), c("y", "a", "x")) # y has 3, then alphabetically a precedes x
+})
