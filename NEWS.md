@@ -12,6 +12,11 @@
 
 * `get_dupes()` results are now sorted first by descending order of `dupe_count`, then alphabetically by sorting variables. (#493)
 
+* There are several minor breaking changes resulting from enhancements to `adorn_ns()`:
+  * The addition of the new argument `format_func` means that previous calls relying on `,,,` as shorthand to get to the `...` column selection argument may now require an extra comma
+  * `adorn_ns()` now defaults to displaying numbers of >3 digits with `big.mark = ","`, as part of the default value of the new `format_func` argument.  E.g., `1234`  is now `1,234`.
+  * `adorn_ns()` no longer prints leading whitespace when `position = "front"` - this is not a visible change in the printed result and it would be rare that this affects any code.
+
 ## New features
 
 * `row_to_names()` now has a new helper function, `find_header()` to help find the row that contains the names.  It can be used by passing `row_number="find_header"`, and see the documentation of `row_to_names()` and `find_header()` for more examples. (fix #429)
@@ -23,6 +28,8 @@
 * A new function `single_value()` has been added to ensure that only a single value or missing values are present in a vector (fix #428)
 
 * A new function `get_one_to_one()` has been added to find columns that map 1:1 to each other, even if the values within the columns differ (fix #291, **@billdenney**)
+
+* `adorn_Ns()` contains a new `format_func` argument so that the user can format the Ns to their liking, e.g., changing the `big.mark` character. (#444)
 
 * `clean_names()` can now be called on database connection in a dbplyr code pipeline (#467)
 

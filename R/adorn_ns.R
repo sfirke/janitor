@@ -5,7 +5,8 @@
 #'
 #' @param dat a data.frame of class \code{tabyl} that has had \code{adorn_percentages} and/or \code{adorn_pct_formatting} called on it.  If given a list of data.frames, this function will apply itself to each data.frame in the list (designed for 3-way \code{tabyl} lists).
 #' @param position should the N go in the front, or in the rear, of the percentage?
-#' @param ns the Ns to append.  The default is the "core" attribute of the input tabyl \code{dat}, where the original Ns of a two-way \code{tabyl} are stored.  However, if you need to modify the numbers, e.g., to format \code{4000} as \code{4,000} or \code{4k}, you can do that separately and supply the formatted result here.
+#' @param ns the Ns to append.  The default is the "core" attribute of the input tabyl \code{dat}, where the original Ns of a two-way \code{tabyl} are stored.  However, if your Ns are stored somewhere else, or you need to customize them beyond what can be done with `format_func`, you can supply them here.
+#' @param format_func a formatting function to run on the Ns.  Consider defining with \code{base::format()}. 
 #' @param ... columns to adorn.  This takes a tidyselect specification.  By default, all columns are adorned except for the first column and columns not of class \code{numeric}, but this allows you to manually specify which columns should be adorned, for use on a data.frame that does not result from a call to \code{tabyl}. 
 #'
 #' @return a data.frame with Ns appended
@@ -18,6 +19,19 @@
 #'   adorn_pct_formatting() %>%
 #'   adorn_ns(position = "front")
 #'   
+#' # Format the Ns with a custom format_func:
+#' set.seed(1)
+#' bigger_dat <- data.frame(sex = rep(c("m", "f"), 3000),
+#'                          age = round(runif(3000, 1, 102), 0))
+#' bigger_dat$age_group = cut(bigger_dat$age, quantile(bigger_dat$age, c(0, 1/3, 2/3, 1)))
+#' 
+#' bigger_dat %>%
+#'   tabyl(age_group, sex, show_missing_levels = FALSE) %>%
+#'   adorn_totals(c("row", "col")) %>%
+#'   adorn_percentages("col") %>%
+#'   adorn_pct_formatting(digits = 1) %>% 
+#'   adorn_ns(format_func = function(x) format(x, big.mark = ".", decimal.mark = ","))
+
 #' # Control the columns to be adorned with the ... variable selection argument
 #' # If using only the ... argument, you can use empty commas as shorthand 
 #' # to supply the default values to the preceding arguments:
@@ -31,10 +45,10 @@
 #' 
 #'cases %>%
 #'  adorn_percentages("col",,recovered:died) %>%
-#'  adorn_pct_formatting(,,,recovered:died) %>%
-#'  adorn_ns(,,recovered:died)
+#'  adorn_pct_formatting(,,,,,recovered:died) %>%
+#'  adorn_ns(,,,recovered:died)
 #'   
-adorn_ns <- function(dat, position = "rear", ns = attr(dat, "core"), ...) {
+adorn_ns <- function(dat, position = "rear", ns = attr(dat, "core"), format_func = function(x) { format(x, big.mark = ",") }, ...) {
   # if input is a list, call purrr::map to recursively apply this function to each data.frame
   if (is.list(dat) && !is.data.frame(dat)) {
     purrr::map(dat, adorn_ns, position) # okay not to pass ns and allow for static Ns, b/c one size fits all for each list entry doesn't make sense for Ns.
@@ -66,7 +80,7 @@ adorn_ns <- function(dat, position = "rear", ns = attr(dat, "core"), ...) {
     if (custom_ns_supplied & !identical(dim(ns), dim(dat))) { # user-supplied Ns must include values for totals row/col if present
       stop("if supplying your own data.frame of Ns to append, its dimensions must match those of the data.frame in the \"dat\" argument")
     }
-
+    
     # If appending the default Ns from the core, and there are totals rows/cols, append those values to the Ns table
     # Custom inputs to ns argument will need to calculate & format their own totals row/cols
     if (!custom_ns_supplied) {
@@ -74,6 +88,9 @@ adorn_ns <- function(dat, position = "rear", ns = attr(dat, "core"), ...) {
         ns <- adorn_totals(ns, attr(dat, "totals"))
         ns <- ns[order(match(ns[, 1], dat[, 1])), ] # from #407 - in rare event Totals row has been sorted off the bottom, sort to match
       }
+      numeric_cols <- which(vapply(ns, is.numeric, logical(1)))
+      ns[] <- lapply(ns, format_func)
+      ns[] <- lapply(ns, stringr::str_trim)
     }
     
     if (position == "rear") {
@@ -92,7 +109,7 @@ adorn_ns <- function(dat, position = "rear", ns = attr(dat, "core"), ...) {
     if(custom_ns_supplied & rlang::dots_n(...) == 0){
       dont_adorn <- 1L
     } else if(rlang::dots_n(...) == 0){
-      cols_to_adorn <- which(vapply(ns, is.numeric, logical(1))) # numeric cols
+      cols_to_adorn <- numeric_cols
       dont_adorn <- setdiff(1:ncol(dat), cols_to_adorn)
       dont_adorn <- unique(c(1, dont_adorn)) # always don't-append first column
     } else {
