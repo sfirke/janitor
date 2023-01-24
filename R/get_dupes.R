@@ -50,7 +50,7 @@ get_dupes <- function(dat, ...) {
     dplyr::add_count(!!! nms, name = "dupe_count") %>%
     dplyr::filter(dupe_count > 1) %>%
     dplyr::select(!!! nms, dupe_count, dplyr::everything()) %>%
-    dplyr::arrange(desc(dupe_count), !!! nms)
+    dplyr::arrange(dplyr::desc(dupe_count), !!! nms)
   
   # shorten error message for large data.frames
   if (length(var_names) > 10) {
