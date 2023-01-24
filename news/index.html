@@ -62,6 +62,14 @@
 <li><p>A minor breaking change is that the time zone is now always set for <code><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date()</a></code> and <code>convert_date()</code>. The default timezone is <code><a href="https://rdrr.io/r/base/timezones.html" class="external-link">Sys.timezone()</a></code>, previously it was an empty string (<code>""</code>). (<a href="https://github.com/sfirke/janitor/issues/422" class="external-link">#422</a>, thanks <strong>@billdenney</strong> for fixing)</p></li>
 <li><p>A minor breaking change affects <code><a href="../reference/make_clean_names.html">make_clean_names()</a></code> (and therefore <code><a href="../reference/clean_names.html">clean_names()</a></code>). <code><a href="../reference/make_clean_names.html">make_clean_names()</a></code> now uses the <code>unique_sep</code> argument from <code><a href="https://rdrr.io/pkg/snakecase/man/to_any_case.html" class="external-link">snakecase::to_any_case()</a></code> to handle de-duplication of names. The incremental suffix counter is now one less than in the past (i.e., a de-duplicated variable with a suffix of <code>_2</code> becomes <code>_1</code>, <code>_3</code> becomes <code>_2</code>, etc.). This change also results in a new feature and the ability to allow for duplicate names by setting <code>unique_sep = NULL</code>. (<a href="https://github.com/sfirke/janitor/issues/495" class="external-link">#495</a>, thanks <strong>@JasonAizkalns</strong> for fixing and <strong>@billdenney</strong> and <strong>@sfirke</strong> for the guidance)</p></li>
 <li><p><code><a href="../reference/get_dupes.html">get_dupes()</a></code> results are now sorted first by descending order of <code>dupe_count</code>, then alphabetically by sorting variables. (<a href="https://github.com/sfirke/janitor/issues/493" class="external-link">#493</a>)</p></li>
+<li>
+<p>There are several minor breaking changes resulting from enhancements to <code><a href="../reference/adorn_ns.html">adorn_ns()</a></code>:</p>
+<ul><li>The addition of the new argument <code>format_func</code> means that previous calls relying on <code>,,,</code> as shorthand to get to the <code>...</code> column selection argument may now require an extra comma</li>
+<li>
+<code><a href="../reference/adorn_ns.html">adorn_ns()</a></code> now defaults to displaying numbers of &gt;3 digits with <code>big.mark = ","</code>, as part of the default value of the new <code>format_func</code> argument. E.g., <code>1234</code> is now <code>1,234</code>.</li>
+<li>
+<code><a href="../reference/adorn_ns.html">adorn_ns()</a></code> no longer prints leading whitespace when <code>position = "front"</code> - this is not a visible change in the printed result and it would be rare that this affects any code.</li>
+</ul></li>
 </ul></div>
 <div class="section level3">
 <h3 id="new-features-2-1-0-9000">New features<a class="anchor" aria-label="anchor" href="#new-features-2-1-0-9000"></a></h3>
@@ -70,6 +78,7 @@
 <li><p>A new function <code><a href="../reference/sas_numeric_to_date.html">sas_numeric_to_date()</a></code> has been added to convert SAS dates, times, and datetimes to R objects (fix <a href="https://github.com/sfirke/janitor/issues/475" class="external-link">#475</a>, thanks to <strong>@billdenney</strong> for suggesting and implementing)</p></li>
 <li><p>A new function <code><a href="../reference/single_value.html">single_value()</a></code> has been added to ensure that only a single value or missing values are present in a vector (fix <a href="https://github.com/sfirke/janitor/issues/428" class="external-link">#428</a>)</p></li>
 <li><p>A new function <code><a href="../reference/get_one_to_one.html">get_one_to_one()</a></code> has been added to find columns that map 1:1 to each other, even if the values within the columns differ (fix <a href="https://github.com/sfirke/janitor/issues/291" class="external-link">#291</a>, <strong>@billdenney</strong>)</p></li>
+<li><p><code>adorn_Ns()</code> contains a new <code>format_func</code> argument so that the user can format the Ns to their liking, e.g., changing the <code>big.mark</code> character. (<a href="https://github.com/sfirke/janitor/issues/444" class="external-link">#444</a>)</p></li>
 <li><p><code><a href="../reference/clean_names.html">clean_names()</a></code> can now be called on database connection in a dbplyr code pipeline (<a href="https://github.com/sfirke/janitor/issues/467" class="external-link">#467</a>)</p></li>
 </ul></div>
 <div class="section level3">

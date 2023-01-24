@@ -76,7 +76,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>tabyls: a tidy, fully-featured approach to counting things</h1>
             
-            <h4 data-toc-skip class="date">2023-01-12</h4>
+            <h4 data-toc-skip class="date">2023-01-24</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sfirke/janitor/blob/HEAD/vignettes/tabyls.Rmd" class="external-link"><code>vignettes/tabyls.Rmd</code></a></small>
       <div class="d-none name"><code>tabyls.Rmd</code></div>
@@ -543,12 +543,12 @@ typically seen in American numbers, e.g., <code>3,000</code>.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">comparison</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/adorn_ns.html">adorn_ns</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  agegroup             f             m         Total</span></span>
-<span><span class="co">#&gt;    (1,34]  33.9% (1018)  32.3%  (970)  33.1% (1988)</span></span>
-<span><span class="co">#&gt;   (34,68]  33.0%  (990)  33.7% (1012)  33.4% (2002)</span></span>
-<span><span class="co">#&gt;  (68,102]  32.7%  (980)  33.3% (1000)  33.0% (1980)</span></span>
-<span><span class="co">#&gt;      &lt;NA&gt;   0.4%   (12)   0.6%   (18)   0.5%   (30)</span></span>
-<span><span class="co">#&gt;     Total 100.0% (3000) 100.0% (3000) 100.0% (6000)</span></span></code></pre></div>
+<span><span class="co">#&gt;  agegroup              f              m          Total</span></span>
+<span><span class="co">#&gt;    (1,34]  33.9% (1,018)  32.3%   (970)  33.1% (1,988)</span></span>
+<span><span class="co">#&gt;   (34,68]  33.0%   (990)  33.7% (1,012)  33.4% (2,002)</span></span>
+<span><span class="co">#&gt;  (68,102]  32.7%   (980)  33.3% (1,000)  33.0% (1,980)</span></span>
+<span><span class="co">#&gt;      &lt;NA&gt;   0.4%    (12)   0.6%    (18)   0.5%    (30)</span></span>
+<span><span class="co">#&gt;     Total 100.0% (3,000) 100.0% (3,000) 100.0% (6,000)</span></span></code></pre></div>
 <p>Now we format them to insert the thousands commas. A tabyl’s raw Ns
 are stored in its <code>"core"</code> attribute. Here we retrieve those
 with <code><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr()</a></code>, then apply the base R function

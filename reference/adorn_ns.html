@@ -60,7 +60,15 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">adorn_ns</span><span class="op">(</span><span class="va">dat</span>, position <span class="op">=</span> <span class="st">"rear"</span>, ns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">dat</span>, <span class="st">"core"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">adorn_ns</span><span class="op">(</span></span>
+<span>  <span class="va">dat</span>,</span>
+<span>  position <span class="op">=</span> <span class="st">"rear"</span>,</span>
+<span>  ns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">dat</span>, <span class="st">"core"</span><span class="op">)</span>,</span>
+<span>  format_func <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>     <span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="va">x</span>, big.mark <span class="op">=</span> <span class="st">","</span><span class="op">)</span></span>
+<span> <span class="op">}</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -74,7 +82,11 @@
 
 
 <dt>ns</dt>
-<dd><p>the Ns to append.  The default is the "core" attribute of the input tabyl <code>dat</code>, where the original Ns of a two-way <code>tabyl</code> are stored.  However, if you need to modify the numbers, e.g., to format <code>4000</code> as <code>4,000</code> or <code>4k</code>, you can do that separately and supply the formatted result here.</p></dd>
+<dd><p>the Ns to append.  The default is the "core" attribute of the input tabyl <code>dat</code>, where the original Ns of a two-way <code>tabyl</code> are stored.  However, if your Ns are stored somewhere else, or you need to customize them beyond what can be done with `format_func`, you can supply them here.</p></dd>
+
+
+<dt>format_func</dt>
+<dd><p>a formatting function to run on the Ns.  Consider defining with <code><a href="https://rdrr.io/r/base/format.html" class="external-link">base::format()</a></code>.</p></dd>
 
 
 <dt>...</dt>
@@ -100,6 +112,24 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>   0 3 (27.3%) 4 (57.1%) 12 (85.7%)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   1 8 (72.7%) 3 (42.9%)  2 (14.3%)</span>
 <span class="r-in"><span>  </span></span>
+<span class="r-in"><span><span class="co"># Format the Ns with a custom format_func:</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">bigger_dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"m"</span>, <span class="st">"f"</span><span class="op">)</span>, <span class="fl">3000</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                         age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">3000</span>, <span class="fl">1</span>, <span class="fl">102</span><span class="op">)</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">bigger_dat</span><span class="op">$</span><span class="va">age_group</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut</a></span><span class="op">(</span><span class="va">bigger_dat</span><span class="op">$</span><span class="va">age</span>, <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">bigger_dat</span><span class="op">$</span><span class="va">age</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">/</span><span class="fl">3</span>, <span class="fl">2</span><span class="op">/</span><span class="fl">3</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">bigger_dat</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="tabyl.html">tabyl</a></span><span class="op">(</span><span class="va">age_group</span>, <span class="va">sex</span>, show_missing_levels <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="adorn_totals.html">adorn_totals</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"row"</span>, <span class="st">"col"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="adorn_percentages.html">adorn_percentages</a></span><span class="op">(</span><span class="st">"col"</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="adorn_pct_formatting.html">adorn_pct_formatting</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> </span></span>
+<span class="r-in"><span>  <span class="fu">adorn_ns</span><span class="op">(</span>format_func <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="va">x</span>, big.mark <span class="op">=</span> <span class="st">"."</span>, decimal.mark <span class="op">=</span> <span class="st">","</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  age_group              f              m          Total</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     (1,34]  33.9% (1.018)  32.3%   (970)  33.1% (1.988)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    (34,68]  33.0%   (990)  33.7% (1.012)  33.4% (2.002)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   (68,102]  32.7%   (980)  33.3% (1.000)  33.0% (1.980)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;NA&gt;   0.4%    (12)   0.6%    (18)   0.5%    (30)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      Total 100.0% (3.000) 100.0% (3.000) 100.0% (6.000)</span>
 <span class="r-in"><span><span class="co"># Control the columns to be adorned with the ... variable selection argument</span></span></span>
 <span class="r-in"><span><span class="co"># If using only the ... argument, you can use empty commas as shorthand </span></span></span>
 <span class="r-in"><span><span class="co"># to supply the default values to the preceding arguments:</span></span></span>
@@ -113,8 +143,8 @@
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">cases</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span> <span class="fu"><a href="adorn_percentages.html">adorn_percentages</a></span><span class="op">(</span><span class="st">"col"</span>,,<span class="va">recovered</span><span class="op">:</span><span class="va">died</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
-<span class="r-in"><span> <span class="fu"><a href="adorn_pct_formatting.html">adorn_pct_formatting</a></span><span class="op">(</span>,,,<span class="va">recovered</span><span class="op">:</span><span class="va">died</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
-<span class="r-in"><span> <span class="fu">adorn_ns</span><span class="op">(</span>,,<span class="va">recovered</span><span class="op">:</span><span class="va">died</span><span class="op">)</span></span></span>
+<span class="r-in"><span> <span class="fu"><a href="adorn_pct_formatting.html">adorn_pct_formatting</a></span><span class="op">(</span>,,,,,<span class="va">recovered</span><span class="op">:</span><span class="va">died</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span> <span class="fu">adorn_ns</span><span class="op">(</span>,,,<span class="va">recovered</span><span class="op">:</span><span class="va">died</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  region year   recovered       died</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    East 2015 59.0% (125) 52.0% (13)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    West 2015 41.0%  (87) 48.0% (12)</span>
