@@ -33,8 +33,8 @@ test_that("front parameter works", {
       untabyl(),
     data.frame(
       x = c(letters[1:4], "Total"),
-      `0` = c("417 (82.7%)", "  2  (0.4%)", "  1  (0.2%)", "  0  (0.0%)", "420 (83.3%)"),
-      `1` = c("83 (16.5%)", " 0  (0.0%)", " 0  (0.0%)", " 1  (0.2%)", "84 (16.7%)"),
+      `0` = c("417 (82.7%)", "2  (0.4%)", "1  (0.2%)", "0  (0.0%)", "420 (83.3%)"),
+      `1` = c("83 (16.5%)", "0  (0.0%)", "0  (0.0%)", "1  (0.2%)", "84 (16.7%)"),
       check.names = FALSE,
       stringsAsFactors = FALSE
     )
@@ -197,4 +197,43 @@ test_that("adorn_ns works on single column data.frame with custom Ns if tidysele
     dplyr::select(a = `4`) %>%
     adorn_ns(ns = dplyr::select(attr(adorned_single, "core"), a = `4`),,,, a)
   expect_equal(stringr::str_sub(adorned_single$a, -4, -1), c(" (3)", " (8)"))
+})
+
+# This tests the display of the decimal.mark by forcing a decimal into a tabyl
+# Can't happen with a natural table, but maybe someone will use adorn_ns on a homespun data.frame
+test_that("formatting function works, #444", {
+  set.seed(1)
+  bigger_dat <- data.frame(sex = rep(c("m", "f"), 3000),
+                           age = round(runif(3000, 1, 102), 0))
+  bigger_dat$age_group = cut(bigger_dat$age, quantile(bigger_dat$age, c(0, 1/3, 2/3, 1)))
+  
+  bigger_tab <- bigger_dat %>%
+    tabyl(age_group, sex, show_missing_levels = F)
+  
+  standard_output <- bigger_tab %>%
+    adorn_percentages("col") %>%
+    adorn_pct_formatting(digits = 1) %>% 
+    adorn_ns(position = "front")
+  
+  # test commas in thousands place by default
+  expect_equal(standard_output$f,
+               c("1,018 (33.9%)", "990 (33.0%)", "980 (32.7%)", "12  (0.4%)")
+               )
+  
+  # Test decimal mark
+  bigger_tab$f[1] <- 1018.5 # makes no sense in a tabyl but need for testing decimal mark display
+  
+  bigger_result <- bigger_tab %>%
+    untabyl() %>% # to get the decimal into the core
+    as_tabyl() %>% 
+    adorn_totals(c("row", "col")) %>%
+    adorn_percentages("col") %>%
+    adorn_pct_formatting(digits = 1) %>% 
+    adorn_ns(position = "rear", format_func = function(x) format(x, big.mark = ".", decimal.mark = ","))
+  
+  expect_equal(
+    bigger_result$f,
+    c("33.9% (1.018,5)", "33.0%   (990,0)", "32.7%   (980,0)", "0.4%    (12,0)", 
+      "100.0% (3.000,5)")
+  )
 })
