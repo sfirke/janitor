@@ -70,6 +70,7 @@
 <li>
 <code><a href="../reference/adorn_ns.html">adorn_ns()</a></code> no longer prints leading whitespace when <code>position = "front"</code> - this is not a visible change in the printed result and it would be rare that this affects any code.</li>
 </ul></li>
+<li><p>When the first column of the data.frame input to <code><a href="../reference/adorn_totals.html">adorn_totals()</a></code> is a factor and a totals row is added to the bottom, that column now remains a factor, with “Total” or other user-specified totals name added to its factor levels (<a href="https://github.com/sfirke/janitor/issues/494" class="external-link">#494</a>).</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="new-features-2-1-0-9000">New features<a class="anchor" aria-label="anchor" href="#new-features-2-1-0-9000"></a></h3>
@@ -90,6 +91,7 @@
 <li><p><code><a href="../reference/clean_names.html">clean_names()</a></code> now supports all object types that have either names or dimnames (<a href="https://github.com/sfirke/janitor/issues/481" class="external-link">#481</a>, <a href="https://github.com/DanChaltiel" class="external-link">@DanChaltiel</a>).</p></li>
 <li><p><code><a href="../reference/make_clean_names.html">make_clean_names()</a></code> allows duplicate names to be returned by specifying <code>unique_sep = NULL</code> (<a href="https://github.com/sfirke/janitor/issues/495" class="external-link">#495</a>, <a href="https://github.com/JasonAizkalns" class="external-link">@JasonAizkalns</a>).</p></li>
 <li><p><code><a href="../reference/adorn_pct_formatting.html">adorn_pct_formatting()</a></code> uses the locale-dependent value of <code>decimal.mark</code> as a decimal separator, e.g., in locales where <code>getOption("OutDec")</code> is <code>,</code> it will print percentages in the format <code>"12,34%"</code> (<a href="https://github.com/sfirke/janitor/issues/451" class="external-link">#451</a>).</p></li>
+<li><p><code>adorn_totals(where ="row")</code> now preserves factor class and levels of the first column of the input data.frame (<a href="https://github.com/sfirke/janitor/issues/494" class="external-link">#494</a>).</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-2-1-0-9000">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-2-1-0-9000"></a></h3>
