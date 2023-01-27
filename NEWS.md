@@ -12,6 +12,8 @@
 
 * `get_dupes()` results are now sorted first by descending order of `dupe_count`, then alphabetically by sorting variables. (#493)
 
+* When the first column of the data.frame input to `adorn_totals()` is a factor and a totals row is added to the bottom, that column now remains a factor, with "Total" or other user-specified totals name added to its factor levels (#494).
+
 ## New features
 
 * `row_to_names()` now has a new helper function, `find_header()` to help find the row that contains the names.  It can be used by passing `row_number="find_header"`, and see the documentation of `row_to_names()` and `find_header()` for more examples. (fix #429)
@@ -42,6 +44,8 @@
 * `make_clean_names()` allows duplicate names to be returned by specifying `unique_sep = NULL` (#495, @JasonAizkalns).
 
 * `adorn_pct_formatting()` uses the locale-dependent value of `decimal.mark` as a decimal separator, e.g., in locales where `getOption("OutDec")` is `,` it will print percentages in the format `"12,34%"` (#451).
+
+* `adorn_totals(where ="row")` now preserves factor class and levels of the first column of the input data.frame (#494). 
 
 ## Bug fixes
 
