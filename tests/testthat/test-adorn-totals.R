@@ -30,7 +30,7 @@ test_that("totals col is correct", {
   expect_equal(
     untabyl(adorn_totals(ct, "col")),
     data.frame(
-      a = factor(c("big", "small"), levels = c("small", "big")),
+      a = factor(c("small", "big"), levels = c("small", "big")),
       `1` = c(1, 4),
       `2` = c(2, 0),
       `3` = c(0, 2),
@@ -46,7 +46,7 @@ test_that("totals row and col produce correct results when called together", {
       adorn_totals(c("row", "col")) %>%
       untabyl(),
     data.frame(
-      a = factor(c("big", "small", "Total"), levels = c("small", "big", "Total")),
+      a = factor(c("small", "big", "Total"), levels = c("small", "big", "Total")),
       `1` = c(1, 4, 5),
       `2` = c(2, 0, 2),
       `3` = c(0, 2, 2),
