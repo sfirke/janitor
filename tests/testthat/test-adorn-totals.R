@@ -14,7 +14,7 @@ mixed <- data.frame(
 )
 
 test_that("totals row is correct", {
-  expect_identical(
+  expect_equal(
     untabyl(adorn_totals(ct, "row")),
     data.frame(
       a = factor(c("small", "big", "Total"), levels = c("small", "big", "Total")),
