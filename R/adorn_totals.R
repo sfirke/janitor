@@ -71,6 +71,11 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
     }
     
     if ("row" %in% where) {
+      # capture factor levels if relevant, #494
+      factor_input <- is.factor(dat[[1]])
+      if(factor_input) {
+        col1_backup <- dat[[1]][1]
+      }
       # creates the totals row to be appended
       col_sum <- function(a_col, na_rm = na.rm) {
         if (is.numeric(a_col)) { # can't do this with if_else because it doesn't like the sum() of a character vector, even if that clause is not reached
@@ -127,6 +132,9 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
         message("Because the first column was specified to be totaled, it does not contain the label 'Total' (or user-specified name) in the totals row")
       }
       dat[(nrow(dat) + 1), ] <- col_totals[1, ] # insert totals_col as last row in dat
+      if(factor_input) { # restore factor/ordered info, #494
+        dat[[1]] <- factor(dat[[1]], levels = c(levels(col1_backup), name[1]), ordered = is.ordered(col1_backup))
+      }
     }
     
     if ("col" %in% where) {

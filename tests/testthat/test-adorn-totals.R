@@ -1,7 +1,6 @@
 dat <- data.frame(
-  a = c(rep(c("big", "small", "big"), 3)),
-  b = c(1:3, 1:3, 1, 1, 1),
-  stringsAsFactors = TRUE
+  a = factor(c(rep(c("big", "small", "big"), 3)), levels = c("small", "big")),
+  b = c(1:3, 1:3, 1, 1, 1)
 )
 ct <- dat %>%
   tabyl(a, b)
@@ -18,12 +17,11 @@ test_that("totals row is correct", {
   expect_equal(
     untabyl(adorn_totals(ct, "row")),
     data.frame(
-      a = c("big", "small", "Total"),
-      `1` = c(4, 1, 5),
-      `2` = c(0, 2, 2),
-      `3` = c(2, 0, 2),
-      check.names = FALSE,
-      stringsAsFactors = FALSE
+      a = factor(c("small", "big", "Total"), levels = c("small", "big", "Total")),
+      `1` = c(1, 4, 5),
+      `2` = c(2, 0, 2),
+      `3` = c(0, 2, 2),
+      check.names = FALSE
     )
   )
 })
@@ -32,13 +30,12 @@ test_that("totals col is correct", {
   expect_equal(
     untabyl(adorn_totals(ct, "col")),
     data.frame(
-      a = c("big", "small"),
-      `1` = c(4, 1),
-      `2` = c(0, 2),
-      `3` = c(2, 0),
-      Total = c(6, 3),
-      check.names = FALSE,
-      stringsAsFactors = TRUE
+      a = factor(c("small", "big"), levels = c("small", "big")),
+      `1` = c(1, 4),
+      `2` = c(2, 0),
+      `3` = c(0, 2),
+      Total = c(3, 6),
+      check.names = FALSE
     )
   )
 })
@@ -49,13 +46,12 @@ test_that("totals row and col produce correct results when called together", {
       adorn_totals(c("row", "col")) %>%
       untabyl(),
     data.frame(
-      a = c("big", "small", "Total"),
-      `1` = c(4, 1, 5),
-      `2` = c(0, 2, 2),
-      `3` = c(2, 0, 2),
-      Total = c(6, 3, 9),
-      check.names = FALSE,
-      stringsAsFactors = FALSE
+      a = factor(c("small", "big", "Total"), levels = c("small", "big", "Total")),
+      `1` = c(1, 4, 5),
+      `2` = c(2, 0, 2),
+      `3` = c(0, 2, 2),
+      Total = c(3, 6, 9),
+      check.names = FALSE
     )
   )
 })
@@ -65,15 +61,9 @@ test_that("totals where='both' produce equivalent results to c('row','col')", {
     ct %>%
       adorn_totals("both") %>%
       untabyl(),
-    data.frame(
-      a = c("big", "small", "Total"),
-      `1` = c(4, 1, 5),
-      `2` = c(0, 2, 2),
-      `3` = c(2, 0, 2),
-      Total = c(6, 3, 9),
-      check.names = FALSE,
-      stringsAsFactors = FALSE
-    )
+    ct %>%
+      adorn_totals(c("row", "col")) %>%
+      untabyl()
   )
 })
 
@@ -290,7 +280,7 @@ test_that("non-data.frame inputs are handled", {
 
 test_that("row total name is changed", {
   expect_equal(
-    adorn_totals(ct, name = "NewTitle")[nrow(ct) + 1, 1],
+    as.character(adorn_totals(ct, name = "NewTitle")[nrow(ct) + 1, 1]),
     "NewTitle"
   )
 })
@@ -387,7 +377,7 @@ test_that("supplying NA to fill preserves column types", {
 
 test_that("supplying NA as fill still works with non-character first col and numeric non-totaled cols", {
   test_df <- data.frame(
-    a = factor(c("hi", "low", "med")),
+    a = factor(c("hi", "low", "med"), levels = c("low", "med", "hi")),
     b = factor(c("big", "small", "regular")),
     c = c(as.Date("2000-01-01"), as.Date("2000-01-02"), as.Date("2000-01-03")),
     d = 1:3,
@@ -404,7 +394,7 @@ test_that("supplying NA as fill still works with non-character first col and num
                       name = "Total",
                       d, e)
 
-  expect_equal(out[["a"]], c("hi", "low", "med", "Total"))
+  expect_equal(out[["a"]], factor(c("hi", "low", "med", "Total"), levels = c("low", "med", "hi", "Total")))
   expect_equal(out[["g"]], c(7.2, 8.2, 9.2, NA_real_))
   expect_equal(out[4,"d"], 6)
   expect_equal(out[4,"e"], 15)
@@ -537,5 +527,38 @@ test_that("row and column names are taken correctly from a single name", {
       totals = c(5, 6, 7, 18),
       stringsAsFactors = FALSE
     )
+  )
+})
+
+test_that("order is maintained when first column is a factor, #494", {
+  o <- data.frame(a = 1:5,
+                  fac = factor(c("orange", "blue", "orange", "orange", "blue")),
+                  ord = ordered(
+                    c("huge", "medium", "small", "medium", "medium"),
+                    levels = c("small", "medium", "huge")))
+  
+  o_tabyl_totaled <- o %>%
+    tabyl(ord, a) %>%
+    adorn_totals("both")
+  
+  expect_equal(
+    attr(o_tabyl_totaled$ord, "levels"),
+    c("small", "medium", "huge", "Total")
+  )
+  expect_equal(
+    class(o_tabyl_totaled$ord),
+    c("ordered", "factor")
+  )
+  f_tabyl_totaled <- o %>%
+    tabyl(fac, a) %>%
+    adorn_totals("both")
+  
+  expect_equal(
+    attr(f_tabyl_totaled$fac, "levels"),
+    c("blue", "orange", "Total")
+  )
+  expect_equal(
+    class(f_tabyl_totaled$fac),
+    "factor"
   )
 })

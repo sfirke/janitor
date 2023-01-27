@@ -17,6 +17,8 @@
   * `adorn_ns()` now defaults to displaying numbers of >3 digits with `big.mark = ","`, as part of the default value of the new `format_func` argument.  E.g., `1234`  is now `1,234`.
   * `adorn_ns()` no longer prints leading whitespace when `position = "front"` - this is not a visible change in the printed result and it would be rare that this affects any code.
 
+* When the first column of the data.frame input to `adorn_totals()` is a factor and a totals row is added to the bottom, that column now remains a factor, with "Total" or other user-specified totals name added to its factor levels (#494).
+
 ## New features
 
 * `row_to_names()` now has a new helper function, `find_header()` to help find the row that contains the names.  It can be used by passing `row_number="find_header"`, and see the documentation of `row_to_names()` and `find_header()` for more examples. (fix #429)
@@ -49,6 +51,8 @@
 * `make_clean_names()` allows duplicate names to be returned by specifying `unique_sep = NULL` (#495, @JasonAizkalns).
 
 * `adorn_pct_formatting()` uses the locale-dependent value of `decimal.mark` as a decimal separator, e.g., in locales where `getOption("OutDec")` is `,` it will print percentages in the format `"12,34%"` (#451).
+
+* `adorn_totals(where ="row")` now preserves factor class and levels of the first column of the input data.frame (#494). 
 
 ## Bug fixes
 
