@@ -38,9 +38,8 @@ value.}
     \item{\code{use_make_names}}{Should \code{make.names()} be applied to ensure that the
 output is usable as a name without quoting?  (Avoiding \code{make.names()}
 ensures that the output is locale-independent but quoting may be required.)}
-    \item{\code{unique_sep}}{When provided a character (\code{"_"}, default), an incremental
-counter is appended to repeated instances of duplicate variable names. If 
-duplicate names are desired, use \code{unique_sep = NULL}.}
+    \item{\code{allow_dupes}}{Allow duplicates in the returned names (\code{TRUE}) or not
+(\code{FALSE}, the default).}
     \item{\code{sep_in}}{(short for separator input) if character, is interpreted as a
 regular expression (wrapped internally into \code{stringr::regex()}). 
 The default value is a regular expression that matches any sequence of
