@@ -144,7 +144,7 @@ ASCII, try the following instead:
 <span>  replace <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>`'` <span class="op">=</span> <span class="st">""</span>, `"` <span class="op">=</span> <span class="st">""</span>, `%` <span class="op">=</span> <span class="st">"_percent_"</span>, `#` <span class="op">=</span> <span class="st">"_number_"</span><span class="op">)</span>,</span>
 <span>  ascii <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  use_make_names <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  unique_sep <span class="op">=</span> <span class="st">"_"</span>,</span>
+<span>  allow_dupes <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  sep_in <span class="op">=</span> <span class="st">"\\."</span>,</span>
 <span>  transliterations <span class="op">=</span> <span class="st">"Latin-ASCII"</span>,</span>
 <span>  parsing_option <span class="op">=</span> <span class="fl">1</span>,</span>
@@ -185,10 +185,9 @@ output is usable as a name without quoting?  (Avoiding <code><a href="https://rd
 ensures that the output is locale-independent but quoting may be required.)</p></dd>
 
 
-<dt>unique_sep</dt>
-<dd><p>When provided a character (<code>"_"</code>, default), an incremental
-counter is appended to repeated instances of duplicate variable names. If 
-duplicate names are desired, use <code>unique_sep = NULL</code>.</p></dd>
+<dt>allow_dupes</dt>
+<dd><p>Allow duplicates <code>TRUE</code> in the returned names or
+not (<code>FALSE</code>, default).</p></dd>
 
 
 <dt>sep_in</dt>
@@ -233,6 +232,12 @@ You should use this feature with care in case of <code>case = "parsed"</code>, <
     <dt><code>sep_out</code></dt>
 <dd><p>(short for separator output) String that will be used as separator. The defaults are <code>"_"</code> 
 and <code>""</code>, regarding the specified <code>case</code>. When <code>length(sep_out) &gt; 1</code>, the last element of <code>sep_out</code> gets recycled and separators are incorporated per string according to their order.</p></dd>
+
+    <dt><code>unique_sep</code></dt>
+<dd><p>A string. If not <code>NULL</code>, then duplicated names will get 
+a suffix integer
+in the order of their appearance. The suffix is separated by the supplied string
+ to this argument.</p></dd>
 
     <dt><code>empty_fill</code></dt>
 <dd><p>A string. If it is supplied, then each entry that matches "" will be replaced
