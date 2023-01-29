@@ -52,7 +52,7 @@
 
 * `adorn_totals(where ="row")` now preserves factor class and levels of the first column of the input data.frame (#494). 
 
-* `make_clean_names()` now allows duplicate names to be returned with by specifying `TRUE` to the new `allow_dupes` argument (#495, @JasonAizkalns).
+* `make_clean_names()` now allows for duplicate names to be returned by specifying `TRUE` to the new `allow_dupes` argument (#495, @JasonAizkalns).
 
 ## Bug fixes
 

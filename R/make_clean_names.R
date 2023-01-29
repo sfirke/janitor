@@ -49,8 +49,8 @@
 #' @param use_make_names Should \code{make.names()} be applied to ensure that the
 #'   output is usable as a name without quoting?  (Avoiding \code{make.names()}
 #'   ensures that the output is locale-independent but quoting may be required.)
-#' @param allow_dupes Allow duplicates \code{TRUE} in the returned names or
-#'   not (\code{FALSE}, default).
+#' @param allow_dupes Allow duplicates in the returned names (\code{TRUE}) or not
+#'   (\code{FALSE}, the default).
 #' @inheritParams snakecase::to_any_case
 #' @inheritDotParams snakecase::to_any_case
 #'
