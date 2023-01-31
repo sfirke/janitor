@@ -48,7 +48,7 @@
 
 * `clean_names()` now supports all object types that have either names or dimnames (#481, @DanChaltiel).
 
-* `adorn_pct_formatting()` uses the locale-dependent value of `decimal.mark` as a decimal separator, e.g., in locales where `getOption("OutDec")` is `,` it will print percentages in the format `"12,34%"` (#451).
+* `adorn_pct_formatting()` uses the locale-dependent value of `decimal.mark` as a decimal separator, e.g., in locales where `getOption("OutDec")` is `,` it will print percentages in the format `"12,34%"`.  This character can also be set manually with `options(OutDec = ",")`.(#451).
 
 * `adorn_totals(where ="row")` now preserves factor class and levels of the first column of the input data.frame (#494). 
 

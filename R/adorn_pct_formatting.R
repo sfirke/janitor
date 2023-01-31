@@ -3,7 +3,8 @@
 #' @description
 #' Numeric columns get multiplied by 100 and formatted as percentages according to user specifications.  This function defaults to excluding the first column of the input data.frame, assuming that it contains a descriptive variable, but this can be overridden by specifying the columns to adorn in the \code{...} argument.  Non-numeric columns are always excluded.
 #' 
-#' The decimal separator character is the result of \code{getOption("OutDec")}, which based on the user's locale.  If this isn't desired, change this value ahead of calling the function.
+#' The decimal separator character is the result of \code{getOption("OutDec")}, which is based on the user's locale.  If the default behavior is undesirable,
+#' change this value ahead of calling the function, either by changing locale or with \code{options(OutDec = ",")}.  This aligns the decimal separator character with that used in \code{base::print()}.
 #'
 #' @param dat a data.frame with decimal values, typically the result of a call to \code{adorn_percentages} on a \code{tabyl}.  If given a list of data.frames, this function will apply itself to each data.frame in the list (designed for 3-way \code{tabyl} lists).
 #' @param digits how many digits should be displayed after the decimal point?
