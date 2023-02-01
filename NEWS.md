@@ -237,7 +237,7 @@ This builds on the original functionality of janitor, with similar-but-improved 
 
 ### A fully-overhauled `tabyl`
 
-`tabyl()` is now a single function that can count combinations of one, two, or three variables, ala base R's `table()`.  The resulting `tabyl` data.frames can be manipulated and formatted using a family of `adorn_` functions.  See the [tabyls vignette](http://sfirke.github.io/janitor/articles/tabyls.html) for more.
+`tabyl()` is now a single function that can count combinations of one, two, or three variables, ala base R's `table()`.  The resulting `tabyl` data.frames can be manipulated and formatted using a family of `adorn_` functions.  See the [tabyls vignette](https://sfirke.github.io/janitor/articles/tabyls.html) for more.
 
 The now-redundant legacy functions `crosstab()` and `adorn_crosstab()` have been deprecated, but remain in the package for now.  Existing code that relies on the version of `tabyl` present in janitor versions <= 0.3.1 will break if the `sort` argument was used, as that argument no longer exists in `tabyl` (use `dplyr::arrange()` instead).
 
@@ -259,7 +259,7 @@ No further changes are planned to `clean_names()` and its results should be stab
   - Thanks to **@tazinho**, who wrote the [snakecase](https://github.com/Tazinho/snakecase/) package that janitor depends on to do this, as well as the patch to incorporate it into `clean_names()`.  And thanks to **@maelle** for proposing this feature.
 
 
-- Launched the janitor documentation website: [http://sfirke.github.io/janitor](http://sfirke.github.io/janitor/).  Thanks to the [pkgdown](https://github.com/r-lib/pkgdown/) package.
+- Launched the janitor documentation website: [https://sfirke.github.io/janitor](https://sfirke.github.io/janitor/).  Thanks to the [pkgdown](https://github.com/r-lib/pkgdown/) package.
 
 - Deprecated the functions `remove_empty_rows()` and `remove_empty_cols()`, which are replaced by the single function `remove_empty()`. [(#100)](https://github.com/sfirke/janitor/issues/100)
   - To encourage transparency, `remove_empty()` prints a message if no value is supplied for the `which` argument; to suppress this, supply a value to `which`, even if it's the default `c("rows", "cols")`.
