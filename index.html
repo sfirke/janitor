@@ -91,7 +91,7 @@
 <p>– “<a href="https://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html" class="external-link">For Big-Data Scientists, ‘Janitor Work’ Is Key Hurdle to Insight”</a> <em>(New York Times, 2014)</em></p>
 </blockquote>
 <hr>
-<p><a href="https://travis-ci.org/sfirke/janitor" class="external-link"><img src="https://travis-ci.org/sfirke/janitor.svg?branch=master" alt="Travis-CI Build Status"></a> <a href="https://codecov.io/github/sfirke/janitor?branch=master" class="external-link"><img src="https://img.shields.io/codecov/c/github/sfirke/janitor/master.svg" alt="Coverage Status"></a> <a href="https://www.tidyverse.org/lifecycle/#stable" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="lifecycle"></a> <a href="https://cran.r-project.org/package=janitor" class="external-link"><img src="https://www.r-pkg.org/badges/version-ago/janitor" alt="CRAN_Status_Badge"></a> <img src="https://cranlogs.r-pkg.org/badges/janitor" alt="!Monthly Downloads"><img src="https://cranlogs.r-pkg.org/badges/grand-total/janitor" alt="!Downloads"></p>
+<p><a href="https://travis-ci.org/sfirke/janitor" class="external-link"><img src="https://travis-ci.org/sfirke/janitor.svg?branch=master" alt="Travis-CI Build Status"></a> <a href="https://codecov.io/github/sfirke/janitor?branch=master" class="external-link"><img src="https://img.shields.io/codecov/c/github/sfirke/janitor/master.svg" alt="Coverage Status"></a> <a href="https://lifecycle.r-lib.org/articles/stages.html#stable" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="lifecycle"></a> <a href="https://cran.r-project.org/package=janitor" class="external-link"><img src="https://www.r-pkg.org/badges/version-ago/janitor" alt="CRAN_Status_Badge"></a> <img src="https://cranlogs.r-pkg.org/badges/janitor" alt="!Monthly Downloads"><img src="https://cranlogs.r-pkg.org/badges/grand-total/janitor" alt="!Downloads"></p>
 <p><strong>janitor</strong> has simple functions for examining and cleaning dirty data. It was built with beginning and intermediate R users in mind and is optimized for user-friendliness. Advanced R users can already do everything covered here, but with janitor they can do it faster and save their thinking for the fun stuff.</p>
 <p>The main janitor functions:</p>
 <ul>
@@ -123,7 +123,7 @@
 <div class="section level2">
 <h2 id="using-janitor">Using janitor<a class="anchor" aria-label="anchor" href="#using-janitor"></a>
 </h2>
-<p>A full description of each function, organized by topic, can be found in janitor’s <a href="http://sfirke.github.io/janitor/articles/janitor.html">catalog of functions vignette</a>. There you will find functions not mentioned in this README, like <code><a href="reference/compare_df_cols.html">compare_df_cols()</a></code> which provides a summary of differences in column names and types when given a set of data.frames.</p>
+<p>A full description of each function, organized by topic, can be found in janitor’s <a href="https://sfirke.github.io/janitor/articles/janitor.html" class="external-link">catalog of functions vignette</a>. There you will find functions not mentioned in this README, like <code><a href="reference/compare_df_cols.html">compare_df_cols()</a></code> which provides a summary of differences in column names and types when given a set of data.frames.</p>
 <p>Below are quick examples of how janitor tools are commonly used.</p>
 <div class="section level3">
 <h3 id="cleaning-dirty-data">Cleaning dirty data<a class="anchor" aria-label="anchor" href="#cleaning-dirty-data"></a>
@@ -141,7 +141,7 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org" class="external-link">readxl</a></span><span class="op">)</span>; <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sfirke/janitor" class="external-link">janitor</a></span><span class="op">)</span>; <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>; <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://here.r-lib.org/" class="external-link">here</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">roster_raw</span> <span class="op">&lt;-</span> <span class="fu">read_excel</span><span class="op">(</span><span class="fu">here</span><span class="op">(</span><span class="st">"dirty_data.xlsx"</span><span class="op">)</span><span class="op">)</span> <span class="co"># available at http://github.com/sfirke/janitor</span></span>
+<span><span class="va">roster_raw</span> <span class="op">&lt;-</span> <span class="fu">read_excel</span><span class="op">(</span><span class="fu">here</span><span class="op">(</span><span class="st">"dirty_data.xlsx"</span><span class="op">)</span><span class="op">)</span> <span class="co"># available at https://github.com/sfirke/janitor</span></span>
 <span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">roster_raw</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 14</span></span>
 <span><span class="co">#&gt; Columns: 11</span></span>
@@ -302,7 +302,7 @@
 <span><span class="co">#&gt;                    Teacher  33.3% (3)  66.7% (6)</span></span>
 <span><span class="co">#&gt;                      Total  41.7% (5)  58.3% (7)</span></span></code></pre></div>
 <p>Pipe that right into <code><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">knitr::kable()</a></code> in your RMarkdown report.</p>
-<p>These modular adornments can be layered to reduce R’s deficit against Excel and SPSS when it comes to quick, informative counts. Learn more about <code><a href="reference/tabyl.html">tabyl()</a></code> and the <code>adorn_</code> functions from the <a href="http://sfirke.github.io/janitor/articles/tabyls.html">tabyls vignette</a>.</p>
+<p>These modular adornments can be layered to reduce R’s deficit against Excel and SPSS when it comes to quick, informative counts. Learn more about <code><a href="reference/tabyl.html">tabyl()</a></code> and the <code>adorn_</code> functions from the <a href="https://sfirke.github.io/janitor/articles/tabyls.html" class="external-link">tabyls vignette</a>.</p>
 </div>
 </div>
 </div>
@@ -316,7 +316,7 @@
 </li>
 <li>let me know what you think on Mastodon: <a href="https://a2mi.social/@samfirke" class="external-link">@samfirke@a2mi.social</a>
 </li>
-<li>compose a friendly e-mail to: <img src="http://samfirke.com/wp-content/uploads/2016/07/email_address_whitespace_top.png" alt="samuel.firke AT gmail" width="210">
+<li>compose a friendly e-mail to: <img src="https://samfirke.com/wp-content/uploads/2016/07/email_address_whitespace_top.png" alt="samuel.firke AT gmail" width="210">
 </li>
 </ul>
 </div>
