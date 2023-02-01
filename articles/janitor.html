@@ -76,7 +76,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Overview of janitor functions</h1>
             
-            <h4 data-toc-skip class="date">2023-01-31</h4>
+            <h4 data-toc-skip class="date">2023-02-01</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sfirke/janitor/blob/HEAD/vignettes/janitor.Rmd" class="external-link"><code>vignettes/janitor.Rmd</code></a></small>
       <div class="d-none name"><code>janitor.Rmd</code></div>
@@ -235,6 +235,29 @@ duplicates) so you can examine the problematic cases:</p>
 <span><span class="co">#&gt; 3 3.57   8          2 14.3 360.0 245 3.21 15.84  0  0    3    4</span></span>
 <span><span class="co">#&gt; 4 3.57   8          2 15.0 301.0 335 3.54 14.60  0  1    5    8</span></span></code></pre></div>
 </div>
+<div class="section level4">
+<h4 id="explore-relationships-between-columns-with-get_one_to_one">Explore relationships between columns with
+<code>get_one_to_one()</code><a class="anchor" aria-label="anchor" href="#explore-relationships-between-columns-with-get_one_to_one"></a>
+</h4>
+<p>This function shows which, if any, columns in a data.frame have
+one-to-one relationships with each other.</p>
+<p>Here is a toy example looking at the first four rows of the
+<em>starwars</em> data.frame from the dplyr package. The variables are
+grouped into three sets of one-to-one clusters:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="va">starwars</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,<span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/get_one_to_one.html">get_one_to_one</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [[1]]</span></span>
+<span><span class="co">#&gt; [1] "name"       "height"     "mass"       "skin_color" "birth_year"</span></span>
+<span><span class="co">#&gt; [6] "films"     </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[2]]</span></span>
+<span><span class="co">#&gt; [1] "hair_color" "starships" </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[3]]</span></span>
+<span><span class="co">#&gt; [1] "sex"     "species"</span></span></code></pre></div>
+</div>
 </div>
 </div>
 <div class="section level2">
@@ -257,7 +280,7 @@ offered for use in data.frame pipeline with <code>%&gt;%</code>,
 a vector.</p>
 <p>It can also be used as an argument to <code>.name_repair</code> in
 the newest version of <code><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">tibble::as_tibble</a></code>:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="va">iris</span>, .name_repair <span class="op">=</span> <span class="fu">janitor</span><span class="fu">::</span><span class="va"><a href="../reference/make_clean_names.html">make_clean_names</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 150 × 5</span></span></span>
 <span><span class="co">#&gt;    sepal_length sepal_width petal_length petal_width species</span></span>
@@ -275,12 +298,51 @@ the newest version of <code><a href="https://tibble.tidyverse.org/reference/as_t
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 140 more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level4">
+<h4 id="validate-that-a-column-has-a-single_value-per-group">Validate that a column has a <code>single_value()</code> per
+group<a class="anchor" aria-label="anchor" href="#validate-that-a-column-has-a-single_value-per-group"></a>
+</h4>
+<p>This function returns the single value in a column, often used in
+combination with <code><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">dplyr::group_by()</a></code> to validate that every
+value of X has only one associated value of Y. It will complete that
+value of Y into missing values in that column. And if there’s more than
+a single value of Y, its <code>info</code> argument can help pinpoint
+where that occurs.</p>
+<p>Take this data.frame. One pesky value of X has multiple values of Y
+where it should not:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">not_one_to_one</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, each <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>,</span>
+<span>  Y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, each <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">not_one_to_one</span></span>
+<span><span class="co">#&gt;   X Y</span></span>
+<span><span class="co">#&gt; 1 1 1</span></span>
+<span><span class="co">#&gt; 2 1 1</span></span>
+<span><span class="co">#&gt; 3 2 2</span></span>
+<span><span class="co">#&gt; 4 2 2</span></span>
+<span><span class="co">#&gt; 5 3 1</span></span>
+<span><span class="co">#&gt; 6 3 2</span></span>
+<span></span>
+<span><span class="co"># throws informative error:</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="va">not_one_to_one</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>        Z <span class="op">=</span> <span class="fu"><a href="../reference/single_value.html">single_value</a></span><span class="op">(</span><span class="va">Y</span>, info <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Calculating Z for group X ="</span>, <span class="va">X</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>      <span class="op">)</span></span>
+<span><span class="co">#&gt; Error in dplyr::mutate(., Z = single_value(Y, info = paste("Calculating Z for group X =",  : </span></span>
+<span><span class="co">#&gt;   <span style="color: #00BBBB;">ℹ</span> In argument: `Z = single_value(Y, info = paste("Calculating Z for</span></span>
+<span><span class="co">#&gt;   group X =", X))`.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In group 3: `X = 3`.</span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">Caused by error in `single_value()`:</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> More than one (2) value found (1, 2): Calculating Z for group X = 3: Calculating Z for group X = 3</span></span></code></pre></div>
+</div>
+<div class="section level4">
 <h4 id="remove_empty-rows-and-columns">
 <code>remove_empty()</code> rows and columns<a class="anchor" aria-label="anchor" href="#remove_empty-rows-and-columns"></a>
 </h4>
 <p>Does what it says. For cases like cleaning Excel files that contain
 empty rows and columns after being read into R.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">q</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>v1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="cn">NA</span>, <span class="fl">3</span><span class="op">)</span>,</span>
 <span>                v2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span><span class="op">)</span>,</span>
 <span>                v3 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="cn">NA</span>, <span class="st">"b"</span><span class="op">)</span><span class="op">)</span></span>
@@ -301,7 +363,7 @@ value (with an <code>na.rm</code> option to control whether NAs should
 be considered as different values from the constant).</p>
 <p><code>remove_constant</code> and <code>remove_empty</code> work on
 matrices as well as data.frames.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>good <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, boring <span class="op">=</span> <span class="st">"the same"</span><span class="op">)</span></span>
 <span><span class="va">a</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/remove_constant.html">remove_constant</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   good</span></span>
@@ -316,7 +378,7 @@ matrices as well as data.frames.</p>
 <p>R uses “banker’s rounding”, i.e., halves are rounded to the nearest
 <em>even</em> number. This function, an exact implementation of <a href="https://stackoverflow.com/questions/12688717/round-up-from-5/12688836#12688836" class="external-link uri">https://stackoverflow.com/questions/12688717/round-up-from-5/12688836#12688836</a>,
 will round all halves up. Compare:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">nums</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2.5</span>, <span class="fl">3.5</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">nums</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 2 4</span></span>
@@ -346,7 +408,7 @@ class <code>Date</code>, with options for different Excel date encoding
 systems, preserving fractions of a date as time (in which case the
 returned value is of class <code>POSIXlt</code>), and specifying a time
 zone.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date</a></span><span class="op">(</span><span class="fl">41103</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "2012-07-13"</span></span>
 <span><span class="fu"><a href="../reference/excel_numeric_to_date.html">excel_numeric_to_date</a></span><span class="op">(</span><span class="fl">41103.01</span><span class="op">)</span> <span class="co"># ignores decimal places, returns Date object</span></span>
@@ -365,7 +427,7 @@ are more robust to a mix of inputs. Handy when reading many spreadsheets
 that <em>should</em> have the same column formats, but don’t.</p>
 <p>For instance, here a vector with a date and an Excel datetime sees
 both values successfully converted to Date class:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/convert_to_date.html">convert_to_date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2020-02-29"</span>, <span class="st">"40000.1"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "2020-02-29" "2009-07-06"</span></span></code></pre></div>
 </div>
@@ -373,10 +435,10 @@ both values successfully converted to Date class:</p>
 <h4 id="elevate-column-names-stored-in-a-data-frame-row">Elevate column names stored in a data.frame row<a class="anchor" aria-label="anchor" href="#elevate-column-names-stored-in-a-data-frame-row"></a>
 </h4>
 <p>If a data.frame has the intended variable names stored in one of its
-rows, <code>row_to_names</code> will elevate the specified row to become
-the names of the data.frame and optionally (by default) remove the row
-in which names were stored and/or the rows above it.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+rows, <code><a href="../reference/row_to_names.html">row_to_names()</a></code> will elevate the specified row to
+become the names of the data.frame and optionally (by default) remove
+the row in which names were stored and/or the rows above it.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dirt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>X_1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="st">"ID"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>,</span>
 <span>           X_2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="st">"Value"</span>, <span class="fl">4</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -385,6 +447,16 @@ in which names were stored and/or the rows above it.</p>
 <span><span class="co">#&gt; 3  1     4</span></span>
 <span><span class="co">#&gt; 4  2     5</span></span>
 <span><span class="co">#&gt; 5  3     6</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="find-the-header-row-buried-within-a-messy-data-frame">Find the header row buried within a messy data.frame<a class="anchor" aria-label="anchor" href="#find-the-header-row-buried-within-a-messy-data-frame"></a>
+</h4>
+<p>The function <code><a href="../reference/find_header.html">find_header()</a></code> is a companion function to
+<code><a href="../reference/row_to_names.html">row_to_names()</a></code>. By default it will search a data.frame for
+the first row with no missing values and return that row number.</p>
+<p>It can also be used to return the row number where a given string is
+present in the first column, or in any specific column. Then this result
+can be supplied to <code><a href="../reference/row_to_names.html">row_to_names()</a></code>.</p>
 </div>
 </div>
 <div class="section level3">
@@ -403,7 +475,7 @@ appropriately-named rows, grouped into head/middle/tail groups.</p>
 <li>Supports sorting</li>
 <li>Can show or hide <code>NA</code> values.</li>
 </ul>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"strongly agree"</span>, <span class="st">"agree"</span>, <span class="st">"neutral"</span>, <span class="st">"neutral"</span>, <span class="st">"disagree"</span>, <span class="st">"strongly agree"</span><span class="op">)</span>,</span>
 <span>            levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"strongly agree"</span>, <span class="st">"agree"</span>, <span class="st">"neutral"</span>, <span class="st">"disagree"</span>, <span class="st">"strongly disagree"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/top_levels.html">top_levels</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span>
