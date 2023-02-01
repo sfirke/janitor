@@ -63,6 +63,8 @@ These are all minor breaking changes resulting from enhancements and are not exp
 
 * `adorn_ns()` can act on a single-column data.frame input with custom Ns supplied if the variable to adorn is specified with `...` (#456).
 
+* `adorn_totals()` on a one_way tabyl preserves the `tabyl_type` attribute so that a subsequent call to `adorn_pct_formatting()` works correctly on one-way tabyls (#523).
+
 # janitor 2.1.0 (2021-01-05)
 
 ## New features
