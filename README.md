@@ -19,7 +19,7 @@
 [![R-CMD-check](https://github.com/sfirke/janitor/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/sfirke/janitor/actions/workflows/R-CMD-check.yaml)
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/sfirke/janitor/master.svg)](https://codecov.io/github/sfirke/janitor?branch=master)
-[![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+[![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version-ago/janitor)](https://cran.r-project.org/package=janitor)
 ![!Monthly Downloads](https://cranlogs.r-pkg.org/badges/janitor)
 ![!Downloads](https://cranlogs.r-pkg.org/badges/grand-total/janitor)
@@ -69,7 +69,7 @@ You can install:
 
 A full description of each function, organized by topic, can be found in
 janitor’s [catalog of functions
-vignette](http://sfirke.github.io/janitor/articles/janitor.html). There
+vignette](https://sfirke.github.io/janitor/articles/janitor.html). There
 you will find functions not mentioned in this README, like
 `compare_df_cols()` which provides a summary of differences in column
 names and types when given a set of data.frames.
@@ -97,7 +97,7 @@ Here’s that data after being read in to R:
 ``` r
 library(readxl); library(janitor); library(dplyr); library(here)
 
-roster_raw <- read_excel(here("dirty_data.xlsx")) # available at http://github.com/sfirke/janitor
+roster_raw <- read_excel(here("dirty_data.xlsx")) # available at https://github.com/sfirke/janitor
 glimpse(roster_raw)
 #> Rows: 14
 #> Columns: 11
@@ -296,7 +296,7 @@ Pipe that right into `knitr::kable()` in your RMarkdown report.
 These modular adornments can be layered to reduce R’s deficit against
 Excel and SPSS when it comes to quick, informative counts. Learn more
 about `tabyl()` and the `adorn_` functions from the [tabyls
-vignette](http://sfirke.github.io/janitor/articles/tabyls.html).
+vignette](https://sfirke.github.io/janitor/articles/tabyls.html).
 
 ## Contact me
 
@@ -307,4 +307,4 @@ You are welcome to:
 - let me know what you think on Mastodon:
   [@samfirke@a2mi.social](https://a2mi.social/@samfirke)
 - compose a friendly e-mail to:
-  <img src = "http://samfirke.com/wp-content/uploads/2016/07/email_address_whitespace_top.png" alt = "samuel.firke AT gmail" width = "210"/>
+  <img src = "https://samfirke.com/wp-content/uploads/2016/07/email_address_whitespace_top.png" alt = "samuel.firke AT gmail" width = "210"/>
