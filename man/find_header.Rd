@@ -24,9 +24,10 @@ When searching for a specified value or value within a column, the first row
 with a match will be returned, regardless of the completeness of the rest of
 that row.  If \code{...} has a single character argument, then the first
 column is searched for that value.  If \code{...} has a named numeric
-argument, then the value of the argument is searched for the name (see the
-examples).  If more than one row is found matching a value that is searched
-for, the first matching row will be returned (with a warning).
+argument, then the column whose position number matches the value of that
+argument is searched for the name (see the last example below).  If more than one
+row is found matching a value that is searched for, the number of the first
+matching row will be returned (with a warning).
 }
 \examples{
 # the first row

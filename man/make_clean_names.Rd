@@ -39,8 +39,8 @@ value.}
 output is usable as a name without quoting?  (Avoiding \code{make.names()}
 ensures that the output is locale-independent but quoting may be required.)}
 
-\item{allow_dupes}{Allow duplicates \code{TRUE} in the returned names or
-not (\code{FALSE}, default).}
+\item{allow_dupes}{Allow duplicates in the returned names (\code{TRUE}) or not
+(\code{FALSE}, the default).}
 
 \item{sep_in}{(short for separator input) if character, is interpreted as a
 regular expression (wrapped internally into \code{stringr::regex()}). 
