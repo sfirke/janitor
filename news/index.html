@@ -99,6 +99,7 @@
 <li><p>When a numeric variable is supplied as the 2nd variable (column) or 3rd variable (list) of a <code>tabyl</code>, the resulting columns or list are now sorted in numeric order, not alphabetic. (<a href="https://github.com/sfirke/janitor/issues/438" class="external-link">#438</a>, thanks <strong>@daaronr</strong> for reporting and <strong>@mattroumaya</strong> for fixing)</p></li>
 <li><p><code><a href="../reference/tabyl.html">tabyl()</a></code> now succeeds when the second variable is named <code>"n"</code> (<a href="https://github.com/sfirke/janitor/issues/445" class="external-link">#445</a>).</p></li>
 <li><p><code><a href="../reference/adorn_ns.html">adorn_ns()</a></code> can act on a single-column data.frame input with custom Ns supplied if the variable to adorn is specified with <code>...</code> (<a href="https://github.com/sfirke/janitor/issues/456" class="external-link">#456</a>).</p></li>
+<li><p><code><a href="../reference/adorn_totals.html">adorn_totals()</a></code> on a one_way tabyl preserves the <code>tabyl_type</code> attribute so that a subsequent call to <code><a href="../reference/adorn_pct_formatting.html">adorn_pct_formatting()</a></code> works correctly on one-way tabyls (<a href="https://github.com/sfirke/janitor/issues/523" class="external-link">#523</a>).</p></li>
 </ul></div>
 </div>
     <div class="section level2">
