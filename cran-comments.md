@@ -2,6 +2,10 @@
 2023-02-01
 
 ## Submission summary
+
+*Resubmitting as 2.2.0 again with fixes to URLs in documentation*
+
+### janitor version 2.2.0
 An accumulation of enhancements and bug fixes.  Breaking changes only for edge cases.
 
 Notably, this fixes the current test failures on CRAN for this package, resulting from

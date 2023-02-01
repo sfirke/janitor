@@ -25,7 +25,7 @@ Functions for everyday use.
 ### Clean data.frame names with `clean_names()`
 Call this function every time you read data.
 
-It works in a `%>%` pipeline, and handles problematic variable names, especially those that are so well-preserved by `readxl::read_excel()` and `readr::read_csv()`.
+It works in a `%>%` pipeline and handles problematic variable names, especially those that are so well-preserved by `readxl::read_excel()` and `readr::read_csv()`.
 
 + Parses letter cases and separators to a consistent format.
     + Default is to snake_case, but other cases like camelCase are available

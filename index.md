@@ -18,7 +18,7 @@
 Status](https://travis-ci.org/sfirke/janitor.svg?branch=master)](https://travis-ci.org/sfirke/janitor)
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/sfirke/janitor/master.svg)](https://codecov.io/github/sfirke/janitor?branch=master)
-[![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+[![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version-ago/janitor)](https://cran.r-project.org/package=janitor)
 ![!Monthly Downloads](https://cranlogs.r-pkg.org/badges/janitor)
 ![!Downloads](https://cranlogs.r-pkg.org/badges/grand-total/janitor)
@@ -31,10 +31,10 @@ their thinking for the fun stuff.
 
 The main janitor functions:
 
--   perfectly format data.frame column names;
--   create and format frequency tables of one, two, or three variables -
-    think an improved `table()`; and
--   provide other tools for cleaning and examining data.frames.
+- perfectly format data.frame column names;
+- create and format frequency tables of one, two, or three variables -
+  think an improved `table()`; and
+- provide other tools for cleaning and examining data.frames.
 
 The tabulate-and-report functions approximate popular features of SPSS
 and Microsoft Excel.
@@ -50,24 +50,24 @@ optimized for cleaning data brought in with the
 
 You can install:
 
--   the most recent officially-released version from CRAN with
+- the most recent officially-released version from CRAN with
 
-    ``` r
-    install.packages("janitor")
-    ```
+  ``` r
+  install.packages("janitor")
+  ```
 
--   the latest development version from GitHub with
+- the latest development version from GitHub with
 
-    ``` r
-    install.packages("devtools")
-    devtools::install_github("sfirke/janitor")
-    ```
+  ``` r
+  install.packages("devtools")
+  devtools::install_github("sfirke/janitor")
+  ```
 
 ## Using janitor
 
 A full description of each function, organized by topic, can be found in
 janitor’s [catalog of functions
-vignette](http://sfirke.github.io/janitor/articles/janitor.html). There
+vignette](https://sfirke.github.io/janitor/articles/janitor.html). There
 you will find functions not mentioned in this README, like
 `compare_df_cols()` which provides a summary of differences in column
 names and types when given a set of data.frames.
@@ -83,19 +83,19 @@ in the Microsoft Excel file
 
 Dirtiness includes:
 
--   A header at the top
--   Dreadful column names
--   Rows and columns containing Excel formatting but no data
--   Dates in two different formats in a single column (MM/DD/YYYY and
-    numbers)
--   Values spread inconsistently over the “Certification” columns
+- A header at the top
+- Dreadful column names
+- Rows and columns containing Excel formatting but no data
+- Dates in two different formats in a single column (MM/DD/YYYY and
+  numbers)
+- Values spread inconsistently over the “Certification” columns
 
 Here’s that data after being read in to R:
 
 ``` r
 library(readxl); library(janitor); library(dplyr); library(here)
 
-roster_raw <- read_excel(here("dirty_data.xlsx")) # available at http://github.com/sfirke/janitor
+roster_raw <- read_excel(here("dirty_data.xlsx")) # available at https://github.com/sfirke/janitor
 glimpse(roster_raw)
 #> Rows: 14
 #> Columns: 11
@@ -212,12 +212,12 @@ Like `table()`, but pipe-able, data.frame-based, and fully featured.
 
 `tabyl` can be called two ways:
 
--   On a vector, when tabulating a single variable:
-    `tabyl(roster$subject)`
--   On a data.frame, specifying 1, 2, or 3 variable names to tabulate:
-    `roster %>% tabyl(subject, employee_status)`.
-    -   Here the data.frame is passed in with the `%>%` pipe; this
-        allows `tabyl` to be used in an analysis pipeline
+- On a vector, when tabulating a single variable:
+  `tabyl(roster$subject)`
+- On a data.frame, specifying 1, 2, or 3 variable names to tabulate:
+  `roster %>% tabyl(subject, employee_status)`.
+  - Here the data.frame is passed in with the `%>%` pipe; this allows
+    `tabyl` to be used in an analysis pipeline
 
 One variable:
 
@@ -294,15 +294,15 @@ Pipe that right into `knitr::kable()` in your RMarkdown report.
 These modular adornments can be layered to reduce R’s deficit against
 Excel and SPSS when it comes to quick, informative counts. Learn more
 about `tabyl()` and the `adorn_` functions from the [tabyls
-vignette](http://sfirke.github.io/janitor/articles/tabyls.html).
+vignette](https://sfirke.github.io/janitor/articles/tabyls.html).
 
 ## <i class="fa fa-bullhorn" aria-hidden="true"></i> Contact Me
 
 You are welcome to:
 
--   submit suggestions and report bugs:
-    <https://github.com/sfirke/janitor/issues>
--   let me know what you think on Mastodon:
-    [@samfirke@a2mi.social](https://a2mi.social/@samfirke)
--   compose a friendly e-mail to:
-    <img src = "http://samfirke.com/wp-content/uploads/2016/07/email_address_whitespace_top.png" alt = "samuel.firke AT gmail" width = "210"/>
+- submit suggestions and report bugs:
+  <https://github.com/sfirke/janitor/issues>
+- let me know what you think on Mastodon:
+  [@samfirke@a2mi.social](https://a2mi.social/@samfirke)
+- compose a friendly e-mail to:
+  <img src = "https://samfirke.com/wp-content/uploads/2016/07/email_address_whitespace_top.png" alt = "samuel.firke AT gmail" width = "210"/>
