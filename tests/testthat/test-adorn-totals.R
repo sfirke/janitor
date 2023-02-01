@@ -401,6 +401,14 @@ test_that("supplying NA as fill still works with non-character first col and num
   expect_equal(test_df[1:3, 2:7], out[1:3,2:7], ignore_attr = TRUE)
 })
 
+test_that("one_way tabyl inputs retain that class", {
+  expect_equal(
+    attr(mtcars %>% tabyl(am) %>% adorn_totals("both"), "tabyl_type"),
+    "one_way"
+  )
+})
+
+
 # Tests from #413, different values for row and col names
 test_that("long vectors are trimmed", {
   expect_equal(
