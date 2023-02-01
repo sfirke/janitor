@@ -1,6 +1,6 @@
 Package: janitor
 Title: Simple Tools for Examining and Cleaning Dirty Data
-Version: 2.1.0.9000
+Version: 2.2.0
 Authors@R: c(person("Sam", "Firke", email = "samuel.firke@gmail.com", role = c("aut", "cre")),
     person("Bill", "Denney", email = "wdenney@humanpredictions.com", role = "ctb"),
     person("Chris", "Haid", email = "chrishaid@gmail.com", role = "ctb"),
@@ -9,14 +9,12 @@ Authors@R: c(person("Sam", "Firke", email = "samuel.firke@gmail.com", role = c("
     person("Jonathan", "Zadra", email = "jonathan.zadra@sorensonimpact.com", role = "ctb"))
 Description: The main janitor functions can: perfectly format data.frame column
     names; provide quick counts of variable combinations (i.e., frequency
-    tables and crosstabs); and isolate duplicate records. Other janitor functions
+    tables and crosstabs); and explore duplicate records. Other janitor functions
     nicely format the tabulation results. These tabulate-and-report functions
     approximate popular features of SPSS and Microsoft Excel. This package
     follows the principles of the "tidyverse" and works well with the pipe function
     %>%. janitor was built with beginning-to-intermediate R users in mind and is
-    optimized for user-friendliness. Advanced R users can already do everything
-    covered here, but with janitor they can do it faster and save their thinking for
-    the fun stuff.
+    optimized for user-friendliness.
 URL: https://github.com/sfirke/janitor,
     https://sfirke.github.io/janitor/
 BugReports: https://github.com/sfirke/janitor/issues

@@ -1,6 +1,8 @@
-# janitor 2.1.0.9000 (unreleased, under development)
+# janitor 2.2.0 (2023-02-01)
 
 ## Breaking changes
+
+These are all minor breaking changes resulting from enhancements and are not expected to affect the vast majority of users.
 
 * A new `...` argument was added to `row_to_names()`, preceding the `remove_row` argument, as part of the new `find_header()` functionality.  If code previously used `remove_row` as an unnamed argument, it will now error.  If code previously used the unsupported behavior of passing anything other than `TRUE` or `FALSE` to `remove_row`, unexpected results may occur.
 
@@ -8,12 +10,10 @@
 
 * A minor breaking change is that the time zone is now always set for `excel_numeric_to_date()` and `convert_date()`.  The default timezone is `Sys.timezone()`, previously it was an empty string (`""`). (#422, thanks **@billdenney** for fixing)
 
-* A minor breaking change affects `make_clean_names()` (and therefore `clean_names()`). `make_clean_names()` now uses the `unique_sep` argument from `snakecase::to_any_case()` to handle de-duplication of names. The incremental suffix counter is now one less than in the past (i.e., a de-duplicated variable with a suffix of `_2` becomes `_1`, `_3` becomes `_2`, etc.). This change also results in a new feature and the ability to allow for duplicate names by setting `unique_sep = NULL`. (#495, thanks **@JasonAizkalns** for fixing and **@billdenney** and **@sfirke** for the guidance)
-
 * `get_dupes()` results are now sorted first by descending order of `dupe_count`, then alphabetically by sorting variables. (#493)
 
 * There are several minor breaking changes resulting from enhancements to `adorn_ns()`:
-  * The addition of the new argument `format_func` means that previous calls relying on `,,,` as shorthand to get to the `...` column selection argument may now require an extra comma
+  * The addition of the new argument `format_func` means that previous calls relying on `,,,` as shorthand to get to the `...` column selection argument may now require an extra comma.
   * `adorn_ns()` now defaults to displaying numbers of >3 digits with `big.mark = ","`, as part of the default value of the new `format_func` argument.  E.g., `1234`  is now `1,234`.
   * `adorn_ns()` no longer prints leading whitespace when `position = "front"` - this is not a visible change in the printed result and it would be rare that this affects any code.
 
@@ -21,7 +21,7 @@
 
 ## New features
 
-* `row_to_names()` now has a new helper function, `find_header()` to help find the row that contains the names.  It can be used by passing `row_number="find_header"`, and see the documentation of `row_to_names()` and `find_header()` for more examples. (fix #429)
+* `row_to_names()` now has a new helper function, `find_header()` to help find the row that contains the names.  It can be used by passing `row_number="find_header"`.  See the documentation of `row_to_names()` and `find_header()` for more examples. (fix #429)
 
 * `remove_empty()` has a new argument, `cutoff` which allows rows or columns to be removed if at least the `cutoff` fraction of the data are missing.  (fix #446, thanks to **@jzadra** for suggesting the feature and **@billdenney** for fixing)
 
@@ -37,12 +37,9 @@
 
 ## Minor features
 
-* Some warning messages now have classes so that they can be specifically suppressed with suppressWarnings(..., class="the_class_to_suppress").  To find the class of a warning you typically must look at the code where the error is occurring.  (#452, thanks to **@mgacc0** for suggesting and **@billdenney** for fixing)
-
-* `make_clean_names()` (and therefore `clean_names()`) issues a warning if the mu or micro symbol is in the names and it is not or may not be handled by a `replace` argument value.  (#448, thanks **@IndrajeetPatil** for reporting and **@billdenney** for fixing)  The rationale is that standard transliteration would convert "[mu]g" to "mg" when it would be more typically be converted to "ug" for use as a unit.  A new, unexported constant (janitor:::mu_to_u) was added to help with mu to "u" replacements.
+* `make_clean_names()` (and therefore `clean_names()`) issues a warning if the mu or micro symbol is in the names and it is not or may not be handled by a `replace` argument value.  (#448, thanks **@IndrajeetPatil** for reporting and **@billdenney** for fixing)  The rationale is that standard transliteration would convert `"[mu]g"` to `"mg"` when it would be more typically be converted to `"ug"` for use as a unit.  A new, unexported constant (janitor:::mu_to_u) was added to help with mu to "u" replacements.
 
 * `excel_numeric_to_date()` now warns when times are converted to `NA` due to hours that do not exist because of daylight savings time (fix #420, thanks **@Geomorph2** for reporting and **@billdenney** for fixing).  It also warns when inputs are not positive, since Excel only supports values down to 1 (#423).
-
 
 * If a `tabyl()` or similar data.frame is sorted (e.g., with `dplyr::arrange()`), then has `adorn_totals()` and/or `adorn_percentages()` called on it, followed by `adorn_ns()`, the Ns will be sorted correctly to match the tabyl they're being adorned on. (fix #407)
 
@@ -54,9 +51,11 @@
 
 * `make_clean_names()` now allows for duplicate names to be returned by specifying `TRUE` to the new `allow_dupes` argument (#495, @JasonAizkalns).
 
+* Some warning messages now have classes so that they can be specifically suppressed with `suppressWarnings(..., class="the_class_to_suppress")`.  To find the class of a warning you typically must look at the code where the error is occurring.  (#452, thanks to **@mgacc0** for suggesting and **@billdenney** for fixing)
+
 ## Bug fixes
 
-* `adorn_percentages()` was refactored for compatibility with `dplyr` package versions > 1.0.99 (#490)
+* `adorn_percentages()` was refactored for compatibility with `dplyr` package versions >= 1.1.0 (#490)
 
 * When a numeric variable is supplied as the 2nd variable (column) or 3rd variable (list) of a `tabyl`, the resulting columns or list are now sorted in numeric order, not alphabetic. (#438, thanks **@daaronr** for reporting and **@mattroumaya** for fixing)
 
