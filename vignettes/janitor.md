@@ -1,6 +1,6 @@
 Overview of janitor functions
 ================
-2023-02-01
+2023-02-02
 
 - <a href="#major-functions" id="toc-major-functions">Major functions</a>
   - <a href="#cleaning" id="toc-cleaning">Cleaning</a>
@@ -195,7 +195,7 @@ mtcars %>%
 ```
 
 Learn more in the [tabyls
-vignette](http://sfirke.github.io/janitor/articles/tabyls.html).
+vignette](https://sfirke.github.io/janitor/articles/tabyls.html).
 
 ### Explore records with duplicated values for specific combinations of variables with `get_dupes()`
 

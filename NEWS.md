@@ -1,4 +1,4 @@
-# janitor 2.2.0 (2023-02-01)
+# janitor 2.2.0 (2023-02-02)
 
 ## Breaking changes
 
