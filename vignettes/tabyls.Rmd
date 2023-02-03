@@ -46,7 +46,7 @@ humans <- starwars %>%
 
 Tabulating a single variable is the simplest kind of tabyl:
 
-```{r one_way}
+```{r one_way, message=FALSE}
 library(janitor)
 
 t1 <- humans %>%

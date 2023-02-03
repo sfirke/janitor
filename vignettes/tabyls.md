@@ -1,6 +1,6 @@
 tabyls: a tidy, fully-featured approach to counting things
 ================
-2023-02-01
+2023-02-03
 
 ## Motivation: why tabyl?
 
