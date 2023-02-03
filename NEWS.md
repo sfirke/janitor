@@ -1,3 +1,8 @@
+# janitor 2.2.0.9000 - unreleased development version
+
+No changes yet.
+
+
 # janitor 2.2.0 (2023-02-02)
 
 ## Breaking changes
