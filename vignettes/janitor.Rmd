@@ -2,7 +2,7 @@
 title: "Overview of janitor functions"
 date: "`r Sys.Date()`"
 output:
-  github_document:
+  rmarkdown::github_document:
     toc: true
     toc_depth: 3
 vignette: >
@@ -92,7 +92,7 @@ mtcars %>%
   adorn_title()
 ```
 
-Learn more in the [tabyls vignette](http://sfirke.github.io/janitor/articles/tabyls.html).
+Learn more in the [tabyls vignette](https://sfirke.github.io/janitor/articles/tabyls.html).
 
 ### Explore records with duplicated values for specific combinations of variables with `get_dupes()`
 This is for hunting down and examining duplicate records during data cleaning - usually when there shouldn't be any.

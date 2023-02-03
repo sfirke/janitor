@@ -59,7 +59,8 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
     if ("grouped_df" %in% class(dat)) {
       dat <- dplyr::ungroup(dat)
     }
-    dat <- as_tabyl(dat)
+    
+    dat <- as_tabyl(dat) # even a tabyl needs to be recast as a tabyl to reset the core in case it's been sorted
     
     # set totals attribute
     if (sum(where %in% attr(dat, "totals")) > 0) { # if either of the values of "where" are already in totals attribute
