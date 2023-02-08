@@ -570,3 +570,13 @@ test_that("order is maintained when first column is a factor, #494", {
     "factor"
   )
 })
+
+test_that("if factor level already present, adorn_totals() still works, #529", {
+  factor_present <- mtcars %>%
+    tabyl(am, cyl)
+    factor_present$am <- factor(factor_present$am, levels = c("0", "1", "Total"))
+    expect_equal(
+      levels(adorn_totals(factor_present, "row")$am),
+      c("0", "1", "Total")
+    )
+})

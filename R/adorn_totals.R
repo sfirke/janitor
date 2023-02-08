@@ -134,7 +134,9 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
       }
       dat[(nrow(dat) + 1), ] <- col_totals[1, ] # insert totals_col as last row in dat
       if(factor_input) { # restore factor/ordered info, #494
-        dat[[1]] <- factor(dat[[1]], levels = c(levels(col1_backup), name[1]), ordered = is.ordered(col1_backup))
+        dat[[1]] <- factor(dat[[1]],
+                           levels = c(setdiff(levels(col1_backup), name[1]), name[1]), # don't add if level is present
+                           ordered = is.ordered(col1_backup))
       }
     }
     
