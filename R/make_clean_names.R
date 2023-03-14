@@ -15,13 +15,13 @@
 #'
 #' The order of operations is: make replacements, (optional) ASCII conversion,
 #' remove initial spaces and punctuation, apply \code{base::make.names()},
-#' apply \code{snakecase::to_any_case}, and add numeric suffixes 
+#' apply \code{snakecase::to_any_case}, and add numeric suffixes
 #' to resolve any duplicated names.
 #'
-#' This function relies on \code{snakecase::to_any_case} and can take advantage of 
-#' its versatility.  For instance, an abbreviation like "ID" can have its 
-#' capitalization preserved by passing the argument \code{abbreviations = "ID"}. 
-#' See the documentation for \code{\link[snakecase:to_any_case]{snakecase::to_any_case}} 
+#' This function relies on \code{snakecase::to_any_case} and can take advantage of
+#' its versatility.  For instance, an abbreviation like "ID" can have its
+#' capitalization preserved by passing the argument \code{abbreviations = "ID"}.
+#' See the documentation for \code{\link[snakecase:to_any_case]{snakecase::to_any_case}}
 #' for more about how to use its features.
 #'
 #' On some systems, not all transliterators to ASCII are available.  If this is
@@ -29,7 +29,7 @@
 #' warning will be issued once per session indicating that results may be
 #' different when run on a different system.  That warning can be disabled with
 #' \code{options(janitor_warn_transliterators=FALSE)}.
-#' 
+#'
 #' If the objective of your call to \code{make_clean_names()} is only to translate to
 #' ASCII, try the following instead:
 #' \code{stringi::stri_trans_general(x, id="Any-Latin;Greek-Latin;Latin-ASCII")}.
@@ -93,7 +93,9 @@ make_clean_names <- function(string,
                              parsing_option = 1,
                              numerals = "asis",
                              ...) {
-  
+  if (is.data.frame(string)) {
+    stop("`string` must not be a data.frame, use clean_names()")
+  }
   # Handling "old_janitor" case for backward compatibility
   if (case == "old_janitor") {
     return(old_make_clean_names(string))
@@ -154,7 +156,7 @@ make_clean_names <- function(string,
       numerals = numerals,
       ...
     )
-  
+
   # Handle duplicated names by appending an incremental counter to repeats
   if (!allow_dupes) {
     while (any(duplicated(cased_names))) {
@@ -165,21 +167,21 @@ make_clean_names <- function(string,
           },
           1L
         )
-      
+
       cased_names[dupe_count > 1] <-
         paste(
           cased_names[dupe_count > 1],
           dupe_count[dupe_count > 1],
           sep = "_"
         )
-    }    
+    }
   }
 
   cased_names
 }
 
 #' Warn if micro or mu are going to be replaced with make_clean_names()
-#' 
+#'
 #' @inheritParams make_clean_names
 #' @param character Which character should be tested for ("micro" or "mu", or both)?
 #' @return TRUE if a warning was issued or FALSE if no warning was issued
@@ -247,7 +249,7 @@ warn_micro_mu <- function(string, replace) {
 
 # copy of clean_names from janitor v0.3 on CRAN, to preserve old behavior
 old_make_clean_names <- function(string) {
-  
+
   # Takes a data.frame, returns the same data frame with cleaned names
   old_names <- string
   new_names <- old_names %>%
@@ -260,13 +262,13 @@ old_make_clean_names <- function(string) {
     gsub("[_]+", "_", .) %>% # fix rare cases of multiple consecutive underscores
     tolower(.) %>%
     gsub("_$", "", .) # remove string-final underscores
-  
+
   # Handle duplicated names - they mess up dplyr pipelines
   # This appends the column number to repeated instances of duplicate variable names
   dupe_count <- vapply(seq_along(new_names), function(i) {
     sum(new_names[i] == new_names[1:i])
   }, integer(1))
-  
+
   new_names[dupe_count > 1] <- paste(
     new_names[dupe_count > 1],
     dupe_count[dupe_count > 1],
