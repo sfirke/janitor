@@ -4,6 +4,8 @@
 
 * `adorn_totals("row")` now succeeds if the new `name` of the totals row is already a factor level of the input data.frame (#529, thanks @egozoglu for reporting).
 
+* `make_clean_names()` no longer accepts a data.frame or tibble as input, use `clean_names()` for that (fix #532, **@billdenney**).
+
 # janitor 2.2.0 (2023-02-02)
 
 ## Breaking changes

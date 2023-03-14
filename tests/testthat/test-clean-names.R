@@ -213,6 +213,19 @@ test_that("warnings are issued when micro/mu are not handled (fix #448)", {
   )
 })
 
+test_that("make_clean_names error for data.frame input", {
+  expect_error(
+    make_clean_names(data.frame(a = 1)),
+    regexp = "`string` must not be a data.frame, use clean_names()",
+    fixed = TRUE
+  )
+  expect_error(
+    make_clean_names(tibble::tibble(a = 1)),
+    regexp = "`string` must not be a data.frame, use clean_names()",
+    fixed = TRUE
+  )
+})
+
 # Tests for warn_micro_mu ####
 
 test_that("warn_micro_mu", {
@@ -628,7 +641,7 @@ test_that("tbl_lazy/dbplyr", {
                testing_vector[6:7],
                "repeated_2",
                testing_vector[9:22]))
-    
+
     # create a database object with clean names
     # warning due to unhandled mu
     expect_warning(clean_db <- clean_names(test_db, case = "snake"))
