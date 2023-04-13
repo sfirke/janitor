@@ -28,8 +28,6 @@ row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_ab
     stop("remove_row must be either TRUE or FALSE, not ", as.character(remove_row))
   } else if (!(is.logical(remove_rows_above) & length(remove_rows_above) == 1)) {
     stop("remove_rows_above must be either TRUE or FALSE, not ", as.character(remove_rows_above))
-  } else if (length(row_number) != 1) {
-    stop("row_number must be a scalar")
   }
   if (row_number %in% "find_header") {
     # no need to check if it is a character string, %in% will do that for us
