@@ -42,7 +42,11 @@ row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_ab
   } else {
     stop("row_number must be a numeric value or 'find_header'")
   }
-  new_names <- as.character(unlist(lapply(dat[row_number, ], paste0, collapse = ""), use.names = FALSE))
+  new_names <- dat[row_number, ] %>% 
+    lapply(paste0, collapse = "") %>% 
+    unlist(use.names = FALSE) %>% 
+    as.character()
+  
   if (any(duplicated(new_names))) {
     rlang::warn(
       message=paste("Row", row_number, "does not provide unique names. Consider running clean_names() after row_to_names()."),
