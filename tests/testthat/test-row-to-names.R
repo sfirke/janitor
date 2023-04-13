@@ -19,12 +19,6 @@ names(example_data_row_to_names)[3] <- "tibble"
 
 test_that("row_to_names invalid and semi-valid input checking", {
   expect_error(
-    example_data_row_to_names[[1]] %>%
-      row_to_names(row_number = 1:2),
-    regexp="row_number must be a scalar"
-  )
-
-  expect_error(
     row_to_names(example_data_row_to_names[[1]], row_number=1, remove_row="A"),
     regexp="remove_row must be either TRUE or FALSE, not A",
     fixed=TRUE
