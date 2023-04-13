@@ -29,7 +29,7 @@ row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_ab
   } else if (!(is.logical(remove_rows_above) & length(remove_rows_above) == 1)) {
     stop("remove_rows_above must be either TRUE or FALSE, not ", as.character(remove_rows_above))
   }
-  if (row_number %in% "find_header") {
+  if (any(row_number %in% "find_header")) {
     # no need to check if it is a character string, %in% will do that for us
     # (and will handle the odd-ball cases like someone sending in
     # factor("find_header")).
@@ -42,7 +42,7 @@ row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_ab
   } else {
     stop("row_number must be a numeric value or 'find_header'")
   }
-  new_names <- as.character(unlist(dat[row_number, ], use.names = FALSE))
+  new_names <- as.character(unlist(lapply(dat[row_number, ], paste0, collapse = ""), use.names = FALSE))
   if (any(duplicated(new_names))) {
     rlang::warn(
       message=paste("Row", row_number, "does not provide unique names. Consider running clean_names() after row_to_names()."),
