@@ -43,6 +43,7 @@ row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_ab
     stop("row_number must be a numeric value or 'find_header'")
   }
   new_names <- dat[row_number, ] %>% 
+    replace(is.na(.), "") %>% 
     lapply(paste0, collapse = "") %>% 
     unlist(use.names = FALSE) %>% 
     as.character()
