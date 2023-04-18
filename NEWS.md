@@ -1,5 +1,9 @@
 # janitor 2.2.0.9000 - unreleased development version
 
+## New features
+
+* A new function `paste_skip_na()` pastes without including NA values (#537).
+
 ## Bug fixes
 
 * `adorn_totals("row")` now succeeds if the new `name` of the totals row is already a factor level of the input data.frame (#529, thanks @egozoglu for reporting).
