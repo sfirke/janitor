@@ -56,6 +56,10 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.2.0.9000" id="janitor-2209000---unreleased-development-version">janitor 2.2.0.9000 - unreleased development version<a class="anchor" aria-label="anchor" href="#janitor-2209000---unreleased-development-version"></a></h2>
 <div class="section level3">
+<h3 id="new-features-2-2-0-9000">New features<a class="anchor" aria-label="anchor" href="#new-features-2-2-0-9000"></a></h3>
+<ul><li>A new function <code><a href="../reference/paste_skip_na.html">paste_skip_na()</a></code> pastes without including NA values (<a href="https://github.com/sfirke/janitor/issues/537" class="external-link">#537</a>).</li>
+</ul></div>
+<div class="section level3">
 <h3 id="bug-fixes-2-2-0-9000">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-2-2-0-9000"></a></h3>
 <ul><li><p><code>adorn_totals("row")</code> now succeeds if the new <code>name</code> of the totals row is already a factor level of the input data.frame (<a href="https://github.com/sfirke/janitor/issues/529" class="external-link">#529</a>, thanks <a href="https://github.com/egozoglu" class="external-link">@egozoglu</a> for reporting).</p></li>
 <li><p><code><a href="../reference/make_clean_names.html">make_clean_names()</a></code> no longer accepts a data.frame or tibble as input, use <code><a href="../reference/clean_names.html">clean_names()</a></code> for that (fix <a href="https://github.com/sfirke/janitor/issues/532" class="external-link">#532</a>, <strong>@billdenney</strong>).</p></li>
