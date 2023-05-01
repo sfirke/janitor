@@ -1,4 +1,4 @@
-#' Concatenate strings dropping missing values
+#' Like \code{paste()}, but missing values are omitted
 #'
 #' @details If all values are missing, the value from the first argument is
 #'   preserved.
@@ -10,19 +10,19 @@
 #' paste_skip_na("A", NA) # "A"
 #' paste_skip_na("A", NA, c(NA, "B"), sep = ",") # c("A", "A,B")
 #' @export
-paste_skip_na <- function(..., sep=" ", collapse=NULL) {
+paste_skip_na <- function(..., sep = " ", collapse = NULL) {
   args <- list(...)
   if (length(args) <= 1) {
     if (length(args) == 0) {
       # match the behavior of paste
-      paste(sep=sep, collapse=collapse)
+      paste(sep = sep, collapse = collapse)
     } else if (!is.null(collapse)) {
       if (all(is.na(args[[1]]))) {
         # Collapsing with all NA values results in NA
         NA_character_
       } else {
         # Collapsing without all NA values collapses the non-NA values
-        paste(na.omit(args[[1]]), sep=sep, collapse=collapse)
+        paste(na.omit(args[[1]]), sep = sep, collapse = collapse)
       }
     } else {
       # as.character() to ensure that logical NA values are converted to
@@ -53,7 +53,7 @@ paste_skip_na <- function(..., sep=" ", collapse=NULL) {
     }
     if (any(mask_both)) {
       # Collapse only occurs on the final pasting
-      firsttwo[mask_both] <- paste(a1[mask_both], a2[mask_both], sep=sep, collapse=NULL)
+      firsttwo[mask_both] <- paste(a1[mask_both], a2[mask_both], sep = sep, collapse = NULL)
     }
     # prepare to recurse, and recurse
     new_args <- append(list(firsttwo), args[-(1:2)])

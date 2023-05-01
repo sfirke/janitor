@@ -2,7 +2,7 @@
 % Please edit documentation in R/paste_skip_na.R
 \name{paste_skip_na}
 \alias{paste_skip_na}
-\title{Concatenate strings dropping missing values}
+\title{Like \code{paste()}, but missing values are omitted}
 \usage{
 paste_skip_na(..., sep = " ", collapse = NULL)
 }
@@ -13,7 +13,7 @@ paste_skip_na(..., sep = " ", collapse = NULL)
 A character vector of pasted values.
 }
 \description{
-Concatenate strings dropping missing values
+Like \code{paste()}, but missing values are omitted
 }
 \details{
 If all values are missing, the value from the first argument is
