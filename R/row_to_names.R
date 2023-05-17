@@ -43,6 +43,8 @@ row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_ab
     stop("row_number must be a numeric value or 'find_header'")
   }
   new_names <- dat[row_number, ] %>% 
+    lapply(reduce_na) %>% 
+    as.data.frame() %>% 
     replace(is.na(.), "") %>% 
     lapply(paste0, collapse = "") %>% 
     unlist(use.names = FALSE) %>% 
@@ -141,4 +143,10 @@ find_header <- function(dat, ...) {
     stop("Either zero or one arguments other than 'dat' may be provided.")
   }
   ret
+}
+
+reduce_na <- function(x) {
+  if (all(is.na(x)))
+    x[1] <- "NA"
+  x
 }
