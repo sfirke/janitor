@@ -46,7 +46,7 @@ row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_ab
     lapply(reduce_na) %>% 
     as.data.frame() %>% 
     replace(is.na(.), "") %>% 
-    lapply(paste0, collapse = sep) %>% 
+    lapply(paste_skip_na, collapse = sep) %>% 
     lapply(stringr::str_replace_all, pattern = "__+", replacement = "_") %>% 
     lapply(stringr::str_replace_all, pattern = "_$", replacement = "") %>% 
     unlist(use.names = FALSE) %>% 
