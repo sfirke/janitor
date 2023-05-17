@@ -22,7 +22,7 @@
 #' x %>%
 #'   row_to_names(row_number = "find_header")
 #' @export
-row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_above = TRUE) {
+row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_above = TRUE, sep = "_") {
   # Check inputs
   if (!(is.logical(remove_row) & length(remove_row) == 1)) {
     stop("remove_row must be either TRUE or FALSE, not ", as.character(remove_row))
@@ -46,7 +46,9 @@ row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_ab
     lapply(reduce_na) %>% 
     as.data.frame() %>% 
     replace(is.na(.), "") %>% 
-    lapply(paste0, collapse = "") %>% 
+    lapply(paste0, collapse = sep) %>% 
+    lapply(stringr::str_replace_all, pattern = "__+", replacement = "_") %>% 
+    lapply(stringr::str_replace_all, pattern = "_$", replacement = "") %>% 
     unlist(use.names = FALSE) %>% 
     as.character()
   
