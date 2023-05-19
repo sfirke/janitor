@@ -11,6 +11,8 @@
 #' @param remove_rows_above If \code{row_number != 1}, should the rows above
 #'   \code{row_number} - that is, between \code{1:(row_number-1)} - be removed
 #'   from the resulting data.frame?
+#' @param sep A character string to separate the values in the case of multiple
+#'   rows input to `row_number`.
 #' @return A data.frame with new names (and some rows removed, if specified)
 #' @family Set names
 #' @examples
@@ -29,7 +31,7 @@ row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_ab
   } else if (!(is.logical(remove_rows_above) & length(remove_rows_above) == 1)) {
     stop("remove_rows_above must be either TRUE or FALSE, not ", as.character(remove_rows_above))
   }
-  if (any(row_number %in% "find_header")) {
+  if (identical(row_number, "find_header")) {
     # no need to check if it is a character string, %in% will do that for us
     # (and will handle the odd-ball cases like someone sending in
     # factor("find_header")).
@@ -42,15 +44,17 @@ row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_ab
   } else {
     stop("row_number must be a numeric value or 'find_header'")
   }
-  new_names <- dat[row_number, ] %>% 
-    lapply(reduce_na) %>% 
-    as.data.frame() %>% 
-    replace(is.na(.), "") %>% 
-    lapply(paste_skip_na, collapse = sep) %>% 
-    lapply(stringr::str_replace_all, pattern = "__+", replacement = "_") %>% 
-    lapply(stringr::str_replace_all, pattern = "_$", replacement = "") %>% 
-    unlist(use.names = FALSE) %>% 
-    as.character()
+  if (!is.character(sep)) {
+    stop("`sep` must be of type `character`.")
+  }
+  if (length(sep) != 1){
+    stop("`sep` must be of length 1.")
+  }
+  if (is.na(sep)) {
+    stop("`sep` can't be of type `NA_character_`.")
+  }
+  new_names <- sapply(dat[row_number, ], paste_skip_na, collapse = sep) %>% 
+    stringr::str_replace_na()
   
   if (any(duplicated(new_names))) {
     rlang::warn(
@@ -66,7 +70,7 @@ row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_ab
       c()
     },
     if (remove_rows_above) {
-      seq_len(row_number - 1)
+      seq_len(row_number[1] - 1)
     } else {
       c()
     }
@@ -145,10 +149,4 @@ find_header <- function(dat, ...) {
     stop("Either zero or one arguments other than 'dat' may be provided.")
   }
   ret
-}
-
-reduce_na <- function(x) {
-  if (all(is.na(x)))
-    x[1] <- "NA"
-  x
 }
