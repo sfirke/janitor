@@ -251,6 +251,9 @@ test_that("find_header works within row_to_names", {
 
 test_that("multiple rows input works", {
   
+  df_multiple_na <- example_data_row_to_names[[1]]
+  df_multiple_na[6:7, ] <- NA
+  
   expect_equal(
     suppressWarnings(
       row_to_names(example_data_row_to_names[[1]], row_number=1) %>% 
@@ -277,6 +280,14 @@ test_that("multiple rows input works", {
     row_to_names(example_data_row_to_names[[1]], row_number=1:5) %>% 
       names(),
     c("Title_1_2_3", "Title2_4_5_6")
+  )
+  
+  expect_equal(
+    suppressWarnings(
+      row_to_names(df_multiple_na, row_number=c(1,6,7), remove_rows_above = FALSE) %>% 
+        names()
+    ),
+    c("NA", "NA")
   )
   
 })
