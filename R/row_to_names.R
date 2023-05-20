@@ -70,7 +70,7 @@ row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_ab
       c()
     },
     if (remove_rows_above) {
-      seq_len(row_number[1] - 1)
+      seq_len(max(row_number) - 1)
     } else {
       c()
     }
