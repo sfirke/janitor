@@ -250,19 +250,20 @@ test_that("find_header works within row_to_names", {
 })
 
 test_that("multiple rows input works", {
-  q_row_to_names <- purrr::quietly(row_to_names)
   
   expect_equal(
-    q_row_to_names(example_data_row_to_names[[1]], row_number=1) %>% 
-      purrr::pluck("result") %>% 
-      names(),
+    suppressWarnings(
+      row_to_names(example_data_row_to_names[[1]], row_number=1) %>% 
+        names()
+    ),
     c("NA", "NA")
   )
   
   expect_equal(
-    q_row_to_names(example_data_row_to_names[[1]], row_number=c(1,1)) %>% 
-      purrr::pluck("result") %>% 
-      names(),
+    suppressWarnings(
+      row_to_names(example_data_row_to_names[[1]], row_number=c(1,1)) %>% 
+        names()
+    ),
     c("NA", "NA")
   )
   
