@@ -11,6 +11,8 @@
 #' @param remove_rows_above If \code{row_number != 1}, should the rows above
 #'   \code{row_number} - that is, between \code{1:(row_number-1)} - be removed
 #'   from the resulting data.frame?
+#' @param sep A character string to separate the values in the case of multiple
+#'   rows input to `row_number`.
 #' @return A data.frame with new names (and some rows removed, if specified)
 #' @family Set names
 #' @examples
@@ -22,16 +24,14 @@
 #' x %>%
 #'   row_to_names(row_number = "find_header")
 #' @export
-row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_above = TRUE) {
+row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_above = TRUE, sep = "_") {
   # Check inputs
   if (!(is.logical(remove_row) & length(remove_row) == 1)) {
     stop("remove_row must be either TRUE or FALSE, not ", as.character(remove_row))
   } else if (!(is.logical(remove_rows_above) & length(remove_rows_above) == 1)) {
     stop("remove_rows_above must be either TRUE or FALSE, not ", as.character(remove_rows_above))
-  } else if (length(row_number) != 1) {
-    stop("row_number must be a scalar")
   }
-  if (row_number %in% "find_header") {
+  if (identical(row_number, "find_header")) {
     # no need to check if it is a character string, %in% will do that for us
     # (and will handle the odd-ball cases like someone sending in
     # factor("find_header")).
@@ -44,7 +44,18 @@ row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_ab
   } else {
     stop("row_number must be a numeric value or 'find_header'")
   }
-  new_names <- as.character(unlist(dat[row_number, ], use.names = FALSE))
+  if (!is.character(sep)) {
+    stop("`sep` must be of type `character`.")
+  }
+  if (length(sep) != 1){
+    stop("`sep` must be of length 1.")
+  }
+  if (is.na(sep)) {
+    stop("`sep` can't be of type `NA_character_`.")
+  }
+  new_names <- sapply(dat[row_number, ], paste_skip_na, collapse = sep) %>% 
+    stringr::str_replace_na()
+  
   if (any(duplicated(new_names))) {
     rlang::warn(
       message=paste("Row", row_number, "does not provide unique names. Consider running clean_names() after row_to_names()."),
@@ -59,7 +70,7 @@ row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_ab
       c()
     },
     if (remove_rows_above) {
-      seq_len(row_number - 1)
+      seq_len(max(row_number) - 1)
     } else {
       c()
     }

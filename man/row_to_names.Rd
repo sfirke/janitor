@@ -4,7 +4,14 @@
 \alias{row_to_names}
 \title{Elevate a row to be the column names of a data.frame.}
 \usage{
-row_to_names(dat, row_number, ..., remove_row = TRUE, remove_rows_above = TRUE)
+row_to_names(
+  dat,
+  row_number,
+  ...,
+  remove_row = TRUE,
+  remove_rows_above = TRUE,
+  sep = "_"
+)
 }
 \arguments{
 \item{dat}{The input data.frame}
@@ -22,6 +29,9 @@ resulting data.frame?}
 \item{remove_rows_above}{If \code{row_number != 1}, should the rows above
 \code{row_number} - that is, between \code{1:(row_number-1)} - be removed
 from the resulting data.frame?}
+
+\item{sep}{A character string to separate the values in the case of multiple
+rows input to `row_number`.}
 }
 \value{
 A data.frame with new names (and some rows removed, if specified)

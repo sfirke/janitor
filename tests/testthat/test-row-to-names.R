@@ -19,12 +19,6 @@ names(example_data_row_to_names)[3] <- "tibble"
 
 test_that("row_to_names invalid and semi-valid input checking", {
   expect_error(
-    example_data_row_to_names[[1]] %>%
-      row_to_names(row_number = 1:2),
-    regexp="row_number must be a scalar"
-  )
-
-  expect_error(
     row_to_names(example_data_row_to_names[[1]], row_number=1, remove_row="A"),
     regexp="remove_row must be either TRUE or FALSE, not A",
     fixed=TRUE
@@ -71,6 +65,37 @@ test_that("row_to_names invalid and semi-valid input checking", {
     regexp="Extra arguments (...) may only be given if row_number = 'find_header'.",
     fixed=TRUE
   )
+  
+  expect_error(
+    row_to_names(
+      example_data_row_to_names[[1]],
+      row_number=1, remove_row=TRUE, remove_rows_above=TRUE,
+      sep=8
+    ),
+    regexp="`sep` must be of type `character`.",
+    fixed=TRUE
+  )
+  
+  expect_error(
+    row_to_names(
+      example_data_row_to_names[[1]],
+      row_number=1, remove_row=TRUE, remove_rows_above=TRUE,
+      sep=c("_", "-")
+    ),
+    regexp="`sep` must be of length 1.",
+    fixed=TRUE
+  )
+  
+  expect_error(
+    row_to_names(
+      example_data_row_to_names[[1]],
+      row_number=1, remove_row=TRUE, remove_rows_above=TRUE,
+      sep=NA_character_
+    ),
+    regexp="`sep` can't be of type `NA_character_`.",
+    fixed=TRUE
+  )
+  
 })
 
 test_that("row_to_names works on factor columns", {
@@ -222,4 +247,47 @@ test_that("find_header works within row_to_names", {
     row_to_names(dat=find_correct, row_number="find_header", "E"=2),
     setNames(find_correct[4:nrow(find_correct),], c("D", "E"))
   )
+})
+
+test_that("multiple rows input works", {
+  
+  df_multiple_na <- example_data_row_to_names[[1]]
+  df_multiple_na[6:7, ] <- NA
+  
+  expect_equal(
+    suppressWarnings(
+      row_to_names(example_data_row_to_names[[1]], row_number=1) %>% 
+        names()
+    ),
+    c("NA", "NA")
+  )
+  
+  expect_equal(
+    suppressWarnings(
+      row_to_names(example_data_row_to_names[[1]], row_number=c(1,1)) %>% 
+        names()
+    ),
+    c("NA", "NA")
+  )
+  
+  expect_equal(
+    row_to_names(example_data_row_to_names[[1]], row_number=1:2) %>% 
+      names(),
+    c("Title", "Title2")
+  )
+  
+  expect_equal(
+    row_to_names(example_data_row_to_names[[1]], row_number=1:5) %>% 
+      names(),
+    c("Title_1_2_3", "Title2_4_5_6")
+  )
+  
+  expect_equal(
+    suppressWarnings(
+      row_to_names(df_multiple_na, row_number=c(1,6,7), remove_rows_above = FALSE) %>% 
+        names()
+    ),
+    c("NA", "NA")
+  )
+  
 })
