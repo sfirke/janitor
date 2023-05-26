@@ -43,17 +43,8 @@ get_one_to_one <- function(dat) {
 }
 
 get_one_to_one_value_order <- function(x) {
-  if (any(is.na(x))) {
-    new_value <- as.integer(factor(x))
-    # Factor ordering starts at 1, so assign -1 to be a unique value for NA
-    new_value[is.na(new_value)] <- -1L
-    # redo the conversion so that NA values are in the same order as other
-    # values
-    ulevels <- unique(new_value)
-    new_value <- as.integer(factor(new_value, levels = ulevels))
-  } else {
-    ulevels <- unique(x)
-    new_value <- as.integer(factor(x, levels = ulevels))
-  }
+  # Convert the value to a factor so that any subtly different values become integers
+  uvalues <- match(x, unique(x))
+  new_value <- as.integer(factor(uvalues, levels = unique(uvalues)))
   new_value
 }

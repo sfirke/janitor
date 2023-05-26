@@ -10,6 +10,8 @@
 
 * `make_clean_names()` no longer accepts a data.frame or tibble as input, use `clean_names()` for that (fix #532, **@billdenney**).
 
+* `get_one_to_one()` no longer errors with near-equal values that become identical factor levels (fix #543, thanks to @olivroy for reporting)
+
 # janitor 2.2.0 (2023-02-02)
 
 ## Breaking changes
