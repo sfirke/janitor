@@ -296,5 +296,13 @@ test_that("multiple rows input works", {
       names(),
     "Title_1_2_3",
   )
+  
+  expect_equal(
+    suppressWarnings(
+      row_to_names(df_multiple_na, row_number=c(1,8,9), remove_rows_above = FALSE) %>% 
+        names()
+    ),
+    c("NA", "NA")
+  )
 
 })
