@@ -285,21 +285,21 @@ test_that("multiple rows input works", {
   
   expect_equal(
     suppressWarnings(
-      row_to_names(df_multiple_na, row_number=c(1,6,7), remove_rows_above = FALSE) %>% 
+      row_to_names(df_multiple_na, row_number=c(1,6,7), remove_rows_above=FALSE) %>% 
         names()
     ),
     c("NA", "NA")
   )
   
   expect_equal(
-    row_to_names(example_data_row_to_names[[1]][ , 1, drop = FALSE], row_number=1:5) %>% 
+    row_to_names(example_data_row_to_names[[1]][,1,drop = FALSE], row_number=1:5) %>% 
       names(),
     "Title_1_2_3",
   )
   
   expect_equal(
     suppressWarnings(
-      row_to_names(df_multiple_na, row_number=c(1,8,9), remove_rows_above = FALSE) %>% 
+      row_to_names(df_multiple_na, row_number=c(1,8,9), remove_rows_above=FALSE) %>% 
         names()
     ),
     c("NA", "NA")
