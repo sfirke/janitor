@@ -253,6 +253,7 @@ test_that("multiple rows input works", {
   
   df_multiple_na <- example_data_row_to_names[[1]]
   df_multiple_na[6:7, ] <- NA
+  df_multiple_na[8:9, ] <- ""
   
   expect_equal(
     suppressWarnings(
@@ -290,4 +291,10 @@ test_that("multiple rows input works", {
     c("NA", "NA")
   )
   
+  expect_equal(
+    row_to_names(example_data_row_to_names[[1]][ , 1, drop = FALSE], row_number=1:5) %>% 
+      names(),
+    "Title_1_2_3",
+  )
+
 })

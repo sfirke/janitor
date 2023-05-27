@@ -53,7 +53,7 @@ row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_ab
   if (is.na(sep)) {
     stop("`sep` can't be of type `NA_character_`.")
   }
-  new_names <- sapply(dat[row_number, ], paste_skip_na, collapse = sep) %>% 
+  new_names <- sapply(dat[row_number, , drop = FALSE], paste_skip_na, collapse = sep) %>% 
     stringr::str_replace_na()
   
   if (any(duplicated(new_names))) {
