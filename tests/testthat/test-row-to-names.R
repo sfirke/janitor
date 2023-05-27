@@ -294,7 +294,7 @@ test_that("multiple rows input works", {
   expect_equal(
     row_to_names(example_data_row_to_names[[1]][,1,drop = FALSE], row_number=1:5) %>% 
       names(),
-    "Title_1_2_3",
+    "Title_1_2_3"
   )
   
   expect_equal(
