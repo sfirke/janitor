@@ -253,7 +253,7 @@ test_that("multiple rows input works", {
   
   df_multiple_na <- example_data_row_to_names[[1]]
   df_multiple_na[6:7, ] <- NA
-  df_multiple_na[8:9, ] <- ""
+  df_multiple_na[8:10, ] <- ""
   
   expect_equal(
     suppressWarnings(
@@ -299,10 +299,10 @@ test_that("multiple rows input works", {
   
   expect_equal(
     suppressWarnings(
-      row_to_names(df_multiple_na, row_number=c(1,8,9), remove_rows_above=FALSE) %>% 
+      row_to_names(df_multiple_na, row_number=c(8:10), remove_rows_above=FALSE) %>% 
         names()
     ),
-    c("NA", "NA")
+    c("__", "__")
   )
 
 })
