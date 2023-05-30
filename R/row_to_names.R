@@ -1,9 +1,10 @@
 #' Elevate a row to be the column names of a data.frame.
 #'
 #' @param dat The input data.frame
-#' @param row_number The row of \code{dat} containing the variable names or the
+#' @param row_number The row(s) of \code{dat} containing the variable names or the
 #'   string \code{"find_header"} to use \code{find_header(dat=dat, ...)} to find
-#'   the row_number.
+#'   the row_number. Allows for multiple rows input as a numeric vector. NA's are
+#'   ignored, and if a column contains only NA value it will be named \code{"NA"}.
 #' @param ... Sent to \code{find_header()}, if
 #'   \code{row_number = "find_header"}.  Otherwise, ignored.
 #' @param remove_row Should the row \code{row_number} be removed from the
@@ -53,7 +54,7 @@ row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_ab
   if (is.na(sep)) {
     stop("`sep` can't be of type `NA_character_`.")
   }
-  new_names <- sapply(dat[row_number, ], paste_skip_na, collapse = sep) %>% 
+  new_names <- sapply(dat[row_number, , drop = FALSE], paste_skip_na, collapse = sep) %>% 
     stringr::str_replace_na()
   
   if (any(duplicated(new_names))) {
