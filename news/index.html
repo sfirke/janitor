@@ -56,8 +56,14 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.2.0.9000" id="janitor-2209000---unreleased-development-version">janitor 2.2.0.9000 - unreleased development version<a class="anchor" aria-label="anchor" href="#janitor-2209000---unreleased-development-version"></a></h2>
 <div class="section level3">
+<h3 id="breaking-changes-2-2-0-9000">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-2-2-0-9000"></a></h3>
+<p>These are all minor breaking changes resulting from enhancements and are not expected to affect the vast majority of users.</p>
+<ul><li>When using <code><a href="../reference/row_to_names.html">row_to_names()</a></code>, when all input values in <code>row_number</code> for a column are <code>NA</code>, <code><a href="../reference/row_to_names.html">row_to_names()</a></code> creates a column name of <code>"NA"</code>, a character, rather than <code>NA</code>. If code previously used relied on a column name of <code>NA</code>, it will now error. To fix this, rely on a column name of <code>"NA"</code>.</li>
+</ul></div>
+<div class="section level3">
 <h3 id="new-features-2-2-0-9000">New features<a class="anchor" aria-label="anchor" href="#new-features-2-2-0-9000"></a></h3>
-<ul><li>A new function <code><a href="../reference/paste_skip_na.html">paste_skip_na()</a></code> pastes without including NA values (<a href="https://github.com/sfirke/janitor/issues/537" class="external-link">#537</a>).</li>
+<ul><li><p>A new function <code><a href="../reference/paste_skip_na.html">paste_skip_na()</a></code> pastes without including NA values (<a href="https://github.com/sfirke/janitor/issues/537" class="external-link">#537</a>).</p></li>
+<li><p><code><a href="../reference/row_to_names.html">row_to_names()</a></code> now accepts multiple rows as input, and merges them using a new <code>sep</code> argument (<a href="https://github.com/sfirke/janitor/issues/536" class="external-link">#536</a>). The default is <code>sep = "_"</code>. When handling multiple <code>NA</code> values, <code><a href="../reference/row_to_names.html">row_to_names()</a></code> ignores them and only merges non-NA values for column names. When all values are <code>NA</code>, <code><a href="../reference/row_to_names.html">row_to_names()</a></code> creates a column name of <code>"NA"</code>, a character, rather than <code>NA</code>.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-2-2-0-9000">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-2-2-0-9000"></a></h3>
