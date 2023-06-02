@@ -24,7 +24,7 @@ remove_constant(data.frame(A=1, B=1:3))
 
 # To find the columns that are constant
 data.frame(A=1, B=1:3) \%>\%
-  dplyr::select_at(setdiff(names(.), names(remove_constant(.)))) \%>\%
+  dplyr::select(!dplyr::all_of(names(remove_constant(.)))) \%>\%
   unique()
 }
 \seealso{

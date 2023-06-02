@@ -27,7 +27,7 @@
 #' dd %>% remove_empty("rows")
 #' # solution: preprocess to convert whitespace/empty strings to NA,
 #' # _then_ remove empty (all-NA) rows
-#' dd %>% mutate(across(is.character,~na_if(trimws(.),""))) %>%
+#' dd %>% mutate(across(where(is.character),~na_if(trimws(.),""))) %>%
 #'    remove_empty("rows")
 #' @export
 remove_empty <- function(dat, which = c("rows", "cols"), cutoff=1, quiet=TRUE) {
@@ -93,7 +93,7 @@ remove_empty <- function(dat, which = c("rows", "cols"), cutoff=1, quiet=TRUE) {
 #'
 #' # To find the columns that are constant
 #' data.frame(A=1, B=1:3) %>%
-#'   dplyr::select_at(setdiff(names(.), names(remove_constant(.)))) %>%
+#'   dplyr::select(!dplyr::all_of(names(remove_constant(.)))) %>%
 #'   unique()
 #' @importFrom stats na.omit
 #' @family remove functions

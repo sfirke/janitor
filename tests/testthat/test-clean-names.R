@@ -589,7 +589,7 @@ test_that("tbl_graph/tidygraph", {
     tidygraph::play_erdos_renyi(10, 0.5) %>%
     # create nodes wi
     tidygraph::bind_nodes(test_df) %>%
-    tidygraph::mutate_all(tidyr::replace_na, 1)
+    dplyr::mutate(dplyr::across(dplyr::where(is.numeric), ~ dplyr::coalesce(x, 1)))
 
   # create a graph with clean names
   # warning due to unhandled mu

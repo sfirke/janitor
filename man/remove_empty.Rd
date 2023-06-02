@@ -38,7 +38,7 @@ dd <- tibble(x=c(LETTERS[1:5],NA,rep("",2)),
 dd \%>\% remove_empty("rows")
 # solution: preprocess to convert whitespace/empty strings to NA,
 # _then_ remove empty (all-NA) rows
-dd \%>\% mutate(across(is.character,~na_if(trimws(.),""))) \%>\%
+dd \%>\% mutate(across(where(is.character),~na_if(trimws(.),""))) \%>\%
    remove_empty("rows")
 }
 \seealso{
