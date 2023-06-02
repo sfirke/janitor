@@ -59,3 +59,26 @@ test_that("get_one_to_one: columns are only described once", {
     regexp = "No columns in `mtcars` map to each other"
   )
 })
+
+test_that("nearly duplicated dates (second decimal place differs) to not cause failure (#543)", {
+  dates <- tibble::tibble(
+    modification_time =
+      structure(
+        c(1684261364.85967, 1684274880.48328, 1684261364.85967, 1684418379.74664, 1685105253.21695, 1684418379.76668, 1684279133.50118, 1684161951.81434, 1684281651.93175, 1678483898.72893, 1685103626.03424),
+        class = c("POSIXct", "POSIXt")
+      ),
+    access_time =
+      structure(
+        c(1685040222.34459, 1685041485.59089, 1685105067.68569, 1685040222.51569, 1685105253.21795, 1685105067.73877, 1685105253.66953, 1685106417.48391, 1685105253.66853, 1685041485.59089, 1685103652.82275),
+        class = c("POSIXct", "POSIXt")
+      ),
+    change_time = structure(
+      c(1684261364.85967, 1684274880.48328, 1684261364.85967, 1684418379.74664, 1685105253.21695, 1684418379.76668, 1684279133.50118, 1684161951.81434, 1684281651.93175, 1678483898.72893, 1685103626.03424),
+      class = c("POSIXct", "POSIXt")
+    )
+  )
+  expect_equal(
+    janitor::get_one_to_one(dates),
+    list(c("modification_time", "change_time"))
+  )
+})
