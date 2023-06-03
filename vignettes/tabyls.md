@@ -435,7 +435,7 @@ Lastly, we append these Ns using `adorn_ns()`.
 ``` r
 formatted_ns <- attr(comparison, "core") %>% # extract the tabyl's underlying Ns
   adorn_totals(c("row", "col")) %>% # to match the data.frame we're appending to
-  dplyr::mutate_if(is.numeric, format, big.mark = ",")
+  dplyr::mutate(across(where(is.numeric), ~ format(.x, big.mark = ",")))
 
 comparison %>%
   adorn_ns(position = "rear", ns = formatted_ns)
