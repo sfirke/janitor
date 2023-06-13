@@ -5,11 +5,11 @@
 #'   identically to each other.
 #' @examples
 #' foo <- data.frame(
-#'   Lab_Test_Long=c("Cholesterol, LDL", "Cholesterol, LDL", "Glucose"),
-#'   Lab_Test_Short=c("CLDL", "CLDL", "GLUC"),
-#'   LOINC=c(12345, 12345, 54321),
-#'   Person=c("Sam", "Bill", "Sam"),
-#'   stringsAsFactors=FALSE
+#'   Lab_Test_Long = c("Cholesterol, LDL", "Cholesterol, LDL", "Glucose"),
+#'   Lab_Test_Short = c("CLDL", "CLDL", "GLUC"),
+#'   LOINC = c(12345, 12345, 54321),
+#'   Person = c("Sam", "Bill", "Sam"),
+#'   stringsAsFactors = FALSE
 #' )
 #' get_one_to_one(foo)
 #' @export
