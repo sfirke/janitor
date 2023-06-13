@@ -95,7 +95,10 @@ Dirtiness includes:
 Here’s that data after being read in to R:
 
 ``` r
-library(readxl); library(janitor); library(dplyr); library(here)
+library(readxl)
+library(janitor)
+library(dplyr)
+library(here)
 
 roster_raw <- read_excel(here("dirty_data.xlsx")) # available at https://github.com/sfirke/janitor
 glimpse(roster_raw)
@@ -120,9 +123,10 @@ Name cleaning comes in two flavors. `make_clean_names()` operates on
 character vectors and can be used during data import:
 
 ``` r
-roster_raw_cleaner <- read_excel(here("dirty_data.xlsx"), 
-                                 skip = 1,
-                                 .name_repair = make_clean_names)
+roster_raw_cleaner <- read_excel(here("dirty_data.xlsx"),
+  skip = 1,
+  .name_repair = make_clean_names
+)
 glimpse(roster_raw_cleaner)
 #> Rows: 13
 #> Columns: 11
@@ -154,10 +158,14 @@ The data.frame now has clean names. Let’s tidy it up further:
 ``` r
 roster <- roster_raw %>%
   remove_empty(c("rows", "cols")) %>%
-  remove_constant(na.rm = TRUE, quiet = FALSE) %>% # remove the column of all "Yes" values 
-  mutate(hire_date = convert_to_date(hire_date, # handle the mixed-format dates
-                                     character_fun = lubridate::mdy),
-         cert = dplyr::coalesce(certification, certification_2)) %>%
+  remove_constant(na.rm = TRUE, quiet = FALSE) %>% # remove the column of all "Yes" values
+  mutate(
+    hire_date = convert_to_date(
+      hire_date, # handle the mixed-format dates
+      character_fun = lubridate::mdy
+    ),
+    cert = dplyr::coalesce(certification, certification_2)
+  ) %>%
   select(-certification, -certification_2) # drop unwanted columns
 #> Removing 1 constant columns of 10 columns total (Removed: active).
 

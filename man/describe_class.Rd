@@ -15,10 +15,10 @@ describe_class(x, strict_description = TRUE)
 \arguments{
 \item{x}{The object to describe}
 
-\item{strict_description}{Should differing factor levels be treated 
-as differences for the purposes of identifying mismatches? 
-\code{strict_description = `TRUE`} is stricter and factors with different 
-levels will be treated as different classes.  \code{FALSE} is more 
+\item{strict_description}{Should differing factor levels be treated
+as differences for the purposes of identifying mismatches?
+\code{strict_description = `TRUE`} is stricter and factors with different
+levels will be treated as different classes.  \code{FALSE} is more
 lenient: for class comparison purposes, the variable is just a "factor".}
 }
 \value{
@@ -46,7 +46,7 @@ and if they are ordered.
 describe_class(1)
 describe_class(factor("A"))
 describe_class(ordered(c("A", "B")))
-describe_class(ordered(c("A", "B")), strict_description=FALSE)
+describe_class(ordered(c("A", "B")), strict_description = FALSE)
 }
 \seealso{
 Other Data frame type comparison: 

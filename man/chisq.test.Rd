@@ -22,12 +22,12 @@ chisq.test(x, ...)
 \item{tabyl_results}{if TRUE and x is a tabyl object, also return `observed`, `expected`, `residuals` and `stdres` as tabyl}
 }
 \value{
-The result is the same as the one of stats::chisq.test. If `tabyl_results` 
-is TRUE, the returned tables `observed`, `expected`, `residuals` and `stdres` 
+The result is the same as the one of stats::chisq.test. If `tabyl_results`
+is TRUE, the returned tables `observed`, `expected`, `residuals` and `stdres`
 are converted to tabyls.
 }
 \description{
-This generic function overrides stats::chisq.test. If the passed table 
+This generic function overrides stats::chisq.test. If the passed table
 is a two-way tabyl, it runs it through janitor::chisq.test.tabyl, otherwise
 it just calls stats::chisq.test.
 }
