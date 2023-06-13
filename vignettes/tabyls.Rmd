@@ -10,7 +10,7 @@ vignette: >
 ---
 
 ```{r chunk_options, include = FALSE}
-knitr::opts_chunk$set(collapse = T, comment = "#>")
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 ```
 
 ## Motivation: why tabyl?
@@ -241,7 +241,7 @@ raw_data <- data.frame(
 raw_data$agegroup <- cut(raw_data$age, quantile(raw_data$age, c(0, 1 / 3, 2 / 3, 1)))
 
 comparison <- raw_data %>%
-  tabyl(agegroup, sex, show_missing_levels = F) %>%
+  tabyl(agegroup, sex, show_missing_levels = FALSE) %>%
   adorn_totals(c("row", "col")) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(digits = 1)

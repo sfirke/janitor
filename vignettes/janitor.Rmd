@@ -12,7 +12,7 @@ vignette: >
 ---
 
 ```{r, echo = FALSE, message = FALSE}
-knitr::opts_chunk$set(collapse = T, comment = "#>")
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 library(janitor)
 ```
 The janitor functions expedite the initial data exploration and cleaning that comes with any new data set.  This catalog describes the usage for each function.

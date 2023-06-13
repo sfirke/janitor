@@ -210,7 +210,7 @@ test_that("formatting function works, (#444)", {
   bigger_dat$age_group <- cut(bigger_dat$age, quantile(bigger_dat$age, c(0, 1 / 3, 2 / 3, 1)))
 
   bigger_tab <- bigger_dat %>%
-    tabyl(age_group, sex, show_missing_levels = F)
+    tabyl(age_group, sex, show_missing_levels = FALSE)
 
   standard_output <- bigger_tab %>%
     adorn_percentages("col") %>%
