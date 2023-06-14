@@ -400,7 +400,7 @@ raw_data <- data.frame(sex = rep(c("m", "f"), 3000),
 raw_data$agegroup = cut(raw_data$age, quantile(raw_data$age, c(0, 1/3, 2/3, 1)))
 
 comparison <- raw_data %>%
-  tabyl(agegroup, sex, show_missing_levels = F) %>%
+  tabyl(agegroup, sex, show_missing_levels = FALSE) %>%
   adorn_totals(c("row", "col")) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(digits = 1)

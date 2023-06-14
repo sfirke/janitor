@@ -28,7 +28,8 @@ mtcars \%>\%
   adorn_title(placement = "top")
 
 # Adding a title to a non-tabyl
-library(tidyr); library(dplyr)
+library(tidyr)
+library(dplyr)
 mtcars \%>\%
   group_by(gear, am) \%>\%
   summarise(avg_mpg = mean(mpg), .groups = "drop") \%>\%

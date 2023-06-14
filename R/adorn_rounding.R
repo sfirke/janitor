@@ -26,9 +26,9 @@
 #'   adorn_percentages("all") %>%
 #'   mutate(dummy = "a") %>%
 #'   adorn_rounding()
-#'   
+#'
 #' # Control the columns to be adorned with the ... variable selection argument
-#' # If using only the ... argument, you can use empty commas as shorthand 
+#' # If using only the ... argument, you can use empty commas as shorthand
 #' # to supply the default values to the preceding arguments:
 #' cases <- data.frame(
 #'   region = c("East", "West"),
@@ -36,11 +36,10 @@
 #'   recovered = c(125, 87),
 #'   died = c(13, 12)
 #' )
-#' 
+#'
 #' cases %>%
-#'   adorn_percentages(,,ends_with("ed")) %>%
-#'   adorn_rounding(,,one_of(c("recovered", "died")))
-
+#'   adorn_percentages(, , ends_with("ed")) %>%
+#'   adorn_rounding(, , one_of(c("recovered", "died")))
 adorn_rounding <- function(dat, digits = 1, rounding = "half to even", ...) {
   # if input is a list, call purrr::map to recursively apply this function to each data.frame
   if (is.list(dat) && !is.data.frame(dat)) {
@@ -56,18 +55,18 @@ adorn_rounding <- function(dat, digits = 1, rounding = "half to even", ...) {
     numeric_cols <- which(vapply(dat, is.numeric, logical(1)))
     non_numeric_cols <- setdiff(1:ncol(dat), numeric_cols)
     numeric_cols <- setdiff(numeric_cols, 1) # assume 1st column should not be included so remove it from numeric_cols. Moved up to this line so that if only 1st col is numeric, the function errors
-    
-    if(rlang::dots_n(...) == 0){
+
+    if (rlang::dots_n(...) == 0) {
       cols_to_round <- numeric_cols
     } else {
       expr <- rlang::expr(c(...))
       cols_to_round <- tidyselect::eval_select(expr, data = dat)
-      if(any(cols_to_round %in% non_numeric_cols)){
+      if (any(cols_to_round %in% non_numeric_cols)) {
         message("At least one non-numeric column was specified and will not be modified.")
         cols_to_round <- setdiff(cols_to_round, non_numeric_cols)
       }
     }
-    
+
     if (rounding == "half to even") {
       dat[cols_to_round] <- lapply(dat[cols_to_round], function(x) round(x, digits = digits))
     } else {

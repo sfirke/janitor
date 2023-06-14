@@ -38,21 +38,23 @@ mtcars \%>\%
   adorn_percentages("col") \%>\%
   adorn_pct_formatting() \%>\%
   adorn_ns(position = "front")
-  
+
 # Format the Ns with a custom format_func:
 set.seed(1)
-bigger_dat <- data.frame(sex = rep(c("m", "f"), 3000),
-                         age = round(runif(3000, 1, 102), 0))
-bigger_dat$age_group = cut(bigger_dat$age, quantile(bigger_dat$age, c(0, 1/3, 2/3, 1)))
+bigger_dat <- data.frame(
+  sex = rep(c("m", "f"), 3000),
+  age = round(runif(3000, 1, 102), 0)
+)
+bigger_dat$age_group <- cut(bigger_dat$age, quantile(bigger_dat$age, c(0, 1 / 3, 2 / 3, 1)))
 
 bigger_dat \%>\%
   tabyl(age_group, sex, show_missing_levels = FALSE) \%>\%
   adorn_totals(c("row", "col")) \%>\%
   adorn_percentages("col") \%>\%
-  adorn_pct_formatting(digits = 1) \%>\% 
+  adorn_pct_formatting(digits = 1) \%>\%
   adorn_ns(format_func = function(x) format(x, big.mark = ".", decimal.mark = ","))
 # Control the columns to be adorned with the ... variable selection argument
-# If using only the ... argument, you can use empty commas as shorthand 
+# If using only the ... argument, you can use empty commas as shorthand
 # to supply the default values to the preceding arguments:
 
 cases <- data.frame(
@@ -66,5 +68,5 @@ cases \%>\%
  adorn_percentages("col",,recovered:died) \%>\%
  adorn_pct_formatting(,,,,,recovered:died) \%>\%
  adorn_ns(,,,recovered:died)
-  
+
 }

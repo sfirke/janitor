@@ -57,11 +57,11 @@ Due to the returned "column_name" column, no input data.frame may be
   appear to differ.
 }
 \examples{
-compare_df_cols(data.frame(A=1), data.frame(B=2))
+compare_df_cols(data.frame(A = 1), data.frame(B = 2))
 # user-defined names
-compare_df_cols(dfA=data.frame(A=1), dfB=data.frame(B=2))
+compare_df_cols(dfA = data.frame(A = 1), dfB = data.frame(B = 2))
 # a combination of list and data.frame input
-compare_df_cols(listA=list(dfA=data.frame(A=1), dfB=data.frame(B=2)), data.frame(A=3))
+compare_df_cols(listA = list(dfA = data.frame(A = 1), dfB = data.frame(B = 2)), data.frame(A = 3))
 }
 \seealso{
 Other Data frame type comparison: 
