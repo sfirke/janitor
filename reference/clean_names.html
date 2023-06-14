@@ -6,9 +6,9 @@ German umlaut over it becomes &quot;o&quot;, and the Spanish character &quot;eny
 &quot;n&quot;.
 This function takes and returns a data.frame, for ease of piping with
 `%&amp;gt;%`. For the underlying function that works on a character vector
-of names, see make_clean_names.  clean_names 
-relies on the versatile function to_any_case, which 
-accepts many arguments.  See that function's documentation for ideas on getting 
+of names, see make_clean_names.  clean_names
+relies on the versatile function to_any_case, which
+accepts many arguments.  See that function's documentation for ideas on getting
 the most out of clean_names.  A few examples are included below.
 A common issue is that the micro/mu symbol is replaced by &quot;m&quot; instead of &quot;u&quot;.
 The replacement with &quot;m&quot; is more correct when doing Greek-to-ASCII
@@ -23,9 +23,9 @@ German umlaut over it becomes &quot;o&quot;, and the Spanish character &quot;eny
 &quot;n&quot;.
 This function takes and returns a data.frame, for ease of piping with
 `%&amp;gt;%`. For the underlying function that works on a character vector
-of names, see make_clean_names.  clean_names 
-relies on the versatile function to_any_case, which 
-accepts many arguments.  See that function's documentation for ideas on getting 
+of names, see make_clean_names.  clean_names
+relies on the versatile function to_any_case, which
+accepts many arguments.  See that function's documentation for ideas on getting
 the most out of clean_names.  A few examples are included below.
 A common issue is that the micro/mu symbol is replaced by &quot;m&quot; instead of &quot;u&quot;.
 The replacement with &quot;m&quot; is more correct when doing Greek-to-ASCII
@@ -96,9 +96,9 @@ German umlaut over it becomes "o", and the Spanish character "enye" becomes
 "n".</p>
 <p>This function takes and returns a data.frame, for ease of piping with
 <code>`%&gt;%`</code>. For the underlying function that works on a character vector
-of names, see <code><a href="make_clean_names.html">make_clean_names</a></code>.  <code>clean_names</code> 
-relies on the versatile function <code><a href="https://rdrr.io/pkg/snakecase/man/to_any_case.html" class="external-link">to_any_case</a></code>, which 
-accepts many arguments.  See that function's documentation for ideas on getting 
+of names, see <code><a href="make_clean_names.html">make_clean_names</a></code>.  <code>clean_names</code>
+relies on the versatile function <code><a href="https://rdrr.io/pkg/snakecase/man/to_any_case.html" class="external-link">to_any_case</a></code>, which
+accepts many arguments.  See that function's documentation for ideas on getting
 the most out of <code>clean_names</code>.  A few examples are included below.</p>
 <p>A common issue is that the micro/mu symbol is replaced by "m" instead of "u".
 The replacement with "m" is more correct when doing Greek-to-ASCII
@@ -205,7 +205,7 @@ You should use this feature with care in case of <code>case = "parsed"</code>, <
   and <code>data.frame</code>-like objects. For this reason there are methods to
   support using <code>clean_names()</code> on <code>sf</code> and <code>tbl_graph</code> (from
   <code>tidygraph</code>) objects as well as on database connections through
-  <code>dbplyr</code>. For cleaning other named objects like named lists 
+  <code>dbplyr</code>. For cleaning other named objects like named lists
   and vectors, use <code><a href="make_clean_names.html">make_clean_names()</a></code>.</p>
     </div>
     <div class="section level2">
@@ -280,13 +280,13 @@ You should use this feature with care in case of <code>case = "parsed"</code>, <
 <span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</span>
-<span class="r-in"><span>  </span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Tell clean_names to leave certain abbreviations untouched:</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu">clean_names</span><span class="op">(</span>case <span class="op">=</span> <span class="st">"upper_camel"</span>, abbreviations <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ID"</span>, <span class="st">"DOB"</span><span class="op">)</span><span class="op">)</span> </span></span>
+<span class="r-in"><span>  <span class="fu">clean_names</span><span class="op">(</span>case <span class="op">=</span> <span class="st">"upper_camel"</span>, abbreviations <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ID"</span>, <span class="st">"DOB"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   CaseID DOB Other</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1      1   2     3</span>
-<span class="r-in"><span>  </span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

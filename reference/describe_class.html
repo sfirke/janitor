@@ -76,10 +76,10 @@
 
 
 <dt>strict_description</dt>
-<dd><p>Should differing factor levels be treated 
-as differences for the purposes of identifying mismatches? 
-<code>strict_description = `TRUE`</code> is stricter and factors with different 
-levels will be treated as different classes.  <code>FALSE</code> is more 
+<dd><p>Should differing factor levels be treated
+as differences for the purposes of identifying mismatches?
+<code>strict_description = `TRUE`</code> is stricter and factors with different
+levels will be treated as different classes.  <code>FALSE</code> is more
 lenient: for class comparison purposes, the variable is just a "factor".</p></dd>
 
 </dl></div>
@@ -119,7 +119,7 @@ and if they are ordered.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "factor(levels=c(\"A\"))"</span>
 <span class="r-in"><span><span class="fu">describe_class</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">ordered</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "ordered, factor(levels=c(\"A\", \"B\"))"</span>
-<span class="r-in"><span><span class="fu">describe_class</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">ordered</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span><span class="op">)</span>, strict_description<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">describe_class</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">ordered</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span><span class="op">)</span>, strict_description <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "factor"</span>
 </code></pre></div>
     </div>

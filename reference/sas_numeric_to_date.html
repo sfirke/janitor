@@ -105,13 +105,13 @@ more information on timezones).</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">sas_numeric_to_date</span><span class="op">(</span>date_num<span class="op">=</span><span class="fl">15639</span><span class="op">)</span> <span class="co"># 2002-10-26</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">sas_numeric_to_date</span><span class="op">(</span>date_num <span class="op">=</span> <span class="fl">15639</span><span class="op">)</span> <span class="co"># 2002-10-26</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2002-10-26"</span>
-<span class="r-in"><span><span class="fu">sas_numeric_to_date</span><span class="op">(</span>datetime_num<span class="op">=</span><span class="fl">1217083532</span>, tz<span class="op">=</span><span class="st">"UTC"</span><span class="op">)</span> <span class="co"># 1998-07-26T14:45:32Z</span></span></span>
+<span class="r-in"><span><span class="fu">sas_numeric_to_date</span><span class="op">(</span>datetime_num <span class="op">=</span> <span class="fl">1217083532</span>, tz <span class="op">=</span> <span class="st">"UTC"</span><span class="op">)</span> <span class="co"># 1998-07-26T14:45:32Z</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "1998-07-26 14:45:32 UTC"</span>
-<span class="r-in"><span><span class="fu">sas_numeric_to_date</span><span class="op">(</span>date_num<span class="op">=</span><span class="fl">15639</span>, time_num<span class="op">=</span><span class="fl">3600</span>, tz<span class="op">=</span><span class="st">"UTC"</span><span class="op">)</span> <span class="co"># 2002-10-26T01:00:00Z</span></span></span>
+<span class="r-in"><span><span class="fu">sas_numeric_to_date</span><span class="op">(</span>date_num <span class="op">=</span> <span class="fl">15639</span>, time_num <span class="op">=</span> <span class="fl">3600</span>, tz <span class="op">=</span> <span class="st">"UTC"</span><span class="op">)</span> <span class="co"># 2002-10-26T01:00:00Z</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2002-10-26 01:00:00 UTC"</span>
-<span class="r-in"><span><span class="fu">sas_numeric_to_date</span><span class="op">(</span>time_num<span class="op">=</span><span class="fl">3600</span><span class="op">)</span> <span class="co"># 01:00:00</span></span></span>
+<span class="r-in"><span><span class="fu">sas_numeric_to_date</span><span class="op">(</span>time_num <span class="op">=</span> <span class="fl">3600</span><span class="op">)</span> <span class="co"># 01:00:00</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 01:00:00</span>
 </code></pre></div>
     </div>

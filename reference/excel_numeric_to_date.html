@@ -162,8 +162,10 @@ more information on timezones).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2009-07-06 12:00:00 UTC"</span>
 <span class="r-in"><span><span class="fu">excel_numeric_to_date</span><span class="op">(</span><span class="fl">40000.521</span>, include_time <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># Time is included</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2009-07-06 12:30:14 UTC"</span>
-<span class="r-in"><span><span class="fu">excel_numeric_to_date</span><span class="op">(</span><span class="fl">40000.521</span>, include_time <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>  round_seconds <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># Time with fractional seconds is included</span></span></span>
+<span class="r-in"><span><span class="fu">excel_numeric_to_date</span><span class="op">(</span><span class="fl">40000.521</span>,</span></span>
+<span class="r-in"><span>  include_time <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>  round_seconds <span class="op">=</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span><span class="op">)</span> <span class="co"># Time with fractional seconds is included</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2009-07-06 12:30:14 UTC"</span>
 </code></pre></div>
     </div>
