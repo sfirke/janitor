@@ -1,0 +1,8 @@
+pandoc: 1.19.2.4
+pkgdown: 1.5.0
+pkgdown_sha: ~
+articles:
+  janitor: janitor.html
+  tabyls: tabyls.html
+last_built: 2020-04-12T14:27Z
+
