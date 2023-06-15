@@ -95,13 +95,13 @@ Returns the "cleaned" character vector.
 Resulting strings are unique and consist only of the \verb{_}
 character, numbers, and letters. By default, the resulting strings will only
 consist of ASCII characters, but non-ASCII (e.g. Unicode) may be allowed by
-setting \code{ascii=FALSE}.  Capitalization preferences can be specified
+setting \code{ascii = FALSE}.  Capitalization preferences can be specified
 using the \code{case} parameter.
 
 For use on the names of a data.frame, e.g., in a \verb{\\\%>\\\%} pipeline,
 call the convenience function \code{\link[=clean_names]{clean_names()}}.
 
-When \code{ascii=TRUE} (the default), accented characters are transliterated
+When \code{ascii = TRUE} (the default), accented characters are transliterated
 to ASCII.  For example, an "o" with a German umlaut over it becomes "o", and
 the Spanish character "enye" becomes "n".
 

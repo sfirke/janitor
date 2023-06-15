@@ -7,7 +7,7 @@
 paste_skip_na(..., sep = " ", collapse = NULL)
 }
 \arguments{
-\item{..., sep, collapse}{See \code{?paste}}
+\item{..., sep, collapse}{See \code{\link[base:paste]{base::paste()}}}
 }
 \value{
 A character vector of pasted values.

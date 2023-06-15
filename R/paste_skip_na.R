@@ -3,7 +3,7 @@
 #' @details If all values are missing, the value from the first argument is
 #'   preserved.
 #'
-#' @param ...,sep,collapse See [base::paste()}
+#' @param ...,sep,collapse See [base::paste()]
 #' @return A character vector of pasted values.
 #' @examples
 #' paste_skip_na(NA) # NA_character_

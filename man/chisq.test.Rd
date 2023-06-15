@@ -4,7 +4,7 @@
 \alias{chisq.test}
 \alias{chisq.test.default}
 \alias{chisq.test.tabyl}
-\title{Apply stats::chisq.test to a two-way tabyl}
+\title{Apply \code{stats::chisq.test()} to a two-way tabyl}
 \usage{
 chisq.test(x, ...)
 
@@ -15,7 +15,7 @@ chisq.test(x, ...)
 \arguments{
 \item{x}{a two-way tabyl, a numeric vector or a factor}
 
-\item{...}{other parameters passed to stats::chisq.test}
+\item{...}{other parameters passed to \code{\link[stats:chisq.test]{stats::chisq.test()}}}
 
 \item{y}{if x is a vector, must be another vector or factor of the same length}
 
@@ -23,13 +23,13 @@ chisq.test(x, ...)
 }
 \value{
 The result is the same as the one of stats::chisq.test. If \code{tabyl_results}
-is TRUE, the returned tables \code{observed}, \code{expected}, \code{residuals} and \code{stdres}
+is \code{TRUE}, the returned tables \code{observed}, \code{expected}, \code{residuals} and \code{stdres}
 are converted to tabyls.
 }
 \description{
-This generic function overrides stats::chisq.test. If the passed table
+This generic function overrides \code{stats::chisq.test}. If the passed table
 is a two-way tabyl, it runs it through janitor::chisq.test.tabyl, otherwise
-it just calls stats::chisq.test.
+it just calls \code{stats::chisq.test()}.
 }
 \examples{
 tab <- tabyl(mtcars, gear, cyl)
