@@ -17,7 +17,7 @@ describe_class(x, strict_description = TRUE)
 
 \item{strict_description}{Should differing factor levels be treated
 as differences for the purposes of identifying mismatches?
-\verb{strict_description = }TRUE`` is stricter and factors with different
+\code{strict_description = TRUE} is stricter and factors with different
 levels will be treated as different classes.  \code{FALSE} is more
 lenient: for class comparison purposes, the variable is just a "factor".}
 }
