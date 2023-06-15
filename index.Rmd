@@ -31,7 +31,8 @@ options(width = 110)
 ![!Monthly Downloads](https://cranlogs.r-pkg.org/badges/janitor)
 ![!Downloads](https://cranlogs.r-pkg.org/badges/grand-total/janitor)
 
-**janitor** has simple functions for examining and cleaning dirty data.  It was built with beginning and intermediate R users in mind and is optimized for user-friendliness. Advanced R users can already do everything covered here, but with janitor they can do it faster and save their thinking for the fun stuff.
+**janitor** has simple functions for examining and cleaning 
+data.  It was built with beginning and intermediate R users in mind and is optimized for user-friendliness. Advanced R users can already do everything covered here, but with janitor they can do it faster and save their thinking for the fun stuff.
 
 The main janitor functions:
 
@@ -71,7 +72,7 @@ Below are quick examples of how janitor tools are commonly used.
 ### Cleaning dirty data
 
 Take this roster of teachers at a fictional American high school, stored in the Microsoft Excel file [dirty_data.xlsx](https://github.com/sfirke/janitor/blob/master/dirty_data.xlsx):
-![All kinds of dirty.](docs/reference/figures/dirty_data.PNG)
+![All kinds of dirty.](man/figures/dirty_data.PNG)
 
 Dirtiness includes:
 
