@@ -1,19 +1,19 @@
-#' @title Remove empty rows and/or columns from a data.frame or matrix.
+#' Remove empty rows and/or columns from a data.frame or matrix.
 #'
-#' @description Removes all rows and/or columns from a data.frame or matrix that
-#'   are composed entirely of \code{NA} values.
+#' Removes all rows and/or columns from a data.frame or matrix that
+#'   are composed entirely of `NA` values.
 #'
 #' @param dat the input data.frame or matrix.
-#' @param which one of "rows", "cols", or \code{c("rows", "cols")}.  Where no
+#' @param which one of "rows", "cols", or `c("rows", "cols")`. Where no
 #'   value of which is provided, defaults to removing both empty rows and empty
 #'   columns, declaring the behavior with a printed message.
 #' @param cutoff What fraction (>0 to <=1) of rows or columns must be empty to
 #'   be removed?
-#' @param quiet Should messages be suppressed (\code{TRUE}) or printed
-#'   (\code{FALSE}) indicating the summary of empty columns or rows removed?
+#' @param quiet Should messages be suppressed (`TRUE`) or printed
+#'   (`FALSE`) indicating the summary of empty columns or rows removed?
 #' @return Returns the object without its missing rows or columns.
 #' @family remove functions
-#' @seealso \code{\link[=remove_constant]{remove_constant()}} for removing
+#' @seealso [`remove_constant()`][remove_constant] for removing
 #'   constant columns.
 #' @examples
 #' # not run:
@@ -85,11 +85,11 @@ remove_empty <- function(dat, which = c("rows", "cols"), cutoff = 1, quiet = TRU
 
 #' @title Remove constant columns from a data.frame or matrix.
 #' @param dat the input data.frame or matrix.
-#' @param na.rm should \code{NA} values be removed when considering whether a
-#'   column is constant?  The default value of \code{FALSE} will result in a
-#'   column not being removed if it's a mix of a single value and \code{NA}.
-#' @param quiet Should messages be suppressed (\code{TRUE}) or printed
-#'   (\code{FALSE}) indicating the summary of empty columns or rows removed?
+#' @param na.rm should `NA` values be removed when considering whether a
+#'   column is constant?  The default value of `FALSE` will result in a
+#'   column not being removed if it's a mix of a single value and `NA`.
+#' @param quiet Should messages be suppressed (`TRUE`) or printed
+#'   (`FALSE`) indicating the summary of empty columns or rows removed?
 #'
 #' @examples
 #' remove_constant(data.frame(A = 1, B = 1:3))
@@ -100,7 +100,7 @@ remove_empty <- function(dat, which = c("rows", "cols"), cutoff = 1, quiet = TRU
 #'   unique()
 #' @importFrom stats na.omit
 #' @family remove functions
-#' @seealso \code{\link[=remove_empty]{remove_empty()}} for removing empty
+#' @seealso [`remove_empty()`][remove_empty] for removing empty
 #'   columns or rows.
 #' @export
 remove_constant <- function(dat, na.rm = FALSE, quiet = TRUE) {
@@ -133,8 +133,8 @@ remove_constant <- function(dat, na.rm = FALSE, quiet = TRUE) {
 #' Generate the message describing columns or rows that are being removed.
 #'
 #' @inheritParams remove_empty
-#' @param mask_keep A logical vector of rows or columns to keep (\code{TRUE}) or
-#'   remove (\code{FALSE}).
+#' @param mask_keep A logical vector of rows or columns to keep (`TRUE`) or
+#'   remove (`FALSE`).
 #' @param reason The reason that rows are being removed (to be used in the
 #'   message.
 #' @noRd

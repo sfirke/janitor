@@ -1,62 +1,62 @@
-#' @title Cleans a vector of text, typically containing the names of an object.
+#' Cleans a vector of text, typically containing the names of an object.
 #'
-#' @description Resulting strings are unique and consist only of the \code{_}
+#' @description Resulting strings are unique and consist only of the `_`
 #' character, numbers, and letters. By default, the resulting strings will only
 #' consist of ASCII characters, but non-ASCII (e.g. Unicode) may be allowed by
-#' setting \code{ascii=FALSE}.  Capitalization preferences can be specified
-#' using the \code{case} parameter.
+#' setting `ascii = FALSE`.  Capitalization preferences can be specified
+#' using the `case` parameter.
 #'
-#' For use on the names of a data.frame, e.g., in a \code{`\%>\%`} pipeline,
-#' call the convenience function \code{\link[janitor]{clean_names}}.
+#' For use on the names of a data.frame, e.g., in a ``\%>\%`` pipeline,
+#' call the convenience function [janitor::clean_names()].
 #'
-#' When \code{ascii=TRUE} (the default), accented characters are transliterated
+#' When `ascii = TRUE` (the default), accented characters are transliterated
 #' to ASCII.  For example, an "o" with a German umlaut over it becomes "o", and
 #' the Spanish character "enye" becomes "n".
 #'
 #' The order of operations is: make replacements, (optional) ASCII conversion,
-#' remove initial spaces and punctuation, apply \code{base::make.names()},
-#' apply \code{snakecase::to_any_case}, and add numeric suffixes
+#' remove initial spaces and punctuation, apply `base::make.names()`,
+#' apply `snakecase::to_any_case`, and add numeric suffixes
 #' to resolve any duplicated names.
 #'
-#' This function relies on \code{snakecase::to_any_case} and can take advantage of
+#' This function relies on `snakecase::to_any_case` and can take advantage of
 #' its versatility.  For instance, an abbreviation like "ID" can have its
-#' capitalization preserved by passing the argument \code{abbreviations = "ID"}.
-#' See the documentation for \code{\link[snakecase:to_any_case]{snakecase::to_any_case}}
+#' capitalization preserved by passing the argument `abbreviations = "ID"`.
+#' See the documentation for [snakecase::to_any_case()]
 #' for more about how to use its features.
 #'
 #' On some systems, not all transliterators to ASCII are available.  If this is
 #' the case on your system, all available transliterators will be used, and a
 #' warning will be issued once per session indicating that results may be
 #' different when run on a different system.  That warning can be disabled with
-#' \code{options(janitor_warn_transliterators=FALSE)}.
+#' `options(janitor_warn_transliterators=FALSE)`.
 #'
-#' If the objective of your call to \code{make_clean_names()} is only to translate to
+#' If the objective of your call to `make_clean_names()` is only to translate to
 #' ASCII, try the following instead:
-#' \code{stringi::stri_trans_general(x, id="Any-Latin;Greek-Latin;Latin-ASCII")}.
+#' `stringi::stri_trans_general(x, id="Any-Latin;Greek-Latin;Latin-ASCII")`.
 #'
 #' @param string A character vector of names to clean.
-#' @param case The desired target case (default is \code{"snake"}) will be
-#'   passed to \code{snakecase::to_any_case()} with the exception of "old_janitor",
+#' @param case The desired target case (default is `"snake"`) will be
+#'   passed to `snakecase::to_any_case()` with the exception of "old_janitor",
 #'   which exists only to support legacy code (it preserves the behavior of
-#'   \code{clean_names()} prior to addition of the "case" argument (janitor
+#'   `clean_names()` prior to addition of the "case" argument (janitor
 #'   versions <= 0.3.1).  "old_janitor" is not intended for new code. See
-#'   \code{\link[snakecase]{to_any_case}} for a wide variety of supported cases,
+#'   [snakecase::to_any_case()] for a wide variety of supported cases,
 #'   including "sentence" and "title" case.
 #' @param replace A named character vector where the name is replaced by the
 #'   value.
-#' @param ascii Convert the names to ASCII (\code{TRUE}, default) or not
-#'   (\code{FALSE}).
-#' @param use_make_names Should \code{make.names()} be applied to ensure that the
-#'   output is usable as a name without quoting?  (Avoiding \code{make.names()}
+#' @param ascii Convert the names to ASCII (`TRUE`, default) or not
+#'   (`FALSE`).
+#' @param use_make_names Should `make.names()` be applied to ensure that the
+#'   output is usable as a name without quoting?  (Avoiding `make.names()`
 #'   ensures that the output is locale-independent but quoting may be required.)
-#' @param allow_dupes Allow duplicates in the returned names (\code{TRUE}) or not
-#'   (\code{FALSE}, the default).
+#' @param allow_dupes Allow duplicates in the returned names (`TRUE`) or not
+#'   (`FALSE`, the default).
 #' @inheritParams snakecase::to_any_case
 #' @inheritDotParams snakecase::to_any_case
 #'
 #' @return Returns the "cleaned" character vector.
 #' @export
-#' @seealso \code{\link[snakecase]{to_any_case}()}
+#' @seealso [snakecase::to_any_case()]
 #' @examples
 #'
 #' # cleaning the names of a vector:

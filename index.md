@@ -15,9 +15,9 @@
 ------------------------------------------------------------------------
 
 [![Travis-CI Build
-Status](https://travis-ci.org/sfirke/janitor.svg?branch=master)](https://travis-ci.org/sfirke/janitor)
+Status](https://travis-ci.org/sfirke/janitor.svg?branch=main)](https://travis-ci.org/sfirke/janitor)
 [![Coverage
-Status](https://img.shields.io/codecov/c/github/sfirke/janitor/master.svg)](https://codecov.io/github/sfirke/janitor?branch=master)
+Status](https://img.shields.io/codecov/c/github/sfirke/janitor/main.svg)](https://codecov.io/github/sfirke/janitor?branch=main)
 [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version-ago/janitor)](https://cran.r-project.org/package=janitor)
 ![!Monthly Downloads](https://cranlogs.r-pkg.org/badges/janitor)
@@ -78,7 +78,7 @@ Below are quick examples of how janitor tools are commonly used.
 
 Take this roster of teachers at a fictional American high school, stored
 in the Microsoft Excel file
-[dirty_data.xlsx](https://github.com/sfirke/janitor/blob/master/dirty_data.xlsx):
+[dirty_data.xlsx](https://github.com/sfirke/janitor/blob/main/dirty_data.xlsx):
 ![All kinds of dirty.](docs/reference/figures/dirty_data.PNG)
 
 Dirtiness includes:

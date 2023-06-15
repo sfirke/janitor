@@ -19,8 +19,8 @@ subsequent rounding)}
 }
 \value{
 the input x rounded to a decimal value that has an integer numerator relative
-  to \code{denominator} (possibly subsequently rounded to a number of decimal
-  digits).
+to \code{denominator} (possibly subsequently rounded to a number of decimal
+digits).
 }
 \description{
 Round a decimal to the precise decimal value of a specified
@@ -38,9 +38,9 @@ The \code{digits} argument allows for rounding of the subsequent result.
 }
 \details{
 If \code{digits} is \code{Inf}, \code{x} is rounded to the fraction
-  and then kept at full precision.  If \code{digits} is \code{"auto"}, the
-  number of digits is automatically selected as
-  \code{ceiling(log10(denominator)) + 1}.
+and then kept at full precision.  If \code{digits} is \code{"auto"}, the
+number of digits is automatically selected as
+\code{ceiling(log10(denominator)) + 1}.
 }
 \examples{
 round_to_fraction(1.6, denominator = 2)

@@ -1,24 +1,39 @@
-#' @title Add \code{tabyl} attributes to a data.frame.
+#' Add `tabyl` attributes to a data.frame.
 #'
-#' @description
-#' A \code{tabyl} is a data.frame containing counts of a variable or co-occurrences of two variables (a.k.a., a contingency table or crosstab).  This specialized kind of data.frame has attributes that enable \code{adorn_} functions to be called for precise formatting and presentation of results.  E.g., display results as a mix of percentages, Ns, add totals rows or columns, rounding options, in the style of Microsoft Excel PivotTable.
+#' @description 
+#' A `tabyl` is a data.frame containing counts of a variable or
+#' co-occurrences of two variables (a.k.a., a contingency table or crosstab).
+#' This specialized kind of data.frame has attributes that enable `adorn_`
+#' functions to be called for precise formatting and presentation of results.
+#' E.g., display results as a mix of percentages, Ns, add totals rows or
+#' columns, rounding options, in the style of Microsoft Excel PivotTable.
 #'
-#' A \code{tabyl} can be the result of a call to \code{janitor::tabyl()}, in which case these attributes are added automatically.  This function adds \code{tabyl} class attributes to a data.frame that isn't the result of a call to \code{tabyl} but meets the requirements of a two-way tabyl:
-#' 1) First column contains values of variable 1
-#' 2) Column names 2:n are the values of variable 2
-#' 3) Numeric values in columns 2:n are counts of the co-occurrences of the two variables.*
+#' A `tabyl` can be the result of a call to `janitor::tabyl()`, in which case
+#' these attributes are added automatically.  This function adds `tabyl` class
+#' attributes to a data.frame that isn't the result of a call to `tabyl` but
+#' meets the requirements of a two-way tabyl: 1) First column contains values of
+#' variable 1 2) Column names 2:n are the values of variable 2 3) Numeric values
+#' in columns 2:n are counts of the co-occurrences of the two variables.*
 #'
-#' * = this is the ideal form of a tabyl, but janitor's \code{adorn_} functions tolerate and ignore non-numeric columns in positions 2:n.
+#' * = this is the ideal form of a tabyl, but janitor's `adorn_` functions tolerate and ignore non-numeric columns in positions 2:n.
 #'
-#' For instance, the result of \code{dplyr::count()} followed by \code{tidyr::spread()} can be treated as a \code{tabyl}.
+#' For instance, the result of [dplyr::count()] followed by [tidyr::spread()]
+#' can be treated as a `tabyl`.
 #'
-#' The result of calling \code{tabyl()} on a single variable is a special class of one-way tabyl; this function only pertains to the two-way tabyl.
+#' The result of calling `tabyl()` on a single variable is a special class of
+#' one-way tabyl; this function only pertains to the two-way tabyl.
 #'
-#' @param dat a data.frame with variable values in the first column and numeric values in all other columns.
-#' @param axes is this a two_way tabyl or a one_way tabyl?  If this function is being called by a user, this should probably be "2".  One-way tabyls are created by \code{tabyl} but are a special case.
-#' @param row_var_name (optional) the name of the variable in the row dimension; used by \code{adorn_title()}.
-#' @param col_var_name (optional) the name of the variable in the column dimension; used by \code{adorn_title()}.
-#' @return Returns the same data.frame, but with the additional class of "tabyl" and the attribute "core".
+#' @param dat a data.frame with variable values in the first column and numeric
+#'   values in all other columns.
+#' @param axes is this a two_way tabyl or a one_way tabyl?  If this function is
+#'   being called by a user, this should probably be "2".  One-way tabyls are
+#'   created by `tabyl` but are a special case.
+#' @param row_var_name (optional) the name of the variable in the row dimension;
+#'   used by `adorn_title()`.
+#' @param col_var_name (optional) the name of the variable in the column
+#'   dimension; used by `adorn_title()`.
+#' @return Returns the same data.frame, but with the additional class of "tabyl"
+#'   and the attribute "core".
 #' @export
 #' @examples
 #' as_tabyl(mtcars)
@@ -68,13 +83,12 @@ as_tabyl <- function(dat, axes = 2, row_var_name = NULL, col_var_name = NULL) {
   dat
 }
 
-#' @title Remove \code{tabyl} attributes from a data.frame.
+#' Remove `tabyl` attributes from a data.frame.
 #'
-#' @description
-#' Strips away all \code{tabyl}-related attributes from a data.frame.
+#' Strips away all `tabyl`-related attributes from a data.frame.
 #'
-#' @param dat a data.frame of class \code{tabyl}.
-#' @return Returns the same data.frame, but without the \code{tabyl} class and attributes.
+#' @param dat a `data.frame` of class `tabyl`.
+#' @return the same `data.frame`, but without the `tabyl` class and attributes.
 #' @export
 #' @examples
 #'

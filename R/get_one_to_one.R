@@ -3,6 +3,7 @@
 #' @param dat A data.frame or similar object
 #' @return A list with one element for each group of columns that map
 #'   identically to each other.
+#' @export
 #' @examples
 #' foo <- data.frame(
 #'   Lab_Test_Long = c("Cholesterol, LDL", "Cholesterol, LDL", "Glucose"),
@@ -12,7 +13,6 @@
 #'   stringsAsFactors = FALSE
 #' )
 #' get_one_to_one(foo)
-#' @export
 get_one_to_one <- function(dat) {
   stopifnot(ncol(dat) > 0)
   stopifnot(!any(duplicated(names(dat))))

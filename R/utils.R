@@ -2,7 +2,7 @@
 
 #' Pipe operator
 #'
-#' @description Exported from the magrittr package.  To learn more, run \code{?magrittr::`\%>\%`}.
+#' @description Exported from the magrittr package.  To learn more, run `?magrittr::`\%>\%``.
 #'
 #' @name %>%
 #' @rdname pipe

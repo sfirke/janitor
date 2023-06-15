@@ -1,13 +1,13 @@
 #' @title Add column name to the top of a two-way tabyl.
 #'
 #' @description
-#' This function adds the column variable name to the top of a \code{tabyl} for a complete display of information.  This makes the tabyl prettier, but renders the data.frame less useful for further manipulation.
+#' This function adds the column variable name to the top of a `tabyl` for a complete display of information.  This makes the tabyl prettier, but renders the data.frame less useful for further manipulation.
 #'
-#' @param dat a data.frame of class \code{tabyl} or other data.frame with a tabyl-like layout.  If given a list of data.frames, this function will apply itself to each data.frame in the list (designed for 3-way \code{tabyl} lists).
-#' @param placement whether the column name should be added to the top of the tabyl in an otherwise-empty row \code{"top"} or appended to the already-present row name variable (\code{"combined"}).  The formatting in the \code{"top"} option has the look of base R's \code{table()}; it also wipes out the other column names, making it hard to further use the data.frame besides formatting it for reporting.  The \code{"combined"} option is more conservative in this regard.
-#' @param row_name (optional) default behavior is to pull the row name from the attributes of the input \code{tabyl} object.  If you wish to override that text, or if your input is not a \code{tabyl}, supply a string here.
-#' @param col_name (optional) default behavior is to pull the column_name from the attributes of the input \code{tabyl} object.  If you wish to override that text, or if your input is not a \code{tabyl}, supply a string here.
-#' @return the input tabyl, augmented with the column title.  Non-tabyl inputs that are of class \code{tbl_df} are downgraded to basic data.frames so that the title row prints correctly.
+#' @param dat a data.frame of class `tabyl` or other data.frame with a tabyl-like layout.  If given a list of data.frames, this function will apply itself to each data.frame in the list (designed for 3-way `tabyl` lists).
+#' @param placement whether the column name should be added to the top of the tabyl in an otherwise-empty row `"top"` or appended to the already-present row name variable (`"combined"`).  The formatting in the `"top"` option has the look of base R's `table()`; it also wipes out the other column names, making it hard to further use the data.frame besides formatting it for reporting.  The `"combined"` option is more conservative in this regard.
+#' @param row_name (optional) default behavior is to pull the row name from the attributes of the input `tabyl` object.  If you wish to override that text, or if your input is not a `tabyl`, supply a string here.
+#' @param col_name (optional) default behavior is to pull the column_name from the attributes of the input `tabyl` object.  If you wish to override that text, or if your input is not a `tabyl`, supply a string here.
+#' @return the input tabyl, augmented with the column title.  Non-tabyl inputs that are of class `tbl_df` are downgraded to basic data.frames so that the title row prints correctly.
 #'
 #' @export
 #' @examples
