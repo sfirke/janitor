@@ -89,7 +89,7 @@ row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_ab
 #'
 #' @details
 #' If `...` is missing, then the first row with no missing values is used.
-#' 
+#'
 #' When searching for a specified value or value within a column, the first row
 #' with a match will be returned, regardless of the completeness of the rest of
 #' that row.  If `...` has a single character argument, then the first

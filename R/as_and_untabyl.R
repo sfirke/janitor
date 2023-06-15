@@ -1,6 +1,6 @@
 #' Add `tabyl` attributes to a data.frame.
 #'
-#' @description 
+#' @description
 #' A `tabyl` is a data.frame containing counts of a variable or
 #' co-occurrences of two variables (a.k.a., a contingency table or crosstab).
 #' This specialized kind of data.frame has attributes that enable `adorn_`

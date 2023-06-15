@@ -1,6 +1,6 @@
 #' Format a `data.frame` of decimals as percentages.
 #'
-#' @description 
+#' @description
 #' Numeric columns get multiplied by 100 and formatted as
 #' percentages according to user specifications. This function defaults to
 #' excluding the first column of the input data.frame, assuming that it contains
@@ -33,23 +33,22 @@
 #'   tabyl(am, cyl) %>%
 #'   adorn_percentages("col") %>%
 #'   adorn_pct_formatting()
-#' 
+#'
 #' # Control the columns to be adorned with the ... variable selection argument
 #' # If using only the ... argument, you can use empty commas as shorthand
 #' # to supply the default values to the preceding arguments:
-#' 
+#'
 #' cases <- data.frame(
 #'   region = c("East", "West"),
 #'   year = 2015,
 #'   recovered = c(125, 87),
 #'   died = c(13, 12)
 #' )
-#' 
+#'
 #' cases %>%
 #'   adorn_percentages("col", , recovered:died) %>%
 #'   adorn_pct_formatting(, , , recovered:died)
-#'   
-
+#'
 adorn_pct_formatting <- function(dat, digits = 1, rounding = "half to even", affix_sign = TRUE, ...) {
   # if input is a list, call purrr::map to recursively apply this function to each data.frame
   if (is.list(dat) && !is.data.frame(dat)) {

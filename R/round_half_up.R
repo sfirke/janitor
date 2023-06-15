@@ -1,6 +1,6 @@
 #' Round a numeric vector; halves will be rounded up, ala Microsoft Excel.
 #'
-#' @description 
+#' @description
 #' In base R `round()`, halves are rounded to even, e.g., 12.5 and
 #' 11.5 are both rounded to 12.  This function rounds 12.5 to 13 (assuming
 #' `digits = 0`).  Negative halves are rounded away from zero, e.g., -0.5 is
@@ -20,7 +20,7 @@
 #' round_half_up(1.125, 2)
 #' round_half_up(1.125, 1)
 #' round_half_up(-0.5, 0) # negatives get rounded away from zero
-#' 
+#'
 round_half_up <- function(x, digits = 0) {
   posneg <- sign(x)
   z <- abs(x) * 10^digits
@@ -39,7 +39,7 @@ round_half_up <- function(x, digits = 0) {
 #' are rounded away from zero, e.g., `signif(-2.5, 1)` is rounded to -3.
 #'
 #' This may skew subsequent statistical analysis of the data, but may be
-#' desirable in certain contexts. This function is implemented from 
+#' desirable in certain contexts. This function is implemented from
 #' <https://stackoverflow.com/a/1581007/>; see that question and
 #' comments for discussion of this issue.
 #'

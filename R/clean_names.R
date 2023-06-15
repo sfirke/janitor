@@ -10,11 +10,11 @@
 #'
 #' This function takes and returns a data.frame, for ease of piping with
 #' ``\%>\%``. For the underlying function that works on a character vector
-#' of names, see [janitor::make_clean_names()].  `clean_names` 
-#' relies on the versatile function [snakecase::to_any_case()], which 
-#' accepts many arguments.  See that function's documentation for ideas on getting 
+#' of names, see [janitor::make_clean_names()].  `clean_names`
+#' relies on the versatile function [snakecase::to_any_case()], which
+#' accepts many arguments.  See that function's documentation for ideas on getting
 #' the most out of `clean_names`.  A few examples are included below.
-#' 
+#'
 #' A common issue is that the micro/mu symbol is replaced by "m" instead of "u".
 #' The replacement with "m" is more correct when doing Greek-to-ASCII
 #' transliteration but less correct when doing scientific data-to-ASCII
@@ -26,14 +26,14 @@
 #' @param dat the input data.frame.
 #' @inheritDotParams make_clean_names -string
 #' @return Returns the data.frame with clean names.
-#' 
+#'
 #' @details `clean_names()` is intended to be used on `data.frames`
 #'   and `data.frame`-like objects. For this reason there are methods to
 #'   support using `clean_names()` on `sf` and `tbl_graph` (from
 #'   `tidygraph`) objects as well as on database connections through
-#'   `dbplyr`. For cleaning other named objects like named lists 
+#'   `dbplyr`. For cleaning other named objects like named lists
 #'   and vectors, use `make_clean_names()`.
-#' 
+#'
 #' @export
 #' @family Set names
 #' @examples
@@ -143,7 +143,7 @@ clean_names.tbl_lazy <- function(dat, ...) {
 #' look like the Greek mu or the micro symbol and values of "u".  This is
 #' intended to simplify mapping from mu or micro in Unicode to the character "u"
 #' with `clean_names()` and `make_clean_names()`.
-#' 
+#'
 #' See the help in `clean_names()` for how to use this.
 #'
 #' @family Set names

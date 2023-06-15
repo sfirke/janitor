@@ -1,20 +1,20 @@
 #' Round to the nearest fraction of a specified denominator.
 #'
-#' @description 
+#' @description
 #' Round a decimal to the precise decimal value of a specified
 #' fractional denominator.  Common use cases include addressing floating point
 #' imprecision and enforcing that data values fall into a certain set.
-#' 
-#' E.g., if a decimal represents hours and values should be logged to the nearest 
-#' minute, `round_to_fraction(x, 60)` would enforce that distribution and 0.57 
-#' would be rounded to 0.566667, the equivalent of 34/60.  0.56 would also be rounded 
+#'
+#' E.g., if a decimal represents hours and values should be logged to the nearest
+#' minute, `round_to_fraction(x, 60)` would enforce that distribution and 0.57
+#' would be rounded to 0.566667, the equivalent of 34/60.  0.56 would also be rounded
 #' to 34/60.
-#' 
+#'
 #' Set `denominator = 1` to round to whole numbers.
-#' 
+#'
 #' The `digits` argument allows for rounding of the subsequent result.
 #'
-#' @details 
+#' @details
 #' If `digits` is `Inf`, `x` is rounded to the fraction
 #' and then kept at full precision.  If `digits` is `"auto"`, the
 #' number of digits is automatically selected as
@@ -23,8 +23,8 @@
 #' @param x A numeric vector
 #' @param denominator The denominator of the fraction for rounding (a scalar or
 #'   vector positive integer).
-#' @param digits Integer indicating the number of decimal places to be used 
-#'   after rounding to the fraction.  This is passed to `base::round()`). 
+#' @param digits Integer indicating the number of decimal places to be used
+#'   after rounding to the fraction.  This is passed to `base::round()`).
 #'   Negative values are allowed (see Details). (`Inf` indicates no
 #'   subsequent rounding)
 #' @return the input x rounded to a decimal value that has an integer numerator relative
