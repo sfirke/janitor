@@ -17,14 +17,14 @@
 #'   adorn_title(placement = "top")
 #'
 #' # Adding a title to a non-tabyl
-#' library(tidyr); library(dplyr)
+#' library(tidyr)
+#' library(dplyr)
 #' mtcars %>%
 #'   group_by(gear, am) %>%
 #'   summarise(avg_mpg = mean(mpg), .groups = "drop") %>%
 #'   spread(gear, avg_mpg) %>%
 #'   adorn_rounding() %>%
 #'   adorn_title("top", row_name = "Gears", col_name = "Cylinders")
-
 adorn_title <- function(dat, placement = "top", row_name, col_name) {
   # if input is a list, call purrr::map to recursively apply this function to each data.frame
   if (is.list(dat) && !is.data.frame(dat)) {
@@ -72,7 +72,7 @@ adorn_title <- function(dat, placement = "top", row_name, col_name) {
       dat[, ] <- lapply(dat[, ], as.character) # to handle factors, problematic in first column and at bind_rows.
       # Can't use mutate_all b/c it strips attributes
       top <- dat[1, ]
-      
+
       top[1, ] <- as.list(names(top))
 
       out <- dplyr::bind_rows(top, dat)

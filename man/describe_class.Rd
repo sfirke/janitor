@@ -46,7 +46,7 @@ and if they are ordered.
 describe_class(1)
 describe_class(factor("A"))
 describe_class(ordered(c("A", "B")))
-describe_class(ordered(c("A", "B")), strict_description=FALSE)
+describe_class(ordered(c("A", "B")), strict_description = FALSE)
 }
 \seealso{
 Other Data frame type comparison: 

@@ -37,9 +37,9 @@ mtcars \%>\%
   adorn_percentages("all") \%>\%
   mutate(dummy = "a") \%>\%
   adorn_rounding()
-  
+
 # Control the columns to be adorned with the ... variable selection argument
-# If using only the ... argument, you can use empty commas as shorthand 
+# If using only the ... argument, you can use empty commas as shorthand
 # to supply the default values to the preceding arguments:
 cases <- data.frame(
   region = c("East", "West"),
@@ -49,6 +49,6 @@ cases <- data.frame(
 )
 
 cases \%>\%
-  adorn_percentages(,,ends_with("ed")) \%>\%
-  adorn_rounding(,,all_of(c("recovered", "died")))
+  adorn_percentages(, , ends_with("ed")) \%>\%
+  adorn_rounding(, , all_of(c("recovered", "died")))
 }

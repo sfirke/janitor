@@ -39,15 +39,17 @@
 #' excel_numeric_to_date(40000.5) # No time is included
 #' excel_numeric_to_date(40000.5, include_time = TRUE) # Time is included
 #' excel_numeric_to_date(40000.521, include_time = TRUE) # Time is included
-#' excel_numeric_to_date(40000.521, include_time = TRUE,
-#'   round_seconds = FALSE) # Time with fractional seconds is included
+#' excel_numeric_to_date(40000.521,
+#'   include_time = TRUE,
+#'   round_seconds = FALSE
+#' ) # Time with fractional seconds is included
 #' @family Date-time cleaning
 #' @importFrom lubridate as_date as_datetime force_tz hour minute second
 excel_numeric_to_date <- function(date_num, date_system = "modern", include_time = FALSE, round_seconds = TRUE, tz = Sys.timezone()) {
   if (all(is.na(date_num))) {
     # For NA input, return the expected type of NA output.
     if (include_time) {
-      return(lubridate::as_datetime(date_num, tz=tz))
+      return(lubridate::as_datetime(date_num, tz = tz))
     } else {
       return(lubridate::as_date(date_num))
     }
@@ -87,9 +89,9 @@ excel_numeric_to_date <- function(date_num, date_system = "modern", include_time
   if (include_time) {
     ret <- lubridate::as_datetime(ret)
     lubridate::second(ret) <- date_num_seconds %% 60
-    lubridate::minute(ret) <- floor(date_num_seconds/60) %% 60
-    lubridate::hour(ret) <- floor(date_num_seconds/3600)
-    ret <- lubridate::force_tz(ret, tzone=tz)
+    lubridate::minute(ret) <- floor(date_num_seconds / 60) %% 60
+    lubridate::hour(ret) <- floor(date_num_seconds / 3600)
+    ret <- lubridate::force_tz(ret, tzone = tz)
   }
   if (any(mask_excel_leap_day_bug)) {
     warning("NAs introduced by coercion, Excel leap day bug detected in `date_num`.  29 February 1900 does not exist.")

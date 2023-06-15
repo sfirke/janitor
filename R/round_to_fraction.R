@@ -43,10 +43,10 @@ round_to_fraction <- function(x, denominator, digits = Inf) {
   stopifnot(is.numeric(denominator))
   stopifnot(denominator >= 1)
   if (!(identical(digits, "auto") ||
-        (is.numeric(digits) & (length(digits) %in% c(1, length(x)))))) {
+    (is.numeric(digits) & (length(digits) %in% c(1, length(x)))))) {
     stop('`digits` must be either "auto" or a number that is either a scalar (length = 1) or the same length as `x`.')
   }
-  ret <- round(x * denominator, digits=0) / denominator
+  ret <- round(x * denominator, digits = 0) / denominator
   if (identical(digits, "auto")) {
     digits <- ceiling(log10(denominator)) + 1
   }

@@ -21,16 +21,19 @@
 #' # addressing a common untidy-data scenario where we have a mixture of
 #' # blank values in some (character) columns and NAs in others:
 #' library(dplyr)
-#' dd <- tibble(x=c(LETTERS[1:5],NA,rep("",2)),
-#'              y=c(1:5,rep(NA,3)))
+#' dd <- tibble(
+#'   x = c(LETTERS[1:5], NA, rep("", 2)),
+#'   y = c(1:5, rep(NA, 3))
+#' )
 #' # remove_empty() drops row 5 (all NA) but not 6 and 7 (blanks + NAs)
 #' dd %>% remove_empty("rows")
 #' # solution: preprocess to convert whitespace/empty strings to NA,
 #' # _then_ remove empty (all-NA) rows
-#' dd %>% mutate(across(where(is.character),~na_if(trimws(.),""))) %>%
-#'    remove_empty("rows")
+#' dd %>%
+#'   mutate(across(where(is.character), ~ na_if(trimws(.), ""))) %>%
+#'   remove_empty("rows")
 #' @export
-remove_empty <- function(dat, which = c("rows", "cols"), cutoff=1, quiet=TRUE) {
+remove_empty <- function(dat, which = c("rows", "cols"), cutoff = 1, quiet = TRUE) {
   if (missing(which) && !missing(dat)) {
     message("value for \"which\" not specified, defaulting to c(\"rows\", \"cols\")")
     which <- c("rows", "cols")
@@ -54,10 +57,10 @@ remove_empty <- function(dat, which = c("rows", "cols"), cutoff=1, quiet=TRUE) {
       if (cutoff == 1) {
         rowSums(is.na(dat)) != ncol(dat)
       } else {
-        (rowSums(!is.na(dat))/ncol(dat)) > cutoff
+        (rowSums(!is.na(dat)) / ncol(dat)) > cutoff
       }
     if (!quiet) {
-      remove_message(dat=dat, mask_keep=mask_keep, which="rows", reason="empty")
+      remove_message(dat = dat, mask_keep = mask_keep, which = "rows", reason = "empty")
     }
     dat <- dat[mask_keep, , drop = FALSE]
   }
@@ -68,10 +71,10 @@ remove_empty <- function(dat, which = c("rows", "cols"), cutoff=1, quiet=TRUE) {
       if (cutoff == 1) {
         colSums(is.na(dat)) != nrow(dat)
       } else {
-        (colSums(!is.na(dat))/nrow(dat)) > cutoff
+        (colSums(!is.na(dat)) / nrow(dat)) > cutoff
       }
     if (!quiet) {
-      remove_message(dat=dat, mask_keep=mask_keep, which="columns", reason="empty")
+      remove_message(dat = dat, mask_keep = mask_keep, which = "columns", reason = "empty")
     }
     dat <- dat[, mask_keep, drop = FALSE]
   }
@@ -89,10 +92,10 @@ remove_empty <- function(dat, which = c("rows", "cols"), cutoff=1, quiet=TRUE) {
 #'   (`FALSE`) indicating the summary of empty columns or rows removed?
 #'
 #' @examples
-#' remove_constant(data.frame(A=1, B=1:3))
+#' remove_constant(data.frame(A = 1, B = 1:3))
 #'
 #' # To find the columns that are constant
-#' data.frame(A=1, B=1:3) %>%
+#' data.frame(A = 1, B = 1:3) %>%
 #'   dplyr::select(!dplyr::all_of(names(remove_constant(.)))) %>%
 #'   unique()
 #' @importFrom stats na.omit
@@ -100,11 +103,11 @@ remove_empty <- function(dat, which = c("rows", "cols"), cutoff=1, quiet=TRUE) {
 #' @seealso [`remove_empty()`][remove_empty] for removing empty
 #'   columns or rows.
 #' @export
-remove_constant <- function(dat, na.rm = FALSE, quiet=TRUE) {
+remove_constant <- function(dat, na.rm = FALSE, quiet = TRUE) {
   mask <-
     sapply(
-      X=seq_len(ncol(dat)),
-      FUN=function(idx) {
+      X = seq_len(ncol(dat)),
+      FUN = function(idx) {
         column_to_test <-
           if (is.matrix(dat)) {
             dat[, idx]
@@ -121,9 +124,9 @@ remove_constant <- function(dat, na.rm = FALSE, quiet=TRUE) {
       }
     )
   if (!quiet) {
-    remove_message(dat=dat, mask_keep=!mask, which="columns", reason="constant")
+    remove_message(dat = dat, mask_keep = !mask, which = "columns", reason = "constant")
   }
-  dat[ , !mask, drop=FALSE]
+  dat[, !mask, drop = FALSE]
 }
 
 
@@ -135,19 +138,19 @@ remove_constant <- function(dat, na.rm = FALSE, quiet=TRUE) {
 #' @param reason The reason that rows are being removed (to be used in the
 #'   message.
 #' @noRd
-remove_message <- function(dat, mask_keep, which=c("columns", "rows"), reason=c("empty", "constant")) {
+remove_message <- function(dat, mask_keep, which = c("columns", "rows"), reason = c("empty", "constant")) {
   if (all(mask_keep)) {
     message("No ", reason, " ", which, " to remove.")
   } else {
     details <-
       if (which == "columns") {
         if (is.null(colnames(dat)) || any(colnames(dat) %in% "")) {
-          sprintf("%0.3g%%", 100*sum(!mask_keep)/length(mask_keep))
+          sprintf("%0.3g%%", 100 * sum(!mask_keep) / length(mask_keep))
         } else {
-          sprintf("Removed: %s", paste(names(dat)[!mask_keep], collapse=", "))
+          sprintf("Removed: %s", paste(names(dat)[!mask_keep], collapse = ", "))
         }
       } else {
-        sprintf("%0.3g%%", 100*sum(!mask_keep)/length(mask_keep))
+        sprintf("%0.3g%%", 100 * sum(!mask_keep) / length(mask_keep))
       }
     message(
       sprintf(

@@ -17,8 +17,10 @@
 #' @return A data.frame with new names (and some rows removed, if specified)
 #' @family Set names
 #' @examples
-#' x <- data.frame(X_1 = c(NA, "Title", 1:3),
-#'                 X_2 = c(NA, "Title2", 4:6))
+#' x <- data.frame(
+#'   X_1 = c(NA, "Title", 1:3),
+#'   X_2 = c(NA, "Title2", 4:6)
+#' )
 #' x %>%
 #'   row_to_names(row_number = 2)
 #'
@@ -36,7 +38,7 @@ row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_ab
     # no need to check if it is a character string, %in% will do that for us
     # (and will handle the odd-ball cases like someone sending in
     # factor("find_header")).
-    row_number <- find_header(dat=dat, ...)
+    row_number <- find_header(dat = dat, ...)
   } else if (is.numeric(row_number)) {
     extra_args <- list(...)
     if (length(extra_args) != 0) {
@@ -48,15 +50,15 @@ row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_ab
   if (!is.character(sep)) {
     stop("`sep` must be of type `character`.")
   }
-  if (length(sep) != 1){
+  if (length(sep) != 1) {
     stop("`sep` must be of length 1.")
   }
   if (is.na(sep)) {
     stop("`sep` can't be of type `NA_character_`.")
   }
-  new_names <- sapply(dat[row_number, , drop = FALSE], paste_skip_na, collapse = sep) %>% 
+  new_names <- sapply(dat[row_number, , drop = FALSE], paste_skip_na, collapse = sep) %>%
     stringr::str_replace_na()
-  
+
   if (any(duplicated(new_names))) {
     rlang::warn(
       message = paste("Row", row_number, "does not provide unique names. Consider running clean_names() after row_to_names()."),
@@ -84,7 +86,7 @@ row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_ab
 }
 
 #' Find the header row in a data.frame
-#' 
+#'
 #' @details
 #' If `...` is missing, then the first row with no missing values is used.
 #' 
@@ -96,20 +98,20 @@ row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_ab
 #' argument is searched for the name (see the last example below).  If more than one
 #' row is found matching a value that is searched for, the number of the first
 #' matching row will be returned (with a warning).
-#' 
+#'
 #' @inheritParams row_to_names
 #' @param ... See details
 #' @return The row number for the header row
 #' @family Set names
 #' @examples
 #' # the first row
-#' find_header(data.frame(A="B"))
+#' find_header(data.frame(A = "B"))
 #' # the second row
-#' find_header(data.frame(A=c(NA, "B")))
+#' find_header(data.frame(A = c(NA, "B")))
 #' # the second row since the first has an empty value
-#' find_header(data.frame(A=c(NA, "B"), B=c("C", "D")))
+#' find_header(data.frame(A = c(NA, "B"), B = c("C", "D")))
 #' # The third row because the second column was searched for the text "E"
-#' find_header(data.frame(A=c(NA, "B", "C", "D"), B=c("C", "D", "E", "F")), "E"=2)
+#' find_header(data.frame(A = c(NA, "B", "C", "D"), B = c("C", "D", "E", "F")), "E" = 2)
 #' @export
 find_header <- function(dat, ...) {
   extra_args <- list(...)
@@ -137,12 +139,12 @@ find_header <- function(dat, ...) {
       ))
     } else if (length(ret) > 1) {
       rlang::warn(
-        message=
+        message =
           sprintf(
             "The string '%s' was found %g times in column %g, using the first row where it was found",
             string_to_search, length(ret), column_to_search
           ),
-        class="janitor_warn_find_header_not_unique"
+        class = "janitor_warn_find_header_not_unique"
       )
       ret <- ret[1]
     }

@@ -153,7 +153,7 @@ test_that("non-data.frame inputs are handled", {
   expect_error(adorn_ns(1:5), "adorn_ns() must be called on a data.frame or list of data.frames", fixed = TRUE)
 })
 
-test_that("multiple character columns in a tabyl are left untouched",{
+test_that("multiple character columns in a tabyl are left untouched", {
   small_with_char <- data.frame(
     x = letters[1:2],
     a = 1:2,
@@ -161,17 +161,17 @@ test_that("multiple character columns in a tabyl are left untouched",{
     text = "text",
     stringsAsFactors = FALSE
   )
- expect_equal(
-   small_with_char %>%
-     adorn_percentages() %>%
-     dplyr::pull(text),
-   c("text", "text")
+  expect_equal(
+    small_with_char %>%
+      adorn_percentages() %>%
+      dplyr::pull(text),
+    c("text", "text")
   )
 })
 
 test_that("works with tidyselect", {
   simple_percs <- source_an %>% adorn_percentages()
-  one_adorned <- simple_percs %>% adorn_ns(,,,`1`)
+  one_adorned <- simple_percs %>% adorn_ns(, , , `1`)
   expect_equal(
     simple_percs[, 1:2],
     one_adorned[, 1:2]
@@ -184,8 +184,8 @@ test_that("works with tidyselect", {
 
 test_that("no message thrown on grouped df input", {
   expect_silent(source_an %>%
-                  adorn_percentages() %>%
-                  adorn_ns())
+    adorn_percentages() %>%
+    adorn_ns())
 })
 
 test_that("adorn_ns works on single column data.frame with custom Ns if tidyselect is used, #456", {
@@ -195,45 +195,50 @@ test_that("adorn_ns works on single column data.frame with custom Ns if tidysele
   adorned_single <-
     adorned_single %>%
     dplyr::select(a = `4`) %>%
-    adorn_ns(ns = dplyr::select(attr(adorned_single, "core"), a = `4`),,,, a)
+    adorn_ns(ns = dplyr::select(attr(adorned_single, "core"), a = `4`), , , , a)
   expect_equal(stringr::str_sub(adorned_single$a, -4, -1), c(" (3)", " (8)"))
 })
 
 # This tests the display of the decimal.mark by forcing a decimal into a tabyl
 # Can't happen with a natural table, but maybe someone will use adorn_ns on a homespun data.frame
-test_that("formatting function works, #444", {
+test_that("formatting function works, (#444)", {
   set.seed(1)
-  bigger_dat <- data.frame(sex = rep(c("m", "f"), 3000),
-                           age = round(runif(3000, 1, 102), 0))
-  bigger_dat$age_group = cut(bigger_dat$age, quantile(bigger_dat$age, c(0, 1/3, 2/3, 1)))
-  
+  bigger_dat <- data.frame(
+    sex = rep(c("m", "f"), 3000),
+    age = round(runif(3000, 1, 102), 0)
+  )
+  bigger_dat$age_group <- cut(bigger_dat$age, quantile(bigger_dat$age, c(0, 1 / 3, 2 / 3, 1)))
+
   bigger_tab <- bigger_dat %>%
-    tabyl(age_group, sex, show_missing_levels = F)
-  
+    tabyl(age_group, sex, show_missing_levels = FALSE)
+
   standard_output <- bigger_tab %>%
     adorn_percentages("col") %>%
-    adorn_pct_formatting(digits = 1) %>% 
+    adorn_pct_formatting(digits = 1) %>%
     adorn_ns(position = "front")
-  
+
   # test commas in thousands place by default
-  expect_equal(standard_output$f,
-               c("1,018 (33.9%)", "990 (33.0%)", "980 (32.7%)", "12  (0.4%)")
-               )
-  
+  expect_equal(
+    standard_output$f,
+    c("1,018 (33.9%)", "990 (33.0%)", "980 (32.7%)", "12  (0.4%)")
+  )
+
   # Test decimal mark
   bigger_tab$f[1] <- 1018.5 # makes no sense in a tabyl but need for testing decimal mark display
-  
+
   bigger_result <- bigger_tab %>%
     untabyl() %>% # to get the decimal into the core
-    as_tabyl() %>% 
+    as_tabyl() %>%
     adorn_totals(c("row", "col")) %>%
     adorn_percentages("col") %>%
-    adorn_pct_formatting(digits = 1) %>% 
+    adorn_pct_formatting(digits = 1) %>%
     adorn_ns(position = "rear", format_func = function(x) format(x, big.mark = ".", decimal.mark = ","))
-  
+
   expect_equal(
     bigger_result$f,
-    c("33.9% (1.018,5)", "33.0%   (990,0)", "32.7%   (980,0)", "0.4%    (12,0)", 
-      "100.0% (3.000,5)")
+    c(
+      "33.9% (1.018,5)", "33.0%   (990,0)", "32.7%   (980,0)", "0.4%    (12,0)",
+      "100.0% (3.000,5)"
+    )
   )
 })

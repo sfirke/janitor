@@ -124,11 +124,11 @@ x \%>\%
 # Restore column names to Title Case, e.g., for plotting
 mtcars \%>\%
   clean_names(case = "title")
-  
+
 # Tell clean_names to leave certain abbreviations untouched:
 x \%>\%
-  clean_names(case = "upper_camel", abbreviations = c("ID", "DOB")) 
-  
+  clean_names(case = "upper_camel", abbreviations = c("ID", "DOB"))
+
 }
 \seealso{
 Other Set names: 

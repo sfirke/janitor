@@ -82,14 +82,14 @@ test_that("adorn_totals and adorn_percentages reset the tabyl's core to reflect 
       adorn_totals() %>%
       attr(., "core"),
     sorted %>%
-      untabyl
+      untabyl()
   )
   expect_equal(
     sorted %>%
       adorn_percentages() %>%
       attr(., "core"),
     sorted %>%
-      untabyl
+      untabyl()
   )
   # both:
   expect_equal(
@@ -98,7 +98,7 @@ test_that("adorn_totals and adorn_percentages reset the tabyl's core to reflect 
       adorn_percentages() %>%
       attr(., "core"),
     sorted %>%
-      untabyl
+      untabyl()
   )
   # Ns with "Total" row sorted to top - the Total N should be up there too:
   expect_equal(

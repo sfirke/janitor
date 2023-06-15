@@ -7,7 +7,7 @@
 #' Accented characters are transliterated to ASCII.  For example, an "o" with a
 #' German umlaut over it becomes "o", and the Spanish character "enye" becomes
 #' "n".
-#' 
+#'
 #' This function takes and returns a data.frame, for ease of piping with
 #' ``\%>\%``. For the underlying function that works on a character vector
 #' of names, see [janitor::make_clean_names()].  `clean_names` 
@@ -37,7 +37,7 @@
 #' @export
 #' @family Set names
 #' @examples
-#' 
+#'
 #' # --- Simple Usage ---
 #' x <- data.frame(caseID = 1, DOB = 2, Other = 3)
 #' clean_names(x)
@@ -54,17 +54,17 @@
 #' # library(readxl)
 #' # read_excel("messy_excel_file.xlsx") %>%
 #' #   clean_names()
-#' 
+#'
 #' # --- Taking advantage of the underlying snakecase::to_any_case arguments ---
-#' 
+#'
 #' # Restore column names to Title Case, e.g., for plotting
 #' mtcars %>%
 #'   clean_names(case = "title")
-#'   
+#'
 #' # Tell clean_names to leave certain abbreviations untouched:
 #' x %>%
-#'   clean_names(case = "upper_camel", abbreviations = c("ID", "DOB")) 
-#'   
+#'   clean_names(case = "upper_camel", abbreviations = c("ID", "DOB"))
+#'
 clean_names <- function(dat, ...) {
   UseMethod("clean_names")
 }
@@ -72,13 +72,13 @@ clean_names <- function(dat, ...) {
 #' @rdname clean_names
 #' @export
 clean_names.default <- function(dat, ...) {
-  if(is.null(names(dat)) && is.null(dimnames(dat))) {
+  if (is.null(names(dat)) && is.null(dimnames(dat))) {
     stop(
       "`clean_names()` requires that either names or dimnames be non-null.",
       call. = FALSE
     )
   }
-  if(is.null(names(dat))) {
+  if (is.null(names(dat))) {
     dimnames(dat) <- lapply(dimnames(dat), make_clean_names, ...)
   } else {
     names(dat) <- make_clean_names(names(dat), ...)
@@ -96,14 +96,14 @@ clean_names.sf <- function(dat, ...) {
     )
   } # nocov end
   # get old names
-  sf_names <- names(dat) 
+  sf_names <- names(dat)
   # identify ending column index to clean
-  n_cols <- length(dat)-1 
+  n_cols <- length(dat) - 1
   # clean all but last column
-  sf_cleaned <- make_clean_names(sf_names[1:n_cols], ...) 
+  sf_cleaned <- make_clean_names(sf_names[1:n_cols], ...)
   # rename original df
-  names(dat)[1:n_cols] <- sf_cleaned 
-  
+  names(dat)[1:n_cols] <- sf_cleaned
+
   return(dat)
 }
 
@@ -112,11 +112,11 @@ clean_names.sf <- function(dat, ...) {
 clean_names.tbl_graph <- function(dat, ...) {
   if (!requireNamespace("tidygraph", quietly = TRUE)) { # nocov start
     stop(
-      "Package 'tidygraph' needed for this function to work. Please install it.", 
+      "Package 'tidygraph' needed for this function to work. Please install it.",
       call. = FALSE
     )
   } # nocov end
-  dplyr::rename_all(dat, .funs=make_clean_names, ...)
+  dplyr::rename_all(dat, .funs = make_clean_names, ...)
 }
 
 #' @rdname clean_names
@@ -124,7 +124,7 @@ clean_names.tbl_graph <- function(dat, ...) {
 clean_names.tbl_lazy <- function(dat, ...) {
   if (!requireNamespace("dbplyr", quietly = TRUE)) { # nocov start
     stop(
-      "Package 'dbplyr' needed for this function to work. Please install it.", 
+      "Package 'dbplyr' needed for this function to work. Please install it.",
       call. = FALSE
     )
   } # nocov end
@@ -138,7 +138,7 @@ clean_names.tbl_lazy <- function(dat, ...) {
 # to this character vector.
 
 #' Constant to help map from mu to u
-#' 
+#'
 #' This is a character vector with names of all known Unicode code points that
 #' look like the Greek mu or the micro symbol and values of "u".  This is
 #' intended to simplify mapping from mu or micro in Unicode to the character "u"
@@ -153,7 +153,7 @@ mu_to_u <-
   # of the items.
   setNames(
     rep("u", 10),
-    nm=
+    nm =
       c(
         "\u00b5", "\u03bc", "\u3382", "\u338c", "\u338d",
         "\u3395", "\u339b", "\u33b2", "\u33b6", "\u33bc"

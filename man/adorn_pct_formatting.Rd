@@ -38,9 +38,9 @@ mtcars \%>\%
   tabyl(am, cyl) \%>\%
   adorn_percentages("col") \%>\%
   adorn_pct_formatting()
-  
+
 # Control the columns to be adorned with the ... variable selection argument
-# If using only the ... argument, you can use empty commas as shorthand 
+# If using only the ... argument, you can use empty commas as shorthand
 # to supply the default values to the preceding arguments:
 
 cases <- data.frame(
@@ -51,7 +51,7 @@ cases <- data.frame(
 )
 
 cases \%>\%
- adorn_percentages("col",,recovered:died) \%>\%
- adorn_pct_formatting(,,,recovered:died)
+  adorn_percentages("col", , recovered:died) \%>\%
+  adorn_pct_formatting(, , , recovered:died)
 
 }

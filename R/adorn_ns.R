@@ -16,44 +16,47 @@
 #'   adorn_percentages("col") %>%
 #'   adorn_pct_formatting() %>%
 #'   adorn_ns(position = "front")
-#'   
+#'
 #' # Format the Ns with a custom format_func:
 #' set.seed(1)
-#' bigger_dat <- data.frame(sex = rep(c("m", "f"), 3000),
-#'                          age = round(runif(3000, 1, 102), 0))
-#' bigger_dat$age_group = cut(bigger_dat$age, quantile(bigger_dat$age, c(0, 1/3, 2/3, 1)))
-#' 
+#' bigger_dat <- data.frame(
+#'   sex = rep(c("m", "f"), 3000),
+#'   age = round(runif(3000, 1, 102), 0)
+#' )
+#' bigger_dat$age_group <- cut(bigger_dat$age, quantile(bigger_dat$age, c(0, 1 / 3, 2 / 3, 1)))
+#'
 #' bigger_dat %>%
 #'   tabyl(age_group, sex, show_missing_levels = FALSE) %>%
 #'   adorn_totals(c("row", "col")) %>%
 #'   adorn_percentages("col") %>%
-#'   adorn_pct_formatting(digits = 1) %>% 
+#'   adorn_pct_formatting(digits = 1) %>%
 #'   adorn_ns(format_func = function(x) format(x, big.mark = ".", decimal.mark = ","))
 
 #' # Control the columns to be adorned with the ... variable selection argument
-#' # If using only the ... argument, you can use empty commas as shorthand 
+#' # If using only the ... argument, you can use empty commas as shorthand
 #' # to supply the default values to the preceding arguments:
-#' 
+#'
 #' cases <- data.frame(
 #'   region = c("East", "West"),
 #'   year = 2015,
 #'   recovered = c(125, 87),
 #'   died = c(13, 12)
 #' )
-#' 
-#'cases %>%
+#'
+#' cases %>%
 #'  adorn_percentages("col",,recovered:died) %>%
 #'  adorn_pct_formatting(,,,,,recovered:died) %>%
 #'  adorn_ns(,,,recovered:died)
-#'   
-adorn_ns <- function(dat, position = "rear", ns = attr(dat, "core"), format_func = function(x) { format(x, big.mark = ",") }, ...) {
+#'
+adorn_ns <- function(dat, position = "rear", ns = attr(dat, "core"), format_func = function(x) {
+                       format(x, big.mark = ",")
+                     }, ...) {
   # if input is a list, call purrr::map to recursively apply this function to each data.frame
   if (is.list(dat) && !is.data.frame(dat)) {
     purrr::map(dat, adorn_ns, position) # okay not to pass ns and allow for static Ns, b/c one size fits all for each list entry doesn't make sense for Ns.
   } else {
-    
     ns_provided <- !missing(ns)
-    
+
     # catch bad inputs
     if (!is.data.frame(dat)) {
       stop("adorn_ns() must be called on a data.frame or list of data.frames")
@@ -71,14 +74,14 @@ adorn_ns <- function(dat, position = "rear", ns = attr(dat, "core"), format_func
     if ("one_way" %in% attr(dat, "tabyl_type")) {
       warning("adorn_ns() is meant to be called on a two_way tabyl; consider combining columns of a one_way tabyl with tidyr::unite()")
     }
-    
+
     attrs <- attributes(dat) # save these to re-append later
     custom_ns_supplied <- !(identical(ns, attr(dat, "core")))
-                            
+
     if (custom_ns_supplied & !identical(dim(ns), dim(dat))) { # user-supplied Ns must include values for totals row/col if present
       stop("if supplying your own data.frame of Ns to append, its dimensions must match those of the data.frame in the \"dat\" argument")
     }
-    
+
     # If appending the default Ns from the core, and there are totals rows/cols, append those values to the Ns table
     # Custom inputs to ns argument will need to calculate & format their own totals row/cols
     if (!custom_ns_supplied) {
@@ -90,24 +93,23 @@ adorn_ns <- function(dat, position = "rear", ns = attr(dat, "core"), format_func
       ns[] <- lapply(ns, format_func)
       ns[] <- lapply(ns, stringr::str_trim)
     }
-    
+
     if (position == "rear") {
       result <- paste_matrices(dat, ns %>%
-                                 dplyr::mutate(
-                                   dplyr::across(dplyr::everything(), purrr::compose(as.character, wrap_parens, standardize_col_width, .dir = "forward"))
-                                   ))
+        dplyr::mutate(
+          dplyr::across(dplyr::everything(), purrr::compose(as.character, wrap_parens, standardize_col_width, .dir = "forward"))
+        ))
     } else if (position == "front") {
       result <- paste_matrices(ns, dat %>%
-                                 dplyr::mutate(
-                                   dplyr::across(dplyr::everything(), purrr::compose(as.character, wrap_parens, standardize_col_width, .dir = "forward"))
-                                 )
-                                 )
+        dplyr::mutate(
+          dplyr::across(dplyr::everything(), purrr::compose(as.character, wrap_parens, standardize_col_width, .dir = "forward"))
+        ))
     }
     attributes(result) <- attrs
-    
-    if(custom_ns_supplied & rlang::dots_n(...) == 0){
+
+    if (custom_ns_supplied & rlang::dots_n(...) == 0) {
       dont_adorn <- 1L
-    } else if(rlang::dots_n(...) == 0){
+    } else if (rlang::dots_n(...) == 0) {
       cols_to_adorn <- numeric_cols
       dont_adorn <- setdiff(1:ncol(dat), cols_to_adorn)
       dont_adorn <- unique(c(1, dont_adorn)) # always don't-append first column
@@ -117,7 +119,7 @@ adorn_ns <- function(dat, position = "rear", ns = attr(dat, "core"), format_func
       dont_adorn <- setdiff(1:ncol(dat), cols_to_adorn)
     }
 
-    for(i in dont_adorn){
+    for (i in dont_adorn) {
       result[[i]] <- dat[[i]]
     }
     result

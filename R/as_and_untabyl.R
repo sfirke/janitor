@@ -37,13 +37,12 @@
 #' @export
 #' @examples
 #' as_tabyl(mtcars)
-#' 
-
+#'
 as_tabyl <- function(dat, axes = 2, row_var_name = NULL, col_var_name = NULL) {
   if (!axes %in% 1:2) {
     stop("axes must be either 1 or 2")
   }
-  
+
   # check whether input meets requirements
   if (!is.data.frame(dat)) {
     stop("input must be a data.frame")
@@ -51,33 +50,36 @@ as_tabyl <- function(dat, axes = 2, row_var_name = NULL, col_var_name = NULL) {
   if (sum(unlist(lapply(dat, is.numeric))[-1]) == 0) {
     stop("at least one one of columns 2:n must be of class numeric")
   }
-  
+
   # assign core attribute and classes
-  if("tabyl" %in% class(dat)){
+  if ("tabyl" %in% class(dat)) {
     # if already a tabyl, may have totals row.  Safest play is to simply reorder the core rows to match the dat rows
-    attr(dat, "core") <- attr(dat, "core")[order(match(attr(dat, "core")[, 1],
-                                                       dat[, 1])), ]
+    attr(dat, "core") <- attr(dat, "core")[order(match(
+      attr(dat, "core")[, 1],
+      dat[, 1]
+    )), ]
     row.names(attr(dat, "core")) <- 1:nrow(attr(dat, "core")) # if they're sorted in the prior step above, this resets
   } else {
     attr(dat, "core") <- as.data.frame(dat) # core goes first so dat does not yet have attributes attached to it
   }
-  
+
   attr(dat, "tabyl_type") <- ifelse(
     !is.null(attr(dat, "tabyl_type")),
     attr(dat, "tabyl_type"), # if a one_way tabyl has as_tabyl called on it, it should stay a one_way #523
     dplyr::case_when(
       axes == 1 ~ "one_way",
       axes == 2 ~ "two_way"
-    ))
+    )
+  )
   class(dat) <- c("tabyl", setdiff(class(dat), "tabyl"))
-  
+
   if (!missing(row_var_name) | !missing(col_var_name)) {
     if (axes != 2) {
       stop("variable names are only meaningful for two-way tabyls")
     }
     attr(dat, "var_names") <- list(row = row_var_name, col = col_var_name)
   }
-  
+
   dat
 }
 
@@ -94,7 +96,6 @@ as_tabyl <- function(dat, axes = 2, row_var_name = NULL, col_var_name = NULL) {
 #'   tabyl(am) %>%
 #'   untabyl() %>%
 #'   attributes() # tabyl-specific attributes are gone
-
 untabyl <- function(dat) {
   # if input is a list, call purrr::map to recursively apply this function to each data.frame
   if (is.list(dat) && !is.data.frame(dat)) {
