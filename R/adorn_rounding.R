@@ -1,14 +1,14 @@
 #' @title Round the numeric columns in a data.frame.
 #'
 #' @description
-#' Can run on any data.frame with at least one numeric column.  This function defaults to excluding the first column of the input data.frame, assuming that it contains a descriptive variable, but this can be overridden by specifying the columns to round in the \code{...} argument.
+#' Can run on any data.frame with at least one numeric column.  This function defaults to excluding the first column of the input data.frame, assuming that it contains a descriptive variable, but this can be overridden by specifying the columns to round in the `...` argument.
 #'
-#' If you're formatting percentages, e.g., the result of \code{adorn_percentages()}, use \code{adorn_pct_formatting()} instead.  This is a more flexible variant for ad-hoc usage.  Compared to \code{adorn_pct_formatting()}, it does not multiply by 100 or pad the numbers with spaces for alignment in the results data.frame.   This function retains the class of numeric input columns.
+#' If you're formatting percentages, e.g., the result of `adorn_percentages()`, use `adorn_pct_formatting()` instead.  This is a more flexible variant for ad-hoc usage.  Compared to `adorn_pct_formatting()`, it does not multiply by 100 or pad the numbers with spaces for alignment in the results data.frame.   This function retains the class of numeric input columns.
 #'
-#' @param dat a \code{tabyl} or other data.frame with similar layout.  If given a list of data.frames, this function will apply itself to each data.frame in the list (designed for 3-way \code{tabyl} lists).
+#' @param dat a `tabyl` or other data.frame with similar layout.  If given a list of data.frames, this function will apply itself to each data.frame in the list (designed for 3-way `tabyl` lists).
 #' @param digits how many digits should be displayed after the decimal point?
 #' @param rounding method to use for rounding - either "half to even", the base R default method, or "half up", where 14.5 rounds up to 15.
-#' @param ... columns to adorn.  This takes a tidyselect specification.  By default, all numeric columns (besides the initial column, if numeric) are adorned, but this allows you to manually specify which columns should be adorned, for use on a data.frame that does not result from a call to \code{tabyl}.
+#' @param ... columns to adorn.  This takes a tidyselect specification.  By default, all numeric columns (besides the initial column, if numeric) are adorned, but this allows you to manually specify which columns should be adorned, for use on a data.frame that does not result from a call to `tabyl`.
 #'
 #' @return Returns the data.frame with rounded numeric columns.
 #' @export

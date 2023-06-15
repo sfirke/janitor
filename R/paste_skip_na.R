@@ -1,9 +1,9 @@
-#' Like \code{paste()}, but missing values are omitted
+#' Like `paste()`, but missing values are omitted
 #'
 #' @details If all values are missing, the value from the first argument is
 #'   preserved.
 #'
-#' @param ...,sep,collapse See \code{?paste}
+#' @param ...,sep,collapse See `?paste`
 #' @return A character vector of pasted values.
 #' @examples
 #' paste_skip_na(NA) # NA_character_

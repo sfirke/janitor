@@ -17,7 +17,7 @@ Like \code{paste()}, but missing values are omitted
 }
 \details{
 If all values are missing, the value from the first argument is
-  preserved.
+preserved.
 }
 \examples{
 paste_skip_na(NA) # NA_character_

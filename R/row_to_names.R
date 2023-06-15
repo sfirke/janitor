@@ -1,16 +1,16 @@
 #' Elevate a row to be the column names of a data.frame.
 #'
 #' @param dat The input data.frame
-#' @param row_number The row(s) of \code{dat} containing the variable names or the
-#'   string \code{"find_header"} to use \code{find_header(dat=dat, ...)} to find
+#' @param row_number The row(s) of `dat` containing the variable names or the
+#'   string `"find_header"` to use `find_header(dat=dat, ...)` to find
 #'   the row_number. Allows for multiple rows input as a numeric vector. NA's are
-#'   ignored, and if a column contains only NA value it will be named \code{"NA"}.
-#' @param ... Sent to \code{find_header()}, if
-#'   \code{row_number = "find_header"}.  Otherwise, ignored.
-#' @param remove_row Should the row \code{row_number} be removed from the
+#'   ignored, and if a column contains only NA value it will be named `"NA"`.
+#' @param ... Sent to `find_header()`, if
+#'   `row_number = "find_header"`.  Otherwise, ignored.
+#' @param remove_row Should the row `row_number` be removed from the
 #'   resulting data.frame?
-#' @param remove_rows_above If \code{row_number != 1}, should the rows above
-#'   \code{row_number} - that is, between \code{1:(row_number-1)} - be removed
+#' @param remove_rows_above If `row_number != 1`, should the rows above
+#'   `row_number` - that is, between `1:(row_number-1)` - be removed
 #'   from the resulting data.frame?
 #' @param sep A character string to separate the values in the case of multiple
 #'   rows input to `row_number`.
@@ -86,12 +86,12 @@ row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_ab
 #' Find the header row in a data.frame
 #' 
 #' @details
-#' If \code{...} is missing, then the first row with no missing values is used.
+#' If `...` is missing, then the first row with no missing values is used.
 #' 
 #' When searching for a specified value or value within a column, the first row
 #' with a match will be returned, regardless of the completeness of the rest of
-#' that row.  If \code{...} has a single character argument, then the first
-#' column is searched for that value.  If \code{...} has a named numeric
+#' that row.  If `...` has a single character argument, then the first
+#' column is searched for that value.  If `...` has a named numeric
 #' argument, then the column whose position number matches the value of that
 #' argument is searched for the name (see the last example below).  If more than one
 #' row is found matching a value that is searched for, the number of the first

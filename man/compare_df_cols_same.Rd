@@ -26,7 +26,7 @@ missing from a data.frame would be considered a mismatch (as in
 }
 \value{
 \code{TRUE} if row binding will succeed or \code{FALSE} if it will
-  fail.
+fail.
 }
 \description{
 Check whether a set of data.frames are row-bindable.  Calls

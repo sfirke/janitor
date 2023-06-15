@@ -32,7 +32,7 @@ resulting data.frame?}
 from the resulting data.frame?}
 
 \item{sep}{A character string to separate the values in the case of multiple
-rows input to `row_number`.}
+rows input to \code{row_number}.}
 }
 \value{
 A data.frame with new names (and some rows removed, if specified)

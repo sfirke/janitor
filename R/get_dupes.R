@@ -1,11 +1,11 @@
-#' @title Get rows of a \code{data.frame} with identical values for the specified variables.
+#' @title Get rows of a `data.frame` with identical values for the specified variables.
 #'
 #' @description
 #' For hunting duplicate records during data cleaning.  Specify the data.frame and the variable combination to search for duplicates and get back the duplicated rows.
 #'
 #' @param dat The input data.frame.
 #' @param ... Unquoted variable names to search for duplicates. This takes a tidyselect specification.
-#' @return Returns a data.frame with the full records where the specified variables have duplicated values, as well as a variable \code{dupe_count} showing the number of rows sharing that combination of duplicated values. If the input data.frame was of class \code{tbl_df}, the output is as well. 
+#' @return Returns a data.frame with the full records where the specified variables have duplicated values, as well as a variable `dupe_count` showing the number of rows sharing that combination of duplicated values. If the input data.frame was of class `tbl_df`, the output is as well. 
 #' @export
 #' @examples
 #' get_dupes(mtcars, mpg, hp)

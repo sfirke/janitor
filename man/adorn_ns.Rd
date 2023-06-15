@@ -19,7 +19,7 @@ adorn_ns(
 
 \item{position}{should the N go in the front, or in the rear, of the percentage?}
 
-\item{ns}{the Ns to append.  The default is the "core" attribute of the input tabyl \code{dat}, where the original Ns of a two-way \code{tabyl} are stored.  However, if your Ns are stored somewhere else, or you need to customize them beyond what can be done with `format_func`, you can supply them here.}
+\item{ns}{the Ns to append.  The default is the "core" attribute of the input tabyl \code{dat}, where the original Ns of a two-way \code{tabyl} are stored.  However, if your Ns are stored somewhere else, or you need to customize them beyond what can be done with \code{format_func}, you can supply them here.}
 
 \item{format_func}{a formatting function to run on the Ns.  Consider defining with \code{base::format()}.}
 

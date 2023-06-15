@@ -1,9 +1,9 @@
 #' @title Round a numeric vector; halves will be rounded up, ala Microsoft Excel.
 #'
 #' @description
-#' In base R \code{round()}, halves are rounded to even, e.g., 12.5 and 11.5 are both rounded to 12.  This function rounds 12.5 to 13 (assuming \code{digits = 0}).  Negative halves are rounded away from zero, e.g., -0.5 is rounded to -1.
+#' In base R `round()`, halves are rounded to even, e.g., 12.5 and 11.5 are both rounded to 12.  This function rounds 12.5 to 13 (assuming `digits = 0`).  Negative halves are rounded away from zero, e.g., -0.5 is rounded to -1.
 #'
-#' This may skew subsequent statistical analysis of the data, but may be desirable in certain contexts.  This function is implemented exactly from \url{https://stackoverflow.com/a/12688836}; see that question and comments for discussion of this issue.
+#' This may skew subsequent statistical analysis of the data, but may be desirable in certain contexts.  This function is implemented exactly from <https://stackoverflow.com/a/12688836>; see that question and comments for discussion of this issue.
 #'
 #' @param x a numeric vector to round.
 #' @param digits how many digits should be displayed after the decimal point?
@@ -26,14 +26,14 @@ round_half_up <- function(x, digits = 0) {
 #' @title Round a numeric vector to the specified number of significant digits; halves will be rounded up.
 #'
 #' @description
-#' In base R \code{signif()}, halves are rounded to even, e.g.,
-#' \code{signif(11.5, 2)} and \code{signif(12.5, 2)} are both rounded to 12.
-#' This function rounds 12.5 to 13 (assuming \code{digits = 2}). Negative halves
-#' are rounded away from zero, e.g., \code{signif(-2.5, 1)} is rounded to -3.
+#' In base R `signif()`, halves are rounded to even, e.g.,
+#' `signif(11.5, 2)` and `signif(12.5, 2)` are both rounded to 12.
+#' This function rounds 12.5 to 13 (assuming `digits = 2`). Negative halves
+#' are rounded away from zero, e.g., `signif(-2.5, 1)` is rounded to -3.
 #'
 #' This may skew subsequent statistical analysis of the data, but may be
 #' desirable in certain contexts. This function is implemented from 
-#' \url{https://stackoverflow.com/a/1581007/}; see that question and
+#' <https://stackoverflow.com/a/1581007/>; see that question and
 #' comments for discussion of this issue.
 #'
 #' @param x a numeric vector to round.

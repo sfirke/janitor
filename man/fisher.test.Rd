@@ -23,7 +23,7 @@ fisher.test(x, ...)
 The result is the same as the one of stats::fisher.test.
 }
 \description{
-This generic function overrides stats::fisher.test. If the passed table 
+This generic function overrides stats::fisher.test. If the passed table
 is a two-way tabyl, it runs it through janitor::fisher.test.tabyl, otherwise
 it just calls stats::fisher.test.
 }

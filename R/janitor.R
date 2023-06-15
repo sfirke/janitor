@@ -3,9 +3,9 @@
 #' janitor has simple little tools for examining and cleaning dirty data.
 #'
 #' @section Main functions:
-#' The main janitor functions can: perfectly format ugly \code{data.frame} column names; isolate
+#' The main janitor functions can: perfectly format ugly `data.frame` column names; isolate
 #' duplicate records for further study; and provide quick one- and two-variable tabulations
-#' (i.e., frequency tables and crosstabs) that improve on the base R function \code{table()}.
+#' (i.e., frequency tables and crosstabs) that improve on the base R function `table()`.
 #'
 #'
 #' Other functions in the package can format for reporting the results of these tabulations.
@@ -13,7 +13,7 @@
 #'
 #' @section Package context:
 #' This package follows the principles of the "tidyverse" and in particular works well with
-#' the \code{\%>\%} pipe function.
+#' the `\%>\%` pipe function.
 #'
 #'
 #' janitor was built with beginning-to-intermediate R users in mind

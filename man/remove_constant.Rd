@@ -29,7 +29,7 @@ data.frame(A=1, B=1:3) \%>\%
 }
 \seealso{
 \code{\link[=remove_empty]{remove_empty()}} for removing empty
-  columns or rows.
+columns or rows.
 
 Other remove functions: 
 \code{\link{remove_empty}()}

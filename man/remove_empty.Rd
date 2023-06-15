@@ -24,7 +24,7 @@ Returns the object without its missing rows or columns.
 }
 \description{
 Removes all rows and/or columns from a data.frame or matrix that
-  are composed entirely of \code{NA} values.
+are composed entirely of \code{NA} values.
 }
 \examples{
 # not run:
@@ -43,7 +43,7 @@ dd \%>\% mutate(across(where(is.character),~na_if(trimws(.),""))) \%>\%
 }
 \seealso{
 \code{\link[=remove_constant]{remove_constant()}} for removing
-  constant columns.
+constant columns.
 
 Other remove functions: 
 \code{\link{remove_constant}()}

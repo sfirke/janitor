@@ -22,11 +22,14 @@ Returns the same data.frame, but with the additional class of "tabyl" and the at
 A \code{tabyl} is a data.frame containing counts of a variable or co-occurrences of two variables (a.k.a., a contingency table or crosstab).  This specialized kind of data.frame has attributes that enable \code{adorn_} functions to be called for precise formatting and presentation of results.  E.g., display results as a mix of percentages, Ns, add totals rows or columns, rounding options, in the style of Microsoft Excel PivotTable.
 
 A \code{tabyl} can be the result of a call to \code{janitor::tabyl()}, in which case these attributes are added automatically.  This function adds \code{tabyl} class attributes to a data.frame that isn't the result of a call to \code{tabyl} but meets the requirements of a two-way tabyl:
-1) First column contains values of variable 1
-2) Column names 2:n are the values of variable 2
-3) Numeric values in columns 2:n are counts of the co-occurrences of the two variables.*
-
-* = this is the ideal form of a tabyl, but janitor's \code{adorn_} functions tolerate and ignore non-numeric columns in positions 2:n.
+\enumerate{
+\item First column contains values of variable 1
+\item Column names 2:n are the values of variable 2
+\item Numeric values in columns 2:n are counts of the co-occurrences of the two variables.*
+}
+\itemize{
+\item = this is the ideal form of a tabyl, but janitor's \code{adorn_} functions tolerate and ignore non-numeric columns in positions 2:n.
+}
 
 For instance, the result of \code{dplyr::count()} followed by \code{tidyr::spread()} can be treated as a \code{tabyl}.
 
