@@ -50,5 +50,5 @@ cases <- data.frame(
 
 cases \%>\%
   adorn_percentages(,,ends_with("ed")) \%>\%
-  adorn_rounding(,,one_of(c("recovered", "died")))
+  adorn_rounding(,,all_of(c("recovered", "died")))
 }

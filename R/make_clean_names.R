@@ -1,15 +1,15 @@
-#' @title Cleans a vector of text, typically containing the names of an object.
+#' Cleans a vector of text, typically containing the names of an object.
 #'
 #' @description Resulting strings are unique and consist only of the `_`
 #' character, numbers, and letters. By default, the resulting strings will only
 #' consist of ASCII characters, but non-ASCII (e.g. Unicode) may be allowed by
-#' setting `ascii=FALSE`.  Capitalization preferences can be specified
+#' setting `ascii = FALSE`.  Capitalization preferences can be specified
 #' using the `case` parameter.
 #'
 #' For use on the names of a data.frame, e.g., in a ``\%>\%`` pipeline,
 #' call the convenience function [janitor::clean_names()].
 #'
-#' When `ascii=TRUE` (the default), accented characters are transliterated
+#' When `ascii = TRUE` (the default), accented characters are transliterated
 #' to ASCII.  For example, an "o" with a German umlaut over it becomes "o", and
 #' the Spanish character "enye" becomes "n".
 #'
@@ -77,16 +77,16 @@
 #' @importFrom snakecase to_any_case
 make_clean_names <- function(string,
                              case = "snake",
-                             replace=
+                             replace =
                                c(
                                  "'"="",
                                  "\""="",
                                  "%"="_percent_",
                                  "#"="_number_"
                                ),
-                             ascii=TRUE,
-                             use_make_names=TRUE,
-                             allow_dupes=FALSE,
+                             ascii = TRUE,
+                             use_make_names = TRUE,
+                             allow_dupes = FALSE,
                              # default arguments for snake_case::to_any_case
                              sep_in = "\\.",
                              transliterations = "Latin-ASCII",

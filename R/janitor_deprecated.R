@@ -2,16 +2,14 @@
 #'
 #' These functions have already become defunct or may be defunct as soon as the next release.
 #'
-#' \itemize{
-#'   \item [adorn_crosstab()]
-#'   \item [crosstab()]
-#'   \item [use_first_valid_of()]
-#'   \item [convert_to_NA()]
-#'   \item [add_totals_col()]
-#'   \item [add_totals_row()]
-#'   \item [remove_empty_rows()]
-#'   \item [remove_empty_cols()]
-#' }
+#' * [adorn_crosstab()]
+#' * [crosstab()]
+#' * [use_first_valid_of()]
+#' * [convert_to_NA()]
+#' * [add_totals_col()]
+#' * [add_totals_row()]
+#' * [remove_empty_rows()]
+#' * [remove_empty_cols()]
 #'
 #' @name janitor_deprecated
 # EXCLUDE COVERAGE START

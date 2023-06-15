@@ -1,4 +1,4 @@
-#' @title Round the numeric columns in a data.frame.
+#' Round the numeric columns in a data.frame.
 #'
 #' @description
 #' Can run on any data.frame with at least one numeric column.  This function defaults to excluding the first column of the input data.frame, assuming that it contains a descriptive variable, but this can be overridden by specifying the columns to round in the `...` argument.
@@ -39,7 +39,7 @@
 #' 
 #' cases %>%
 #'   adorn_percentages(,,ends_with("ed")) %>%
-#'   adorn_rounding(,,one_of(c("recovered", "died")))
+#'   adorn_rounding(,,all_of(c("recovered", "died")))
 
 adorn_rounding <- function(dat, digits = 1, rounding = "half to even", ...) {
   # if input is a list, call purrr::map to recursively apply this function to each data.frame

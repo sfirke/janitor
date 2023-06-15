@@ -1,6 +1,5 @@
-#' @title Convert a data.frame of counts to percentages.
+#' Convert a data.frame of counts to percentages.
 #'
-#' @description
 #' This function defaults to excluding the first column of the input data.frame, assuming that it contains a descriptive variable, but this can be overridden by specifying the columns to adorn in the `...` argument.
 #'
 #' @param dat a `tabyl` or other data.frame with a tabyl-like layout.  If given a list of data.frames, this function will apply itself to each data.frame in the list (designed for 3-way `tabyl` lists).

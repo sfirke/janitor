@@ -1,6 +1,7 @@
 #' Round to the nearest fraction of a specified denominator.
 #'
-#' @description Round a decimal to the precise decimal value of a specified
+#' @description 
+#' Round a decimal to the precise decimal value of a specified
 #' fractional denominator.  Common use cases include addressing floating point
 #' imprecision and enforcing that data values fall into a certain set.
 #' 
@@ -13,10 +14,11 @@
 #' 
 #' The `digits` argument allows for rounding of the subsequent result.
 #'
-#' @details If `digits` is `Inf`, `x` is rounded to the fraction
-#'   and then kept at full precision.  If `digits` is `"auto"`, the
-#'   number of digits is automatically selected as
-#'   `ceiling(log10(denominator)) + 1`.
+#' @details 
+#' If `digits` is `Inf`, `x` is rounded to the fraction
+#' and then kept at full precision.  If `digits` is `"auto"`, the
+#' number of digits is automatically selected as
+#' `ceiling(log10(denominator)) + 1`.
 #'
 #' @param x A numeric vector
 #' @param denominator The denominator of the fraction for rounding (a scalar or

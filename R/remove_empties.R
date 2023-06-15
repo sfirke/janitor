@@ -1,10 +1,10 @@
-#' @title Remove empty rows and/or columns from a data.frame or matrix.
+#' Remove empty rows and/or columns from a data.frame or matrix.
 #'
-#' @description Removes all rows and/or columns from a data.frame or matrix that
+#' Removes all rows and/or columns from a data.frame or matrix that
 #'   are composed entirely of `NA` values.
 #'
 #' @param dat the input data.frame or matrix.
-#' @param which one of "rows", "cols", or `c("rows", "cols")`.  Where no
+#' @param which one of "rows", "cols", or `c("rows", "cols")`. Where no
 #'   value of which is provided, defaults to removing both empty rows and empty
 #'   columns, declaring the behavior with a printed message.
 #' @param cutoff What fraction (>0 to <=1) of rows or columns must be empty to

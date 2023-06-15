@@ -1,17 +1,18 @@
-#' @title Generate a frequency table of a factor grouped into top-n, bottom-n, and all other levels.
+#' Generate a frequency table of a factor grouped into top-n, bottom-n, and all
+#' other levels.
 #'
-#' @description
 #' Get a frequency table of a factor variable, grouped into categories by level.
 #'
 #' @param input_vec the factor variable to tabulate.
 #' @param n number of levels to include in top and bottom groups
 #' @param show_na should cases where the variable is NA be shown?
-#' @return Returns a data.frame (actually a `tbl_df`) with the frequencies of the grouped, tabulated variable.  Includes counts and percentages, and valid percentages (calculated omitting `NA` values, if present in the vector and `show_na = TRUE`.)
+#' @return a data.frame (actually a `tbl_df`) with the frequencies of the
+#'   grouped, tabulated variable.  Includes counts and percentages, and valid
+#'   percentages (calculated omitting `NA` values, if present in the vector and
+#'   `show_na = TRUE`.)
 #' @export
 #' @examples
 #' top_levels(as.factor(mtcars$hp), 2)
-
-
 top_levels <- function(input_vec, n = 2, show_na = FALSE) {
 
   # Initial type error catching

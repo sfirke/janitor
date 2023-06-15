@@ -59,8 +59,8 @@ row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_ab
   
   if (any(duplicated(new_names))) {
     rlang::warn(
-      message=paste("Row", row_number, "does not provide unique names. Consider running clean_names() after row_to_names()."),
-      class="janitor_warn_row_to_names_not_unique"
+      message = paste("Row", row_number, "does not provide unique names. Consider running clean_names() after row_to_names()."),
+      class = "janitor_warn_row_to_names_not_unique"
     )
   }
   colnames(dat) <- new_names

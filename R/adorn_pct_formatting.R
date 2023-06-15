@@ -1,4 +1,4 @@
-#' @title Format a data.frame of decimals as percentages.
+#' Format a data.frame of decimals as percentages.
 #'
 #' @description
 #' Numeric columns get multiplied by 100 and formatted as percentages according to user specifications.  This function defaults to excluding the first column of the input data.frame, assuming that it contains a descriptive variable, but this can be overridden by specifying the columns to adorn in the `...` argument.  Non-numeric columns are always excluded.
