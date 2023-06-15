@@ -48,3 +48,4 @@ Suggests:
 VignetteBuilder: knitr
 Encoding: UTF-8
 Config/testthat/edition: 3
+Roxygen: list(markdown = TRUE)
