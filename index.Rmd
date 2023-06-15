@@ -70,8 +70,9 @@ Below are quick examples of how janitor tools are commonly used.
 
 ### Cleaning dirty data
 
+
 Take this roster of teachers at a fictional American high school, stored in the Microsoft Excel file [dirty_data.xlsx](https://github.com/sfirke/janitor/blob/main/dirty_data.xlsx):
-![All kinds of dirty.](docs/reference/figures/dirty_data.PNG)
+![All kinds of dirty.](man/figures/dirty_data.PNG)
 
 Dirtiness includes:
 
