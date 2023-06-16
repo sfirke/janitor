@@ -19,8 +19,7 @@ In base R \code{round()}, halves are rounded to even, e.g., 12.5 and
 11.5 are both rounded to 12.  This function rounds 12.5 to 13 (assuming
 \code{digits = 0}).  Negative halves are rounded away from zero, e.g., -0.5 is
 rounded to -1.
-}
-\details{
+
 This may skew subsequent statistical analysis of the data, but may be
 desirable in certain contexts.  This function is implemented exactly from
 \url{https://stackoverflow.com/a/12688836}; see that question and comments for
