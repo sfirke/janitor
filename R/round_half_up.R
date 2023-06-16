@@ -1,5 +1,5 @@
 #' Round a numeric vector; halves will be rounded up, ala Microsoft Excel.
-#' 
+#'
 #' @description
 #' In base R `round()`, halves are rounded to even, e.g., 12.5 and
 #' 11.5 are both rounded to 12.  This function rounds 12.5 to 13 (assuming
