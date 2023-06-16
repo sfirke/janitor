@@ -19,3 +19,4 @@ This function is deprecated, use \code{remove_empty("cols")} instead.
 # not run:
 # dat \%>\% remove_empty_cols
 }
+\keyword{internal}

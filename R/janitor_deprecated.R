@@ -65,9 +65,8 @@ adorn_crosstab <- function(dat, denom = "row", show_n = TRUE, digits = 1, show_t
 #' @param fill if there are more than one non-numeric columns, what string should fill the bottom row of those columns?
 #' @param na.rm should missing values (including NaN) be omitted from the calculations?
 #' @return Returns a data.frame with a totals row, consisting of "Total" in the first column and column sums in the others.
+#' @keywords internal
 #' @export
-
-
 add_totals_row <- function(dat, fill = "-", na.rm = TRUE) {
   lifecycle::deprecate_stop(
     when = "2.0.0",
@@ -84,6 +83,7 @@ add_totals_row <- function(dat, fill = "-", na.rm = TRUE) {
 #'
 #' @param dat an input data.frame with at least one numeric column.
 #' @param na.rm should missing values (including NaN) be omitted from the calculations?
+#' @keywords internal
 #' @return Returns a data.frame with a totals column containing row-wise sums.
 #' @export
 
@@ -108,6 +108,7 @@ add_totals_col <- function(dat, na.rm = TRUE) {
 #' @return Returns a single vector with the selected values.
 #' @seealso janitor_deprecated
 #' @export
+#' @keywords internal
 use_first_valid_of <- function(..., if_all_NA = NA) {
   lifecycle::deprecate_stop(
     when = "2.0.0",
@@ -127,6 +128,7 @@ use_first_valid_of <- function(..., if_all_NA = NA) {
 #' @return Returns a cleaned object.  Can be a vector, data.frame, or `tibble::tbl_df` depending on the provided input.
 #' @seealso janitor_deprecated
 #' @export
+#' @keywords internal
 #'
 convert_to_NA <- function(dat, strings) {
   lifecycle::deprecate_stop(
@@ -150,6 +152,7 @@ convert_to_NA <- function(dat, strings) {
 #' # not run:
 #' # dat %>% remove_empty_rows
 #' @export
+#' @keywords internal
 
 remove_empty_rows <- function(dat) {
   lifecycle::deprecate_stop(
@@ -170,6 +173,7 @@ remove_empty_rows <- function(dat) {
 #' # not run:
 #' # dat %>% remove_empty_cols
 #' @export
+#' @keywords internal
 
 remove_empty_cols <- function(dat) {
   lifecycle::deprecate_stop(

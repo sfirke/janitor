@@ -67,5 +67,5 @@ cases <- data.frame(
 cases \%>\%
   adorn_percentages("col", , recovered:died) \%>\%
   adorn_pct_formatting(, , , recovered:died)
-  
+
 }

@@ -19,3 +19,4 @@ This function is deprecated, use \code{remove_empty("rows")} instead.
 # not run:
 # dat \%>\% remove_empty_rows
 }
+\keyword{internal}

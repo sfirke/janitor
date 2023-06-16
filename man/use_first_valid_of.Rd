@@ -24,3 +24,4 @@ At each position of the input vectors, iterates through in order and returns the
 \seealso{
 janitor_deprecated
 }
+\keyword{internal}

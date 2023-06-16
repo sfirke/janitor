@@ -19,3 +19,4 @@ Returns a data.frame with a totals row, consisting of "Total" in the first colum
 \description{
 This function is deprecated, use \code{adorn_totals} instead.
 }
+\keyword{internal}
