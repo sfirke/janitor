@@ -13,7 +13,7 @@
 #'   (`FALSE`) indicating the summary of empty columns or rows removed?
 #' @return Returns the object without its missing rows or columns.
 #' @family remove functions
-#' @seealso [`remove_constant()`][remove_constant] for removing
+#' @seealso [remove_constant()] for removing
 #'   constant columns.
 #' @examples
 #' # not run:
@@ -100,7 +100,7 @@ remove_empty <- function(dat, which = c("rows", "cols"), cutoff = 1, quiet = TRU
 #'   unique()
 #' @importFrom stats na.omit
 #' @family remove functions
-#' @seealso [`remove_empty()`][remove_empty] for removing empty
+#' @seealso [remove_empty()] for removing empty
 #'   columns or rows.
 #' @export
 remove_constant <- function(dat, na.rm = FALSE, quiet = TRUE) {

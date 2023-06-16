@@ -98,7 +98,7 @@ consist of ASCII characters, but non-ASCII (e.g. Unicode) may be allowed by
 setting \code{ascii = FALSE}.  Capitalization preferences can be specified
 using the \code{case} parameter.
 
-For use on the names of a data.frame, e.g., in a \verb{\\\%>\\\%} pipeline,
+For use on the names of a data.frame, e.g., in a \verb{\%>\%} pipeline,
 call the convenience function \code{\link[=clean_names]{clean_names()}}.
 
 When \code{ascii = TRUE} (the default), accented characters are transliterated

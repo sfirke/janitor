@@ -6,7 +6,7 @@
 #' setting `ascii = FALSE`.  Capitalization preferences can be specified
 #' using the `case` parameter.
 #'
-#' For use on the names of a data.frame, e.g., in a ``\%>\%`` pipeline,
+#' For use on the names of a data.frame, e.g., in a `%>%` pipeline,
 #' call the convenience function [janitor::clean_names()].
 #'
 #' When `ascii = TRUE` (the default), accented characters are transliterated
