@@ -212,7 +212,7 @@ library(tidyr) # for pivot_wider()
 mpg_by_cyl_and_am <- mtcars %>%
   group_by(cyl, am) %>%
   summarise(mpg = mean(mpg), .groups = "drop") %>%
-  pivot_wider(names_from = am, values_from =  mpg)
+  pivot_wider(names_from = am, values_from = mpg)
 
 mpg_by_cyl_and_am
 ```
