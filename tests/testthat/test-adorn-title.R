@@ -38,7 +38,7 @@ test_that("name overrides work", {
 test_that("non-tabyls are treated correctly", {
   non_tab <- mtcars %>%
     dplyr::count(gear, cyl) %>%
-    tidyr::spread(gear, n)
+    tidyr::pivot_wider(names_from = gear, values_from = n)
   expect_error(adorn_title(non_tab), "When input is not a data.frame of class tabyl, a value must be specified for the col_name argument")
 
   expect_equal(
@@ -111,7 +111,7 @@ test_that("for printing purposes: tabyl class stays tabyl, data.frame stays data
     mtcars %>%
     dplyr::group_by(cyl, am) %>%
     dplyr::summarise(mean_mpg = mean(mpg)) %>%
-    tidyr::spread(am, mean_mpg)
+    tidyr::pivot_wider(names_from = am, values_from = mean_mpg)
 
   # handles tibble input
   expect_s3_class(

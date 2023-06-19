@@ -5,11 +5,16 @@ a <- mtcars %>%
 
 b <- mtcars %>%
   dplyr::count(cyl, carb) %>%
-  tidyr::spread(carb, n, fill = 0) %>%
+  tidyr::pivot_wider(
+    names_from = carb,
+    values_from = n,
+    values_fill = 0,
+    names_sort = TRUE
+  ) %>%
   as.data.frame() # for comparison purposes, remove the tbl_df aspect
 
 
-test_that("as_tabyl works on result of a non-janitor count/spread", {
+test_that("as_tabyl works on result of a non-janitor count/pivot_wider", {
   expect_equal(
     as_tabyl(a),
     as_tabyl(b, 2, "cyl", "carb")
