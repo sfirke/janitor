@@ -120,7 +120,7 @@ ct_2 <-
   mtcars %>%
   dplyr::group_by(cyl, gear) %>%
   dplyr::tally() %>%
-  tidyr::spread(gear, n)
+  tidyr::pivot_wider(names_from = gear, values_from = n)
 df1 <- data.frame(x = c(1, 2), y = c(NA, 4))
 
 test_that("grouped_df gets ungrouped and succeeds", {
@@ -128,7 +128,7 @@ test_that("grouped_df gets ungrouped and succeeds", {
     mtcars %>%
     dplyr::group_by(cyl, gear) %>%
     dplyr::tally() %>%
-    tidyr::spread(gear, n)
+    tidyr::pivot_wider(names_from = gear, values_from = n)
   expect_equal(
     ct_2 %>% adorn_totals(),
     ct_2 %>% dplyr::ungroup() %>% adorn_totals()

@@ -207,7 +207,12 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
   tabl[2][is.na(tabl[2])] <- "NA_"
   tabl[2][tabl[2] == ""] <- "emptystring_"
   result <- tabl %>%
-    tidyr::spread(!!var2, "tabyl_2way_n", fill = 0)
+    tidyr::pivot_wider(
+      names_from = !!var2,
+      values_from = "tabyl_2way_n",
+      values_fn = ~ dplyr::coalesce(.x, 0L),
+      names_sort = TRUE
+    )
   if ("emptystring_" %in% names(result)) {
     result <- result[c(setdiff(names(result), "emptystring_"), "emptystring_")]
     if (getOption("tabyl.emptystring", TRUE) & interactive()) {
