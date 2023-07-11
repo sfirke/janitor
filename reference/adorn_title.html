@@ -105,13 +105,14 @@
 <span class="r-in"><span><span class="va">mtcars</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">gear</span>, <span class="va">am</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>avg_mpg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">mpg</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/spread.html" class="external-link">spread</a></span><span class="op">(</span><span class="va">gear</span>, <span class="va">avg_mpg</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">am</span>, values_from <span class="op">=</span> <span class="va">avg_mpg</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="adorn_rounding.html">adorn_rounding</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu">adorn_title</span><span class="op">(</span><span class="st">"top"</span>, row_name <span class="op">=</span> <span class="st">"Gears"</span>, col_name <span class="op">=</span> <span class="st">"Cylinders"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         Cylinders          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Gears         3    4    5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2     0      16.1   21 &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3     1      &lt;NA&gt; 26.3 21.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         Cylinders     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Gears         0    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2     3      16.1 &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3     4        21 26.3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4     5      &lt;NA&gt; 21.4</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
