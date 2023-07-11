@@ -353,11 +353,11 @@ grouped by two other variables, then use `adorn_` functions to round the
 values and append Ns. The first part is pretty straightforward:
 
 ``` r
-library(tidyr) # for spread()
+library(tidyr) # for pivot_wider()
 mpg_by_cyl_and_am <- mtcars %>%
   group_by(cyl, am) %>%
   summarise(mpg = mean(mpg), .groups = "drop") %>%
-  spread(am, mpg)
+  pivot_wider(names_from = am, values_from = mpg)
 
 mpg_by_cyl_and_am
 #> # A tibble: 3 × 3

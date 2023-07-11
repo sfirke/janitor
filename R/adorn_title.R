@@ -22,7 +22,7 @@
 #' mtcars %>%
 #'   group_by(gear, am) %>%
 #'   summarise(avg_mpg = mean(mpg), .groups = "drop") %>%
-#'   spread(gear, avg_mpg) %>%
+#'   pivot_wider(names_from = am, values_from = avg_mpg) %>%
 #'   adorn_rounding() %>%
 #'   adorn_title("top", row_name = "Gears", col_name = "Cylinders")
 adorn_title <- function(dat, placement = "top", row_name, col_name) {
