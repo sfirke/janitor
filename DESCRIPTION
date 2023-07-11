@@ -18,7 +18,6 @@ Description: The main janitor functions can: perfectly format data.frame
     "tidyverse" and works well with the pipe function %>%. janitor was
     built with beginning-to-intermediate R users in mind and is optimized
     for user-friendliness.
-License: MIT + file LICENSE
 URL: https://github.com/sfirke/janitor, https://sfirke.github.io/janitor/
 BugReports: https://github.com/sfirke/janitor/issues
 Depends:
