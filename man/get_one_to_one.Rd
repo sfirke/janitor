@@ -7,7 +7,7 @@
 get_one_to_one(dat)
 }
 \arguments{
-\item{dat}{A data.frame or similar object}
+\item{dat}{A \code{data.frame} or similar object}
 }
 \value{
 A list with one element for each group of columns that map

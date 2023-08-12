@@ -19,7 +19,7 @@ clean_names(dat, ...)
 \method{clean_names}{tbl_lazy}(dat, ...)
 }
 \arguments{
-\item{dat}{the input data.frame.}
+\item{dat}{The input \code{data.frame}.}
 
 \item{...}{
   Arguments passed on to \code{\link[=make_clean_names]{make_clean_names}}
@@ -67,7 +67,7 @@ You should use this feature with care in case of \code{case = "parsed"}, \code{c
   }}
 }
 \value{
-Returns the data.frame with clean names.
+A \code{data.frame} with clean names.
 }
 \description{
 Resulting names are unique and consist only of the \verb{_} character, numbers, and letters.
@@ -78,7 +78,7 @@ German umlaut over it becomes "o", and the Spanish character "enye" becomes
 "n".
 
 This function takes and returns a data.frame, for ease of piping with
-\verb{\\\%>\\\%}. For the underlying function that works on a character vector
+\verb{\%>\%}. For the underlying function that works on a character vector
 of names, see \code{\link[=make_clean_names]{make_clean_names()}}.  \code{clean_names}
 relies on the versatile function \code{\link[snakecase:to_any_case]{snakecase::to_any_case()}}, which
 accepts many arguments.  See that function's documentation for ideas on getting

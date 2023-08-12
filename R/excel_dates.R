@@ -1,7 +1,7 @@
-#' @title Convert dates encoded as serial numbers to Date class.
+#' Convert dates encoded as serial numbers to Date class.
 #'
-#' @description Converts numbers like `42370` into date values like
-#' `2016-01-01`.
+#' @description 
+#' Converts numbers like `42370` into date values like `2016-01-01`.
 #'
 #' Defaults to the modern Excel date encoding system. However, Excel for Mac
 #' 2008 and earlier Mac versions of Excel used a different date system. To
@@ -14,11 +14,10 @@
 #' current timezone is available from `base::Sys.timezone()`.
 #'
 #' If your input data has a mix of Excel numeric dates and actual dates, see the
-#' more powerful functions `convert_to_date()` and `convert_to_datetime()`.
+#' more powerful functions [convert_to_date()] and `convert_to_datetime()`.
 #'
 #' @param date_num numeric vector of serial numbers to convert.
-#' @param date_system the date system, either `"modern"` or `"mac
-#'   pre-2011"`.
+#' @param date_system the date system, either `"modern"` or `"mac pre-2011"`.
 #' @param include_time Include the time (hours, minutes, seconds) in the output?
 #'   (See details)
 #' @param round_seconds Round the seconds to an integer (only has an effect when

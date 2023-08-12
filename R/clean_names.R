@@ -23,9 +23,9 @@
 #' which is a character vector mapping all known mu or micro Unicode code points
 #' (characters) to "u".
 #'
-#' @param dat the input data.frame.
+#' @param dat The input `data.frame`.
 #' @inheritDotParams make_clean_names -string
-#' @return Returns the data.frame with clean names.
+#' @return A `data.frame` with clean names.
 #'
 #' @details `clean_names()` is intended to be used on `data.frames`
 #'   and `data.frame`-like objects. For this reason there are methods to

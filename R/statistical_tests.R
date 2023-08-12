@@ -7,9 +7,9 @@
 #'
 #' @param x a two-way tabyl, a numeric vector or a factor
 #' @param ... other parameters passed to [stats::chisq.test()]
-#' @return The result is the same as the one of stats::chisq.test. If `tabyl_results`
-#' is `TRUE`, the returned tables `observed`, `expected`, `residuals` and `stdres`
-#' are converted to tabyls.
+#' @return The result is the same as the one of `stats::chisq.test()`.
+#'   If `tabyl_results` is `TRUE`, the returned tables `observed`, `expected`,
+#'    `residuals` and `stdres` are converted to tabyls.
 #'
 #' @examples
 #' tab <- tabyl(mtcars, gear, cyl)

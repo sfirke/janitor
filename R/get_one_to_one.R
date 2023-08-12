@@ -1,6 +1,6 @@
 #' Find the list of columns that have a 1:1 mapping to each other
 #'
-#' @param dat A data.frame or similar object
+#' @param dat A `data.frame` or similar object
 #' @return A list with one element for each group of columns that map
 #'   identically to each other.
 #' @export
