@@ -9,7 +9,7 @@
 #' "n".
 #'
 #' This function takes and returns a data.frame, for ease of piping with
-#' ``\%>\%``. For the underlying function that works on a character vector
+#' `%>%`. For the underlying function that works on a character vector
 #' of names, see [janitor::make_clean_names()].  `clean_names`
 #' relies on the versatile function [snakecase::to_any_case()], which
 #' accepts many arguments.  See that function's documentation for ideas on getting

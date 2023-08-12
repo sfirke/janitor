@@ -22,9 +22,9 @@ chisq.test(x, ...)
 \item{tabyl_results}{if TRUE and x is a tabyl object, also return \code{observed}, \code{expected}, \code{residuals} and \code{stdres} as tabyl}
 }
 \value{
-The result is the same as the one of stats::chisq.test. If \code{tabyl_results}
-is \code{TRUE}, the returned tables \code{observed}, \code{expected}, \code{residuals} and \code{stdres}
-are converted to tabyls.
+The result is the same as the one of \code{stats::chisq.test()}.
+If \code{tabyl_results} is \code{TRUE}, the returned tables \code{observed}, \code{expected},
+\code{residuals} and \code{stdres} are converted to tabyls.
 }
 \description{
 This generic function overrides \code{stats::chisq.test}. If the passed table
