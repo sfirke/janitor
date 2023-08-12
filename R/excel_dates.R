@@ -1,6 +1,6 @@
 #' Convert dates encoded as serial numbers to Date class.
 #'
-#' @description 
+#' @description
 #' Converts numbers like `42370` into date values like `2016-01-01`.
 #'
 #' Defaults to the modern Excel date encoding system. However, Excel for Mac
