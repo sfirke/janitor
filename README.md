@@ -1,6 +1,8 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+# janitor <img src="man/figures/logo_small.png" align="right" />
+
 > Data scientists, according to interviews and expert estimates, spend
 > from 50 percent to 80 percent of their time mired in this more mundane
 > labor of collecting and preparing unruly digital data, before it can
@@ -9,8 +11,6 @@
 > – [“For Big-Data Scientists, ‘Janitor Work’ Is Key Hurdle to
 > Insight”](https://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html)
 > *(New York Times, 2014)*
-
-# janitor <img src="man/figures/logo_small.png" align="right" />
 
 ------------------------------------------------------------------------
 
@@ -42,28 +42,30 @@ The tabulate-and-report functions approximate popular features of SPSS
 and Microsoft Excel.
 
 janitor is a
-[\#tidyverse](https://CRAN.R-project.org/package=tidyverse/vignettes/manifesto.html)-oriented
+[\#tidyverse](https://cran.r-project.org/package=tidyverse/vignettes/manifesto.html)-oriented
 package. Specifically, it plays nicely with the `%>%` pipe and is
 optimized for cleaning data brought in with the
 [readr](https://github.com/tidyverse/readr) and
 [readxl](https://github.com/tidyverse/readxl) packages.
 
-### Installation
+## <i class="fa fa-cog" aria-hidden="true"></i> Installation
 
 You can install:
 
 - the most recent officially-released version from CRAN with
 
-  ``` r
-  install.packages("janitor")
-  ```
+``` r
+install.packages("janitor")
+```
 
 - the latest development version from GitHub with
 
-  ``` r
-  install.packages("devtools")
-  devtools::install_github("sfirke/janitor")
-  ```
+``` r
+# install.packages("remotes")
+remotes::install_github("sfirke/janitor")
+# or from r-universe
+install.packages("janitor", repos = c("https://sfirke.r-universe.dev", "https://cloud.r-project.org"))
+```
 
 ## Using janitor
 
@@ -216,11 +218,11 @@ with the suite of `adorn_` functions for quick analysis and printing of
 pretty results in a report. `adorn_` functions can be helpful with
 non-tabyls, too.
 
-#### tabyl()
+#### `tabyl()`
 
 Like `table()`, but pipe-able, data.frame-based, and fully featured.
 
-`tabyl` can be called two ways:
+`tabyl()` can be called two ways:
 
 - On a vector, when tabulating a single variable:
   `tabyl(roster$subject)`
@@ -278,7 +280,7 @@ roster %>%
 #>        Yes         1        1       0     1  1       1       0   1
 ```
 
-##### Adorning tabyls
+#### Adorning tabyls
 
 The `adorn_` functions dress up the results of these tabulation calls
 for fast, basic reporting. Here are some of the functions that augment a
@@ -306,7 +308,7 @@ Excel and SPSS when it comes to quick, informative counts. Learn more
 about `tabyl()` and the `adorn_` functions from the [tabyls
 vignette](https://sfirke.github.io/janitor/articles/tabyls.html).
 
-## Contact me
+## <i class="fa fa-bullhorn" aria-hidden="true"></i> Contact me
 
 You are welcome to:
 
