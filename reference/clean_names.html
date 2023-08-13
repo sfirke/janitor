@@ -5,9 +5,9 @@ Accented characters are transliterated to ASCII.  For example, an &quot;o&quot; 
 German umlaut over it becomes &quot;o&quot;, and the Spanish character &quot;enye&quot; becomes
 &quot;n&quot;.
 This function takes and returns a data.frame, for ease of piping with
-`%&amp;gt;%`. For the underlying function that works on a character vector
-of names, see make_clean_names.  clean_names
-relies on the versatile function to_any_case, which
+%&amp;gt;%. For the underlying function that works on a character vector
+of names, see make_clean_names().  clean_names
+relies on the versatile function snakecase::to_any_case(), which
 accepts many arguments.  See that function's documentation for ideas on getting
 the most out of clean_names.  A few examples are included below.
 A common issue is that the micro/mu symbol is replaced by &quot;m&quot; instead of &quot;u&quot;.
@@ -22,9 +22,9 @@ Accented characters are transliterated to ASCII.  For example, an &quot;o&quot; 
 German umlaut over it becomes &quot;o&quot;, and the Spanish character &quot;enye&quot; becomes
 &quot;n&quot;.
 This function takes and returns a data.frame, for ease of piping with
-`%&amp;gt;%`. For the underlying function that works on a character vector
-of names, see make_clean_names.  clean_names
-relies on the versatile function to_any_case, which
+%&amp;gt;%. For the underlying function that works on a character vector
+of names, see make_clean_names().  clean_names
+relies on the versatile function snakecase::to_any_case(), which
 accepts many arguments.  See that function's documentation for ideas on getting
 the most out of clean_names.  A few examples are included below.
 A common issue is that the micro/mu symbol is replaced by &quot;m&quot; instead of &quot;u&quot;.
@@ -95,9 +95,9 @@ Capitalization preferences can be specified using the <code>case</code> paramete
 German umlaut over it becomes "o", and the Spanish character "enye" becomes
 "n".</p>
 <p>This function takes and returns a data.frame, for ease of piping with
-<code>`%&gt;%`</code>. For the underlying function that works on a character vector
-of names, see <code><a href="make_clean_names.html">make_clean_names</a></code>.  <code>clean_names</code>
-relies on the versatile function <code><a href="https://rdrr.io/pkg/snakecase/man/to_any_case.html" class="external-link">to_any_case</a></code>, which
+<code>%&gt;%</code>. For the underlying function that works on a character vector
+of names, see <code><a href="make_clean_names.html">make_clean_names()</a></code>.  <code>clean_names</code>
+relies on the versatile function <code><a href="https://rdrr.io/pkg/snakecase/man/to_any_case.html" class="external-link">snakecase::to_any_case()</a></code>, which
 accepts many arguments.  See that function's documentation for ideas on getting
 the most out of <code>clean_names</code>.  A few examples are included below.</p>
 <p>A common issue is that the micro/mu symbol is replaced by "m" instead of "u".
@@ -129,7 +129,7 @@ which is a character vector mapping all known mu or micro Unicode code points
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>dat</dt>
-<dd><p>the input data.frame.</p></dd>
+<dd><p>The input <code>data.frame</code>.</p></dd>
 
 
 <dt>...</dt>
@@ -139,7 +139,7 @@ passed to <code><a href="https://rdrr.io/pkg/snakecase/man/to_any_case.html" cla
 which exists only to support legacy code (it preserves the behavior of
 <code>clean_names()</code> prior to addition of the "case" argument (janitor
 versions &lt;= 0.3.1).  "old_janitor" is not intended for new code. See
-<code><a href="https://rdrr.io/pkg/snakecase/man/to_any_case.html" class="external-link">to_any_case</a></code> for a wide variety of supported cases,
+<code><a href="https://rdrr.io/pkg/snakecase/man/to_any_case.html" class="external-link">snakecase::to_any_case()</a></code> for a wide variety of supported cases,
 including "sentence" and "title" case.</p></dd>
 
     <dt><code>replace</code></dt>
@@ -197,16 +197,16 @@ You should use this feature with care in case of <code>case = "parsed"</code>, <
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>Returns the data.frame with clean names.</p>
+<p>A <code>data.frame</code> with clean names.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p><code>clean_names()</code> is intended to be used on <code>data.frames</code>
-  and <code>data.frame</code>-like objects. For this reason there are methods to
-  support using <code>clean_names()</code> on <code>sf</code> and <code>tbl_graph</code> (from
-  <code>tidygraph</code>) objects as well as on database connections through
-  <code>dbplyr</code>. For cleaning other named objects like named lists
-  and vectors, use <code><a href="make_clean_names.html">make_clean_names()</a></code>.</p>
+and <code>data.frame</code>-like objects. For this reason there are methods to
+support using <code>clean_names()</code> on <code>sf</code> and <code>tbl_graph</code> (from
+<code>tidygraph</code>) objects as well as on database connections through
+<code>dbplyr</code>. For cleaning other named objects like named lists
+and vectors, use <code><a href="make_clean_names.html">make_clean_names()</a></code>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

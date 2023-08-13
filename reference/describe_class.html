@@ -78,7 +78,7 @@
 <dt>strict_description</dt>
 <dd><p>Should differing factor levels be treated
 as differences for the purposes of identifying mismatches?
-<code>strict_description = `TRUE`</code> is stricter and factors with different
+<code>strict_description = TRUE</code> is stricter and factors with different
 levels will be treated as different classes.  <code>FALSE</code> is more
 lenient: for class comparison purposes, the variable is just a "factor".</p></dd>
 
@@ -88,14 +88,14 @@ lenient: for class comparison purposes, the variable is just a "factor".</p></dd
     
 
 <p>A character scalar describing the class(es) of an object where if the
-  scalar will match, columns in a data.frame (or similar object) should bind
-  together without issue.</p>
+scalar will match, columns in a data.frame (or similar object) should bind
+together without issue.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>For package developers, an S3 generic method can be written for
-  <code>describe_class()</code> for custom classes that may need more definition
-  than the default method.  This function is called by <code>compare_df_cols</code>.</p>
+<code>describe_class()</code> for custom classes that may need more definition
+than the default method.  This function is called by <code>compare_df_cols</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="methods-by-class-">Methods (by class)<a class="anchor" aria-label="anchor" href="#methods-by-class-"></a></h2>

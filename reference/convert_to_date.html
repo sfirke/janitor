@@ -90,17 +90,17 @@ Excel</p>
 
 <dt>...</dt>
 <dd><p>Passed to further methods.  Eventually may be passed to
-`excel_numeric_to_date()`, `base::as.POSIXct()`, or `base::as.Date()`.</p></dd>
+<code><a href="excel_numeric_to_date.html">excel_numeric_to_date()</a></code>, <code><a href="https://rdrr.io/r/base/as.POSIXlt.html" class="external-link">base::as.POSIXct()</a></code>, or <code><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">base::as.Date()</a></code>.</p></dd>
 
 
 <dt>character_fun</dt>
 <dd><p>A function to convert non-numeric-looking, non-NA values
-in `x` to POSIXct objects.</p></dd>
+in <code>x</code> to POSIXct objects.</p></dd>
 
 
 <dt>string_conversion_failure</dt>
 <dd><p>If a character value fails to parse into the
-desired class and instead returns `NA`, should the function return the
+desired class and instead returns <code>NA</code>, should the function return the
 result with a warning or throw an error?</p></dd>
 
 
@@ -113,16 +113,16 @@ already.  Ignored for Date output.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>POSIXct objects for `convert_to_datetime()` or Date objects for
-  `convert_to_date()`.</p>
+<p>POSIXct objects for <code>convert_to_datetime()</code> or Date objects for
+<code>convert_to_date()</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Character conversion checks if it matches something that looks like
-  a Microsoft Excel numeric date, converts those to numeric, and then runs
-  convert_to_datetime_helper() on those numbers.  Then, character to Date or
-  POSIXct conversion occurs via `character_fun(x, ...)` or
-  `character_fun(x, tz=tz, ...)`, respectively.</p>
+a Microsoft Excel numeric date, converts those to numeric, and then runs
+convert_to_datetime_helper() on those numbers.  Then, character to Date or
+POSIXct conversion occurs via <code>character_fun(x, ...)</code> or
+<code>character_fun(x, tz=tz, ...)</code>, respectively.</p>
     </div>
     <div class="section level2">
     <h2 id="functions">Functions<a class="anchor" aria-label="anchor" href="#functions"></a></h2>
