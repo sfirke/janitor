@@ -211,6 +211,7 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
       names_from = !!var2,
       values_from = "tabyl_2way_n",
       values_fn = ~ dplyr::coalesce(.x, 0L),
+      values_fill = 0L,
       names_sort = TRUE
     )
   if ("emptystring_" %in% names(result)) {

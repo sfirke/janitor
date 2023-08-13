@@ -498,3 +498,43 @@ test_that("3-way tabyl with numeric names is sorted numerically", {
     c(2:10, "NA_")
   )
 })
+
+test_that("tabyl fill 0s when no levels are present", {
+  # Example from README
+  roster_reduced <- tibble::tibble(
+    first_name = c(
+      "Jason", "Jason", "Alicia", "Ada", "Desus", "Chien-Shiung", "Chien-Shiung",
+      "James", "Hedy", "Carlos", "Young", "Micheal"
+    ),
+    full_time = rep(c("Yes", "No"), c(7L, 5L)),
+    employee_status = rep(
+      c("Teacher", "Administration", "Teacher", "Coach", "Teacher"),
+      c(4L, 1L, 4L, 2L, 1L)
+    ),
+    subject = c(
+      "PE", "Drafting", "Music", NA, "Dean", "Physics", "Chemistry", "English",
+      "Science", "Basketball", NA, "English"
+    ),
+  )
+  tab_result_expected <- data.frame(
+    full_time = c("No", "Yes"),
+    Administration = c(0L, 1L),
+    Coach = c(2L, 0L),
+    Teacher = c(3L, 6L)
+  ) %>%
+    structure(
+      class = c("tabyl", "data.frame"),
+      core = data.frame(
+        full_time = c("No", "Yes"),
+        Administration = c(0L, 1L),
+        Coach = c(2L, 0L),
+        Teacher = c(3L, 6L)
+      ),
+      tabyl_type = "two_way",
+      var_names = list(row = "full_time", col = "employee_status")
+    )
+  expect_equal(
+    tabyl(roster_reduced, full_time, employee_status, show_missing_levels = FALSE),
+    tab_result_expected
+  )
+})
