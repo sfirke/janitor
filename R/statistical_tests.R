@@ -1,17 +1,15 @@
-#' @title Apply stats::chisq.test to a two-way tabyl
+#' Apply `stats::chisq.test()` to a two-way tabyl
 #'
 #' @description
-#' This generic function overrides stats::chisq.test. If the passed table
+#' This generic function overrides `stats::chisq.test`. If the passed table
 #' is a two-way tabyl, it runs it through janitor::chisq.test.tabyl, otherwise
-#' it just calls stats::chisq.test.
-#'
-#' @return
-#' The result is the same as the one of stats::chisq.test. If `tabyl_results`
-#' is TRUE, the returned tables `observed`, `expected`, `residuals` and `stdres`
-#' are converted to tabyls.
+#' it just calls `stats::chisq.test()`.
 #'
 #' @param x a two-way tabyl, a numeric vector or a factor
-#' @param ... other parameters passed to stats::chisq.test
+#' @param ... other parameters passed to [stats::chisq.test()]
+#' @return The result is the same as the one of `stats::chisq.test()`.
+#'   If `tabyl_results` is `TRUE`, the returned tables `observed`, `expected`,
+#'    `residuals` and `stdres` are converted to tabyls.
 #'
 #' @examples
 #' tab <- tabyl(mtcars, gear, cyl)
@@ -121,18 +119,17 @@ chisq.test.tabyl <- function(x, tabyl_results = TRUE, ...) {
 
 
 
-#' @title Apply stats::fisher.test to a two-way tabyl
+#' Apply `stats::fisher.test()` to a two-way tabyl
 #'
-#' @description
-#' This generic function overrides stats::fisher.test. If the passed table
-#' is a two-way tabyl, it runs it through janitor::fisher.test.tabyl, otherwise
-#' it just calls stats::fisher.test.
+#' This generic function overrides [stats::fisher.test()]. If the passed table
+#' is a two-way tabyl, it runs it through `janitor::fisher.test.tabyl`, otherwise
+#' it just calls `stats::fisher.test()`.
 #'
 #' @return
-#' The result is the same as the one of stats::fisher.test.
+#' The same as the one of `stats::fisher.test()`.
 #'
-#' @param x a two-way tabyl, a numeric vector or a factor
-#' @param ... other parameters passed to stats::fisher.test
+#' @param x A two-way tabyl, a numeric vector or a factor
+#' @param ... Parameters passed to [stats::fisher.test()]
 #'
 #' @examples
 #' tab <- tabyl(mtcars, gear, cyl)

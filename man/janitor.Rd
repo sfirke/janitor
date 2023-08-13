@@ -13,7 +13,6 @@ The main janitor functions can: perfectly format ugly \code{data.frame} column n
 duplicate records for further study; and provide quick one- and two-variable tabulations
 (i.e., frequency tables and crosstabs) that improve on the base R function \code{table()}.
 
-
 Other functions in the package can format for reporting the results of these tabulations.
 These tabulate-and-report functions approximate popular features of SPSS and Microsoft Excel.
 }
@@ -21,8 +20,7 @@ These tabulate-and-report functions approximate popular features of SPSS and Mic
 \section{Package context}{
 
 This package follows the principles of the "tidyverse" and in particular works well with
-the \code{\%>\%} pipe function.
-
+the \verb{\\\%>\\\%} pipe function.
 
 janitor was built with beginning-to-intermediate R users in mind
 and is optimized for user-friendliness.  Advanced users can already do everything

@@ -18,7 +18,7 @@ error to assist with determining the location of the issue.}
 }
 \value{
 \code{x} as the scalar single value found throughout (or an error if
-  more than one value is found).
+more than one value is found).
 }
 \description{
 Missing values are replaced with the single value, and if all values are

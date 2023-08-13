@@ -1,38 +1,38 @@
 #' @title Cleans names of an object (usually a data.frame).
 #'
 #' @description
-#' Resulting names are unique and consist only of the \code{_} character, numbers, and letters.
-#' Capitalization preferences can be specified using the \code{case} parameter.
+#' Resulting names are unique and consist only of the `_` character, numbers, and letters.
+#' Capitalization preferences can be specified using the `case` parameter.
 #'
 #' Accented characters are transliterated to ASCII.  For example, an "o" with a
 #' German umlaut over it becomes "o", and the Spanish character "enye" becomes
 #' "n".
 #'
 #' This function takes and returns a data.frame, for ease of piping with
-#' \code{`\%>\%`}. For the underlying function that works on a character vector
-#' of names, see \code{\link[janitor]{make_clean_names}}.  \code{clean_names}
-#' relies on the versatile function \code{\link[snakecase]{to_any_case}}, which
+#' `%>%`. For the underlying function that works on a character vector
+#' of names, see [janitor::make_clean_names()].  `clean_names`
+#' relies on the versatile function [snakecase::to_any_case()], which
 #' accepts many arguments.  See that function's documentation for ideas on getting
-#' the most out of \code{clean_names}.  A few examples are included below.
+#' the most out of `clean_names`.  A few examples are included below.
 #'
 #' A common issue is that the micro/mu symbol is replaced by "m" instead of "u".
 #' The replacement with "m" is more correct when doing Greek-to-ASCII
 #' transliteration but less correct when doing scientific data-to-ASCII
 #' transliteration.  A warning will be generated if the "m" replacement occurs.
-#' To replace with "u", please add the argument \code{replace=janitor:::mu_to_u}
+#' To replace with "u", please add the argument `replace=janitor:::mu_to_u`
 #' which is a character vector mapping all known mu or micro Unicode code points
 #' (characters) to "u".
 #'
-#' @param dat the input data.frame.
+#' @param dat The input `data.frame`.
 #' @inheritDotParams make_clean_names -string
-#' @return Returns the data.frame with clean names.
+#' @return A `data.frame` with clean names.
 #'
-#' @details \code{clean_names()} is intended to be used on \code{data.frames}
-#'   and \code{data.frame}-like objects. For this reason there are methods to
-#'   support using \code{clean_names()} on \code{sf} and \code{tbl_graph} (from
-#'   \code{tidygraph}) objects as well as on database connections through
-#'   \code{dbplyr}. For cleaning other named objects like named lists
-#'   and vectors, use \code{make_clean_names()}.
+#' @details `clean_names()` is intended to be used on `data.frames`
+#'   and `data.frame`-like objects. For this reason there are methods to
+#'   support using `clean_names()` on `sf` and `tbl_graph` (from
+#'   `tidygraph`) objects as well as on database connections through
+#'   `dbplyr`. For cleaning other named objects like named lists
+#'   and vectors, use `make_clean_names()`.
 #'
 #' @export
 #' @family Set names
@@ -142,9 +142,9 @@ clean_names.tbl_lazy <- function(dat, ...) {
 #' This is a character vector with names of all known Unicode code points that
 #' look like the Greek mu or the micro symbol and values of "u".  This is
 #' intended to simplify mapping from mu or micro in Unicode to the character "u"
-#' with \code{clean_names()} and \code{make_clean_names()}.
+#' with `clean_names()` and `make_clean_names()`.
 #'
-#' See the help in \code{clean_names()} for how to use this.
+#' See the help in `clean_names()` for how to use this.
 #'
 #' @family Set names
 mu_to_u <-

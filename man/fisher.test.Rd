@@ -4,7 +4,7 @@
 \alias{fisher.test}
 \alias{fisher.test.default}
 \alias{fisher.test.tabyl}
-\title{Apply stats::fisher.test to a two-way tabyl}
+\title{Apply \code{stats::fisher.test()} to a two-way tabyl}
 \usage{
 fisher.test(x, ...)
 
@@ -13,19 +13,19 @@ fisher.test(x, ...)
 \method{fisher.test}{tabyl}(x, ...)
 }
 \arguments{
-\item{x}{a two-way tabyl, a numeric vector or a factor}
+\item{x}{A two-way tabyl, a numeric vector or a factor}
 
-\item{...}{other parameters passed to stats::fisher.test}
+\item{...}{Parameters passed to \code{\link[stats:fisher.test]{stats::fisher.test()}}}
 
 \item{y}{if x is a vector, must be another vector or factor of the same length}
 }
 \value{
-The result is the same as the one of stats::fisher.test.
+The same as the one of \code{stats::fisher.test()}.
 }
 \description{
-This generic function overrides stats::fisher.test. If the passed table
-is a two-way tabyl, it runs it through janitor::fisher.test.tabyl, otherwise
-it just calls stats::fisher.test.
+This generic function overrides \code{\link[stats:fisher.test]{stats::fisher.test()}}. If the passed table
+is a two-way tabyl, it runs it through \code{janitor::fisher.test.tabyl}, otherwise
+it just calls \code{stats::fisher.test()}.
 }
 \examples{
 tab <- tabyl(mtcars, gear, cyl)

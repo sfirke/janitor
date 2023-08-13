@@ -7,7 +7,7 @@
 paste_skip_na(..., sep = " ", collapse = NULL)
 }
 \arguments{
-\item{..., sep, collapse}{See \code{?paste}}
+\item{..., sep, collapse}{See \code{\link[base:paste]{base::paste()}}}
 }
 \value{
 A character vector of pasted values.
@@ -17,7 +17,7 @@ Like \code{paste()}, but missing values are omitted
 }
 \details{
 If all values are missing, the value from the first argument is
-  preserved.
+preserved.
 }
 \examples{
 paste_skip_na(NA) # NA_character_

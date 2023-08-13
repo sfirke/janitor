@@ -15,8 +15,7 @@ excel_numeric_to_date(
 \arguments{
 \item{date_num}{numeric vector of serial numbers to convert.}
 
-\item{date_system}{the date system, either \code{"modern"} or \code{"mac
-pre-2011"}.}
+\item{date_system}{the date system, either \code{"modern"} or \code{"mac pre-2011"}.}
 
 \item{include_time}{Include the time (hours, minutes, seconds) in the output?
 (See details)}
@@ -29,12 +28,11 @@ more information on timezones).}
 }
 \value{
 Returns a vector of class Date if \code{include_time} is
-  \code{FALSE}.  Returns a vector of class POSIXlt if \code{include_time} is
-  \code{TRUE}.
+\code{FALSE}.  Returns a vector of class POSIXlt if \code{include_time} is
+\code{TRUE}.
 }
 \description{
-Converts numbers like \code{42370} into date values like
-\code{2016-01-01}.
+Converts numbers like \code{42370} into date values like \code{2016-01-01}.
 
 Defaults to the modern Excel date encoding system. However, Excel for Mac
 2008 and earlier Mac versions of Excel used a different date system. To
@@ -47,13 +45,13 @@ A list of all timezones is available from \code{base::OlsonNames()}, and the
 current timezone is available from \code{base::Sys.timezone()}.
 
 If your input data has a mix of Excel numeric dates and actual dates, see the
-more powerful functions \code{convert_to_date()} and \code{convert_to_datetime()}.
+more powerful functions \code{\link[=convert_to_date]{convert_to_date()}} and \code{convert_to_datetime()}.
 }
 \details{
 When using \code{include_time=TRUE}, days with leap seconds will not
-  be accurately handled as they do not appear to be accurately handled by
-  Windows (as described in
-  https://support.microsoft.com/en-us/help/2722715/support-for-the-leap-second).
+be accurately handled as they do not appear to be accurately handled by
+Windows (as described in
+https://support.microsoft.com/en-us/help/2722715/support-for-the-leap-second).
 }
 \examples{
 excel_numeric_to_date(40000)

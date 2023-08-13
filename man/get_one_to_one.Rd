@@ -7,11 +7,11 @@
 get_one_to_one(dat)
 }
 \arguments{
-\item{dat}{A data.frame or similar object}
+\item{dat}{A \code{data.frame} or similar object}
 }
 \value{
 A list with one element for each group of columns that map
-  identically to each other.
+identically to each other.
 }
 \description{
 Find the list of columns that have a 1:1 mapping to each other

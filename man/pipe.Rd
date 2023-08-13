@@ -7,7 +7,7 @@
 lhs \%>\% rhs
 }
 \description{
-Exported from the magrittr package.  To learn more, run \code{?magrittr::`\%>\%`}.
+Exported from the magrittr package.  To learn more, run \verb{?magrittr::}\\%>\\%``.
 }
 \examples{
 mtcars \%>\%

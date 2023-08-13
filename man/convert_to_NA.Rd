@@ -24,3 +24,4 @@ Converts instances of user-specified strings into \code{NA}.  Can operate on eit
 \seealso{
 janitor_deprecated
 }
+\keyword{internal}

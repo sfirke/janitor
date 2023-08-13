@@ -26,7 +26,7 @@ passed to \code{snakecase::to_any_case()} with the exception of "old_janitor",
 which exists only to support legacy code (it preserves the behavior of
 \code{clean_names()} prior to addition of the "case" argument (janitor
 versions <= 0.3.1).  "old_janitor" is not intended for new code. See
-\code{\link[snakecase]{to_any_case}} for a wide variety of supported cases,
+\code{\link[snakecase:to_any_case]{snakecase::to_any_case()}} for a wide variety of supported cases,
 including "sentence" and "title" case.}
 
 \item{replace}{A named character vector where the name is replaced by the
@@ -92,16 +92,16 @@ by the supplied string to this argument.}
 Returns the "cleaned" character vector.
 }
 \description{
-Resulting strings are unique and consist only of the \code{_}
+Resulting strings are unique and consist only of the \verb{_}
 character, numbers, and letters. By default, the resulting strings will only
 consist of ASCII characters, but non-ASCII (e.g. Unicode) may be allowed by
-setting \code{ascii=FALSE}.  Capitalization preferences can be specified
+setting \code{ascii = FALSE}.  Capitalization preferences can be specified
 using the \code{case} parameter.
 
-For use on the names of a data.frame, e.g., in a \code{`\%>\%`} pipeline,
-call the convenience function \code{\link[janitor]{clean_names}}.
+For use on the names of a data.frame, e.g., in a \verb{\%>\%} pipeline,
+call the convenience function \code{\link[=clean_names]{clean_names()}}.
 
-When \code{ascii=TRUE} (the default), accented characters are transliterated
+When \code{ascii = TRUE} (the default), accented characters are transliterated
 to ASCII.  For example, an "o" with a German umlaut over it becomes "o", and
 the Spanish character "enye" becomes "n".
 
@@ -113,7 +113,7 @@ to resolve any duplicated names.
 This function relies on \code{snakecase::to_any_case} and can take advantage of
 its versatility.  For instance, an abbreviation like "ID" can have its
 capitalization preserved by passing the argument \code{abbreviations = "ID"}.
-See the documentation for \code{\link[snakecase:to_any_case]{snakecase::to_any_case}}
+See the documentation for \code{\link[snakecase:to_any_case]{snakecase::to_any_case()}}
 for more about how to use its features.
 
 On some systems, not all transliterators to ASCII are available.  If this is
@@ -143,5 +143,5 @@ make_clean_names(names(x), "small_camel")
 
 }
 \seealso{
-\code{\link[snakecase]{to_any_case}()}
+\code{\link[snakecase:to_any_case]{snakecase::to_any_case()}}
 }
