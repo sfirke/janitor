@@ -16,10 +16,10 @@
 #'
 round_half_up <- function(x, digits = 0) {
   posneg <- sign(x)
-  z <- abs(x) * 10 ^ digits
+  z <- abs(x) * 10^digits
   z <- z + 0.5 + sqrt(.Machine$double.eps)
   z <- trunc(z)
-  z <- z / 10 ^ digits
+  z <- z / 10^digits
   z * posneg
 }
 
@@ -32,7 +32,7 @@ round_half_up <- function(x, digits = 0) {
 #' are rounded away from zero, e.g., \code{signif(-2.5, 1)} is rounded to -3.
 #'
 #' This may skew subsequent statistical analysis of the data, but may be
-#' desirable in certain contexts. This function is implemented from 
+#' desirable in certain contexts. This function is implemented from
 #' \url{https://stackoverflow.com/a/1581007/}; see that question and
 #' comments for discussion of this issue.
 #'
@@ -45,16 +45,14 @@ round_half_up <- function(x, digits = 0) {
 #' signif_half_up(-2.5, 1) # negatives get rounded away from zero
 #'
 signif_half_up <- function(x, digits = 6) {
-  
   xs <- which(x != 0 & !is.na(x) & !is.infinite(x))
-  
+
   y <- rep(0, length(x))
   z <- x
-  
-  y[xs] <- 10 ^ (digits - ceiling(log10(abs(x[xs]))))
-  
+
+  y[xs] <- 10^(digits - ceiling(log10(abs(x[xs]))))
+
   z[xs] <- round_half_up(x[xs] * y[xs]) / y[xs]
-  
+
   return(z)
-  
 }

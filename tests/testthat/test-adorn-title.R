@@ -36,7 +36,9 @@ test_that("name overrides work", {
 })
 
 test_that("non-tabyls are treated correctly", {
-  non_tab <- mtcars %>% dplyr::count(gear, cyl) %>% tidyr::spread(gear, n)
+  non_tab <- mtcars %>%
+    dplyr::count(gear, cyl) %>%
+    tidyr::spread(gear, n)
   expect_error(adorn_title(non_tab), "When input is not a data.frame of class tabyl, a value must be specified for the col_name argument")
 
   expect_equal(
@@ -59,11 +61,12 @@ test_that("bad inputs are caught", {
     "\"dat\" must be a data.frame",
     fixed = TRUE
   )
-  expect_error(adorn_title(source1,
-    placement = "blargh"
-  ),
-  "\"placement\" must be one of \"top\" or \"combined\"",
-  fixed = TRUE
+  expect_error(
+    adorn_title(source1,
+      placement = "blargh"
+    ),
+    "\"placement\" must be one of \"top\" or \"combined\"",
+    fixed = TRUE
   )
   expect_error(
     adorn_title(source1,
@@ -96,7 +99,6 @@ test_that("works with non-count inputs", {
     adorn_title(source2_base, col_name = "Characteristics"),
     adorn_title(source2_tibble, col_name = "Characteristics")
   )
-
 })
 
 test_that("for printing purposes: tabyl class stays tabyl, data.frame stays data.frame, tibble is downgraded to data.frame", {

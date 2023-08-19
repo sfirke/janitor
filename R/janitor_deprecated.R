@@ -28,10 +28,12 @@ NULL
 #' @export
 
 crosstab <- function(...) {
-  lifecycle::deprecate_stop(when = "2.0.0",
-                            what = "janitor::crosstab()",
-                            with = "tabyl()",
-                            details = "See the guide to tabyl(): https://cran.r-project.org/web/packages/janitor/vignettes/tabyls.html")
+  lifecycle::deprecate_stop(
+    when = "2.0.0",
+    what = "janitor::crosstab()",
+    with = "tabyl()",
+    details = "See the guide to tabyl(): https://cran.r-project.org/web/packages/janitor/vignettes/tabyls.html"
+  )
 }
 
 #' @title Add presentation formatting to a crosstabulation table.
@@ -48,10 +50,12 @@ crosstab <- function(...) {
 #' @export
 
 adorn_crosstab <- function(dat, denom = "row", show_n = TRUE, digits = 1, show_totals = FALSE, rounding = "half to even") {
-  lifecycle::deprecate_stop(when = "2.0.0",
-                            what = "janitor::adorn_crosstab()",
-                            with = "tabyl()",
-                            details = "See the adorn_* functions for formatting a tabyl: https://cran.r-project.org/web/packages/janitor/vignettes/tabyls.html")
+  lifecycle::deprecate_stop(
+    when = "2.0.0",
+    what = "janitor::adorn_crosstab()",
+    with = "tabyl()",
+    details = "See the adorn_* functions for formatting a tabyl: https://cran.r-project.org/web/packages/janitor/vignettes/tabyls.html"
+  )
 }
 
 #' @title Append a totals row to a data.frame.
@@ -67,10 +71,12 @@ adorn_crosstab <- function(dat, denom = "row", show_n = TRUE, digits = 1, show_t
 
 
 add_totals_row <- function(dat, fill = "-", na.rm = TRUE) {
-  lifecycle::deprecate_stop(when = "2.0.0",
-                            what = "janitor::add_totals_row()",
-                            with = "adorn_totals()",
-                            details = "See the adorn_* functions for formatting a tabyl or data.frame: https://cran.r-project.org/web/packages/janitor/vignettes/tabyls.html")
+  lifecycle::deprecate_stop(
+    when = "2.0.0",
+    what = "janitor::add_totals_row()",
+    with = "adorn_totals()",
+    details = "See the adorn_* functions for formatting a tabyl or data.frame: https://cran.r-project.org/web/packages/janitor/vignettes/tabyls.html"
+  )
 }
 
 #' @title Append a totals column to a data.frame.
@@ -84,10 +90,12 @@ add_totals_row <- function(dat, fill = "-", na.rm = TRUE) {
 #' @export
 
 add_totals_col <- function(dat, na.rm = TRUE) {
-  lifecycle::deprecate_stop(when = "2.0.0",
-                            what = "janitor::add_totals_cols()",
-                            with = "adorn_totals()",
-                            details = "See the adorn_* functions for formatting a tabyl or data.frame: https://cran.r-project.org/web/packages/janitor/vignettes/tabyls.html")
+  lifecycle::deprecate_stop(
+    when = "2.0.0",
+    what = "janitor::add_totals_cols()",
+    with = "adorn_totals()",
+    details = "See the adorn_* functions for formatting a tabyl or data.frame: https://cran.r-project.org/web/packages/janitor/vignettes/tabyls.html"
+  )
 }
 
 
@@ -103,9 +111,11 @@ add_totals_col <- function(dat, na.rm = TRUE) {
 #' @seealso janitor_deprecated
 #' @export
 use_first_valid_of <- function(..., if_all_NA = NA) {
-  lifecycle::deprecate_stop(when = "2.0.0",
-                            what = "janitor::use_first_valid_of()",
-                            with = "dplyr::coalesce()")
+  lifecycle::deprecate_stop(
+    when = "2.0.0",
+    what = "janitor::use_first_valid_of()",
+    with = "dplyr::coalesce()"
+  )
 }
 
 #' @title Convert string values to true \code{NA} values.
@@ -119,11 +129,13 @@ use_first_valid_of <- function(..., if_all_NA = NA) {
 #' @return Returns a cleaned object.  Can be a vector, data.frame, or \code{tibble::tbl_df} depending on the provided input.
 #' @seealso janitor_deprecated
 #' @export
-#' 
+#'
 convert_to_NA <- function(dat, strings) {
-  lifecycle::deprecate_stop(when = "2.0.0",
-                            what = "janitor::convert_to_NA()",
-                            with = "dplyr::na_if()")
+  lifecycle::deprecate_stop(
+    when = "2.0.0",
+    what = "janitor::convert_to_NA()",
+    with = "dplyr::na_if()"
+  )
 }
 
 
@@ -142,9 +154,11 @@ convert_to_NA <- function(dat, strings) {
 #' @export
 
 remove_empty_rows <- function(dat) {
-  lifecycle::deprecate_stop(when = "2.0.0",
-                            what = "janitor::remove_empty_rows()",
-                            with = "janitor::remove_empty()")
+  lifecycle::deprecate_stop(
+    when = "2.0.0",
+    what = "janitor::remove_empty_rows()",
+    with = "janitor::remove_empty()"
+  )
 }
 
 #' @title Removes empty columns from a data.frame.
@@ -160,9 +174,11 @@ remove_empty_rows <- function(dat) {
 #' @export
 
 remove_empty_cols <- function(dat) {
-  lifecycle::deprecate_stop(when = "2.0.0",
-                            what = "janitor::remove_empty_cols()",
-                            with = "janitor::remove_empty()")
+  lifecycle::deprecate_stop(
+    when = "2.0.0",
+    what = "janitor::remove_empty_cols()",
+    with = "janitor::remove_empty()"
+  )
 }
 
 # EXCLUDE COVERAGE END

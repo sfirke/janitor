@@ -10,10 +10,7 @@
 #' @export
 #' @examples
 #' top_levels(as.factor(mtcars$hp), 2)
-
-
 top_levels <- function(input_vec, n = 2, show_na = FALSE) {
-
   # Initial type error catching
   if (!is.factor(input_vec)) {
     stop("factor_vec is not of type 'factor'")
@@ -39,11 +36,11 @@ top_levels <- function(input_vec, n = 2, show_na = FALSE) {
 
   # convert input vector into grouped variable
   new_vec <- ifelse(as.numeric(input_vec) <= n,
-                    groups$top,
-                    ifelse(as.numeric(input_vec) > (num_levels_in_var - n),
-                           groups$bot,
-                           groups$mid
-                    )
+    groups$top,
+    ifelse(as.numeric(input_vec) > (num_levels_in_var - n),
+      groups$bot,
+      groups$mid
+    )
   )
 
   # recode variable as hi-med-lo factor so table prints w/ correct sorting

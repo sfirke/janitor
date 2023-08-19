@@ -7,9 +7,9 @@ output:
 
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE, 
+  collapse = TRUE,
   comment = "#>",
-  fig.path = "README-"  
+  fig.path = "README-"
 )
 options(width = 110)
 ```
@@ -82,7 +82,10 @@ Dirtiness includes:
 
 Here's that data after being read in to R:
 ```{r, warning = FALSE, message = FALSE}
-library(readxl); library(janitor); library(dplyr); library(here)
+library(readxl)
+library(janitor)
+library(dplyr)
+library(here)
 
 roster_raw <- read_excel(here("dirty_data.xlsx")) # available at https://github.com/sfirke/janitor
 glimpse(roster_raw)
@@ -92,9 +95,10 @@ Now, to clean it up, starting with the column names.
 
 Name cleaning comes in two flavors. `make_clean_names()` operates on character vectors and can be used during data import:
 ```{r, warning = FALSE, message = FALSE}
-roster_raw_cleaner <- read_excel(here("dirty_data.xlsx"), 
-                                 skip = 1,
-                                 .name_repair = make_clean_names)
+roster_raw_cleaner <- read_excel(here("dirty_data.xlsx"),
+  skip = 1,
+  .name_repair = make_clean_names
+)
 glimpse(roster_raw_cleaner)
 ```
 
@@ -111,10 +115,13 @@ The data.frame now has clean names.  Let's tidy it up further:
 ```{r}
 roster <- roster_raw %>%
   remove_empty(c("rows", "cols")) %>%
-  remove_constant(na.rm = TRUE, quiet = FALSE) %>% # remove the column of all "Yes" values 
-  mutate(hire_date = convert_to_date(hire_date, # handle the mixed-format dates
-                                     character_fun = lubridate::mdy),
-         cert = dplyr::coalesce(certification, certification_2)) %>%
+  remove_constant(na.rm = TRUE, quiet = FALSE) %>% # remove the column of all "Yes" values
+  mutate(
+    hire_date = convert_to_date(hire_date, # handle the mixed-format dates
+      character_fun = lubridate::mdy
+    ),
+    cert = dplyr::coalesce(certification, certification_2)
+  ) %>%
   select(-certification, -certification_2) # drop unwanted columns
 
 roster
@@ -175,7 +182,6 @@ roster %>%
   adorn_pct_formatting() %>%
   adorn_ns() %>%
   adorn_title("combined")
-
 ```
 
 Pipe that right into `knitr::kable()` in your RMarkdown report.

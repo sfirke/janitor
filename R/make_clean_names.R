@@ -77,16 +77,16 @@
 #' @importFrom snakecase to_any_case
 make_clean_names <- function(string,
                              case = "snake",
-                             replace=
+                             replace =
                                c(
-                                 "'"="",
-                                 "\""="",
-                                 "%"="_percent_",
-                                 "#"="_number_"
+                                 "'" = "",
+                                 "\"" = "",
+                                 "%" = "_percent_",
+                                 "#" = "_number_"
                                ),
-                             ascii=TRUE,
-                             use_make_names=TRUE,
-                             allow_dupes=FALSE,
+                             ascii = TRUE,
+                             use_make_names = TRUE,
+                             allow_dupes = FALSE,
                              # default arguments for snake_case::to_any_case
                              sep_in = "\\.",
                              transliterations = "Latin-ASCII",
@@ -101,17 +101,17 @@ make_clean_names <- function(string,
     return(old_make_clean_names(string))
   }
 
-  warn_micro_mu(string=string, replace=replace)
+  warn_micro_mu(string = string, replace = replace)
   replaced_names <-
     stringr::str_replace_all(
-      string=string,
-      pattern=replace
+      string = string,
+      pattern = replace
     )
   transliterated_names <-
     if (ascii) {
       stringi::stri_trans_general(
         replaced_names,
-        id=available_transliterators(c("Any-Latin", "Greek-Latin", "Any-NFKD", "Any-NFC", "Latin-ASCII"))
+        id = available_transliterators(c("Any-Latin", "Greek-Latin", "Any-NFKD", "Any-NFC", "Latin-ASCII"))
       )
     } else {
       replaced_names
@@ -119,7 +119,7 @@ make_clean_names <- function(string,
   # Remove starting spaces and punctuation
   good_start <-
     stringr::str_replace(
-      string=transliterated_names,
+      string = transliterated_names,
       # Description of this regexp:
       # \A: beginning of the string (rather than beginning of the line as ^ would indicate)
       # \h: any horizontal whitespace character (spaces, tabs, and anything else that is a Unicode whitespace)
@@ -127,15 +127,15 @@ make_clean_names <- function(string,
       # \p{}: indicates a unicode class of characters, so these will also match punctuation, symbols, separators, and "other" characters
       # * means all of the above zero or more times (not + so that the capturing part of the regexp works)
       # (.*)$: captures everything else in the string for the replacement
-      pattern="\\A[\\h\\s\\p{Punctuation}\\p{Symbol}\\p{Separator}\\p{Other}]*(.*)$",
-      replacement="\\1"
+      pattern = "\\A[\\h\\s\\p{Punctuation}\\p{Symbol}\\p{Separator}\\p{Other}]*(.*)$",
+      replacement = "\\1"
     )
   # Convert all interior spaces and punctuation to single dots
   cleaned_within <-
     stringr::str_replace(
-      string=good_start,
-      pattern="[\\h\\s\\p{Punctuation}\\p{Symbol}\\p{Separator}\\p{Other}]+",
-      replacement="."
+      string = good_start,
+      pattern = "[\\h\\s\\p{Punctuation}\\p{Symbol}\\p{Separator}\\p{Other}]+",
+      replacement = "."
     )
   # make.names() is dependent on the locale and therefore will return different
   # system-dependent values (e.g. as in issue #268 with Japanese characters).
@@ -195,13 +195,13 @@ warn_micro_mu <- function(string, replace) {
   warning_characters_specific <- character()
   for (current_unicode in micro_mu) {
     # Does the character exist in any of the names?
-    has_character <- any(grepl(x=string, pattern=current_unicode, fixed=TRUE))
+    has_character <- any(grepl(x = string, pattern = current_unicode, fixed = TRUE))
     if (has_character) {
       # Is there a general replacement for any occurrence of the character?
       has_replacement_general <- any(names(replace) %in% current_unicode)
       # Is there a specific replacement for some form including the character,
       # but it may not cover all of replacements?
-      has_replacement_specific <- any(grepl(x=names(replace), pattern=current_unicode, fixed=TRUE))
+      has_replacement_specific <- any(grepl(x = names(replace), pattern = current_unicode, fixed = TRUE))
       warning_characters <-
         c(
           warning_characters,
@@ -218,25 +218,25 @@ warn_micro_mu <- function(string, replace) {
   warning_message_general <- NULL
   if (length(warning_characters) > 0) {
     warning_characters_utf <-
-      sprintf("\\u%04x", sapply(X=warning_characters, FUN=utf8ToInt))
+      sprintf("\\u%04x", sapply(X = warning_characters, FUN = utf8ToInt))
     warning_message_general <-
       sprintf(
         "The following characters are in the names to clean but are not replaced: %s",
-        paste(warning_characters_utf, collapse=", ")
+        paste(warning_characters_utf, collapse = ", ")
       )
   }
   warning_message_specific <- NULL
   if (length(warning_characters_specific) > 0) {
     warning_characters_utf <-
-      sprintf("\\u%04x", sapply(X=warning_characters_specific, FUN=utf8ToInt))
+      sprintf("\\u%04x", sapply(X = warning_characters_specific, FUN = utf8ToInt))
     warning_message_specific <-
       sprintf(
         "The following characters are in the names to clean but may not be replaced, check the output names carefully: %s",
-        paste(warning_characters_utf, collapse=", ")
+        paste(warning_characters_utf, collapse = ", ")
       )
   }
   if (!is.null(warning_message_general) | !is.null(warning_message_specific)) {
-    warning_message <- paste(c(warning_message_general, warning_message_specific), collapse="\n")
+    warning_message <- paste(c(warning_message_general, warning_message_specific), collapse = "\n")
     warning(
       "Watch out!  ",
       "The mu or micro symbol is in the input string, and may have been converted to 'm' while 'u' may have been expected.  ",
@@ -249,7 +249,6 @@ warn_micro_mu <- function(string, replace) {
 
 # copy of clean_names from janitor v0.3 on CRAN, to preserve old behavior
 old_make_clean_names <- function(string) {
-
   # Takes a data.frame, returns the same data frame with cleaned names
   old_names <- string
   new_names <- old_names %>%
@@ -284,19 +283,19 @@ old_make_clean_names <- function(string) {
 #' @importFrom stringi stri_trans_list
 available_transliterators <- function(wanted) {
   desired_available <- intersect(wanted, stringi::stri_trans_list())
-  if (!identical(wanted, desired_available) & getOption("janitor_warn_transliterators", default=TRUE)) {
+  if (!identical(wanted, desired_available) & getOption("janitor_warn_transliterators", default = TRUE)) {
     warning(
       "Some transliterators to convert characters in names are not available \n",
       "on this system.  Results may differ when run on a different system.\n",
       "The missing transliterators are: ",
-      paste0(setdiff(wanted, desired_available), collapse=", "),
+      paste0(setdiff(wanted, desired_available), collapse = ", "),
       "\n\nThis warning will only be shown once per session.\n",
       "To suppress it use this:\n `options(janitor_warn_transliterators=FALSE)`\n",
       "To make all transliterators available on your system, reinstall the stringi with:\n",
       '`install.packages("stringi", type="source", configure.args="--disable-pkg-config")`'
     )
     # Only warn once per session
-    options(janitor_warn_transliterators=FALSE)
+    options(janitor_warn_transliterators = FALSE)
   }
-  paste(desired_available, collapse=";")
+  paste(desired_available, collapse = ";")
 }
