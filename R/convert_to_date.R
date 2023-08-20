@@ -1,6 +1,6 @@
-#' Parse dates from many formats 
-#' 
-#' Convert many date and date-time (POSIXct) formats as may be received 
+#' Parse dates from many formats
+#'
+#' Convert many date and date-time (POSIXct) formats as may be received
 #' from Microsoft Excel.
 #' @details
 #' Character conversion checks if it matches something that looks like a
@@ -40,7 +40,7 @@ convert_to_date <- function(x, ..., character_fun = lubridate::ymd, string_conve
   )
 }
 
-#' @name convert_to_date 
+#' @name convert_to_date
 #' @examples
 #' convert_to_datetime(
 #'   c("2009-07-06", "40000.1", "40000", NA),

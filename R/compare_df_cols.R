@@ -1,5 +1,5 @@
 #' Compare data frames columns before merging
-#' 
+#'
 #' Generate a comparison of data.frames (or similar objects) that indicates if
 #' they will successfully bind together by rows.
 #'
@@ -219,7 +219,7 @@ compare_df_cols_df_maker.list <- function(x, class_colname = "class", strict_des
 #'
 #' Check whether a set of data.frames are row-bindable. Calls `compare_df_cols()`
 #' and returns `TRUE` if there are no mis-matching rows.
-#' 
+#'
 #' @inheritParams compare_df_cols
 #' @param verbose Print the mismatching columns if binding will fail.
 #' @return `TRUE` if row binding will succeed or `FALSE` if it will fail.

@@ -5,18 +5,18 @@
 #' You can also call it on a non-tabyl data.frame to which you wish to append Ns.
 #'
 #' @param dat A data.frame of class `tabyl` that has had `adorn_percentages` and/or
-#'   `adorn_pct_formatting` called on it.  If given a list of data.frames, 
+#'   `adorn_pct_formatting` called on it.  If given a list of data.frames,
 #'   this function will apply itself to each data.frame in the list (designed for 3-way `tabyl` lists).
 #' @param position Should the N go in the front, or in the rear, of the percentage?
 #' @param ns The Ns to append.  The default is the "core" attribute of the input tabyl
 #'   `dat`, where the original Ns of a two-way `tabyl` are stored. However, if your Ns
-#'   are stored somewhere else, or you need to customize them beyond what can be done 
+#'   are stored somewhere else, or you need to customize them beyond what can be done
 #'   with `format_func`, you can supply them here.
 #' @param format_func A formatting function to run on the Ns. Consider defining
 #'   with [base::format()].
 #' @param ... Columns to adorn. This takes a tidyselect specification.  By default,
 #'   all columns are adorned except for the first column and columns not of class
-#'   `numeric`, but this allows you to manually specify which columns should be adorned, 
+#'   `numeric`, but this allows you to manually specify which columns should be adorned,
 #'   for use on a data.frame that does not result from a call to `tabyl`.
 #'
 #' @return A `data.frame` with Ns appended

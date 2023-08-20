@@ -1,10 +1,10 @@
 #' Convert a data.frame of counts to percentages.
 #'
 #' This function defaults to excluding the first column of the input data.frame,
-#' assuming that it contains a descriptive variable, but this can be overridden 
+#' assuming that it contains a descriptive variable, but this can be overridden
 #' by specifying the columns to adorn in the `...` argument.
 #'
-#' @param dat A `tabyl` or other data.frame with a tabyl-like layout. 
+#' @param dat A `tabyl` or other data.frame with a tabyl-like layout.
 #'   If given a list of data.frames, this function will apply itself to each
 #'   `data.frame` in the list (designed for 3-way `tabyl` lists).
 #' @param denominator The direction to use for calculating percentages.
