@@ -315,32 +315,17 @@ test_that("NA levels get moved to the last column in the data.frame, are suppres
     dplyr::filter(species == "Human") %>%
     tabyl(eye_color, skin_color, gender, show_missing_levels = TRUE)), 2)
 
-  # The starwars data set changed in dplyr v 1.0.0 so have two blocks of tests:
-  if (packageVersion("dplyr") > package_version("0.8.5")) {
-    # If there is NA, it does appear in split list
-    expect_equal(length(dplyr::starwars %>%
-      tabyl(eye_color, skin_color, gender, show_missing_levels = TRUE)), 3)
-    expect_equal(length(dplyr::starwars %>%
-      tabyl(eye_color, skin_color, gender, show_missing_levels = FALSE)), 3)
+  # If there is NA, it does appear in split list
+  expect_equal(length(dplyr::starwars %>%
+    tabyl(eye_color, skin_color, gender, show_missing_levels = TRUE)), 5)
+  expect_equal(length(dplyr::starwars %>%
+    tabyl(eye_color, skin_color, gender, show_missing_levels = FALSE)), 5)
 
-    # NA level in the list gets suppressed if show_na = FALSE.  Should have one less level if NA is suppressed.
-    expect_equal(length(dplyr::starwars %>%
-      tabyl(eye_color, skin_color, gender, show_na = TRUE)), 3)
-    expect_equal(length(dplyr::starwars %>%
-      tabyl(eye_color, skin_color, gender, show_na = FALSE)), 2)
-  } else {
-    # If there is NA, it does appear in split list
-    expect_equal(length(dplyr::starwars %>%
-      tabyl(eye_color, skin_color, gender, show_missing_levels = TRUE)), 5)
-    expect_equal(length(dplyr::starwars %>%
-      tabyl(eye_color, skin_color, gender, show_missing_levels = FALSE)), 5)
-
-    # NA level in the list gets suppressed if show_na = FALSE.  Should have one less level if NA is suppressed.
-    expect_equal(length(dplyr::starwars %>%
-      tabyl(eye_color, skin_color, gender, show_na = TRUE)), 5)
-    expect_equal(length(dplyr::starwars %>%
-      tabyl(eye_color, skin_color, gender, show_na = FALSE)), 4)
-  }
+  # NA level in the list gets suppressed if show_na = FALSE.  Should have one less level if NA is suppressed.
+  expect_equal(length(dplyr::starwars %>%
+    tabyl(eye_color, skin_color, gender, show_na = TRUE)), 5)
+  expect_equal(length(dplyr::starwars %>%
+    tabyl(eye_color, skin_color, gender, show_na = FALSE)), 4)
 })
 
 test_that("zero-row and fully-NA inputs are handled", {
