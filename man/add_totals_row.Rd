@@ -17,6 +17,6 @@ add_totals_row(dat, fill = "-", na.rm = TRUE)
 Returns a data.frame with a totals row, consisting of "Total" in the first column and column sums in the others.
 }
 \description{
-This function is deprecated, use \code{adorn_totals} instead.
+This function is deprecated, use \code{\link[=adorn_totals]{adorn_totals()}} instead.
 }
 \keyword{internal}

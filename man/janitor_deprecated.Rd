@@ -8,13 +8,13 @@ These functions have already become defunct or may be defunct as soon as the nex
 }
 \details{
 \itemize{
-\item \code{\link[=adorn_crosstab]{adorn_crosstab()}}
-\item \code{\link[=crosstab]{crosstab()}}
-\item \code{\link[=use_first_valid_of]{use_first_valid_of()}}
-\item \code{\link[=convert_to_NA]{convert_to_NA()}}
-\item \code{\link[=add_totals_col]{add_totals_col()}}
-\item \code{\link[=add_totals_row]{add_totals_row()}}
-\item \code{\link[=remove_empty_rows]{remove_empty_rows()}}
-\item \code{\link[=remove_empty_cols]{remove_empty_cols()}}
+\item \code{\link[=adorn_crosstab]{adorn_crosstab()}} -> \code{adorn_}
+\item \code{\link[=crosstab]{crosstab()}} -> \code{\link[=tabyl]{tabyl()}}
+\item \code{\link[=use_first_valid_of]{use_first_valid_of()}} -> \code{\link[dplyr:coalesce]{dplyr::coalesce()}}
+\item \code{\link[=convert_to_NA]{convert_to_NA()}} -> \code{\link[dplyr:na_if]{dplyr::na_if()}}
+\item \code{\link[=add_totals_col]{add_totals_col()}} -> \code{\link[=adorn_totals]{adorn_totals(where = "col")}}
+\item \code{\link[=add_totals_row]{add_totals_row()}} -> \code{\link[=adorn_totals]{adorn_totals()}}
+\item \code{\link[=remove_empty_rows]{remove_empty_rows()}} -> \code{\link[=remove_empty]{remove_empty("rows")}}
+\item \code{\link[=remove_empty_cols]{remove_empty_cols()}} -> \code{\link[=remove_empty]{remove_empty("cols")}}
 }
 }

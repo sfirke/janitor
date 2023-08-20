@@ -15,12 +15,12 @@ use_first_valid_of(..., if_all_NA = NA)
 Returns a single vector with the selected values.
 }
 \description{
-At each position of the input vectors, iterates through in order and returns the first non-NA value.  This is a robust replacement of the common \code{ifelse(!is.na(x), x, ifelse(!is.na(y), y, z))}.  It's more readable and handles problems like \code{ifelse}'s inability to work with dates in this way.
-}
-\section{Warning}{
- Deprecated, do not use in new code. Use \code{dplyr::coalesce()} instead.
-}
+Warning: Deprecated, do not use in new code. Use \code{\link[dplyr:coalesce]{dplyr::coalesce()}} instead.
 
+At each position of the input vectors, iterates through in order and returns the first non-NA value.
+This is a robust replacement of the common \code{ifelse(!is.na(x), x, ifelse(!is.na(y), y, z))}.
+It's more readable and handles problems like \code{\link[=ifelse]{ifelse()}}'s inability to work with dates in this way.
+}
 \seealso{
 janitor_deprecated
 }

@@ -2,14 +2,14 @@
 #'
 #' These functions have already become defunct or may be defunct as soon as the next release.
 #'
-#' * [adorn_crosstab()]
-#' * [crosstab()]
-#' * [use_first_valid_of()]
-#' * [convert_to_NA()]
-#' * [add_totals_col()]
-#' * [add_totals_row()]
-#' * [remove_empty_rows()]
-#' * [remove_empty_cols()]
+#' * [adorn_crosstab()] -> `adorn_`
+#' * [crosstab()] -> [tabyl()]
+#' * [use_first_valid_of()] -> [dplyr::coalesce()]
+#' * [convert_to_NA()] -> [dplyr::na_if()]
+#' * [add_totals_col()] -> [`adorn_totals(where = "col")`][adorn_totals()]
+#' * [add_totals_row()] -> [adorn_totals()]
+#' * [remove_empty_rows()] -> [`remove_empty("rows")`][remove_empty()]
+#' * [remove_empty_cols()] -> [`remove_empty("cols")`][remove_empty()]
 #'
 #' @name janitor_deprecated
 # EXCLUDE COVERAGE START
@@ -22,7 +22,7 @@ NULL
 #' @param ... arguments
 #' @keywords internal
 #' @description
-#' This function is deprecated, use `tabyl(dat, var1, var2)` instead.
+#' This function is deprecated, use [`tabyl(dat, var1, var2)`][tabyl()] instead.
 #' @export
 
 crosstab <- function(...) {
@@ -36,7 +36,7 @@ crosstab <- function(...) {
 
 #' @title Add presentation formatting to a crosstabulation table.
 #' @description
-#' This function is deprecated, use the `adorn_` family of functions instead.
+#' This function is deprecated, use [tabyl()] with the `adorn_` family of functions instead.
 #' @param dat a data.frame with row names in the first column and numeric values in all other columns.  Usually the piped-in result of a call to  `crosstab` that included the argument `percent = "none"`.
 #' @param denom the denominator to use for calculating percentages.  One of "row", "col", or "all".
 #' @param show_n should counts be displayed alongside the percentages?
@@ -59,7 +59,7 @@ adorn_crosstab <- function(dat, denom = "row", show_n = TRUE, digits = 1, show_t
 #' @title Append a totals row to a data.frame.
 #'
 #' @description
-#' This function is deprecated, use `adorn_totals` instead.
+#' This function is deprecated, use [adorn_totals()] instead.
 #'
 #' @param dat an input data.frame with at least one numeric column.
 #' @param fill if there are more than one non-numeric columns, what string should fill the bottom row of those columns?
@@ -79,7 +79,7 @@ add_totals_row <- function(dat, fill = "-", na.rm = TRUE) {
 #' @title Append a totals column to a data.frame.
 #'
 #' @description
-#' This function is deprecated, use `adorn_totals` instead.
+#' This function is deprecated, use [`adorn_totals(where = "col")`][adorn_totals()] instead.
 #'
 #' @param dat an input data.frame with at least one numeric column.
 #' @param na.rm should missing values (including NaN) be omitted from the calculations?
@@ -100,9 +100,12 @@ add_totals_col <- function(dat, na.rm = TRUE) {
 #' @title Returns first non-NA value from a set of vectors.
 #'
 #' @description
-#' At each position of the input vectors, iterates through in order and returns the first non-NA value.  This is a robust replacement of the common `ifelse(!is.na(x), x, ifelse(!is.na(y), y, z))`.  It's more readable and handles problems like `ifelse`'s inability to work with dates in this way.
+#' Warning: Deprecated, do not use in new code. Use [dplyr::coalesce()] instead.
+#' 
+#' At each position of the input vectors, iterates through in order and returns the first non-NA value.
+#' This is a robust replacement of the common `ifelse(!is.na(x), x, ifelse(!is.na(y), y, z))`.
+#' It's more readable and handles problems like [ifelse()]'s inability to work with dates in this way.
 #'
-##' @section Warning: Deprecated, do not use in new code. Use `dplyr::coalesce()` instead.
 #' @param ... the input vectors.  Order matters: these are searched and prioritized in the order they are supplied.
 #' @param if_all_NA what value should be used when all of the vectors return `NA` for a certain index?  Default is NA.
 #' @return Returns a single vector with the selected values.
@@ -120,9 +123,10 @@ use_first_valid_of <- function(..., if_all_NA = NA) {
 #' @title Convert string values to true `NA` values.
 #'
 #' @description
+#' Warning: Deprecated, do not use in new code. Use [dplyr::na_if()] instead.
+#' 
 #' Converts instances of user-specified strings into `NA`.  Can operate on either a single vector or an entire data.frame.
 #'
-#' @section Warning: Deprecated, do not use in new code. Use `dplyr::na_if()` instead.
 #' @param dat vector or data.frame to operate on.
 #' @param strings character vector of strings to convert.
 #' @return Returns a cleaned object.  Can be a vector, data.frame, or `tibble::tbl_df` depending on the provided input.
@@ -144,7 +148,7 @@ convert_to_NA <- function(dat, strings) {
 #' @title Removes empty rows from a data.frame.
 #'
 #' @description
-#' This function is deprecated, use `remove_empty("rows")` instead.
+#' This function is deprecated, use [`remove_empty("rows")`][remove_empty()] instead.
 #'
 #' @param dat the input data.frame.
 #' @return Returns the data.frame with no empty rows.
@@ -165,13 +169,10 @@ remove_empty_rows <- function(dat) {
 #' @title Removes empty columns from a data.frame.
 #'
 #' @description
-#' This function is deprecated, use `remove_empty("cols")` instead.
+#' This function is deprecated, use [`remove_empty("cols")`][remove_empty()] instead.
 #'
 #' @param dat the input data.frame.
 #' @return Returns the data.frame with no empty columns.
-#' @examples
-#' # not run:
-#' # dat %>% remove_empty_cols
 #' @export
 #' @keywords internal
 
