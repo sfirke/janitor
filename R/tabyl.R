@@ -1,20 +1,32 @@
 #' Generate a frequency table (1-, 2-, or 3-way).
 #'
 #' @description
-#' A fully-featured alternative to `table()`.  Results are data.frames and can be formatted and enhanced with janitor's family of `adorn_` functions.
+#' A fully-featured alternative to `table()`. Results are data.frames and can be
+#' formatted and enhanced with janitor's family of `adorn_` functions.
 #'
-#' Specify a data.frame and the one, two, or three unquoted column names you want to tabulate.  Three variables generates a list of 2-way tabyls, split by the third variable.
+#' Specify a `data.frame` and the one, two, or three unquoted column names you
+#' want to tabulate.  Three variables generates a list of 2-way tabyls,
+#' split by the third variable.
 #'
-#' Alternatively, you can tabulate a single variable that isn't in a data.frame by calling `tabyl` on a vector, e.g., `tabyl(mtcars$gear)`.
+#' Alternatively, you can tabulate a single variable that isn't in a `data.frame`
+#'  by calling `tabyl()` on a vector, e.g., `tabyl(mtcars$gear)`.
 #'
-#' @param dat a `data.frame` containing the variables you wish to count.  Or, a vector you want to tabulate.
-#' @param var1 the column name of the first variable.
-#' @param var2 (optional) the column name of the second variable (the rows in a 2-way tabulation).
-#' @param var3 (optional) the column name of the third variable (the list in a 3-way tabulation).
-#' @param show_na should counts of `NA` values be displayed?  In a one-way tabyl, the presence of `NA` values triggers an additional column showing valid percentages(calculated excluding `NA` values).
-#' @param show_missing_levels should counts of missing levels of factors be displayed?  These will be rows and/or columns of zeroes.  Useful for keeping consistent output dimensions even when certain factor levels may not be present in the data.
-#' @param ... the arguments to tabyl (here just for the sake of documentation compliance, as all arguments are listed with the vector- and data.frame-specific methods)
-#' @return A data.frame with frequencies and percentages of the tabulated variable(s).  A 3-way tabulation returns a list of data.frames.
+#' @param dat A `data.frame` containing the variables you wish to count.
+#'   Or, a vector you want to tabulate.
+#' @param var1 The column name of the first variable.
+#' @param var2 (optional) the column name of the second variable
+#'   (the rows in a 2-way tabulation).
+#' @param var3 (optional) the column name of the third variable
+#'   (the list in a 3-way tabulation).
+#' @param show_na Should counts of `NA` values be displayed?  In a one-way tabyl,
+#'   the presence of `NA` values triggers an additional column showing valid percentages
+#'   (calculated excluding `NA` values).
+#' @param show_missing_levels Should counts of missing levels of factors be displayed?
+#'   These will be rows and/or columns of zeroes.  Useful for keeping consistent
+#'   output dimensions even when certain factor levels may not be present in the data.
+#' @param ... Additional arguments passed to methods.
+#' @return A `data.frame` with frequencies and percentages of the tabulated variable(s).
+#'   A 3-way tabulation returns a list of data frames.
 #' @export
 #' @examples
 #'

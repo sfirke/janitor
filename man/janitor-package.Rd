@@ -21,7 +21,7 @@ Microsoft Excel.
 \section{Package context}{
 
 This package follows the principles of the "tidyverse" and works
-well with the pipe function \verb{\\\%>\\\%}.
+well with the pipe function \verb{\%>\%}.
 
 janitor was built with beginning-to-intermediate R users in mind
 and is optimized for user-friendliness.  Advanced users can do most

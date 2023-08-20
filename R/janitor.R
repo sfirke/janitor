@@ -12,7 +12,7 @@
 #'
 #' @section Package context:
 #' This package follows the principles of the "tidyverse" and works
-#' well with the pipe function `\%>\%`.
+#' well with the pipe function `%>%`.
 #'
 #' janitor was built with beginning-to-intermediate R users in mind
 #' and is optimized for user-friendliness.  Advanced users can do most
