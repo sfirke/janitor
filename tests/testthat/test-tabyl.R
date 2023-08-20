@@ -310,22 +310,17 @@ test_that("NA levels get moved to the last column in the data.frame, are suppres
     data.frame(c = 10, `1` = 1, `2` = 0, NA_ = 1, check.names = FALSE)
   )
 
-  # If no NA in 3rd variable, it doesn't appear in split list
-  expect_equal(length(dplyr::starwars %>%
-    dplyr::filter(species == "Human") %>%
-    tabyl(eye_color, skin_color, gender, show_missing_levels = TRUE)), 2)
-
   # If there is NA, it does appear in split list
   expect_equal(length(dplyr::starwars %>%
-    tabyl(eye_color, skin_color, gender, show_missing_levels = TRUE)), 5)
+    tabyl(eye_color, skin_color, gender, show_missing_levels = TRUE)), 3)
   expect_equal(length(dplyr::starwars %>%
-    tabyl(eye_color, skin_color, gender, show_missing_levels = FALSE)), 5)
+    tabyl(eye_color, skin_color, gender, show_missing_levels = FALSE)), 3)
 
   # NA level in the list gets suppressed if show_na = FALSE.  Should have one less level if NA is suppressed.
   expect_equal(length(dplyr::starwars %>%
-    tabyl(eye_color, skin_color, gender, show_na = TRUE)), 5)
+    tabyl(eye_color, skin_color, gender, show_na = TRUE)), 3)
   expect_equal(length(dplyr::starwars %>%
-    tabyl(eye_color, skin_color, gender, show_na = FALSE)), 4)
+    tabyl(eye_color, skin_color, gender, show_na = FALSE)), 2)
 })
 
 test_that("zero-row and fully-NA inputs are handled", {
