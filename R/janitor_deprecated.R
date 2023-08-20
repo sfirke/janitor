@@ -101,7 +101,7 @@ add_totals_col <- function(dat, na.rm = TRUE) {
 #'
 #' @description
 #' Warning: Deprecated, do not use in new code. Use [dplyr::coalesce()] instead.
-#' 
+#'
 #' At each position of the input vectors, iterates through in order and returns the first non-NA value.
 #' This is a robust replacement of the common `ifelse(!is.na(x), x, ifelse(!is.na(y), y, z))`.
 #' It's more readable and handles problems like [ifelse()]'s inability to work with dates in this way.
@@ -124,7 +124,7 @@ use_first_valid_of <- function(..., if_all_NA = NA) {
 #'
 #' @description
 #' Warning: Deprecated, do not use in new code. Use [dplyr::na_if()] instead.
-#' 
+#'
 #' Converts instances of user-specified strings into `NA`.  Can operate on either a single vector or an entire data.frame.
 #'
 #' @param dat vector or data.frame to operate on.
