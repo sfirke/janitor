@@ -1,13 +1,21 @@
 #' Convert a data.frame of counts to percentages.
 #'
-#' This function defaults to excluding the first column of the input data.frame, assuming that it contains a descriptive variable, but this can be overridden by specifying the columns to adorn in the `...` argument.
+#' This function defaults to excluding the first column of the input data.frame,
+#' assuming that it contains a descriptive variable, but this can be overridden 
+#' by specifying the columns to adorn in the `...` argument.
 #'
-#' @param dat a `tabyl` or other data.frame with a tabyl-like layout.  If given a list of data.frames, this function will apply itself to each data.frame in the list (designed for 3-way `tabyl` lists).
-#' @param denominator the direction to use for calculating percentages.  One of "row", "col", or "all".
+#' @param dat A `tabyl` or other data.frame with a tabyl-like layout. 
+#'   If given a list of data.frames, this function will apply itself to each
+#'   `data.frame` in the list (designed for 3-way `tabyl` lists).
+#' @param denominator The direction to use for calculating percentages.
+#'   One of "row", "col", or "all".
 #' @param na.rm should missing values (including NaN) be omitted from the calculations?
-#' @param ... columns to adorn.  This takes a tidyselect specification.  By default, all numeric columns (besides the initial column, if numeric) are adorned, but this allows you to manually specify which columns should be adorned, for use on a data.frame that does not result from a call to `tabyl`.
+#' @param ... columns to adorn. This takes a <[`tidy-select`][dplyr::dplyr_tidy_select]>
+#'   specification. By default, all numeric columns (besides the initial column, if numeric)
+#'   are adorned, but this allows you to manually specify which columns should
+#'   be adorned, for use on a `data.frame` that does not result from a call to [tabyl()].
 #'
-#' @return Returns a data.frame of percentages, expressed as numeric values between 0 and 1.
+#' @return A `data.frame` of percentages, expressed as numeric values between 0 and 1.
 #' @export
 #' @examples
 #'

@@ -42,7 +42,7 @@
 #'   include_time = TRUE,
 #'   round_seconds = FALSE
 #' ) # Time with fractional seconds is included
-#' @family Date-time cleaning
+#' @family date-time cleaning
 #' @importFrom lubridate as_date as_datetime force_tz hour minute second
 excel_numeric_to_date <- function(date_num, date_system = "modern", include_time = FALSE, round_seconds = TRUE, tz = Sys.timezone()) {
   if (all(is.na(date_num))) {

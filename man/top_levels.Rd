@@ -8,14 +8,14 @@ other levels.}
 top_levels(input_vec, n = 2, show_na = FALSE)
 }
 \arguments{
-\item{input_vec}{the factor variable to tabulate.}
+\item{input_vec}{The factor variable to tabulate.}
 
-\item{n}{number of levels to include in top and bottom groups}
+\item{n}{Number of levels to include in top and bottom groups}
 
-\item{show_na}{should cases where the variable is NA be shown?}
+\item{show_na}{Should cases where the variable is NA be shown?}
 }
 \value{
-a data.frame (actually a \code{tbl_df}) with the frequencies of the
+A \code{data.frame} (actually a \code{tbl_df}) with the frequencies of the
 grouped, tabulated variable.  Includes counts and percentages, and valid
 percentages (calculated omitting \code{NA} values, if present in the vector and
 \code{show_na = TRUE}.)

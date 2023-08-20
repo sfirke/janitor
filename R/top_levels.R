@@ -3,10 +3,10 @@
 #'
 #' Get a frequency table of a factor variable, grouped into categories by level.
 #'
-#' @param input_vec the factor variable to tabulate.
-#' @param n number of levels to include in top and bottom groups
-#' @param show_na should cases where the variable is NA be shown?
-#' @return a data.frame (actually a `tbl_df`) with the frequencies of the
+#' @param input_vec The factor variable to tabulate.
+#' @param n Number of levels to include in top and bottom groups
+#' @param show_na Should cases where the variable is NA be shown?
+#' @return A `data.frame` (actually a `tbl_df`) with the frequencies of the
 #'   grouped, tabulated variable.  Includes counts and percentages, and valid
 #'   percentages (calculated omitting `NA` values, if present in the vector and
 #'   `show_na = TRUE`.)
@@ -26,7 +26,10 @@ top_levels <- function(input_vec, n = 2, show_na = FALSE) {
     stop("input factor variable must have at least 3 levels")
   }
   if (num_levels_in_var < 2 * n) {
-    stop(paste0("there are ", num_levels_in_var, " levels in the variable and ", n, " levels in each of the top and bottom groups.\nSince 2 * ", n, " = ", 2 * n, " is greater than ", num_levels_in_var, ", there would be overlap in the top and bottom groups and some records will be double-counted."))
+    stop(paste0("there are ", num_levels_in_var, " levels in the variable and ",
+                n, " levels in each of the top and bottom groups.\nSince 2 * ", n, " = ", 2 * n,
+                " is greater than ", num_levels_in_var, ",
+                there would be overlap in the top and bottom groups and some records will be double-counted."))
   }
   if (n < 1 || n %% 1 != 0) {
     stop("n must be a whole number at least 1")

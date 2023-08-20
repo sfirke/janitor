@@ -1,3 +1,5 @@
+#' Compare data frames columns before merging
+#' 
 #' Generate a comparison of data.frames (or similar objects) that indicates if
 #' they will successfully bind together by rows.
 #'
@@ -39,7 +41,7 @@
 #' compare_df_cols(dfA = data.frame(A = 1), dfB = data.frame(B = 2))
 #' # a combination of list and data.frame input
 #' compare_df_cols(listA = list(dfA = data.frame(A = 1), dfB = data.frame(B = 2)), data.frame(A = 3))
-#' @family Data frame type comparison
+#' @family data frame type comparison
 #' @export
 compare_df_cols <- function(..., return = c("all", "match", "mismatch"), bind_method = c("bind_rows", "rbind"), strict_description = FALSE) {
   # Input checking
@@ -215,13 +217,13 @@ compare_df_cols_df_maker.list <- function(x, class_colname = "class", strict_des
 
 #' Do the the data.frames have the same columns & types?
 #'
-#' @description Check whether a set of data.frames are row-bindable.  Calls
-#' `compare_df_cols()`and returns TRUE if there are no mis-matching rows.  `
+#' Check whether a set of data.frames are row-bindable. Calls `compare_df_cols()`
+#' and returns `TRUE` if there are no mis-matching rows.
+#' 
 #' @inheritParams compare_df_cols
 #' @param verbose Print the mismatching columns if binding will fail.
-#' @return `TRUE` if row binding will succeed or `FALSE` if it will
-#'   fail.
-#' @family Data frame type comparison
+#' @return `TRUE` if row binding will succeed or `FALSE` if it will fail.
+#' @family data frame type comparison
 #' @examples
 #' compare_df_cols_same(data.frame(A = 1), data.frame(A = 2))
 #' compare_df_cols_same(data.frame(A = 1), data.frame(B = 2))
@@ -241,18 +243,18 @@ compare_df_cols_same <- function(..., bind_method = c("bind_rows", "rbind"), ver
 #'
 #' @details For package developers, an S3 generic method can be written for
 #'   `describe_class()` for custom classes that may need more definition
-#'   than the default method.  This function is called by `compare_df_cols`.
+#'   than the default method.  This function is called by [compare_df_cols()].
 #'
 #' @param x The object to describe
 #' @param strict_description Should differing factor levels be treated
-#' as differences for the purposes of identifying mismatches?
-#' `strict_description = TRUE` is stricter and factors with different
-#' levels will be treated as different classes.  `FALSE` is more
-#' lenient: for class comparison purposes, the variable is just a "factor".
+#'   as differences for the purposes of identifying mismatches?
+#'   `strict_description = TRUE` is stricter and factors with different
+#'   levels will be treated as different classes.  `FALSE` is more
+#'   lenient: for class comparison purposes, the variable is just a "factor".
 #' @return A character scalar describing the class(es) of an object where if the
 #'   scalar will match, columns in a data.frame (or similar object) should bind
 #'   together without issue.
-#' @family Data frame type comparison
+#' @family data frame type comparison
 #' @examples
 #' describe_class(1)
 #' describe_class(factor("A"))

@@ -36,8 +36,8 @@ SAS Date, Time, and Datetime Values reference (retrieved on
 2022-03-08): https://v8doc.sas.com/sashtml/lrcon/zenid-63.htm
 }
 \seealso{
-Other Date-time cleaning: 
+Other date-time cleaning: 
 \code{\link{convert_to_date}()},
 \code{\link{excel_numeric_to_date}()}
 }
-\concept{Date-time cleaning}
+\concept{date-time cleaning}

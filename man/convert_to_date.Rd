@@ -3,8 +3,7 @@
 \name{convert_to_date}
 \alias{convert_to_date}
 \alias{convert_to_datetime}
-\title{Convert many date and datetime formats as may be received from Microsoft
-Excel}
+\title{Parse dates from many formats}
 \usage{
 convert_to_date(
   x,
@@ -42,21 +41,16 @@ POSIXct objects for \code{convert_to_datetime()} or Date objects for
 \code{convert_to_date()}.
 }
 \description{
-Convert many date and datetime formats as may be received from Microsoft
-Excel
+Convert many date and date-time (POSIXct) formats as may be received
+from Microsoft Excel.
 }
 \details{
-Character conversion checks if it matches something that looks like
-a Microsoft Excel numeric date, converts those to numeric, and then runs
+Character conversion checks if it matches something that looks like a
+Microsoft Excel numeric date, converts those to numeric, and then runs
 convert_to_datetime_helper() on those numbers.  Then, character to Date or
 POSIXct conversion occurs via \code{character_fun(x, ...)} or
 \code{character_fun(x, tz=tz, ...)}, respectively.
 }
-\section{Functions}{
-\itemize{
-\item \code{convert_to_datetime()}: Convert to a date-time (POSIXct)
-
-}}
 \examples{
 convert_to_date("2009-07-06")
 convert_to_date(40000)
@@ -69,8 +63,8 @@ convert_to_datetime(
 )
 }
 \seealso{
-Other Date-time cleaning: 
+Other date-time cleaning: 
 \code{\link{excel_numeric_to_date}()},
 \code{\link{sas_numeric_to_date}()}
 }
-\concept{Date-time cleaning}
+\concept{date-time cleaning}

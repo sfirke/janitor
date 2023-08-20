@@ -2,28 +2,45 @@
 % Please edit documentation in R/adorn_totals.R
 \name{adorn_totals}
 \alias{adorn_totals}
-\title{Append a totals row and/or column to a data.frame.}
+\title{Append a totals row and/or column to a data.frame}
 \usage{
 adorn_totals(dat, where = "row", fill = "-", na.rm = TRUE, name = "Total", ...)
 }
 \arguments{
-\item{dat}{an input data.frame with at least one numeric column.  If given a list of data.frames, this function will apply itself to each data.frame in the list (designed for 3-way \code{tabyl} lists).}
+\item{dat}{An input \code{data.frame} with at least one numeric column. If given a
+list of data.frames, this function will apply itself to each \code{data.frame}
+in the list (designed for 3-way \code{tabyl} lists).}
 
-\item{where}{one of "row", "col", or \code{c("row", "col")}}
+\item{where}{One of "row", "col", or \code{c("row", "col")}}
 
-\item{fill}{if there are non-numeric columns, what should fill the bottom row of those columns? If a string, relevant columns will be coerced to character. If \code{NA} then column types are preserved.}
+\item{fill}{If there are non-numeric columns, what should fill the bottom row
+of those columns? If a string, relevant columns will be coerced to character.
+If \code{NA} then column types are preserved.}
 
-\item{na.rm}{should missing values (including NaN) be omitted from the calculations?}
+\item{na.rm}{Should missing values (including \code{NaN}) be omitted from the calculations?}
 
-\item{name}{name of the totals row and/or column.  If both are created, and \code{name} is a single string, that name is applied to both. If both are created and \code{name} is a vector of length 2, the first element of the vector will be used as the row name (in column 1), and the second element will be used as the totals column name. Defaults to "Total".}
+\item{name}{Name of the totals row and/or column.  If both are created, and
+\code{name} is a single string, that name is applied to both. If both are created
+and \code{name} is a vector of length 2, the first element of the vector will be
+used as the row name (in column 1), and the second element will be used as the
+totals column name. Defaults to "Total".}
 
-\item{...}{columns to total.  This takes a tidyselect specification.  By default, all numeric columns (besides the initial column, if numeric) are included in the totals, but this allows you to manually specify which columns should be included, for use on a data.frame that does not result from a call to \code{tabyl}.}
+\item{...}{Columns to total.  This takes a tidyselect specification. By default,
+all numeric columns (besides the initial column, if numeric) are included in
+the totals, but this allows you to manually specify which columns should be
+included, for use on a data.frame that does not result from a call to \code{tabyl}.}
 }
 \value{
-a data.frame augmented with a totals row, column, or both.  The data.frame is now also of class \code{tabyl} and stores information about the attached totals and underlying data in the tabyl attributes.
+A \code{data.frame} augmented with a totals row, column, or both.
+The \code{data.frame} is now also of class \code{tabyl} and stores information about
+the attached totals and underlying data in the tabyl attributes.
 }
 \description{
-This function defaults to excluding the first column of the input data.frame, assuming that it contains a descriptive variable, but this can be overridden by specifying the columns to be totaled in the \code{...} argument.  Non-numeric columns are converted to character class and have a user-specified fill character inserted in the totals row.
+This function defaults to excluding the first column of the input data.frame,
+assuming that it contains a descriptive variable, but this can be overridden
+by specifying the columns to be totaled in the \code{...} argument. Non-numeric
+columns are converted to character class and have a user-specified fill character
+inserted in the totals row.
 }
 \examples{
 mtcars \%>\%

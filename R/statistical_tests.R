@@ -55,7 +55,8 @@ chisq.test.default <- function(x, y = NULL, ...) {
 
 #' @rdname chisq.test
 #' @method chisq.test tabyl
-#' @param tabyl_results if TRUE and x is a tabyl object, also return `observed`, `expected`, `residuals` and `stdres` as tabyl
+#' @param tabyl_results If `TRUE` and `x` is a tabyl object, 
+#'   also return `observed`, `expected`, `residuals` and `stdres` as tabyl.
 #' @export
 
 chisq.test.tabyl <- function(x, tabyl_results = TRUE, ...) {
