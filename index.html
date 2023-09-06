@@ -96,11 +96,11 @@
 </h1></div>
 <blockquote>
 <p>Data scientists, according to interviews and expert estimates, spend from 50 percent to 80 percent of their time mired in this more mundane labor of collecting and preparing unruly digital data, before it can be explored for useful nuggets.</p>
-<p>– “<a href="https://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html" class="external-link">For Big-Data Scientists, ‘Janitor Work’ Is Key Hurdle to Insight”</a> <em>(New York Times, 2014)</em></p>
+<p>– <a href="https://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html" class="external-link">“For Big-Data Scientists, ‘Janitor Work’ Is Key Hurdle to Insight”</a> <em>(New York Times, 2014)</em></p>
 </blockquote>
 <hr>
-<p><a href="https://travis-ci.org/sfirke/janitor" class="external-link"><img src="https://travis-ci.org/sfirke/janitor.svg?branch=main" alt="Travis-CI Build Status"></a> <a href="https://codecov.io/github/sfirke/janitor?branch=main" class="external-link"><img src="https://img.shields.io/codecov/c/github/sfirke/janitor/main.svg" alt="Coverage Status"></a> <a href="https://lifecycle.r-lib.org/articles/stages.html#stable" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="lifecycle"></a> <a href="https://cran.r-project.org/package=janitor" class="external-link"><img src="https://www.r-pkg.org/badges/version-ago/janitor" alt="CRAN_Status_Badge"></a> <img src="https://cranlogs.r-pkg.org/badges/janitor" alt="!Monthly Downloads"><img src="https://cranlogs.r-pkg.org/badges/grand-total/janitor" alt="!Downloads"></p>
-<p><strong>janitor</strong> has simple functions for examining and cleaning dirty data. It was built with beginning and intermediate R users in mind and is optimized for user-friendliness. Advanced R users can already do everything covered here, but with janitor they can do it faster and save their thinking for the fun stuff.</p>
+<!-- badges: start -->
+<p><strong>janitor</strong> has simple functions for examining and cleaning dirty data. It was built with beginning and intermediate R users in mind and is optimized for user-friendliness. Advanced R users can perform many of these tasks already, but with janitor they can do it faster and save their thinking for the fun stuff.</p>
 <p>The main janitor functions:</p>
 <ul>
 <li>perfectly format data.frame column names;</li>
@@ -108,25 +108,25 @@
 <li>provide other tools for cleaning and examining data.frames.</li>
 </ul>
 <p>The tabulate-and-report functions approximate popular features of SPSS and Microsoft Excel.</p>
-<p>janitor is a <a href="https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html" class="external-link">#tidyverse</a>-oriented package. Specifically, it plays nicely with the <code>%&gt;%</code> pipe and is optimized for cleaning data brought in with the <a href="https://github.com/tidyverse/readr" class="external-link">readr</a> and <a href="https://github.com/tidyverse/readxl" class="external-link">readxl</a> packages.</p>
+<p>janitor is a <a href="https://cran.r-project.org/package=tidyverse/vignettes/manifesto.html" class="external-link">#tidyverse</a>-oriented package. Specifically, it plays nicely with the <code>%&gt;%</code> pipe and is optimized for cleaning data brought in with the <a href="https://github.com/tidyverse/readr" class="external-link">readr</a> and <a href="https://github.com/tidyverse/readxl" class="external-link">readxl</a> packages.</p>
 <div class="section level2">
-<h2 id="id_-getting-started">
-<i class="fa fa-cog" aria-hidden="true"></i> Getting Started<a class="anchor" aria-label="anchor" href="#id_-getting-started"></a>
+<h2 id="id_-installation">
+<i class="fa fa-cog" aria-hidden="true"></i> Installation<a class="anchor" aria-label="anchor" href="#id_-installation"></a>
 </h2>
 <p>You can install:</p>
 <ul>
-<li>
-<p>the most recent officially-released version from CRAN with</p>
+<li>the most recent officially-released version from CRAN with</li>
+</ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"janitor"</span><span class="op">)</span></span></code></pre></div>
-</li>
-<li>
-<p>the latest development version from GitHub with</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"sfirke/janitor"</span><span class="op">)</span></span></code></pre></div>
-</li>
+<ul>
+<li>the latest development version from GitHub with</li>
 </ul>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"sfirke/janitor"</span><span class="op">)</span></span>
+<span><span class="co"># or from r-universe</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"janitor"</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://sfirke.r-universe.dev"</span>, <span class="st">"https://cloud.r-project.org"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="using-janitor">Using janitor<a class="anchor" aria-label="anchor" href="#using-janitor"></a>
@@ -147,7 +147,10 @@
 </ul>
 <p>Here’s that data after being read in to R:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org" class="external-link">readxl</a></span><span class="op">)</span>; <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sfirke/janitor" class="external-link">janitor</a></span><span class="op">)</span>; <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>; <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://here.r-lib.org/" class="external-link">here</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org" class="external-link">readxl</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sfirke/janitor" class="external-link">janitor</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://here.r-lib.org/" class="external-link">here</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">roster_raw</span> <span class="op">&lt;-</span> <span class="fu">read_excel</span><span class="op">(</span><span class="fu">here</span><span class="op">(</span><span class="st">"dirty_data.xlsx"</span><span class="op">)</span><span class="op">)</span> <span class="co"># available at https://github.com/sfirke/janitor</span></span>
 <span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">roster_raw</span><span class="op">)</span></span>
@@ -167,9 +170,10 @@
 <p>Now, to clean it up, starting with the column names.</p>
 <p>Name cleaning comes in two flavors. <code><a href="reference/make_clean_names.html">make_clean_names()</a></code> operates on character vectors and can be used during data import:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">roster_raw_cleaner</span> <span class="op">&lt;-</span> <span class="fu">read_excel</span><span class="op">(</span><span class="fu">here</span><span class="op">(</span><span class="st">"dirty_data.xlsx"</span><span class="op">)</span>, </span>
-<span>                                 skip <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>                                 .name_repair <span class="op">=</span> <span class="va">make_clean_names</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">roster_raw_cleaner</span> <span class="op">&lt;-</span> <span class="fu">read_excel</span><span class="op">(</span><span class="fu">here</span><span class="op">(</span><span class="st">"dirty_data.xlsx"</span><span class="op">)</span>,</span>
+<span>  skip <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  .name_repair <span class="op">=</span> <span class="va">make_clean_names</span></span>
+<span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">roster_raw_cleaner</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 13</span></span>
 <span><span class="co">#&gt; Columns: 11</span></span>
@@ -193,10 +197,14 @@
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">roster</span> <span class="op">&lt;-</span> <span class="va">roster_raw</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="reference/remove_empty.html">remove_empty</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rows"</span>, <span class="st">"cols"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="reference/remove_constant.html">remove_constant</a></span><span class="op">(</span>na.rm <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="co"># remove the column of all "Yes" values </span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>hire_date <span class="op">=</span> <span class="fu"><a href="reference/convert_to_date.html">convert_to_date</a></span><span class="op">(</span><span class="va">hire_date</span>, <span class="co"># handle the mixed-format dates</span></span>
-<span>                                     character_fun <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="va"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">mdy</a></span><span class="op">)</span>,</span>
-<span>         cert <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/coalesce.html" class="external-link">coalesce</a></span><span class="op">(</span><span class="va">certification</span>, <span class="va">certification_2</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="reference/remove_constant.html">remove_constant</a></span><span class="op">(</span>na.rm <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="co"># remove the column of all "Yes" values</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    hire_date <span class="op">=</span> <span class="fu"><a href="reference/convert_to_date.html">convert_to_date</a></span><span class="op">(</span></span>
+<span>      <span class="va">hire_date</span>, <span class="co"># handle the mixed-format dates</span></span>
+<span>      character_fun <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="va"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">mdy</a></span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    cert <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/coalesce.html" class="external-link">coalesce</a></span><span class="op">(</span><span class="va">certification</span>, <span class="va">certification_2</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">certification</span>, <span class="op">-</span><span class="va">certification_2</span><span class="op">)</span> <span class="co"># drop unwanted columns</span></span>
 <span><span class="co">#&gt; Removing 1 constant columns of 10 columns total (Removed: active).</span></span>
 <span></span>
@@ -241,10 +249,11 @@
 <p>A variable (or combinations of two or three variables) can be tabulated with <code><a href="reference/tabyl.html">tabyl()</a></code>. The resulting data.frame can be tweaked and formatted with the suite of <code>adorn_</code> functions for quick analysis and printing of pretty results in a report. <code>adorn_</code> functions can be helpful with non-tabyls, too.</p>
 </div>
 <div class="section level4">
-<h4 id="tabyl">tabyl()<a class="anchor" aria-label="anchor" href="#tabyl"></a>
+<h4 id="tabyl">
+<code>tabyl()</code><a class="anchor" aria-label="anchor" href="#tabyl"></a>
 </h4>
 <p>Like <code><a href="https://rdrr.io/r/base/table.html" class="external-link">table()</a></code>, but pipe-able, data.frame-based, and fully featured.</p>
-<p><code>tabyl</code> can be called two ways:</p>
+<p><code><a href="reference/tabyl.html">tabyl()</a></code> can be called two ways:</p>
 <ul>
 <li>On a vector, when tabulating a single variable: <code>tabyl(roster$subject)</code>
 </li>
@@ -294,7 +303,10 @@
 <span><span class="co">#&gt;  full_time Chemistry Drafting English Music PE Physics Science NA_</span></span>
 <span><span class="co">#&gt;         No         0        0       2     0  0       0       1   0</span></span>
 <span><span class="co">#&gt;        Yes         1        1       0     1  1       1       0   1</span></span></code></pre></div>
-<p><strong>Adorning tabyls</strong></p>
+</div>
+<div class="section level4">
+<h4 id="adorning-tabyls">Adorning tabyls<a class="anchor" aria-label="anchor" href="#adorning-tabyls"></a>
+</h4>
 <p>The <code>adorn_</code> functions dress up the results of these tabulation calls for fast, basic reporting. Here are some of the functions that augment a summary table for reporting:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">roster</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
@@ -316,7 +328,7 @@
 </div>
 <div class="section level2">
 <h2 id="id_-contact-me">
-<i class="fa fa-bullhorn" aria-hidden="true"></i> Contact Me<a class="anchor" aria-label="anchor" href="#id_-contact-me"></a>
+<i class="fa fa-bullhorn" aria-hidden="true"></i> Contact me<a class="anchor" aria-label="anchor" href="#id_-contact-me"></a>
 </h2>
 <p>You are welcome to:</p>
 <ul>
@@ -368,7 +380,15 @@
 </ul>
 </div>
 
-
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/sfirke/janitor/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/sfirke/janitor/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://app.codecov.io/github/sfirke/janitor?branch=main" class="external-link"><img src="https://img.shields.io/codecov/c/github/sfirke/janitor/main.svg" alt="Coverage Status"></a></li>
+<li><a href="https://lifecycle.r-lib.org/articles/stages.html#stable" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="lifecycle"></a></li>
+<li><a href="https://cran.r-project.org/package=janitor" class="external-link"><img src="https://www.r-pkg.org/badges/version-ago/janitor" alt="CRAN_Status_Badge"></a></li>
+</ul>
+</div>
 
   </aside>
 </div>
