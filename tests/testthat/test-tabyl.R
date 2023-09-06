@@ -343,6 +343,18 @@ test_that("NA levels get moved to the last column in the data.frame, are suppres
   }
 })
 
+test_that("tabyl fill 0s with show_missing_levels = FALSE", {
+  res <- x %>% tabyl(a, b, show_missing_levels = FALSE)
+  got <- data.frame(a = c(1, 2, NA), down = c(3L, 0L, 1L), up = c(1L, 3L, 0L), NA_ = c(1L, 0L, 1L)) %>%
+    structure(
+      class = c("tabyl", "data.frame"),
+      core = data.frame(a = c(1, 2, NA), down = c(3L, 0L, 1L), up = c(1L, 3L, 0L), NA_ = c(1L, 0L, 1L)),
+      tabyl_type = "two_way",
+      var_names = list(row = "a", col = "b")
+    )
+  expect_equal(res, got)
+})
+
 test_that("zero-row and fully-NA inputs are handled", {
   zero_vec <- character(0)
   expect_equal(nrow(tabyl(zero_vec)), 0)
