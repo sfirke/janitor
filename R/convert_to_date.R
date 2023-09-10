@@ -111,7 +111,7 @@ convert_to_datetime_helper.Date <- function(x, ..., tz = "UTC", out_class = c("P
   ret
 }
 
-convert_to_datetime_helper.character <- function(x, ..., tz = "UTC", character_fun = lubridate::ymd_hms, string_conversion_failure = c("error", "warning"), out_class = c("POSIXct", "Date")) {
+convert_to_datetime_helper.character <- function(x, ..., tz = "UTC", character_fun = lubridate::ymd_hms, string_conversion_failure = c("error", "warning"), out_class = c("POSIXct", "Date"), error_call = rlang::caller_env()) {
   string_conversion_failure <- match.arg(string_conversion_failure)
   out_class <- match.arg(out_class)
   mask_na <- is.na(x)
@@ -133,35 +133,26 @@ convert_to_datetime_helper.character <- function(x, ..., tz = "UTC", character_f
         character_fun(x[mask_character], ...)
       }
     if (!(out_class %in% class(characters_converted))) {
-      stop(
-        "`character_fun(x)` must return class ", out_class,
-        "; the returned class was: ", paste(class(characters_converted), collapse = ", ")
-      )
+      cli::cli_abort(c(
+        x = "`character_fun(x)` must return class {out_class}",
+        "The returned class was: {.obj_type_friendly {characters_converted}}"
+      ),
+      call = error_call)
     }
     ret[mask_character] <- characters_converted
-    if (any(is.na(ret[mask_character]))) {
+    if (anyNA(ret[mask_character])) {
       not_converted_values <- unique(x[mask_character & is.na(ret)])
-      # Don't provide too many error values
-      if (length(not_converted_values) > 10) {
-        not_converted_values <-
-          paste(
-            paste0('"', not_converted_values[1:9], '"', collapse = ", "),
-            "... and", length(not_converted_values) - 9, "other values."
-          )
-      } else {
-        not_converted_values <-
-          paste0('"', not_converted_values, '"', collapse = ", ")
-      }
+      n_not_converted <- length(not_converted_values)
+      # Let cli print which values were not converted.
       not_converted_message <-
-        paste0(
-          "Not all character strings converted to class ", out_class,
-          ".  Values not converted were: ",
-          not_converted_values
+        c(
+          "Not all character strings converted to class {.cls {out_class}}.",
+          i = "{n_not_converted} value{?s} not converted: {.val {not_converted_values}}"
         )
       if (string_conversion_failure %in% "error") {
-        stop(not_converted_message)
+        cli::cli_abort(not_converted_message, call = error_call)
       } else {
-        warning(not_converted_message)
+        cli::cli_warn(not_converted_message)
       }
     }
   }

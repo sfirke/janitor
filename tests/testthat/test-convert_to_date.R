@@ -103,25 +103,19 @@ test_that("convert_date warnings and errors work", {
   expect_warning(
     expect_error(
       convert_to_date("A"),
-      regexp = "Not all character strings converted to class Date."
+      regexp = "Not all character strings converted to class .+Date"
     ),
     regexp = "All formats failed to parse." # lubridate warning
   )
   expect_warning(
     expect_error(
       convert_to_date(LETTERS),
-      regexp = "Not all character strings converted to class Date.*17 other values",
+      regexp = "Not all character strings converted to class .+Date",
       info = "Confirm the 'other values' when there are many values not converted."
     ),
     regexp = "All formats failed to parse." # lubridate warning
   )
-  expect_warning(
-    expect_error(
-      convert_to_date(LETTERS),
-      regexp = "Not all character strings converted to class Date."
-    ),
-    regexp = "All formats failed to parse." # lubridate warning
-  )
+  
   expect_warning(
     expect_warning(
       expect_equal(
@@ -130,7 +124,7 @@ test_that("convert_date warnings and errors work", {
       ),
       regexp = "All formats failed to parse. No formats found."
     ),
-    regexp = "Not all character strings converted to class Date."
+    regexp = "Not all character strings converted to class.+Date."
   )
   expect_error(
     convert_to_date("A", character_fun = function(x) 1),
