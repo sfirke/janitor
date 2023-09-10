@@ -115,7 +115,7 @@ test_that("convert_date warnings and errors work", {
     ),
     regexp = "All formats failed to parse." # lubridate warning
   )
-  
+
   expect_warning(
     expect_warning(
       expect_equal(
