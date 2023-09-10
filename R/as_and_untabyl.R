@@ -52,7 +52,7 @@ as_tabyl <- function(dat, axes = 2, row_var_name = NULL, col_var_name = NULL) {
   }
 
   # assign core attribute and classes
-  if ("tabyl" %in% class(dat)) {
+  if (inherits(dat, "tabyl")) {
     # if already a tabyl, may have totals row.  Safest play is to simply reorder the core rows to match the dat rows
     attr(dat, "core") <- attr(dat, "core")[order(match(
       attr(dat, "core")[, 1],
@@ -101,7 +101,7 @@ untabyl <- function(dat) {
   if (is.list(dat) && !is.data.frame(dat)) {
     purrr::map(dat, untabyl)
   } else {
-    if (!"tabyl" %in% class(dat)) {
+    if (!inherits(dat, "tabyl")) {
       warning("untabyl() called on a non-tabyl")
     }
     class(dat) <- class(dat)[!class(dat) %in% "tabyl"]

@@ -33,16 +33,16 @@ adorn_title <- function(dat, placement = "top", row_name, col_name) {
     if (!is.data.frame(dat)) {
       stop("\"dat\" must be a data.frame")
     }
-    if (!placement %in% c("top", "combined")) {
-      stop("\"placement\" must be one of \"top\" or \"combined\"")
-    }
-    if ("tabyl" %in% class(dat)) {
+    
+    rlang::arg_match0(placement, c("top", "combined"))
+    
+    if (inherits(dat, "tabyl")) {
       if (attr(dat, "tabyl_type") == "one_way") {
         warning("adorn_title is meant for two-way tabyls, calling it on a one-way tabyl may not yield a meaningful result")
       }
     }
     if (missing(col_name)) {
-      if (!"tabyl" %in% class(dat)) {
+      if (!inherits(dat, "tabyl")) {
         stop("When input is not a data.frame of class tabyl, a value must be specified for the col_name argument")
       }
       col_var <- attr(dat, "var_names")$col
@@ -60,7 +60,7 @@ adorn_title <- function(dat, placement = "top", row_name, col_name) {
       names(dat)[1] <- row_name
       row_var <- row_name
     } else {
-      if ("tabyl" %in% class(dat)) {
+      if (inherits(dat, "tabyl")) {
         row_var <- attr(dat, "var_names")$row
       } else {
         row_var <- names(dat)[1] # for non-tabyl input, if no row_name supplied, use first existing name
@@ -82,7 +82,7 @@ adorn_title <- function(dat, placement = "top", row_name, col_name) {
       out <- dat
       names(out)[1] <- paste(row_var, col_var, sep = "/")
     }
-    if ("tbl_df" %in% class(out)) { # "top" text doesn't print if input (and thus the output) is a tibble
+    if (inherits(out, "tbl_df")) { # "top" text doesn't print if input (and thus the output) is a tibble
       out <- as.data.frame(out) # but this prints row numbers, so don't apply to non-tbl_dfs like tabyls
     }
     out

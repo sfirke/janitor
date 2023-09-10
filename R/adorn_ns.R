@@ -61,9 +61,9 @@ adorn_ns <- function(dat, position = "rear", ns = attr(dat, "core"), format_func
     if (!is.data.frame(dat)) {
       stop("adorn_ns() must be called on a data.frame or list of data.frames")
     }
-    if (!position %in% c("rear", "front")) {
-      stop("\"position\" must be one of \"front\" or \"rear\"")
-    }
+    
+    rlang::arg_match0(position, c("front", "rear"))
+    
     if (is.null(ns)) {
       stop("argument \"ns\" cannot be null; if not calling adorn_ns() on a data.frame of class \"tabyl\", pass your own value for ns")
     }
