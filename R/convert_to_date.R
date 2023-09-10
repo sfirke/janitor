@@ -133,11 +133,13 @@ convert_to_datetime_helper.character <- function(x, ..., tz = "UTC", character_f
         character_fun(x[mask_character], ...)
       }
     if (!(out_class %in% class(characters_converted))) {
-      cli::cli_abort(c(
-        x = "`character_fun(x)` must return class {out_class}",
-        "The returned class was: {.obj_type_friendly {characters_converted}}"
-      ),
-      call = error_call)
+      cli::cli_abort(
+        c(
+          x = "`character_fun(x)` must return class {out_class}",
+          "The returned class was: {.obj_type_friendly {characters_converted}}"
+        ),
+        call = error_call
+      )
     }
     ret[mask_character] <- characters_converted
     if (anyNA(ret[mask_character])) {
