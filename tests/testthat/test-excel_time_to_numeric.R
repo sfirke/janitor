@@ -52,6 +52,11 @@ test_that("excel_time_to_numeric, character strings of numbers work as expected"
     excel_time_to_numeric("0.00001", round_seconds=FALSE),
     0.00001*86400
   )
+  # Confirm scientific notation values
+  expect_equal(
+    excel_time_to_numeric("2.9166666666666664E-2", round_seconds=TRUE),
+    2520
+  )
 })
 
 test_that("excel_time_to_numeric, am/pm times work", {

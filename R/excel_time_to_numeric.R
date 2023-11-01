@@ -1,8 +1,8 @@
 #' Convert a time that may be inconsistently or inconveniently formatted from
 #' Microsoft Excel to a numeric number of seconds within a day.
-#' 
+#'
 #' @details
-#' 
+#'
 #' \code{time_value} may be one of the following formats:
 #' \itemize{
 #'   \item{numeric}{The input must be a value from 0 to 1 (exclusive of 1); this value is returned as-is.}
@@ -80,6 +80,9 @@ excel_time_to_numeric.character <- function(time_value, round_seconds=TRUE) {
   patterns <-
     list(
       number="^0(\\.[0-9]*)?$",
+      # SI numbers have to have the form [number]E-[number] becasue the number
+      # has to be between 0 and 1 and can't be bigger than 1.
+      si_number="^[1-9](\\.[0-9]*)?E-[0-9]+$",
       "12hr"="^([0]?[1-9]|1[0-2]):([0-5][0-9])(?::([0-5][0-9]))? ?([AP]M)$",
       "24hr"="^([0-1]?[0-9]|2[0-3]):([0-5][0-9])(?::([0-5][0-9]))?$",
       # The ".*?" at the end of POSIX is to allow for a time zone, but it allows
@@ -89,7 +92,9 @@ excel_time_to_numeric.character <- function(time_value, round_seconds=TRUE) {
       POSIX="1899-12-31 (?:([0-1]?[0-9]|2[0-3]):([0-5][0-9])(?::([0-5][0-9]))?)?.*?$"
     )
   mask_na <- is.na(time_value)
-  mask_number <- grepl(pattern=patterns$number, x=time_value)
+  mask_number <-
+    grepl(pattern=patterns$number, x=time_value) |
+    grepl(pattern=patterns$si_number, x=time_value)
   mask_POSIX <- grepl(pattern=patterns[["POSIX"]], x=time_value)
   mask_12hr <- grepl(pattern=patterns[["12hr"]], x=time_value, ignore.case=TRUE)
   mask_24hr <- grepl(pattern=patterns[["24hr"]], x=time_value)
@@ -149,7 +154,7 @@ excel_time_to_numeric.character <- function(time_value, round_seconds=TRUE) {
     hours[hours %in% ""] <- "0"
     minutes[minutes %in% ""] <- "0"
     seconds[seconds %in% ""] <- "0"
-    
+
     ret[mask_clock] <-
       as.numeric(hours[mask_clock]) * 3600 +
       as.numeric(minutes[mask_clock]) * 60 +
