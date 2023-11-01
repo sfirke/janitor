@@ -1,10 +1,3 @@
-# Tests the adorn_percentages() function
-
-library(janitor)
-context("adorn_pct_formatting()")
-
-library(dplyr)
-
 source1 <- mtcars %>%
   tabyl(cyl, am) %>%
   adorn_percentages()
@@ -164,25 +157,40 @@ test_that("tidyselecting works", {
     third_wave = c(3, 3, 3),
     size = c("small", "medium", "large"),
     stringsAsFactors = FALSE
-  )  %>%
+  ) %>%
     adorn_percentages()
-  
+
   two_cols <- target %>%
-    adorn_pct_formatting(,,,first_wave:second_wave)
+    adorn_pct_formatting(, , , first_wave:second_wave)
   expect_equal(two_cols$first_wave, c("12.5%", "20.0%", "25.0%"))
-  expect_equal(two_cols$third_wave, c(3/8, 3/10, 3/12))
-  
+  expect_equal(two_cols$third_wave, c(3 / 8, 3 / 10, 3 / 12))
+
   expect_message(
     target %>%
-      adorn_pct_formatting(,,,third_wave:size),
+      adorn_pct_formatting(, , , third_wave:size),
     "At least one non-numeric column was specified and will not be modified."
   )
   # correct behavior occurs when text columns are skipped
-  text_skipped <- target %>%
-    adorn_pct_formatting(.,,,,c(first_wave, size))
-  
-  expect_equal(text_skipped$first_wave, c("12.5%", "20.0%", "25.0%"))
-  expect_equivalent(text_skipped %>% select(-first_wave),
-                    target %>% select(-first_wave)
+  expect_message(
+    text_skipped <- target %>%
+      adorn_pct_formatting(., , , , c(first_wave, size)),
+    "At least one non-numeric column was specified and will not be modified."
   )
+
+  expect_equal(text_skipped$first_wave, c("12.5%", "20.0%", "25.0%"))
+  expect_equal(
+    text_skipped %>% dplyr::select(-first_wave),
+    target %>% dplyr::select(-first_wave),
+    ignore_attr = TRUE
+  )
+})
+
+test_that("decimal.mark works", {
+  locale_decimal_sep <- getOption("OutDec") # not sure if it's necessary to save and restore this,
+  # but seems safe for locale-independent testing processes
+  options(OutDec = ",")
+  expect_true(
+    all(grepl(",", unlist(adorn_pct_formatting(source1)[2])))
+  )
+  options(OutDec = locale_decimal_sep)
 })

@@ -1,6 +1,4 @@
-context("signif_half_up")
-
-test_that("signif_half_up results are as expected" , {
+test_that("signif_half_up results are as expected", {
   # scalars
   expect_equal(
     signif_half_up(x = 12.5, digits = 2),

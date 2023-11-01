@@ -1,41 +1,44 @@
 #' Elevate a row to be the column names of a data.frame.
 #'
 #' @param dat The input data.frame
-#' @param row_number The row of \code{dat} containing the variable names or the
-#'   string \code{"find_header"} to use \code{find_header(dat=dat, ...)} to find
-#'   the row_number.
-#' @param ... Sent to \code{find_header()}, if
-#'   \code{row_number = "find_header"}.  Otherwise, ignored.
-#' @param remove_row Should the row \code{row_number} be removed from the
+#' @param row_number The row(s) of `dat` containing the variable names or the
+#'   string `"find_header"` to use `find_header(dat=dat, ...)` to find
+#'   the row_number. Allows for multiple rows input as a numeric vector. NA's are
+#'   ignored, and if a column contains only NA value it will be named `"NA"`.
+#' @param ... Sent to `find_header()`, if
+#'   `row_number = "find_header"`.  Otherwise, ignored.
+#' @param remove_row Should the row `row_number` be removed from the
 #'   resulting data.frame?
-#' @param remove_rows_above If \code{row_number != 1}, should the rows above
-#'   \code{row_number} - that is, between \code{1:(row_number-1)} - be removed
+#' @param remove_rows_above If `row_number != 1`, should the rows above
+#'   `row_number` - that is, between `1:(row_number-1)` - be removed
 #'   from the resulting data.frame?
+#' @param sep A character string to separate the values in the case of multiple
+#'   rows input to `row_number`.
 #' @return A data.frame with new names (and some rows removed, if specified)
 #' @family Set names
 #' @examples
-#' x <- data.frame(X_1 = c(NA, "Title", 1:3),
-#'                 X_2 = c(NA, "Title2", 4:6))
+#' x <- data.frame(
+#'   X_1 = c(NA, "Title", 1:3),
+#'   X_2 = c(NA, "Title2", 4:6)
+#' )
 #' x %>%
 #'   row_to_names(row_number = 2)
 #'
 #' x %>%
 #'   row_to_names(row_number = "find_header")
 #' @export
-row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_above = TRUE) {
+row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_above = TRUE, sep = "_") {
   # Check inputs
   if (!(is.logical(remove_row) & length(remove_row) == 1)) {
     stop("remove_row must be either TRUE or FALSE, not ", as.character(remove_row))
   } else if (!(is.logical(remove_rows_above) & length(remove_rows_above) == 1)) {
     stop("remove_rows_above must be either TRUE or FALSE, not ", as.character(remove_rows_above))
-  } else if (length(row_number) != 1) {
-    stop("row_number must be a scalar")
   }
-  if (row_number %in% "find_header") {
+  if (identical(row_number, "find_header")) {
     # no need to check if it is a character string, %in% will do that for us
     # (and will handle the odd-ball cases like someone sending in
     # factor("find_header")).
-    row_number <- find_header(dat=dat, ...)
+    row_number <- find_header(dat = dat, ...)
   } else if (is.numeric(row_number)) {
     extra_args <- list(...)
     if (length(extra_args) != 0) {
@@ -44,11 +47,22 @@ row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_ab
   } else {
     stop("row_number must be a numeric value or 'find_header'")
   }
-  new_names <- as.character(unlist(dat[row_number, ], use.names = FALSE))
+  if (!is.character(sep)) {
+    stop("`sep` must be of type `character`.")
+  }
+  if (length(sep) != 1) {
+    stop("`sep` must be of length 1.")
+  }
+  if (is.na(sep)) {
+    stop("`sep` can't be of type `NA_character_`.")
+  }
+  new_names <- sapply(dat[row_number, , drop = FALSE], paste_skip_na, collapse = sep) %>%
+    stringr::str_replace_na()
+
   if (any(duplicated(new_names))) {
     rlang::warn(
-      message=paste("Row", row_number, "does not provide unique names. Consider running clean_names() after row_to_names()."),
-      class="janitor_warn_row_to_names_not_unique"
+      message = paste("Row", row_number, "does not provide unique names. Consider running clean_names() after row_to_names()."),
+      class = "janitor_warn_row_to_names_not_unique"
     )
   }
   colnames(dat) <- new_names
@@ -59,7 +73,7 @@ row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_ab
       c()
     },
     if (remove_rows_above) {
-      seq_len(row_number - 1)
+      seq_len(max(row_number) - 1)
     } else {
       c()
     }
@@ -72,31 +86,32 @@ row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_ab
 }
 
 #' Find the header row in a data.frame
-#' 
+#'
 #' @details
-#' If \code{...} is missing, then the first row with no missing values is used.
-#' 
+#' If `...` is missing, then the first row with no missing values is used.
+#'
 #' When searching for a specified value or value within a column, the first row
 #' with a match will be returned, regardless of the completeness of the rest of
-#' that row.  If \code{...} has a single character argument, then the first
-#' column is searched for that value.  If \code{...} has a named numeric
-#' argument, then the value of the argument is searched for the name (see the
-#' examples).  If more than one row is found matching a value that is searched
-#' for, the first matching row will be returned (with a warning).
-#' 
+#' that row.  If `...` has a single character argument, then the first
+#' column is searched for that value.  If `...` has a named numeric
+#' argument, then the column whose position number matches the value of that
+#' argument is searched for the name (see the last example below).  If more than one
+#' row is found matching a value that is searched for, the number of the first
+#' matching row will be returned (with a warning).
+#'
 #' @inheritParams row_to_names
 #' @param ... See details
 #' @return The row number for the header row
 #' @family Set names
 #' @examples
 #' # the first row
-#' find_header(data.frame(A="B"))
+#' find_header(data.frame(A = "B"))
 #' # the second row
-#' find_header(data.frame(A=c(NA, "B")))
+#' find_header(data.frame(A = c(NA, "B")))
 #' # the second row since the first has an empty value
-#' find_header(data.frame(A=c(NA, "B"), B=c("C", "D")))
+#' find_header(data.frame(A = c(NA, "B"), B = c("C", "D")))
 #' # The third row because the second column was searched for the text "E"
-#' find_header(data.frame(A=c(NA, "B", "C", "D"), B=c("C", "D", "E", "F")), "E"=2)
+#' find_header(data.frame(A = c(NA, "B", "C", "D"), B = c("C", "D", "E", "F")), "E" = 2)
 #' @export
 find_header <- function(dat, ...) {
   extra_args <- list(...)
@@ -124,12 +139,12 @@ find_header <- function(dat, ...) {
       ))
     } else if (length(ret) > 1) {
       rlang::warn(
-        message=
+        message =
           sprintf(
             "The string '%s' was found %g times in column %g, using the first row where it was found",
             string_to_search, length(ret), column_to_search
           ),
-        class="janitor_warn_find_header_not_unique"
+        class = "janitor_warn_find_header_not_unique"
       )
       ret <- ret[1]
     }

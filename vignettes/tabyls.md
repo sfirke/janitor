@@ -1,6 +1,6 @@
 tabyls: a tidy, fully-featured approach to counting things
 ================
-2020-12-28
+2023-02-03
 
 ## Motivation: why tabyl?
 
@@ -8,12 +8,12 @@ Analysts do a lot of counting. Indeed, it’s been said that “data science
 is mostly counting things.” But the base R function for counting,
 `table()`, leaves much to be desired:
 
-  - It doesn’t accept data.frame inputs (and thus doesn’t play nicely
-    with the `%>%` pipe)
-  - It doesn’t output data.frames
-  - Its results are hard to format. Compare the look and formatting
-    choices of an R table to a Microsoft Excel PivotTable or even the
-    table formatting provided by SPSS.
+- It doesn’t accept data.frame inputs (and thus doesn’t play nicely with
+  the `%>%` pipe)
+- It doesn’t output data.frames
+- Its results are hard to format. Compare the look and formatting
+  choices of an R table to a Microsoft Excel PivotTable or even the
+  table formatting provided by SPSS.
 
 `tabyl()` is an approach to tabulating variables that addresses these
 shortcomings. It’s part of the janitor package because counting is such
@@ -203,17 +203,17 @@ first line to `humans %>% tabyl(eye_color, skin_color, gender`), they
 don’t have to rewrite the subsequent adornment calls to use `map()`.
 
 However, if feels more natural to call these with `map()` or `lapply()`,
-that is still supported. For instance, `t3 %>%
-lapply(adorn_percentages)` would produce the same result as `t3 %>%
-adorn_percentages`.
+that is still supported. For instance,
+`t3 %>% lapply(adorn_percentages)` would produce the same result as
+`t3 %>% adorn_percentages`.
 
 ### Other features of tabyls
 
-  - When called on a factor, `tabyl` will show missing levels (levels
-    not present in the data) in the result
-      - This can be suppressed if not desired
-  - `NA` values can be displayed or suppressed
-  - `tabyls` print without displaying row numbers
+- When called on a factor, `tabyl` will show missing levels (levels not
+  present in the data) in the result
+  - This can be suppressed if not desired
+- `NA` values can be displayed or suppressed
+- `tabyls` print without displaying row numbers
 
 You can call `chisq.test()` and `fisher.test()` on a two-way tabyl to
 perform those statistical tests, just like on a base R `table()` object.
@@ -236,39 +236,39 @@ humans %>%
   knitr::kable()
 ```
 
-| gender/eye\_color | blue     | blue-gray | brown    | dark   | hazel   | yellow | Total     |
-| :---------------- | :------- | :-------- | :------- | :----- | :------ | :----- | :-------- |
-| feminine          | 33% (3)  | 0% (0)    | 56% (5)  | 0% (0) | 11% (1) | 0% (0) | 100% (9)  |
-| masculine         | 35% (9)  | 4% (1)    | 46% (12) | 4% (1) | 4% (1)  | 8% (2) | 100% (26) |
-| Total             | 34% (12) | 3% (1)    | 49% (17) | 3% (1) | 6% (2)  | 6% (2) | 100% (35) |
+| gender/eye_color | blue     | blue-gray | brown    | dark   | hazel   | yellow | Total     |
+|:-----------------|:---------|:----------|:---------|:-------|:--------|:-------|:----------|
+| feminine         | 33% (3)  | 0% (0)    | 56% (5)  | 0% (0) | 11% (1) | 0% (0) | 100% (9)  |
+| masculine        | 35% (9)  | 4% (1)    | 46% (12) | 4% (1) | 4% (1)  | 8% (2) | 100% (26) |
+| Total            | 34% (12) | 3% (1)    | 49% (17) | 3% (1) | 6% (2)  | 6% (2) | 100% (35) |
 
 ### The adorn functions are:
 
-  - **`adorn_totals()`**: Add totals row, column, or both.
-  - **`adorn_percentages()`**: Calculate percentages along either axis
-    or over the entire tabyl
-  - **`adorn_pct_formatting()`**: Format percentage columns, controlling
-    the number of digits to display and whether to append the `%` symbol
-  - **`adorn_rounding()`**: Round a data.frame of numbers (usually the
-    result of `adorn_percentages`), either using the base R `round()`
-    function or using janitor’s `round_half_up()` to round all ties up
-    ([thanks,
-    StackOverflow](https://stackoverflow.com/a/12688836/4470365)).
-      - e.g., round 10.5 up to 11, consistent with Excel’s tie-breaking
-        behavior.
-          - This contrasts with rounding 10.5 down to 10 as in base R’s
-            `round(10.5)`.
-      - `adorn_rounding()` returns columns of class `numeric`, allowing
-        for graphing, sorting, etc. It’s a less-aggressive substitute
-        for `adorn_pct_formatting()`; these two functions should not be
-        called together.
-  - **`adorn_ns()`**: add Ns to a tabyl. These can be drawn from the
-    tabyl’s underlying counts, which are attached to the tabyl as
-    metadata, or they can be supplied by the user.
-  - **`adorn_title()`**: add a title to a tabyl (or other data.frame).
-    Options include putting the column title in a new row on top of the
-    data.frame or combining the row and column titles in the
-    data.frame’s first name slot.
+- **`adorn_totals()`**: Add totals row, column, or both.
+- **`adorn_percentages()`**: Calculate percentages along either axis or
+  over the entire tabyl
+- **`adorn_pct_formatting()`**: Format percentage columns, controlling
+  the number of digits to display and whether to append the `%` symbol
+- **`adorn_rounding()`**: Round a data.frame of numbers (usually the
+  result of `adorn_percentages`), either using the base R `round()`
+  function or using janitor’s `round_half_up()` to round all ties up
+  ([thanks,
+  StackOverflow](https://stackoverflow.com/a/12688836/4470365)).
+  - e.g., round 10.5 up to 11, consistent with Excel’s tie-breaking
+    behavior.
+    - This contrasts with rounding 10.5 down to 10 as in base R’s
+      `round(10.5)`.
+  - `adorn_rounding()` returns columns of class `numeric`, allowing for
+    graphing, sorting, etc. It’s a less-aggressive substitute for
+    `adorn_pct_formatting()`; these two functions should not be called
+    together.
+- **`adorn_ns()`**: add Ns to a tabyl. These can be drawn from the
+  tabyl’s underlying counts, which are attached to the tabyl as
+  metadata, or they can be supplied by the user.
+- **`adorn_title()`**: add a title to a tabyl (or other data.frame).
+  Options include putting the column title in a new row on top of the
+  data.frame or combining the row and column titles in the data.frame’s
+  first name slot.
 
 These adornments should be called in a logical order, e.g., you probably
 want to add totals before percentages are calculated. In general, call
@@ -277,9 +277,9 @@ them in the order they appear above.
 ## BYOt (Bring Your Own tabyl)
 
 You can also call `adorn_` functions on other data.frames, not only the
-results of calls to `tabyl()`. E.g., `mtcars %>% adorn_totals("col") %>%
-adorn_percentages("col")` performs as expected, despite `mtcars` not
-being a `tabyl`.
+results of calls to `tabyl()`. E.g.,
+`mtcars %>% adorn_totals("col") %>% adorn_percentages("col")` performs
+as expected, despite `mtcars` not being a `tabyl`.
 
 This can be handy when you have a data.frame that is not a simple
 tabulation generated by `tabyl` but would still benefit from the
@@ -295,7 +295,7 @@ percent_above_165_cm <- humans %>%
 
 percent_above_165_cm %>%
   adorn_pct_formatting()
-#> # A tibble: 2 x 2
+#> # A tibble: 2 × 2
 #>   gender    pct_above_165_cm
 #>   <chr>     <chr>           
 #> 1 feminine  12.5%           
@@ -353,14 +353,14 @@ grouped by two other variables, then use `adorn_` functions to round the
 values and append Ns. The first part is pretty straightforward:
 
 ``` r
-library(tidyr) # for spread()
+library(tidyr) # for pivot_wider()
 mpg_by_cyl_and_am <- mtcars %>%
   group_by(cyl, am) %>%
   summarise(mpg = mean(mpg), .groups = "drop") %>%
-  spread(am, mpg)
+  pivot_wider(names_from = am, values_from = mpg)
 
 mpg_by_cyl_and_am
-#> # A tibble: 3 x 3
+#> # A tibble: 3 × 3
 #>     cyl   `0`   `1`
 #>   <dbl> <dbl> <dbl>
 #> 1     4  22.9  28.1
@@ -400,7 +400,7 @@ raw_data <- data.frame(sex = rep(c("m", "f"), 3000),
 raw_data$agegroup = cut(raw_data$age, quantile(raw_data$age, c(0, 1/3, 2/3, 1)))
 
 comparison <- raw_data %>%
-  tabyl(agegroup, sex, show_missing_levels = F) %>%
+  tabyl(agegroup, sex, show_missing_levels = FALSE) %>%
   adorn_totals(c("row", "col")) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(digits = 1)
@@ -419,12 +419,12 @@ At this point, the Ns are unformatted:
 ``` r
 comparison %>%
   adorn_ns()
-#>  agegroup             f             m         Total
-#>    (1,34]  33.9% (1018)  32.3%  (970)  33.1% (1988)
-#>   (34,68]  33.0%  (990)  33.7% (1012)  33.4% (2002)
-#>  (68,102]  32.7%  (980)  33.3% (1000)  33.0% (1980)
-#>      <NA>   0.4%   (12)   0.6%   (18)   0.5%   (30)
-#>     Total 100.0% (3000) 100.0% (3000) 100.0% (6000)
+#>  agegroup              f              m          Total
+#>    (1,34]  33.9% (1,018)  32.3%   (970)  33.1% (1,988)
+#>   (34,68]  33.0%   (990)  33.7% (1,012)  33.4% (2,002)
+#>  (68,102]  32.7%   (980)  33.3% (1,000)  33.0% (1,980)
+#>      <NA>   0.4%    (12)   0.6%    (18)   0.5%    (30)
+#>     Total 100.0% (3,000) 100.0% (3,000) 100.0% (6,000)
 ```
 
 Now we format them to insert the thousands commas. A tabyl’s raw Ns are
@@ -435,7 +435,7 @@ Lastly, we append these Ns using `adorn_ns()`.
 ``` r
 formatted_ns <- attr(comparison, "core") %>% # extract the tabyl's underlying Ns
   adorn_totals(c("row", "col")) %>% # to match the data.frame we're appending to
-  dplyr::mutate_if(is.numeric, format, big.mark = ",")
+  dplyr::mutate(across(where(is.numeric), ~ format(.x, big.mark = ",")))
 
 comparison %>%
   adorn_ns(position = "rear", ns = formatted_ns)

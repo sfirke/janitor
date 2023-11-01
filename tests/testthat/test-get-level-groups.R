@@ -1,9 +1,5 @@
 # Tests the get_level_groups helper function called by top_levels()
 
-library(janitor)
-library(dplyr)
-context("get_level_groups")
-
 shorts <- factor(c("a", "b", "c", "d", "e", "f"), levels = rev(letters[1:6]))
 longs <- factor(c("aaaaaaaaaaaaaaaa", "bbbbbbbbbbbbbbbbb", "cccccccccccccccccccc", "dddddddddddddddd", NA, "hhhhhhhhhhhhhhhh", "bbbbbbbbbbbbbbbbb"), levels = c("dddddddddddddddd", "aaaaaaaaaaaaaaaa", "cccccccccccccccccccc", "bbbbbbbbbbbbbbbbb", "hhhhhhhhhhhhhhhh"))
 

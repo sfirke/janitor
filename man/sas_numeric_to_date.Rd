@@ -20,20 +20,20 @@ more information on timezones).}
 }
 \value{
 If a date and time or datetime are provided, a POSIXct object.  If a
-  date is provided, a Date object.  If a time is provided, an hms::hms object
+date is provided, a Date object.  If a time is provided, an hms::hms object
 }
 \description{
 Convert a SAS date, time or date/time to an R object
 }
 \examples{
-sas_numeric_to_date(date_num=15639) # 2002-10-26
-sas_numeric_to_date(datetime_num=1217083532, tz="UTC") # 1998-07-26T14:45:32Z
-sas_numeric_to_date(date_num=15639, time_num=3600, tz="UTC") # 2002-10-26T01:00:00Z
-sas_numeric_to_date(time_num=3600) # 01:00:00
+sas_numeric_to_date(date_num = 15639) # 2002-10-26
+sas_numeric_to_date(datetime_num = 1217083532, tz = "UTC") # 1998-07-26T14:45:32Z
+sas_numeric_to_date(date_num = 15639, time_num = 3600, tz = "UTC") # 2002-10-26T01:00:00Z
+sas_numeric_to_date(time_num = 3600) # 01:00:00
 }
 \references{
 SAS Date, Time, and Datetime Values reference (retrieved on
-  2022-03-08): https://v8doc.sas.com/sashtml/lrcon/zenid-63.htm
+2022-03-08): https://v8doc.sas.com/sashtml/lrcon/zenid-63.htm
 }
 \seealso{
 Other Date-time cleaning: 

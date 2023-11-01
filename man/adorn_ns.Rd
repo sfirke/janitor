@@ -4,14 +4,24 @@
 \alias{adorn_ns}
 \title{Add underlying Ns to a tabyl displaying percentages.}
 \usage{
-adorn_ns(dat, position = "rear", ns = attr(dat, "core"), ...)
+adorn_ns(
+  dat,
+  position = "rear",
+  ns = attr(dat, "core"),
+  format_func = function(x) {
+     format(x, big.mark = ",")
+ },
+  ...
+)
 }
 \arguments{
 \item{dat}{a data.frame of class \code{tabyl} that has had \code{adorn_percentages} and/or \code{adorn_pct_formatting} called on it.  If given a list of data.frames, this function will apply itself to each data.frame in the list (designed for 3-way \code{tabyl} lists).}
 
 \item{position}{should the N go in the front, or in the rear, of the percentage?}
 
-\item{ns}{the Ns to append.  The default is the "core" attribute of the input tabyl \code{dat}, where the original Ns of a two-way \code{tabyl} are stored.  However, if you need to modify the numbers, e.g., to format \code{4000} as \code{4,000} or \code{4k}, you can do that separately and supply the formatted result here.}
+\item{ns}{the Ns to append.  The default is the "core" attribute of the input tabyl \code{dat}, where the original Ns of a two-way \code{tabyl} are stored.  However, if your Ns are stored somewhere else, or you need to customize them beyond what can be done with \code{format_func}, you can supply them here.}
+
+\item{format_func}{a formatting function to run on the Ns.  Consider defining with \code{\link[base:format]{base::format()}}.}
 
 \item{...}{columns to adorn.  This takes a tidyselect specification.  By default, all columns are adorned except for the first column and columns not of class \code{numeric}, but this allows you to manually specify which columns should be adorned, for use on a data.frame that does not result from a call to \code{tabyl}.}
 }
@@ -22,15 +32,28 @@ a data.frame with Ns appended
 This function adds back the underlying Ns to a \code{tabyl} whose percentages were calculated using \code{adorn_percentages()}, to display the Ns and percentages together.  You can also call it on a non-tabyl data.frame to which you wish to append Ns.
 }
 \examples{
-
 mtcars \%>\%
   tabyl(am, cyl) \%>\%
   adorn_percentages("col") \%>\%
   adorn_pct_formatting() \%>\%
   adorn_ns(position = "front")
-  
+
+# Format the Ns with a custom format_func:
+set.seed(1)
+bigger_dat <- data.frame(
+  sex = rep(c("m", "f"), 3000),
+  age = round(runif(3000, 1, 102), 0)
+)
+bigger_dat$age_group <- cut(bigger_dat$age, quantile(bigger_dat$age, c(0, 1 / 3, 2 / 3, 1)))
+
+bigger_dat \%>\%
+  tabyl(age_group, sex, show_missing_levels = FALSE) \%>\%
+  adorn_totals(c("row", "col")) \%>\%
+  adorn_percentages("col") \%>\%
+  adorn_pct_formatting(digits = 1) \%>\%
+  adorn_ns(format_func = function(x) format(x, big.mark = ".", decimal.mark = ","))
 # Control the columns to be adorned with the ... variable selection argument
-# If using only the ... argument, you can use empty commas as shorthand 
+# If using only the ... argument, you can use empty commas as shorthand
 # to supply the default values to the preceding arguments:
 
 cases <- data.frame(
@@ -42,7 +65,7 @@ cases <- data.frame(
 
 cases \%>\%
  adorn_percentages("col",,recovered:died) \%>\%
- adorn_pct_formatting(,,,recovered:died) \%>\%
- adorn_ns(,,recovered:died)
-  
+ adorn_pct_formatting(,,,,,recovered:died) \%>\%
+ adorn_ns(,,,recovered:died)
+
 }

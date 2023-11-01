@@ -28,13 +28,13 @@
 #' @export
 #' @family Date-time cleaning
 #' @importFrom lubridate ymd
-convert_to_date <- function(x, ..., character_fun=lubridate::ymd, string_conversion_failure=c("error", "warning")) {
+convert_to_date <- function(x, ..., character_fun = lubridate::ymd, string_conversion_failure = c("error", "warning")) {
   string_conversion_failure <- match.arg(string_conversion_failure)
   convert_to_datetime_helper(
     x, ...,
-    character_fun=character_fun,
-    string_conversion_failure=string_conversion_failure,
-    out_class="Date"
+    character_fun = character_fun,
+    string_conversion_failure = string_conversion_failure,
+    out_class = "Date"
   )
 }
 
@@ -42,18 +42,18 @@ convert_to_date <- function(x, ..., character_fun=lubridate::ymd, string_convers
 #' @examples
 #' convert_to_datetime(
 #'   c("2009-07-06", "40000.1", "40000", NA),
-#'   character_fun=lubridate::ymd_h, truncated=1, tz="UTC"
+#'   character_fun = lubridate::ymd_h, truncated = 1, tz = "UTC"
 #' )
 #' @export
 #' @importFrom lubridate ymd_hms
-convert_to_datetime <- function(x, ..., tz="UTC", character_fun=lubridate::ymd_hms, string_conversion_failure=c("error", "warning")) {
+convert_to_datetime <- function(x, ..., tz = "UTC", character_fun = lubridate::ymd_hms, string_conversion_failure = c("error", "warning")) {
   string_conversion_failure <- match.arg(string_conversion_failure)
   convert_to_datetime_helper(
     x, ...,
-    tz=tz,
-    character_fun=character_fun,
-    string_conversion_failure=string_conversion_failure,
-    out_class="POSIXct"
+    tz = tz,
+    character_fun = character_fun,
+    string_conversion_failure = string_conversion_failure,
+    out_class = "POSIXct"
   )
 }
 
@@ -62,33 +62,34 @@ convert_to_datetime <- function(x, ..., tz="UTC", character_fun=lubridate::ymd_h
 #' @param out_class The class expected for output.
 #' @return An object of class `out_class`
 #' @noRd
-convert_to_datetime_helper <- function(x, ..., out_class=c("POSIXct", "Date"))
+convert_to_datetime_helper <- function(x, ..., out_class = c("POSIXct", "Date")) {
   UseMethod("convert_to_datetime_helper")
+}
 
 convert_to_datetime_helper.numeric <- function(x, ...,
-                                               date_system="modern",
-                                               include_time=NULL,
-                                               round_seconds=TRUE,
-                                               tz="UTC",
-                                               out_class=c("POSIXct", "Date")) {
+                                               date_system = "modern",
+                                               include_time = NULL,
+                                               round_seconds = TRUE,
+                                               tz = "UTC",
+                                               out_class = c("POSIXct", "Date")) {
   if (!is.null(include_time)) {
     warning("`include_time` is ignored in favor of `out_class`.")
   }
   out_class <- match.arg(out_class)
   excel_numeric_to_date(
-    date_num=x,
-    date_system="modern",
-    round_seconds=round_seconds,
-    tz=tz,
-    include_time=out_class %in% "POSIXct"
+    date_num = x,
+    date_system = "modern",
+    round_seconds = round_seconds,
+    tz = tz,
+    include_time = out_class %in% "POSIXct"
   )
 }
 
-convert_to_datetime_helper.factor <- function(x, ..., out_class=c("POSIXct", "Date")) {
-  convert_to_datetime_helper.character(as.character(x), ..., out_class=out_class)
+convert_to_datetime_helper.factor <- function(x, ..., out_class = c("POSIXct", "Date")) {
+  convert_to_datetime_helper.character(as.character(x), ..., out_class = out_class)
 }
 
-convert_to_datetime_helper.POSIXt <- function(x, ..., out_class=c("POSIXct", "Date")) {
+convert_to_datetime_helper.POSIXt <- function(x, ..., out_class = c("POSIXct", "Date")) {
   out_class <- match.arg(out_class)
   if (out_class %in% "POSIXct") {
     # Ensure that POSIXlt gets converted to POSIXct
@@ -98,7 +99,7 @@ convert_to_datetime_helper.POSIXt <- function(x, ..., out_class=c("POSIXct", "Da
   }
 }
 
-convert_to_datetime_helper.Date <- function(x, ..., tz="UTC", out_class=c("POSIXct", "Date")) {
+convert_to_datetime_helper.Date <- function(x, ..., tz = "UTC", out_class = c("POSIXct", "Date")) {
   out_class <- match.arg(out_class)
   if (out_class %in% "POSIXct") {
     ret <- as.POSIXct(x, ...)
@@ -110,31 +111,31 @@ convert_to_datetime_helper.Date <- function(x, ..., tz="UTC", out_class=c("POSIX
   ret
 }
 
-convert_to_datetime_helper.character <- function(x, ..., tz="UTC", character_fun=lubridate::ymd_hms, string_conversion_failure=c("error", "warning"), out_class=c("POSIXct", "Date")) {
+convert_to_datetime_helper.character <- function(x, ..., tz = "UTC", character_fun = lubridate::ymd_hms, string_conversion_failure = c("error", "warning"), out_class = c("POSIXct", "Date")) {
   string_conversion_failure <- match.arg(string_conversion_failure)
   out_class <- match.arg(out_class)
   mask_na <- is.na(x)
-  mask_excel_numeric <- !mask_na & grepl(pattern="^[0-9]{5}(?:\\.[0-9]*)?$", x=x)
+  mask_excel_numeric <- !mask_na & grepl(pattern = "^[0-9]{5}(?:\\.[0-9]*)?$", x = x)
   mask_character <- !(mask_na | mask_excel_numeric)
   if (out_class %in% "POSIXct") {
-    ret <- as.POSIXct(x=rep(NA, length(x)), tz="UTC")
+    ret <- as.POSIXct(x = rep(NA, length(x)), tz = "UTC")
   } else {
-    ret <- as.Date(x=rep(NA, length(x)))
+    ret <- as.Date(x = rep(NA, length(x)))
   }
   if (any(mask_excel_numeric)) {
-    ret[mask_excel_numeric] <- convert_to_datetime_helper(as.numeric(x[mask_excel_numeric]), ..., tz=tz)
+    ret[mask_excel_numeric] <- convert_to_datetime_helper(as.numeric(x[mask_excel_numeric]), ..., tz = tz)
   }
   if (any(mask_character)) {
     characters_converted <-
       if (out_class %in% "POSIXct") {
-        character_fun(x[mask_character], tz=tz, ...)
+        character_fun(x[mask_character], tz = tz, ...)
       } else {
         character_fun(x[mask_character], ...)
       }
     if (!(out_class %in% class(characters_converted))) {
       stop(
         "`character_fun(x)` must return class ", out_class,
-        "; the returned class was: ", paste(class(characters_converted), collapse=", ")
+        "; the returned class was: ", paste(class(characters_converted), collapse = ", ")
       )
     }
     ret[mask_character] <- characters_converted
@@ -144,12 +145,12 @@ convert_to_datetime_helper.character <- function(x, ..., tz="UTC", character_fun
       if (length(not_converted_values) > 10) {
         not_converted_values <-
           paste(
-            paste0('"', not_converted_values[1:9], '"', collapse=", "),
+            paste0('"', not_converted_values[1:9], '"', collapse = ", "),
             "... and", length(not_converted_values) - 9, "other values."
           )
       } else {
         not_converted_values <-
-          paste0('"', not_converted_values, '"', collapse=", ")
+          paste0('"', not_converted_values, '"', collapse = ", ")
       }
       not_converted_message <-
         paste0(

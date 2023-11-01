@@ -7,31 +7,33 @@ output:
 
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE, 
+  collapse = TRUE,
   comment = "#>",
-  fig.path = "README-"  
+  fig.path = "README-"
 )
 options(width = 110)
 ```
+
+# janitor <img src="man/figures/logo_small.png" align="right" />
+
 
 > Data scientists, according to interviews and expert estimates, spend from 50 percent to 80 percent of their time mired in this more mundane labor of collecting and preparing unruly digital data, before it can be explored for useful nuggets.
 > 
 > -- ["For Big-Data Scientists, 'Janitor Work' Is Key Hurdle to Insight"](https://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html) *(New York Times, 2014)*
 
-# janitor <img src="man/figures/logo_small.png" align="right" />
 
 ***********************
 
 <!-- badges: start -->
-[![R build status](https://github.com/sfirke/janitor/workflows/R-CMD-check/badge.svg)](https://github.com/sfirke/janitor/actions)
-[![Coverage Status](https://img.shields.io/codecov/c/github/sfirke/janitor/master.svg)](https://codecov.io/github/sfirke/janitor?branch=master)
-[![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+[![R-CMD-check](https://github.com/sfirke/janitor/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/sfirke/janitor/actions/workflows/R-CMD-check.yaml)
+[![Coverage Status](https://img.shields.io/codecov/c/github/sfirke/janitor/main.svg)](https://app.codecov.io/github/sfirke/janitor?branch=main)
+[![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version-ago/janitor)](https://cran.r-project.org/package=janitor)
 ![!Monthly Downloads](https://cranlogs.r-pkg.org/badges/janitor)
 ![!Downloads](https://cranlogs.r-pkg.org/badges/grand-total/janitor)
 <!-- badges: end -->
 
-**janitor** has simple functions for examining and cleaning dirty data.  It was built with beginning and intermediate R users in mind and is optimized for user-friendliness. Advanced R users can already do everything covered here, but with janitor they can do it faster and save their thinking for the fun stuff.
+**janitor** has simple functions for examining and cleaning dirty data.  It was built with beginning and intermediate R users in mind and is optimized for user-friendliness. Advanced R users can perform many of these tasks already, but with janitor they can do it faster and save their thinking for the fun stuff.
 
 The main janitor functions:
 
@@ -41,35 +43,37 @@ The main janitor functions:
 
 The tabulate-and-report functions approximate popular features of SPSS and Microsoft Excel.
 
-janitor is a [#tidyverse]( https://CRAN.R-project.org/package=tidyverse/vignettes/manifesto.html)-oriented package.  Specifically, it plays nicely with the `%>%` pipe and is optimized for cleaning data brought in with the [readr](https://github.com/tidyverse/readr) and [readxl](https://github.com/tidyverse/readxl) packages.
+janitor is a [#tidyverse]( https://cran.r-project.org/package=tidyverse/vignettes/manifesto.html)-oriented package.  Specifically, it plays nicely with the `%>%` pipe and is optimized for cleaning data brought in with the [readr](https://github.com/tidyverse/readr) and [readxl](https://github.com/tidyverse/readxl) packages.
 
 
-### Installation
+## <i class="fa fa-cog" aria-hidden="true"></i> Installation
 
 You can install:
 
 * the most recent officially-released version from CRAN with
 
-    ```R
-    install.packages("janitor")
-    ````
+```r
+install.packages("janitor")
+```
 
 * the latest development version from GitHub with
 
-    ```R
-    install.packages("devtools")
-    devtools::install_github("sfirke/janitor")
-    ```
+```R
+# install.packages("remotes")
+remotes::install_github("sfirke/janitor")
+# or from r-universe
+install.packages("janitor", repos = c("https://sfirke.r-universe.dev", "https://cloud.r-project.org"))
+```
 
 ## Using janitor
 
-A full description of each function, organized by topic, can be found in janitor's [catalog of functions vignette](http://sfirke.github.io/janitor/articles/janitor.html).  There you will find functions not mentioned in this README, like `compare_df_cols()` which provides a summary of differences in column names and types when given a set of data.frames.
+A full description of each function, organized by topic, can be found in janitor's [catalog of functions vignette](https://sfirke.github.io/janitor/articles/janitor.html).  There you will find functions not mentioned in this README, like `compare_df_cols()` which provides a summary of differences in column names and types when given a set of data.frames.
 
 Below are quick examples of how janitor tools are commonly used.    
 
 ### Cleaning dirty data
 
-Take this roster of teachers at a fictional American high school, stored in the Microsoft Excel file [dirty_data.xlsx](https://github.com/sfirke/janitor/blob/master/dirty_data.xlsx):
+Take this roster of teachers at a fictional American high school, stored in the Microsoft Excel file [dirty_data.xlsx](https://github.com/sfirke/janitor/blob/main/dirty_data.xlsx):
 ![All kinds of dirty.](man/figures/dirty_data.PNG)
 
 Dirtiness includes:
@@ -82,9 +86,12 @@ Dirtiness includes:
 
 Here's that data after being read in to R:
 ```{r, warning = FALSE, message = FALSE}
-library(readxl); library(janitor); library(dplyr); library(here)
+library(readxl)
+library(janitor)
+library(dplyr)
+library(here)
 
-roster_raw <- read_excel(here("dirty_data.xlsx")) # available at http://github.com/sfirke/janitor
+roster_raw <- read_excel(here("dirty_data.xlsx")) # available at https://github.com/sfirke/janitor
 glimpse(roster_raw)
 ```
 
@@ -92,9 +99,10 @@ Now, to clean it up, starting with the column names.
 
 Name cleaning comes in two flavors. `make_clean_names()` operates on character vectors and can be used during data import:
 ```{r, warning = FALSE, message = FALSE}
-roster_raw_cleaner <- read_excel(here("dirty_data.xlsx"), 
-                                 skip = 1,
-                                 .name_repair = make_clean_names)
+roster_raw_cleaner <- read_excel(here("dirty_data.xlsx"),
+  skip = 1,
+  .name_repair = make_clean_names
+)
 glimpse(roster_raw_cleaner)
 ```
 
@@ -111,10 +119,14 @@ The data.frame now has clean names.  Let's tidy it up further:
 ```{r}
 roster <- roster_raw %>%
   remove_empty(c("rows", "cols")) %>%
-  remove_constant(na.rm = TRUE, quiet = FALSE) %>% # remove the column of all "Yes" values 
-  mutate(hire_date = convert_to_date(hire_date, # handle the mixed-format dates
-                                     character_fun = lubridate::mdy),
-         cert = dplyr::coalesce(certification, certification_2)) %>%
+  remove_constant(na.rm = TRUE, quiet = FALSE) %>% # remove the column of all "Yes" values
+  mutate(
+    hire_date = convert_to_date(
+      hire_date, # handle the mixed-format dates
+      character_fun = lubridate::mdy
+    ),
+    cert = dplyr::coalesce(certification, certification_2)
+  ) %>%
   select(-certification, -certification_2) # drop unwanted columns
 
 roster
@@ -135,11 +147,11 @@ Yes, some teachers appear twice.  We ought to address this before counting emplo
 A variable (or combinations of two or three variables) can be tabulated with `tabyl()`.  The resulting data.frame can be tweaked and formatted
 with the suite of `adorn_` functions for quick analysis and printing of pretty results in a report.  `adorn_` functions can be helpful with non-tabyls, too.
 
-#### tabyl()
+#### `tabyl()`
 
 Like `table()`, but pipe-able, data.frame-based, and fully featured.
 
-`tabyl` can be called two ways:
+`tabyl()` can be called two ways:
 
 * On a vector, when tabulating a single variable: `tabyl(roster$subject)`
 * On a data.frame, specifying 1, 2, or 3 variable names to tabulate: `roster %>% tabyl(subject, employee_status)`.
@@ -164,7 +176,7 @@ roster %>%
   tabyl(full_time, subject, employee_status, show_missing_levels = FALSE)
 ```
 
-##### Adorning tabyls
+#### Adorning tabyls
 The `adorn_` functions dress up the results of these tabulation calls for fast, basic reporting.  Here are some of the functions that augment a summary table for reporting:
 
 ```{r}
@@ -175,17 +187,16 @@ roster %>%
   adorn_pct_formatting() %>%
   adorn_ns() %>%
   adorn_title("combined")
-
 ```
 
 Pipe that right into `knitr::kable()` in your RMarkdown report.
 
-These modular adornments can be layered to reduce R's deficit against Excel and SPSS when it comes to quick, informative counts.  Learn more about `tabyl()` and the `adorn_` functions from the [tabyls vignette](http://sfirke.github.io/janitor/articles/tabyls.html).
+These modular adornments can be layered to reduce R's deficit against Excel and SPSS when it comes to quick, informative counts.  Learn more about `tabyl()` and the `adorn_` functions from the [tabyls vignette](https://sfirke.github.io/janitor/articles/tabyls.html).
 
-## Contact me
+## <i class="fa fa-bullhorn" aria-hidden="true"></i> Contact me
 
 You are welcome to:
 
 * submit suggestions and report bugs: https://github.com/sfirke/janitor/issues
 * let me know what you think on Mastodon: [&#64;samfirke&#64;a2mi.social](https://a2mi.social/@samfirke)
-* compose a friendly e-mail to: <img src = "http://samfirke.com/wp-content/uploads/2016/07/email_address_whitespace_top.png" alt = "samuel.firke AT gmail" width = "210"/>
+* compose a friendly e-mail to: <img src = "https://samfirke.com/wp-content/uploads/2016/07/email_address_whitespace_top.png" alt = "samuel.firke AT gmail" width = "210"/>

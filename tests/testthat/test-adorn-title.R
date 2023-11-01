@@ -1,10 +1,3 @@
-# Test adorn_title function
-
-context("adorn_title")
-library(janitor)
-library(dplyr)
-library(tidyr)
-
 source1 <- mtcars %>%
   tabyl(gear, cyl)
 
@@ -43,7 +36,9 @@ test_that("name overrides work", {
 })
 
 test_that("non-tabyls are treated correctly", {
-  non_tab <- mtcars %>% dplyr::count(gear, cyl) %>% tidyr::spread(gear, n)
+  non_tab <- mtcars %>%
+    dplyr::count(gear, cyl) %>%
+    tidyr::pivot_wider(names_from = gear, values_from = n)
   expect_error(adorn_title(non_tab), "When input is not a data.frame of class tabyl, a value must be specified for the col_name argument")
 
   expect_equal(
@@ -66,11 +61,12 @@ test_that("bad inputs are caught", {
     "\"dat\" must be a data.frame",
     fixed = TRUE
   )
-  expect_error(adorn_title(source1,
-    placement = "blargh"
-  ),
-  "\"placement\" must be one of \"top\" or \"combined\"",
-  fixed = TRUE
+  expect_error(
+    adorn_title(source1,
+      placement = "blargh"
+    ),
+    "\"placement\" must be one of \"top\" or \"combined\"",
+    fixed = TRUE
   )
   expect_error(
     adorn_title(source1,
@@ -103,7 +99,6 @@ test_that("works with non-count inputs", {
     adorn_title(source2_base, col_name = "Characteristics"),
     adorn_title(source2_tibble, col_name = "Characteristics")
   )
-  
 })
 
 test_that("for printing purposes: tabyl class stays tabyl, data.frame stays data.frame, tibble is downgraded to data.frame", {
@@ -112,23 +107,28 @@ test_that("for printing purposes: tabyl class stays tabyl, data.frame stays data
   expect_equal(class(mtcars %>% tabyl(gear, carb) %>% adorn_title(., "combined")), c("tabyl", "data.frame"))
 
   # Create tibble input:
-  mpg_by_cyl_and_am <- mtcars %>%
-    group_by(cyl, am) %>%
-    summarise(mean_mpg = mean(mpg)) %>%
-    tidyr::spread(am, mean_mpg)
+  mpg_by_cyl_and_am <-
+    mtcars %>%
+    dplyr::group_by(cyl, am) %>%
+    dplyr::summarise(mean_mpg = mean(mpg)) %>%
+    tidyr::pivot_wider(names_from = am, values_from = mean_mpg)
 
   # handles tibble input
-  expect_equal(class(mpg_by_cyl_and_am %>%
-    adorn_title("top", "Cylinders", "Automatic?")), c("data.frame"))
+  expect_s3_class(
+    mpg_by_cyl_and_am %>% adorn_title("top", "Cylinders", "Automatic?"),
+    "data.frame"
+  )
 
   # Convert columns 2:n to strings
-  expect_equal(class(mpg_by_cyl_and_am %>%
-    adorn_pct_formatting() %>% # nonsense command here, just want to convert cols 2:n into character
-    adorn_title("top", "Cylinders", "Automatic?")), c("data.frame"))
+  expect_s3_class(
+    mpg_by_cyl_and_am %>% adorn_pct_formatting() %>% # nonsense command here, just want to convert cols 2:n into character
+      adorn_title("top", "Cylinders", "Automatic?"),
+    "data.frame"
+  )
 
   # handles data.frame non-tabyl input
-  expect_equal(
-    mtcars %>% adorn_title("top", col_name = "hey look ma I'm a title") %>% class(),
+  expect_s3_class(
+    mtcars %>% adorn_title("top", col_name = "hey look ma I'm a title"),
     "data.frame"
   )
 })

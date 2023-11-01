@@ -1,8 +1,5 @@
 # Tests for two-way statistical tests
 
-library(janitor)
-context("tests")
-
 # Duplicate mtcars rows to avoid chis.test warnings
 mtcars3 <- rbind(mtcars, mtcars, mtcars)
 tab <- table(mtcars3$am, mtcars3$cyl)
@@ -21,7 +18,7 @@ test_that("janitor::chisq.test on a table is correct", {
 })
 
 test_that("janitor::chisq.test on a matrix is correct", {
-  mat <- matrix(c(151, 434, 345, 221, 145, 167), ncol=3)
+  mat <- matrix(c(151, 434, 345, 221, 145, 167), ncol = 3)
   res <- stats::chisq.test(mat)
   jres <- janitor::chisq.test(mat)
   expect_equal(jres, res)
@@ -36,8 +33,8 @@ test_that("janitor::chisq.test on two factors is correct", {
 test_that("janitor::chisq.test with a numeric vector and p is correct", {
   v1 <- round(runif(10, 200, 1000))
   v2 <- round(runif(10, 200, 1000))
-  res <- stats::chisq.test(v1, p = v2/sum(v2))
-  jres <- janitor::chisq.test(v1, p = v2/sum(v2))
+  res <- stats::chisq.test(v1, p = v2 / sum(v2))
+  jres <- janitor::chisq.test(v1, p = v2 / sum(v2))
   expect_equal(jres, res)
 })
 
@@ -48,7 +45,7 @@ test_that("janitor::fisher.test on a table is correct", {
 })
 
 test_that("janitor::fisher.test on a matrix is correct", {
-  mat <- matrix(c(151, 434, 345, 221, 145, 167), ncol=3)
+  mat <- matrix(c(151, 434, 345, 221, 145, 167), ncol = 3)
   res <- stats::fisher.test(mat)
   jres <- janitor::fisher.test(mat)
   expect_equal(jres, res)
@@ -89,7 +86,7 @@ test_that("returned tabyls have correct names and attributes", {
   expect_named(tres$observed, c("am", "4", "6", "8"))
   expect_named(tres$expected, c("am", "4", "6", "8"))
   expect_named(tres$residuals, c("am", "4", "6", "8"))
-  expect_named(tres$stdres, c("am", "4", "6", "8"))  
+  expect_named(tres$stdres, c("am", "4", "6", "8"))
   expect_equal(tres$observed[[1]], c("0", "1"))
   expect_equal(tres$expected[[1]], c("0", "1"))
   expect_equal(tres$residuals[[1]], c("0", "1"))
@@ -109,9 +106,11 @@ test_that("totals are excluded from the statistical tests, #385", {
     cx,
     cx_totals
   )
-  expect_warning(chisq.test(ttab %>% adorn_totals()),
-                 "detected a totals row")
-  
+  expect_warning(
+    chisq.test(ttab %>% adorn_totals()),
+    "detected a totals row"
+  )
+
   # Fisher
   fisher <- fisher.test(ttab)
   fisher_totals <- suppressWarnings(fisher.test(adorn_totals(ttab, "both")))
@@ -120,6 +119,8 @@ test_that("totals are excluded from the statistical tests, #385", {
     fisher,
     fisher_totals
   )
-  expect_warning(fisher.test(ttab %>% adorn_totals()),
-                 "detected a totals row")
+  expect_warning(
+    fisher.test(ttab %>% adorn_totals()),
+    "detected a totals row"
+  )
 })

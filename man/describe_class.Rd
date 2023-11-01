@@ -15,38 +15,38 @@ describe_class(x, strict_description = TRUE)
 \arguments{
 \item{x}{The object to describe}
 
-\item{strict_description}{Should differing factor levels be treated 
-as differences for the purposes of identifying mismatches? 
-\code{strict_description = `TRUE`} is stricter and factors with different 
-levels will be treated as different classes.  \code{FALSE} is more 
+\item{strict_description}{Should differing factor levels be treated
+as differences for the purposes of identifying mismatches?
+\code{strict_description = TRUE} is stricter and factors with different
+levels will be treated as different classes.  \code{FALSE} is more
 lenient: for class comparison purposes, the variable is just a "factor".}
 }
 \value{
 A character scalar describing the class(es) of an object where if the
-  scalar will match, columns in a data.frame (or similar object) should bind
-  together without issue.
+scalar will match, columns in a data.frame (or similar object) should bind
+together without issue.
 }
 \description{
 Describe the class(es) of an object
 }
 \details{
 For package developers, an S3 generic method can be written for
-  \code{describe_class()} for custom classes that may need more definition
-  than the default method.  This function is called by \code{compare_df_cols}.
+\code{describe_class()} for custom classes that may need more definition
+than the default method.  This function is called by \code{compare_df_cols}.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{factor}: Describe factors with their levels
+\item \code{describe_class(factor)}: Describe factors with their levels
 and if they are ordered.
 
-\item \code{default}: List all classes of an object.
-}}
+\item \code{describe_class(default)}: List all classes of an object.
 
+}}
 \examples{
 describe_class(1)
 describe_class(factor("A"))
 describe_class(ordered(c("A", "B")))
-describe_class(ordered(c("A", "B")), strict_description=FALSE)
+describe_class(ordered(c("A", "B")), strict_description = FALSE)
 }
 \seealso{
 Other Data frame type comparison: 

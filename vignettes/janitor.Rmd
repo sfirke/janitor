@@ -2,7 +2,7 @@
 title: "Overview of janitor functions"
 date: "`r Sys.Date()`"
 output:
-  github_document:
+  rmarkdown::github_document:
     toc: true
     toc_depth: 3
 vignette: >
@@ -12,7 +12,7 @@ vignette: >
 ---
 
 ```{r, echo = FALSE, message = FALSE}
-knitr::opts_chunk$set(collapse = T, comment = "#>")
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 library(janitor)
 ```
 The janitor functions expedite the initial data exploration and cleaning that comes with any new data set.  This catalog describes the usage for each function.
@@ -25,7 +25,7 @@ Functions for everyday use.
 ### Clean data.frame names with `clean_names()`
 Call this function every time you read data.
 
-It works in a `%>%` pipeline, and handles problematic variable names, especially those that are so well-preserved by `readxl::read_excel()` and `readr::read_csv()`.
+It works in a `%>%` pipeline and handles problematic variable names, especially those that are so well-preserved by `readxl::read_excel()` and `readr::read_csv()`.
 
 + Parses letter cases and separators to a consistent format.
     + Default is to snake_case, but other cases like camelCase are available
@@ -37,8 +37,10 @@ It works in a `%>%` pipeline, and handles problematic variable names, especially
 ```{r, message = FALSE, warning = FALSE}
 # Create a data.frame with dirty names
 test_df <- as.data.frame(matrix(ncol = 6))
-names(test_df) <- c("firstName", "ábc@!*", "% successful (2009)",
-                    "REPEAT VALUE", "REPEAT VALUE", "")
+names(test_df) <- c(
+  "firstName", "ábc@!*", "% successful (2009)",
+  "REPEAT VALUE", "REPEAT VALUE", ""
+)
 ```
 Clean the variable names, returning a data.frame:
 ```{r}
@@ -92,7 +94,7 @@ mtcars %>%
   adorn_title()
 ```
 
-Learn more in the [tabyls vignette](http://sfirke.github.io/janitor/articles/tabyls.html).
+Learn more in the [tabyls vignette](https://sfirke.github.io/janitor/articles/tabyls.html).
 
 ### Explore records with duplicated values for specific combinations of variables with `get_dupes()`
 This is for hunting down and examining duplicate records during data cleaning - usually when there shouldn't be any.
@@ -104,6 +106,15 @@ For example, in a tidy data.frame you might expect to have a unique ID repeated 
 get_dupes(mtcars, wt, cyl) # or mtcars %>% get_dupes(wt, cyl) if you prefer to pipe
 ```
 
+### Explore relationships between columns with `get_one_to_one()`
+This function shows which, if any, columns in a data.frame have one-to-one relationships with each other.
+
+Here is a toy example looking at the first four rows of the *starwars* data.frame from the dplyr package.  The variables are grouped into three sets of one-to-one clusters:
+```{r message=FALSE}
+library(dplyr)
+starwars[1:4, ] %>%
+  get_one_to_one()
+```
 
 
 # Minor functions
@@ -120,13 +131,37 @@ It can also be used as an argument to `.name_repair` in the newest version of `t
 tibble::as_tibble(iris, .name_repair = janitor::make_clean_names)
 ```
 
+### Validate that a column has a `single_value()` per group
+
+This function returns the single value in a column, often used in combination with `dplyr::group_by()` to validate that every value of X has only one associated value of Y.  It will complete that value of Y into missing values in that column.  And if there's more than a single value of Y, its `info` argument can help pinpoint where that occurs.
+
+Take this data.frame.  One pesky value of X has multiple values of Y where it should not:
+```{r}
+not_one_to_one <- data.frame(
+  X = rep(1:3, each = 2),
+  Y = c(rep(1:2, each = 2), 1:2)
+)
+
+not_one_to_one
+
+# throws informative error:
+try(not_one_to_one %>%
+  dplyr::group_by(X) %>%
+  dplyr::mutate(
+    Z = single_value(Y, info = paste("Calculating Z for group X =", X))
+  ))
+```
+
+
 ### `remove_empty()` rows and columns
 
 Does what it says.  For cases like cleaning Excel files that contain empty rows and columns after being read into R.
 ```{r}
-q <- data.frame(v1 = c(1, NA, 3),
-                v2 = c(NA, NA, NA),
-                v3 = c("a", NA, "b"))
+q <- data.frame(
+  v1 = c(1, NA, 3),
+  v2 = c(NA, NA, NA),
+  v3 = c("a", NA, "b")
+)
 q %>%
   remove_empty(c("rows", "cols"))
 ```
@@ -179,14 +214,22 @@ convert_to_date(c("2020-02-29", "40000.1"))
 
 ### Elevate column names stored in a data.frame row
 
-If a data.frame has the intended variable names stored in one of its rows, `row_to_names` will elevate the specified row to become the names of the data.frame and optionally (by default) remove the row in which names were stored and/or the rows above it.
+If a data.frame has the intended variable names stored in one of its rows, `row_to_names()` will elevate the specified row to become the names of the data.frame and optionally (by default) remove the row in which names were stored and/or the rows above it.
 
 ```{r}
-dirt <- data.frame(X_1 = c(NA, "ID", 1:3),
-           X_2 = c(NA, "Value", 4:6))
+dirt <- data.frame(
+  X_1 = c(NA, "ID", 1:3),
+  X_2 = c(NA, "Value", 4:6)
+)
 
 row_to_names(dirt, 2)
 ```
+
+### Find the header row buried within a messy data.frame
+
+The function `find_header()` is a companion function to `row_to_names()`.  By default it will search a data.frame for the first row with no missing values and return that row number.
+
+It can also be used to return the row number where a given string is present in the first column, or in any specific column.  Then this result can be supplied to `row_to_names()`.
 
 
 ## Exploring
@@ -202,7 +245,8 @@ Originally designed for use with Likert survey data stored as factors.  Returns 
 
 ```{r}
 f <- factor(c("strongly agree", "agree", "neutral", "neutral", "disagree", "strongly agree"),
-            levels = c("strongly agree", "agree", "neutral", "disagree", "strongly disagree"))
+  levels = c("strongly agree", "agree", "neutral", "disagree", "strongly disagree")
+)
 top_levels(f)
 top_levels(f, n = 1)
 ```

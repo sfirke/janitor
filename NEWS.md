@@ -1,6 +1,38 @@
-# janitor 2.1.0.9000 (unreleased, under development)
+# janitor 2.2.0.9000 - unreleased development version
 
 ## Breaking changes
+
+These are all minor breaking changes resulting from enhancements and are not expected to affect the vast majority of users.
+
+* When using `row_to_names()`, when all input values in `row_number` for a column are `NA`, `row_to_names()` creates a column name of `"NA"`, a character, rather than `NA`. If code previously used relied on a column name of `NA`, it will now error. To fix this, rely on a column name of `"NA"`.
+
+## New features
+
+* A new function `paste_skip_na()` pastes without including NA values (#537).
+
+* `row_to_names()` now accepts multiple rows as input, and merges them using a new `sep` argument (#536). The default is `sep = "_"`. When handling multiple `NA` values, `row_to_names()` ignores them and only merges non-NA values for column names. When all values are `NA`, `row_to_names()` creates a column name of `"NA"`, a character, rather than `NA`.
+
+* The new function `excel_time_to_numeric()` converts times from Excel that do not have accompanying dates into a number of seconds.  (#245, thanks to **@billdenney** for the feature.)
+
+## Bug fixes
+
+* `adorn_totals("row")` now succeeds if the new `name` of the totals row is already a factor level of the input data.frame (#529, thanks @egozoglu for reporting).
+
+* `make_clean_names()` no longer accepts a data.frame or tibble as input, use `clean_names()` for that (fix #532, **@billdenney**).
+
+* `get_one_to_one()` no longer errors with near-equal values that become identical factor levels (fix #543, thanks to @olivroy for reporting)
+
+# Refactoring
+
+* Remove dplyr verbs superseded in dplyr 1.0.0 (#547, @olivroy)
+
+* Restyle the package and vignettes according to the [tidyverse style guide](style.tidyverse.org) (#548, olivroy)
+
+# janitor 2.2.0 (2023-02-02)
+
+## Breaking changes
+
+These are all minor breaking changes resulting from enhancements and are not expected to affect the vast majority of users.
 
 * A new `...` argument was added to `row_to_names()`, preceding the `remove_row` argument, as part of the new `find_header()` functionality.  If code previously used `remove_row` as an unnamed argument, it will now error.  If code previously used the unsupported behavior of passing anything other than `TRUE` or `FALSE` to `remove_row`, unexpected results may occur.
 
@@ -8,32 +40,60 @@
 
 * A minor breaking change is that the time zone is now always set for `excel_numeric_to_date()` and `convert_date()`.  The default timezone is `Sys.timezone()`, previously it was an empty string (`""`). (#422, thanks **@billdenney** for fixing)
 
+* `get_dupes()` results are now sorted first by descending order of `dupe_count`, then alphabetically by sorting variables. (#493)
+
+* There are several minor breaking changes resulting from enhancements to `adorn_ns()`:
+  * The addition of the new argument `format_func` means that previous calls relying on `,,,` as shorthand to get to the `...` column selection argument may now require an extra comma.
+  * `adorn_ns()` now defaults to displaying numbers of >3 digits with `big.mark = ","`, as part of the default value of the new `format_func` argument.  E.g., `1234`  is now `1,234`.
+  * `adorn_ns()` no longer prints leading whitespace when `position = "front"` - this is not a visible change in the printed result and it would be rare that this affects any code.
+
+* When the first column of the data.frame input to `adorn_totals()` is a factor and a totals row is added to the bottom, that column now remains a factor, with "Total" or other user-specified totals name added to its factor levels (#494).
+
 ## New features
 
-* `row_to_names()` now has a new helper function, `find_header()` to help find the row that contains the names.  It can be used by passing `row_number="find_header"`, and see the documentation of `row_to_names()` and `find_header()` for more examples. (fix #429)
-
-* If a `tabyl()` or similar data.frame is sorted (e.g., with `dplyr::arrange()`), then has `adorn_totals()` and/or `adorn_percentages()` called on it, followed by `adorn_ns()`, the Ns will be sorted correctly to match the tabyl they're being adorned on. (fix #407)
+* `row_to_names()` now has a new helper function, `find_header()` to help find the row that contains the names.  It can be used by passing `row_number="find_header"`.  See the documentation of `row_to_names()` and `find_header()` for more examples. (fix #429)
 
 * `remove_empty()` has a new argument, `cutoff` which allows rows or columns to be removed if at least the `cutoff` fraction of the data are missing.  (fix #446, thanks to **@jzadra** for suggesting the feature and **@billdenney** for fixing)
 
 * A new function `sas_numeric_to_date()` has been added to convert SAS dates, times, and datetimes to R objects (fix #475, thanks to **@billdenney** for suggesting and implementing)
 
-* The new function `excel_time_to_numeric()` converts times from Excel that do not have accompanying dates into a number of seconds.  (#245, thanks to **@billdenney** for the feature.)
+* A new function `single_value()` has been added to ensure that only a single value or missing values are present in a vector (fix #428)
+
+* A new function `get_one_to_one()` has been added to find columns that map 1:1 to each other, even if the values within the columns differ (fix #291, **@billdenney**)
+
+* `adorn_Ns()` contains a new `format_func` argument so that the user can format the Ns to their liking, e.g., changing the `big.mark` character. (#444)
+
+* `clean_names()` can now be called on database connection in a dbplyr code pipeline (#467)
 
 ## Minor features
 
-* Some warning messages now have classes so that they can be specifically suppressed with suppressWarnings(..., class="the_class_to_suppress").  To find the class of a warning you typically must look at the code where the error is occurring.  (#452, thanks to **@mgacc0** for suggesting and **@billdenney** for fixing)
+* `make_clean_names()` (and therefore `clean_names()`) issues a warning if the mu or micro symbol is in the names and it is not or may not be handled by a `replace` argument value.  (#448, thanks **@IndrajeetPatil** for reporting and **@billdenney** for fixing)  The rationale is that standard transliteration would convert `"[mu]g"` to `"mg"` when it would be more typically be converted to `"ug"` for use as a unit.  A new, unexported constant (janitor:::mu_to_u) was added to help with mu to "u" replacements.
+
 * `excel_numeric_to_date()` now warns when times are converted to `NA` due to hours that do not exist because of daylight savings time (fix #420, thanks **@Geomorph2** for reporting and **@billdenney** for fixing).  It also warns when inputs are not positive, since Excel only supports values down to 1 (#423).
 
-* `make_clean_names()` (and therefore `clean_names()`) issues a warning if the mu or micro symbol is in the names and it is not or may not be handled by a `replace` argument value.  (#448, thanks **@IndrajeetPatil** for reporting and **@billdenney** for fixing)  The rationale is that standard transliteration would convert "[mu]g" to "mg" when it would be more typically be converted to "ug" for use as a unit.  A new, unexported constant (janitor:::mu_to_u) was added to help with mu to "u" replacements.
+* If a `tabyl()` or similar data.frame is sorted (e.g., with `dplyr::arrange()`), then has `adorn_totals()` and/or `adorn_percentages()` called on it, followed by `adorn_ns()`, the Ns will be sorted correctly to match the tabyl they're being adorned on. (fix #407)
+
+* `clean_names()` now supports all object types that have either names or dimnames (#481, @DanChaltiel).
+
+* `adorn_pct_formatting()` uses the locale-dependent value of `decimal.mark` as a decimal separator, e.g., in locales where `getOption("OutDec")` is `,` it will print percentages in the format `"12,34%"`.  This character can also be set manually with `options(OutDec = ",")`.(#451).
+
+* `adorn_totals(where ="row")` now preserves factor class and levels of the first column of the input data.frame (#494). 
+
+* `make_clean_names()` now allows for duplicate names to be returned by specifying `TRUE` to the new `allow_dupes` argument (#495, @JasonAizkalns).
+
+* Some warning messages now have classes so that they can be specifically suppressed with `suppressWarnings(..., class="the_class_to_suppress")`.  To find the class of a warning you typically must look at the code where the error is occurring.  (#452, thanks to **@mgacc0** for suggesting and **@billdenney** for fixing)
 
 ## Bug fixes
+
+* `adorn_percentages()` was refactored for compatibility with `dplyr` package versions >= 1.1.0 (#490)
 
 * When a numeric variable is supplied as the 2nd variable (column) or 3rd variable (list) of a `tabyl`, the resulting columns or list are now sorted in numeric order, not alphabetic. (#438, thanks **@daaronr** for reporting and **@mattroumaya** for fixing)
 
 * `tabyl()` now succeeds when the second variable is named `"n"` (#445).
 
 * `adorn_ns()` can act on a single-column data.frame input with custom Ns supplied if the variable to adorn is specified with `...` (#456).
+
+* `adorn_totals()` on a one_way tabyl preserves the `tabyl_type` attribute so that a subsequent call to `adorn_pct_formatting()` works correctly on one-way tabyls (#523).
 
 # janitor 2.1.0 (2021-01-05)
 
@@ -148,6 +208,7 @@ This feature (#50) took almost 3 years from conception to implementation.  Major
 
 * `remove_empty()` now has a companion function `remove_constant()` which removes columns containing only a single unique value, optionally ignoring `NA` (#222, thanks to **@billdenney** for suggesting & implementing).
 
+
 ## Minor features
 
 * `excel_numeric_to_date()` now returns a POSIXct object and includes a time zone. (#225, thanks to **@billdenney** for the feature.)
@@ -208,7 +269,7 @@ This builds on the original functionality of janitor, with similar-but-improved 
 
 ### A fully-overhauled `tabyl`
 
-`tabyl()` is now a single function that can count combinations of one, two, or three variables, ala base R's `table()`.  The resulting `tabyl` data.frames can be manipulated and formatted using a family of `adorn_` functions.  See the [tabyls vignette](http://sfirke.github.io/janitor/articles/tabyls.html) for more.
+`tabyl()` is now a single function that can count combinations of one, two, or three variables, ala base R's `table()`.  The resulting `tabyl` data.frames can be manipulated and formatted using a family of `adorn_` functions.  See the [tabyls vignette](https://sfirke.github.io/janitor/articles/tabyls.html) for more.
 
 The now-redundant legacy functions `crosstab()` and `adorn_crosstab()` have been deprecated, but remain in the package for now.  Existing code that relies on the version of `tabyl` present in janitor versions <= 0.3.1 will break if the `sort` argument was used, as that argument no longer exists in `tabyl` (use `dplyr::arrange()` instead).
 
@@ -230,7 +291,7 @@ No further changes are planned to `clean_names()` and its results should be stab
   - Thanks to **@tazinho**, who wrote the [snakecase](https://github.com/Tazinho/snakecase/) package that janitor depends on to do this, as well as the patch to incorporate it into `clean_names()`.  And thanks to **@maelle** for proposing this feature.
 
 
-- Launched the janitor documentation website: [http://sfirke.github.io/janitor](http://sfirke.github.io/janitor/).  Thanks to the [pkgdown](https://github.com/r-lib/pkgdown/) package.
+- Launched the janitor documentation website: [https://sfirke.github.io/janitor](https://sfirke.github.io/janitor/).  Thanks to the [pkgdown](https://github.com/r-lib/pkgdown/) package.
 
 - Deprecated the functions `remove_empty_rows()` and `remove_empty_cols()`, which are replaced by the single function `remove_empty()`. [(#100)](https://github.com/sfirke/janitor/issues/100)
   - To encourage transparency, `remove_empty()` prints a message if no value is supplied for the `which` argument; to suppress this, supply a value to `which`, even if it's the default `c("rows", "cols")`.

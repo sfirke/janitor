@@ -1,19 +1,20 @@
 # Tests tabyl class functions
 
-library(janitor)
-library(testthat)
-context("as_tabyl() and untabyl()")
-
 a <- mtcars %>%
   tabyl(cyl, carb)
 
 b <- mtcars %>%
   dplyr::count(cyl, carb) %>%
-  tidyr::spread(carb, n, fill = 0) %>%
+  tidyr::pivot_wider(
+    names_from = carb,
+    values_from = n,
+    values_fill = 0,
+    names_sort = TRUE
+  ) %>%
   as.data.frame() # for comparison purposes, remove the tbl_df aspect
 
 
-test_that("as_tabyl works on result of a non-janitor count/spread", {
+test_that("as_tabyl works on result of a non-janitor count/pivot_wider", {
   expect_equal(
     as_tabyl(a),
     as_tabyl(b, 2, "cyl", "carb")
@@ -80,20 +81,20 @@ test_that("bad inputs are caught", {
 
 test_that("adorn_totals and adorn_percentages reset the tabyl's core to reflect sorting, #407", {
   unsorted <- mtcars %>% tabyl(am, cyl)
-  sorted <- arrange(unsorted, desc(`4`))
+  sorted <- dplyr::arrange(unsorted, desc(`4`))
   expect_equal(
     sorted %>%
       adorn_totals() %>%
       attr(., "core"),
     sorted %>%
-      untabyl
+      untabyl()
   )
   expect_equal(
     sorted %>%
       adorn_percentages() %>%
       attr(., "core"),
     sorted %>%
-      untabyl
+      untabyl()
   )
   # both:
   expect_equal(
@@ -102,17 +103,17 @@ test_that("adorn_totals and adorn_percentages reset the tabyl's core to reflect 
       adorn_percentages() %>%
       attr(., "core"),
     sorted %>%
-      untabyl
+      untabyl()
   )
   # Ns with "Total" row sorted to top - the Total N should be up there too:
   expect_equal(
     sorted %>%
       adorn_totals() %>%
       adorn_percentages("col") %>%
-      arrange(desc(`4`)) %>%
+      dplyr::arrange(desc(`4`)) %>%
       adorn_ns() %>%
-      pull(`4`) %>%
-      first,
+      dplyr::pull(`4`) %>%
+      dplyr::first(),
     "1.0000000 (11)"
   )
 })

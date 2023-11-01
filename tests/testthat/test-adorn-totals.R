@@ -1,14 +1,6 @@
-# Tests adorn_totals and deprecated add_totals_row, add_totals_col
-
-library(janitor)
-context("adorn_totals & deprecated add_totals functions")
-
-library(dplyr)
-
 dat <- data.frame(
-  a = c(rep(c("big", "small", "big"), 3)),
-  b = c(1:3, 1:3, 1, 1, 1),
-  stringsAsFactors = TRUE
+  a = factor(c(rep(c("big", "small", "big"), 3)), levels = c("small", "big")),
+  b = c(1:3, 1:3, 1, 1, 1)
 )
 ct <- dat %>%
   tabyl(a, b)
@@ -21,37 +13,32 @@ mixed <- data.frame(
   stringsAsFactors = FALSE
 )
 
-
 test_that("totals row is correct", {
   expect_equal(
     untabyl(adorn_totals(ct, "row")),
     data.frame(
-      a = c("big", "small", "Total"),
-      `1` = c(4, 1, 5),
-      `2` = c(0, 2, 2),
-      `3` = c(2, 0, 2),
-      check.names = FALSE,
-      stringsAsFactors = FALSE
+      a = factor(c("small", "big", "Total"), levels = c("small", "big", "Total")),
+      `1` = c(1, 4, 5),
+      `2` = c(2, 0, 2),
+      `3` = c(0, 2, 2),
+      check.names = FALSE
     )
   )
 })
-
 
 test_that("totals col is correct", {
   expect_equal(
     untabyl(adorn_totals(ct, "col")),
     data.frame(
-      a = c("big", "small"),
-      `1` = c(4, 1),
-      `2` = c(0, 2),
-      `3` = c(2, 0),
-      Total = c(6, 3),
-      check.names = FALSE,
-      stringsAsFactors = TRUE
+      a = factor(c("small", "big"), levels = c("small", "big")),
+      `1` = c(1, 4),
+      `2` = c(2, 0),
+      `3` = c(0, 2),
+      Total = c(3, 6),
+      check.names = FALSE
     )
   )
 })
-
 
 test_that("totals row and col produce correct results when called together", {
   expect_equal(
@@ -59,13 +46,12 @@ test_that("totals row and col produce correct results when called together", {
       adorn_totals(c("row", "col")) %>%
       untabyl(),
     data.frame(
-      a = c("big", "small", "Total"),
-      `1` = c(4, 1, 5),
-      `2` = c(0, 2, 2),
-      `3` = c(2, 0, 2),
-      Total = c(6, 3, 9),
-      check.names = FALSE,
-      stringsAsFactors = FALSE
+      a = factor(c("small", "big", "Total"), levels = c("small", "big", "Total")),
+      `1` = c(1, 4, 5),
+      `2` = c(2, 0, 2),
+      `3` = c(0, 2, 2),
+      Total = c(3, 6, 9),
+      check.names = FALSE
     )
   )
 })
@@ -75,15 +61,9 @@ test_that("totals where='both' produce equivalent results to c('row','col')", {
     ct %>%
       adorn_totals("both") %>%
       untabyl(),
-    data.frame(
-      a = c("big", "small", "Total"),
-      `1` = c(4, 1, 5),
-      `2` = c(0, 2, 2),
-      `3` = c(2, 0, 2),
-      Total = c(6, 3, 9),
-      check.names = FALSE,
-      stringsAsFactors = FALSE
-    )
+    ct %>%
+      adorn_totals(c("row", "col")) %>%
+      untabyl()
   )
 })
 
@@ -99,7 +79,7 @@ test_that("order doesn't matter when row and col are called together", {
 })
 
 test_that("both functions work with a single column", {
-  single_col <- tibble(
+  single_col <- tibble::tibble(
     a = c(as.Date("2016-01-01"), as.Date("2016-02-03")),
     b = c(1, 2)
   )
@@ -107,9 +87,6 @@ test_that("both functions work with a single column", {
   expect_error(single_col %>% adorn_totals("col"), NA)
   expect_error(single_col %>% adorn_totals(c("col", "row")), NA)
 })
-
-
-
 
 dat <- data.frame(
   a = c("hi", "lo"),
@@ -139,14 +116,22 @@ test_that("numeric first column is ignored", {
 })
 
 # create input tables for subsequent testing
-ct_2 <- mtcars %>% group_by(cyl, gear) %>% tally() %>% tidyr::spread(gear, n)
+ct_2 <-
+  mtcars %>%
+  dplyr::group_by(cyl, gear) %>%
+  dplyr::tally() %>%
+  tidyr::pivot_wider(names_from = gear, values_from = n)
 df1 <- data.frame(x = c(1, 2), y = c(NA, 4))
 
 test_that("grouped_df gets ungrouped and succeeds", {
-  ct_2 <- mtcars %>% group_by(cyl, gear) %>% tally() %>% tidyr::spread(gear, n)
+  ct_2 <-
+    mtcars %>%
+    dplyr::group_by(cyl, gear) %>%
+    dplyr::tally() %>%
+    tidyr::pivot_wider(names_from = gear, values_from = n)
   expect_equal(
     ct_2 %>% adorn_totals(),
-    ct_2 %>% ungroup() %>% adorn_totals()
+    ct_2 %>% dplyr::ungroup() %>% adorn_totals()
   )
 })
 
@@ -171,8 +156,8 @@ test_that("add_totals respects if input was data.frame", {
 
 test_that("add_totals respects if input was tibble", {
   expect_equal(
-    class(df1 %>% as_tibble()),
-    class(df1 %>% as_tibble() %>% adorn_totals() %>% untabyl())
+    class(df1 %>% tibble::as_tibble()),
+    class(df1 %>% tibble::as_tibble() %>% adorn_totals() %>% untabyl())
   )
 })
 
@@ -187,7 +172,7 @@ test_that("error thrown if no columns past first are numeric", {
   )
   expect_error(
     mixed %>%
-      adorn_totals("row","-",TRUE,"Totals",d),
+      adorn_totals("row", "-", TRUE, "Totals", d),
     "at least one targeted column must be of class numeric.  Control target variables with the ... argument. adorn_totals should be called before other adorn_ functions."
   )
 
@@ -203,10 +188,11 @@ test_that("error thrown if no columns past first are numeric", {
 })
 
 test_that("bad input to where arg is caught", {
-  expect_error(mtcars %>%
-    adorn_totals("blargh"),
-  paste0('"where" must be one of "row", "col", or c("row", "col")'),
-  fixed = TRUE
+  expect_error(
+    mtcars %>%
+      adorn_totals("blargh"),
+    paste0('"where" must be one of "row", "col", or c("row", "col")'),
+    fixed = TRUE
   )
 })
 
@@ -233,13 +219,15 @@ test_that("fill works with multiple factor and date columns", {
     d = 1:2
   )
   expect_equal(
-    adorn_totals(has_facs, "row") %>% untabyl,
-    data.frame(a = c("hi", "low", "Total"),
-               b = c("big", "small", "-"),
-               c = c("2000-01-01","2000-01-02", "-"),
-               d = 1:3,
-               stringsAsFactors = FALSE
-    ))
+    adorn_totals(has_facs, "row") %>% untabyl(),
+    data.frame(
+      a = c("hi", "low", "Total"),
+      b = c("big", "small", "-"),
+      c = c("2000-01-01", "2000-01-02", "-"),
+      d = 1:3,
+      stringsAsFactors = FALSE
+    )
+  )
 })
 
 test_that("totals attributes are assigned correctly", {
@@ -254,16 +242,15 @@ test_that("totals attributes are assigned correctly", {
   expect_equal(class(post_col), c("tabyl", "data.frame"))
   expect_equal(attr(post_col, "tabyl_type"), "two_way")
   expect_equal(attr(post_col, "core"), untabyl(ct))
-  
+
   post_sequential_both <- adorn_totals(ct, "col") %>%
     adorn_totals("row")
-  expect_equivalent(post_sequential_both, post)
+  expect_equal(post_sequential_both, post, ignore_attr = TRUE)
   expect_equal(
     sort(attr(post, "totals")),
-    sort(attr(post_sequential_both, "totals")),
+    sort(attr(post_sequential_both, "totals"))
   )
 })
-
 
 test_that("trying to re-adorn a dimension fails", {
   expect_error(
@@ -275,7 +262,6 @@ test_that("trying to re-adorn a dimension fails", {
     "trying to re-add a totals dimension that is already been added"
   )
 })
-
 
 test_that("automatically invokes purrr::map when called on a 3-way tabyl", {
   three <- tabyl(mtcars, cyl, am, gear)
@@ -297,7 +283,7 @@ test_that("non-data.frame inputs are handled", {
 
 test_that("row total name is changed", {
   expect_equal(
-    adorn_totals(ct, name = "NewTitle")[nrow(ct) + 1, 1],
+    as.character(adorn_totals(ct, name = "NewTitle")[nrow(ct) + 1, 1]),
     "NewTitle"
   )
 })
@@ -317,7 +303,7 @@ test_that("tidyselecting works", {
     unname(unlist(cyl_gear[33, ])),
     c("cylgear", "198", rep("-", 7), "118", "-", "316")
   )
-  
+
   # Can override the first column not being included
   # adorn_totals() still fails if ONLY the first column is numeric, that's fine - it's a nonsensical operation
   simple <- data.frame(
@@ -325,7 +311,7 @@ test_that("tidyselecting works", {
     y = 3:4,
     z = c("hi", "lo")
   )
-  
+
   expect_message(
     simple %>%
       adorn_totals(c("row", "col"), "-", TRUE, "Total", x),
@@ -333,26 +319,29 @@ test_that("tidyselecting works", {
     fixed = TRUE
   )
 
-  simple_total <- simple %>%
-    adorn_totals(c("row", "col"), "-", TRUE, "Total", x)
-  
+  expect_message(
+    simple_total <- simple %>%
+      adorn_totals(c("row", "col"), "-", TRUE, "Total", x),
+    regexp = "Because the first column was specified to be totaled, it does not contain the label 'Total' (or user-specified name) in the totals row",
+    fixed = TRUE
+  )
+
   expect_equal(unname(unlist(simple_total[3, ])), c("3", "-", "-", "3"))
-  expect_equal(simple_total$Total, 1:3)  
-  
+  expect_equal(simple_total$Total, 1:3)
+
   # test that leaving out a numeric column of a tibble succeeds, #388
   expect_equal(
     simple %>%
-      adorn_totals(,,,,y) %>%
+      adorn_totals(, , , , y) %>%
       as.data.frame(),
     simple %>%
       tibble::tibble() %>%
-      adorn_totals %>%
+      adorn_totals() %>%
       as.data.frame()
   )
 })
 
 test_that("supplying NA to fill preserves column types", {
-  
   test_df <- data.frame(
     a = c("hi", "low", "med"),
     b = factor(c("big", "small", "regular")),
@@ -364,15 +353,15 @@ test_that("supplying NA to fill preserves column types", {
     h = c(7.2, 8.2, 9.2),
     stringsAsFactors = FALSE
   )
-  
+
   out <- adorn_totals(test_df, fill = NA)
-  
+
   # expect types to be preserved
-  expect_is(out[["a"]], "character") 
-  expect_is(out[["b"]], "factor")
-  expect_is(out[["c"]], "Date")
-  expect_is(out[["d"]], "POSIXct")
-  expect_is(out[["g"]], "logical")
+  expect_type(out[["a"]], "character")
+  expect_s3_class(out[["b"]], "factor")
+  expect_s3_class(out[["c"]], "Date")
+  expect_s3_class(out[["d"]], "POSIXct")
+  expect_type(out[["g"]], "logical")
   # expect factor levels to be preserved
   expect_equal(levels(out[["b"]]), levels(test_df[["b"]]))
   # expect NAs in total rows for non-numerics
@@ -386,14 +375,12 @@ test_that("supplying NA to fill preserves column types", {
   expect_equal(out[4, "f"], 15)
   expect_equal(out[4, "h"], 24.6)
   # expect original df intact
-  expect_equivalent(test_df, out[1:3,])
-  
+  expect_equal(test_df, out[1:3, ], ignore_attr = TRUE)
 })
 
 test_that("supplying NA as fill still works with non-character first col and numeric non-totaled cols", {
-  
   test_df <- data.frame(
-    a = factor(c("hi", "low", "med")),
+    a = factor(c("hi", "low", "med"), levels = c("low", "med", "hi")),
     b = factor(c("big", "small", "regular")),
     c = c(as.Date("2000-01-01"), as.Date("2000-01-02"), as.Date("2000-01-03")),
     d = 1:3,
@@ -402,32 +389,39 @@ test_that("supplying NA as fill still works with non-character first col and num
     g = c(7.2, 8.2, 9.2),
     stringsAsFactors = FALSE
   )
-  
-  out <- adorn_totals(test_df, 
-                      where = "row", 
-                      fill = NA,
-                      na.rm = TRUE,
-                      name = "Total",
-                      d, e)
-  
-  expect_equal(out[["a"]], c("hi", "low", "med", "Total"))
+
+  out <- adorn_totals(test_df,
+    where = "row",
+    fill = NA,
+    na.rm = TRUE,
+    name = "Total",
+    d, e
+  )
+
+  expect_equal(out[["a"]], factor(c("hi", "low", "med", "Total"), levels = c("low", "med", "hi", "Total")))
   expect_equal(out[["g"]], c(7.2, 8.2, 9.2, NA_real_))
-  expect_equal(out[4,"d"], 6)
-  expect_equal(out[4,"e"], 15)
-  expect_equivalent(test_df[1:3, 2:7], out[1:3,2:7])
-  
+  expect_equal(out[4, "d"], 6)
+  expect_equal(out[4, "e"], 15)
+  expect_equal(test_df[1:3, 2:7], out[1:3, 2:7], ignore_attr = TRUE)
+})
+
+test_that("one_way tabyl inputs retain that class", {
+  expect_equal(
+    attr(mtcars %>% tabyl(am) %>% adorn_totals("both"), "tabyl_type"),
+    "one_way"
+  )
 })
 
 
 # Tests from #413, different values for row and col names
 test_that("long vectors are trimmed", {
-  
   expect_equal(
-    mixed %>% 
+    mixed %>%
       adorn_totals(
         where = "row",
         name = c("total", "something_else"),
-        fill = "-") %>% 
+        fill = "-"
+      ) %>%
       untabyl(),
     data.frame(
       a = c(as.character(1:3), "total"),
@@ -437,18 +431,16 @@ test_that("long vectors are trimmed", {
       stringsAsFactors = FALSE
     )
   )
-  
-}
-)
+})
 
 test_that("row and column names are taken correctly from a vector", {
-  
   expect_equal(
-    mixed %>% 
+    mixed %>%
       adorn_totals(
         where = "both",
         name = c("row_name", "col_name"),
-        fill = "-") %>% 
+        fill = "-"
+      ) %>%
       untabyl(),
     data.frame(
       a = c(as.character(1:3), "row_name"),
@@ -459,19 +451,16 @@ test_that("row and column names are taken correctly from a vector", {
       stringsAsFactors = FALSE
     )
   )
-  
-}
-)
-
-
+})
 
 test_that("row and column names are taken correctly from a single name", {
   expect_equal(
-    mixed %>% 
+    mixed %>%
       adorn_totals(
         where = "both",
         name = "totals",
-        fill = "-") %>%
+        fill = "-"
+      ) %>%
       untabyl(),
     data.frame(
       a = c(as.character(1:3), "totals"),
@@ -482,6 +471,125 @@ test_that("row and column names are taken correctly from a single name", {
       stringsAsFactors = FALSE
     )
   )
-  
-}
+})
+
+dat <- data.frame(
+  a = c(rep(c("big", "small", "big"), 3)),
+  b = c(1:3, 1:3, 1, 1, 1),
+  stringsAsFactors = TRUE
 )
+ct <- dat %>%
+  tabyl(a, b)
+
+mixed <- data.frame(
+  a = 1:3,
+  b = c("x", "y", "z"),
+  c = 5:7,
+  d = c("big", "med", "small"),
+  stringsAsFactors = FALSE
+)
+
+test_that("long vectors are trimmed", {
+  expect_equal(
+    mixed %>%
+      adorn_totals(
+        where = "row",
+        name = c("total", "row_total"),
+        fill = "-"
+      ) %>%
+      untabyl(),
+    data.frame(
+      a = c(as.character(1:3), "total"),
+      b = c("x", "y", "z", "-"),
+      c = c(5:7, 18),
+      d = c("big", "med", "small", "-"),
+      stringsAsFactors = FALSE
+    )
+  )
+})
+
+test_that("row and column names are taken correctly from a vector", {
+  expect_equal(
+    mixed %>%
+      adorn_totals(
+        where = "both",
+        name = c("column_totals", "row_totals"),
+        fill = "-"
+      ) %>%
+      untabyl(),
+    data.frame(
+      a = c(as.character(1:3), "column_totals"),
+      b = c("x", "y", "z", "-"),
+      c = c(5, 6, 7, 18),
+      d = c("big", "med", "small", "-"),
+      row_totals = c(5, 6, 7, 18),
+      stringsAsFactors = FALSE
+    )
+  )
+})
+
+test_that("row and column names are taken correctly from a single name", {
+  expect_equal(
+    mixed %>%
+      adorn_totals(
+        where = "both",
+        name = "totals",
+        fill = "-"
+      ) %>%
+      untabyl(),
+    data.frame(
+      a = c(as.character(1:3), "totals"),
+      b = c("x", "y", "z", "-"),
+      c = c(5, 6, 7, 18),
+      d = c("big", "med", "small", "-"),
+      totals = c(5, 6, 7, 18),
+      stringsAsFactors = FALSE
+    )
+  )
+})
+
+test_that("order is maintained when first column is a factor, #494", {
+  o <- data.frame(
+    a = 1:5,
+    fac = factor(c("orange", "blue", "orange", "orange", "blue")),
+    ord = ordered(
+      c("huge", "medium", "small", "medium", "medium"),
+      levels = c("small", "medium", "huge")
+    )
+  )
+
+  o_tabyl_totaled <- o %>%
+    tabyl(ord, a) %>%
+    adorn_totals("both")
+
+  expect_equal(
+    attr(o_tabyl_totaled$ord, "levels"),
+    c("small", "medium", "huge", "Total")
+  )
+  expect_equal(
+    class(o_tabyl_totaled$ord),
+    c("ordered", "factor")
+  )
+  f_tabyl_totaled <- o %>%
+    tabyl(fac, a) %>%
+    adorn_totals("both")
+
+  expect_equal(
+    attr(f_tabyl_totaled$fac, "levels"),
+    c("blue", "orange", "Total")
+  )
+  expect_equal(
+    class(f_tabyl_totaled$fac),
+    "factor"
+  )
+})
+
+test_that("if factor level already present, adorn_totals() still works, #529", {
+  factor_present <- mtcars %>%
+    tabyl(am, cyl)
+  factor_present$am <- factor(factor_present$am, levels = c("0", "1", "Total"))
+  expect_equal(
+    levels(adorn_totals(factor_present, "row")$am),
+    c("0", "1", "Total")
+  )
+})

@@ -26,17 +26,17 @@ missing from a data.frame would be considered a mismatch (as in
 }
 \value{
 \code{TRUE} if row binding will succeed or \code{FALSE} if it will
-  fail.
+fail.
 }
 \description{
 Check whether a set of data.frames are row-bindable.  Calls
 \code{compare_df_cols()}and returns TRUE if there are no mis-matching rows.  `
 }
 \examples{
-compare_df_cols_same(data.frame(A=1), data.frame(A=2))
-compare_df_cols_same(data.frame(A=1), data.frame(B=2))
-compare_df_cols_same(data.frame(A=1), data.frame(B=2), verbose=FALSE)
-compare_df_cols_same(data.frame(A=1), data.frame(B=2), bind_method="rbind")
+compare_df_cols_same(data.frame(A = 1), data.frame(A = 2))
+compare_df_cols_same(data.frame(A = 1), data.frame(B = 2))
+compare_df_cols_same(data.frame(A = 1), data.frame(B = 2), verbose = FALSE)
+compare_df_cols_same(data.frame(A = 1), data.frame(B = 2), bind_method = "rbind")
 }
 \seealso{
 Other Data frame type comparison: 

@@ -4,14 +4,22 @@
 \alias{row_to_names}
 \title{Elevate a row to be the column names of a data.frame.}
 \usage{
-row_to_names(dat, row_number, ..., remove_row = TRUE, remove_rows_above = TRUE)
+row_to_names(
+  dat,
+  row_number,
+  ...,
+  remove_row = TRUE,
+  remove_rows_above = TRUE,
+  sep = "_"
+)
 }
 \arguments{
 \item{dat}{The input data.frame}
 
-\item{row_number}{The row of \code{dat} containing the variable names or the
+\item{row_number}{The row(s) of \code{dat} containing the variable names or the
 string \code{"find_header"} to use \code{find_header(dat=dat, ...)} to find
-the row_number.}
+the row_number. Allows for multiple rows input as a numeric vector. NA's are
+ignored, and if a column contains only NA value it will be named \code{"NA"}.}
 
 \item{...}{Sent to \code{find_header()}, if
 \code{row_number = "find_header"}.  Otherwise, ignored.}
@@ -22,6 +30,9 @@ resulting data.frame?}
 \item{remove_rows_above}{If \code{row_number != 1}, should the rows above
 \code{row_number} - that is, between \code{1:(row_number-1)} - be removed
 from the resulting data.frame?}
+
+\item{sep}{A character string to separate the values in the case of multiple
+rows input to \code{row_number}.}
 }
 \value{
 A data.frame with new names (and some rows removed, if specified)
@@ -30,8 +41,10 @@ A data.frame with new names (and some rows removed, if specified)
 Elevate a row to be the column names of a data.frame.
 }
 \examples{
-x <- data.frame(X_1 = c(NA, "Title", 1:3),
-                X_2 = c(NA, "Title2", 4:6))
+x <- data.frame(
+  X_1 = c(NA, "Title", 1:3),
+  X_2 = c(NA, "Title2", 4:6)
+)
 x \%>\%
   row_to_names(row_number = 2)
 

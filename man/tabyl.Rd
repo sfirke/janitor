@@ -13,7 +13,7 @@ tabyl(dat, ...)
 \method{tabyl}{data.frame}(dat, var1, var2, var3, show_na = TRUE, show_missing_levels = TRUE, ...)
 }
 \arguments{
-\item{dat}{a data.frame containing the variables you wish to count.  Or, a vector you want to tabulate.}
+\item{dat}{a \code{data.frame} containing the variables you wish to count.  Or, a vector you want to tabulate.}
 
 \item{...}{the arguments to tabyl (here just for the sake of documentation compliance, as all arguments are listed with the vector- and data.frame-specific methods)}
 
@@ -28,7 +28,7 @@ tabyl(dat, ...)
 \item{var3}{(optional) the column name of the third variable (the list in a 3-way tabulation).}
 }
 \value{
-Returns a data.frame with frequencies and percentages of the tabulated variable(s).  A 3-way tabulation returns a list of data.frames.
+A data.frame with frequencies and percentages of the tabulated variable(s).  A 3-way tabulation returns a list of data.frames.
 }
 \description{
 A fully-featured alternative to \code{table()}.  Results are data.frames and can be formatted and enhanced with janitor's family of \code{adorn_} functions.
