@@ -75,7 +75,7 @@ test_that("excel_time_to_numeric, am/pm times work", {
   # Test mixed AM/PM and 24-hour clock values
   expect_equal(
     excel_time_to_numeric(c("8:00pm", "8:00", "9:00")),
-    c(20, 8, 9)*3600
+    c(20, 8, 9) * 3600
   )
 })
 
