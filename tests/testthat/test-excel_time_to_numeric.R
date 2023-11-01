@@ -72,6 +72,11 @@ test_that("excel_time_to_numeric, am/pm times work", {
     excel_time_to_numeric("12:10:05pm"), 12*3600 + 10*60 + 5,
     info="After noon is treated as 12."
   )
+  # Test mixed AM/PM and 24-hour clock values
+  expect_equal(
+    excel_time_to_numeric(c("8:00pm", "8:00", "9:00")),
+    c(20, 8, 9)*3600
+  )
 })
 
 test_that("excel_time_to_numeric, am/pm times work case insensitively and with spaces", {

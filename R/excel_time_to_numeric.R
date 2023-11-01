@@ -137,7 +137,6 @@ excel_time_to_numeric.character <- function(time_value, round_seconds=TRUE) {
       mask_0_hours <- mask_12hr & (hours %in% "12")
       hours[mask_0_hours] <- "0"
       mask_pm[mask_12hr] <-
-        mask_12hr &
         tolower(
           gsub(pattern=patterns[["12hr"]], replacement="\\4", x=time_value[mask_12hr], ignore.case=TRUE)
         ) %in% "pm"
