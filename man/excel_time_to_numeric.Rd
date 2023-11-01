@@ -23,14 +23,14 @@ Microsoft Excel to a numeric number of seconds within a day.
 \details{
 \code{time_value} may be one of the following formats:
 \itemize{
-  \item{numeric}{The input must be a value from 0 to 1 (exclusive of 1); this value is returned as-is.}
-  \item{POSIXlt or POSIXct}{The input must be on the day 1899-12-31 (any other day is an error).  The time of day is extracted and converted to a fraction of a day.}
-  \item{character}{Any of the following (or a mixture of the choices):}
-  \itemize{
-    \item{A character string that is a number between 0 and 1 (exclusive of 1), converted like a numeric value.}
-    \item{A character string that looks like a date on 1899-12-31 (specifically, it must start with \code{"1899-12-31 "}), converted like a POSIXct object.}
-    \item{A character string that looks like a time.  Choices are 12-hour time ""}
-  }
+\item{numeric}{The input must be a value from 0 to 1 (exclusive of 1); this value is returned as-is.}
+\item{POSIXlt or POSIXct}{The input must be on the day 1899-12-31 (any other day is an error).  The time of day is extracted and converted to a fraction of a day.}
+\item{character}{Any of the following (or a mixture of the choices):}
+\itemize{
+\item{A character string that is a number between 0 and 1 (exclusive of 1), converted like a numeric value.}
+\item{A character string that looks like a date on 1899-12-31 (specifically, it must start with \code{"1899-12-31 "}), converted like a POSIXct object.}
+\item{A character string that looks like a time.  Choices are 12-hour time ""}
+}
 }
 }
 \seealso{
