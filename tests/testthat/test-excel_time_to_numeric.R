@@ -8,6 +8,7 @@ test_that("excel_time_to_numeric numbers function correctly", {
 })
 
 test_that("excel_time_to_numeric POSIX objects extract the correct part of the time", {
+  expect_equal(excel_time_to_numeric(as.POSIXct("1899-12-31 00:01")), 60)
   expect_equal(excel_time_to_numeric(as.POSIXct("1899-12-31 08:00")), 8 * 3600)
   expect_equal(excel_time_to_numeric(as.POSIXct("1899-12-31 13:00")), 13 * 3600)
   expect_equal(excel_time_to_numeric(as.POSIXct("1899-12-31 13:05:10")), 13 * 3600 + 5 * 60 + 10)

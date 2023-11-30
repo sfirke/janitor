@@ -10,8 +10,8 @@
 #'   \item{character}{Any of the following (or a mixture of the choices):}
 #'   \itemize{
 #'     \item{A character string that is a number between 0 and 1 (exclusive of 1), converted like a numeric value.}
-#'     \item{A character string that looks like a date on 1899-12-31 (specifically, it must start with \code{"1899-12-31 "}), converted like a POSIXct object.}
-#'     \item{A character string that looks like a time.  Choices are 12-hour time ""}
+#'     \item{A character string that looks like a date on 1899-12-31 (specifically, it must start with \code{"1899-12-31 "}), converted like a POSIXct object as described above.}
+#'     \item{A character string that looks like a time.  Choices are 12-hour time as hour, minute, and optionally second followed by "am" or "pm" (case insensitive) or 24-hour time when hour, minute, optionally second, and no "am" or "pm" is included.}
 #'   }
 #' }
 #'
@@ -38,8 +38,8 @@ excel_time_to_numeric.logical <- function(time_value, round_seconds = TRUE) {
 #' @export
 excel_time_to_numeric.numeric <- function(time_value, round_seconds = TRUE) {
   if (all(is.na(time_value) |
-    time_value >= 0 &
-      time_value < 1)) {
+          (time_value >= 0 &
+           time_value < 1))) {
     seconds <- time_value * 86400
     if (round_seconds) {
       seconds <- round(seconds)
