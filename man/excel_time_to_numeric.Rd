@@ -3,7 +3,7 @@
 \name{excel_time_to_numeric}
 \alias{excel_time_to_numeric}
 \title{Convert a time that may be inconsistently or inconveniently formatted from
-Microsoft Excel to a numeric number of seconds within a day.}
+Microsoft Excel to a numeric number of seconds between 0 and 86400.}
 \usage{
 excel_time_to_numeric(time_value, round_seconds = TRUE)
 }
@@ -18,23 +18,23 @@ A vector of numbers >= 0 and <86400
 }
 \description{
 Convert a time that may be inconsistently or inconveniently formatted from
-Microsoft Excel to a numeric number of seconds within a day.
+Microsoft Excel to a numeric number of seconds between 0 and 86400.
 }
 \details{
 \code{time_value} may be one of the following formats:
 \itemize{
 \item{numeric}{The input must be a value from 0 to 1 (exclusive of 1); this value is returned as-is.}
-\item{POSIXlt or POSIXct}{The input must be on the day 1899-12-31 (any other day is an error).  The time of day is extracted and converted to a fraction of a day.}
+\item{POSIXlt or POSIXct}{The input must be on the day 1899-12-31 (any other day will cause an error).  The time of day is extracted and converted to a fraction of a day.}
 \item{character}{Any of the following (or a mixture of the choices):}
 \itemize{
-\item{A character string that is a number between 0 and 1 (exclusive of 1), converted like a numeric value.}
-\item{A character string that looks like a date on 1899-12-31 (specifically, it must start with \code{"1899-12-31 "}), converted like a POSIXct object.}
-\item{A character string that looks like a time.  Choices are 12-hour time ""}
+\item{A character string that is a number between 0 and 1 (exclusive of 1).  This value will be converted like a numeric value.}
+\item{A character string that looks like a date on 1899-12-31 (specifically, it must start with \code{"1899-12-31 "}), converted like a POSIXct object as described above.}
+\item{A character string that looks like a time.  Choices are 12-hour time as hour, minute, and optionally second followed by "am" or "pm" (case insensitive) or 24-hour time when hour, minute, optionally second, and no "am" or "pm" is included.}
 }
 }
 }
 \seealso{
-\code{\link{excel_numeric_to_date}}
+\verb{\link{excel_numeric_to_date}}
 
 Other Date-time cleaning: 
 \code{\link{convert_to_date}()},
