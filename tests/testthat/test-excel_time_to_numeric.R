@@ -1,5 +1,3 @@
-context("Excel time cleaning")
-
 test_that("excel_time_to_numeric numbers function correctly", {
   expect_equal(excel_time_to_numeric(0.1), 8640)
   expect_equal(excel_time_to_numeric(0.1000000001), 8640)
