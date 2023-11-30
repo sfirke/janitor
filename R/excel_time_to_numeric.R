@@ -1,5 +1,5 @@
 #' Convert a time that may be inconsistently or inconveniently formatted from
-#' Microsoft Excel to a numeric number of seconds within a day.
+#' Microsoft Excel to a numeric number of seconds between 0 and 86400.
 #'
 #' @details
 #'
