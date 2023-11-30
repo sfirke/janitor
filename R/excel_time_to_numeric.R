@@ -87,7 +87,7 @@ excel_time_to_numeric.character <- function(time_value, round_seconds = TRUE) {
       "24hr" = "^([0-1]?[0-9]|2[0-3]):([0-5][0-9])(?::([0-5][0-9]))?$",
       # The ".*?" at the end of POSIX is to allow for a time zone, but it allows
       #   for imperfect parsing if there were just a date and a space.
-      # The the entire time is optional to allow for midnight which shows as
+      # The entire time is optional to allow for midnight which shows as
       #   just the date and time zone.
       POSIX = "1899-12-31 (?:([0-1]?[0-9]|2[0-3]):([0-5][0-9])(?::([0-5][0-9]))?)?.*?$"
     )
