@@ -38,8 +38,8 @@ excel_time_to_numeric.logical <- function(time_value, round_seconds = TRUE) {
 #' @export
 excel_time_to_numeric.numeric <- function(time_value, round_seconds = TRUE) {
   if (all(is.na(time_value) |
-          (time_value >= 0 &
-           time_value < 1))) {
+    (time_value >= 0 &
+      time_value < 1))) {
     seconds <- time_value * 86400
     if (round_seconds) {
       seconds <- round(seconds)
