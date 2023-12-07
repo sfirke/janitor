@@ -5,7 +5,7 @@
 #'
 #' @param input_vec The factor variable to tabulate.
 #' @param n Number of levels to include in top and bottom groups
-#' @param show_na Should cases where the variable is NA be shown?
+#' @param show_na Should cases where the variable is `NA` be shown?
 #' @return A `data.frame` (actually a `tbl_df`) with the frequencies of the
 #'   grouped, tabulated variable.  Includes counts and percentages, and valid
 #'   percentages (calculated omitting `NA` values, if present in the vector and

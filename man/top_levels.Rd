@@ -12,7 +12,7 @@ top_levels(input_vec, n = 2, show_na = FALSE)
 
 \item{n}{Number of levels to include in top and bottom groups}
 
-\item{show_na}{Should cases where the variable is NA be shown?}
+\item{show_na}{Should cases where the variable is \code{NA} be shown?}
 }
 \value{
 A \code{data.frame} (actually a \code{tbl_df}) with the frequencies of the
