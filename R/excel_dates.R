@@ -33,6 +33,7 @@
 #'   https://support.microsoft.com/en-us/help/2722715/support-for-the-leap-second).
 #'
 #' @export
+#' @seealso \code{\link{excel_time_to_numeric}}
 #' @examples
 #' excel_numeric_to_date(40000)
 #' excel_numeric_to_date(40000.5) # No time is included

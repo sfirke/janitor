@@ -48,6 +48,7 @@ Other contributors:
   \item Ryan Knight \email{ryangknight@gmail.com} [contributor]
   \item Malte Grosser \email{malte.grosser@gmail.com} [contributor]
   \item Jonathan Zadra \email{jonathan.zadra@sorensonimpact.com} [contributor]
+  \item Olivier Roy [contributor]
 }
 
 }
