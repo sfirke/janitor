@@ -103,15 +103,6 @@ test_that("excel_time_to_numeric, 24-hour times work (zero-padded hours or not)"
   expect_equal(excel_time_to_numeric("08:10"), 8 * 3600 + 10 * 60)
   expect_equal(excel_time_to_numeric("8:10:05"), 8 * 3600 + 10 * 60 + 5)
   expect_equal(excel_time_to_numeric("21:05"), 21 * 3600 + 5 * 60)
-  expect_equal(excel_time_to_numeric("21:05:20"), 21 * 3600 + 5 * 60 + 20)
-})
-
-test_that("excel_time_to_numeric, 24-hour times work (zero-padded hours or not)", {
-  expect_equal(excel_time_to_numeric("8:00"), 8 * 3600)
-  expect_equal(excel_time_to_numeric("08:00"), 8 * 3600)
-  expect_equal(excel_time_to_numeric("08:10"), 8 * 3600 + 10 * 60)
-  expect_equal(excel_time_to_numeric("8:10:05"), 8 * 3600 + 10 * 60 + 5)
-  expect_equal(excel_time_to_numeric("21:05"), 21 * 3600 + 5 * 60)
   expect_equal(excel_time_to_numeric("0:05"), 5 * 60)
   expect_equal(excel_time_to_numeric("00:05"), 5 * 60)
   expect_equal(excel_time_to_numeric("21:05:20"), 21 * 3600 + 5 * 60 + 20)
