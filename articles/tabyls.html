@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="tabyls: a tidy, fully-featured approach to counting things">
 <meta property="og:description" content="janitor">
@@ -82,7 +82,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>tabyls: a tidy, fully-featured approach to counting things</h1>
             
-            <h4 data-toc-skip class="date">2023-09-06</h4>
+            <h4 data-toc-skip class="date">2023-12-07</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sfirke/janitor/blob/HEAD/vignettes/tabyls.Rmd" class="external-link"><code>vignettes/tabyls.Rmd</code></a></small>
       <div class="d-none name"><code>tabyls.Rmd</code></div>
@@ -148,9 +148,10 @@ studying humans in the <code>starwars</code> dataset from dplyr:</p>
 <span><span class="co">#&gt;  eye_color  n    percent</span></span>
 <span><span class="co">#&gt;       blue 12 0.34285714</span></span>
 <span><span class="co">#&gt;  blue-gray  1 0.02857143</span></span>
-<span><span class="co">#&gt;      brown 17 0.48571429</span></span>
+<span><span class="co">#&gt;      brown 16 0.45714286</span></span>
 <span><span class="co">#&gt;       dark  1 0.02857143</span></span>
 <span><span class="co">#&gt;      hazel  2 0.05714286</span></span>
+<span><span class="co">#&gt;    unknown  1 0.02857143</span></span>
 <span><span class="co">#&gt;     yellow  2 0.05714286</span></span></code></pre></div>
 <p>When <code>NA</code> values are present, <code><a href="../reference/tabyl.html">tabyl()</a></code> also
 displays “valid” percentages, i.e., with missing values removed from the
@@ -173,9 +174,10 @@ but those that make sense for a 1-way tabyl do work:</p>
 <span><span class="co">#&gt;  eye_color  n percent</span></span>
 <span><span class="co">#&gt;       blue 12   34.3%</span></span>
 <span><span class="co">#&gt;  blue-gray  1    2.9%</span></span>
-<span><span class="co">#&gt;      brown 17   48.6%</span></span>
+<span><span class="co">#&gt;      brown 16   45.7%</span></span>
 <span><span class="co">#&gt;       dark  1    2.9%</span></span>
 <span><span class="co">#&gt;      hazel  2    5.7%</span></span>
+<span><span class="co">#&gt;    unknown  1    2.9%</span></span>
 <span><span class="co">#&gt;     yellow  2    5.7%</span></span>
 <span><span class="co">#&gt;      Total 35  100.0%</span></span></code></pre></div>
 </div>
@@ -191,9 +193,9 @@ followed by <code><a href="https://tidyr.tidyverse.org/reference/pivot_wider.htm
 <span>  <span class="fu"><a href="../reference/tabyl.html">tabyl</a></span><span class="op">(</span><span class="va">gender</span>, <span class="va">eye_color</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">t2</span></span>
-<span><span class="co">#&gt;     gender blue blue-gray brown dark hazel yellow</span></span>
-<span><span class="co">#&gt;   feminine    3         0     5    0     1      0</span></span>
-<span><span class="co">#&gt;  masculine    9         1    12    1     1      2</span></span></code></pre></div>
+<span><span class="co">#&gt;     gender blue blue-gray brown dark hazel unknown yellow</span></span>
+<span><span class="co">#&gt;   feminine    3         0     4    0     1       1      0</span></span>
+<span><span class="co">#&gt;  masculine    9         1    12    1     1       0      2</span></span></code></pre></div>
 <p>Since it’s a <code>tabyl</code>, we can enhance it with
 <code>adorn_</code> helper functions. For instance:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -201,9 +203,12 @@ followed by <code><a href="https://tidyr.tidyverse.org/reference/pivot_wider.htm
 <span>  <span class="fu"><a href="../reference/adorn_percentages.html">adorn_percentages</a></span><span class="op">(</span><span class="st">"row"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/adorn_pct_formatting.html">adorn_pct_formatting</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/adorn_ns.html">adorn_ns</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt;     gender       blue blue-gray       brown      dark      hazel    yellow</span></span>
-<span><span class="co">#&gt;   feminine 33.33% (3) 0.00% (0) 55.56%  (5) 0.00% (0) 11.11% (1) 0.00% (0)</span></span>
-<span><span class="co">#&gt;  masculine 34.62% (9) 3.85% (1) 46.15% (12) 3.85% (1)  3.85% (1) 7.69% (2)</span></span></code></pre></div>
+<span><span class="co">#&gt;     gender       blue blue-gray       brown      dark      hazel    unknown</span></span>
+<span><span class="co">#&gt;   feminine 33.33% (3) 0.00% (0) 44.44%  (4) 0.00% (0) 11.11% (1) 11.11% (1)</span></span>
+<span><span class="co">#&gt;  masculine 34.62% (9) 3.85% (1) 46.15% (12) 3.85% (1)  3.85% (1)  0.00% (0)</span></span>
+<span><span class="co">#&gt;     yellow</span></span>
+<span><span class="co">#&gt;  0.00% (0)</span></span>
+<span><span class="co">#&gt;  7.69% (2)</span></span></code></pre></div>
 <p>Adornments have options to control axes, rounding, and other relevant
 formatting choices (more on that below).</p>
 </div>
@@ -219,22 +224,24 @@ formatting choices (more on that below).</p>
 <span><span class="co"># the result is a tabyl of eye color x skin color, split into a list by gender</span></span>
 <span><span class="va">t3</span></span>
 <span><span class="co">#&gt; $feminine</span></span>
-<span><span class="co">#&gt;  eye_color dark fair light pale tan white</span></span>
-<span><span class="co">#&gt;       blue    0    2     1    0   0     0</span></span>
-<span><span class="co">#&gt;  blue-gray    0    0     0    0   0     0</span></span>
-<span><span class="co">#&gt;      brown    0    1     4    0   0     0</span></span>
-<span><span class="co">#&gt;       dark    0    0     0    0   0     0</span></span>
-<span><span class="co">#&gt;      hazel    0    0     1    0   0     0</span></span>
-<span><span class="co">#&gt;     yellow    0    0     0    0   0     0</span></span>
+<span><span class="co">#&gt;  eye_color dark fair light none pale tan white</span></span>
+<span><span class="co">#&gt;       blue    0    2     1    0    0   0     0</span></span>
+<span><span class="co">#&gt;  blue-gray    0    0     0    0    0   0     0</span></span>
+<span><span class="co">#&gt;      brown    0    1     3    0    0   0     0</span></span>
+<span><span class="co">#&gt;       dark    0    0     0    0    0   0     0</span></span>
+<span><span class="co">#&gt;      hazel    0    0     1    0    0   0     0</span></span>
+<span><span class="co">#&gt;    unknown    0    0     0    1    0   0     0</span></span>
+<span><span class="co">#&gt;     yellow    0    0     0    0    0   0     0</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $masculine</span></span>
-<span><span class="co">#&gt;  eye_color dark fair light pale tan white</span></span>
-<span><span class="co">#&gt;       blue    0    7     2    0   0     0</span></span>
-<span><span class="co">#&gt;  blue-gray    0    1     0    0   0     0</span></span>
-<span><span class="co">#&gt;      brown    3    4     3    0   2     0</span></span>
-<span><span class="co">#&gt;       dark    1    0     0    0   0     0</span></span>
-<span><span class="co">#&gt;      hazel    0    1     0    0   0     0</span></span>
-<span><span class="co">#&gt;     yellow    0    0     0    1   0     1</span></span></code></pre></div>
+<span><span class="co">#&gt;  eye_color dark fair light none pale tan white</span></span>
+<span><span class="co">#&gt;       blue    0    7     2    0    0   0     0</span></span>
+<span><span class="co">#&gt;  blue-gray    0    1     0    0    0   0     0</span></span>
+<span><span class="co">#&gt;      brown    3    4     3    0    0   2     0</span></span>
+<span><span class="co">#&gt;       dark    1    0     0    0    0   0     0</span></span>
+<span><span class="co">#&gt;      hazel    0    1     0    0    0   0     0</span></span>
+<span><span class="co">#&gt;    unknown    0    0     0    0    0   0     0</span></span>
+<span><span class="co">#&gt;     yellow    0    0     0    0    1   0     1</span></span></code></pre></div>
 <p>If the <code>adorn_</code> helper functions are called on a list of
 data.frames - like the output of a three-way <code>tabyl</code> call -
 they will call <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::map()</a></code> to apply themselves to each
@@ -249,12 +256,13 @@ data.frame in the list:</p>
 <span>  <span class="fu"><a href="../reference/adorn_ns.html">adorn_ns</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/adorn_title.html">adorn_title</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $feminine</span></span>
-<span><span class="co">#&gt;            skin_color          </span></span>
-<span><span class="co">#&gt;  eye_color       fair     light</span></span>
-<span><span class="co">#&gt;       blue  22.2% (2) 11.1% (1)</span></span>
-<span><span class="co">#&gt;      brown  11.1% (1) 44.4% (4)</span></span>
-<span><span class="co">#&gt;      hazel   0.0% (0) 11.1% (1)</span></span>
-<span><span class="co">#&gt;      Total  33.3% (3) 66.7% (6)</span></span>
+<span><span class="co">#&gt;            skin_color                    </span></span>
+<span><span class="co">#&gt;  eye_color       fair     light      none</span></span>
+<span><span class="co">#&gt;       blue  22.2% (2) 11.1% (1)  0.0% (0)</span></span>
+<span><span class="co">#&gt;      brown  11.1% (1) 33.3% (3)  0.0% (0)</span></span>
+<span><span class="co">#&gt;      hazel   0.0% (0) 11.1% (1)  0.0% (0)</span></span>
+<span><span class="co">#&gt;    unknown   0.0% (0)  0.0% (0) 11.1% (1)</span></span>
+<span><span class="co">#&gt;      Total  33.3% (3) 55.6% (5) 11.1% (1)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $masculine</span></span>
 <span><span class="co">#&gt;            skin_color                                                </span></span>
@@ -316,14 +324,15 @@ results for interactive analysis or for sharing in a report, e.g., with
 <span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <colgroup>
-<col width="22%">
-<col width="11%">
-<col width="12%">
-<col width="11%">
-<col width="9%">
+<col width="20%">
 <col width="10%">
+<col width="11%">
+<col width="10%">
+<col width="8%">
 <col width="9%">
-<col width="12%">
+<col width="9%">
+<col width="8%">
+<col width="11%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">gender/eye_color</th>
@@ -332,6 +341,7 @@ results for interactive analysis or for sharing in a report, e.g., with
 <th align="left">brown</th>
 <th align="left">dark</th>
 <th align="left">hazel</th>
+<th align="left">unknown</th>
 <th align="left">yellow</th>
 <th align="left">Total</th>
 </tr></thead>
@@ -340,8 +350,9 @@ results for interactive analysis or for sharing in a report, e.g., with
 <td align="left">feminine</td>
 <td align="left">33% (3)</td>
 <td align="left">0% (0)</td>
-<td align="left">56% (5)</td>
+<td align="left">44% (4)</td>
 <td align="left">0% (0)</td>
+<td align="left">11% (1)</td>
 <td align="left">11% (1)</td>
 <td align="left">0% (0)</td>
 <td align="left">100% (9)</td>
@@ -353,6 +364,7 @@ results for interactive analysis or for sharing in a report, e.g., with
 <td align="left">46% (12)</td>
 <td align="left">4% (1)</td>
 <td align="left">4% (1)</td>
+<td align="left">0% (0)</td>
 <td align="left">8% (2)</td>
 <td align="left">100% (26)</td>
 </tr>
@@ -360,9 +372,10 @@ results for interactive analysis or for sharing in a report, e.g., with
 <td align="left">Total</td>
 <td align="left">34% (12)</td>
 <td align="left">3% (1)</td>
-<td align="left">49% (17)</td>
+<td align="left">46% (16)</td>
 <td align="left">3% (1)</td>
 <td align="left">6% (2)</td>
+<td align="left">3% (1)</td>
 <td align="left">6% (2)</td>
 <td align="left">100% (35)</td>
 </tr>
@@ -441,7 +454,7 @@ certain condition, then format the results.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 2</span></span></span>
 <span><span class="co">#&gt;   gender    pct_above_165_cm</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> feminine  12.5%           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> feminine  28.6%           </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> masculine 100.0%</span></span></code></pre></div>
 <p>You can control which columns are adorned by using the
 <code>...</code> argument. It accepts the <a href="https://r4ds.had.co.nz/transform.html#select" class="external-link">tidyselect
