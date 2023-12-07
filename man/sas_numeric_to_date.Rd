@@ -38,6 +38,7 @@ SAS Date, Time, and Datetime Values reference (retrieved on
 \seealso{
 Other Date-time cleaning: 
 \code{\link{convert_to_date}()},
-\code{\link{excel_numeric_to_date}()}
+\code{\link{excel_numeric_to_date}()},
+\code{\link{excel_time_to_numeric}()}
 }
 \concept{Date-time cleaning}

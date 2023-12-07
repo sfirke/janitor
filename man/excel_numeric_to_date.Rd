@@ -64,8 +64,11 @@ excel_numeric_to_date(40000.521,
 ) # Time with fractional seconds is included
 }
 \seealso{
+\code{\link{excel_time_to_numeric}}
+
 Other Date-time cleaning: 
 \code{\link{convert_to_date}()},
+\code{\link{excel_time_to_numeric}()},
 \code{\link{sas_numeric_to_date}()}
 }
 \concept{Date-time cleaning}
