@@ -46,9 +46,9 @@ test_that("bad inputs are caught", {
     "argument \"ns\" cannot be null; if not calling adorn_ns() on a data.frame of class \"tabyl\", pass your own value for ns",
     fixed = TRUE
   )
-  expect_error(mtcars %>% tabyl(am, cyl) %>% adorn_ns("huh"),
-    "\"position\" must be one of \"front\" or \"rear\"",
-    fixed = TRUE
+  expect_error(
+    mtcars %>% tabyl(am, cyl) %>% adorn_ns("huh"),
+    "`position` must be one of \"front\" or \"rear\", not \"huh\""
   )
   expect_error(
     mtcars %>% tabyl(am, cyl) %>% adorn_ns(ns = mtcars$mpg),

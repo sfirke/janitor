@@ -65,7 +65,7 @@ test_that("bad inputs are caught", {
     adorn_title(source1,
       placement = "blargh"
     ),
-    "\"placement\" must be one of \"top\" or \"combined\"",
+    "`placement` must be one of \"top\" or \"combined\"",
     fixed = TRUE
   )
   expect_error(
