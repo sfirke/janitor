@@ -2,14 +2,14 @@
 % Please edit documentation in R/janitor_deprecated.R
 \name{use_first_valid_of}
 \alias{use_first_valid_of}
-\title{Returns first non-NA value from a set of vectors.}
+\title{Returns first non-\code{NA} value from a set of vectors.}
 \usage{
 use_first_valid_of(..., if_all_NA = NA)
 }
 \arguments{
 \item{...}{the input vectors.  Order matters: these are searched and prioritized in the order they are supplied.}
 
-\item{if_all_NA}{what value should be used when all of the vectors return \code{NA} for a certain index?  Default is NA.}
+\item{if_all_NA}{what value should be used when all of the vectors return \code{NA} for a certain index?  Default is \code{NA}.}
 }
 \value{
 Returns a single vector with the selected values.

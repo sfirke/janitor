@@ -9,7 +9,7 @@
 #'   `data.frame` in the list (designed for 3-way `tabyl` lists).
 #' @param denominator The direction to use for calculating percentages.
 #'   One of "row", "col", or "all".
-#' @param na.rm should missing values (including NaN) be omitted from the calculations?
+#' @param na.rm should missing values (including `NaN`) be omitted from the calculations?
 #' @param ... columns to adorn. This takes a <[`tidy-select`][dplyr::dplyr_tidy_select]>
 #'   specification. By default, all numeric columns (besides the initial column, if numeric)
 #'   are adorned, but this allows you to manually specify which columns should

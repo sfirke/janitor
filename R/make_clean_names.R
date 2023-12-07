@@ -15,10 +15,10 @@
 #'
 #' The order of operations is: make replacements, (optional) ASCII conversion,
 #' remove initial spaces and punctuation, apply `base::make.names()`,
-#' apply `snakecase::to_any_case`, and add numeric suffixes
+#' apply `snakecase::to_any_case(()`, and add numeric suffixes
 #' to resolve any duplicated names.
 #'
-#' This function relies on `snakecase::to_any_case` and can take advantage of
+#' This function relies on `snakecase::to_any_case()` and can take advantage of
 #' its versatility.  For instance, an abbreviation like "ID" can have its
 #' capitalization preserved by passing the argument `abbreviations = "ID"`.
 #' See the documentation for [snakecase::to_any_case()]

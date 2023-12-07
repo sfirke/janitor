@@ -55,18 +55,14 @@ adorn_title <- function(dat, placement = "top", row_name, col_name) {
 
     if (inherits(dat, "tabyl")) {
       if (attr(dat, "tabyl_type") == "one_way") {
-        warning(c(
-          "adorn_title is meant for two-way tabyls, ",
-          "calling it on a one-way tabyl may not yield a meaningful result"
-        ))
+        warning(
+          "adorn_title is meant for two-way tabyls, calling it on a one-way tabyl may not yield a meaningful result"
+        )
       }
     }
     if (missing(col_name)) {
       if (!inherits(dat, "tabyl")) {
-        stop(c(
-          "When input is not a data.frame of class tabyl, ",
-          "a value must be specified for the col_name argument"
-        ))
+        stop("When input is not a data.frame of class tabyl, a value must be specified for the col_name argument.")
       }
       col_var <- attr(dat, "var_names")$col
     } else {

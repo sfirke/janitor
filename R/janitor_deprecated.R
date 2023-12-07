@@ -97,7 +97,7 @@ add_totals_col <- function(dat, na.rm = TRUE) {
 }
 
 
-#' @title Returns first non-NA value from a set of vectors.
+#' @title Returns first non-`NA` value from a set of vectors.
 #'
 #' @description
 #' Warning: Deprecated, do not use in new code. Use [dplyr::coalesce()] instead.
@@ -107,7 +107,7 @@ add_totals_col <- function(dat, na.rm = TRUE) {
 #' It's more readable and handles problems like [ifelse()]'s inability to work with dates in this way.
 #'
 #' @param ... the input vectors.  Order matters: these are searched and prioritized in the order they are supplied.
-#' @param if_all_NA what value should be used when all of the vectors return `NA` for a certain index?  Default is NA.
+#' @param if_all_NA what value should be used when all of the vectors return `NA` for a certain index?  Default is `NA`.
 #' @return Returns a single vector with the selected values.
 #' @seealso janitor_deprecated
 #' @export

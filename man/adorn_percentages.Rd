@@ -14,7 +14,7 @@ If given a list of data.frames, this function will apply itself to each
 \item{denominator}{The direction to use for calculating percentages.
 One of "row", "col", or "all".}
 
-\item{na.rm}{should missing values (including NaN) be omitted from the calculations?}
+\item{na.rm}{should missing values (including \code{NaN}) be omitted from the calculations?}
 
 \item{...}{columns to adorn. This takes a <\code{\link[dplyr:dplyr_tidy_select]{tidy-select}}>
 specification. By default, all numeric columns (besides the initial column, if numeric)

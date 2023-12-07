@@ -26,7 +26,7 @@ convert_to_datetime(
 \item{...}{Passed to further methods.  Eventually may be passed to
 \code{excel_numeric_to_date()}, \code{base::as.POSIXct()}, or \code{base::as.Date()}.}
 
-\item{character_fun}{A function to convert non-numeric-looking, non-NA values
+\item{character_fun}{A function to convert non-numeric-looking, non-\code{NA} values
 in \code{x} to POSIXct objects.}
 
 \item{string_conversion_failure}{If a character value fails to parse into the

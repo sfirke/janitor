@@ -60,11 +60,7 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
     }
 
     if (length(cols_to_total) == 0) {
-      stop(
-        "at least one targeted column must be of class numeric. ",
-        "Control target variables with the ... argument. ",
-        "adorn_totals should be called before other adorn_ functions."
-      )
+      stop("at least one targeted column must be of class numeric. Control target variables with the ... argument. adorn_totals should be called before other adorn_ functions.")
     }
 
     if (sum(where %in% c("row", "col")) != length(where)) {
@@ -153,10 +149,7 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
       if (!1 %in% cols_to_total) { # give users the option to total the first column??  Up to them I guess
         col_totals[1, 1] <- name[1] # replace first column value with name argument
       } else {
-        message(
-          "Because the first column was specified to be totaled, ",
-          "it does not contain the label 'Total' (or user-specified name) in the totals row"
-        )
+        message("Because the first column was specified to be totaled, it does not contain the label 'Total' (or user-specified name) in the totals row")
       }
       dat[(nrow(dat) + 1), ] <- col_totals[1, ] # insert totals_col as last row in dat
       if (factor_input) { # restore factor/ordered info, #494
