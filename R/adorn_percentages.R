@@ -43,9 +43,7 @@ adorn_percentages <- function(dat, denominator = "row", na.rm = TRUE, ...) {
     if (!is.data.frame(dat)) {
       stop("adorn_percentages() must be called on a data.frame or list of data.frames")
     }
-    if (!denominator %in% c("row", "col", "all")) {
-      stop("'denominator' must be one of 'row', 'col', or 'all'")
-    }
+    rlang::arg_match0(denominator, c("row", "col", "all"))
 
     dat <- as_tabyl(dat)
 

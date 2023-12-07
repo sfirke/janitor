@@ -247,7 +247,7 @@ tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_level
   # grab class of 1st variable to restore it later
   col1_class <- class(dat[[1]])
   col1_levels <- NULL
-  if ("factor" %in% col1_class) {
+  if (is.factor(dat[[1]])) {
     col1_levels <- levels(dat[[1]])
   }
 

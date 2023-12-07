@@ -126,7 +126,7 @@ test_that("bad rounding argument caught", {
     dat %>%
       adorn_percentages() %>%
       adorn_pct_formatting(rounding = "blargh"),
-    "'rounding' must be one of 'half to even' or 'half up'",
+    "`rounding` must be one of \"half to even\" or \"half up\", not \"blargh\".",
     fixed = TRUE
   )
 })

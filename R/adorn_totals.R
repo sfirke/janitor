@@ -54,7 +54,7 @@ adorn_totals <- function(dat, where = "row", fill = "-", na.rm = TRUE, name = "T
 
 
     # grouped_df causes problems, #97
-    if ("grouped_df" %in% class(dat)) {
+    if (inherits(dat, "grouped_df")) {
       dat <- dplyr::ungroup(dat)
     }
 

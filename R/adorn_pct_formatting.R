@@ -58,9 +58,8 @@ adorn_pct_formatting <- function(dat, digits = 1, rounding = "half to even", aff
     if (!is.data.frame(dat)) {
       stop("adorn_pct_formatting() must be called on a data.frame or list of data.frames")
     }
-    if (!rounding %in% c("half to even", "half up")) {
-      stop("'rounding' must be one of 'half to even' or 'half up'")
-    }
+    rlang::arg_match0(rounding, c("half to even", "half up"))
+
     original <- dat # used below to record original instances of NA and NaN
 
     numeric_cols <- which(vapply(dat, is.numeric, logical(1)))

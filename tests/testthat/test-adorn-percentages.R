@@ -5,7 +5,7 @@ test_that("bad input to denominator arg is caught", {
   expect_error(
     mtcars %>%
       adorn_percentages("blargh"),
-    paste0("'denominator' must be one of 'row', 'col', or 'all'"),
+    "`denominator` must be one of \"row\", \"col\", or \"all\"",
     fixed = TRUE
   )
 })
