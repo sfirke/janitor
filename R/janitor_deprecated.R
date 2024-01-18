@@ -12,6 +12,7 @@
 #' * [remove_empty_cols()] -> [`remove_empty("cols")`][remove_empty()]
 #'
 #' @name janitor_deprecated
+#' @keywords internal
 # EXCLUDE COVERAGE START
 NULL
 

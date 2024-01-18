@@ -18,3 +18,4 @@ These functions have already become defunct or may be defunct as soon as the nex
 \item \code{\link[=remove_empty_cols]{remove_empty_cols()}} -> \code{\link[=remove_empty]{remove_empty("cols")}}
 }
 }
+\keyword{internal}

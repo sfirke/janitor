@@ -1,3 +1,63 @@
 url: https://sfirke.github.io/janitor/
 template:
   bootstrap: 5
+
+
+reference:
+- title: Cleaning data
+ 
+- subtitle: Cleaning variable names
+  contents:
+  - contains("clean_names")
+   
+- title: Exploring data
+  desc: >
+    tabyls are an enhanced version of tables. See `vignette("tabyls")`
+    for more details.
+  contents:
+  - tabyl
+  - starts_with("adorn")
+  - contains("tabyl")
+  - -contains('.test')
+  
+- subtitle: Change order
+  contents:
+  - row_to_names
+  - find_header
+
+- title: Comparison
+  desc: >
+    Compare data frames columns
+  contents:
+  - starts_with("compare_df_cols")
+
+- title: Removing unnecessary columns / rows
+  contents:
+  - starts_with("remove_")
+  - get_dupes
+  - get_one_to_one
+  - top_levels
+  - single_value
+    
+- title: Rounding / dates helpers
+  desc: > 
+    Help to mimic some behaviour from Excel or SAS.
+    These should be used on vector.
+  contents:
+  - round_half_up
+  - signif_half_up
+  - round_to_fraction
+  - excel_numeric_to_date
+  - sas_numeric_to_date
+  - excel_time_to_numeric
+  - starts_with("convert_to_date")
+
+- title: Misc / helpers
+  desc: >
+    These functions can help perform less frequent operations.
+  contents:
+  - describe_class
+  - paste_skip_na
+  - chisq.test
+  - fisher.test
+  - mu_to_u
