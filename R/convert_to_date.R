@@ -68,6 +68,7 @@ convert_to_datetime_helper <- function(x, ..., out_class = c("POSIXct", "Date"))
   UseMethod("convert_to_datetime_helper")
 }
 
+#' @exportS3Method NULL
 convert_to_datetime_helper.numeric <- function(x, ...,
                                                date_system = "modern",
                                                include_time = NULL,
@@ -87,10 +88,12 @@ convert_to_datetime_helper.numeric <- function(x, ...,
   )
 }
 
+#' @exportS3Method NULL
 convert_to_datetime_helper.factor <- function(x, ..., out_class = c("POSIXct", "Date")) {
   convert_to_datetime_helper.character(as.character(x), ..., out_class = out_class)
 }
 
+#' @exportS3Method NULL
 convert_to_datetime_helper.POSIXt <- function(x, ..., out_class = c("POSIXct", "Date")) {
   out_class <- match.arg(out_class)
   if (out_class %in% "POSIXct") {
@@ -101,6 +104,7 @@ convert_to_datetime_helper.POSIXt <- function(x, ..., out_class = c("POSIXct", "
   }
 }
 
+#' @exportS3Method NULL
 convert_to_datetime_helper.Date <- function(x, ..., tz = "UTC", out_class = c("POSIXct", "Date")) {
   out_class <- match.arg(out_class)
   if (out_class %in% "POSIXct") {
@@ -113,6 +117,7 @@ convert_to_datetime_helper.Date <- function(x, ..., tz = "UTC", out_class = c("P
   ret
 }
 
+#' @exportS3Method NULL
 convert_to_datetime_helper.character <- function(x, ..., tz = "UTC", character_fun = lubridate::ymd_hms, string_conversion_failure = c("error", "warning"), out_class = c("POSIXct", "Date")) {
   string_conversion_failure <- match.arg(string_conversion_failure)
   out_class <- match.arg(out_class)

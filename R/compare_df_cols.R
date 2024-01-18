@@ -174,6 +174,7 @@ compare_df_cols_df_maker <- function(x, class_colname = "class", strict_descript
   UseMethod("compare_df_cols_df_maker")
 }
 
+#' @exportS3Method NULL
 compare_df_cols_df_maker.data.frame <- function(x, class_colname = "class", strict_description) {
   if (class_colname == "column_name") {
     stop('`class_colname` cannot be "column_name"')
@@ -193,6 +194,7 @@ compare_df_cols_df_maker.data.frame <- function(x, class_colname = "class", stri
   ret
 }
 
+#' @exportS3Method NULL
 compare_df_cols_df_maker.list <- function(x, class_colname = "class", strict_description = strict_description) {
   if (length(class_colname) != length(x)) {
     stop("`x` and `class_colname` must be the same length.")
