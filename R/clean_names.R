@@ -24,7 +24,7 @@
 #' (characters) to "u".
 #'
 #' @param dat The input `data.frame`.
-#' @param set_labels If set to `TRUE`, old names are stored as labels in each column of `dat`.
+#' @param set_labels If set to `TRUE`, old names are stored as labels in each column of the returned data.frame.
 #' @inheritDotParams make_clean_names -string
 #' @return A `data.frame` with clean names.
 #'
@@ -66,7 +66,7 @@
 #' x %>%
 #'   clean_names(case = "upper_camel", abbreviations = c("ID", "DOB"))
 #'
-clean_names <- function(dat, ..., set_labels = FALSE) {
+clean_names <- function(dat, ...) {
   UseMethod("clean_names")
 }
 
@@ -84,7 +84,9 @@ clean_names.default <- function(dat, ..., set_labels = FALSE) {
   } else {
     if (set_labels){
       old_names <- names(dat)
-      for (i in seq_along(old_names)) attr(dat[[i]], "label") <- old_names[[i]]
+      for (i in seq_along(old_names)){
+        attr(dat[[i]], "label") <- old_names[[i]]
+      }
     }
     names(dat) <- make_clean_names(names(dat), ...)
     
@@ -111,7 +113,9 @@ clean_names.sf <- function(dat, ..., set_labels = FALSE) {
   names(dat)[1:n_cols] <- sf_cleaned
   
   if(set_labels){
-    for (i in seq_along(sf_names[1:n_cols])) attr(dat[[i]], "label") <- sf_names[[i]]
+    for (i in seq_along(sf_names[1:n_cols])){
+      attr(dat[[i]], "label") <- sf_names[[i]]
+    }
   }
 
   return(dat)

@@ -9,7 +9,7 @@ Authors@R: c(
     person("Malte", "Grosser", , "malte.grosser@gmail.com", role = "ctb"),
     person("Jonathan", "Zadra", , "jonathan.zadra@sorensonimpact.com", role = "ctb"),
     person("Olivier", "Roy", role = "ctb"),
-    person("Josep", "Pueyo-Ros", "josep.pueyo@udg.edu", role = "ctb")
+    person("Josep", family = "Pueyo-Ros", email = "josep.pueyo@udg.edu", role = "ctb")
   )
 Description: The main janitor functions can: perfectly format data.frame
     column names; provide quick counts of variable combinations (i.e.,

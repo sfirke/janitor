@@ -193,7 +193,7 @@ test_that("labels are created in default and sf methods (feature request #563)",
   
   dat_sf <- dat_df
   dat_sf$x <- c(1,2)
-  dat_sf$y = c(1,2) 
+  dat_sf$y <- c(1,2) 
   dat_sf <- sf::st_as_sf(dat_sf, coords = c("x", "y"))
   dat_sf_clean_labels <- clean_names(dat_sf, set_labels = TRUE)
   dat_sf_clean <- clean_names(dat_sf)

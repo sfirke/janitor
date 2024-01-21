@@ -8,7 +8,7 @@
 \alias{clean_names.tbl_lazy}
 \title{Cleans names of an object (usually a data.frame).}
 \usage{
-clean_names(dat, ..., set_labels = FALSE)
+clean_names(dat, ...)
 
 \method{clean_names}{default}(dat, ..., set_labels = FALSE)
 
@@ -66,7 +66,7 @@ You should use this feature with care in case of \code{case = "parsed"}, \code{c
     \item{\code{numerals}}{A character specifying the alignment of numerals (\code{"middle"}, \code{left}, \code{right}, \code{asis} or \code{tight}). I.e. \code{numerals = "left"} ensures that no output separator is in front of a digit.}
   }}
 
-\item{set_labels}{If set to \code{TRUE}, old names are stored as labels in each column of \code{dat}.}
+\item{set_labels}{If set to \code{TRUE}, old names are stored as labels in each column of the returned data.frame.}
 }
 \value{
 A \code{data.frame} with clean names.
