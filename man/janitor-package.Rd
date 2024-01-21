@@ -49,6 +49,7 @@ Other contributors:
   \item Malte Grosser \email{malte.grosser@gmail.com} [contributor]
   \item Jonathan Zadra \email{jonathan.zadra@sorensonimpact.com} [contributor]
   \item Olivier Roy [contributor]
+  \item Josep josep.pueyo@udg.edu Pueyo-Ros [contributor]
 }
 
 }
