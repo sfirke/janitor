@@ -8,11 +8,11 @@
 \alias{clean_names.tbl_lazy}
 \title{Cleans names of an object (usually a data.frame).}
 \usage{
-clean_names(dat, ...)
+clean_names(dat, ..., set_labels = FALSE)
 
-\method{clean_names}{default}(dat, ...)
+\method{clean_names}{default}(dat, ..., set_labels = FALSE)
 
-\method{clean_names}{sf}(dat, ...)
+\method{clean_names}{sf}(dat, ..., set_labels = FALSE)
 
 \method{clean_names}{tbl_graph}(dat, ...)
 
@@ -65,6 +65,8 @@ You should use this feature with care in case of \code{case = "parsed"}, \code{c
  might not always be what is intended. In this case you can make usage of the option to supply named elements and specify the transliterations yourself.}
     \item{\code{numerals}}{A character specifying the alignment of numerals (\code{"middle"}, \code{left}, \code{right}, \code{asis} or \code{tight}). I.e. \code{numerals = "left"} ensures that no output separator is in front of a digit.}
   }}
+
+\item{set_labels}{If set to \code{TRUE}, old names are stored as labels in each column of \code{dat}.}
 }
 \value{
 A \code{data.frame} with clean names.

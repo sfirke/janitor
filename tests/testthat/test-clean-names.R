@@ -186,6 +186,35 @@ test_that("do not create duplicates (fix #251)", {
   )
 })
 
+test_that("labels are created in default and sf methods (feature request #563)", {
+  dat_df <- dplyr::tibble(`a a` = c(11, 22), `b b` = c(2, 3))
+  dat_df_clean_labels <- clean_names(dat_df, set_labels = TRUE)
+  dat_df_clean <- clean_names(dat_df)
+  
+  dat_sf <- dat_df
+  dat_sf$x <- c(1,2)
+  dat_sf$y = c(1,2) 
+  dat_sf <- sf::st_as_sf(dat_sf, coords = c("x", "y"))
+  dat_sf_clean_labels <- clean_names(dat_sf, set_labels = TRUE)
+  dat_sf_clean <- clean_names(dat_sf)
+
+  for (i in seq_along(names(dat_df))){
+    # check that old names are saved as labels when set_labels is TRUE
+    expect_equal(attr(dat_df_clean_labels[[i]], "label"), names(dat_df)[[i]])
+    expect_equal(attr(dat_sf_clean_labels[[i]], "label"), names(dat_sf)[[i]])
+    
+    # check that old names are not stored if set_labels is not TRUE
+    expect_null(attr(dat_df_clean[[i]], "label"))
+    expect_null(attr(dat_sf_clean[[i]], "label"))
+    }
+  
+  # expect names are always cleaned
+  expect_equal(names(dat_df_clean), c("a_a", "b_b"))
+  expect_equal(names(dat_df_clean_labels), c("a_a", "b_b"))
+  expect_equal(names(dat_sf_clean), c("a_a", "b_b", "geometry"))
+  expect_equal(names(dat_sf_clean_labels), c("a_a", "b_b", "geometry"))
+})
+
 
 test_that("allow for duplicates (fix #495)", {
   expect_equal(
@@ -589,7 +618,7 @@ test_that("tbl_graph/tidygraph", {
     tidygraph::play_erdos_renyi(10, 0.5) %>%
     # create nodes wi
     tidygraph::bind_nodes(test_df) %>%
-    dplyr::mutate(dplyr::across(dplyr::where(is.numeric), ~ dplyr::coalesce(x, 1)))
+    dplyr::mutate(dplyr::across(dplyr::where(is.numeric), \(x) dplyr::coalesce(x, 1)))
 
   # create a graph with clean names
   # warning due to unhandled mu
