@@ -34,11 +34,11 @@ Microsoft Excel to a numeric number of seconds between 0 and 86400.
 }
 }
 \seealso{
-\verb{\link{excel_numeric_to_date}}
+\code{\link[=excel_numeric_to_date]{excel_numeric_to_date()}}
 
-Other Date-time cleaning: 
+Other date-time cleaning: 
 \code{\link{convert_to_date}()},
 \code{\link{excel_numeric_to_date}()},
 \code{\link{sas_numeric_to_date}()}
 }
-\concept{Date-time cleaning}
+\concept{date-time cleaning}

@@ -168,12 +168,12 @@ test_that("error thrown if no columns past first are numeric", {
   )
   expect_error(
     adorn_totals(df2, "col"),
-    "at least one targeted column must be of class numeric.  Control target variables with the ... argument. adorn_totals should be called before other adorn_ functions."
+    "at least one targeted column must be of class numeric. Control target variables with the ... argument. adorn_totals should be called before other adorn_ functions."
   )
   expect_error(
     mixed %>%
       adorn_totals("row", "-", TRUE, "Totals", d),
-    "at least one targeted column must be of class numeric.  Control target variables with the ... argument. adorn_totals should be called before other adorn_ functions."
+    "at least one targeted column must be of class numeric. Control target variables with the ... argument. adorn_totals should be called before other adorn_ functions."
   )
 
   # Add a test where only the first column is numeric
@@ -183,7 +183,7 @@ test_that("error thrown if no columns past first are numeric", {
   )
   expect_error(
     adorn_totals(df3),
-    "at least one targeted column must be of class numeric.  Control target variables with the ... argument. adorn_totals should be called before other adorn_ functions."
+    "at least one targeted column must be of class numeric. Control target variables with the ... argument. adorn_totals should be called before other adorn_ functions."
   )
 })
 

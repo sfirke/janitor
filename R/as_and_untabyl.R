@@ -1,7 +1,7 @@
-#' Add `tabyl` attributes to a data.frame.
+#' Add `tabyl` attributes to a data.frame
 #'
 #' @description
-#' A `tabyl` is a data.frame containing counts of a variable or
+#' A `tabyl` is a `data.frame` containing counts of a variable or
 #' co-occurrences of two variables (a.k.a., a contingency table or crosstab).
 #' This specialized kind of data.frame has attributes that enable `adorn_`
 #' functions to be called for precise formatting and presentation of results.
@@ -15,12 +15,13 @@
 #' variable 1 2) Column names 2:n are the values of variable 2 3) Numeric values
 #' in columns 2:n are counts of the co-occurrences of the two variables.*
 #'
-#' * = this is the ideal form of a tabyl, but janitor's `adorn_` functions tolerate and ignore non-numeric columns in positions 2:n.
+#' * = this is the ideal form of a `tabyl`, but janitor's `adorn_` functions tolerate
+#'   and ignore non-numeric columns in positions 2:n.
 #'
-#' For instance, the result of [dplyr::count()] followed by [tidyr::spread()]
+#' For instance, the result of [dplyr::count()] followed by [tidyr::pivot_wider()]
 #' can be treated as a `tabyl`.
 #'
-#' The result of calling `tabyl()` on a single variable is a special class of
+#' The result of calling [tabyl()] on a single variable is a special class of
 #' one-way tabyl; this function only pertains to the two-way tabyl.
 #'
 #' @param dat a data.frame with variable values in the first column and numeric
@@ -53,7 +54,8 @@ as_tabyl <- function(dat, axes = 2, row_var_name = NULL, col_var_name = NULL) {
 
   # assign core attribute and classes
   if (inherits(dat, "tabyl")) {
-    # if already a tabyl, may have totals row.  Safest play is to simply reorder the core rows to match the dat rows
+    # if already a tabyl, may have totals row.
+    # Safest play is to simply reorder the core rows to match the dat rows
     attr(dat, "core") <- attr(dat, "core")[order(match(
       attr(dat, "core")[, 1],
       dat[, 1]

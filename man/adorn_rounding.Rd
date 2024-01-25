@@ -7,21 +7,34 @@
 adorn_rounding(dat, digits = 1, rounding = "half to even", ...)
 }
 \arguments{
-\item{dat}{a \code{tabyl} or other data.frame with similar layout.  If given a list of data.frames, this function will apply itself to each data.frame in the list (designed for 3-way \code{tabyl} lists).}
+\item{dat}{A \code{tabyl} or other \code{data.frame} with similar layout.
+If given a list of data.frames, this function will apply itself to each
+\code{data.frame} in the list (designed for 3-way \code{tabyl} lists).}
 
-\item{digits}{how many digits should be displayed after the decimal point?}
+\item{digits}{How many digits should be displayed after the decimal point?}
 
-\item{rounding}{method to use for rounding - either "half to even", the base R default method, or "half up", where 14.5 rounds up to 15.}
+\item{rounding}{Method to use for rounding - either "half to even"
+(the base R default method), or "half up", where 14.5 rounds up to 15.}
 
-\item{...}{columns to adorn.  This takes a tidyselect specification.  By default, all numeric columns (besides the initial column, if numeric) are adorned, but this allows you to manually specify which columns should be adorned, for use on a data.frame that does not result from a call to \code{tabyl}.}
+\item{...}{Columns to adorn.  This takes a tidyselect specification.
+By default, all numeric columns (besides the initial column, if numeric)
+are adorned, but this allows you to manually specify which columns should
+be adorned, for use on a data.frame that does not result from a call to \code{tabyl}.}
 }
 \value{
-Returns the data.frame with rounded numeric columns.
+The \code{data.frame} with rounded numeric columns.
 }
 \description{
-Can run on any data.frame with at least one numeric column.  This function defaults to excluding the first column of the input data.frame, assuming that it contains a descriptive variable, but this can be overridden by specifying the columns to round in the \code{...} argument.
+Can run on any \code{data.frame} with at least one numeric column.
+This function defaults to excluding the first column of the input data.frame,
+assuming that it contains a descriptive variable, but this can be overridden by
+specifying the columns to round in the \code{...} argument.
 
-If you're formatting percentages, e.g., the result of \code{adorn_percentages()}, use \code{adorn_pct_formatting()} instead.  This is a more flexible variant for ad-hoc usage.  Compared to \code{adorn_pct_formatting()}, it does not multiply by 100 or pad the numbers with spaces for alignment in the results data.frame.   This function retains the class of numeric input columns.
+If you're formatting percentages, e.g., the result of \code{\link[=adorn_percentages]{adorn_percentages()}},
+use \code{\link[=adorn_pct_formatting]{adorn_pct_formatting()}} instead.  This is a more flexible variant for ad-hoc usage.
+Compared to \code{adorn_pct_formatting()}, it does not multiply by 100 or pad the
+numbers with spaces for alignment in the results \code{data.frame}.
+This function retains the class of numeric input columns.
 }
 \examples{
 

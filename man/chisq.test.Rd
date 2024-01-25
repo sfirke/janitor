@@ -19,7 +19,8 @@ chisq.test(x, ...)
 
 \item{y}{if x is a vector, must be another vector or factor of the same length}
 
-\item{tabyl_results}{if TRUE and x is a tabyl object, also return \code{observed}, \code{expected}, \code{residuals} and \code{stdres} as tabyl}
+\item{tabyl_results}{If \code{TRUE} and \code{x} is a tabyl object,
+also return \code{observed}, \code{expected}, \code{residuals} and \code{stdres} as tabyl.}
 }
 \value{
 The result is the same as the one of \code{stats::chisq.test()}.

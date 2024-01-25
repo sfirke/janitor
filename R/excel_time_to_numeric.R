@@ -19,8 +19,8 @@
 #' @param round_seconds Should the output number of seconds be rounded to an
 #'   integer?
 #' @return A vector of numbers >= 0 and <86400
-#' @family Date-time cleaning
-#' @seealso `\link{excel_numeric_to_date}`
+#' @family date-time cleaning
+#' @seealso [excel_numeric_to_date()]
 #' @export
 excel_time_to_numeric <- function(time_value, round_seconds = TRUE) {
   UseMethod("excel_time_to_numeric")

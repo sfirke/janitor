@@ -15,21 +15,32 @@ adorn_ns(
 )
 }
 \arguments{
-\item{dat}{a data.frame of class \code{tabyl} that has had \code{adorn_percentages} and/or \code{adorn_pct_formatting} called on it.  If given a list of data.frames, this function will apply itself to each data.frame in the list (designed for 3-way \code{tabyl} lists).}
+\item{dat}{A data.frame of class \code{tabyl} that has had \code{adorn_percentages} and/or
+\code{adorn_pct_formatting} called on it.  If given a list of data.frames,
+this function will apply itself to each data.frame in the list (designed for 3-way \code{tabyl} lists).}
 
-\item{position}{should the N go in the front, or in the rear, of the percentage?}
+\item{position}{Should the N go in the front, or in the rear, of the percentage?}
 
-\item{ns}{the Ns to append.  The default is the "core" attribute of the input tabyl \code{dat}, where the original Ns of a two-way \code{tabyl} are stored.  However, if your Ns are stored somewhere else, or you need to customize them beyond what can be done with \code{format_func}, you can supply them here.}
+\item{ns}{The Ns to append.  The default is the "core" attribute of the input tabyl
+\code{dat}, where the original Ns of a two-way \code{tabyl} are stored. However, if your Ns
+are stored somewhere else, or you need to customize them beyond what can be done
+with \code{format_func}, you can supply them here.}
 
-\item{format_func}{a formatting function to run on the Ns.  Consider defining with \code{\link[base:format]{base::format()}}.}
+\item{format_func}{A formatting function to run on the Ns. Consider defining
+with \code{\link[base:format]{base::format()}}.}
 
-\item{...}{columns to adorn.  This takes a tidyselect specification.  By default, all columns are adorned except for the first column and columns not of class \code{numeric}, but this allows you to manually specify which columns should be adorned, for use on a data.frame that does not result from a call to \code{tabyl}.}
+\item{...}{Columns to adorn. This takes a tidyselect specification.  By default,
+all columns are adorned except for the first column and columns not of class
+\code{numeric}, but this allows you to manually specify which columns should be adorned,
+for use on a data.frame that does not result from a call to \code{tabyl}.}
 }
 \value{
-a data.frame with Ns appended
+A \code{data.frame} with Ns appended
 }
 \description{
-This function adds back the underlying Ns to a \code{tabyl} whose percentages were calculated using \code{adorn_percentages()}, to display the Ns and percentages together.  You can also call it on a non-tabyl data.frame to which you wish to append Ns.
+This function adds back the underlying Ns to a \code{tabyl} whose percentages were
+calculated using \code{\link[=adorn_percentages]{adorn_percentages()}}, to display the Ns and percentages together.
+You can also call it on a non-tabyl data.frame to which you wish to append Ns.
 }
 \examples{
 mtcars \%>\%

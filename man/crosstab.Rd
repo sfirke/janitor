@@ -10,6 +10,6 @@ crosstab(...)
 \item{...}{arguments}
 }
 \description{
-This function is deprecated, use \code{tabyl(dat, var1, var2)} instead.
+This function is deprecated, use \code{\link[=tabyl]{tabyl(dat, var1, var2)}} instead.
 }
 \keyword{internal}

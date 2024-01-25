@@ -19,7 +19,7 @@ row_to_names(
 \item{row_number}{The row(s) of \code{dat} containing the variable names or the
 string \code{"find_header"} to use \code{find_header(dat=dat, ...)} to find
 the row_number. Allows for multiple rows input as a numeric vector. NA's are
-ignored, and if a column contains only NA value it will be named \code{"NA"}.}
+ignored, and if a column contains only \code{NA} value it will be named \code{"NA"}.}
 
 \item{...}{Sent to \code{find_header()}, if
 \code{row_number = "find_header"}.  Otherwise, ignored.}
