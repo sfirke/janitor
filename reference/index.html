@@ -53,8 +53,14 @@
     </div>
 
     <div class="section level2">
-      <h2 id="all-functions">All functions<a class="anchor" aria-label="anchor" href="#all-functions"></a></h2>
+      <h2 id="cleaning-data">Cleaning data<a class="anchor" aria-label="anchor" href="#cleaning-data"></a></h2>
       
+      
+
+      
+    </div><div class="section level2">
+      
+      <h3 id="cleaning-variable-names">Cleaning variable names<a class="anchor" aria-label="anchor" href="#cleaning-variable-names"></a></h3>
       
 
       
@@ -64,6 +70,32 @@
       
 
       <dl><dt>
+          
+          <code><a href="clean_names.html">clean_names()</a></code> 
+        </dt>
+        <dd>Cleans names of an object (usually a data.frame).</dd>
+      </dl><dl><dt>
+          
+          <code><a href="make_clean_names.html">make_clean_names()</a></code> 
+        </dt>
+        <dd>Cleans a vector of text, typically containing the names of an object.</dd>
+      </dl></div><div class="section level2">
+      <h2 id="exploring-data">Exploring data<a class="anchor" aria-label="anchor" href="#exploring-data"></a></h2>
+      
+      <p class="section-desc"></p><p>tabyls are an enhanced version of tables. See <code><a href="../articles/tabyls.html">vignette("tabyls")</a></code> for more details.</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="tabyl.html">tabyl()</a></code> 
+        </dt>
+        <dd>Generate a frequency table (1-, 2-, or 3-way).</dd>
+      </dl><dl><dt>
           
           <code><a href="adorn_ns.html">adorn_ns()</a></code> 
         </dt>
@@ -92,65 +124,80 @@
           
           <code><a href="adorn_totals.html">adorn_totals()</a></code> 
         </dt>
-        <dd>Append a totals row and/or column to a data.frame.</dd>
+        <dd>Append a totals row and/or column to a data.frame</dd>
       </dl><dl><dt>
           
           <code><a href="as_tabyl.html">as_tabyl()</a></code> 
         </dt>
-        <dd>Add <code>tabyl</code> attributes to a data.frame.</dd>
+        <dd>Add <code>tabyl</code> attributes to a data.frame</dd>
       </dl><dl><dt>
           
-          <code><a href="chisq.test.html">chisq.test()</a></code> 
+          <code><a href="untabyl.html">untabyl()</a></code> 
         </dt>
-        <dd>Apply <code><a href="https://rdrr.io/r/stats/chisq.test.html" class="external-link">stats::chisq.test()</a></code> to a two-way tabyl</dd>
-      </dl><dl><dt>
+        <dd>Remove <code>tabyl</code> attributes from a data.frame.</dd>
+      </dl></div><div class="section level2">
+      
+      <h3 id="change-order">Change order<a class="anchor" aria-label="anchor" href="#change-order"></a></h3>
+      
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
           
-          <code><a href="clean_names.html">clean_names()</a></code> 
+          <code><a href="row_to_names.html">row_to_names()</a></code> 
         </dt>
-        <dd>Cleans names of an object (usually a data.frame).</dd>
-      </dl><dl><dt>
-          
-          <code><a href="compare_df_cols.html">compare_df_cols()</a></code> 
-        </dt>
-        <dd>Generate a comparison of data.frames (or similar objects) that indicates if
-they will successfully bind together by rows.</dd>
-      </dl><dl><dt>
-          
-          <code><a href="compare_df_cols_same.html">compare_df_cols_same()</a></code> 
-        </dt>
-        <dd>Do the the data.frames have the same columns &amp; types?</dd>
-      </dl><dl><dt>
-          
-          <code><a href="convert_to_date.html">convert_to_date()</a></code> <code><a href="convert_to_date.html">convert_to_datetime()</a></code> 
-        </dt>
-        <dd>Convert many date and datetime formats as may be received from Microsoft
-Excel</dd>
-      </dl><dl><dt>
-          
-          <code><a href="describe_class.html">describe_class()</a></code> 
-        </dt>
-        <dd>Describe the class(es) of an object</dd>
-      </dl><dl><dt>
-          
-          <code><a href="excel_numeric_to_date.html">excel_numeric_to_date()</a></code> 
-        </dt>
-        <dd>Convert dates encoded as serial numbers to Date class.</dd>
-      </dl><dl><dt>
-          
-          <code><a href="excel_time_to_numeric.html">excel_time_to_numeric()</a></code> 
-        </dt>
-        <dd>Convert a time that may be inconsistently or inconveniently formatted from
-Microsoft Excel to a numeric number of seconds between 0 and 86400.</dd>
+        <dd>Elevate a row to be the column names of a data.frame.</dd>
       </dl><dl><dt>
           
           <code><a href="find_header.html">find_header()</a></code> 
         </dt>
         <dd>Find the header row in a data.frame</dd>
+      </dl></div><div class="section level2">
+      <h2 id="comparison">Comparison<a class="anchor" aria-label="anchor" href="#comparison"></a></h2>
+      
+      <p class="section-desc"></p><p>Compare data frames columns</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="compare_df_cols.html">compare_df_cols()</a></code> 
+        </dt>
+        <dd>Compare data frames columns before merging</dd>
       </dl><dl><dt>
           
-          <code><a href="fisher.test.html">fisher.test()</a></code> 
+          <code><a href="compare_df_cols_same.html">compare_df_cols_same()</a></code> 
         </dt>
-        <dd>Apply <code><a href="https://rdrr.io/r/stats/fisher.test.html" class="external-link">stats::fisher.test()</a></code> to a two-way tabyl</dd>
+        <dd>Do the the data.frames have the same columns &amp; types?</dd>
+      </dl></div><div class="section level2">
+      <h2 id="removing-unnecessary-columns-rows">Removing unnecessary columns / rows<a class="anchor" aria-label="anchor" href="#removing-unnecessary-columns-rows"></a></h2>
+      
+      
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="remove_constant.html">remove_constant()</a></code> 
+        </dt>
+        <dd>Remove constant columns from a data.frame or matrix.</dd>
+      </dl><dl><dt>
+          
+          <code><a href="remove_empty.html">remove_empty()</a></code> 
+        </dt>
+        <dd>Remove empty rows and/or columns from a data.frame or matrix.</dd>
       </dl><dl><dt>
           
           <code><a href="get_dupes.html">get_dupes()</a></code> 
@@ -163,59 +210,31 @@ Microsoft Excel to a numeric number of seconds between 0 and 86400.</dd>
         <dd>Find the list of columns that have a 1:1 mapping to each other</dd>
       </dl><dl><dt>
           
-          <code><a href="janitor-package.html">janitor</a></code> <code><a href="janitor-package.html">janitor-package</a></code> 
+          <code><a href="top_levels.html">top_levels()</a></code> 
         </dt>
-        <dd>janitor</dd>
+        <dd>Generate a frequency table of a factor grouped into top-n, bottom-n, and all
+other levels.</dd>
       </dl><dl><dt>
           
-          <code><a href="janitor_deprecated.html">janitor_deprecated</a></code> 
+          <code><a href="single_value.html">single_value()</a></code> 
         </dt>
-        <dd>Deprecated Functions in Package janitor</dd>
-      </dl><dl><dt>
-          
-          <code><a href="make_clean_names.html">make_clean_names()</a></code> 
-        </dt>
-        <dd>Cleans a vector of text, typically containing the names of an object.</dd>
-      </dl><dl><dt>
-          
-          <code><a href="mu_to_u.html">mu_to_u</a></code> 
-        </dt>
-        <dd>Constant to help map from mu to u</dd>
-      </dl><dl><dt>
-          
-          <code><a href="paste_skip_na.html">paste_skip_na()</a></code> 
-        </dt>
-        <dd>Like <code><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste()</a></code>, but missing values are omitted</dd>
-      </dl><dl><dt>
-          
-          <code><a href="remove_constant.html">remove_constant()</a></code> 
-        </dt>
-        <dd>Remove constant columns from a data.frame or matrix.</dd>
-      </dl><dl><dt>
-          
-          <code><a href="remove_empty.html">remove_empty()</a></code> 
-        </dt>
-        <dd>Remove empty rows and/or columns from a data.frame or matrix.</dd>
-      </dl><dl><dt>
+        <dd>Ensure that a vector has only a single value throughout.</dd>
+      </dl></div><div class="section level2">
+      <h2 id="rounding-dates-helpers">Rounding / dates helpers<a class="anchor" aria-label="anchor" href="#rounding-dates-helpers"></a></h2>
+      
+      <p class="section-desc"></p><p>Help to mimic some behaviour from Excel or SAS. These should be used on vector.</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
           
           <code><a href="round_half_up.html">round_half_up()</a></code> 
         </dt>
         <dd>Round a numeric vector; halves will be rounded up, ala Microsoft Excel.</dd>
-      </dl><dl><dt>
-          
-          <code><a href="round_to_fraction.html">round_to_fraction()</a></code> 
-        </dt>
-        <dd>Round to the nearest fraction of a specified denominator.</dd>
-      </dl><dl><dt>
-          
-          <code><a href="row_to_names.html">row_to_names()</a></code> 
-        </dt>
-        <dd>Elevate a row to be the column names of a data.frame.</dd>
-      </dl><dl><dt>
-          
-          <code><a href="sas_numeric_to_date.html">sas_numeric_to_date()</a></code> 
-        </dt>
-        <dd>Convert a SAS date, time or date/time to an R object</dd>
       </dl><dl><dt>
           
           <code><a href="signif_half_up.html">signif_half_up()</a></code> 
@@ -223,27 +242,69 @@ Microsoft Excel to a numeric number of seconds between 0 and 86400.</dd>
         <dd>Round a numeric vector to the specified number of significant digits; halves will be rounded up.</dd>
       </dl><dl><dt>
           
-          <code><a href="single_value.html">single_value()</a></code> 
+          <code><a href="round_to_fraction.html">round_to_fraction()</a></code> 
         </dt>
-        <dd>Ensure that a vector has only a single value throughout.</dd>
+        <dd>Round to the nearest fraction of a specified denominator.</dd>
       </dl><dl><dt>
           
-          <code><a href="tabyl.html">tabyl()</a></code> 
+          <code><a href="excel_numeric_to_date.html">excel_numeric_to_date()</a></code> 
         </dt>
-        <dd>Generate a frequency table (1-, 2-, or 3-way).</dd>
+        <dd>Convert dates encoded as serial numbers to Date class.</dd>
       </dl><dl><dt>
           
-          <code><a href="top_levels.html">top_levels()</a></code> 
+          <code><a href="sas_numeric_to_date.html">sas_numeric_to_date()</a></code> 
         </dt>
-        <dd>Generate a frequency table of a factor grouped into top-n, bottom-n, and all
-other levels.</dd>
+        <dd>Convert a SAS date, time or date/time to an R object</dd>
       </dl><dl><dt>
           
-          <code><a href="untabyl.html">untabyl()</a></code> 
+          <code><a href="excel_time_to_numeric.html">excel_time_to_numeric()</a></code> 
         </dt>
-        <dd>Remove <code>tabyl</code> attributes from a data.frame.</dd>
+        <dd>Convert a time that may be inconsistently or inconveniently formatted from
+Microsoft Excel to a numeric number of seconds between 0 and 86400.</dd>
+      </dl><dl><dt>
+          
+          <code><a href="convert_to_date.html">convert_to_date()</a></code> <code><a href="convert_to_date.html">convert_to_datetime()</a></code> 
+        </dt>
+        <dd>Parse dates from many formats</dd>
+      </dl></div><div class="section level2">
+      <h2 id="misc-helpers">Misc / helpers<a class="anchor" aria-label="anchor" href="#misc-helpers"></a></h2>
+      
+      <p class="section-desc"></p><p>These functions can help perform less frequent operations.</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="describe_class.html">describe_class()</a></code> 
+        </dt>
+        <dd>Describe the class(es) of an object</dd>
+      </dl><dl><dt>
+          
+          <code><a href="paste_skip_na.html">paste_skip_na()</a></code> 
+        </dt>
+        <dd>Like <code><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste()</a></code>, but missing values are omitted</dd>
+      </dl><dl><dt>
+          
+          <code><a href="chisq.test.html">chisq.test()</a></code> 
+        </dt>
+        <dd>Apply <code><a href="https://rdrr.io/r/stats/chisq.test.html" class="external-link">stats::chisq.test()</a></code> to a two-way tabyl</dd>
+      </dl><dl><dt>
+          
+          <code><a href="fisher.test.html">fisher.test()</a></code> 
+        </dt>
+        <dd>Apply <code><a href="https://rdrr.io/r/stats/fisher.test.html" class="external-link">stats::fisher.test()</a></code> to a two-way tabyl</dd>
+      </dl><dl><dt>
+          
+          <code><a href="mu_to_u.html">mu_to_u</a></code> 
+        </dt>
+        <dd>Constant to help map from mu to u</dd>
       </dl></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
