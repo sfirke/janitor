@@ -13,10 +13,6 @@ remove_empty_cols(dat)
 Returns the data.frame with no empty columns.
 }
 \description{
-This function is deprecated, use \code{remove_empty("cols")} instead.
-}
-\examples{
-# not run:
-# dat \%>\% remove_empty_cols
+This function is deprecated, use \code{\link[=remove_empty]{remove_empty("cols")}} instead.
 }
 \keyword{internal}

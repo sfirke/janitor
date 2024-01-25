@@ -1,16 +1,29 @@
 #' Round the numeric columns in a data.frame.
 #'
 #' @description
-#' Can run on any data.frame with at least one numeric column.  This function defaults to excluding the first column of the input data.frame, assuming that it contains a descriptive variable, but this can be overridden by specifying the columns to round in the `...` argument.
+#' Can run on any `data.frame` with at least one numeric column.
+#' This function defaults to excluding the first column of the input data.frame,
+#' assuming that it contains a descriptive variable, but this can be overridden by
+#' specifying the columns to round in the `...` argument.
 #'
-#' If you're formatting percentages, e.g., the result of `adorn_percentages()`, use `adorn_pct_formatting()` instead.  This is a more flexible variant for ad-hoc usage.  Compared to `adorn_pct_formatting()`, it does not multiply by 100 or pad the numbers with spaces for alignment in the results data.frame.   This function retains the class of numeric input columns.
+#' If you're formatting percentages, e.g., the result of [adorn_percentages()],
+#' use [adorn_pct_formatting()] instead.  This is a more flexible variant for ad-hoc usage.
+#' Compared to `adorn_pct_formatting()`, it does not multiply by 100 or pad the
+#' numbers with spaces for alignment in the results `data.frame`.
+#' This function retains the class of numeric input columns.
 #'
-#' @param dat a `tabyl` or other data.frame with similar layout.  If given a list of data.frames, this function will apply itself to each data.frame in the list (designed for 3-way `tabyl` lists).
-#' @param digits how many digits should be displayed after the decimal point?
-#' @param rounding method to use for rounding - either "half to even", the base R default method, or "half up", where 14.5 rounds up to 15.
-#' @param ... columns to adorn.  This takes a tidyselect specification.  By default, all numeric columns (besides the initial column, if numeric) are adorned, but this allows you to manually specify which columns should be adorned, for use on a data.frame that does not result from a call to `tabyl`.
+#' @param dat A `tabyl` or other `data.frame` with similar layout.
+#'   If given a list of data.frames, this function will apply itself to each
+#'   `data.frame` in the list (designed for 3-way `tabyl` lists).
+#' @param digits How many digits should be displayed after the decimal point?
+#' @param rounding Method to use for rounding - either "half to even"
+#'   (the base R default method), or "half up", where 14.5 rounds up to 15.
+#' @param ... Columns to adorn.  This takes a tidyselect specification.
+#'   By default, all numeric columns (besides the initial column, if numeric)
+#'   are adorned, but this allows you to manually specify which columns should
+#'   be adorned, for use on a data.frame that does not result from a call to `tabyl`.
 #'
-#' @return Returns the data.frame with rounded numeric columns.
+#' @return The `data.frame` with rounded numeric columns.
 #' @export
 #' @examples
 #'
@@ -54,7 +67,9 @@ adorn_rounding <- function(dat, digits = 1, rounding = "half to even", ...) {
     }
     numeric_cols <- which(vapply(dat, is.numeric, logical(1)))
     non_numeric_cols <- setdiff(1:ncol(dat), numeric_cols)
-    numeric_cols <- setdiff(numeric_cols, 1) # assume 1st column should not be included so remove it from numeric_cols. Moved up to this line so that if only 1st col is numeric, the function errors
+    # assume 1st column should not be included so remove it from numeric_cols.
+    # Moved up to this line so that if only 1st col is numeric, the function errors
+    numeric_cols <- setdiff(numeric_cols, 1)
 
     if (rlang::dots_n(...) == 0) {
       cols_to_round <- numeric_cols

@@ -2,7 +2,7 @@
 % Please edit documentation in R/as_and_untabyl.R
 \name{as_tabyl}
 \alias{as_tabyl}
-\title{Add \code{tabyl} attributes to a data.frame.}
+\title{Add \code{tabyl} attributes to a data.frame}
 \usage{
 as_tabyl(dat, axes = 2, row_var_name = NULL, col_var_name = NULL)
 }
@@ -25,7 +25,7 @@ Returns the same data.frame, but with the additional class of "tabyl"
 and the attribute "core".
 }
 \description{
-A \code{tabyl} is a data.frame containing counts of a variable or
+A \code{tabyl} is a \code{data.frame} containing counts of a variable or
 co-occurrences of two variables (a.k.a., a contingency table or crosstab).
 This specialized kind of data.frame has attributes that enable \code{adorn_}
 functions to be called for precise formatting and presentation of results.
@@ -39,13 +39,14 @@ meets the requirements of a two-way tabyl: 1) First column contains values of
 variable 1 2) Column names 2:n are the values of variable 2 3) Numeric values
 in columns 2:n are counts of the co-occurrences of the two variables.*
 \itemize{
-\item = this is the ideal form of a tabyl, but janitor's \code{adorn_} functions tolerate and ignore non-numeric columns in positions 2:n.
+\item = this is the ideal form of a \code{tabyl}, but janitor's \code{adorn_} functions tolerate
+and ignore non-numeric columns in positions 2:n.
 }
 
-For instance, the result of \code{\link[dplyr:count]{dplyr::count()}} followed by \code{\link[tidyr:spread]{tidyr::spread()}}
+For instance, the result of \code{\link[dplyr:count]{dplyr::count()}} followed by \code{\link[tidyr:pivot_wider]{tidyr::pivot_wider()}}
 can be treated as a \code{tabyl}.
 
-The result of calling \code{tabyl()} on a single variable is a special class of
+The result of calling \code{\link[=tabyl]{tabyl()}} on a single variable is a special class of
 one-way tabyl; this function only pertains to the two-way tabyl.
 }
 \examples{

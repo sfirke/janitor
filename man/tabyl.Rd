@@ -13,29 +13,41 @@ tabyl(dat, ...)
 \method{tabyl}{data.frame}(dat, var1, var2, var3, show_na = TRUE, show_missing_levels = TRUE, ...)
 }
 \arguments{
-\item{dat}{a \code{data.frame} containing the variables you wish to count.  Or, a vector you want to tabulate.}
+\item{dat}{A \code{data.frame} containing the variables you wish to count.
+Or, a vector you want to tabulate.}
 
-\item{...}{the arguments to tabyl (here just for the sake of documentation compliance, as all arguments are listed with the vector- and data.frame-specific methods)}
+\item{...}{Additional arguments passed to methods.}
 
-\item{show_na}{should counts of \code{NA} values be displayed?  In a one-way tabyl, the presence of \code{NA} values triggers an additional column showing valid percentages(calculated excluding \code{NA} values).}
+\item{show_na}{Should counts of \code{NA} values be displayed?  In a one-way tabyl,
+the presence of \code{NA} values triggers an additional column showing valid percentages
+(calculated excluding \code{NA} values).}
 
-\item{show_missing_levels}{should counts of missing levels of factors be displayed?  These will be rows and/or columns of zeroes.  Useful for keeping consistent output dimensions even when certain factor levels may not be present in the data.}
+\item{show_missing_levels}{Should counts of missing levels of factors be displayed?
+These will be rows and/or columns of zeroes.  Useful for keeping consistent
+output dimensions even when certain factor levels may not be present in the data.}
 
-\item{var1}{the column name of the first variable.}
+\item{var1}{The column name of the first variable.}
 
-\item{var2}{(optional) the column name of the second variable (the rows in a 2-way tabulation).}
+\item{var2}{(optional) the column name of the second variable
+(the rows in a 2-way tabulation).}
 
-\item{var3}{(optional) the column name of the third variable (the list in a 3-way tabulation).}
+\item{var3}{(optional) the column name of the third variable
+(the list in a 3-way tabulation).}
 }
 \value{
-A data.frame with frequencies and percentages of the tabulated variable(s).  A 3-way tabulation returns a list of data.frames.
+A \code{data.frame} with frequencies and percentages of the tabulated variable(s).
+A 3-way tabulation returns a list of data frames.
 }
 \description{
-A fully-featured alternative to \code{table()}.  Results are data.frames and can be formatted and enhanced with janitor's family of \code{adorn_} functions.
+A fully-featured alternative to \code{table()}. Results are data.frames and can be
+formatted and enhanced with janitor's family of \code{adorn_} functions.
 
-Specify a data.frame and the one, two, or three unquoted column names you want to tabulate.  Three variables generates a list of 2-way tabyls, split by the third variable.
+Specify a \code{data.frame} and the one, two, or three unquoted column names you
+want to tabulate.  Three variables generates a list of 2-way tabyls,
+split by the third variable.
 
-Alternatively, you can tabulate a single variable that isn't in a data.frame by calling \code{tabyl} on a vector, e.g., \code{tabyl(mtcars$gear)}.
+Alternatively, you can tabulate a single variable that isn't in a \code{data.frame}
+by calling \code{tabyl()} on a vector, e.g., \code{tabyl(mtcars$gear)}.
 }
 \examples{
 

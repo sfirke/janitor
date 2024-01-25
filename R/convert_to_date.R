@@ -1,18 +1,20 @@
-#' Convert many date and datetime formats as may be received from Microsoft
-#' Excel
+#' Parse dates from many formats
 #'
-#' @details Character conversion checks if it matches something that looks like
-#'   a Microsoft Excel numeric date, converts those to numeric, and then runs
-#'   convert_to_datetime_helper() on those numbers.  Then, character to Date or
-#'   POSIXct conversion occurs via `character_fun(x, ...)` or
-#'   `character_fun(x, tz=tz, ...)`, respectively.
+#' Convert many date and date-time (POSIXct) formats as may be received
+#' from Microsoft Excel.
+#' @details
+#' Character conversion checks if it matches something that looks like a
+#' Microsoft Excel numeric date, converts those to numeric, and then runs
+#' convert_to_datetime_helper() on those numbers.  Then, character to Date or
+#' POSIXct conversion occurs via `character_fun(x, ...)` or
+#' `character_fun(x, tz=tz, ...)`, respectively.
 #'
 #' @param x The object to convert
 #' @param tz The timezone for POSIXct output, unless an object is POSIXt
 #'   already.  Ignored for Date output.
 #' @param ... Passed to further methods.  Eventually may be passed to
 #'   `excel_numeric_to_date()`, `base::as.POSIXct()`, or `base::as.Date()`.
-#' @param character_fun A function to convert non-numeric-looking, non-NA values
+#' @param character_fun A function to convert non-numeric-looking, non-`NA` values
 #'   in `x` to POSIXct objects.
 #' @param string_conversion_failure If a character value fails to parse into the
 #'   desired class and instead returns `NA`, should the function return the
@@ -26,7 +28,7 @@
 #' # Mixed date source data can be provided.
 #' convert_to_date(c("2020-02-29", "40000.1"))
 #' @export
-#' @family Date-time cleaning
+#' @family date-time cleaning
 #' @importFrom lubridate ymd
 convert_to_date <- function(x, ..., character_fun = lubridate::ymd, string_conversion_failure = c("error", "warning")) {
   string_conversion_failure <- match.arg(string_conversion_failure)
@@ -38,7 +40,7 @@ convert_to_date <- function(x, ..., character_fun = lubridate::ymd, string_conve
   )
 }
 
-#' @describeIn convert_to_date Convert to a date-time (POSIXct)
+#' @name convert_to_date
 #' @examples
 #' convert_to_datetime(
 #'   c("2009-07-06", "40000.1", "40000", NA),
@@ -66,6 +68,7 @@ convert_to_datetime_helper <- function(x, ..., out_class = c("POSIXct", "Date"))
   UseMethod("convert_to_datetime_helper")
 }
 
+#' @exportS3Method NULL
 convert_to_datetime_helper.numeric <- function(x, ...,
                                                date_system = "modern",
                                                include_time = NULL,
@@ -85,10 +88,12 @@ convert_to_datetime_helper.numeric <- function(x, ...,
   )
 }
 
+#' @exportS3Method NULL
 convert_to_datetime_helper.factor <- function(x, ..., out_class = c("POSIXct", "Date")) {
   convert_to_datetime_helper.character(as.character(x), ..., out_class = out_class)
 }
 
+#' @exportS3Method NULL
 convert_to_datetime_helper.POSIXt <- function(x, ..., out_class = c("POSIXct", "Date")) {
   out_class <- match.arg(out_class)
   if (out_class %in% "POSIXct") {
@@ -99,6 +104,7 @@ convert_to_datetime_helper.POSIXt <- function(x, ..., out_class = c("POSIXct", "
   }
 }
 
+#' @exportS3Method NULL
 convert_to_datetime_helper.Date <- function(x, ..., tz = "UTC", out_class = c("POSIXct", "Date")) {
   out_class <- match.arg(out_class)
   if (out_class %in% "POSIXct") {
@@ -111,6 +117,7 @@ convert_to_datetime_helper.Date <- function(x, ..., tz = "UTC", out_class = c("P
   ret
 }
 
+#' @exportS3Method NULL
 convert_to_datetime_helper.character <- function(x, ..., tz = "UTC", character_fun = lubridate::ymd_hms, string_conversion_failure = c("error", "warning"), out_class = c("POSIXct", "Date")) {
   string_conversion_failure <- match.arg(string_conversion_failure)
   out_class <- match.arg(out_class)

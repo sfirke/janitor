@@ -22,11 +22,11 @@ These are all minor breaking changes resulting from enhancements and are not exp
 
 * `get_one_to_one()` no longer errors with near-equal values that become identical factor levels (fix #543, thanks to @olivroy for reporting)
 
-# Refactoring
+## Refactoring
 
 * Remove dplyr verbs superseded in dplyr 1.0.0 (#547, @olivroy)
 
-* Restyle the package and vignettes according to the [tidyverse style guide](style.tidyverse.org) (#548, olivroy)
+* Restyle the package and vignettes according to the [tidyverse style guide](https://style.tidyverse.org) (#548, olivroy)
 
 # janitor 2.2.0 (2023-02-02)
 

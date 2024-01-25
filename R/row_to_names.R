@@ -4,7 +4,7 @@
 #' @param row_number The row(s) of `dat` containing the variable names or the
 #'   string `"find_header"` to use `find_header(dat=dat, ...)` to find
 #'   the row_number. Allows for multiple rows input as a numeric vector. NA's are
-#'   ignored, and if a column contains only NA value it will be named `"NA"`.
+#'   ignored, and if a column contains only `NA` value it will be named `"NA"`.
 #' @param ... Sent to `find_header()`, if
 #'   `row_number = "find_header"`.  Otherwise, ignored.
 #' @param remove_row Should the row `row_number` be removed from the

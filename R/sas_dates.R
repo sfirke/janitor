@@ -14,7 +14,7 @@
 #' sas_numeric_to_date(datetime_num = 1217083532, tz = "UTC") # 1998-07-26T14:45:32Z
 #' sas_numeric_to_date(date_num = 15639, time_num = 3600, tz = "UTC") # 2002-10-26T01:00:00Z
 #' sas_numeric_to_date(time_num = 3600) # 01:00:00
-#' @family Date-time cleaning
+#' @family date-time cleaning
 #' @export
 sas_numeric_to_date <- function(date_num, datetime_num, time_num, tz = "") {
   # Confirm that a usable set of input arguments is given
