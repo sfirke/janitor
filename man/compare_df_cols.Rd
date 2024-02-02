@@ -2,8 +2,7 @@
 % Please edit documentation in R/compare_df_cols.R
 \name{compare_df_cols}
 \alias{compare_df_cols}
-\title{Generate a comparison of data.frames (or similar objects) that indicates if
-they will successfully bind together by rows.}
+\title{Compare data frames columns before merging}
 \usage{
 compare_df_cols(
   ...,
@@ -64,8 +63,8 @@ compare_df_cols(dfA = data.frame(A = 1), dfB = data.frame(B = 2))
 compare_df_cols(listA = list(dfA = data.frame(A = 1), dfB = data.frame(B = 2)), data.frame(A = 3))
 }
 \seealso{
-Other Data frame type comparison: 
+Other data frame type comparison: 
 \code{\link{compare_df_cols_same}()},
 \code{\link{describe_class}()}
 }
-\concept{Data frame type comparison}
+\concept{data frame type comparison}

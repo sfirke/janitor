@@ -30,6 +30,6 @@ adorn_crosstab(
 Returns a data.frame.
 }
 \description{
-This function is deprecated, use the \code{adorn_} family of functions instead.
+This function is deprecated, use \code{\link[=tabyl]{tabyl()}} with the \code{adorn_} family of functions instead.
 }
 \keyword{internal}

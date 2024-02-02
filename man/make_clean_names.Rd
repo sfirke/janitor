@@ -107,10 +107,10 @@ the Spanish character "enye" becomes "n".
 
 The order of operations is: make replacements, (optional) ASCII conversion,
 remove initial spaces and punctuation, apply \code{base::make.names()},
-apply \code{snakecase::to_any_case}, and add numeric suffixes
+apply \verb{snakecase::to_any_case(()}, and add numeric suffixes
 to resolve any duplicated names.
 
-This function relies on \code{snakecase::to_any_case} and can take advantage of
+This function relies on \code{snakecase::to_any_case()} and can take advantage of
 its versatility.  For instance, an abbreviation like "ID" can have its
 capitalization preserved by passing the argument \code{abbreviations = "ID"}.
 See the documentation for \code{\link[snakecase:to_any_case]{snakecase::to_any_case()}}

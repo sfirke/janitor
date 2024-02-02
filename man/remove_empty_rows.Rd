@@ -13,7 +13,7 @@ remove_empty_rows(dat)
 Returns the data.frame with no empty rows.
 }
 \description{
-This function is deprecated, use \code{remove_empty("rows")} instead.
+This function is deprecated, use \code{\link[=remove_empty]{remove_empty("rows")}} instead.
 }
 \examples{
 # not run:

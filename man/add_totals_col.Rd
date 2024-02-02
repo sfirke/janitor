@@ -15,6 +15,6 @@ add_totals_col(dat, na.rm = TRUE)
 Returns a data.frame with a totals column containing row-wise sums.
 }
 \description{
-This function is deprecated, use \code{adorn_totals} instead.
+This function is deprecated, use \code{\link[=adorn_totals]{adorn_totals(where = "col")}} instead.
 }
 \keyword{internal}
