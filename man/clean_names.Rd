@@ -100,7 +100,8 @@ and \code{data.frame}-like objects. For this reason there are methods to
 support using \code{clean_names()} on \code{sf} and \code{tbl_graph} (from
 \code{tidygraph}) objects as well as on database connections through
 \code{dbplyr}. For cleaning other named objects like named lists
-and vectors, use \code{make_clean_names()}.
+and vectors, use \code{make_clean_names()}. When \code{set_labels} is set to \code{TRUE}, the old names,
+stored as column labels, can be restored using \code{sjlabelled::label_to_colnames()}.
 }
 \examples{
 

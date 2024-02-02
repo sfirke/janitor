@@ -33,7 +33,8 @@
 #'   support using `clean_names()` on `sf` and `tbl_graph` (from
 #'   `tidygraph`) objects as well as on database connections through
 #'   `dbplyr`. For cleaning other named objects like named lists
-#'   and vectors, use `make_clean_names()`.
+#'   and vectors, use `make_clean_names()`. When `set_labels` is set to `TRUE`, the old names, 
+#'   stored as column labels, can be restored using `sjlabelled::label_to_colnames()`.
 #'
 #' @export
 #' @family Set names
