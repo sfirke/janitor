@@ -8,6 +8,16 @@
 #'   dplyr::mutate(
 #'     big_values = assert_count_true(A > 2, n = 3)
 #'   )
+#'
+#' my_data <- data.frame(name = c("Bill", "Sam"), birthdate = c("2024-05-22", "2024-05-22"))
+#' my_data |>
+#'   dplyr::mutate(
+#'     birthdate =
+#'       dplyr::case_when(
+#'         assert_count_true(name == "Bill" & birthdate == "2024-05-22") ~ "2024-05-23",
+#'         TRUE ~ birthdate
+#'       )
+#'   )
 #' @export
 assert_count_true <- function(x, n = 1) {
   stopifnot(is.logical(x))
