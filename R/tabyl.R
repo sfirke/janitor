@@ -65,7 +65,7 @@ tabyl.default <- function(dat, show_na = TRUE, show_missing_levels = TRUE, ...) 
   } else {
     var_name <- names(dat)
   }
-  
+
   # useful error message if input vector doesn't exist
   if (is.null(dat)) {
     stop(paste0("object ", var_name, " not found"))
@@ -74,12 +74,12 @@ tabyl.default <- function(dat, show_na = TRUE, show_missing_levels = TRUE, ...) 
   if (length(var_name) > 1) {
     var_name <- paste(var_name, collapse = "")
   }
-  
+
   # Try to retrieve label
   if (is.data.frame(dat)) {
     var_label <- attr(dat[, var_name], "label", exact = TRUE) %||% var_name
   } else {
-    var_label <-  attr(dat, "label", exact = TRUE) %||% var_name
+    var_label <- attr(dat, "label", exact = TRUE) %||% var_name
   }
 
   # if show_na is not length-1 logical, error helpfully (#377)
