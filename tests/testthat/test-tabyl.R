@@ -401,7 +401,7 @@ test_that("tabyl works with label attributes (#394)", {
   tab <- tabyl(mt_label, cyl)
   expect_named(tab, c("Number of cyl", "n", "percent"))
 
-  tab2 <-  tabyl(mt_label, cyl, am)
+  tab2 <- tabyl(mt_label, cyl, am)
   expect_named(tab2, c("Number of cyl", "0", "1"))
 })
 
