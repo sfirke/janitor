@@ -244,10 +244,11 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
     result <- result[c(setdiff(names(result), "NA_"), "NA_")]
   }
 
-
-  result %>%
-    data.frame(., check.names = FALSE) %>%
-    as_tabyl(axes = 2, row_var_name = names(dat)[1], col_var_name = names(dat)[2])
+  row_var_name <- names(dat)[1]
+  col_var_name <- names(dat)[2]
+  names(result)[1] <- attr(dat[, 1], "label", exact = TRUE) %||% names(result)[1]
+  data.frame(result, check.names = FALSE) %>%
+    as_tabyl(axes = 2, row_var_name = row_var_name, col_var_name = col_var_name)
 }
 
 
@@ -255,6 +256,10 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
 tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_levels = TRUE) {
   dat <- dplyr::select(dat, !!var1, !!var2, !!var3)
   var3_numeric <- is.numeric(dat[[3]])
+
+  # Sometimes, attributes can be dropped with transformation.
+  var1_label <- attr(dat[, 1], "label", exact = TRUE)
+  var2_label <- attr(dat[, 2], "label", exact = TRUE)
 
   # Keep factor levels for ordering the list at the end
   if (is.factor(dat[[3]])) {
@@ -283,7 +288,14 @@ tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_level
     dat[[2]] <- as.factor(dat[[2]])
   }
 
-  result <- split(dat, dat[[rlang::quo_name(var3)]]) %>%
+  result <- split(dat, dat[[rlang::quo_name(var3)]])
+  # split() drops attributes, so we manually add back the 1st variable attribute.
+  result <- lapply(result, function(x) {
+    attr(x[[1]], "label") <- var1_label
+    attr(x[[2]], "label") <- var2_label
+    x
+  })
+  result <- result %>%
     purrr::map(tabyl_2way, var1, var2, show_na = show_na, show_missing_levels = show_missing_levels) %>%
     purrr::map(reset_1st_col_status, col1_class, col1_levels) # reset class of var in 1st col to its input class, #168
 
