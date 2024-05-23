@@ -175,10 +175,6 @@ tabyl.data.frame <- function(dat, var1, var2, var3, show_na = TRUE, show_missing
   }
 }
 
-get_label <- function(x) {
-  attr(x, "label", exact = TRUE)
-}
-
 # a one-way frequency table; this was called "tabyl" in janitor <= 0.3.0
 tabyl_1way <- function(dat, var1, show_na = TRUE, show_missing_levels = TRUE) {
   x <- dplyr::select(dat, !!var1)
