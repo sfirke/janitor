@@ -65,8 +65,7 @@ tabyl.default <- function(dat, show_na = TRUE, show_missing_levels = TRUE, ...) 
   } else {
     var_name <- names(dat)
   }
-
-
+  
   # useful error message if input vector doesn't exist
   if (is.null(dat)) {
     stop(paste0("object ", var_name, " not found"))
@@ -74,6 +73,13 @@ tabyl.default <- function(dat, show_na = TRUE, show_missing_levels = TRUE, ...) 
   # an odd variable name can be deparsed into a vector of length >1, rare but throws warning, see issue #87
   if (length(var_name) > 1) {
     var_name <- paste(var_name, collapse = "")
+  }
+  
+  # Try to retrieve label
+  if (is.data.frame(dat)) {
+    var_label <- attr(dat[, var_name], "label", exact = TRUE) %||% var_name
+  } else {
+    var_label <-  attr(dat, "label", exact = TRUE) %||% var_name
   }
 
   # if show_na is not length-1 logical, error helpfully (#377)
@@ -133,8 +139,8 @@ tabyl.default <- function(dat, show_na = TRUE, show_missing_levels = TRUE, ...) 
       dplyr::mutate(percent = n / sum(n, na.rm = TRUE)) # recalculate % without NAs
   }
 
-  # reassign correct variable name
-  names(result)[1] <- var_name
+  # reassign correct variable name (or label if it exists)
+  names(result)[1] <- var_label
 
   # in case input var name was "n" or "percent", call helper function to set unique names
   result <- handle_if_special_names_used(result)
@@ -167,6 +173,10 @@ tabyl.data.frame <- function(dat, var1, var2, var3, show_na = TRUE, show_missing
   } else {
     stop("please specify var1 OR var1 & var2 OR var1 & var2 & var3")
   }
+}
+
+get_label <- function(x) {
+  attr(x, "label", exact = TRUE)
 }
 
 # a one-way frequency table; this was called "tabyl" in janitor <= 0.3.0

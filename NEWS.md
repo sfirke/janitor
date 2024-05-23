@@ -8,6 +8,8 @@ These are all minor breaking changes resulting from enhancements and are not exp
 
 ## New features
 
+* `tabyl()` now defaults to displaying the label attribute for the column name (@olivroy, #394).
+
 * A new function `paste_skip_na()` pastes without including NA values (#537).
 
 * `row_to_names()` now accepts multiple rows as input, and merges them using a new `sep` argument (#536). The default is `sep = "_"`. When handling multiple `NA` values, `row_to_names()` ignores them and only merges non-NA values for column names. When all values are `NA`, `row_to_names()` creates a column name of `"NA"`, a character, rather than `NA`.

@@ -395,6 +395,21 @@ test_that("3-way tabyl with 3rd var factor is listed in right order, #250", {
   expect_equal(names(tabyl(z, am, gear, cyl)), c("8", "6", "NA_"))
 })
 
+test_that("tabyl works with label attributes (#394)", {
+  mt_label <- mtcars
+  attr(mt_label$cyl, "label") <- "Number of cyl"
+  tab <- tabyl(mt_label, cyl)
+  expect_named(
+    tab,
+    c("Number of cyl", "n", "percent")
+  )
+  tab2 <-  tabyl(mt_label, cyl, am)
+  expect_named(
+    tab2,
+    c("Number of cyl", "0", "1")
+  )
+})
+
 test_that("tabyl works with ordered 1st variable, #386", {
   mt_ordered <- mtcars
   mt_ordered$cyl <- ordered(mt_ordered$cyl, levels = c("4", "8", "6"))
