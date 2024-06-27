@@ -6,9 +6,9 @@ These are all minor breaking changes resulting from enhancements and are not exp
 
 * When using `row_to_names()`, when all input values in `row_number` for a column are `NA`, `row_to_names()` creates a column name of `"NA"`, a character, rather than `NA`. If code previously used relied on a column name of `NA`, it will now error. To fix this, rely on a column name of `"NA"`.
 
-## New features
-
 * `tabyl()` now defaults to displaying the label attribute for the column name (@olivroy, #394).
+
+## New features
 
 * A new function `paste_skip_na()` pastes without including NA values (#537).
 
