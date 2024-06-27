@@ -257,7 +257,7 @@ tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_level
   dat <- dplyr::select(dat, !!var1, !!var2, !!var3)
   var3_numeric <- is.numeric(dat[[3]])
 
-  # Sometimes, attributes can be dropped with transformation.
+  # Preserve labels, as attributes are sometimes dropped during transformations.
   var1_label <- attr(dat[, 1], "label", exact = TRUE)
   var2_label <- attr(dat[, 2], "label", exact = TRUE)
 
@@ -289,7 +289,7 @@ tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_level
   }
 
   result <- split(dat, dat[[rlang::quo_name(var3)]])
-  # split() drops attributes, so we manually add back the 1st variable attribute.
+  # split() drops attributes, so we manually add back the label attributes.
   result <- lapply(result, function(x) {
     attr(x[[1]], "label") <- var1_label
     attr(x[[2]], "label") <- var2_label
