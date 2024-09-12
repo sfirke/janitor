@@ -461,6 +461,15 @@ test_that("Names are cleaned appropriately without attaching sf", {
 
   expect_equal(names(clean)[4], "cnty_id")
   expect_s3_class(clean, "sf")
+
+  # Issue #578, sf_column attribute needs to be untouched, it may not be the
+  # last column name
+  issue_578_sf <- readRDS("testdata/issue-578-sf.rds")
+  issue_578_sf_clean <- clean_names(issue_578_sf)
+  expect_error(
+    print(issue_578_sf_clean),
+    NA
+  )
 })
 
 test_that("Names are cleaned appropriately", {

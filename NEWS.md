@@ -25,6 +25,8 @@ These are all minor breaking changes resulting from enhancements and are not exp
 
 * `get_one_to_one()` no longer errors with near-equal values that become identical factor levels (fix #543, thanks to @olivroy for reporting)
 
+* `clean_names()` for sf objects now works in cases when the sf_column is not the last column name (fix #578, thanks to @ar-puuk for reporting and @billdenney for fixing)
+
 ## Refactoring
 
 * Remove dplyr verbs superseded in dplyr 1.0.0 (#547, @olivroy)
