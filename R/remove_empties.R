@@ -7,8 +7,8 @@
 #' @param which one of "rows", "cols", or `c("rows", "cols")`. Where no
 #'   value of which is provided, defaults to removing both empty rows and empty
 #'   columns, declaring the behavior with a printed message.
-#' @param cutoff What fraction (>0 to <=1) of rows or columns must be empty to
-#'   be removed?
+#' @param cutoff Under what fraction (>0 to <=1) of non-empty rows or columns should
+#'   `which` be removed? Lower values keep more rows/columns, higher values drop more.
 #' @param quiet Should messages be suppressed (`TRUE`) or printed
 #'   (`FALSE`) indicating the summary of empty columns or rows removed?
 #' @return Returns the object without its missing rows or columns.
