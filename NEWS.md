@@ -6,6 +6,9 @@ These are all minor breaking changes resulting from enhancements and are not exp
 
 * When using `row_to_names()`, when all input values in `row_number` for a column are `NA`, `row_to_names()` creates a column name of `"NA"`, a character, rather than `NA`. If code previously used relied on a column name of `NA`, it will now error. To fix this, rely on a column name of `"NA"`.
 
+* When `tabyl()` is called on a data.frame containing labels, it now displays the label attribute as the name of the first column in the the resulting `tabyl` object (@olivroy, #394). This may break subsequent code that refers to the output of such a `tabyl` by column name. To maintain the previous behavior of ignoring variable labels, you can remove the labels with a function like `haven::zap_labels()` or `labelled::remove_labels()` before calling `tabyl()`.
+
+
 ## New features
 
 * A new function `paste_skip_na()` pastes without including NA values (#537).
@@ -23,6 +26,8 @@ These are all minor breaking changes resulting from enhancements and are not exp
 * `make_clean_names()` no longer accepts a data.frame or tibble as input, use `clean_names()` for that (fix #532, **@billdenney**).
 
 * `get_one_to_one()` no longer errors with near-equal values that become identical factor levels (fix #543, thanks to @olivroy for reporting)
+
+* `clean_names()` for sf objects now works in cases when the sf_column is not the last column name (fix #578, thanks to @ar-puuk for reporting and @billdenney for fixing)
 
 ## Refactoring
 

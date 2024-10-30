@@ -106,10 +106,10 @@ clean_names.sf <- function(dat, ..., set_labels = FALSE) {
   } # nocov end
   # get old names
   sf_names <- names(dat)
-  # identify ending column index to clean
-  n_cols <- length(dat) - 1
+  # Clean the names except for the "sf_column" which is used internally by sf
+  cols_to_rename <- which(!(sf_names %in% attr(dat, "sf_column")))
   # clean all but last column
-  sf_cleaned <- make_clean_names(sf_names[1:n_cols], ...)
+  sf_cleaned <- make_clean_names(sf_names[cols_to_rename], ...)
   # rename original df
   names(dat)[1:n_cols] <- sf_cleaned
   
@@ -119,7 +119,7 @@ clean_names.sf <- function(dat, ..., set_labels = FALSE) {
     }
   }
 
-  return(dat)
+  dat
 }
 
 #' @rdname clean_names
