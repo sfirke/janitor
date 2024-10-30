@@ -111,10 +111,10 @@ clean_names.sf <- function(dat, ..., set_labels = FALSE) {
   # clean all but last column
   sf_cleaned <- make_clean_names(sf_names[cols_to_rename], ...)
   # rename original df
-  names(dat)[1:n_cols] <- sf_cleaned
+  names(dat)[cols_to_rename] <- sf_cleaned
   
   if(set_labels){
-    for (i in seq_along(sf_names[1:n_cols])){
+    for (i in seq_along(sf_names[cols_to_rename])){
       attr(dat[[i]], "label") <- sf_names[[i]]
     }
   }
