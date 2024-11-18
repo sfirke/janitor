@@ -31,7 +31,9 @@ These are all minor breaking changes resulting from enhancements and are not exp
 
 * Remove dplyr verbs superseded in dplyr 1.0.0 (#547, @olivroy)
 
-* Restyle the package and vignettes according to the [tidyverse style guide](https://style.tidyverse.org) (#548, olivroy)
+* Restyle the package and vignettes according to the [tidyverse style guide](https://style.tidyverse.org) (#548, @olivroy)
+
+* `sas_numeric_to_date()` now warns for timezones other than "UTC" due to potential misinterpretation (#583, @billdenney)
 
 # janitor 2.2.0 (2023-02-02)
 

@@ -16,11 +16,16 @@
 #' sas_numeric_to_date(time_num = 3600) # 01:00:00
 #' @family date-time cleaning
 #' @export
-sas_numeric_to_date <- function(date_num, datetime_num, time_num, tz = "") {
+sas_numeric_to_date <- function(date_num, datetime_num, time_num, tz = "UTC") {
   # Confirm that a usable set of input arguments is given
   has_date <- !missing(date_num)
   has_datetime <- !missing(datetime_num)
   has_time <- !missing(time_num)
+  stopifnot(is.character(tz))
+  stopifnot(length(tz) == 1)
+  if (tz != "UTC") {
+    warning("`tz` in SAS does not appear to be stored with the source data; please verify timezone conversion is correct")
+  }
   if (has_date & has_datetime) {
     stop("Must not give both `date_num` and `datetime_num`")
   } else if (has_time & has_datetime) {

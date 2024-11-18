@@ -17,12 +17,18 @@ test_that("sas_numeric_to_date", {
   )
   # NA management
   expect_equal(
-    sas_numeric_to_date(date_num = c(NA, 1), time_num = c(NA, 1), tz = "Etc/GMT-5"),
-    as.POSIXct(c(NA, "1960-01-01 19:00:01"), tz = "Etc/GMT-5")
+    sas_numeric_to_date(date_num = c(NA, 1), time_num = c(NA, 1), tz = "UTC"),
+    as.POSIXct(c(NA, "1960-01-02 00:00:01"), tz = "UTC")
   )
   expect_equal(
-    sas_numeric_to_date(date_num = NA, time_num = NA, tz = "Etc/GMT-5"),
-    as.POSIXct(NA, tz = "Etc/GMT-5")
+    sas_numeric_to_date(date_num = NA, time_num = NA, tz = "UTC"),
+    as.POSIXct(NA, tz = "UTC")
+  )
+  # Timezone warning (#583)
+  expect_warning(
+    sas_numeric_to_date(date_num = 1, time_num = 1, tz = "America/New_York"),
+    regexp = "`tz` in SAS does not appear to be stored with the source data; please verify timezone conversion is correct",
+    fixed = TRUE
   )
 })
 
