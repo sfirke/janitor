@@ -37,9 +37,11 @@ sas_numeric_to_date <- function(date_num, datetime_num, time_num, tz = "") {
     if (!all(mask_na_match)) {
       stop("The same values are not NA for both `date_num` and `time_num`")
     }
-    ret <- as.POSIXct(86400 * date_num + time_num, origin = "1960-01-01", tz = tz)
-  } else if (has_datetime) {
-    ret <- as.POSIXct(datetime_num, origin = "1960-01-01", tz = tz)
+    datetime_num <- 86400 * date_num + time_num
+    has_datetime <- TRUE
+  }
+  if (has_datetime) {
+    ret <- as.POSIXct(datetime_num, origin = "1960-01-01", tz = "UTC")
   } else if (has_date) {
     ret <- as.Date(date_num, origin = "1960-01-01")
   } else if (has_time) {

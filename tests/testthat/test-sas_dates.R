@@ -17,12 +17,12 @@ test_that("sas_numeric_to_date", {
   )
   # NA management
   expect_equal(
-    sas_numeric_to_date(date_num = c(NA, 1), time_num = c(NA, 1), tz = "EST"),
-    as.POSIXct(c(NA, "1960-01-01 19:00:01"), tz = "EST")
+    sas_numeric_to_date(date_num = c(NA, 1), time_num = c(NA, 1), tz = "Etc/GMT-5"),
+    as.POSIXct(c(NA, "1960-01-01 19:00:01"), tz = "Etc/GMT-5")
   )
   expect_equal(
-    sas_numeric_to_date(date_num = NA, time_num = NA, tz = "EST"),
-    as.POSIXct(NA, tz = "EST")
+    sas_numeric_to_date(date_num = NA, time_num = NA, tz = "Etc/GMT-5"),
+    as.POSIXct(NA, tz = "Etc/GMT-5")
   )
 })
 
