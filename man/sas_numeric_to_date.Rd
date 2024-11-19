@@ -4,7 +4,7 @@
 \alias{sas_numeric_to_date}
 \title{Convert a SAS date, time or date/time to an R object}
 \usage{
-sas_numeric_to_date(date_num, datetime_num, time_num, tz = "")
+sas_numeric_to_date(date_num, datetime_num, time_num, tz = "UTC")
 }
 \arguments{
 \item{date_num}{numeric vector of serial numbers to convert.}

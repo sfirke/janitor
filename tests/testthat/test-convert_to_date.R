@@ -48,9 +48,9 @@ test_that("convert_datetime works", {
     as.POSIXct("2009-07-06 12:13:14", tz="UTC")
   )
   expect_equal(
-    convert_to_datetime("2009-07-06 12:13:14", tz="EST"),
-    as.POSIXct("2009-07-06 12:13:14", tz="EST"),
-    info="The tz argument is respected"
+    convert_to_datetime("2009-07-06 12:13:14", tz = "Etc/GMT-5"),
+    as.POSIXct("2009-07-06 12:13:14", tz = "Etc/GMT-5"),
+    info = "The tz argument is respected"
   )
   expect_equal(
     convert_to_datetime(40000),
@@ -61,8 +61,8 @@ test_that("convert_datetime works", {
     as.POSIXct("2009-07-06 02:24", tz="UTC")
   )
   expect_equal(
-    convert_to_datetime(40000.1, tz="EST"),
-    as.POSIXct("2009-07-06 02:24", tz="EST")
+    convert_to_datetime(40000.1, tz = "Etc/GMT-5"),
+    as.POSIXct("2009-07-06 02:24", tz = "Etc/GMT-5")
   )
   expect_equal(
     convert_to_datetime("40000"),
@@ -73,8 +73,8 @@ test_that("convert_datetime works", {
     as.POSIXct("2009-07-06 02:24", tz="UTC")
   )
   expect_equal(
-    convert_to_datetime("40000.1", tz="EST"),
-    as.POSIXct("2009-07-06 02:24", tz="EST")
+    convert_to_datetime("40000.1", tz = "Etc/GMT-5"),
+    as.POSIXct("2009-07-06 02:24", tz = "Etc/GMT-5")
   )
   expect_equal(
     convert_to_datetime(factor("40000.1")),

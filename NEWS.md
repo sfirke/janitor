@@ -1,3 +1,12 @@
+# janitor 2.2.1 (2024-12-19)
+
+This is a trivial bugfix release whose only purpose is fixing a test that was failing on CRAN due to the way timezones are handled in Debian. In making that fix (PR #584), we made a small - technically breaking - improvement to a function that works with SAS dates. >99.9% of janitor users should be unaffected by this release.
+
+## Breaking changes
+
+* `sas_numeric_to_date()` now warns for timezones other than "UTC" due to the way that SAS loads timezones, and the default timezone for `sas_numeric_to_date()` is now "UTC" instead of "" (#583, @billdenney)
+
+
 # janitor 2.2.0 (2023-02-02)
 
 ## Breaking changes

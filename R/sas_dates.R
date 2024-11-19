@@ -16,11 +16,16 @@
 #' sas_numeric_to_date(time_num=3600) # 01:00:00
 #' @family Date-time cleaning
 #' @export
-sas_numeric_to_date <- function(date_num, datetime_num, time_num, tz="") {
+sas_numeric_to_date <- function(date_num, datetime_num, time_num, tz = "UTC") {
   # Confirm that a usable set of input arguments is given
   has_date <- !missing(date_num)
   has_datetime <- !missing(datetime_num)
   has_time <- !missing(time_num)
+  stopifnot(is.character(tz))
+  stopifnot(length(tz) == 1)
+  if (tz != "UTC") {
+    warning("SAS may not properly store timezones other than UTC. Consider confirming the accuracy of the resulting data.")
+  }
   if (has_date & has_datetime) {
     stop("Must not give both `date_num` and `datetime_num`")
   } else if (has_time & has_datetime) {
@@ -37,9 +42,11 @@ sas_numeric_to_date <- function(date_num, datetime_num, time_num, tz="") {
     if (!all(mask_na_match)) {
       stop("The same values are not NA for both `date_num` and `time_num`")
     }
-    ret <- as.POSIXct(86400*date_num + time_num, origin="1960-01-01", tz=tz)
-  } else if (has_datetime) {
-    ret <- as.POSIXct(datetime_num, origin="1960-01-01", tz=tz)
+    datetime_num <- 86400 * date_num + time_num
+    has_datetime <- TRUE
+  }
+  if (has_datetime) {
+    ret <- as.POSIXct(datetime_num, origin = "1960-01-01", tz = tz)
   } else if (has_date) {
     ret <- as.Date(date_num, origin="1960-01-01")
   } else if (has_time) {
