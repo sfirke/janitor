@@ -46,7 +46,7 @@ sas_numeric_to_date <- function(date_num, datetime_num, time_num, tz = "UTC") {
     has_datetime <- TRUE
   }
   if (has_datetime) {
-    ret <- as.POSIXct(datetime_num, origin = "1960-01-01", tz = "UTC")
+    ret <- as.POSIXct(datetime_num, origin = "1960-01-01", tz = tz)
   } else if (has_date) {
     ret <- as.Date(date_num, origin = "1960-01-01")
   } else if (has_time) {

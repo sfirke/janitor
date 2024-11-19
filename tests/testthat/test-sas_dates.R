@@ -27,7 +27,7 @@ test_that("sas_numeric_to_date", {
   # Timezone warning (#583)
   expect_warning(
     sas_numeric_to_date(date_num = 1, time_num = 1, tz = "America/New_York"),
-    regexp = "`tz` in SAS does not appear to be stored with the source data; please verify timezone conversion is correct",
+    regexp = "SAS may not properly store timezones other than UTC. Consider confirming the accuracy of the resulting data.",
     fixed = TRUE
   )
 })
