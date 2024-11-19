@@ -24,7 +24,7 @@ sas_numeric_to_date <- function(date_num, datetime_num, time_num, tz = "UTC") {
   stopifnot(is.character(tz))
   stopifnot(length(tz) == 1)
   if (tz != "UTC") {
-    warning("`tz` in SAS does not appear to be stored with the source data; please verify timezone conversion is correct")
+    warning("SAS may not properly store timezones other than UTC. Consider confirming the accuracy of the resulting data.")
   }
   if (has_date & has_datetime) {
     stop("Must not give both `date_num` and `datetime_num`")
