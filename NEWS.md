@@ -8,6 +8,7 @@ These are all minor breaking changes resulting from enhancements and are not exp
 
 * When `tabyl()` is called on a data.frame containing labels, it now displays the label attribute as the name of the first column in the the resulting `tabyl` object (@olivroy, #394). This may break subsequent code that refers to the output of such a `tabyl` by column name. To maintain the previous behavior of ignoring variable labels, you can remove the labels with a function like `haven::zap_labels()` or `labelled::remove_labels()` before calling `tabyl()`.
 
+* `sas_numeric_to_date()` now warns for timezones other than "UTC" due to the way that SAS loads timezones, and the default timezone for `sas_numeric_to_date()` is now "UTC" instead of "" (#583, @billdenney)
 
 ## New features
 
@@ -31,7 +32,7 @@ These are all minor breaking changes resulting from enhancements and are not exp
 
 * Remove dplyr verbs superseded in dplyr 1.0.0 (#547, @olivroy)
 
-* Restyle the package and vignettes according to the [tidyverse style guide](https://style.tidyverse.org) (#548, olivroy)
+* Restyle the package and vignettes according to the [tidyverse style guide](https://style.tidyverse.org) (#548, @olivroy)
 
 # janitor 2.2.0 (2023-02-02)
 
