@@ -595,7 +595,7 @@ test_that("tbl_graph/tidygraph", {
   skip_if_not_installed("tidygraph")
   # create test graph to test clean_names
   test_graph <-
-    tidygraph::play_erdos_renyi(10, 0.5) %>%
+    tidygraph::play_gnp(10, 0.5) %>%
     # create nodes wi
     tidygraph::bind_nodes(test_df) %>%
     dplyr::mutate(dplyr::across(dplyr::where(is.numeric), ~ dplyr::coalesce(x, 1)))
