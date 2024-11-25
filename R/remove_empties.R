@@ -7,7 +7,7 @@
 #' @param which one of "rows", "cols", or `c("rows", "cols")`. Where no
 #'   value of which is provided, defaults to removing both empty rows and empty
 #'   columns, declaring the behavior with a printed message.
-#' @param cutoff a row/col should have at least this fraction (>0 to <=1) of non-NA values to be
+#' @param cutoff a row/col should have at above this fraction of non-NA values to be
 #'   retained.  E.g., `cutoff = 0.8` means that rows/cols that are 20% or more missing will be dropped.
 #' @param quiet Should messages be suppressed (`TRUE`) or printed
 #'   (`FALSE`) indicating the summary of empty columns or rows removed?
