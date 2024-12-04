@@ -15,9 +15,9 @@
 #'   Or, a vector you want to tabulate.
 #' @param var1 The column name of the first variable.
 #' @param var2 (optional) the column name of the second variable
-#'   (the rows in a 2-way tabulation).
+#'   (its values become the column names in a 2-way tabulation).
 #' @param var3 (optional) the column name of the third variable
-#'   (the list in a 3-way tabulation).
+#'   (a 3-way tabulation is split into a list on its values).
 #' @param show_na Should counts of `NA` values be displayed?  In a one-way tabyl,
 #'   the presence of `NA` values triggers an additional column showing valid percentages
 #'   (calculated excluding `NA` values).
