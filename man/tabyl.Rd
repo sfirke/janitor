@@ -29,10 +29,10 @@ output dimensions even when certain factor levels may not be present in the data
 \item{var1}{The column name of the first variable.}
 
 \item{var2}{(optional) the column name of the second variable
-(the rows in a 2-way tabulation).}
+(its values become the column names in a 2-way tabulation).}
 
 \item{var3}{(optional) the column name of the third variable
-(the list in a 3-way tabulation).}
+(a 3-way tabulation is split into a list on its values).}
 }
 \value{
 A \code{data.frame} with frequencies and percentages of the tabulated variable(s).
