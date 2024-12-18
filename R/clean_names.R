@@ -24,6 +24,7 @@
 #' (characters) to "u".
 #'
 #' @param dat The input `data.frame`.
+#' @param set_labels If set to `TRUE`, old names are stored as labels in each column of the returned data.frame.
 #' @inheritDotParams make_clean_names -string
 #' @return A `data.frame` with clean names.
 #'
@@ -32,7 +33,8 @@
 #'   support using `clean_names()` on `sf` and `tbl_graph` (from
 #'   `tidygraph`) objects as well as on database connections through
 #'   `dbplyr`. For cleaning other named objects like named lists
-#'   and vectors, use `make_clean_names()`.
+#'   and vectors, use `make_clean_names()`. When `set_labels` is set to `TRUE`, the old names, 
+#'   stored as column labels, can be restored using `sjlabelled::label_to_colnames()`.
 #'
 #' @export
 #' @family Set names
@@ -71,7 +73,7 @@ clean_names <- function(dat, ...) {
 
 #' @rdname clean_names
 #' @export
-clean_names.default <- function(dat, ...) {
+clean_names.default <- function(dat, ..., set_labels = FALSE) {
   if (is.null(names(dat)) && is.null(dimnames(dat))) {
     stop(
       "`clean_names()` requires that either names or dimnames be non-null.",
@@ -81,14 +83,21 @@ clean_names.default <- function(dat, ...) {
   if (is.null(names(dat))) {
     dimnames(dat) <- lapply(dimnames(dat), make_clean_names, ...)
   } else {
+    if (set_labels){
+      old_names <- names(dat)
+      for (i in seq_along(old_names)){
+        attr(dat[[i]], "label") <- old_names[[i]]
+      }
+    }
     names(dat) <- make_clean_names(names(dat), ...)
+    
   }
   dat
 }
 
 #' @rdname clean_names
 #' @export
-clean_names.sf <- function(dat, ...) {
+clean_names.sf <- function(dat, ..., set_labels = FALSE) {
   if (!requireNamespace("sf", quietly = TRUE)) { # nocov start
     stop(
       "Package 'sf' needed for this function to work. Please install it.",
@@ -103,6 +112,12 @@ clean_names.sf <- function(dat, ...) {
   sf_cleaned <- make_clean_names(sf_names[cols_to_rename], ...)
   # rename original df
   names(dat)[cols_to_rename] <- sf_cleaned
+  
+  if(set_labels){
+    for (i in seq_along(sf_names[cols_to_rename])){
+      attr(dat[[i]], "label") <- sf_names[[i]]
+    }
+  }
 
   dat
 }
@@ -116,6 +131,7 @@ clean_names.tbl_graph <- function(dat, ...) {
       call. = FALSE
     )
   } # nocov end
+  
   dplyr::rename_all(dat, .funs = make_clean_names, ...)
 }
 

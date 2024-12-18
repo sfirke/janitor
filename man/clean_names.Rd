@@ -10,9 +10,9 @@
 \usage{
 clean_names(dat, ...)
 
-\method{clean_names}{default}(dat, ...)
+\method{clean_names}{default}(dat, ..., set_labels = FALSE)
 
-\method{clean_names}{sf}(dat, ...)
+\method{clean_names}{sf}(dat, ..., set_labels = FALSE)
 
 \method{clean_names}{tbl_graph}(dat, ...)
 
@@ -65,6 +65,8 @@ You should use this feature with care in case of \code{case = "parsed"}, \code{c
  might not always be what is intended. In this case you can make usage of the option to supply named elements and specify the transliterations yourself.}
     \item{\code{numerals}}{A character specifying the alignment of numerals (\code{"middle"}, \code{left}, \code{right}, \code{asis} or \code{tight}). I.e. \code{numerals = "left"} ensures that no output separator is in front of a digit.}
   }}
+
+\item{set_labels}{If set to \code{TRUE}, old names are stored as labels in each column of the returned data.frame.}
 }
 \value{
 A \code{data.frame} with clean names.
@@ -98,7 +100,8 @@ and \code{data.frame}-like objects. For this reason there are methods to
 support using \code{clean_names()} on \code{sf} and \code{tbl_graph} (from
 \code{tidygraph}) objects as well as on database connections through
 \code{dbplyr}. For cleaning other named objects like named lists
-and vectors, use \code{make_clean_names()}.
+and vectors, use \code{make_clean_names()}. When \code{set_labels} is set to \code{TRUE}, the old names,
+stored as column labels, can be restored using \code{sjlabelled::label_to_colnames()}.
 }
 \examples{
 
