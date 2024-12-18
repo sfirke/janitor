@@ -1,0 +1,137 @@
+---
+title: "Assertions for cleaning data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Assertions for cleaning data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Assertions for cleaning data
+
+Part of cleaning data includes assertions to make sure that data are expected
+before changing the values. `janitor` provides an assertion to enable data
+verification before making changes; more assertions may be added in the future.
+
+```{r setup}
+library(janitor)
+library(dplyr)
+```
+
+## `assert_count()` - Verify the number of `TRUE` values
+
+`assert_count()` will verify that the number of `TRUE` values is the expected
+number. It is useful when data may change over time and you want to be sure that
+you are changing only data that you intend to change.
+
+For example, you are given a data set with test scores for several students.
+Some of the scores are missing.
+
+```{r raw-v1}
+raw <-
+  data.frame(
+    student_id = c(123, 124, 125, 126),
+    test_score = c(NA, 93, NA, 82)
+  )
+```
+
+When you first receive the data, you're told separately that student 123 has a
+score of 84 and 125 has a score of 91. You want to verify that you are finding
+the right rows to replace and that you replace them.
+
+```{r clean-v1-mistake}
+clean_mistake <-
+  raw %>%
+  mutate(
+    test_score =
+      case_when(
+        student_id == 124 & is.na(test_score) ~ 84,
+        student_id == 125 & is.na(test_score) ~ 91,
+        TRUE ~ test_score
+      )
+  )
+```
+
+Because of a bug in the code, `student_id == 123` was not replaced.
+
+```{r clean-v1-mistake-table}
+clean_mistake
+```
+
+Using `assert_count()`, you would find this error because of an error raised by
+`assert_count()` in the pipeline.
+
+```{r clean_assert}
+try({
+clean_assert <-
+  raw %>%
+  mutate(
+    test_score =
+      case_when(
+        assert_count(student_id == 124 & is.na(test_score)) ~ 84,
+        assert_count(student_id == 125 & is.na(test_score)) ~ 91,
+        TRUE ~ test_score
+      )
+  )
+})
+```
+
+Fixing the code bug so that the first `student_id == 123` instead of
+`student_id == 124`, you now get the expected result.
+
+```{r clean_assert_fixed}
+clean_assert <-
+  raw %>%
+  mutate(
+    test_score =
+      case_when(
+        assert_count(student_id == 123 & is.na(test_score)) ~ 84,
+        assert_count(student_id == 125 & is.na(test_score)) ~ 91,
+        TRUE ~ test_score
+      )
+  )
+
+# New result
+clean_assert
+
+# Original data
+raw
+```
+
+### Changing data
+
+Another way that `assert_count()` can help is verifying that your code notifies
+you if your data changes in an important way. Using the example before, you may
+get a new raw data set (`raw_v2`) that has some of the `test_score` values
+added. They may be different than what you were told before.
+
+Running the same code on the new data will give you an informative error telling
+you what to look into.
+
+```{r raw_v2}
+raw_v2 <-
+  data.frame(
+    student_id = c(123, 124, 125, 126),
+    test_score = c(90, 93, NA, 82)
+  )
+
+try({
+clean_assert <-
+  raw_v2 %>%
+  mutate(
+    test_score =
+      case_when(
+        assert_count(student_id == 123 & is.na(test_score)) ~ 84,
+        assert_count(student_id == 125 & is.na(test_score)) ~ 91,
+        TRUE ~ test_score
+      )
+  )
+})
+```

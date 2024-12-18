@@ -30,7 +30,7 @@ reference:
     Compare data frames columns
   contents:
   - starts_with("compare_df_cols")
-  - assert_count_true
+  - assert_count
 
 - title: Removing unnecessary columns / rows
   contents:

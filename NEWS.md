@@ -14,7 +14,7 @@ These are all minor breaking changes resulting from enhancements and are not exp
 
 * The new function `excel_time_to_numeric()` converts times from Excel that do not have accompanying dates into a number of seconds.  (#245, thanks to **@billdenney** for the feature.)
 
-* The new function `assert_count_true()` verifies that an expected number of values are `TRUE` for quality checks in data pipelines
+* The new function `assert_count()` verifies that an expected number of values are `TRUE` for quality checks in data pipelines
 
 ## Bug fixes
 
