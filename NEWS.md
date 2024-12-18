@@ -18,8 +18,7 @@ These are all minor breaking changes resulting from enhancements and are not exp
 
 * The new function `excel_time_to_numeric()` converts times from Excel that do not have accompanying dates into a number of seconds.  (#245, thanks to **@billdenney** for the feature.)
 
-* A new argument `set_labels` to `clean_names()` stores the old names as labels in each column. Variable labels are visualized in Rstudio's data viewer or used by default by some packages such as `gt` instead of variable names. Labels can also be used in ggplot labels thanks to the function `easy_labs()` in the `ggeasy` package. Read this wonderful [post](https://www.pipinghotdata.com/posts/2022-09-13-the-case-for-variable-labels-in-r/) for more info about column labels. (#563, thanks to **@jospueyo** for the feature).
-
+* The new function `assert_count()` verifies that an expected number of values are `TRUE` for quality checks in data pipelines
 ## Bug fixes
 
 * `adorn_totals("row")` now succeeds if the new `name` of the totals row is already a factor level of the input data.frame (#529, thanks @egozoglu for reporting).
@@ -107,7 +106,7 @@ These are all minor breaking changes resulting from enhancements and are not exp
 
 ## New features
 
-* The `adorn_totals()` function now accepts the special argument `fill = NA`, which will insert a class-appropriate `NA` value into each column that isn't being totaled.  This preserves the class of each column; previously they were all convered to character. (thanks **@hamstr147** for implementing in #404 and **@ymer** for reporting in #298).
+* The `adorn_totals()` function now accepts the special argument `fill = NA`, which will insert a class-appropriate `NA` value into each column that isn't being totaled.  This preserves the class of each column; previously they were all converted to character. (thanks **@hamstr147** for implementing in #404 and **@ymer** for reporting in #298).
 
 * `adorn_totals()` now takes the value of `"both"` for the `where` argument.  That is, `adorn_totals("both")` is a shorter version of `adorn_totals(c("col", "row"))`.  (#362, thanks to **@svgsstats** for implementing and **@sfd99** for suggesting).
 
@@ -131,7 +130,7 @@ These are all minor breaking changes resulting from enhancements and are not exp
 
 * A call to make a 3-way `tabyl()` now succeeds when the first variable is of class `ordered` (#386)
 
-* If a totals row and/or column is present on a tabyl as a result of `adorn_totals()`, the functions `chisq.test()` and `fisher.test()` drop the totals and print a warning before proceding with the calculations (#385).
+* If a totals row and/or column is present on a tabyl as a result of `adorn_totals()`, the functions `chisq.test()` and `fisher.test()` drop the totals and print a warning before proceeding with the calculations (#385).
 
 # janitor 2.0.1 (2020-04-12)
 
@@ -277,7 +276,7 @@ This builds on the original functionality of janitor, with similar-but-improved 
 
 ### A fully-overhauled `tabyl`
 
-`tabyl()` is now a single function that can count combinations of one, two, or three variables, ala base R's `table()`.  The resulting `tabyl` data.frames can be manipulated and formatted using a family of `adorn_` functions.  See the [tabyls vignette](https://sfirke.github.io/janitor/articles/tabyls.html) for more.
+`tabyl()` is now a single function that can count combinations of one, two, or three variables, a la base R's `table()`.  The resulting `tabyl` data.frames can be manipulated and formatted using a family of `adorn_` functions.  See the [tabyls vignette](https://sfirke.github.io/janitor/articles/tabyls.html) for more.
 
 The now-redundant legacy functions `crosstab()` and `adorn_crosstab()` have been deprecated, but remain in the package for now.  Existing code that relies on the version of `tabyl` present in janitor versions <= 0.3.1 will break if the `sort` argument was used, as that argument no longer exists in `tabyl` (use `dplyr::arrange()` instead).
 
@@ -293,7 +292,7 @@ No further changes are planned to `clean_names()` and its results should be stab
 
 ## Major features
 
-- `clean_names()` transliterates accented letters, e.g., `çãüœ` becomes `cauoe` [(#120)](https://github.com/sfirke/janitor/issues/120).  Thanks to **@fernandovmacedo**.
+- `clean_names()` transliterates accented letters, e.g., `C'C#C<E` becomes `cauoe` [(#120)](https://github.com/sfirke/janitor/issues/120).  Thanks to **@fernandovmacedo**.
 
 - `clean_names()` offers multiple options for variable name styling.  In addition to `snake_case` output you can select `smallCamelCase`, `BigCamelCase`, `ALL_CAPS` and others. [(#131)](https://github.com/sfirke/janitor/issues/131).
   - Thanks to **@tazinho**, who wrote the [snakecase](https://github.com/Tazinho/snakecase/) package that janitor depends on to do this, as well as the patch to incorporate it into `clean_names()`.  And thanks to **@maelle** for proposing this feature.

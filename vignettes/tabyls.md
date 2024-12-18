@@ -254,7 +254,7 @@ humans %>%
   function or using janitor’s `round_half_up()` to round all ties up
   ([thanks,
   StackOverflow](https://stackoverflow.com/a/12688836/4470365)).
-  - e.g., round 10.5 up to 11, consistent with Excel’s tie-breaking
+  - e.g., round 10.5 up to 11, consistent with Excel's tie-breaking
     behavior.
     - This contrasts with rounding 10.5 down to 10 as in base R’s
       `round(10.5)`.
@@ -263,7 +263,7 @@ humans %>%
     `adorn_pct_formatting()`; these two functions should not be called
     together.
 - **`adorn_ns()`**: add Ns to a tabyl. These can be drawn from the
-  tabyl’s underlying counts, which are attached to the tabyl as
+  tabyl's underlying counts, which are attached to the tabyl as
   metadata, or they can be supplied by the user.
 - **`adorn_title()`**: add a title to a tabyl (or other data.frame).
   Options include putting the column title in a new row on top of the
@@ -427,7 +427,7 @@ comparison %>%
 #>     Total 100.0% (3,000) 100.0% (3,000) 100.0% (6,000)
 ```
 
-Now we format them to insert the thousands commas. A tabyl’s raw Ns are
+Now we format them to insert the thousands commas. A tabyl's raw Ns are
 stored in its `"core"` attribute. Here we retrieve those with `attr()`,
 then apply the base R function `format()` to all numeric columns.
 Lastly, we append these Ns using `adorn_ns()`.
