@@ -124,7 +124,7 @@ Smaller functions for use in particular situations.  More human-readable than th
 
 ### Manipulate vectors of names with `make_clean_names()`
 
-Like base R's `make.names()`, but with the stylings and case choice of the long-time janitor function `clean_names()`.  While `clean_names()` is still offered for use in  data.frame pipeline with `%>%`, `make_clean_names()` allows for more general usage, e.g., on a vector.
+Like base R's `make.names()`, but with the styling and case choice of the long-time janitor function `clean_names()`.  While `clean_names()` is still offered for use in  data.frame pipeline with `%>%`, `make_clean_names()` allows for more general usage, e.g., on a vector.
 
 It can also be used as an argument to `.name_repair` in the newest version of `tibble::as_tibble`:
 ```{r}
