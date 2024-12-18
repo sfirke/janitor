@@ -6,6 +6,10 @@ These are all minor breaking changes resulting from enhancements and are not exp
 
 * When using `row_to_names()`, when all input values in `row_number` for a column are `NA`, `row_to_names()` creates a column name of `"NA"`, a character, rather than `NA`. If code previously used relied on a column name of `NA`, it will now error. To fix this, rely on a column name of `"NA"`.
 
+* When `tabyl()` is called on a data.frame containing labels, it now displays the label attribute as the name of the first column in the the resulting `tabyl` object (@olivroy, #394). This may break subsequent code that refers to the output of such a `tabyl` by column name. To maintain the previous behavior of ignoring variable labels, you can remove the labels with a function like `haven::zap_labels()` or `labelled::remove_labels()` before calling `tabyl()`.
+
+* `sas_numeric_to_date()` now warns for timezones other than "UTC" due to the way that SAS loads timezones, and the default timezone for `sas_numeric_to_date()` is now "UTC" instead of "" (#583, @billdenney)
+
 ## New features
 
 * A new function `paste_skip_na()` pastes without including NA values (#537).
@@ -15,7 +19,6 @@ These are all minor breaking changes resulting from enhancements and are not exp
 * The new function `excel_time_to_numeric()` converts times from Excel that do not have accompanying dates into a number of seconds.  (#245, thanks to **@billdenney** for the feature.)
 
 * The new function `assert_count()` verifies that an expected number of values are `TRUE` for quality checks in data pipelines
-
 ## Bug fixes
 
 * `adorn_totals("row")` now succeeds if the new `name` of the totals row is already a factor level of the input data.frame (#529, thanks @egozoglu for reporting).
@@ -24,11 +27,13 @@ These are all minor breaking changes resulting from enhancements and are not exp
 
 * `get_one_to_one()` no longer errors with near-equal values that become identical factor levels (fix #543, thanks to @olivroy for reporting)
 
+* `clean_names()` for sf objects now works in cases when the sf_column is not the last column name (fix #578, thanks to @ar-puuk for reporting and @billdenney for fixing)
+
 ## Refactoring
 
 * Remove dplyr verbs superseded in dplyr 1.0.0 (#547, @olivroy)
 
-* Restyle the package and vignettes according to the [tidyverse style guide](https://style.tidyverse.org) (#548, olivroy)
+* Restyle the package and vignettes according to the [tidyverse style guide](https://style.tidyverse.org) (#548, @olivroy)
 
 # janitor 2.2.0 (2023-02-02)
 

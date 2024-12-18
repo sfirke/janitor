@@ -15,9 +15,9 @@
 #'   Or, a vector you want to tabulate.
 #' @param var1 The column name of the first variable.
 #' @param var2 (optional) the column name of the second variable
-#'   (the rows in a 2-way tabulation).
+#'   (its values become the column names in a 2-way tabulation).
 #' @param var3 (optional) the column name of the third variable
-#'   (the list in a 3-way tabulation).
+#'   (a 3-way tabulation is split into a list on its values).
 #' @param show_na Should counts of `NA` values be displayed?  In a one-way tabyl,
 #'   the presence of `NA` values triggers an additional column showing valid percentages
 #'   (calculated excluding `NA` values).
@@ -66,7 +66,6 @@ tabyl.default <- function(dat, show_na = TRUE, show_missing_levels = TRUE, ...) 
     var_name <- names(dat)
   }
 
-
   # useful error message if input vector doesn't exist
   if (is.null(dat)) {
     stop(paste0("object ", var_name, " not found"))
@@ -74,6 +73,13 @@ tabyl.default <- function(dat, show_na = TRUE, show_missing_levels = TRUE, ...) 
   # an odd variable name can be deparsed into a vector of length >1, rare but throws warning, see issue #87
   if (length(var_name) > 1) {
     var_name <- paste(var_name, collapse = "")
+  }
+
+  # Try to retrieve label
+  if (is.data.frame(dat)) {
+    var_label <- attr(dat[, var_name], "label", exact = TRUE) %||% var_name
+  } else {
+    var_label <- attr(dat, "label", exact = TRUE) %||% var_name
   }
 
   # if show_na is not length-1 logical, error helpfully (#377)
@@ -133,8 +139,8 @@ tabyl.default <- function(dat, show_na = TRUE, show_missing_levels = TRUE, ...) 
       dplyr::mutate(percent = n / sum(n, na.rm = TRUE)) # recalculate % without NAs
   }
 
-  # reassign correct variable name
-  names(result)[1] <- var_name
+  # reassign correct variable name (or label if it exists)
+  names(result)[1] <- var_label
 
   # in case input var name was "n" or "percent", call helper function to set unique names
   result <- handle_if_special_names_used(result)
@@ -238,10 +244,11 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
     result <- result[c(setdiff(names(result), "NA_"), "NA_")]
   }
 
-
-  result %>%
-    data.frame(., check.names = FALSE) %>%
-    as_tabyl(axes = 2, row_var_name = names(dat)[1], col_var_name = names(dat)[2])
+  row_var_name <- names(dat)[1]
+  col_var_name <- names(dat)[2]
+  names(result)[1] <- attr(dat[, 1], "label", exact = TRUE) %||% names(result)[1]
+  data.frame(result, check.names = FALSE) %>%
+    as_tabyl(axes = 2, row_var_name = row_var_name, col_var_name = col_var_name)
 }
 
 
@@ -249,6 +256,10 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
 tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_levels = TRUE) {
   dat <- dplyr::select(dat, !!var1, !!var2, !!var3)
   var3_numeric <- is.numeric(dat[[3]])
+
+  # Preserve labels, as attributes are sometimes dropped during transformations.
+  var1_label <- attr(dat[, 1], "label", exact = TRUE)
+  var2_label <- attr(dat[, 2], "label", exact = TRUE)
 
   # Keep factor levels for ordering the list at the end
   if (is.factor(dat[[3]])) {
@@ -277,7 +288,14 @@ tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_level
     dat[[2]] <- as.factor(dat[[2]])
   }
 
-  result <- split(dat, dat[[rlang::quo_name(var3)]]) %>%
+  result <- split(dat, dat[[rlang::quo_name(var3)]])
+  # split() drops attributes, so we manually add back the label attributes.
+  result <- lapply(result, function(x) {
+    attr(x[[1]], "label") <- var1_label
+    attr(x[[2]], "label") <- var2_label
+    x
+  })
+  result <- result %>%
     purrr::map(tabyl_2way, var1, var2, show_na = show_na, show_missing_levels = show_missing_levels) %>%
     purrr::map(reset_1st_col_status, col1_class, col1_levels) # reset class of var in 1st col to its input class, #168
 

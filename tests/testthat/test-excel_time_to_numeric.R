@@ -13,11 +13,11 @@ test_that("excel_time_to_numeric POSIX objects extract the correct part of the t
 })
 
 test_that("excel_time_to_numeric POSIX objects ignore the time zone", {
-  expect_equal(excel_time_to_numeric(as.POSIXct("1899-12-31 13:00", tz = "EST")), 13 * 3600)
+  expect_equal(excel_time_to_numeric(as.POSIXct("1899-12-31 13:00", tz = "Etc/GMT-5")), 13 * 3600)
   expect_equal(excel_time_to_numeric(as.POSIXct("1899-12-31 13:00", tz = "UTC")), 13 * 3600)
   expect_equal(
     excel_time_to_numeric(
-      as.POSIXct(c("1899-12-31 13:00", "1899-12-31 13:00"), tz = "EST")
+      as.POSIXct(c("1899-12-31 13:00", "1899-12-31 13:00"), tz = "Etc/GMT-5")
     ),
     rep(13 * 3600, 2)
   )
@@ -25,8 +25,8 @@ test_that("excel_time_to_numeric POSIX objects ignore the time zone", {
 
 test_that("excel_time_to_numeric POSIXlt works like POSIXct", {
   expect_equal(
-    excel_time_to_numeric(as.POSIXct("1899-12-31 13:00", tz = "EST")),
-    excel_time_to_numeric(as.POSIXlt("1899-12-31 13:00", tz = "EST"))
+    excel_time_to_numeric(as.POSIXct("1899-12-31 13:00", tz = "Etc/GMT-5")),
+    excel_time_to_numeric(as.POSIXlt("1899-12-31 13:00", tz = "Etc/GMT-5"))
   )
 })
 
