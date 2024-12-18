@@ -70,16 +70,16 @@ Using `assert_count()`, you would find this error because of an error raised by
 
 ```{r clean_assert}
 try({
-clean_assert <-
-  raw %>%
-  mutate(
-    test_score =
-      case_when(
-        assert_count(student_id == 124 & is.na(test_score)) ~ 84,
-        assert_count(student_id == 125 & is.na(test_score)) ~ 91,
-        TRUE ~ test_score
-      )
-  )
+  clean_assert <-
+    raw %>%
+    mutate(
+      test_score =
+        case_when(
+          assert_count(student_id == 124 & is.na(test_score)) ~ 84,
+          assert_count(student_id == 125 & is.na(test_score)) ~ 91,
+          TRUE ~ test_score
+        )
+    )
 })
 ```
 
@@ -123,15 +123,15 @@ raw_v2 <-
   )
 
 try({
-clean_assert <-
-  raw_v2 %>%
-  mutate(
-    test_score =
-      case_when(
-        assert_count(student_id == 123 & is.na(test_score)) ~ 84,
-        assert_count(student_id == 125 & is.na(test_score)) ~ 91,
-        TRUE ~ test_score
-      )
-  )
+  clean_assert <-
+    raw_v2 %>%
+    mutate(
+      test_score =
+        case_when(
+          assert_count(student_id == 123 & is.na(test_score)) ~ 84,
+          assert_count(student_id == 125 & is.na(test_score)) ~ 91,
+          TRUE ~ test_score
+        )
+    )
 })
 ```
