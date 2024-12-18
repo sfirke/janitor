@@ -65,7 +65,7 @@
 
       <h1>tabyls: a tidy, fully-featured approach to counting things</h1>
             
-            <h4 data-toc-skip class="date">2024-12-04</h4>
+            <h4 data-toc-skip class="date">2024-12-18</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/sfirke/janitor/blob/main/vignettes/tabyls.Rmd" class="external-link"><code>vignettes/tabyls.Rmd</code></a></small>
       <div class="d-none name"><code>tabyls.Rmd</code></div>
@@ -115,6 +115,8 @@ non-tabyl data.frames that need formatting.</p>
 studying humans in the <code>starwars</code> dataset from dplyr:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Error in get(paste0(generic, ".", class), envir = get_method_env()) : </span></span>
+<span><span class="co">#&gt;   object 'type_sum.accel' not found</span></span>
 <span><span class="va">humans</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">species</span> <span class="op">==</span> <span class="st">"Human"</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">

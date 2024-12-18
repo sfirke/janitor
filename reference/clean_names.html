@@ -98,10 +98,10 @@ which is a character vector mapping all known mu or micro Unicode code points
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">clean_names</span><span class="op">(</span><span class="va">dat</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Default S3 method</span></span>
-<span><span class="fu">clean_names</span><span class="op">(</span><span class="va">dat</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="fu">clean_names</span><span class="op">(</span><span class="va">dat</span>, <span class="va">...</span>, set_labels <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'sf'</span></span>
-<span><span class="fu">clean_names</span><span class="op">(</span><span class="va">dat</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="fu">clean_names</span><span class="op">(</span><span class="va">dat</span>, <span class="va">...</span>, set_labels <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'tbl_graph'</span></span>
 <span><span class="fu">clean_names</span><span class="op">(</span><span class="va">dat</span>, <span class="va">...</span><span class="op">)</span></span>
@@ -178,6 +178,10 @@ You should use this feature with care in case of <code>case = "parsed"</code>, <
 
 </dl></dd>
 
+
+<dt id="arg-set-labels">set_labels<a class="anchor" aria-label="anchor" href="#arg-set-labels"></a></dt>
+<dd><p>If set to <code>TRUE</code>, old names are stored as labels in each column of the returned data.frame.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -190,7 +194,8 @@ and <code>data.frame</code>-like objects. For this reason there are methods to
 support using <code>clean_names()</code> on <code>sf</code> and <code>tbl_graph</code> (from
 <code>tidygraph</code>) objects as well as on database connections through
 <code>dbplyr</code>. For cleaning other named objects like named lists
-and vectors, use <code><a href="make_clean_names.html">make_clean_names()</a></code>.</p>
+and vectors, use <code><a href="make_clean_names.html">make_clean_names()</a></code>. When <code>set_labels</code> is set to <code>TRUE</code>, the old names,
+stored as column labels, can be restored using <code>sjlabelled::label_to_colnames()</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
