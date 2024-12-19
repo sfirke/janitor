@@ -6,7 +6,7 @@
 \alias{janitor-package}
 \title{janitor: Simple Tools for Examining and Cleaning Dirty Data}
 \description{
-The main janitor functions can: perfectly format data.frame column names; provide quick counts of variable combinations (i.e., frequency tables and crosstabs); and explore duplicate records. Other janitor functions nicely format the tabulation results. These tabulate-and-report functions approximate popular features of SPSS and Microsoft Excel. This package follows the principles of the "tidyverse" and works well with the pipe function %>%. janitor was built with beginning-to-intermediate R users in mind and is optimized for user-friendliness.
+The main janitor functions can: perfectly format data.frame column names and explore duplicate records. This package follows the principles of the "tidyverse" and works well with the pipe function %>%. janitor was built with beginning-to-intermediate R users in mind and is optimized for user-friendliness.
 }
 \section{Package context}{
 

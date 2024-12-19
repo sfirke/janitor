@@ -1,5 +1,7 @@
 # janitor 2.2.0.9000 - unreleased development version
 
+* All `tabyl` and related functions were moved to the new `tabyl` package.
+
 ## Breaking changes
 
 These are all minor breaking changes resulting from enhancements and are not expected to affect the vast majority of users.
@@ -293,7 +295,7 @@ No further changes are planned to `clean_names()` and its results should be stab
 
 ## Major features
 
-- `clean_names()` transliterates accented letters, e.g., `çãüœ` becomes `cauoe` [(#120)](https://github.com/sfirke/janitor/issues/120).  Thanks to **@fernandovmacedo**.
+- `clean_names()` transliterates accented letters, e.g., `C'C#C<E` becomes `cauoe` [(#120)](https://github.com/sfirke/janitor/issues/120).  Thanks to **@fernandovmacedo**.
 
 - `clean_names()` offers multiple options for variable name styling.  In addition to `snake_case` output you can select `smallCamelCase`, `BigCamelCase`, `ALL_CAPS` and others. [(#131)](https://github.com/sfirke/janitor/issues/131).
   - Thanks to **@tazinho**, who wrote the [snakecase](https://github.com/Tazinho/snakecase/) package that janitor depends on to do this, as well as the patch to incorporate it into `clean_names()`.  And thanks to **@maelle** for proposing this feature.
