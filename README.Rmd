@@ -143,56 +143,6 @@ roster %>% get_dupes(contains("name"))
 
 Yes, some teachers appear twice.  We ought to address this before counting employees.
 
-#### Tabulating tools
-A variable (or combinations of two or three variables) can be tabulated with `tabyl()`.  The resulting data.frame can be tweaked and formatted
-with the suite of `adorn_` functions for quick analysis and printing of pretty results in a report.  `adorn_` functions can be helpful with non-tabyls, too.
-
-#### `tabyl()`
-
-Like `table()`, but pipe-able, data.frame-based, and fully featured.
-
-`tabyl()` can be called two ways:
-
-* On a vector, when tabulating a single variable: `tabyl(roster$subject)`
-* On a data.frame, specifying 1, 2, or 3 variable names to tabulate: `roster %>% tabyl(subject, employee_status)`.
-    * Here the data.frame is passed in with the `%>%` pipe; this allows `tabyl` to be used in an analysis pipeline
-    
-One variable:
-```{r}
-roster %>%
-  tabyl(subject)
-```
-
-Two variables:
-```{r}
-roster %>%
-  filter(hire_date > as.Date("1950-01-01")) %>%
-  tabyl(employee_status, full_time)
-```
-
-Three variables:
-```{r}
-roster %>%
-  tabyl(full_time, subject, employee_status, show_missing_levels = FALSE)
-```
-
-#### Adorning tabyls
-The `adorn_` functions dress up the results of these tabulation calls for fast, basic reporting.  Here are some of the functions that augment a summary table for reporting:
-
-```{r}
-roster %>%
-  tabyl(employee_status, full_time) %>%
-  adorn_totals("row") %>%
-  adorn_percentages("row") %>%
-  adorn_pct_formatting() %>%
-  adorn_ns() %>%
-  adorn_title("combined")
-```
-
-Pipe that right into `knitr::kable()` in your RMarkdown report.
-
-These modular adornments can be layered to reduce R's deficit against Excel and SPSS when it comes to quick, informative counts.  Learn more about `tabyl()` and the `adorn_` functions from the [tabyls vignette](https://sfirke.github.io/janitor/articles/tabyls.html).
-
 ## <i class="fa fa-bullhorn" aria-hidden="true"></i> Contact me
 
 You are welcome to:
