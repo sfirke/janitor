@@ -12,11 +12,7 @@ Authors@R: c(
     person("Josep", family = "Pueyo-Ros", email = "josep.pueyo@udg.edu", role = "ctb")
   )
 Description: The main janitor functions can: perfectly format data.frame
-    column names; provide quick counts of variable combinations (i.e.,
-    frequency tables and crosstabs); and explore duplicate records. Other
-    janitor functions nicely format the tabulation results. These
-    tabulate-and-report functions approximate popular features of SPSS and
-    Microsoft Excel. This package follows the principles of the
+    column names and explore duplicate records. This package follows the principles of the
     "tidyverse" and works well with the pipe function %>%. janitor was
     built with beginning-to-intermediate R users in mind and is optimized
     for user-friendliness.
@@ -50,7 +46,6 @@ Suggests:
 VignetteBuilder: 
     knitr
 Config/testthat/edition: 3
-Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2

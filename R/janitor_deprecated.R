@@ -2,12 +2,8 @@
 #'
 #' These functions have already become defunct or may be defunct as soon as the next release.
 #'
-#' * [adorn_crosstab()] -> `adorn_`
-#' * [crosstab()] -> [tabyl()]
 #' * [use_first_valid_of()] -> [dplyr::coalesce()]
 #' * [convert_to_NA()] -> [dplyr::na_if()]
-#' * [add_totals_col()] -> [`adorn_totals(where = "col")`][adorn_totals()]
-#' * [add_totals_row()] -> [adorn_totals()]
 #' * [remove_empty_rows()] -> [`remove_empty("rows")`][remove_empty()]
 #' * [remove_empty_cols()] -> [`remove_empty("cols")`][remove_empty()]
 #'
@@ -15,88 +11,6 @@
 #' @keywords internal
 # EXCLUDE COVERAGE START
 NULL
-
-
-
-
-#' @title Generate a crosstabulation of two vectors.
-#' @param ... arguments
-#' @keywords internal
-#' @description
-#' This function is deprecated, use [`tabyl(dat, var1, var2)`][tabyl()] instead.
-#' @export
-
-crosstab <- function(...) {
-  lifecycle::deprecate_stop(
-    when = "2.0.0",
-    what = "janitor::crosstab()",
-    with = "tabyl()",
-    details = "See the guide to tabyl(): https://cran.r-project.org/web/packages/janitor/vignettes/tabyls.html"
-  )
-}
-
-#' @title Add presentation formatting to a crosstabulation table.
-#' @description
-#' This function is deprecated, use [tabyl()] with the `adorn_` family of functions instead.
-#' @param dat a data.frame with row names in the first column and numeric values in all other columns.  Usually the piped-in result of a call to  `crosstab` that included the argument `percent = "none"`.
-#' @param denom the denominator to use for calculating percentages.  One of "row", "col", or "all".
-#' @param show_n should counts be displayed alongside the percentages?
-#' @param digits how many digits should be displayed after the decimal point?
-#' @param show_totals display a totals summary? Will be a row, column, or both depending on the value of `denom`.
-#' @param rounding method to use for truncating percentages - either "half to even", the base R default method, or "half up", where 14.5 rounds up to 15.
-#' @return Returns a data.frame.
-#' @keywords internal
-#' @export
-
-adorn_crosstab <- function(dat, denom = "row", show_n = TRUE, digits = 1, show_totals = FALSE, rounding = "half to even") {
-  lifecycle::deprecate_stop(
-    when = "2.0.0",
-    what = "janitor::adorn_crosstab()",
-    with = "tabyl()",
-    details = "See the adorn_* functions for formatting a tabyl: https://cran.r-project.org/web/packages/janitor/vignettes/tabyls.html"
-  )
-}
-
-#' @title Append a totals row to a data.frame.
-#'
-#' @description
-#' This function is deprecated, use [adorn_totals()] instead.
-#'
-#' @param dat an input data.frame with at least one numeric column.
-#' @param fill if there are more than one non-numeric columns, what string should fill the bottom row of those columns?
-#' @param na.rm should missing values (including NaN) be omitted from the calculations?
-#' @return Returns a data.frame with a totals row, consisting of "Total" in the first column and column sums in the others.
-#' @keywords internal
-#' @export
-add_totals_row <- function(dat, fill = "-", na.rm = TRUE) {
-  lifecycle::deprecate_stop(
-    when = "2.0.0",
-    what = "janitor::add_totals_row()",
-    with = "adorn_totals()",
-    details = "See the adorn_* functions for formatting a tabyl or data.frame: https://cran.r-project.org/web/packages/janitor/vignettes/tabyls.html"
-  )
-}
-
-#' @title Append a totals column to a data.frame.
-#'
-#' @description
-#' This function is deprecated, use [`adorn_totals(where = "col")`][adorn_totals()] instead.
-#'
-#' @param dat an input data.frame with at least one numeric column.
-#' @param na.rm should missing values (including NaN) be omitted from the calculations?
-#' @keywords internal
-#' @return Returns a data.frame with a totals column containing row-wise sums.
-#' @export
-
-add_totals_col <- function(dat, na.rm = TRUE) {
-  lifecycle::deprecate_stop(
-    when = "2.0.0",
-    what = "janitor::add_totals_cols()",
-    with = "adorn_totals()",
-    details = "See the adorn_* functions for formatting a tabyl or data.frame: https://cran.r-project.org/web/packages/janitor/vignettes/tabyls.html"
-  )
-}
-
 
 #' @title Returns first non-`NA` value from a set of vectors.
 #'
