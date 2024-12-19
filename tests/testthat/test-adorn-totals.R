@@ -343,7 +343,7 @@ test_that("supplying NA to fill preserves column types", {
     a = c("hi", "low", "med"),
     b = factor(c("big", "small", "regular")),
     c = c(as.Date("2000-01-01"), as.Date("2000-01-02"), as.Date("2000-01-03")),
-    d = c(as.POSIXct("2000-01-01", tz = "ROK"), as.POSIXct("2000-01-02"), as.POSIXct("2000-01-03")),
+    d = c(as.POSIXct("2000-01-01", tz = "UTC"), as.POSIXct("2000-01-02"), as.POSIXct("2000-01-03")),
     e = 1:3,
     f = 4:6,
     g = c(TRUE, FALSE, TRUE),
