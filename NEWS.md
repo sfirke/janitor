@@ -1,4 +1,4 @@
-# janitor 2.2.1 (2024-12-19)
+# janitor 2.2.1 (2024-12-21)
 
 This is a trivial bugfix release whose only purpose is fixing a test that was failing on CRAN due to the way timezones are handled in Debian. In making that fix (PR #584), we made a small - technically breaking - improvement to a function that works with SAS dates. >99.9% of janitor users should be unaffected by this release.
 

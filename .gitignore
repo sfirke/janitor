@@ -10,3 +10,7 @@ docs
 Meta
 docs/
 janitor.Rproj
+
+
+revdep/*
+revdep
