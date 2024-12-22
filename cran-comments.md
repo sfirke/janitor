@@ -1,29 +1,18 @@
 # Submission
-2023-02-01
+2024-12-22
 
 ## Submission summary
 
-*Resubmitting as 2.2.0 again with fixes to URLs in documentation*
-
-### janitor version 2.2.0
-An accumulation of enhancements and bug fixes.  Breaking changes only for edge cases.
-
-Notably, this fixes the current test failures on CRAN for this package, resulting from
-changes introduced in the latest version of the dplyr package.
+### janitor version 2.2.1
+Contains only trivial changes needed to address failing test on CRAN, specific to how timezones are handled in Debian. 
 
 ### Test environments
 
 #### Windows
-* Windows 10 with R-release 4.2.2 (local)
-* Windows Server 2022 x64 (build 20348) with R Under development (unstable) (2023-01-31 r83741 ucrt) via win-builder, checked 2023-02-01
+* Windows Server 2022 x64 (build 20348) with R Under development (unstable) (2024-12-20 r87452 ucrt) via win-builder, checked 2024-12-21
 
 #### Linux
-* ubuntu 22.04 R-release 4.2.2 (Github CI)
-* ubuntu 22.04 R-devel R Under development (unstable) (2023-02-01) (Github CI)
-* ubuntu 22.04 R-oldrel 4.1.3 (Github CI)
-
-#### Mac
-* Mac OS 12.6.2 with R-release 4.2.2 (Github CI)
+* Ubuntu 24.04 R-version 4.3.3 (2024-02-29) (local)
 
 ### R CMD check results
 0 errors | 0 warnings | 0 notes
@@ -31,4 +20,4 @@ changes introduced in the latest version of the dplyr package.
 ### Downstream dependencies
 This does not negatively affect downstream dependencies.
 
-revdepcheck passed for 101 of 101 packages (98 from CRAN, 3 from bioconductor).
+revdepcheck passed for 124 of 125 packages. I investigated package BFS and the erroring function and found no use of janitor's functions so believe this to be a false positive.
