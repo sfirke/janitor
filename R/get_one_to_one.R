@@ -1,18 +1,18 @@
 #' Find the list of columns that have a 1:1 mapping to each other
 #'
-#' @param dat A data.frame or similar object
+#' @param dat A `data.frame` or similar object
 #' @return A list with one element for each group of columns that map
 #'   identically to each other.
+#' @export
 #' @examples
 #' foo <- data.frame(
-#'   Lab_Test_Long=c("Cholesterol, LDL", "Cholesterol, LDL", "Glucose"),
-#'   Lab_Test_Short=c("CLDL", "CLDL", "GLUC"),
-#'   LOINC=c(12345, 12345, 54321),
-#'   Person=c("Sam", "Bill", "Sam"),
-#'   stringsAsFactors=FALSE
+#'   Lab_Test_Long = c("Cholesterol, LDL", "Cholesterol, LDL", "Glucose"),
+#'   Lab_Test_Short = c("CLDL", "CLDL", "GLUC"),
+#'   LOINC = c(12345, 12345, 54321),
+#'   Person = c("Sam", "Bill", "Sam"),
+#'   stringsAsFactors = FALSE
 #' )
 #' get_one_to_one(foo)
-#' @export
 get_one_to_one <- function(dat) {
   stopifnot(ncol(dat) > 0)
   stopifnot(!any(duplicated(names(dat))))
@@ -43,17 +43,8 @@ get_one_to_one <- function(dat) {
 }
 
 get_one_to_one_value_order <- function(x) {
-  if (any(is.na(x))) {
-    new_value <- as.integer(factor(x))
-    # Factor ordering starts at 1, so assign -1 to be a unique value for NA
-    new_value[is.na(new_value)] <- -1L
-    # redo the conversion so that NA values are in the same order as other
-    # values
-    ulevels <- unique(new_value)
-    new_value <- as.integer(factor(new_value, levels = ulevels))
-  } else {
-    ulevels <- unique(x)
-    new_value <- as.integer(factor(x, levels = ulevels))
-  }
+  # Convert the value to a factor so that any subtly different values become integers
+  uvalues <- match(x, unique(x))
+  new_value <- as.integer(factor(uvalues, levels = unique(uvalues)))
   new_value
 }

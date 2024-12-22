@@ -20,16 +20,16 @@ column not being removed if it's a mix of a single value and \code{NA}.}
 Remove constant columns from a data.frame or matrix.
 }
 \examples{
-remove_constant(data.frame(A=1, B=1:3))
+remove_constant(data.frame(A = 1, B = 1:3))
 
 # To find the columns that are constant
-data.frame(A=1, B=1:3) \%>\%
-  dplyr::select_at(setdiff(names(.), names(remove_constant(.)))) \%>\%
+data.frame(A = 1, B = 1:3) \%>\%
+  dplyr::select(!dplyr::all_of(names(remove_constant(.)))) \%>\%
   unique()
 }
 \seealso{
 \code{\link[=remove_empty]{remove_empty()}} for removing empty
-  columns or rows.
+columns or rows.
 
 Other remove functions: 
 \code{\link{remove_empty}()}

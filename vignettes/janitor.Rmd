@@ -12,7 +12,7 @@ vignette: >
 ---
 
 ```{r, echo = FALSE, message = FALSE}
-knitr::opts_chunk$set(collapse = T, comment = "#>")
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 library(janitor)
 ```
 The janitor functions expedite the initial data exploration and cleaning that comes with any new data set.  This catalog describes the usage for each function.
@@ -37,8 +37,10 @@ It works in a `%>%` pipeline and handles problematic variable names, especially 
 ```{r, message = FALSE, warning = FALSE}
 # Create a data.frame with dirty names
 test_df <- as.data.frame(matrix(ncol = 6))
-names(test_df) <- c("firstName", "ábc@!*", "% successful (2009)",
-                    "REPEAT VALUE", "REPEAT VALUE", "")
+names(test_df) <- c(
+  "firstName", "ábc@!*", "% successful (2009)",
+  "REPEAT VALUE", "REPEAT VALUE", ""
+)
 ```
 Clean the variable names, returning a data.frame:
 ```{r}
@@ -110,7 +112,7 @@ This function shows which, if any, columns in a data.frame have one-to-one relat
 Here is a toy example looking at the first four rows of the *starwars* data.frame from the dplyr package.  The variables are grouped into three sets of one-to-one clusters:
 ```{r message=FALSE}
 library(dplyr)
-starwars[1:4,] %>%
+starwars[1:4, ] %>%
   get_one_to_one()
 ```
 
@@ -137,16 +139,17 @@ Take this data.frame.  One pesky value of X has multiple values of Y where it sh
 ```{r}
 not_one_to_one <- data.frame(
   X = rep(1:3, each = 2),
-  Y = c(rep(1:2, each = 2), 1:2))
+  Y = c(rep(1:2, each = 2), 1:2)
+)
 
 not_one_to_one
 
 # throws informative error:
 try(not_one_to_one %>%
-      dplyr::group_by(X) %>%
-      dplyr::mutate(
-        Z = single_value(Y, info = paste("Calculating Z for group X =", X)))
-      )
+  dplyr::group_by(X) %>%
+  dplyr::mutate(
+    Z = single_value(Y, info = paste("Calculating Z for group X =", X))
+  ))
 ```
 
 
@@ -154,9 +157,11 @@ try(not_one_to_one %>%
 
 Does what it says.  For cases like cleaning Excel files that contain empty rows and columns after being read into R.
 ```{r}
-q <- data.frame(v1 = c(1, NA, 3),
-                v2 = c(NA, NA, NA),
-                v3 = c("a", NA, "b"))
+q <- data.frame(
+  v1 = c(1, NA, 3),
+  v2 = c(NA, NA, NA),
+  v3 = c("a", NA, "b")
+)
 q %>%
   remove_empty(c("rows", "cols"))
 ```
@@ -212,8 +217,10 @@ convert_to_date(c("2020-02-29", "40000.1"))
 If a data.frame has the intended variable names stored in one of its rows, `row_to_names()` will elevate the specified row to become the names of the data.frame and optionally (by default) remove the row in which names were stored and/or the rows above it.
 
 ```{r}
-dirt <- data.frame(X_1 = c(NA, "ID", 1:3),
-           X_2 = c(NA, "Value", 4:6))
+dirt <- data.frame(
+  X_1 = c(NA, "ID", 1:3),
+  X_2 = c(NA, "Value", 4:6)
+)
 
 row_to_names(dirt, 2)
 ```
@@ -238,7 +245,8 @@ Originally designed for use with Likert survey data stored as factors.  Returns 
 
 ```{r}
 f <- factor(c("strongly agree", "agree", "neutral", "neutral", "disagree", "strongly agree"),
-            levels = c("strongly agree", "agree", "neutral", "disagree", "strongly disagree"))
+  levels = c("strongly agree", "agree", "neutral", "disagree", "strongly disagree")
+)
 top_levels(f)
 top_levels(f, n = 1)
 ```

@@ -10,9 +10,11 @@ test_that("calling with no specified variable names uses all variable names", {
     expect_equal(get_dupes(test_df), get_dupes(test_df, a, b)),
     "No variable names specified - using all columns."
   )
-  expect_message(expect_message(
-    get_dupes(mtcars),
-    "No variable names specified - using all columns."),
+  expect_message(
+    expect_message(
+      get_dupes(mtcars),
+      "No variable names specified - using all columns."
+    ),
     "No duplicate combinations found of: mpg, cyl.*and 2 other variables"
   )
 })
@@ -29,14 +31,18 @@ test_that("instances of no dupes throw correct messages, return empty df", {
     no_dup_a,
     data.frame(a = double(0), dupe_count = integer(0))
   )
-  expect_message(expect_message(
-    mtcars %>% dplyr::select(-1) %>% get_dupes(),
-    "No variable names specified - using all columns."),
+  expect_message(
+    expect_message(
+      mtcars %>% dplyr::select(-1) %>% get_dupes(),
+      "No variable names specified - using all columns."
+    ),
     "No duplicate combinations found of: cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb"
   )
-  expect_message(expect_message(
-    mtcars %>% get_dupes(),
-    "No variable names specified - using all columns."),
+  expect_message(
+    expect_message(
+      mtcars %>% get_dupes(),
+      "No variable names specified - using all columns."
+    ),
     "No duplicate combinations found of: mpg, cyl, disp, hp, drat, wt, qsec, vs, am, ... and 2 other variables"
   )
 })
@@ -51,9 +57,11 @@ test_that("works on variables with irregular names", {
     badname_df %>% get_dupes(`bad name!`, cyl) %>% dim(),
     c(10, 13)
   ) # does it return the right-sized result?
-  expect_message(expect_message(
-    badname_df_dup <- badname_df %>% get_dupes(),
-    "No variable names specified - using all columns"),
+  expect_message(
+    expect_message(
+      badname_df_dup <- badname_df %>% get_dupes(),
+      "No variable names specified - using all columns"
+    ),
     "No duplicate combinations found of: mpg, cyl, disp, hp, drat, wt, qsec, vs, am, ... and 3 other variables"
   )
   expect_s3_class(badname_df_dup, "data.frame") # test for success, i.e., produces a data.frame (with 0 rows)
@@ -61,7 +69,7 @@ test_that("works on variables with irregular names", {
 
 test_that("tidyselect specification matches exact specification", {
   expect_equal(mtcars %>% get_dupes(contains("cy"), mpg), mtcars %>% get_dupes(cyl, mpg))
-  expect_equal(mtcars %>% get_dupes(mpg), mtcars %>% get_dupes(-c(cyl, disp, hp, drat, wt, qsec, vs, am ,gear, carb)))
+  expect_equal(mtcars %>% get_dupes(mpg), mtcars %>% get_dupes(-c(cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb)))
   expect_equal(
     suppressMessages(mtcars %>% dplyr::select(cyl, wt) %>% get_dupes()),
     mtcars %>% dplyr::select(cyl, wt) %>% get_dupes(dplyr::everything())

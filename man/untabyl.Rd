@@ -7,10 +7,10 @@
 untabyl(dat)
 }
 \arguments{
-\item{dat}{a data.frame of class \code{tabyl}.}
+\item{dat}{a \code{data.frame} of class \code{tabyl}.}
 }
 \value{
-Returns the same data.frame, but without the \code{tabyl} class and attributes.
+the same \code{data.frame}, but without the \code{tabyl} class and attributes.
 }
 \description{
 Strips away all \code{tabyl}-related attributes from a data.frame.

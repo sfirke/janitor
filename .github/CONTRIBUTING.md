@@ -23,7 +23,7 @@ If your proposed contribution addresses multiple issues, it should ideally be br
 * Make sure to track progress upstream (i.e., on our version of `janitor` at `sfirke/janitor`) by doing `git remote add upstream https://github.com/sfirke/janitor.git`. Before making changes make sure to pull changes in from upstream by doing either `git fetch upstream` then merge later or `git pull upstream` to fetch and merge in one step
 * Make your changes (bonus points for making changes on a new feature branch)
 * Push up to your account
-* Submit a pull request to the master branch at `sfirke/janitor`
+* Submit a pull request to the main branch at `sfirke/janitor`
 
 ### Prefer to discuss over email?
 Email Sam.  His email address is in the `DESCRIPTION` file of this repo.

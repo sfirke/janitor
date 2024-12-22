@@ -5,11 +5,16 @@ a <- mtcars %>%
 
 b <- mtcars %>%
   dplyr::count(cyl, carb) %>%
-  tidyr::spread(carb, n, fill = 0) %>%
+  tidyr::pivot_wider(
+    names_from = carb,
+    values_from = n,
+    values_fill = 0,
+    names_sort = TRUE
+  ) %>%
   as.data.frame() # for comparison purposes, remove the tbl_df aspect
 
 
-test_that("as_tabyl works on result of a non-janitor count/spread", {
+test_that("as_tabyl works on result of a non-janitor count/pivot_wider", {
   expect_equal(
     as_tabyl(a),
     as_tabyl(b, 2, "cyl", "carb")
@@ -82,14 +87,14 @@ test_that("adorn_totals and adorn_percentages reset the tabyl's core to reflect 
       adorn_totals() %>%
       attr(., "core"),
     sorted %>%
-      untabyl
+      untabyl()
   )
   expect_equal(
     sorted %>%
       adorn_percentages() %>%
       attr(., "core"),
     sorted %>%
-      untabyl
+      untabyl()
   )
   # both:
   expect_equal(
@@ -98,7 +103,7 @@ test_that("adorn_totals and adorn_percentages reset the tabyl's core to reflect 
       adorn_percentages() %>%
       attr(., "core"),
     sorted %>%
-      untabyl
+      untabyl()
   )
   # Ns with "Total" row sorted to top - the Total N should be up there too:
   expect_equal(

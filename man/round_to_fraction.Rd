@@ -12,24 +12,24 @@ round_to_fraction(x, denominator, digits = Inf)
 \item{denominator}{The denominator of the fraction for rounding (a scalar or
 vector positive integer).}
 
-\item{digits}{Integer indicating the number of decimal places to be used 
-after rounding to the fraction.  This is passed to \code{base::round()}). 
+\item{digits}{Integer indicating the number of decimal places to be used
+after rounding to the fraction.  This is passed to \code{base::round()}).
 Negative values are allowed (see Details). (\code{Inf} indicates no
 subsequent rounding)}
 }
 \value{
 the input x rounded to a decimal value that has an integer numerator relative
-  to \code{denominator} (possibly subsequently rounded to a number of decimal
-  digits).
+to \code{denominator} (possibly subsequently rounded to a number of decimal
+digits).
 }
 \description{
 Round a decimal to the precise decimal value of a specified
 fractional denominator.  Common use cases include addressing floating point
 imprecision and enforcing that data values fall into a certain set.
 
-E.g., if a decimal represents hours and values should be logged to the nearest 
-minute, \code{round_to_fraction(x, 60)} would enforce that distribution and 0.57 
-would be rounded to 0.566667, the equivalent of 34/60.  0.56 would also be rounded 
+E.g., if a decimal represents hours and values should be logged to the nearest
+minute, \code{round_to_fraction(x, 60)} would enforce that distribution and 0.57
+would be rounded to 0.566667, the equivalent of 34/60.  0.56 would also be rounded
 to 34/60.
 
 Set \code{denominator = 1} to round to whole numbers.
@@ -38,9 +38,9 @@ The \code{digits} argument allows for rounding of the subsequent result.
 }
 \details{
 If \code{digits} is \code{Inf}, \code{x} is rounded to the fraction
-  and then kept at full precision.  If \code{digits} is \code{"auto"}, the
-  number of digits is automatically selected as
-  \code{ceiling(log10(denominator)) + 1}.
+and then kept at full precision.  If \code{digits} is \code{"auto"}, the
+number of digits is automatically selected as
+\code{ceiling(log10(denominator)) + 1}.
 }
 \examples{
 round_to_fraction(1.6, denominator = 2)

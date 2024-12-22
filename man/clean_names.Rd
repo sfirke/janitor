@@ -10,16 +10,16 @@
 \usage{
 clean_names(dat, ...)
 
-\method{clean_names}{default}(dat, ...)
+\method{clean_names}{default}(dat, ..., set_labels = FALSE)
 
-\method{clean_names}{sf}(dat, ...)
+\method{clean_names}{sf}(dat, ..., set_labels = FALSE)
 
 \method{clean_names}{tbl_graph}(dat, ...)
 
 \method{clean_names}{tbl_lazy}(dat, ...)
 }
 \arguments{
-\item{dat}{the input data.frame.}
+\item{dat}{The input \code{data.frame}.}
 
 \item{...}{
   Arguments passed on to \code{\link[=make_clean_names]{make_clean_names}}
@@ -29,7 +29,7 @@ passed to \code{snakecase::to_any_case()} with the exception of "old_janitor",
 which exists only to support legacy code (it preserves the behavior of
 \code{clean_names()} prior to addition of the "case" argument (janitor
 versions <= 0.3.1).  "old_janitor" is not intended for new code. See
-\code{\link[snakecase]{to_any_case}} for a wide variety of supported cases,
+\code{\link[snakecase:to_any_case]{snakecase::to_any_case()}} for a wide variety of supported cases,
 including "sentence" and "title" case.}
     \item{\code{replace}}{A named character vector where the name is replaced by the
 value.}
@@ -65,12 +65,14 @@ You should use this feature with care in case of \code{case = "parsed"}, \code{c
  might not always be what is intended. In this case you can make usage of the option to supply named elements and specify the transliterations yourself.}
     \item{\code{numerals}}{A character specifying the alignment of numerals (\code{"middle"}, \code{left}, \code{right}, \code{asis} or \code{tight}). I.e. \code{numerals = "left"} ensures that no output separator is in front of a digit.}
   }}
+
+\item{set_labels}{If set to \code{TRUE}, old names are stored as labels in each column of the returned data.frame.}
 }
 \value{
-Returns the data.frame with clean names.
+A \code{data.frame} with clean names.
 }
 \description{
-Resulting names are unique and consist only of the \code{_} character, numbers, and letters.
+Resulting names are unique and consist only of the \verb{_} character, numbers, and letters.
 Capitalization preferences can be specified using the \code{case} parameter.
 
 Accented characters are transliterated to ASCII.  For example, an "o" with a
@@ -78,10 +80,10 @@ German umlaut over it becomes "o", and the Spanish character "enye" becomes
 "n".
 
 This function takes and returns a data.frame, for ease of piping with
-\code{`\%>\%`}. For the underlying function that works on a character vector
-of names, see \code{\link[janitor]{make_clean_names}}.  \code{clean_names} 
-relies on the versatile function \code{\link[snakecase]{to_any_case}}, which 
-accepts many arguments.  See that function's documentation for ideas on getting 
+\verb{\%>\%}. For the underlying function that works on a character vector
+of names, see \code{\link[=make_clean_names]{make_clean_names()}}.  \code{clean_names}
+relies on the versatile function \code{\link[snakecase:to_any_case]{snakecase::to_any_case()}}, which
+accepts many arguments.  See that function's documentation for ideas on getting
 the most out of \code{clean_names}.  A few examples are included below.
 
 A common issue is that the micro/mu symbol is replaced by "m" instead of "u".
@@ -94,11 +96,12 @@ which is a character vector mapping all known mu or micro Unicode code points
 }
 \details{
 \code{clean_names()} is intended to be used on \code{data.frames}
-  and \code{data.frame}-like objects. For this reason there are methods to
-  support using \code{clean_names()} on \code{sf} and \code{tbl_graph} (from
-  \code{tidygraph}) objects as well as on database connections through
-  \code{dbplyr}. For cleaning other named objects like named lists 
-  and vectors, use \code{make_clean_names()}.
+and \code{data.frame}-like objects. For this reason there are methods to
+support using \code{clean_names()} on \code{sf} and \code{tbl_graph} (from
+\code{tidygraph}) objects as well as on database connections through
+\code{dbplyr}. For cleaning other named objects like named lists
+and vectors, use \code{make_clean_names()}. When \code{set_labels} is set to \code{TRUE}, the old names,
+stored as column labels, can be restored using \code{sjlabelled::label_to_colnames()}.
 }
 \examples{
 
@@ -124,11 +127,11 @@ x \%>\%
 # Restore column names to Title Case, e.g., for plotting
 mtcars \%>\%
   clean_names(case = "title")
-  
+
 # Tell clean_names to leave certain abbreviations untouched:
 x \%>\%
-  clean_names(case = "upper_camel", abbreviations = c("ID", "DOB")) 
-  
+  clean_names(case = "upper_camel", abbreviations = c("ID", "DOB"))
+
 }
 \seealso{
 Other Set names: 

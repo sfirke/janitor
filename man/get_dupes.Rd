@@ -7,15 +7,21 @@
 get_dupes(dat, ...)
 }
 \arguments{
-\item{dat}{The input data.frame.}
+\item{dat}{The input \code{data.frame}.}
 
-\item{...}{Unquoted variable names to search for duplicates. This takes a tidyselect specification.}
+\item{...}{Unquoted variable names to search for duplicates. This takes a
+tidyselect specification.}
 }
 \value{
-Returns a data.frame with the full records where the specified variables have duplicated values, as well as a variable \code{dupe_count} showing the number of rows sharing that combination of duplicated values. If the input data.frame was of class \code{tbl_df}, the output is as well.
+A data.frame with the full records where the specified
+variables have duplicated values, as well as a variable \code{dupe_count}
+showing the number of rows sharing that combination of duplicated values.
+If the input data.frame was of class \code{tbl_df}, the output is as well.
 }
 \description{
-For hunting duplicate records during data cleaning.  Specify the data.frame and the variable combination to search for duplicates and get back the duplicated rows.
+For hunting duplicate records during data cleaning. Specify the data.frame
+and the variable combination to search for duplicates and get back the
+duplicated rows.
 }
 \examples{
 get_dupes(mtcars, mpg, hp)

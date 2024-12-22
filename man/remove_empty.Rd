@@ -9,12 +9,12 @@ remove_empty(dat, which = c("rows", "cols"), cutoff = 1, quiet = TRUE)
 \arguments{
 \item{dat}{the input data.frame or matrix.}
 
-\item{which}{one of "rows", "cols", or \code{c("rows", "cols")}.  Where no
+\item{which}{one of "rows", "cols", or \code{c("rows", "cols")}. Where no
 value of which is provided, defaults to removing both empty rows and empty
 columns, declaring the behavior with a printed message.}
 
-\item{cutoff}{What fraction (>0 to <=1) of rows or columns must be empty to
-be removed?}
+\item{cutoff}{Under what fraction (>0 to <=1) of non-empty rows or columns should
+\code{which} be removed? Lower values keep more rows/columns, higher values drop more.}
 
 \item{quiet}{Should messages be suppressed (\code{TRUE}) or printed
 (\code{FALSE}) indicating the summary of empty columns or rows removed?}
@@ -24,7 +24,7 @@ Returns the object without its missing rows or columns.
 }
 \description{
 Removes all rows and/or columns from a data.frame or matrix that
-  are composed entirely of \code{NA} values.
+are composed entirely of \code{NA} values.
 }
 \examples{
 # not run:
@@ -32,18 +32,21 @@ Removes all rows and/or columns from a data.frame or matrix that
 # addressing a common untidy-data scenario where we have a mixture of
 # blank values in some (character) columns and NAs in others:
 library(dplyr)
-dd <- tibble(x=c(LETTERS[1:5],NA,rep("",2)),
-             y=c(1:5,rep(NA,3)))
+dd <- tibble(
+  x = c(LETTERS[1:5], NA, rep("", 2)),
+  y = c(1:5, rep(NA, 3))
+)
 # remove_empty() drops row 5 (all NA) but not 6 and 7 (blanks + NAs)
 dd \%>\% remove_empty("rows")
 # solution: preprocess to convert whitespace/empty strings to NA,
 # _then_ remove empty (all-NA) rows
-dd \%>\% mutate(across(is.character,~na_if(trimws(.),""))) \%>\%
-   remove_empty("rows")
+dd \%>\%
+  mutate(across(where(is.character), ~ na_if(trimws(.), ""))) \%>\%
+  remove_empty("rows")
 }
 \seealso{
 \code{\link[=remove_constant]{remove_constant()}} for removing
-  constant columns.
+constant columns.
 
 Other remove functions: 
 \code{\link{remove_constant}()}

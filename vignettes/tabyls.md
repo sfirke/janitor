@@ -1,6 +1,6 @@
 tabyls: a tidy, fully-featured approach to counting things
 ================
-2023-02-01
+2023-02-03
 
 ## Motivation: why tabyl?
 
@@ -353,11 +353,11 @@ grouped by two other variables, then use `adorn_` functions to round the
 values and append Ns. The first part is pretty straightforward:
 
 ``` r
-library(tidyr) # for spread()
+library(tidyr) # for pivot_wider()
 mpg_by_cyl_and_am <- mtcars %>%
   group_by(cyl, am) %>%
   summarise(mpg = mean(mpg), .groups = "drop") %>%
-  spread(am, mpg)
+  pivot_wider(names_from = am, values_from = mpg)
 
 mpg_by_cyl_and_am
 #> # A tibble: 3 × 3
@@ -400,7 +400,7 @@ raw_data <- data.frame(sex = rep(c("m", "f"), 3000),
 raw_data$agegroup = cut(raw_data$age, quantile(raw_data$age, c(0, 1/3, 2/3, 1)))
 
 comparison <- raw_data %>%
-  tabyl(agegroup, sex, show_missing_levels = F) %>%
+  tabyl(agegroup, sex, show_missing_levels = FALSE) %>%
   adorn_totals(c("row", "col")) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting(digits = 1)
@@ -435,7 +435,7 @@ Lastly, we append these Ns using `adorn_ns()`.
 ``` r
 formatted_ns <- attr(comparison, "core") %>% # extract the tabyl's underlying Ns
   adorn_totals(c("row", "col")) %>% # to match the data.frame we're appending to
-  dplyr::mutate_if(is.numeric, format, big.mark = ",")
+  dplyr::mutate(across(where(is.numeric), ~ format(.x, big.mark = ",")))
 
 comparison %>%
   adorn_ns(position = "rear", ns = formatted_ns)

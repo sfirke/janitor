@@ -89,22 +89,22 @@ test_that("tidyselecting works", {
     third_wave = c(3, 3, 3),
     size = c("small", "medium", "large"),
     stringsAsFactors = FALSE
-  )  %>%
+  ) %>%
     adorn_percentages()
 
   two_cols <- target %>%
-    adorn_rounding(,"half up",first_wave:second_wave)
+    adorn_rounding(, "half up", first_wave:second_wave)
   expect_equal(two_cols$first_wave, c(.1, .2, .3))
-  expect_equal(two_cols$third_wave, c(3/8, 3/10, 3/12))
+  expect_equal(two_cols$third_wave, c(3 / 8, 3 / 10, 3 / 12))
 
   expect_message(
     target %>%
-      adorn_rounding(,,third_wave:size),
+      adorn_rounding(, , third_wave:size),
     "At least one non-numeric column was specified and will not be modified."
   )
   expect_message(
     text_skipped <- target %>%
-      adorn_rounding(,,c(first_wave, size)),
+      adorn_rounding(, , c(first_wave, size)),
     "At least one non-numeric column was specified and will not be modified."
   )
   expect_equal(text_skipped$first_wave, c(.1, .2, .2))

@@ -1,6 +1,8 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+# janitor <img src="man/figures/logo_small.png" align="right" />
+
 > Data scientists, according to interviews and expert estimates, spend
 > from 50 percent to 80 percent of their time mired in this more mundane
 > labor of collecting and preparing unruly digital data, before it can
@@ -10,15 +12,13 @@
 > Insight”](https://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html)
 > *(New York Times, 2014)*
 
-# janitor <img src="man/figures/logo_small.png" align="right" />
-
 ------------------------------------------------------------------------
 
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/sfirke/janitor/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/sfirke/janitor/actions/workflows/R-CMD-check.yaml)
 [![Coverage
-Status](https://img.shields.io/codecov/c/github/sfirke/janitor/master.svg)](https://app.codecov.io/github/sfirke/janitor?branch=master)
+Status](https://img.shields.io/codecov/c/github/sfirke/janitor/main.svg)](https://app.codecov.io/github/sfirke/janitor?branch=main)
 [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version-ago/janitor)](https://cran.r-project.org/package=janitor)
 ![!Monthly Downloads](https://cranlogs.r-pkg.org/badges/janitor)
@@ -42,28 +42,30 @@ The tabulate-and-report functions approximate popular features of SPSS
 and Microsoft Excel.
 
 janitor is a
-[\#tidyverse](https://CRAN.R-project.org/package=tidyverse/vignettes/manifesto.html)-oriented
+[\#tidyverse](https://cran.r-project.org/package=tidyverse/vignettes/manifesto.html)-oriented
 package. Specifically, it plays nicely with the `%>%` pipe and is
 optimized for cleaning data brought in with the
 [readr](https://github.com/tidyverse/readr) and
 [readxl](https://github.com/tidyverse/readxl) packages.
 
-### Installation
+## <i class="fa fa-cog" aria-hidden="true"></i> Installation
 
 You can install:
 
 - the most recent officially-released version from CRAN with
 
-  ``` r
-  install.packages("janitor")
-  ```
+``` r
+install.packages("janitor")
+```
 
 - the latest development version from GitHub with
 
-  ``` r
-  install.packages("devtools")
-  devtools::install_github("sfirke/janitor")
-  ```
+``` r
+# install.packages("remotes")
+remotes::install_github("sfirke/janitor")
+# or from r-universe
+install.packages("janitor", repos = c("https://sfirke.r-universe.dev", "https://cloud.r-project.org"))
+```
 
 ## Using janitor
 
@@ -80,7 +82,7 @@ Below are quick examples of how janitor tools are commonly used.
 
 Take this roster of teachers at a fictional American high school, stored
 in the Microsoft Excel file
-[dirty_data.xlsx](https://github.com/sfirke/janitor/blob/master/dirty_data.xlsx):
+[dirty_data.xlsx](https://github.com/sfirke/janitor/blob/main/dirty_data.xlsx):
 ![All kinds of dirty.](man/figures/dirty_data.PNG)
 
 Dirtiness includes:
@@ -95,7 +97,10 @@ Dirtiness includes:
 Here’s that data after being read in to R:
 
 ``` r
-library(readxl); library(janitor); library(dplyr); library(here)
+library(readxl)
+library(janitor)
+library(dplyr)
+library(here)
 
 roster_raw <- read_excel(here("dirty_data.xlsx")) # available at https://github.com/sfirke/janitor
 glimpse(roster_raw)
@@ -120,9 +125,10 @@ Name cleaning comes in two flavors. `make_clean_names()` operates on
 character vectors and can be used during data import:
 
 ``` r
-roster_raw_cleaner <- read_excel(here("dirty_data.xlsx"), 
-                                 skip = 1,
-                                 .name_repair = make_clean_names)
+roster_raw_cleaner <- read_excel(here("dirty_data.xlsx"),
+  skip = 1,
+  .name_repair = make_clean_names
+)
 glimpse(roster_raw_cleaner)
 #> Rows: 13
 #> Columns: 11
@@ -154,10 +160,14 @@ The data.frame now has clean names. Let’s tidy it up further:
 ``` r
 roster <- roster_raw %>%
   remove_empty(c("rows", "cols")) %>%
-  remove_constant(na.rm = TRUE, quiet = FALSE) %>% # remove the column of all "Yes" values 
-  mutate(hire_date = convert_to_date(hire_date, # handle the mixed-format dates
-                                     character_fun = lubridate::mdy),
-         cert = dplyr::coalesce(certification, certification_2)) %>%
+  remove_constant(na.rm = TRUE, quiet = FALSE) %>% # remove the column of all "Yes" values
+  mutate(
+    hire_date = convert_to_date(
+      hire_date, # handle the mixed-format dates
+      character_fun = lubridate::mdy
+    ),
+    cert = dplyr::coalesce(certification, certification_2)
+  ) %>%
   select(-certification, -certification_2) # drop unwanted columns
 #> Removing 1 constant columns of 10 columns total (Removed: active).
 
@@ -208,11 +218,11 @@ with the suite of `adorn_` functions for quick analysis and printing of
 pretty results in a report. `adorn_` functions can be helpful with
 non-tabyls, too.
 
-#### tabyl()
+#### `tabyl()`
 
 Like `table()`, but pipe-able, data.frame-based, and fully featured.
 
-`tabyl` can be called two ways:
+`tabyl()` can be called two ways:
 
 - On a vector, when tabulating a single variable:
   `tabyl(roster$subject)`
@@ -270,7 +280,7 @@ roster %>%
 #>        Yes         1        1       0     1  1       1       0   1
 ```
 
-##### Adorning tabyls
+#### Adorning tabyls
 
 The `adorn_` functions dress up the results of these tabulation calls
 for fast, basic reporting. Here are some of the functions that augment a
@@ -298,7 +308,7 @@ Excel and SPSS when it comes to quick, informative counts. Learn more
 about `tabyl()` and the `adorn_` functions from the [tabyls
 vignette](https://sfirke.github.io/janitor/articles/tabyls.html).
 
-## Contact me
+## <i class="fa fa-bullhorn" aria-hidden="true"></i> Contact me
 
 You are welcome to:
 

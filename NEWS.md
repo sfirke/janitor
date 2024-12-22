@@ -1,3 +1,39 @@
+# janitor 2.2.1.9000 - unreleased development version
+
+## Breaking changes
+
+These are all minor breaking changes resulting from enhancements and are not expected to affect the vast majority of users.
+
+* When using `row_to_names()`, when all input values in `row_number` for a column are `NA`, `row_to_names()` creates a column name of `"NA"`, a character, rather than `NA`. If code previously used relied on a column name of `NA`, it will now error. To fix this, rely on a column name of `"NA"`.
+
+* When `tabyl()` is called on a data.frame containing labels, it now displays the label attribute as the name of the first column in the the resulting `tabyl` object (@olivroy, #394). This may break subsequent code that refers to the output of such a `tabyl` by column name. To maintain the previous behavior of ignoring variable labels, you can remove the labels with a function like `haven::zap_labels()` or `labelled::remove_labels()` before calling `tabyl()`.
+
+## New features
+
+* A new function `paste_skip_na()` pastes without including NA values (#537).
+
+* `row_to_names()` now accepts multiple rows as input, and merges them using a new `sep` argument (#536). The default is `sep = "_"`. When handling multiple `NA` values, `row_to_names()` ignores them and only merges non-NA values for column names. When all values are `NA`, `row_to_names()` creates a column name of `"NA"`, a character, rather than `NA`.
+
+* The new function `excel_time_to_numeric()` converts times from Excel that do not have accompanying dates into a number of seconds.  (#245, thanks to **@billdenney** for the feature.)
+
+* A new argument `set_labels` to `clean_names()` stores the old names as labels in each column. Variable labels are visualized in Rstudio's data viewer or used by default by some packages such as `gt` instead of variable names. Labels can also be used in ggplot labels thanks to the function `easy_labs()` in the `ggeasy` package. Read this wonderful [post](https://www.pipinghotdata.com/posts/2022-09-13-the-case-for-variable-labels-in-r/) for more info about column labels. (#563, thanks to **@jospueyo** for the feature).
+
+## Bug fixes
+
+* `adorn_totals("row")` now succeeds if the new `name` of the totals row is already a factor level of the input data.frame (#529, thanks @egozoglu for reporting).
+
+* `make_clean_names()` no longer accepts a data.frame or tibble as input, use `clean_names()` for that (fix #532, **@billdenney**).
+
+* `get_one_to_one()` no longer errors with near-equal values that become identical factor levels (fix #543, thanks to @olivroy for reporting)
+
+* `clean_names()` for sf objects now works in cases when the sf_column is not the last column name (fix #578, thanks to @ar-puuk for reporting and @billdenney for fixing)
+
+## Refactoring
+
+* Remove dplyr verbs superseded in dplyr 1.0.0 (#547, @olivroy)
+
+* Restyle the package and vignettes according to the [tidyverse style guide](https://style.tidyverse.org) (#548, @olivroy)
+
 # janitor 2.2.1 (2024-12-22)
 
 This is a trivial bugfix release whose only purpose is fixing a test that was failing on CRAN due to the way timezones are handled in Debian. In making that fix (PR #584), we made a small - technically breaking - improvement to a function that works with SAS dates. >99.9% of janitor users should be unaffected by this release.
@@ -5,7 +41,6 @@ This is a trivial bugfix release whose only purpose is fixing a test that was fa
 ## Breaking changes
 
 * `sas_numeric_to_date()` now warns for timezones other than "UTC" due to the way that SAS loads timezones, and the default timezone for `sas_numeric_to_date()` is now "UTC" instead of "" (#583, @billdenney)
-
 
 # janitor 2.2.0 (2023-02-02)
 

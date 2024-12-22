@@ -18,7 +18,7 @@ This function rounds 12.5 to 13 (assuming \code{digits = 2}). Negative halves
 are rounded away from zero, e.g., \code{signif(-2.5, 1)} is rounded to -3.
 
 This may skew subsequent statistical analysis of the data, but may be
-desirable in certain contexts. This function is implemented from 
+desirable in certain contexts. This function is implemented from
 \url{https://stackoverflow.com/a/1581007/}; see that question and
 comments for discussion of this issue.
 }
