@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   janitor: janitor.html
   tabyls: tabyls.html
-last_built: 2024-12-22T18:00Z
+last_built: 2024-12-23T14:16Z
 urls:
   reference: https://sfirke.github.io/janitor/reference
   article: https://sfirke.github.io/janitor/articles
