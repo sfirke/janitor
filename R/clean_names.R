@@ -33,7 +33,7 @@
 #'   support using `clean_names()` on `sf` and `tbl_graph` (from
 #'   `tidygraph`) objects as well as on database connections through
 #'   `dbplyr`. For cleaning other named objects like named lists
-#'   and vectors, use `make_clean_names()`. When `set_labels` is set to `TRUE`, the old names, 
+#'   and vectors, use `make_clean_names()`. When `set_labels` is set to `TRUE`, the old names,
 #'   stored as column labels, can be restored using `sjlabelled::label_to_colnames()`.
 #'
 #' @export
@@ -83,14 +83,13 @@ clean_names.default <- function(dat, ..., set_labels = FALSE) {
   if (is.null(names(dat))) {
     dimnames(dat) <- lapply(dimnames(dat), make_clean_names, ...)
   } else {
-    if (set_labels){
+    if (set_labels) {
       old_names <- names(dat)
-      for (i in seq_along(old_names)){
+      for (i in seq_along(old_names)) {
         attr(dat[[i]], "label") <- old_names[[i]]
       }
     }
     names(dat) <- make_clean_names(names(dat), ...)
-    
   }
   dat
 }
@@ -112,9 +111,9 @@ clean_names.sf <- function(dat, ..., set_labels = FALSE) {
   sf_cleaned <- make_clean_names(sf_names[cols_to_rename], ...)
   # rename original df
   names(dat)[cols_to_rename] <- sf_cleaned
-  
-  if(set_labels){
-    for (i in seq_along(sf_names[cols_to_rename])){
+
+  if (set_labels) {
+    for (i in seq_along(sf_names[cols_to_rename])) {
       attr(dat[[i]], "label") <- sf_names[[i]]
     }
   }
@@ -131,7 +130,7 @@ clean_names.tbl_graph <- function(dat, ...) {
       call. = FALSE
     )
   } # nocov end
-  
+
   dplyr::rename_all(dat, .funs = make_clean_names, ...)
 }
 

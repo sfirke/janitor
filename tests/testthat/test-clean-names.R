@@ -190,14 +190,14 @@ test_that("labels are created in default method (feature request #563)", {
   dat_df <- dplyr::tibble(`a a` = c(11, 22), `b b` = c(2, 3))
   dat_df_clean_labels <- clean_names(dat_df, set_labels = TRUE)
   dat_df_clean <- clean_names(dat_df)
-  
-  for (i in seq_along(names(dat_df))){
+
+  for (i in seq_along(names(dat_df))) {
     # check that old names are saved as labels when set_labels is TRUE
     expect_equal(attr(dat_df_clean_labels[[i]], "label"), names(dat_df)[[i]])
     # check that old names are not stored if set_labels is not TRUE
     expect_null(attr(dat_df_clean[[i]], "label"))
-    }
-  
+  }
+
   # expect names are always cleaned
   expect_equal(names(dat_df_clean), c("a_a", "b_b"))
   expect_equal(names(dat_df_clean_labels), c("a_a", "b_b"))
@@ -605,19 +605,19 @@ test_that("Tests for cases beyond default snake for sf objects", {
 
 test_that("labels are created in sf method (feature request #563)", {
   skip_if_not_installed("sf")
-  
+
   dat_df <- dplyr::tibble(`a a` = c(11, 22), `b b` = c(2, 3))
   dat_sf <- dat_df
-  dat_sf$x <- c(1,2)
-  dat_sf$y <- c(1,2) 
+  dat_sf$x <- c(1, 2)
+  dat_sf$y <- c(1, 2)
   dat_sf <- sf::st_as_sf(dat_sf, coords = c("x", "y"))
   dat_sf_clean_labels <- clean_names(dat_sf, set_labels = TRUE)
   dat_sf_clean <- clean_names(dat_sf)
-  
-  for (i in seq_along(names(dat_df))){
+
+  for (i in seq_along(names(dat_df))) {
     # check that old names are saved as labels when set_labels is TRUE
     expect_equal(attr(dat_sf_clean_labels[[i]], "label"), names(dat_sf)[[i]])
-    
+
     # check that old names are not stored if set_labels is not TRUE
     expect_null(attr(dat_sf_clean[[i]], "label"))
   }

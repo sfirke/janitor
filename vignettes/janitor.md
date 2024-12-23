@@ -1,68 +1,45 @@
 Overview of janitor functions
 ================
-2023-02-02
+2024-12-18
 
-- <a href="#major-functions" id="toc-major-functions">Major functions</a>
-  - <a href="#cleaning" id="toc-cleaning">Cleaning</a>
-    - <a href="#clean-dataframe-names-with-clean_names"
-      id="toc-clean-dataframe-names-with-clean_names">Clean data.frame names
-      with <code>clean_names()</code></a>
-    - <a href="#do-those-dataframes-actually-contain-the-same-columns"
-      id="toc-do-those-dataframes-actually-contain-the-same-columns">Do those
-      data.frames actually contain the same columns?</a>
-  - <a href="#exploring" id="toc-exploring">Exploring</a>
-    - <a href="#tabyl---a-better-version-of-table"
-      id="toc-tabyl---a-better-version-of-table"><code>tabyl()</code> - a
-      better version of <code>table()</code></a>
-    - <a
-      href="#explore-records-with-duplicated-values-for-specific-combinations-of-variables-with-get_dupes"
-      id="toc-explore-records-with-duplicated-values-for-specific-combinations-of-variables-with-get_dupes">Explore
-      records with duplicated values for specific combinations of variables
-      with <code>get_dupes()</code></a>
-    - <a href="#explore-relationships-between-columns-with-get_one_to_one"
-      id="toc-explore-relationships-between-columns-with-get_one_to_one">Explore
-      relationships between columns with <code>get_one_to_one()</code></a>
-- <a href="#minor-functions" id="toc-minor-functions">Minor functions</a>
-  - <a href="#cleaning-1" id="toc-cleaning-1">Cleaning</a>
-    - <a href="#manipulate-vectors-of-names-with-make_clean_names"
-      id="toc-manipulate-vectors-of-names-with-make_clean_names">Manipulate
-      vectors of names with <code>make_clean_names()</code></a>
-    - <a href="#validate-that-a-column-has-a-single_value-per-group"
-      id="toc-validate-that-a-column-has-a-single_value-per-group">Validate
-      that a column has a <code>single_value()</code> per group</a>
-    - <a href="#remove_empty-rows-and-columns"
-      id="toc-remove_empty-rows-and-columns"><code>remove_empty()</code> rows
-      and columns</a>
-    - <a href="#remove_constant-columns"
-      id="toc-remove_constant-columns"><code>remove_constant()</code>
-      columns</a>
-    - <a href="#directionally-consistent-rounding-behavior-with-round_half_up"
-      id="toc-directionally-consistent-rounding-behavior-with-round_half_up">Directionally-consistent
-      rounding behavior with <code>round_half_up()</code></a>
-    - <a
-      href="#round-decimals-to-precise-fractions-of-a-given-denominator-with-round_to_fraction"
-      id="toc-round-decimals-to-precise-fractions-of-a-given-denominator-with-round_to_fraction">Round
-      decimals to precise fractions of a given denominator with
-      <code>round_to_fraction()</code></a>
-    - <a href="#fix-dates-stored-as-serial-numbers-with-excel_numeric_to_date"
-      id="toc-fix-dates-stored-as-serial-numbers-with-excel_numeric_to_date">Fix
-      dates stored as serial numbers with
-      <code>excel_numeric_to_date()</code></a>
-    - <a href="#convert-a-mix-of-date-and-datetime-formats-to-date"
-      id="toc-convert-a-mix-of-date-and-datetime-formats-to-date">Convert a
-      mix of date and datetime formats to date</a>
-    - <a href="#elevate-column-names-stored-in-a-dataframe-row"
-      id="toc-elevate-column-names-stored-in-a-dataframe-row">Elevate column
-      names stored in a data.frame row</a>
-    - <a href="#find-the-header-row-buried-within-a-messy-dataframe"
-      id="toc-find-the-header-row-buried-within-a-messy-dataframe">Find the
-      header row buried within a messy data.frame</a>
-  - <a href="#exploring-1" id="toc-exploring-1">Exploring</a>
-    - <a
-      href="#count-factor-levels-in-groups-of-high-medium-and-low-with-top_levels"
-      id="toc-count-factor-levels-in-groups-of-high-medium-and-low-with-top_levels">Count
-      factor levels in groups of high, medium, and low with
-      <code>top_levels()</code></a>
+- [Major functions](#major-functions)
+  - [Cleaning](#cleaning)
+    - [Clean data.frame names with
+      `clean_names()`](#clean-dataframe-names-with-clean_names)
+    - [Do those data.frames actually contain the same
+      columns?](#do-those-dataframes-actually-contain-the-same-columns)
+  - [Exploring](#exploring)
+    - [`tabyl()` - a better version of
+      `table()`](#tabyl---a-better-version-of-table)
+    - [Explore records with duplicated values for specific combinations
+      of variables with
+      `get_dupes()`](#explore-records-with-duplicated-values-for-specific-combinations-of-variables-with-get_dupes)
+    - [Explore relationships between columns with
+      `get_one_to_one()`](#explore-relationships-between-columns-with-get_one_to_one)
+- [Minor functions](#minor-functions)
+  - [Cleaning](#cleaning-1)
+    - [Manipulate vectors of names with
+      `make_clean_names()`](#manipulate-vectors-of-names-with-make_clean_names)
+    - [Validate that a column has a `single_value()` per
+      group](#validate-that-a-column-has-a-single_value-per-group)
+    - [`remove_empty()` rows and
+      columns](#remove_empty-rows-and-columns)
+    - [`remove_constant()` columns](#remove_constant-columns)
+    - [Directionally-consistent rounding behavior with
+      `round_half_up()`](#directionally-consistent-rounding-behavior-with-round_half_up)
+    - [Round decimals to precise fractions of a given denominator with
+      `round_to_fraction()`](#round-decimals-to-precise-fractions-of-a-given-denominator-with-round_to_fraction)
+    - [Fix dates stored as serial numbers with
+      `excel_numeric_to_date()`](#fix-dates-stored-as-serial-numbers-with-excel_numeric_to_date)
+    - [Convert a mix of date and datetime formats to
+      date](#convert-a-mix-of-date-and-datetime-formats-to-date)
+    - [Elevate column names stored in a data.frame
+      row](#elevate-column-names-stored-in-a-dataframe-row)
+    - [Find the header row buried within a messy
+      data.frame](#find-the-header-row-buried-within-a-messy-dataframe)
+  - [Exploring](#exploring-1)
+    - [Count factor levels in groups of high, medium, and low with
+      `top_levels()`](#count-factor-levels-in-groups-of-high-medium-and-low-with-top_levels)
 
 The janitor functions expedite the initial data exploration and cleaning
 that comes with any new data set. This catalog describes the usage for
@@ -78,7 +55,7 @@ Functions for everyday use.
 
 Call this function every time you read data.
 
-It works in a `%>%` pipeline, and handles problematic variable names,
+It works in a `%>%` pipeline and handles problematic variable names,
 especially those that are so well-preserved by `readxl::read_excel()`
 and `readr::read_csv()`.
 
@@ -94,8 +71,10 @@ and `readr::read_csv()`.
 ``` r
 # Create a data.frame with dirty names
 test_df <- as.data.frame(matrix(ncol = 6))
-names(test_df) <- c("firstName", "ábc@!*", "% successful (2009)",
-                    "REPEAT VALUE", "REPEAT VALUE", "")
+names(test_df) <- c(
+  "firstName", "ábc@!*", "% successful (2009)",
+  "REPEAT VALUE", "REPEAT VALUE", ""
+)
 ```
 
 Clean the variable names, returning a data.frame:
@@ -111,8 +90,8 @@ Compare to what base R produces:
 
 ``` r
 make.names(names(test_df))
-#> [1] "firstName"            "ábc..."               "X..successful..2009." "REPEAT.VALUE"         "REPEAT.VALUE"        
-#> [6] "X"
+#> [1] "firstName"            "ábc..."               "X..successful..2009."
+#> [4] "REPEAT.VALUE"         "REPEAT.VALUE"         "X"
 ```
 
 This function is powered by the underlying exported function
@@ -229,10 +208,11 @@ sets of one-to-one clusters:
 
 ``` r
 library(dplyr)
-starwars[1:4,] %>%
+starwars[1:4, ] %>%
   get_one_to_one()
 #> [[1]]
-#> [1] "name"       "height"     "mass"       "skin_color" "birth_year" "films"     
+#> [1] "name"       "height"     "mass"       "skin_color" "birth_year"
+#> [6] "films"     
 #> 
 #> [[2]]
 #> [1] "hair_color" "starships" 
@@ -250,7 +230,7 @@ than the equivalent code they replace.
 
 ### Manipulate vectors of names with `make_clean_names()`
 
-Like base R’s `make.names()`, but with the stylings and case choice of
+Like base R’s `make.names()`, but with the styling and case choice of
 the long-time janitor function `clean_names()`. While `clean_names()` is
 still offered for use in data.frame pipeline with `%>%`,
 `make_clean_names()` allows for more general usage, e.g., on a vector.
@@ -273,7 +253,7 @@ tibble::as_tibble(iris, .name_repair = janitor::make_clean_names)
 #>  8          5           3.4          1.5         0.2 setosa 
 #>  9          4.4         2.9          1.4         0.2 setosa 
 #> 10          4.9         3.1          1.5         0.1 setosa 
-#> # … with 140 more rows
+#> # ℹ 140 more rows
 ```
 
 ### Validate that a column has a `single_value()` per group
@@ -290,7 +270,8 @@ where it should not:
 ``` r
 not_one_to_one <- data.frame(
   X = rep(1:3, each = 2),
-  Y = c(rep(1:2, each = 2), 1:2))
+  Y = c(rep(1:2, each = 2), 1:2)
+)
 
 not_one_to_one
 #>   X Y
@@ -303,12 +284,13 @@ not_one_to_one
 
 # throws informative error:
 try(not_one_to_one %>%
-      dplyr::group_by(X) %>%
-      dplyr::mutate(
-        Z = single_value(Y, info = paste("Calculating Z for group X =", X)))
-      )
+  dplyr::group_by(X) %>%
+  dplyr::mutate(
+    Z = single_value(Y, info = paste("Calculating Z for group X =", X))
+  ))
 #> Error in dplyr::mutate(., Z = single_value(Y, info = paste("Calculating Z for group X =",  : 
-#>   ℹ In argument: `Z = single_value(Y, info = paste("Calculating Z for group X =", X))`.
+#>   ℹ In argument: `Z = single_value(Y, info = paste("Calculating Z for
+#>   group X =", X))`.
 #> ℹ In group 3: `X = 3`.
 #> Caused by error in `single_value()`:
 #> ! More than one (2) value found (1, 2): Calculating Z for group X = 3: Calculating Z for group X = 3
@@ -320,9 +302,11 @@ Does what it says. For cases like cleaning Excel files that contain
 empty rows and columns after being read into R.
 
 ``` r
-q <- data.frame(v1 = c(1, NA, 3),
-                v2 = c(NA, NA, NA),
-                v3 = c("a", NA, "b"))
+q <- data.frame(
+  v1 = c(1, NA, 3),
+  v2 = c(NA, NA, NA),
+  v3 = c("a", NA, "b")
+)
 q %>%
   remove_empty(c("rows", "cols"))
 #>   v1 v3
@@ -419,8 +403,10 @@ names of the data.frame and optionally (by default) remove the row in
 which names were stored and/or the rows above it.
 
 ``` r
-dirt <- data.frame(X_1 = c(NA, "ID", 1:3),
-           X_2 = c(NA, "Value", 4:6))
+dirt <- data.frame(
+  X_1 = c(NA, "ID", 1:3),
+  X_2 = c(NA, "Value", 4:6)
+)
 
 row_to_names(dirt, 2)
 #>   ID Value
@@ -454,7 +440,8 @@ grouped into head/middle/tail groups.
 
 ``` r
 f <- factor(c("strongly agree", "agree", "neutral", "neutral", "disagree", "strongly agree"),
-            levels = c("strongly agree", "agree", "neutral", "disagree", "strongly disagree"))
+  levels = c("strongly agree", "agree", "neutral", "disagree", "strongly disagree")
+)
 top_levels(f)
 #>                            f n   percent
 #>        strongly agree, agree 3 0.5000000
