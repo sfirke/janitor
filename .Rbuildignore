@@ -25,3 +25,5 @@ Index.Rmd
 ^_pkgdown\.yml$
 ^pkgdown$
 ^\.github$
+revdep/
+^CRAN-SUBMISSION$

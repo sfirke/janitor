@@ -1,4 +1,4 @@
-# janitor 2.2.0.9000 - unreleased development version
+# janitor 2.2.1.9000 - unreleased development version
 
 ## Breaking changes
 
@@ -7,8 +7,6 @@ These are all minor breaking changes resulting from enhancements and are not exp
 * When using `row_to_names()`, when all input values in `row_number` for a column are `NA`, `row_to_names()` creates a column name of `"NA"`, a character, rather than `NA`. If code previously used relied on a column name of `NA`, it will now error. To fix this, rely on a column name of `"NA"`.
 
 * When `tabyl()` is called on a data.frame containing labels, it now displays the label attribute as the name of the first column in the the resulting `tabyl` object (@olivroy, #394). This may break subsequent code that refers to the output of such a `tabyl` by column name. To maintain the previous behavior of ignoring variable labels, you can remove the labels with a function like `haven::zap_labels()` or `labelled::remove_labels()` before calling `tabyl()`.
-
-* `sas_numeric_to_date()` now warns for timezones other than "UTC" due to the way that SAS loads timezones, and the default timezone for `sas_numeric_to_date()` is now "UTC" instead of "" (#583, @billdenney)
 
 ## New features
 
@@ -34,6 +32,14 @@ These are all minor breaking changes resulting from enhancements and are not exp
 * Remove dplyr verbs superseded in dplyr 1.0.0 (#547, @olivroy)
 
 * Restyle the package and vignettes according to the [tidyverse style guide](https://style.tidyverse.org) (#548, @olivroy)
+
+# janitor 2.2.1 (2024-12-22)
+
+This is a trivial bugfix release whose only purpose is fixing a test that was failing on CRAN due to the way timezones are handled in Debian. In making that fix (PR #584), we made a small - technically breaking - improvement to a function that works with SAS dates. >99.9% of janitor users should be unaffected by this release.
+
+## Breaking changes
+
+* `sas_numeric_to_date()` now warns for timezones other than "UTC" due to the way that SAS loads timezones, and the default timezone for `sas_numeric_to_date()` is now "UTC" instead of "" (#583, @billdenney)
 
 # janitor 2.2.0 (2023-02-02)
 
