@@ -107,8 +107,14 @@ the Spanish character "enye" becomes "n".
 
 The order of operations is: make replacements, (optional) ASCII conversion,
 remove initial spaces and punctuation, apply \code{base::make.names()},
-apply \verb{snakecase::to_any_case(()}, and add numeric suffixes
+apply \code{snakecase::to_any_case()}, and add numeric suffixes
 to resolve any duplicated names.
+
+Because \code{make.names()} runs before \code{snakecase::to_any_case()}, arguments
+passed on to \code{to_any_case()} see the output of \code{make.names()} rather than
+the original strings. In particular, \code{make.names()} turns \code{""} into \code{"X"}
+(cleaned to \code{"x"}), so \code{empty_fill} has no effect unless
+\code{use_make_names = FALSE}.
 
 This function relies on \code{snakecase::to_any_case()} and can take advantage of
 its versatility.  For instance, an abbreviation like "ID" can have its
@@ -136,6 +142,10 @@ x # now has cleaned names
 
 # if you prefer camelCase variable names:
 make_clean_names(names(x), "small_camel")
+
+# empty_fill applies only when make.names() is not used:
+make_clean_names(c("A 1", ""), empty_fill = "missing")
+make_clean_names(c("A 1", ""), empty_fill = "missing", use_make_names = FALSE)
 
 # similar to janitor::clean_names(poorly_named_df):
 # not run:

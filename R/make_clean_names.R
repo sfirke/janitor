@@ -15,8 +15,14 @@
 #'
 #' The order of operations is: make replacements, (optional) ASCII conversion,
 #' remove initial spaces and punctuation, apply `base::make.names()`,
-#' apply `snakecase::to_any_case(()`, and add numeric suffixes
+#' apply `snakecase::to_any_case()`, and add numeric suffixes
 #' to resolve any duplicated names.
+#'
+#' Because `make.names()` runs before `snakecase::to_any_case()`, arguments
+#' passed on to `to_any_case()` see the output of `make.names()` rather than
+#' the original strings. In particular, `make.names()` turns `""` into `"X"`
+#' (cleaned to `"x"`), so `empty_fill` has no effect unless
+#' `use_make_names = FALSE`.
 #'
 #' This function relies on `snakecase::to_any_case()` and can take advantage of
 #' its versatility.  For instance, an abbreviation like "ID" can have its
@@ -67,6 +73,10 @@
 #'
 #' # if you prefer camelCase variable names:
 #' make_clean_names(names(x), "small_camel")
+#'
+#' # empty_fill applies only when make.names() is not used:
+#' make_clean_names(c("A 1", ""), empty_fill = "missing")
+#' make_clean_names(c("A 1", ""), empty_fill = "missing", use_make_names = FALSE)
 #'
 #' # similar to janitor::clean_names(poorly_named_df):
 #' # not run:
