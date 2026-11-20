@@ -17,8 +17,6 @@
 NULL
 
 
-
-
 #' @title Generate a crosstabulation of two vectors.
 #' @param ... arguments
 #' @keywords internal
