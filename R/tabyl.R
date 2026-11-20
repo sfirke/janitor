@@ -268,8 +268,11 @@ tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_level
   # grab class of 1st variable to restore it later
   col1_class <- class(dat[[1]])
   col1_levels <- NULL
+  col1_values <- NULL
   if (is.factor(dat[[1]])) {
     col1_levels <- levels(dat[[1]])
+  } else {
+    col1_values <- unique(dat[[1]])
   }
 
   # print NA level as its own data.frame, and make it appear last
@@ -295,7 +298,7 @@ tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_level
   })
   result <- result %>%
     purrr::map(tabyl_2way, var1, var2, show_na = show_na, show_missing_levels = show_missing_levels) %>%
-    purrr::map(reset_1st_col_status, col1_class, col1_levels) # reset class of var in 1st col to its input class, #168
+    purrr::map(reset_1st_col_status, col1_class, col1_levels, col1_values) # reset class of var in 1st col to its input class, #168
 
   # reorder when var 3 is a factor, per #250
   if (exists("third_levels_for_sorting")) {
@@ -324,7 +327,8 @@ handle_if_special_names_used <- function(dat) {
 
 # reset the 1st col's class of a data.frame to a provided class
 # also reset in tabyl's core
-reset_1st_col_status <- function(dat, new_class, lvls) {
+# `values` holds the unique values of the original non-factor column
+reset_1st_col_status <- function(dat, new_class, lvls, values) {
   if ("factor" %in% new_class) {
     dat[[1]] <- factor(dat[[1]],
       levels = lvls,
@@ -335,10 +339,17 @@ reset_1st_col_status <- function(dat, new_class, lvls) {
       ordered = ("ordered" %in% new_class)
     )
   } else {
-    dat[[1]] <- as.character(dat[[1]]) # first do as.character in case eventual class is numeric
-    class(dat[[1]]) <- new_class
-    attr(dat, "core")[[1]] <- as.character(attr(dat, "core")[[1]])
-    class(attr(dat, "core")[[1]]) <- new_class
+    dat[[1]] <- restore_original_values(dat[[1]], values)
+    attr(dat, "core")[[1]] <- restore_original_values(attr(dat, "core")[[1]], values)
   }
   dat
+}
+
+# Map x (possibly converted to factor or character) back to the matching
+# elements of `values`, keeping the class and attributes of `values`.
+# Matching is on as.character(), which is how as.factor() labels its levels.
+# Setting class() on a character vector is not enough: it coerces only basic
+# types (numeric, integer, logical) and yields invalid Date/POSIXct objects, #592.
+restore_original_values <- function(x, values) {
+  values[match(as.character(x), as.character(values))]
 }
