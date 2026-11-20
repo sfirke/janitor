@@ -482,9 +482,8 @@ test_that("Names are cleaned appropriately without attaching sf", {
   # last column name
   issue_578_sf <- readRDS("testdata/issue-578-sf.rds")
   issue_578_sf_clean <- clean_names(issue_578_sf)
-  expect_error(
-    print(issue_578_sf_clean),
-    NA
+  expect_no_error(
+    print(issue_578_sf_clean)
   )
 })
 
@@ -724,5 +723,5 @@ test_that("groupings are preserved, #260", {
   df_grouped <- iris %>% dplyr::group_by(Sepal.Length, Sepal.Width) # nonsense for analysis but doesn't matter
   df_grouped_renamed <- df_grouped %>% clean_names(case = "lower_camel")
   expect_equal(dplyr::group_vars(df_grouped_renamed), c("sepalLength", "sepalWidth")) # group got renamed
-  expect_equal(names(df_grouped_renamed), c("sepalLength", "sepalWidth", "petalLength", "petalWidth", "species"))
+  expect_named(df_grouped_renamed, c("sepalLength", "sepalWidth", "petalLength", "petalWidth", "species"))
 })
