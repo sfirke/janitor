@@ -209,12 +209,12 @@ test_that("fails if called on a non-data.frame list", { # it's not meant to do t
 test_that("show_missing_levels parameter works", {
   z <- structure(
     list(
-      a = structure(1, .Label = c("hi", "lo"), class = "factor"),
-      b = structure(2, .Label = c("big", "small"), class = "factor"),
-      new = structure(1, .Label = c("lvl1", "lvl2"), class = "factor")
+      a = structure(1L, levels = c("hi", "lo"), class = "factor"),
+      b = structure(2L, levels = c("big", "small"), class = "factor"),
+      new = structure(1L, levels = c("lvl1", "lvl2"), class = "factor")
     ),
     row.names = c(NA, -1L), class = c("tbl_df", "tbl", "data.frame"),
-    .Names = c("a", "b", "new")
+    names = c("a", "b", "new")
   )
 
   expect_equal(

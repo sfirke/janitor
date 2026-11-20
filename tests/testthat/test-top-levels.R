@@ -17,7 +17,7 @@ test_that("top_levels missing levels are represented", {
   x <- as.factor(letters[1:5])[1:3]
   expect_equal(
     top_levels(x)[[1]],
-    structure(1:3, .Label = c("a, b", "c", "d, e"), class = "factor")
+    structure(1:3, levels = c("a, b", "c", "d, e"), class = "factor")
   )
   expect_equal(
     top_levels(x)[[2]],
