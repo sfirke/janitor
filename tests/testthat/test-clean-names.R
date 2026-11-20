@@ -229,6 +229,17 @@ test_that("warnings are issued when micro/mu are not handled (fix #448)", {
   )
 })
 
+test_that("make_clean_names empty_fill applies only without make.names(), as documented (#595)", {
+  expect_equal(
+    make_clean_names(c("A 1", ""), empty_fill = "missing"),
+    c("a_1", "x")
+  )
+  expect_equal(
+    make_clean_names(c("A 1", ""), empty_fill = "missing", use_make_names = FALSE),
+    c("a_1", "missing")
+  )
+})
+
 test_that("make_clean_names error for data.frame input", {
   expect_error(
     make_clean_names(data.frame(a = 1)),
