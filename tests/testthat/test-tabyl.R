@@ -111,6 +111,32 @@ test_that("column1 stays its original data type per #168, in both resulting taby
   }
 })
 
+test_that("3-way tabyl keeps Date and POSIXct values in column 1, #592", {
+  dates <- as.Date(c("2025-01-01", "2025-01-02"))
+  times <- as.POSIXct(c("2025-01-01 10:00:00", "2025-01-02 11:30:00"), tz = "America/New_York")
+  for (col1 in list(dates, times)) {
+    df <- data.frame(x = col1[c(1, 1, 2)], a = c(1, 1, 2), b = c(1, 0, 1))
+    for (j in c(TRUE, FALSE)) {
+      expect_no_warning(res <- tabyl(df, x, a, b, show_missing_levels = j))
+      expect_equal(res[["1"]]$x, col1)
+      expect_equal(attr(res[["1"]], "core")$x, col1)
+      expect_equal(res[["0"]]$x, if (j) col1 else col1[1])
+      expect_equal(attr(res[["0"]], "core")$x, if (j) col1 else col1[1])
+    }
+  }
+  # counts are unaffected
+  res <- tabyl(df, x, a, b)
+  expect_equal(res[["1"]][["1"]], c(1L, 0L))
+  expect_equal(res[["1"]][["2"]], c(0L, 1L))
+})
+
+test_that("3-way tabyl keeps numeric values in column 1 exactly", {
+  df <- data.frame(x = c(0.1 + 0.2, 0.1 + 0.2, 2), a = c(1, 1, 2), b = c(1, 0, 1))
+  res <- tabyl(df, x, a, b)
+  expect_identical(res[["1"]]$x, c(0.1 + 0.2, 2))
+  expect_identical(res[["0"]]$x, c(0.1 + 0.2, 2))
+})
+
 # bad inputs
 
 test_that("failure occurs when passed unsupported types", {
