@@ -191,6 +191,8 @@ tabyl_1way <- function(dat, var1, show_na = TRUE, show_missing_levels = TRUE) {
 # a two-way frequency table; this was called "crosstab" in janitor <= 0.3.0
 tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TRUE) {
   dat <- dplyr::select(dat, !!var1, !!var2)
+  dat[[1]] <- drop_labelled_factor_class(dat[[1]])
+  dat[[2]] <- drop_labelled_factor_class(dat[[2]])
 
   if (!show_na) {
     dat <- dat[!is.na(dat[[1]]) & !is.na(dat[[2]]), ]
@@ -352,4 +354,14 @@ reset_1st_col_status <- function(dat, new_class, lvls, values) {
 # types (numeric, integer, logical) and yields invalid Date/POSIXct objects, #592.
 restore_original_values <- function(x, values) {
   values[match(as.character(x), as.character(values))]
+}
+
+# Hmisc::label() adds class "labelled" in front of "factor". tidyr::complete()
+# then fails joining it to the plain factor it builds, #594. Drop that class
+# while keeping the "label" attribute, which tabyl uses for the column header.
+drop_labelled_factor_class <- function(x) {
+  if (is.factor(x) && inherits(x, "labelled")) {
+    class(x) <- setdiff(class(x), "labelled")
+  }
+  x
 }

@@ -432,6 +432,32 @@ test_that("tabyl works with label attributes (#394)", {
   expect_equal(names(tab3[[1]])[1], "Number of cyl")
 })
 
+test_that("tabyl works with Hmisc-style labelled factors, #594", {
+  # Hmisc::label<- on a factor gives class c("labelled", "factor")
+  d <- data.frame(v3 = c("m", "m", "n"))
+  d$var1 <- structure(factor(c("a", "b", "a")), label = "Label 1", class = c("labelled", "factor"))
+  d$var2 <- structure(factor(c("x", "y", "x")), label = "Label 2", class = c("labelled", "factor"))
+
+  expect_equal(
+    untabyl(tabyl(d, var1, var2)),
+    data.frame(`Label 1` = factor(c("a", "b")), x = c(2L, 0L), y = c(0L, 1L), check.names = FALSE)
+  )
+  expect_equal(
+    untabyl(tabyl(d, var2, var1)),
+    data.frame(`Label 2` = factor(c("x", "y")), a = c(2L, 0L), b = c(0L, 1L), check.names = FALSE)
+  )
+  res3 <- tabyl(d, var1, var2, v3)
+  expect_named(res3, c("m", "n"))
+  expect_equal(
+    untabyl(res3$m),
+    data.frame(`Label 1` = factor(c("a", "b")), x = c(1L, 0L), y = c(0L, 1L), check.names = FALSE)
+  )
+  expect_equal(
+    untabyl(res3$n),
+    data.frame(`Label 1` = factor(c("a", "b")), x = c(1L, 0L), y = c(0L, 0L), check.names = FALSE)
+  )
+})
+
 test_that("tabyl works with ordered 1st variable, #386", {
   mt_ordered <- mtcars
   mt_ordered$cyl <- ordered(mt_ordered$cyl, levels = c("4", "8", "6"))
