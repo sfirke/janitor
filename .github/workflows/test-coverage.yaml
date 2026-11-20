@@ -4,9 +4,8 @@ on:
   push:
     branches: [main, master]
   pull_request:
-    branches: [main, master]
 
-name: test-coverage
+name: test-coverage.yaml
 
 permissions: read-all
 
@@ -25,10 +24,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: |
-            any::sf
-            any::covr
-            any::xml2
+          extra-packages: any::covr, any::xml2
           needs: coverage
 
       - name: Test coverage
@@ -43,7 +39,8 @@ jobs:
 
       - uses: codecov/codecov-action@v4
         with:
-          fail_ci_if_error: ${{ github.event_name != 'pull_request' && true || false }}
+          # Fail if error if not on PR, or if on PR and token is given
+          fail_ci_if_error: ${{ github.event_name != 'pull_request' || secrets.CODECOV_TOKEN }}
           file: ./cobertura.xml
           plugin: noop
           disable_search: true

@@ -6,7 +6,7 @@ output:
     toc: true
     toc_depth: 3
 vignette: >
-  %\VignetteIndexEntry{janitor}
+  %\VignetteIndexEntry{Overview of janitor functions}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -15,7 +15,7 @@ vignette: >
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 library(janitor)
 ```
-The janitor functions expedite the initial data exploration and cleaning that comes with any new data set.  This catalog describes the usage for each function.
+The janitor functions expedite the initial data exploration and cleaning that comes with any new data set. This catalog describes the usage for each function.
 
 # Major functions
 Functions for everyday use.
@@ -210,6 +210,17 @@ Building on `excel_numeric_to_date()`, the new functions `convert_to_date()` and
 For instance, here a vector with a date and an Excel datetime sees both values successfully converted to Date class:
 ```{r}
 convert_to_date(c("2020-02-29", "40000.1"))
+```
+
+### Coerce different strings together.
+
+`paste_skip_na()` can be used to skip `NA` values when coercing multiple columns together.
+This is useful since `paste()` just pastes `"NA"` instead of ignoring it.
+
+```{r}
+paste("x", NA, "y")
+
+paste_skip_na("x", NA, "y")
 ```
 
 ### Elevate column names stored in a data.frame row

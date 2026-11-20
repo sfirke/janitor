@@ -13,8 +13,8 @@ remove_empty(dat, which = c("rows", "cols"), cutoff = 1, quiet = TRUE)
 value of which is provided, defaults to removing both empty rows and empty
 columns, declaring the behavior with a printed message.}
 
-\item{cutoff}{Under what fraction (>0 to <=1) of non-empty rows or columns should
-\code{which} be removed? Lower values keep more rows/columns, higher values drop more.}
+\item{cutoff}{a row/col should have more than this fraction of non-NA values to be
+retained.  E.g., \code{cutoff = 0.8} means that rows/cols that are 20\% or more missing will be dropped.}
 
 \item{quiet}{Should messages be suppressed (\code{TRUE}) or printed
 (\code{FALSE}) indicating the summary of empty columns or rows removed?}

@@ -44,12 +44,14 @@ Suggests:
     rmarkdown,
     RSQLite,
     sf,
-    testthat (>= 3.0.0),
+    testthat (>= 3.2.0),
     tibble,
     tidygraph
 VignetteBuilder: 
     knitr
 Config/testthat/edition: 3
+Config/Needs/check: sf
+Config/Needs/coverage: sf
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

@@ -26,7 +26,7 @@ options(width = 110)
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/sfirke/janitor/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/sfirke/janitor/actions/workflows/R-CMD-check.yaml)
-[![Coverage Status](https://img.shields.io/codecov/c/github/sfirke/janitor/main.svg)](https://app.codecov.io/github/sfirke/janitor?branch=main)
+[![Codecov test coverage](https://codecov.io/gh/sfirke/janitor/graph/badge.svg)](https://app.codecov.io/gh/sfirke/janitor)
 [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version-ago/janitor)](https://cran.r-project.org/package=janitor)
 ![!Monthly Downloads](https://cranlogs.r-pkg.org/badges/janitor)
