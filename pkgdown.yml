@@ -1,10 +1,10 @@
-pandoc: 3.1.11
-pkgdown: 2.1.1
+pandoc: 3.8.3
+pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
   janitor: janitor.html
   tabyls: tabyls.html
-last_built: 2024-12-23T14:16Z
+last_built: 2026-11-20T19:41Z
 urls:
   reference: https://sfirke.github.io/janitor/reference
   article: https://sfirke.github.io/janitor/articles
