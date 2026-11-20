@@ -36,9 +36,9 @@ Microsoft Excel to a numeric number of seconds between 0 and 86400.
 \seealso{
 \code{\link[=excel_numeric_to_date]{excel_numeric_to_date()}}
 
-Other date-time cleaning: 
-\code{\link{convert_to_date}()},
-\code{\link{excel_numeric_to_date}()},
-\code{\link{sas_numeric_to_date}()}
+Other date-time cleaning:
+\code{\link[=convert_to_date]{convert_to_date()}},
+\code{\link[=excel_numeric_to_date]{excel_numeric_to_date()}},
+\code{\link[=sas_numeric_to_date]{sas_numeric_to_date()}}
 }
 \concept{date-time cleaning}

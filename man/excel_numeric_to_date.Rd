@@ -66,9 +66,9 @@ excel_numeric_to_date(40000.521,
 \seealso{
 \code{\link[=excel_time_to_numeric]{excel_time_to_numeric()}}
 
-Other date-time cleaning: 
-\code{\link{convert_to_date}()},
-\code{\link{excel_time_to_numeric}()},
-\code{\link{sas_numeric_to_date}()}
+Other date-time cleaning:
+\code{\link[=convert_to_date]{convert_to_date()}},
+\code{\link[=excel_time_to_numeric]{excel_time_to_numeric()}},
+\code{\link[=sas_numeric_to_date]{sas_numeric_to_date()}}
 }
 \concept{date-time cleaning}

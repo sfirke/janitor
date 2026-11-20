@@ -26,6 +26,11 @@ Useful links:
 \author{
 \strong{Maintainer}: Sam Firke \email{samuel.firke@gmail.com}
 
+Authors:
+\itemize{
+  \item Sam Firke \email{samuel.firke@gmail.com}
+}
+
 Other contributors:
 \itemize{
   \item Bill Denney \email{wdenney@humanpredictions.com} [contributor]

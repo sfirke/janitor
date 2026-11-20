@@ -22,7 +22,7 @@ clean_names(dat, ...)
 \item{dat}{The input \code{data.frame}.}
 
 \item{...}{
-  Arguments passed on to \code{\link[=make_clean_names]{make_clean_names}}
+  Arguments passed on to \code{\link{make_clean_names}}
   \describe{
     \item{\code{case}}{The desired target case (default is \code{"snake"}) will be
 passed to \code{snakecase::to_any_case()} with the exception of "old_janitor",
@@ -134,9 +134,9 @@ x \%>\%
 
 }
 \seealso{
-Other Set names: 
-\code{\link{find_header}()},
+Other Set names:
+\code{\link[=find_header]{find_header()}},
 \code{\link{mu_to_u}},
-\code{\link{row_to_names}()}
+\code{\link[=row_to_names]{row_to_names()}}
 }
 \concept{Set names}

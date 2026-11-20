@@ -52,9 +52,9 @@ x \%>\%
   row_to_names(row_number = "find_header")
 }
 \seealso{
-Other Set names: 
-\code{\link{clean_names}()},
-\code{\link{find_header}()},
+Other Set names:
+\code{\link[=clean_names]{clean_names()}},
+\code{\link[=find_header]{find_header()}},
 \code{\link{mu_to_u}}
 }
 \concept{Set names}

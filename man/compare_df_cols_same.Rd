@@ -38,8 +38,8 @@ compare_df_cols_same(data.frame(A = 1), data.frame(B = 2), verbose = FALSE)
 compare_df_cols_same(data.frame(A = 1), data.frame(B = 2), bind_method = "rbind")
 }
 \seealso{
-Other data frame type comparison: 
-\code{\link{compare_df_cols}()},
-\code{\link{describe_class}()}
+Other data frame type comparison:
+\code{\link[=compare_df_cols]{compare_df_cols()}},
+\code{\link[=describe_class]{describe_class()}}
 }
 \concept{data frame type comparison}
