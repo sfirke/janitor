@@ -67,6 +67,20 @@
 #' x %>%
 #'   clean_names(case = "upper_camel", abbreviations = c("ID", "DOB"))
 #'
+#' # --- Keeping the original names as column labels ---
+#' x_labelled <- clean_names(x, set_labels = TRUE)
+#' names(x_labelled)
+#' # each column's "label" attribute holds its original name:
+#' sapply(x_labelled, attr, "label")
+#'
+#' # Labels are shown by RStudio's data viewer and used by packages such as gt.
+#' # (not run) use the labels as ggplot2 axis titles, or restore the old names:
+#' # library(ggplot2)
+#' # ggplot(x_labelled, aes(case_id, dob)) +
+#' #   geom_point() +
+#' #   ggeasy::easy_labs()
+#' # sjlabelled::label_to_colnames(x_labelled)
+#'
 clean_names <- function(dat, ...) {
   UseMethod("clean_names")
 }
