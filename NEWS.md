@@ -30,6 +30,8 @@ These are all minor breaking changes resulting from enhancements and are not exp
 
 * A three-way `tabyl()` now keeps the values of a Date or POSIXct first variable; they previously became `NA` with a warning. Numeric first variables now keep their exact values instead of being rounded through `as.character()` (fix #592, thanks to @chris-beech for reporting)
 
+* Two- and three-way `tabyl()` calls no longer error on factors that carry the `"labelled"` class added by `Hmisc::label()`; the label is shown as the first column's name, as for other labelled variables (fix #594, thanks to @jackahall for reporting)
+
 ## Refactoring
 
 * Remove dplyr verbs superseded in dplyr 1.0.0 (#547, @olivroy)
