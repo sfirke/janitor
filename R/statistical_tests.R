@@ -119,7 +119,6 @@ chisq.test.tabyl <- function(x, tabyl_results = TRUE, ...) {
 }
 
 
-
 #' Apply `stats::fisher.test()` to a two-way tabyl
 #'
 #' This generic function overrides [stats::fisher.test()]. If the passed table
