@@ -49,8 +49,8 @@ describe_class(ordered(c("A", "B")))
 describe_class(ordered(c("A", "B")), strict_description = FALSE)
 }
 \seealso{
-Other data frame type comparison: 
-\code{\link{compare_df_cols}()},
-\code{\link{compare_df_cols_same}()}
+Other data frame type comparison:
+\code{\link[=compare_df_cols]{compare_df_cols()}},
+\code{\link[=compare_df_cols_same]{compare_df_cols_same()}}
 }
 \concept{data frame type comparison}

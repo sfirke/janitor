@@ -63,8 +63,8 @@ compare_df_cols(dfA = data.frame(A = 1), dfB = data.frame(B = 2))
 compare_df_cols(listA = list(dfA = data.frame(A = 1), dfB = data.frame(B = 2)), data.frame(A = 3))
 }
 \seealso{
-Other data frame type comparison: 
-\code{\link{compare_df_cols_same}()},
-\code{\link{describe_class}()}
+Other data frame type comparison:
+\code{\link[=compare_df_cols_same]{compare_df_cols_same()}},
+\code{\link[=describe_class]{describe_class()}}
 }
 \concept{data frame type comparison}

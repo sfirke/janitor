@@ -63,9 +63,9 @@ convert_to_datetime(
 )
 }
 \seealso{
-Other date-time cleaning: 
-\code{\link{excel_numeric_to_date}()},
-\code{\link{excel_time_to_numeric}()},
-\code{\link{sas_numeric_to_date}()}
+Other date-time cleaning:
+\code{\link[=excel_numeric_to_date]{excel_numeric_to_date()}},
+\code{\link[=excel_time_to_numeric]{excel_time_to_numeric()}},
+\code{\link[=sas_numeric_to_date]{sas_numeric_to_date()}}
 }
 \concept{date-time cleaning}

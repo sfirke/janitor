@@ -4,16 +4,13 @@
 #' @details
 #'
 #' `time_value` may be one of the following formats:
-#' \itemize{
-#'   \item{numeric}{The input must be a value from 0 to 1 (exclusive of 1); this value is returned as-is.}
-#'   \item{POSIXlt or POSIXct}{The input must be on the day 1899-12-31 (any other day will cause an error).  The time of day is extracted and converted to a fraction of a day.}
-#'   \item{character}{Any of the following (or a mixture of the choices):}
-#'   \itemize{
-#'     \item{A character string that is a number between 0 and 1 (exclusive of 1).  This value will be converted like a numeric value.}
-#'     \item{A character string that looks like a date on 1899-12-31 (specifically, it must start with `"1899-12-31 "`), converted like a POSIXct object as described above.}
-#'     \item{A character string that looks like a time.  Choices are 12-hour time as hour, minute, and optionally second followed by "am" or "pm" (case insensitive) or 24-hour time when hour, minute, optionally second, and no "am" or "pm" is included.}
-#'   }
-#' }
+#'
+#' * **numeric**: The input must be a value from 0 to 1 (exclusive of 1); this value is returned as-is.
+#' * **POSIXlt or POSIXct**: The input must be on the day 1899-12-31 (any other day will cause an error).  The time of day is extracted and converted to a fraction of a day.
+#' * **character**: Any of the following (or a mixture of the choices):
+#'     * A character string that is a number between 0 and 1 (exclusive of 1).  This value will be converted like a numeric value.
+#'     * A character string that looks like a date on 1899-12-31 (specifically, it must start with `"1899-12-31 "`), converted like a POSIXct object as described above.
+#'     * A character string that looks like a time.  Choices are 12-hour time as hour, minute, and optionally second followed by "am" or "pm" (case insensitive) or 24-hour time when hour, minute, optionally second, and no "am" or "pm" is included.
 #'
 #' @param time_value A vector of values to convert (see Details)
 #' @param round_seconds Should the output number of seconds be rounded to an

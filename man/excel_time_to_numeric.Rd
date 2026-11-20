@@ -23,22 +23,22 @@ Microsoft Excel to a numeric number of seconds between 0 and 86400.
 \details{
 \code{time_value} may be one of the following formats:
 \itemize{
-\item{numeric}{The input must be a value from 0 to 1 (exclusive of 1); this value is returned as-is.}
-\item{POSIXlt or POSIXct}{The input must be on the day 1899-12-31 (any other day will cause an error).  The time of day is extracted and converted to a fraction of a day.}
-\item{character}{Any of the following (or a mixture of the choices):}
+\item \strong{numeric}: The input must be a value from 0 to 1 (exclusive of 1); this value is returned as-is.
+\item \strong{POSIXlt or POSIXct}: The input must be on the day 1899-12-31 (any other day will cause an error).  The time of day is extracted and converted to a fraction of a day.
+\item \strong{character}: Any of the following (or a mixture of the choices):
 \itemize{
-\item{A character string that is a number between 0 and 1 (exclusive of 1).  This value will be converted like a numeric value.}
-\item{A character string that looks like a date on 1899-12-31 (specifically, it must start with \code{"1899-12-31 "}), converted like a POSIXct object as described above.}
-\item{A character string that looks like a time.  Choices are 12-hour time as hour, minute, and optionally second followed by "am" or "pm" (case insensitive) or 24-hour time when hour, minute, optionally second, and no "am" or "pm" is included.}
+\item A character string that is a number between 0 and 1 (exclusive of 1).  This value will be converted like a numeric value.
+\item A character string that looks like a date on 1899-12-31 (specifically, it must start with \code{"1899-12-31 "}), converted like a POSIXct object as described above.
+\item A character string that looks like a time.  Choices are 12-hour time as hour, minute, and optionally second followed by "am" or "pm" (case insensitive) or 24-hour time when hour, minute, optionally second, and no "am" or "pm" is included.
 }
 }
 }
 \seealso{
 \code{\link[=excel_numeric_to_date]{excel_numeric_to_date()}}
 
-Other date-time cleaning: 
-\code{\link{convert_to_date}()},
-\code{\link{excel_numeric_to_date}()},
-\code{\link{sas_numeric_to_date}()}
+Other date-time cleaning:
+\code{\link[=convert_to_date]{convert_to_date()}},
+\code{\link[=excel_numeric_to_date]{excel_numeric_to_date()}},
+\code{\link[=sas_numeric_to_date]{sas_numeric_to_date()}}
 }
 \concept{date-time cleaning}
