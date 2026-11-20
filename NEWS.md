@@ -28,6 +28,8 @@ These are all minor breaking changes resulting from enhancements and are not exp
 
 * `clean_names()` for sf objects now works in cases when the sf_column is not the last column name (fix #578, thanks to @ar-puuk for reporting and @billdenney for fixing)
 
+* A three-way `tabyl()` now keeps the values of a Date or POSIXct first variable; they previously became `NA` with a warning. Numeric first variables now keep their exact values instead of being rounded through `as.character()` (fix #592, thanks to @chris-beech for reporting)
+
 ## Refactoring
 
 * Remove dplyr verbs superseded in dplyr 1.0.0 (#547, @olivroy)
