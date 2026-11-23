@@ -26,9 +26,9 @@ sas_numeric_to_date <- function(date_num, datetime_num, time_num, tz = "UTC") {
   if (tz != "UTC") {
     warning("SAS may not properly store timezones other than UTC. Consider confirming the accuracy of the resulting data.")
   }
-  if (has_date & has_datetime) {
+  if (has_date && has_datetime) {
     stop("Must not give both `date_num` and `datetime_num`")
-  } else if (has_time & has_datetime) {
+  } else if (has_time && has_datetime) {
     stop("Must not give both `time_num` and `datetime_num`")
   }
   if (has_time) {
@@ -37,7 +37,7 @@ sas_numeric_to_date <- function(date_num, datetime_num, time_num, tz = "UTC") {
     # references section
     stopifnot("`time_num` must be within the number of seconds in a day (<= 86400)" = all(is.na(time_num) | time_num <= 86400))
   }
-  if (has_date & has_time) {
+  if (has_date && has_time) {
     mask_na_match <- is.na(date_num) == is.na(time_num)
     if (!all(mask_na_match)) {
       stop("The same values are not NA for both `date_num` and `time_num`")

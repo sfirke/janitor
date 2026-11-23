@@ -14,7 +14,7 @@ get_level_groups <- function(vec, n, num_levels_in_var) {
   # Truncate strings if needed
   ## Middle groups are variable size, so displaying the N there is useful;
   ## Top/Bottom are user-specified size, so just truncate the labels
-  if (!is.na(mid_lvls) & nchar(mid_lvls) > 30) {
+  if (!is.na(mid_lvls) && nchar(mid_lvls) > 30) {
     mid_lvls <- paste0("<<< Middle Group (", num_levels_in_var - 2 * n, " categories) >>>")
   }
   if (nchar(top_n_lvls) > 30) {

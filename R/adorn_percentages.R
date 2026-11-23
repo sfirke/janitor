@@ -79,7 +79,7 @@ adorn_percentages <- function(dat, denominator = "row", na.rm = TRUE, ...) {
 
     if (denominator == "row") {
       # if row-wise percentages and a totals column, need to exempt totals col and make it all 1s
-      if ("col" %in% attr(dat, "totals") & !explicitly_exempt_totals) {
+      if ("col" %in% attr(dat, "totals") && !explicitly_exempt_totals) {
         dat[[ncol(dat)]] <- rep(1, nrow(dat))
       }
       row_sum <- rowSums(dat[cols_to_tally], na.rm = na.rm)
@@ -92,7 +92,7 @@ adorn_percentages <- function(dat, denominator = "row", na.rm = TRUE, ...) {
         col_sum <- colSums(dat[cols_to_tally], na.rm = na.rm)
       }
       # add totals col back to be tallied, #357
-      if ("col" %in% attr(dat, "totals") & !explicitly_exempt_totals) {
+      if ("col" %in% attr(dat, "totals") && !explicitly_exempt_totals) {
         cols_to_tally <- c(cols_to_tally, ncol(dat))
         if ("row" %in% attr(dat, "totals")) {
           col_sum <- c(col_sum, sum(dat[-nrow(dat), ncol(dat)]))
@@ -109,7 +109,7 @@ adorn_percentages <- function(dat, denominator = "row", na.rm = TRUE, ...) {
         complete_n <- sum(dat[, cols_to_tally], na.rm = TRUE)
       }
       # add totals col back to be tallied, #357
-      if ("col" %in% attr(dat, "totals") & !explicitly_exempt_totals) {
+      if ("col" %in% attr(dat, "totals") && !explicitly_exempt_totals) {
         cols_to_tally <- c(cols_to_tally, ncol(dat))
       }
       dat[cols_to_tally] <- dat[cols_to_tally] / complete_n

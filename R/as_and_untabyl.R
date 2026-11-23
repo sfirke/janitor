@@ -75,7 +75,7 @@ as_tabyl <- function(dat, axes = 2, row_var_name = NULL, col_var_name = NULL) {
   )
   class(dat) <- c("tabyl", setdiff(class(dat), "tabyl"))
 
-  if (!missing(row_var_name) | !missing(col_var_name)) {
+  if (!missing(row_var_name) || !missing(col_var_name)) {
     if (axes != 2) {
       stop("variable names are only meaningful for two-way tabyls")
     }

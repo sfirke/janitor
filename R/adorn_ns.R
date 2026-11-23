@@ -89,7 +89,7 @@ adorn_ns <- function(dat, position = "rear", ns = attr(dat, "core"), format_func
     attrs <- attributes(dat) # save these to re-append later
     custom_ns_supplied <- !(identical(ns, attr(dat, "core")))
 
-    if (custom_ns_supplied & !identical(dim(ns), dim(dat))) { # user-supplied Ns must include values for totals row/col if present
+    if (custom_ns_supplied && !identical(dim(ns), dim(dat))) { # user-supplied Ns must include values for totals row/col if present
       stop("if supplying your own data.frame of Ns to append, its dimensions must match those of the data.frame in the \"dat\" argument")
     }
 
@@ -118,7 +118,7 @@ adorn_ns <- function(dat, position = "rear", ns = attr(dat, "core"), format_func
     }
     attributes(result) <- attrs
 
-    if (custom_ns_supplied & rlang::dots_n(...) == 0) {
+    if (custom_ns_supplied && rlang::dots_n(...) == 0) {
       dont_adorn <- 1L
     } else if (rlang::dots_n(...) == 0) {
       cols_to_adorn <- numeric_cols
