@@ -228,7 +228,7 @@ warn_micro_mu <- function(string, replace) {
   warning_message_general <- NULL
   if (length(warning_characters) > 0) {
     warning_characters_utf <-
-      sprintf("\\u%04x", sapply(X = warning_characters, FUN = utf8ToInt))
+      sprintf("\\u%04x", vapply(X = warning_characters, FUN = utf8ToInt, FUN.VALUE = integer(1)))
     warning_message_general <-
       sprintf(
         "The following characters are in the names to clean but are not replaced: %s",
@@ -238,14 +238,14 @@ warn_micro_mu <- function(string, replace) {
   warning_message_specific <- NULL
   if (length(warning_characters_specific) > 0) {
     warning_characters_utf <-
-      sprintf("\\u%04x", sapply(X = warning_characters_specific, FUN = utf8ToInt))
+      sprintf("\\u%04x", vapply(X = warning_characters_specific, FUN = utf8ToInt, FUN.VALUE = integer(1)))
     warning_message_specific <-
       sprintf(
         "The following characters are in the names to clean but may not be replaced, check the output names carefully: %s",
         paste(warning_characters_utf, collapse = ", ")
       )
   }
-  if (!is.null(warning_message_general) | !is.null(warning_message_specific)) {
+  if (!is.null(warning_message_general) || !is.null(warning_message_specific)) {
     warning_message <- paste(c(warning_message_general, warning_message_specific), collapse = "\n")
     warning(
       "Watch out!  ",
@@ -293,7 +293,7 @@ old_make_clean_names <- function(string) {
 #' @importFrom stringi stri_trans_list
 available_transliterators <- function(wanted) {
   desired_available <- intersect(wanted, stringi::stri_trans_list())
-  if (!identical(wanted, desired_available) & getOption("janitor_warn_transliterators", default = TRUE)) {
+  if (!identical(wanted, desired_available) && getOption("janitor_warn_transliterators", default = TRUE)) {
     warning(
       "Some transliterators to convert characters in names are not available \n",
       "on this system.  Results may differ when run on a different system.\n",

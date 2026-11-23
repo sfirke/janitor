@@ -45,9 +45,9 @@ remove_empty <- function(dat, which = c("rows", "cols"), cutoff = 1, quiet = TRU
     stop("cutoff must be a single value")
   } else if (!is.numeric(cutoff)) {
     stop("cutoff must be numeric")
-  } else if (cutoff <= 0 | cutoff > 1) {
+  } else if (cutoff <= 0 || cutoff > 1) {
     stop("cutoff must be >0 and <= 1")
-  } else if (length(which) > 1 & cutoff != 1) {
+  } else if (length(which) > 1 && cutoff != 1) {
     stop("cutoff must be used with only one of which = 'rows' or 'cols', not both")
   }
   if ("rows" %in% which) {
@@ -105,8 +105,9 @@ remove_empty <- function(dat, which = c("rows", "cols"), cutoff = 1, quiet = TRU
 #' @export
 remove_constant <- function(dat, na.rm = FALSE, quiet = TRUE) {
   mask <-
-    sapply(
+    vapply(
       X = seq_len(ncol(dat)),
+      FUN.VALUE = logical(1),
       FUN = function(idx) {
         column_to_test <-
           if (is.matrix(dat)) {

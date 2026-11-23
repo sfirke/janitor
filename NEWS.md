@@ -38,6 +38,8 @@ These are all minor breaking changes resulting from enhancements and are not exp
 
 * Restyle the package and vignettes according to the [tidyverse style guide](https://style.tidyverse.org) (#548, @olivroy)
 
+* The minimum versions of dplyr (1.1.0), tidyr (1.2.0) and rlang (0.4.7) now match the functions janitor already uses: `dplyr::where()`, the `names_sort` argument and anonymous-function `values_fn` of `tidyr::pivot_wider()`, and `rlang::arg_match0()`. The earlier minimums did not provide them.
+
 # janitor 2.2.1 (2024-12-22)
 
 This is a trivial bugfix release whose only purpose is fixing a test that was failing on CRAN due to the way timezones are handled in Debian. In making that fix (PR #584), we made a small - technically breaking - improvement to a function that works with SAS dates. >99.9% of janitor users should be unaffected by this release.

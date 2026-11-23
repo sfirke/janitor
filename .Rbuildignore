@@ -1,29 +1,24 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^\.travis\.yml$
-^README\.Rmd$       # An Rmarkdown file used to generate README.md
-cran-comments.md    # Comments for CRAN submission
+^README\.Rmd$
+^cran-comments\.md$
 ^LICENSE\.md$
-^\.gitignore
-README.Rmd
-^cran\-comments\.md$
-dirty_data.xlsx
-^.*\.docx
-codecov.yml
-planning.md
-planning.Rmd
-map of janitor 1.0 API.docx
-.github
+^\.gitignore$
+^dirty_data\.xlsx$
+^.*\.docx$
+^codecov\.yml$
+^planning\.md$
+^planning\.Rmd$
+^Index\.md$
+^Index\.Rmd$
+^\.covrignore$
+^\.github$
 ^docs$
-Index.md
-Index.Rmd
-^revdep$
-.covrignore
-^CRAN-RELEASE$
 ^doc$
 ^Meta$
+^revdep$
 ^_pkgdown\.yml$
 ^pkgdown$
-^\.github$
-revdep/
+^CRAN-RELEASE$
 ^CRAN-SUBMISSION$
+^tests/testthat/_problems$

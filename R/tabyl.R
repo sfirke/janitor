@@ -234,7 +234,7 @@ tabyl_2way <- function(dat, var1, var2, show_na = TRUE, show_missing_levels = TR
     )
   if ("emptystring_" %in% names(result)) {
     result <- result[c(setdiff(names(result), "emptystring_"), "emptystring_")]
-    if (getOption("tabyl.emptystring", TRUE) & interactive()) {
+    if (getOption("tabyl.emptystring", TRUE) && interactive()) {
       message("The tabyl's column variable contained the empty string value, \"\". This is not a legal column name and has been converted to \"emptystring_\".\nConsider converting \"\" to NA if appropriate.\nThis message is shown once per session and may be disabled by setting options(\"tabyl.emptystring\" = FALSE).") # nocov
       options("tabyl.emptystring" = FALSE) # nocov
     }

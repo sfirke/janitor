@@ -48,8 +48,8 @@ compare_df_cols <- function(..., return = c("all", "match", "mismatch"), bind_me
   return <- match.arg(return)
   bind_method <- match.arg(bind_method)
   args <- list(...)
-  mask_input_data_frame <- sapply(X = args, FUN = is.data.frame)
-  mask_input_list <- sapply(X = args, FUN = is.list) & !mask_input_data_frame
+  mask_input_data_frame <- vapply(X = args, FUN = is.data.frame, FUN.VALUE = logical(1))
+  mask_input_list <- vapply(X = args, FUN = is.list, FUN.VALUE = logical(1)) & !mask_input_data_frame
   mask_input_other <- !(mask_input_data_frame | mask_input_list)
   if (any(mask_input_other)) {
     stop(
@@ -68,7 +68,7 @@ compare_df_cols <- function(..., return = c("all", "match", "mismatch"), bind_me
     bad_list_inputs <-
       c(
         bad_list_inputs,
-        if (!all(sapply(X = args[[idx]], FUN = is.data.frame))) {
+        if (!all(vapply(X = args[[idx]], FUN = is.data.frame, FUN.VALUE = logical(1)))) {
           idx
         } else {
           numeric(0)
@@ -121,7 +121,7 @@ compare_df_cols <- function(..., return = c("all", "match", "mismatch"), bind_me
     stop("None of the input ... argument names or list names may be `column_name`.")
   }
   ret <- compare_df_cols_df_maker(args, class_colname = final_names, strict_description = strict_description)
-  if (return == "all" | ncol(ret) == 2) {
+  if (return == "all" || ncol(ret) == 2) {
     if (return != "all") {
       warning("Only one data.frame provided, so all its classes are provided.")
     }
@@ -145,9 +145,10 @@ compare_df_cols <- function(..., return = c("all", "match", "mismatch"), bind_me
         }
       )
     mask_match <-
-      sapply(
+      vapply(
         X = seq_len(nrow(ret)),
-        FUN = bind_method_fun[[bind_method]]
+        FUN = bind_method_fun[[bind_method]],
+        FUN.VALUE = logical(1)
       )
     ret <-
       if (return == "match") {
@@ -186,7 +187,7 @@ compare_df_cols_df_maker.data.frame <- function(x, class_colname = "class", stri
     ret <-
       data.frame(
         column_name = names(x),
-        X = sapply(X = x, FUN = describe_class, strict_description = strict_description),
+        X = vapply(X = x, FUN = describe_class, FUN.VALUE = character(1), strict_description = strict_description),
         stringsAsFactors = FALSE
       )
     names(ret)[2] <- class_colname
@@ -235,7 +236,7 @@ compare_df_cols_df_maker.list <- function(x, class_colname = "class", strict_des
 compare_df_cols_same <- function(..., bind_method = c("bind_rows", "rbind"), verbose = TRUE) {
   bind_method <- match.arg(bind_method)
   ret <- compare_df_cols(..., return = "mismatch", bind_method = bind_method)
-  if (nrow(ret) & verbose) {
+  if (nrow(ret) && verbose) {
     print(ret)
   }
   nrow(ret) == 0

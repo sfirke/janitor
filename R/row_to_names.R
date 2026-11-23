@@ -29,9 +29,9 @@
 #' @export
 row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_above = TRUE, sep = "_") {
   # Check inputs
-  if (!(is.logical(remove_row) & length(remove_row) == 1)) {
+  if (!(is.logical(remove_row) && length(remove_row) == 1)) {
     stop("remove_row must be either TRUE or FALSE, not ", as.character(remove_row))
-  } else if (!(is.logical(remove_rows_above) & length(remove_rows_above) == 1)) {
+  } else if (!(is.logical(remove_rows_above) && length(remove_rows_above) == 1)) {
     stop("remove_rows_above must be either TRUE or FALSE, not ", as.character(remove_rows_above))
   }
   if (identical(row_number, "find_header")) {
@@ -56,7 +56,7 @@ row_to_names <- function(dat, row_number, ..., remove_row = TRUE, remove_rows_ab
   if (is.na(sep)) {
     stop("`sep` can't be of type `NA_character_`.")
   }
-  new_names <- sapply(dat[row_number, , drop = FALSE], paste_skip_na, collapse = sep) %>%
+  new_names <- vapply(dat[row_number, , drop = FALSE], paste_skip_na, FUN.VALUE = character(1), collapse = sep) %>%
     stringr::str_replace_na()
 
   if (any(duplicated(new_names))) {
