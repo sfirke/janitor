@@ -1,35 +1,35 @@
 test_that("round_to_fraction input requirements (confirm errors)", {
   expect_error(
     round_to_fraction(x = "A", denominator = 1),
-    info = "x must be numberic"
+    regexp = "is.numeric(x) is not TRUE", fixed = TRUE
   )
   expect_error(
     round_to_fraction(x = 1, denominator = "A"),
-    info = "denominator must be numberic"
+    regexp = "is.numeric(denominator) is not TRUE", fixed = TRUE
   )
   expect_error(
     round_to_fraction(x = 1, denominator = c(1, 2)),
-    info = "length(denominator) must equal length(x) or be 1"
+    regexp = "length(denominator) %in% c(1, length(x)) is not TRUE", fixed = TRUE
   )
   expect_error(
     round_to_fraction(x = 1, denominator = -1),
-    info = "denominator must be positive"
+    regexp = "denominator >= 1 is not TRUE", fixed = TRUE
   )
   expect_error(
     round_to_fraction(x = 1, denominator = 0),
-    info = "denominator must be positive, not zero"
+    regexp = "denominator >= 1 is not TRUE", fixed = TRUE
   )
   expect_error(
     round_to_fraction(x = 1, denominator = 2, digits = "A"),
-    info = "digits must be numeric or 'auto'"
+    regexp = "`digits` must be either \"auto\" or a number", fixed = TRUE
   )
   expect_error(
     round_to_fraction(x = 1, denominator = 2, digits = c(1, 2)),
-    info = "digits must be numeric or 'auto'"
+    regexp = "`digits` must be either \"auto\" or a number", fixed = TRUE
   )
   expect_error(
     round_to_fraction(x = c(1, 2), denominator = 2, digits = c(1, 2, 3)),
-    info = "digits must be numeric the same length as x (or scalar)"
+    regexp = "`digits` must be either \"auto\" or a number", fixed = TRUE
   )
 })
 

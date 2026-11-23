@@ -46,9 +46,9 @@ test_that("top_levels missing levels are treated appropriately", {
 })
 
 test_that("top_levels bad type inputs are handled", {
-  expect_error(top_levels(c(0, 1), "factor_vec is not of type 'factor'"))
-  expect_error(top_levels(c("hi", "lo"), "factor_vec is not of type 'factor'"))
-  expect_error(top_levels(mtcars, "factor_vec is not of type 'factor'"))
+  expect_error(top_levels(c(0, 1)), "factor_vec is not of type 'factor'")
+  expect_error(top_levels(c("hi", "lo")), "factor_vec is not of type 'factor'")
+  expect_error(top_levels(mtcars), "factor_vec is not of type 'factor'")
 })
 
 test_that("top_levels bad n value is handled", {
