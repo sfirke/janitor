@@ -32,6 +32,16 @@ These are all minor breaking changes resulting from enhancements and are not exp
 
 * Two- and three-way `tabyl()` calls no longer error on factors that carry the `"labelled"` class added by `Hmisc::label()`; the label is shown as the first column's name, as for other labelled variables (fix #594, thanks to @jackahall for reporting)
 
+* A three-way `tabyl()` now accepts its third variable by position or with a tidyselect helper, e.g. `tabyl(df, a, b, 3)`; this previously failed with "group length is 0 but data length > 0".
+
+* A three-way `tabyl()` with a non-factor third variable no longer reorders its list of tables when a variable named `third_levels_for_sorting` exists in the calling or global environment.
+
+* When called on a list of tabyls (such as a three-way tabyl), `adorn_totals()`, `adorn_pct_formatting()` and `adorn_ns()` now pass the columns selected in `...` on to each tabyl; previously the selection was dropped and every column was adorned. `adorn_ns()` also now passes `format_func` on to each tabyl.
+
+* `clean_names(set_labels = TRUE)` on an sf object now labels the right columns when the geometry column is not the last column; previously the labels were shifted onto the wrong columns.
+
+* `compare_df_cols()` now names unnamed elements of a partly named list after the argument, e.g. `lst_1`, when they are not the first element; they were previously named `NA_1`.
+
 ## Refactoring
 
 * Remove dplyr verbs superseded in dplyr 1.0.0 (#547, @olivroy)

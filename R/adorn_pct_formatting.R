@@ -52,7 +52,7 @@
 adorn_pct_formatting <- function(dat, digits = 1, rounding = "half to even", affix_sign = TRUE, ...) {
   # if input is a list, call purrr::map to recursively apply this function to each data.frame
   if (is.list(dat) && !is.data.frame(dat)) {
-    purrr::map(dat, adorn_pct_formatting, digits, rounding, affix_sign)
+    purrr::map(dat, adorn_pct_formatting, digits, rounding, affix_sign, ...)
   } else {
     # catch bad inputs
     if (!is.data.frame(dat)) {

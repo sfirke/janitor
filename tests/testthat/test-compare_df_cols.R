@@ -351,3 +351,12 @@ test_that("compare_df_cols_df_maker catches bad inputs", {
     fixed = TRUE
   )
 })
+
+test_that("unnamed list elements after the first take the argument name", {
+  a <- data.frame(x = 1)
+  b <- data.frame(y = 2)
+  expect_named(
+    compare_df_cols(lst = list(first = a, b, c = b, b)),
+    c("column_name", "first", "lst_1", "c", "lst_2")
+  )
+})

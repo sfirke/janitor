@@ -636,6 +636,18 @@ test_that("labels are created in sf method (feature request #563)", {
   expect_equal(names(dat_sf_clean_labels), c("a_a", "b_b", "geometry"))
 })
 
+test_that("sf labels go on the right columns when the geometry is not last", {
+  skip_if_not_installed("sf")
+  # The geometry column, SHAPE, is the second of four columns.
+  issue_578_sf <- readRDS("testdata/issue-578-sf.rds")
+  clean <- clean_names(issue_578_sf, set_labels = TRUE)
+  expect_equal(names(clean), c("project_id", "SHAPE", "project_name", "county"))
+  expect_equal(attr(clean$project_id, "label"), "PROJECT_ID")
+  expect_null(attr(clean$SHAPE, "label"))
+  expect_equal(attr(clean$project_name, "label"), "PROJECT NAME")
+  expect_equal(attr(clean$county, "label"), "COUNTY")
+})
+
 
 #------------------------------------------------------------------------------#
 #------------------------ Tests for tbl_graph method --------------------------#####

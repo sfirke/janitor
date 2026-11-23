@@ -262,6 +262,7 @@ tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_level
   var2_label <- attr(dat[, 2], "label", exact = TRUE)
 
   # Keep factor levels for ordering the list at the end
+  third_levels_for_sorting <- NULL
   if (is.factor(dat[[3]])) {
     third_levels_for_sorting <- levels(dat[[3]])
   }
@@ -281,7 +282,7 @@ tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_level
   if (show_na && sum(is.na(dat[[3]])) > 0) {
     dat[[3]] <- factor(dat[[3]], levels = c(sort(unique(dat[[3]])), "NA_"))
     dat[[3]][is.na(dat[[3]])] <- "NA_"
-    if (exists("third_levels_for_sorting")) {
+    if (!is.null(third_levels_for_sorting)) {
       third_levels_for_sorting <- c(third_levels_for_sorting, "NA_")
     }
   }
@@ -291,7 +292,7 @@ tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_level
     dat[[2]] <- as.factor(dat[[2]])
   }
 
-  result <- split(dat, dat[[rlang::quo_name(var3)]])
+  result <- split(dat, dat[[3]])
   # split() drops attributes, so we manually add back the label attributes.
   result <- lapply(result, function(x) {
     attr(x[[1]], "label") <- var1_label
@@ -303,7 +304,7 @@ tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_level
     purrr::map(reset_1st_col_status, col1_class, col1_levels, col1_values) # reset class of var in 1st col to its input class, #168
 
   # reorder when var 3 is a factor, per #250
-  if (exists("third_levels_for_sorting")) {
+  if (!is.null(third_levels_for_sorting)) {
     result <- result[order(third_levels_for_sorting[third_levels_for_sorting %in% unique(dat[[3]])])]
   }
 
