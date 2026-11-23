@@ -34,6 +34,8 @@ These are all minor breaking changes resulting from enhancements and are not exp
 
 * A three-way `tabyl()` now accepts its third variable by position or with a tidyselect helper, e.g. `tabyl(df, a, b, 3)`; this previously failed with "group length is 0 but data length > 0".
 
+* A three-way `tabyl()` with a non-factor third variable no longer reorders its list of tables when a variable named `third_levels_for_sorting` exists in the calling or global environment.
+
 ## Refactoring
 
 * Remove dplyr verbs superseded in dplyr 1.0.0 (#547, @olivroy)

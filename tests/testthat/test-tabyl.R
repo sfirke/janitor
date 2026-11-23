@@ -565,3 +565,13 @@ test_that("3-way tabyl accepts the third variable by position or tidyselect help
   expect_identical(tabyl(df, a, b, 3), by_name)
   expect_identical(tabyl(df, a, b, dplyr::last_col()), by_name)
 })
+
+test_that("3-way tabyl ordering ignores variables outside the function", {
+  df <- data.frame(a = c(1, 2, 1), b = c("x", "y", "x"), g = c("u", "v", "u"))
+  assign("third_levels_for_sorting", c("v", "u"), envir = globalenv())
+  result <- tryCatch(
+    tabyl(df, a, b, g),
+    finally = rm("third_levels_for_sorting", envir = globalenv())
+  )
+  expect_named(result, c("u", "v"))
+})
