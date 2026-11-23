@@ -64,7 +64,13 @@ adorn_ns <- function(dat, position = "rear", ns = attr(dat, "core"), format_func
                      }, ...) {
   # if input is a list, call purrr::map to recursively apply this function to each data.frame
   if (is.list(dat) && !is.data.frame(dat)) {
-    purrr::map(dat, adorn_ns, position) # okay not to pass ns and allow for static Ns, b/c one size fits all for each list entry doesn't make sense for Ns.
+    # Each table gets its own "core" as ns, which adorn_ns() treats the same
+    # as the default; passing it by position keeps unnamed column selections
+    # in `...` from being matched to `ns`.
+    purrr::map2(
+      dat, purrr::map(dat, attr, "core"), adorn_ns,
+      position = position, format_func = format_func, ...
+    )
   } else {
     ns_provided <- !missing(ns)
 

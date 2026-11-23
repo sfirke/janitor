@@ -593,3 +593,12 @@ test_that("if factor level already present, adorn_totals() still works, #529", {
     c("0", "1", "Total")
   )
 })
+
+test_that("adorn_totals passes the column selection to each tabyl in a list", {
+  t1 <- tabyl(mtcars, am, cyl)
+  result <- adorn_totals(list(a = t1, b = t1), "row", "-", TRUE, "Total", "4")
+  expect_identical(result$a, adorn_totals(t1, "row", "-", TRUE, "Total", "4"))
+  expect_identical(result$b, result$a)
+  expect_identical(result$a$`4`, c(3L, 8L, 11L))
+  expect_identical(result$a$`6`, c("4", "3", "-"))
+})

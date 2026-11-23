@@ -36,6 +36,8 @@ These are all minor breaking changes resulting from enhancements and are not exp
 
 * A three-way `tabyl()` with a non-factor third variable no longer reorders its list of tables when a variable named `third_levels_for_sorting` exists in the calling or global environment.
 
+* When called on a list of tabyls (such as a three-way tabyl), `adorn_totals()`, `adorn_pct_formatting()` and `adorn_ns()` now pass the columns selected in `...` on to each tabyl; previously the selection was dropped and every column was adorned. `adorn_ns()` also now passes `format_func` on to each tabyl.
+
 ## Refactoring
 
 * Remove dplyr verbs superseded in dplyr 1.0.0 (#547, @olivroy)

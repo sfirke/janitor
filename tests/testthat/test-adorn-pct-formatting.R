@@ -194,3 +194,12 @@ test_that("decimal.mark works", {
   )
   options(OutDec = locale_decimal_sep)
 })
+
+test_that("adorn_pct_formatting passes the column selection to each tabyl in a list", {
+  pcts <- adorn_percentages(tabyl(mtcars, am, cyl))
+  result <- adorn_pct_formatting(list(a = pcts, b = pcts), 1, "half to even", TRUE, "4")
+  expect_identical(result$a, adorn_pct_formatting(pcts, 1, "half to even", TRUE, "4"))
+  expect_identical(result$b, result$a)
+  expect_identical(result$a$`4`, c("15.8%", "61.5%"))
+  expect_identical(result$a$`6`, pcts$`6`)
+})

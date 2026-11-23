@@ -242,3 +242,13 @@ test_that("formatting function works, (#444)", {
     )
   )
 })
+
+test_that("adorn_ns passes format_func and the column selection to each tabyl in a list", {
+  pcts <- adorn_percentages(tabyl(mtcars, am, cyl))
+  zero_pad <- function(x) sprintf("%03d", x)
+  result <- adorn_ns(list(a = pcts, b = pcts), "rear", attr(pcts, "core"), zero_pad, "4")
+  expect_identical(result$a, adorn_ns(pcts, "rear", attr(pcts, "core"), zero_pad, "4"))
+  expect_identical(result$b, result$a)
+  expect_identical(result$a$`4`, c("0.157894736842105 (003)", "0.615384615384615 (008)"))
+  expect_identical(result$a$`6`, pcts$`6`)
+})
