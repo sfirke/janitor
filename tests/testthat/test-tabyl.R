@@ -557,3 +557,11 @@ test_that("3-way tabyl with numeric names is sorted numerically", {
     c(2:10, "NA_")
   )
 })
+
+test_that("3-way tabyl accepts the third variable by position or tidyselect helper", {
+  df <- data.frame(a = c(1, 2, 1), b = c("x", "y", "x"), g = c("u", "v", "u"))
+  by_name <- tabyl(df, a, b, g)
+  expect_named(by_name, c("u", "v"))
+  expect_identical(tabyl(df, a, b, 3), by_name)
+  expect_identical(tabyl(df, a, b, dplyr::last_col()), by_name)
+})

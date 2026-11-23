@@ -32,6 +32,8 @@ These are all minor breaking changes resulting from enhancements and are not exp
 
 * Two- and three-way `tabyl()` calls no longer error on factors that carry the `"labelled"` class added by `Hmisc::label()`; the label is shown as the first column's name, as for other labelled variables (fix #594, thanks to @jackahall for reporting)
 
+* A three-way `tabyl()` now accepts its third variable by position or with a tidyselect helper, e.g. `tabyl(df, a, b, 3)`; this previously failed with "group length is 0 but data length > 0".
+
 ## Refactoring
 
 * Remove dplyr verbs superseded in dplyr 1.0.0 (#547, @olivroy)

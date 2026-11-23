@@ -291,7 +291,7 @@ tabyl_3way <- function(dat, var1, var2, var3, show_na = TRUE, show_missing_level
     dat[[2]] <- as.factor(dat[[2]])
   }
 
-  result <- split(dat, dat[[rlang::quo_name(var3)]])
+  result <- split(dat, dat[[3]])
   # split() drops attributes, so we manually add back the label attributes.
   result <- lapply(result, function(x) {
     attr(x[[1]], "label") <- var1_label
