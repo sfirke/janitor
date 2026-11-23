@@ -108,7 +108,7 @@ compare_df_cols <- function(..., return = c("all", "match", "mismatch"), bind_me
       } else if (any(mask_unnamed_list <- current_list_names %in% "")) {
         current_list_names[mask_unnamed_list] <-
           paste(
-            final_names[[idx]][mask_unnamed_list],
+            final_names[[idx]],
             seq_len(sum(mask_unnamed_list)),
             sep = "_"
           )

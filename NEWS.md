@@ -40,6 +40,8 @@ These are all minor breaking changes resulting from enhancements and are not exp
 
 * `clean_names(set_labels = TRUE)` on an sf object now labels the right columns when the geometry column is not the last column; previously the labels were shifted onto the wrong columns.
 
+* `compare_df_cols()` now names unnamed elements of a partly named list after the argument, e.g. `lst_1`, when they are not the first element; they were previously named `NA_1`.
+
 ## Refactoring
 
 * Remove dplyr verbs superseded in dplyr 1.0.0 (#547, @olivroy)
