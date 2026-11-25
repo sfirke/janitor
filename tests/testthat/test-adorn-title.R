@@ -163,3 +163,13 @@ test_that("automatically invokes purrr::map when called on a 3-way tabyl", {
     purrr::map(three, adorn_title, "combined", "cyl", "am")
   )
 })
+
+test_that("adorn_title() works on a tabyl that lost its attributes, #527", {
+  stripped <- mtcars %>%
+    tabyl(cyl, am) %>%
+    dplyr::select(dplyr::everything())
+  expect_equal(
+    names(adorn_title(stripped, row_name = "cyl", col_name = "am")),
+    c("", "am", "")
+  )
+})

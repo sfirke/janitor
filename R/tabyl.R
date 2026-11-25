@@ -49,7 +49,6 @@
 tabyl <- function(dat, ...) UseMethod("tabyl")
 
 
-
 #' @export
 #' @rdname tabyl
 # this method runs when tabyl() is called on plain vectors; tabyl_1way
@@ -148,7 +147,6 @@ tabyl.default <- function(dat, show_na = TRUE, show_missing_levels = TRUE, ...) 
   data.frame(result, check.names = FALSE) %>%
     as_tabyl(axes = 1)
 }
-
 
 
 #' @export

@@ -593,3 +593,35 @@ test_that("if factor level already present, adorn_totals() still works, #529", {
     c("0", "1", "Total")
   )
 })
+
+test_that("adorn_totals() works after dplyr verbs drop the tabyl attributes, #527", {
+  # reprex from #527: one-way tabyl
+  one <- mtcars %>%
+    tabyl(cyl) %>%
+    dplyr::mutate(percent = round(percent * 100, 1)) %>%
+    adorn_totals()
+  expect_equal(one$cyl, c("4", "6", "8", "Total"))
+  expect_equal(one$n, c(11, 7, 14, 32))
+  expect_equal(one$percent, c(34.4, 21.9, 43.8, 100.1))
+  expect_equal(attr(one, "tabyl_type"), "one_way")
+  expect_equal(attr(one, "totals"), "row")
+
+  # pct formatting still skips the n column of the one-way tabyl
+  expect_equal(
+    adorn_pct_formatting(adorn_totals(dplyr::mutate(tabyl(mtcars, cyl), n = n)))$n,
+    c(11, 7, 14, 32)
+  )
+
+  # two-way tabyl
+  two <- mtcars %>% tabyl(cyl, am)
+  expected <- two %>%
+    adorn_totals("both") %>%
+    adorn_percentages()
+  stripped <- two %>%
+    dplyr::select(dplyr::everything()) %>%
+    adorn_totals("both") %>%
+    adorn_percentages()
+  expect_equal(untabyl(stripped), untabyl(expected))
+  expect_equal(attr(stripped, "totals"), c("row", "col"))
+  expect_equal(attr(stripped, "core"), attr(expected, "core"))
+})

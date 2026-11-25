@@ -242,3 +242,21 @@ test_that("formatting function works, (#444)", {
     )
   )
 })
+
+test_that("adorn_ns() gives an informative error when a tabyl lost its core, #527", {
+  stripped <- mtcars %>%
+    tabyl(cyl, am) %>%
+    adorn_percentages() %>%
+    dplyr::mutate(`0` = `0`)
+  expect_error(
+    adorn_ns(stripped),
+    "this tabyl has lost its \"core\" attribute",
+    fixed = TRUE
+  )
+  # passing the Ns explicitly still works
+  ns <- untabyl(tabyl(mtcars, cyl, am))
+  expect_equal(
+    adorn_ns(adorn_pct_formatting(stripped), ns = ns)$`0`[1],
+    "27.3%  (3)"
+  )
+})

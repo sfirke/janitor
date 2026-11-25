@@ -28,6 +28,8 @@ These are all minor breaking changes resulting from enhancements and are not exp
 
 * `clean_names()` for sf objects now works in cases when the sf_column is not the last column name (fix #578, thanks to @ar-puuk for reporting and @billdenney for fixing)
 
+* `adorn_totals()`, `adorn_percentages()`, and `as_tabyl()` no longer fail with `argument of length 0` on a `tabyl` that lost its attributes, as happens after `dplyr::mutate()` or `dplyr::select()` (#527, thanks @larry77 for reporting). The missing metadata is rebuilt from the current values; a one-way `tabyl` is recognized by its column names (`n`, `percent`, and optionally `valid_percent`) so it stays one-way. `adorn_ns()` cannot recover the original Ns in this situation, and now says so in its error message, pointing to the `ns` argument. `adorn_title()` also no longer errors on such an input.
+
 ## Refactoring
 
 * Remove dplyr verbs superseded in dplyr 1.0.0 (#547, @olivroy)

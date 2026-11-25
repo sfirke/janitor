@@ -117,3 +117,61 @@ test_that("adorn_totals and adorn_percentages reset the tabyl's core to reflect 
     "1.0000000 (11)"
   )
 })
+
+test_that("as_tabyl rebuilds a missing core instead of erroring, #527", {
+  # dplyr verbs that subset columns keep the tabyl class but drop its attributes
+  stripped <- dplyr::select(a, dplyr::everything())
+  expect_s3_class(stripped, "tabyl")
+  expect_null(attr(stripped, "core"))
+
+  rebuilt <- as_tabyl(stripped)
+  expect_equal(attr(rebuilt, "core"), untabyl(a))
+  expect_equal(attr(rebuilt, "tabyl_type"), "two_way")
+  # core is a plain data.frame without tabyl class or attributes
+  expect_identical(class(attr(rebuilt, "core")), "data.frame")
+  expect_null(attr(attr(rebuilt, "core"), "core"))
+})
+
+test_that("as_tabyl handles an object of class tabyl with no attributes at all", {
+  bare <- structure(
+    list(x = c("a", "b"), y = c(1, 2)),
+    class = c("tabyl", "data.frame"),
+    row.names = 1:2
+  )
+  res <- as_tabyl(bare)
+  expect_equal(attr(res, "core"), data.frame(x = c("a", "b"), y = c(1, 2)))
+  expect_identical(class(attr(res, "core")), "data.frame")
+  expect_equal(attr(res, "tabyl_type"), "two_way")
+  expect_equal(class(res), c("tabyl", "data.frame"))
+})
+
+test_that("leftover tabyl attributes are not copied into a rebuilt core", {
+  partial <- adorn_totals(a)
+  attr(partial, "core") <- NULL
+  res <- as_tabyl(partial)
+  expect_equal(attr(res, "totals"), "row")
+  expect_null(attr(attr(res, "core"), "totals"))
+  expect_null(attr(attr(res, "core"), "tabyl_type"))
+  expect_null(attr(attr(res, "core"), "var_names"))
+})
+
+test_that("a one-way tabyl that lost its attributes stays one_way, #527", {
+  one <- mtcars %>%
+    tabyl(cyl) %>%
+    dplyr::mutate(percent = round(percent * 100, 1))
+  expect_null(attr(one, "tabyl_type"))
+  expect_equal(attr(as_tabyl(one), "tabyl_type"), "one_way")
+
+  # with valid_percent column
+  one_na <- data.frame(x = c("a", "a", "b", NA)) %>%
+    tabyl(x) %>%
+    dplyr::select(dplyr::everything())
+  expect_equal(attr(as_tabyl(one_na), "tabyl_type"), "one_way")
+
+  # an explicit axes value is respected
+  expect_equal(attr(as_tabyl(one, axes = 2), "tabyl_type"), "two_way")
+
+  # a plain data.frame with one-way column names is not inferred
+  plain <- data.frame(x = c("a", "b"), n = 1:2, percent = c(1 / 3, 2 / 3))
+  expect_equal(attr(as_tabyl(plain), "tabyl_type"), "two_way")
+})
