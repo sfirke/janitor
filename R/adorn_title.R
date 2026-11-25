@@ -54,7 +54,7 @@ adorn_title <- function(dat, placement = "top", row_name, col_name) {
     rlang::arg_match0(placement, c("top", "combined"))
 
     if (inherits(dat, "tabyl")) {
-      if (attr(dat, "tabyl_type") == "one_way") {
+      if ("one_way" %in% attr(dat, "tabyl_type")) {
         warning(
           "adorn_title is meant for two-way tabyls, calling it on a one-way tabyl may not yield a meaningful result"
         )

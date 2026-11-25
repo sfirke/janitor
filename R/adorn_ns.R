@@ -75,6 +75,14 @@ adorn_ns <- function(dat, position = "rear", ns = attr(dat, "core"), format_func
 
     rlang::arg_match0(position, c("front", "rear"))
 
+    if (is.null(ns) && !ns_provided && inherits(dat, "tabyl")) {
+      # a tabyl whose attributes were removed, e.g., by dplyr::mutate() or dplyr::select(), #527
+      stop(
+        "adorn_ns() could not find the underlying Ns: this tabyl has lost its \"core\" attribute, ",
+        "which can happen when it is modified with a function like dplyr::mutate() or dplyr::select(). ",
+        "Call adorn_ns() before such functions, or pass the Ns yourself with the \"ns\" argument."
+      )
+    }
     if (is.null(ns)) {
       stop("argument \"ns\" cannot be null; if not calling adorn_ns() on a data.frame of class \"tabyl\", pass your own value for ns")
     }

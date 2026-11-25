@@ -52,8 +52,13 @@ as_tabyl <- function(dat, axes = 2, row_var_name = NULL, col_var_name = NULL) {
     stop("at least one one of columns 2:n must be of class numeric")
   }
 
+  # An object can carry the tabyl class but have lost its attributes, e.g.,
+  # after dplyr::mutate() or dplyr::select(), #527.  Treat it like a plain data.frame.
+  has_core <- inherits(dat, "tabyl") && !is.null(attr(dat, "core"))
+  lost_metadata <- inherits(dat, "tabyl") && !has_core
+
   # assign core attribute and classes
-  if (inherits(dat, "tabyl")) {
+  if (has_core) {
     # if already a tabyl, may have totals row.
     # Safest play is to simply reorder the core rows to match the dat rows
     attr(dat, "core") <- attr(dat, "core")[order(match(
@@ -62,17 +67,22 @@ as_tabyl <- function(dat, axes = 2, row_var_name = NULL, col_var_name = NULL) {
     )), ]
     row.names(attr(dat, "core")) <- 1:nrow(attr(dat, "core")) # if they're sorted in the prior step above, this resets
   } else {
-    attr(dat, "core") <- as.data.frame(dat) # core goes first so dat does not yet have attributes attached to it
+    # core goes first so dat does not yet have attributes attached to it
+    core <- as.data.frame(dat)
+    # as.data.frame() drops the "tabyl" class, but not leftover tabyl attributes
+    attr(core, "totals") <- NULL
+    attr(core, "tabyl_type") <- NULL
+    attr(core, "var_names") <- NULL
+    attr(dat, "core") <- core
   }
 
-  attr(dat, "tabyl_type") <- ifelse(
-    !is.null(attr(dat, "tabyl_type")),
-    attr(dat, "tabyl_type"), # if a one_way tabyl has as_tabyl called on it, it should stay a one_way #523
-    dplyr::case_when(
-      axes == 1 ~ "one_way",
-      axes == 2 ~ "two_way"
-    )
-  )
+  # if a one_way tabyl has as_tabyl called on it, it should stay a one_way #523
+  if (is.null(attr(dat, "tabyl_type"))) {
+    # a one_way tabyl that lost its attributes should not become a two_way, #527
+    one_way <- axes == 1 ||
+      (lost_metadata && missing(axes) && looks_like_one_way(dat))
+    attr(dat, "tabyl_type") <- if (one_way) "one_way" else "two_way"
+  }
   class(dat) <- c("tabyl", setdiff(class(dat), "tabyl"))
 
   if (!missing(row_var_name) | !missing(col_var_name)) {
@@ -83,6 +93,14 @@ as_tabyl <- function(dat, axes = 2, row_var_name = NULL, col_var_name = NULL) {
   }
 
   dat
+}
+
+# Does a data.frame have the column names of a one-way tabyl?
+# Used to recover the tabyl_type of a one-way tabyl that lost its attributes.
+looks_like_one_way <- function(dat) {
+  other_cols <- names(dat)[-1]
+  identical(other_cols, c("n", "percent")) ||
+    identical(other_cols, c("n", "percent", "valid_percent"))
 }
 
 #' Remove `tabyl` attributes from a data.frame.
